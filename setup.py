@@ -29,6 +29,7 @@ with open(join(ROOT, "requirements.txt"), mode='rt', encoding='utf-8') as fp:
         line for line in fp.readlines() if line and '#' not in line
     ]
 
+
 def datafiles():
     return [('.', [
         'BUGS.md',
@@ -37,6 +38,7 @@ def datafiles():
         'TODO.md',
         'requirements.txt',
     ])]
+
 
 if __name__ == "__main__":
     # allow setup.py to run from another directory
@@ -62,11 +64,15 @@ if __name__ == "__main__":
             'Programming Language :: Python :: 3.8',
         ],
         packages=[
+            'groupme',
+            'groupme.command',
             'hey',
             'hey.command',
         ],
         entry_points={
-            'console_scripts': ['hey = hey.command:main'],
+            'console_scripts': [
+                'hey = hey.command:main',
+                'groupme = groupme.command:main',
+            ],
         },
-
     )
