@@ -66,6 +66,7 @@ if __name__ == "__main__":
         packages=[
             'groupme',
             'groupme.command',
+            'groupme.feature',
             'hey',
             'hey.command',
         ],
