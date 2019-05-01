@@ -27,9 +27,7 @@ from groupme.feature.toc import toc
 
 def chapters(path: str):
     """Extract chapter structure from document path"""
-    # toc: Toc = load_toc(toc_path)
     document: Document = load_document(file_read(path))
-
     tableofcontent = toc(document)
     content = body(document)
     result = []

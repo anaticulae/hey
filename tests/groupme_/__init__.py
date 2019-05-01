@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 #==============================================================================
 
+from functools import partial
 from os.path import exists
 from os.path import join
 
@@ -18,8 +19,11 @@ from pytest import mark
 from serializeraw import dump_toc
 from serializeraw import load_document
 from utila import file_read
+from utila import run_command
 
+from groupme import PROCESS_NAME
 from groupme import ROOT
+from groupme.command import main
 from groupme.feature.chapter import chapter_to_yaml
 from groupme.feature.chapter import toc
 
@@ -66,3 +70,19 @@ def page_2_text_only(page_2: Page):  # pylint: disable=W0621
             continue
         lines.extend(child.text.splitlines())
     return lines
+
+
+#pylint: disable=invalid-name
+run_success = partial(
+    run_command,
+    main=main,
+    process=PROCESS_NAME,
+    success=True,
+)
+
+run_failure = partial(
+    run_command,
+    main=main,
+    process=PROCESS_NAME,
+    success=False,
+)

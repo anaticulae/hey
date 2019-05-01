@@ -7,11 +7,14 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from pytest import mark
 from utila import SUCCESS
 from utila.test import run
 from utila.test import skip_not_virtual
 
 from groupme import ROOT
+from tests.groupme_ import SIMPLE
+from tests.groupme_ import run_success
 
 
 @skip_not_virtual
@@ -23,3 +26,12 @@ def test_run_groupme():
     clean_and_run = uninstall + ' && ' + install
     completed = run(clean_and_run, cwd=ROOT)
     assert completed.returncode == SUCCESS, completed.stdout + completed.stderr
+
+
+@mark.parametrize('command', [
+    ['--help'],
+    ['-i', SIMPLE, '-o', 'output'],
+])
+def test_run_rawmaker(command, testdir, monkeypatch):  #pylint: disable=W0613
+    """Run help and version and format command to reach basic test coverage"""
+    run_success(command, monkeypatch)
