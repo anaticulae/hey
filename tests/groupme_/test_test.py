@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+# pylint: disable=wildcard-import
+# pylint: disable=unused-wildcard-import
 from groupme import *
 from groupme.command import *
 from groupme.feature import *

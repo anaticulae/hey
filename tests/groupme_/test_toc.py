@@ -1,0 +1,38 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2019 by Helmut Konrad Fahrendholz. All rights reserved.
+# Tis file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+
+from iamraw import Document
+from iamraw import Page
+from serializeraw import load_document
+
+from groupme.feature.toc import toc
+from groupme.feature.toc import toc_from_page
+from groupme.feature.toc import toc_to_yaml
+from tests.groupme_ import SIMPLE_TEXT
+from tests.groupme_ import TOC_LINES
+from tests.groupme_ import document  # pylint: disable=unused-import
+from tests.groupme_ import page_0  # pylint: disable=unused-import
+
+
+def test_toc_to_yaml():
+    """Ensure that every section have an textbody"""
+    doc = load_document(SIMPLE_TEXT)
+    tableofcontent = toc(doc)
+    result = toc_to_yaml(tableofcontent)
+    assert result
+
+
+def test_extract_toc(page_0: Page):  # pylint: disable=W0621
+    result = toc_from_page(page_0)
+    assert len(result) == TOC_LINES
+
+
+def test_extract_toc_from_document(document: Document):  # pylint: disable=W0621
+    tableofcontent = toc(document)
+    assert len(tableofcontent) == TOC_LINES

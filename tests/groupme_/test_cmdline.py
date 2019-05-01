@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from utila import SUCCESS
 from utila.test import run
 from utila.test import skip_not_virtual
 
@@ -21,4 +22,4 @@ def test_run_groupme():
 
     clean_and_run = uninstall + ' && ' + install
     completed = run(clean_and_run, cwd=ROOT)
-    assert completed.returncode == 0, completed.stdout + completed.stderr
+    assert completed.returncode == SUCCESS, completed.stdout + completed.stderr
