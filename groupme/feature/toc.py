@@ -14,19 +14,16 @@ from iamraw import Page
 from iamraw import Section
 from iamraw import create_toc
 from serializeraw import dump_toc
-from serializeraw import load_document
 from utila import NEWLINE
-from utila import file_read
 
 from groupme.feature import RawSection
 from groupme.feature.structure import sections_from_page
 
 
-def toc(path: str):
+def toc(document: Document):
     """
     # TODO: Include page distance!
     """
-    document: Document = load_document(file_read(path))
     result = []
     for page in document.pages:
         result.extend(toc_from_page(page))

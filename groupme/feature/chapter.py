@@ -15,9 +15,7 @@
 """
 
 from iamraw import Document
-from serializeraw import load_document
 from utila import NEWLINE
-from utila import file_read
 from yaml import dump
 
 from groupme.feature import format_title
@@ -25,9 +23,8 @@ from groupme.feature.structure import body
 from groupme.feature.toc import toc
 
 
-def chapters(path: str):
+def chapters(document: Document):
     """Extract chapter structure from document path"""
-    document: Document = load_document(file_read(path))
     tableofcontent = toc(document)
     content = body(document)
     result = []

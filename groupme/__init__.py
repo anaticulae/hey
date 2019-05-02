@@ -11,3 +11,5 @@ import os
 __version__ = '0.1.0'
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+PROCESS_NAME = 'groupme'

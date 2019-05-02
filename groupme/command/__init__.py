@@ -10,6 +10,7 @@ from os import makedirs
 from os.path import exists
 from os.path import join
 
+from serializeraw import load_document
 from utila import FAILURE
 from utila import INVALID_COMMAND
 from utila import SUCCESS
@@ -17,6 +18,7 @@ from utila import Command
 from utila import create_parser
 from utila import file_append
 from utila import file_create
+from utila import file_read
 from utila import logging
 from utila import logging_error
 from utila import logging_stacktrace
@@ -46,10 +48,12 @@ def main():
     inputpath, outputpath = sources(args)
     textpath = check_resources(inputpath, outputpath, parser)
     try:
-        tableofcontent = toc(textpath)
+
+        document = load_document(file_read(textpath))
+        tableofcontent = toc(document)
         toc_dumped = toc_to_yaml(tableofcontent)
 
-        chapter = chapters(textpath)
+        chapter = chapters(document)
         chapter_dumped = chapter_to_yaml(chapter)
 
         toc_output = join(outputpath, 'groupme__toc.yaml')
@@ -60,7 +64,7 @@ def main():
         file_create(chapter_output, chapter_dumped)
 
         # Write content to file.
-    except Exception as error:
+    except Exception as error:  #pylint: disable=broad-except
         logging_error(error)
         logging_stacktrace()
         return FAILURE
