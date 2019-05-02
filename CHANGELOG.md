@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v0.2.2
+
+### Feature
+
+* change command line interface to folder architecture (16bd2ac41f4b)
+
+### Fix
+
+* remove compression, we will use folders (627a4412b6db)
+
 ## v0.2.1
 
 ## v0.2.0
