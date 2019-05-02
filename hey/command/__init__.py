@@ -9,6 +9,7 @@
 from utila import SUCCESS
 from utila import Command
 from utila import create_parser
+from utila import logging_error
 from utila import parse
 from utila import saveme
 from utila import sources
@@ -18,12 +19,13 @@ from hey import __version__
 
 @saveme
 def main():
-    parser = create_parser(
-        version=__version__,
-        outputparameter=True,
-        inputparameter=True,
-    )
-    args = parse(parser)
-    inputpath, outputpath = sources(args)
+    logging_error('No implemented')
+    # parser = create_parser(
+    #     version=__version__,
+    #     outputparameter=True,
+    #     inputparameter=True,
+    # )
+    # args = parse(parser)
+    # inputpath, outputpath = sources(args)
 
     return SUCCESS
