@@ -13,6 +13,8 @@ Test to group chapter out of text and and headlines.
 from iamraw import Document
 from iamraw import Page
 from pytest import mark
+from serializeraw import load_document
+from utila import file_read
 
 from groupme.feature.chapter import chapter_to_yaml
 from groupme.feature.chapter import chapters
@@ -29,7 +31,8 @@ from tests.groupme_ import page_2_text_only  # pylint: disable=unused-import
 
 def test_content_to_yaml():
     """Ensure that every section have an textbody"""
-    content = chapters(SIMPLE_TEXT)
+    doc = load_document(file_read(SIMPLE_TEXT))
+    content = chapters(doc)
     assert len(content) == TOC_LINES
     dumped = chapter_to_yaml(content)
     assert dumped

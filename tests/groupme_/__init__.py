@@ -21,8 +21,8 @@ from serializeraw import load_document
 from utila import file_read
 from utila import run_command
 
-from groupme import PROCESS_NAME
 from groupme import ROOT
+from groupme.command import PROCESS_NAME
 from groupme.command import main
 from groupme.feature.chapter import chapter_to_yaml
 from groupme.feature.chapter import toc
@@ -33,8 +33,8 @@ assert exists(TEST_DATA), TEST_DATA
 
 SIMPLE = join(TEST_DATA, 'simple')
 
-SIMPLE_TEXT = join(SIMPLE, 'text.yaml')
-SIMPLE_TOC = join(SIMPLE, 'toc.yaml')
+SIMPLE_TEXT = join(SIMPLE, 'rawmaker__text.yaml')
+SIMPLE_TOC = join(SIMPLE, 'rawmaker__toc.yaml')
 
 for item in [SIMPLE, SIMPLE_TEXT, SIMPLE_TOC]:
     msg = 'Missing resource: %s' % item
