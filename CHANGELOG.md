@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v0.2.6
+
+### Fix
+
+* use new test API (d635ea101628)
+
 ## v0.2.5
 
 ## v0.2.4
