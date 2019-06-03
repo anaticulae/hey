@@ -34,4 +34,4 @@ def test_run_groupme():
 ])
 def test_run_rawmaker(command, testdir, monkeypatch):  #pylint: disable=W0613
     """Run help and version and format command to reach basic test coverage"""
-    run_success(command, monkeypatch)
+    run_success(command, monkeypatch=monkeypatch)
