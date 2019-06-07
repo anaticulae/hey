@@ -33,7 +33,7 @@ assert exists(TEST_DATA), TEST_DATA
 
 SIMPLE = join(TEST_DATA, 'simple')
 
-SIMPLE_TEXT = join(SIMPLE, 'rawmaker__text.yaml')
+SIMPLE_TEXT = join(SIMPLE, 'rawmaker__text_text.yaml')
 SIMPLE_TOC = join(SIMPLE, 'rawmaker__toc.yaml')
 
 for item in [SIMPLE, SIMPLE_TEXT, SIMPLE_TOC]:

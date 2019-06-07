@@ -75,7 +75,8 @@ def check_resources(inputpath: str, outputpath: str, parser):
     if not inputpath and not outputpath:
         parser.print_help()
         exit(FAILURE)
-    textpath = join(inputpath, 'rawmaker__text.yaml')
+
+    textpath = join(inputpath, 'rawmaker__text_text.yaml')
     if not exists(textpath):
         logging_error('Missing text path %s' % textpath)
         exit(INVALID_COMMAND)
