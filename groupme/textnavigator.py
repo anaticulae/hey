@@ -8,6 +8,7 @@
 # =============================================================================
 
 from iamraw import BoundingBox
+from iamraw import Document
 
 
 class PageTextNavigator:
@@ -44,7 +45,6 @@ class PageTextNavigator:
         assert 0.0 <= width <= 1.0
 
         after = (1.0 - height) * self.height
-
         result = []
         for box, item in self.data:
             if box.y_top <= after:
@@ -68,3 +68,21 @@ class PageTextNavigator:
                 ))
         result = list(reversed(result))
         return result
+
+
+def load_pagetextnavigator(position, document: Document):
+    navigators = []
+    for page, textposition in enumerate(position):
+        navigator = PageTextNavigator()
+        navigators.append(navigator)
+        textid = 0
+        for item in document[page]:
+            try:
+                content = item.text
+                pos = textposition[textid]
+                navigator.insert(pos, content)
+                textid += 1
+            except AttributeError:
+                pass
+
+    return navigators
