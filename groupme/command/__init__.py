@@ -48,7 +48,6 @@ def main():
     inputpath, outputpath = sources(args)
     textpath = check_resources(inputpath, outputpath, parser)
     try:
-
         document = load_document(file_read(textpath))
         tableofcontent = toc(document)
         toc_dumped = toc_to_yaml(tableofcontent)
@@ -62,8 +61,6 @@ def main():
         logging('write result to: %s' % outputpath)
         file_create(toc_output, toc_dumped)
         file_create(chapter_output, chapter_dumped)
-
-        # Write content to file.
     except Exception as error:  #pylint: disable=broad-except
         logging_error(error)
         logging_stacktrace()
@@ -73,11 +70,11 @@ def main():
 
 def check_resources(inputpath: str, outputpath: str, parser):
     if not inputpath and not outputpath:
+        logging_error('missing output- or inputpath')
         parser.print_help()
         exit(FAILURE)
-
     textpath = join(inputpath, 'rawmaker__text_text.yaml')
     if not exists(textpath):
-        logging_error('Missing text path %s' % textpath)
+        logging_error('missing text path %s' % textpath)
         exit(INVALID_COMMAND)
     return textpath
