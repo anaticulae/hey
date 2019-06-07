@@ -33,11 +33,21 @@ assert exists(TEST_DATA), TEST_DATA
 
 SIMPLE = join(TEST_DATA, 'simple')
 
+SIMPLE_PAGESIZE = join(SIMPLE, 'rawmaker__border_pages.yaml')
+SIMPLE_POSITION = join(SIMPLE, 'rawmaker__text_positions.yaml')
 SIMPLE_TEXT = join(SIMPLE, 'rawmaker__text_text.yaml')
 SIMPLE_TOC = join(SIMPLE, 'rawmaker__toc.yaml')
+SIMPLE_HORIZONTAL = join(SIMPLE, 'rawmaker__boxes_horizontal.yaml')
 
-for item in [SIMPLE, SIMPLE_TEXT, SIMPLE_TOC]:
-    msg = 'Missing resource: %s' % item
+for item in [
+        SIMPLE,
+        SIMPLE_HORIZONTAL,
+        SIMPLE_PAGESIZE,
+        SIMPLE_POSITION,
+        SIMPLE_TEXT,
+        SIMPLE_TOC,
+]:
+    msg = 'missing resource: %s' % item
     assert exists(item), item
 
 HEADLINES_PAGE_3 = 4
