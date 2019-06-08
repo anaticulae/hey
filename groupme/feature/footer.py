@@ -219,8 +219,9 @@ def same_area_cluster(todo, max_difference=10.0):
     return determine_cluster(todo, classificator)
 
 
-# TODO: Remove after having classificator in UTILA from rawmaker
 def determine_cluster(todo, classificator):
+    import warnings
+    warnings.warn('Remove after upgrading to utila 0.6.3', DeprecationWarning)
     if not todo:
         return []
 
