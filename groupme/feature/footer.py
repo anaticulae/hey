@@ -13,7 +13,6 @@ Required API:
 """
 
 from iamraw import BoundingBox
-from serializeraw import load_pageborders
 from utila import from_raw_or_path
 from yaml import FullLoader
 from yaml import load

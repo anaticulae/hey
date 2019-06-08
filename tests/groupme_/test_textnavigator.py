@@ -26,15 +26,14 @@ SAMPLE = [
 
 @fixture
 def navigator():
-    navigator = PageTextNavigator()
-
+    result = PageTextNavigator()
     for item, position in SAMPLE:
-        navigator.insert(position, item)
-    assert len(navigator) == len(SAMPLE)
-    return navigator
+        result.insert(position, item)
+    assert len(result) == len(SAMPLE)
+    return result
 
 
-def test_insert_order(navigator):
+def test_insert_order(navigator):  #pylint:disable=W0621
     for index in range(len(navigator) - 1):
         before, _ = navigator[index]
         after, _ = navigator[index + 1]
@@ -49,7 +48,7 @@ def test_insert_order(navigator):
     assert current_order == list(range(len(navigator))), current_order
 
 
-def test_after(navigator):
+def test_after(navigator):  #pylint:disable=W0621
     # Bottom footer
     after = 0.8  # from 80% to 100%
     # smaller than 158.4
@@ -58,7 +57,7 @@ def test_after(navigator):
     assert len(result) == 1, result
 
 
-def test_before(navigator):
+def test_before(navigator):  #pylint:disable=W0621
     # Top footer
     before = 0.2  # from 20% to 0%
     # greater than 633.6
