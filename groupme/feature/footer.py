@@ -20,6 +20,10 @@ Required API:
     # before/ after method to determine items
 """
 
+from itertools import chain
+from typing import List
+from typing import Tuple
+
 from iamraw import BoundingBox
 from utila import from_raw_or_path
 from yaml import FullLoader
@@ -72,11 +76,80 @@ def footer(navigators):
     return common
 
 
-def common_items(collected, max_difference):
-    flat = []
-    for item in collected:
-        flat.extend(item)
+def is_pagenumber(item: str) -> bool:
+    item = str(item).lower()
+    if item.isnumeric():
+        return True
+    # TODO: improve this method, first try
+    # 'i ii iii iv v vi vii viii ix xi'
+    roman = {'i', 'v', 'x', 'c', 'l'}
+    isroman = all([test in roman for test in item])
+    if isroman:
+        return True
+    return False
 
+
+def is_rightpage(pdf_pagenumber: int) -> bool:
+    """What pdf page is the left side?
+    The first page is the right page? """
+    pdf_pagenumber = int(pdf_pagenumber)
+    return pdf_pagenumber % 2 == 0
+
+
+Cluster = List[Tuple[BoundingBox, str]]
+
+
+def pagenumbers(clusters: List[Cluster]):
+    """Determine pagenumbers out of list of cluster
+
+    2. Scenarios are possible, we have alternating left and right page numbers
+    or the page numbers are only on one possition.
+
+    Args:
+        clusters: List of cluster -> List[List[(boundingbox, content)]]
+    Returns:
+        singlepage or (left, right)
+    """
+    used_cluster = set()
+    left, right = [], []
+    for clusterid, cluster in enumerate(clusters):
+        for pdf_page, (_, content) in cluster:
+            content = str(content)
+            if not is_pagenumber(content):
+                continue
+            try:
+                content = int(content)
+            except ValueError:
+                # roman number
+                pass
+            # save number as tuple of pdf_page and detected page
+            used_cluster.add(clusterid)
+            content = (
+                pdf_page,
+                content,
+            )
+            if is_rightpage(pdf_page):
+                right.append(content)
+            else:
+                left.append(content)
+    if len(used_cluster) == 1:
+        # One cluster is used, we do not have right and left pagenumber
+        singlepage = []
+        singlepage.extend(left)
+        singlepage.extend(right)
+        return singlepage
+    return left, right
+
+
+def common_items(collected, max_difference: float):
+    """Cluster items due `same_area_cluster`
+
+    Args:
+        collected:
+        max_difference(float): upper bound of differences which is accepted
+                               by classificator as same item.
+    """
+    flat = list(chain.from_iterable(collected))
     clusters = same_area_cluster(
         flat,
         max_difference=max_difference,
