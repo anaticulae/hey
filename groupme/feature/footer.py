@@ -1,3 +1,11 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2019 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
 """
 Start working on footer extractor.
 
@@ -52,15 +60,15 @@ BOTTOM_BORDER = 0.9  # Footer is in range of 90% till 100%
 BOTTOM_MAX_DIFFERENCE = 10.0
 
 
-def header(navigator):
-    collector = [page.before(TOP_BORDER) for page in navigator]
-    common = common_items(collector, max_difference=TOP_MAX_DIFFERENCE)
+def header(navigators):
+    collected = [page.before(TOP_BORDER) for page in navigators]
+    common = common_items(collected, max_difference=TOP_MAX_DIFFERENCE)
     return common
 
 
-def footer(navigator):
-    collector = [page.after(BOTTOM_BORDER) for page in navigator]
-    common = common_items(collector, max_difference=BOTTOM_MAX_DIFFERENCE)
+def footer(navigators):
+    collected = [page.after(BOTTOM_BORDER) for page in navigators]
+    common = common_items(collected, max_difference=BOTTOM_MAX_DIFFERENCE)
     return common
 
 
