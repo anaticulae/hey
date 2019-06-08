@@ -78,7 +78,8 @@ def load_pagetextnavigator(position, document: Document):
         textid = 0
         for item in document[page]:
             try:
-                content = item.text
+                # TODO: Remove strip after container is fixed
+                content = item.text.strip()
                 pos = textposition[textid]
                 navigator.insert(pos, content)
                 textid += 1
