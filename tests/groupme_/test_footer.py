@@ -8,8 +8,14 @@ from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 
+from groupme.feature.footer import footer
+from groupme.feature.footer import header
 from groupme.feature.footer import load_textposition
 from groupme.textnavigator import load_pagetextnavigator
+from tests.groupme_ import FOOTER_HORIZONTAL
+from tests.groupme_ import FOOTER_PAGESIZE
+from tests.groupme_ import FOOTER_POSITION
+from tests.groupme_ import FOOTER_TEXT
 from tests.groupme_ import SIMPLE_HORIZONTAL
 from tests.groupme_ import SIMPLE_PAGESIZE
 from tests.groupme_ import SIMPLE_POSITION
@@ -42,6 +48,67 @@ def simple():
     return navigator, horizontals
 
 
-def test_simple_example(simple):
+def test_simple_example(simple):  #pylint:disable=W0621
     navigator, horizontals = simple
     assert len(navigator) == len(horizontals)
+
+
+def test_footer_simple(simple):  #pylint:disable=W0621
+    navigator, _ = simple
+    result = footer(navigator)
+
+    # cluster with page numbers
+    assert len(result) == 1
+
+
+def test_header_simple(simple):  #pylint:disable=W0621
+    navigator, _ = simple
+    result = header(navigator)
+    assert not result
+
+
+@fixture
+def restructured():
+    pagesize = load_pageborders(FOOTER_PAGESIZE)
+    horizontals = load_horizontals(FOOTER_HORIZONTAL)
+    position = load_textposition(FOOTER_POSITION)
+    document = load_document(FOOTER_TEXT)
+
+    assert pagesize
+    assert horizontals
+    assert position
+
+    assert len(position) == len(document)
+    assert len(horizontals) == len(document)
+
+    navigator = load_pagetextnavigator(position, document)
+    return navigator, horizontals
+
+
+def test_footer_restructured(restructured):  #pylint:disable=W0621
+    navigator, _ = restructured
+    result = footer(navigator)
+
+    # cluster with page numbers
+    # 2 Pages and some header text lines
+    assert len(result) == 5, print_cluster(result)
+
+
+def test_header_restructured(restructured):  #pylint:disable=W0621
+    navigator, _ = restructured
+    result = header(navigator)
+
+    # Example:
+    # (5,
+    # (BoundingBox(x_bottom=72.00, y_bottom=746.33, x_top=336.99, y_top=758.84),
+    # 'The RestructuredText Book Documentation, Release 0.1'))
+
+    # 2 lines of header, one for the left and one for the right page/side
+    assert len(result) == 2, print_cluster(result)
+
+
+def print_cluster(clusters):
+    for cluster in clusters:
+        print()
+        for item in cluster:
+            print(item)
