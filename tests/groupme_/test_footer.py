@@ -2,6 +2,8 @@
 Extract footer out of document.
 """
 
+from typing import Iterable
+
 from iamraw import Document
 from pytest import fixture
 from serializeraw import load_document
@@ -11,6 +13,7 @@ from serializeraw import load_pageborders
 from groupme.feature.footer import footer
 from groupme.feature.footer import header
 from groupme.feature.footer import load_textposition
+from groupme.feature.footer import pagenumbers
 from groupme.textnavigator import load_pagetextnavigator
 from tests.groupme_ import FOOTER_HORIZONTAL
 from tests.groupme_ import FOOTER_PAGESIZE
@@ -46,6 +49,12 @@ def simple():
 
     navigator = load_pagetextnavigator(position, document)
     return navigator, horizontals
+
+
+@fixture
+def simple_navigator(simple):  #pylint:disable=W0621
+    navigator, _ = simple
+    return navigator
 
 
 def test_simple_example(simple):  #pylint:disable=W0621
@@ -111,7 +120,25 @@ def test_header_restructured(restructured_navigator):  #pylint:disable=W0621
 
 
 def test_pagenumbers_restructured(restructured_navigator):  #pylint:disable=W0621
-    result = header(restructured_navigator)
+    result = footer(restructured_navigator)
+
+    numbers = pagenumbers(result)
+
+    # left and right page
+    assert len(numbers) == 2
+
+    # need number in left and/or right page
+    assert sum([len(number) for number in numbers])
+
+
+def test_pagenumbers_simple(simple_navigator):  #pylint:disable=W0621
+    result = footer(simple_navigator)
+
+    # single page
+    numbers = pagenumbers(result)
+
+    assert isinstance(numbers, Iterable), numbers
+    assert numbers
 
 
 def print_cluster(clusters):
