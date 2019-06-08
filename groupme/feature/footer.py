@@ -113,7 +113,7 @@ def pagenumbers(clusters: List[Cluster]):
     used_cluster = set()
     left, right = [], []
     for clusterid, cluster in enumerate(clusters):
-        for pdf_page, (_, content) in cluster:
+        for pdf_page, (bounding, content) in cluster:
             content = str(content)
             if not is_pagenumber(content):
                 continue
@@ -126,6 +126,7 @@ def pagenumbers(clusters: List[Cluster]):
             used_cluster.add(clusterid)
             content = (
                 pdf_page,
+                bounding,
                 content,
             )
             if is_rightpage(pdf_page):
