@@ -85,19 +85,22 @@ def restructured():
     return navigator, horizontals
 
 
-def test_footer_restructured(restructured):  #pylint:disable=W0621
+@fixture
+def restructured_navigator(restructured):  #pylint:disable=W0621
     navigator, _ = restructured
-    result = footer(navigator)
+    return navigator
+
+
+def test_footer_restructured(restructured_navigator):  #pylint:disable=W0621
+    result = footer(restructured_navigator)
 
     # cluster with page numbers
     # 2 Pages and some header text lines
     assert len(result) == 5, print_cluster(result)
 
 
-def test_header_restructured(restructured):  #pylint:disable=W0621
-    navigator, _ = restructured
-    result = header(navigator)
-
+def test_header_restructured(restructured_navigator):  #pylint:disable=W0621
+    result = header(restructured_navigator)
     # Example:
     # (5,
     # (BoundingBox(x_bottom=72.00, y_bottom=746.33, x_top=336.99, y_top=758.84),
@@ -105,6 +108,10 @@ def test_header_restructured(restructured):  #pylint:disable=W0621
 
     # 2 lines of header, one for the left and one for the right page/side
     assert len(result) == 2, print_cluster(result)
+
+
+def test_pagenumbers_restructured(restructured_navigator):  #pylint:disable=W0621
+    result = header(restructured_navigator)
 
 
 def print_cluster(clusters):
