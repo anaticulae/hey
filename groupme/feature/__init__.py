@@ -20,7 +20,7 @@ Title = Tuple[Level, Text]
 
 HEADLINE = (r'^(?P<level>([\d|I|a|b|c]+\.?)+)'
             r'[ ]+'
-            r'(?P<title>[\w]+[\w| |\d|\.|&]+)$')
+            r'(?P<title>[\w]+[\w| |\d|\.|&|:]+)$')
 
 
 @dataclass
