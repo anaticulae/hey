@@ -14,10 +14,20 @@ from iamraw import Page
 from iamraw import Section
 from iamraw import create_toc
 from serializeraw import dump_toc
+from serializeraw import load_document
 from utila import NEWLINE
+from utila import Flag
+from utila import logging
 
 from groupme.feature import RawSection
-from groupme.feature.structure import sections_from_page
+from groupme.structure import sections_from_page
+
+
+def work(documentpath: str) -> str:
+    document = load_document(documentpath)
+    result = toc(document)
+    dumped = toc_to_yaml(result)
+    return dumped
 
 
 def toc(document: Document):
@@ -129,3 +139,14 @@ def filter_double(items):
         if len(last) == before:
             result.append(item)
     return result
+
+
+def name():
+    return 'toc'
+
+
+def commandline():
+    return Flag(
+        longcut=name(),
+        message='extract table of content',
+    )

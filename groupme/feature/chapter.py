@@ -15,12 +15,22 @@
 """
 
 from iamraw import Document
+from serializeraw import load_document
 from utila import NEWLINE
+from utila import Flag
 from yaml import dump
 
 from groupme.feature import format_title
-from groupme.feature.structure import body
 from groupme.feature.toc import toc
+from groupme.structure import body
+
+
+def work(documentpath: str) -> str:
+    document = load_document(documentpath)
+
+    result = chapters(document)
+    dumped = chapter_to_yaml(result)
+    return dumped
 
 
 def chapters(document: Document):
@@ -37,9 +47,21 @@ def chapters(document: Document):
     return result
 
 
+# TODO: Move to serialzeraw?
 def chapter_to_yaml(chapter):
     result = []
     for item in chapter:
         title, _, content = item.partition(NEWLINE)
         result.append({'title': title, 'content': content})
     return dump(result)
+
+
+def name():
+    return 'chapter'
+
+
+def commandline():
+    return Flag(
+        longcut=name(),
+        message='extract chapter with title and content',
+    )

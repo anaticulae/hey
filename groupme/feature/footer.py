@@ -21,24 +21,37 @@ Required API:
 """
 
 from itertools import chain
+from typing import Iterable
 from typing import List
 from typing import Tuple
 
 from iamraw import BoundingBox
+from iamraw import Document
+from serializeraw import load_document
+from utila import Flag
 from utila import from_raw_or_path
 from yaml import FullLoader
+from yaml import dump
 from yaml import load
 
-
-def work():
-    pass
+from groupme.textnavigator import load_pagetextnavigator
 
 
-def determine_footer(pagesizes, textlocations, horizontals):
-    top, bottom = [], []
+def work(documentpath: str, positionpath: str) -> str:
+    document = load_document(documentpath)
+    position = load_textposition(positionpath)
 
-    return top, bottom
-    # size, border = load_pageborders
+    navigator = load_pagetextnavigator(position, document)
+
+    footer_pagenumbers = determine_pagenumbers(navigator)
+    dumped = dump_pagenumbers(footer_pagenumbers)
+
+    return dumped
+
+
+def determine_pagenumbers(navigator):
+    footer_ = footer(navigator)
+    return pagenumbers(footer_)
 
 
 def load_textposition(content: str):
@@ -97,6 +110,53 @@ def is_rightpage(pdf_pagenumber: int) -> bool:
 
 
 Cluster = List[Tuple[BoundingBox, str]]
+
+
+def dump_pagenumbers(pagenumbers_):
+
+    def raw(content):
+        items = [{
+            'pdfpage': pdfpage,
+            'bounding': bounding.raw(),
+            'detected': detectedpage
+        } for pdfpage, bounding, detectedpage in sorted(
+            content, key=lambda number: number[0])]
+        return items
+
+    try:
+        result = raw(pagenumbers_)
+    except ValueError:
+        left, right = pagenumbers_
+        result = {
+            'left': raw(left),
+            'right': raw(right),
+        }
+    dumped = dump(result)
+    return dumped
+
+
+def load_pagenumbers(content: str):
+    content = from_raw_or_path(content, ftype='yaml')
+    loaded = load(content, Loader=FullLoader)
+
+    def to_int(item):
+        try:
+            return int(item)
+        except ValueError:
+            return item
+
+    def fromraw(content):
+        result = [(
+            to_int(item['pdfpage']),
+            BoundingBox.from_str(item['bounding']),
+            to_int(item['detected'],),
+        ) for item in content]
+        return result
+
+    try:
+        return fromraw(loaded)
+    except TypeError:
+        return fromraw(loaded['left']), fromraw(loaded['right'])
 
 
 def pagenumbers(clusters: List[Cluster]):
@@ -267,3 +327,14 @@ def determine_cluster(todo, classificator):
     # A cluster must have at least 2 items
     clusters = [item for item in result if len(item) > 1]
     return clusters
+
+
+def name():
+    return 'footer'
+
+
+def commandline():
+    return Flag(
+        longcut=name(),
+        message='extract data from footer and header',
+    )
