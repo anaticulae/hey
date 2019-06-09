@@ -8,6 +8,7 @@
 # =============================================================================
 
 from pytest import mark
+from pytest import param
 from utila import SUCCESS
 from utila.test import run
 from utila.test import skip_not_virtual

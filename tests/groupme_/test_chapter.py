@@ -18,9 +18,9 @@ from utila import file_read
 
 from groupme.feature.chapter import chapter_to_yaml
 from groupme.feature.chapter import chapters
-from groupme.feature.structure import parse_headline
-from groupme.feature.structure import sections
-from groupme.feature.structure import sections_from_page
+from groupme.structure import parse_headline
+from groupme.structure import sections
+from groupme.structure import sections_from_page
 from tests.groupme_ import HEADLINES_PAGE_3
 from tests.groupme_ import SIMPLE_TEXT
 from tests.groupme_ import TOC_LINES
