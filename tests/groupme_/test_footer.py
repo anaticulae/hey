@@ -10,8 +10,10 @@ from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 
+from groupme.feature.footer import dump_pagenumbers
 from groupme.feature.footer import footer
 from groupme.feature.footer import header
+from groupme.feature.footer import load_pagenumbers
 from groupme.feature.footer import load_textposition
 from groupme.feature.footer import pagenumbers
 from groupme.textnavigator import load_pagetextnavigator
@@ -139,6 +141,41 @@ def test_pagenumbers_simple(simple_navigator):  #pylint:disable=W0621
 
     assert isinstance(numbers, Iterable), numbers
     assert numbers
+
+
+@fixture
+def pagenumbers_simple(simple_navigator):  #pylint:disable=W0621
+    result = footer(simple_navigator)
+    # single page
+    numbers = pagenumbers(result)
+
+    assert isinstance(numbers, Iterable), numbers
+    assert numbers
+    return numbers
+
+
+@fixture
+def pagenumbers_restructured(restructured_navigator):  #pylint:disable=W0621
+    result = footer(restructured_navigator)
+    # double page
+    left, right = pagenumbers(result)
+    return left, right
+
+
+def test_dump_and_load_pagenumbers_simple(pagenumbers_simple):  #pylint:disable=W0621
+    dumped = dump_pagenumbers(pagenumbers_simple)
+    assert len(dumped) > 100
+
+    loaded = load_pagenumbers(dumped)
+    assert loaded == pagenumbers_simple
+
+
+def test_dump_and_load_pagenumbers_restructured(pagenumbers_restructured):  #pylint:disable=W0621
+    dumped = dump_pagenumbers(pagenumbers_restructured)
+    assert len(dumped) > 100
+
+    loaded = load_pagenumbers(dumped)
+    assert loaded == pagenumbers_restructured
 
 
 def print_cluster(clusters):

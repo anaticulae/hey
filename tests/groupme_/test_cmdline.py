@@ -14,6 +14,7 @@ from utila.test import run
 from utila.test import skip_not_virtual
 
 from groupme import ROOT
+from tests.groupme_ import FOOTER
 from tests.groupme_ import SIMPLE
 from tests.groupme_ import run_success
 
