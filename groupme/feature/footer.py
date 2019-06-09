@@ -198,6 +198,10 @@ def pagenumbers(clusters: List[Cluster]):
         singlepage = []
         singlepage.extend(left)
         singlepage.extend(right)
+        # Sort by pdfpage
+        singlepage = [
+            item for item in sorted(singlepage, key=lambda number: number[0])
+        ]
         return singlepage
     return left, right
 
