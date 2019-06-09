@@ -16,6 +16,8 @@ from utila import INVALID_COMMAND
 from utila import SUCCESS
 from utila import Command
 from utila import create_parser
+from utila import create_step
+from utila import featurepack
 from utila import file_append
 from utila import file_create
 from utila import file_read
@@ -27,54 +29,52 @@ from utila import saveme
 from utila import sources
 from yaml import dump_all
 
+from groupme import ROOT
 from groupme import __version__
 from groupme.feature.chapter import chapter_to_yaml
 from groupme.feature.chapter import chapters
-from groupme.feature.toc import toc
-from groupme.feature.toc import toc_to_yaml
+from groupme.feature.chapter import work as extract_chapter
+from groupme.feature.footer import work as extract_footer
+from groupme.feature.toc import work as extract_toc
 
 PROCESS_NAME = 'groupme'
-
-
-@saveme
-def main():
-    parser = create_parser(
-        version=__version__,
-        outputparameter=True,
-        inputparameter=True,
-        prog=PROCESS_NAME,
+DESCRIPTION = 'TODO'
+WORKPLAN = [
+    create_step(
+        PROCESS_NAME,
+        extract_chapter,
+        inputs=[
+            ('rawmaker', 'text_text'),
+        ],
+        output=('chapter',),
+    ),
+    create_step(
+        PROCESS_NAME,
+        extract_toc,
+        inputs=[
+            ('rawmaker', 'text_text'),
+        ],
+        output=('toc',),
+    ),
+    create_step(
+        PROCESS_NAME,
+        extract_footer,
+        inputs=[
+            ('rawmaker', 'text_text'),
+            ('rawmaker', 'text_positions'),
+        ],
+        output=('footer',),
     )
-    args = parse(parser)
-    inputpath, outputpath = sources(args)
-    textpath = check_resources(inputpath, outputpath, parser)
-    try:
-        document = load_document(file_read(textpath))
-        tableofcontent = toc(document)
-        toc_dumped = toc_to_yaml(tableofcontent)
-
-        chapter = chapters(document)
-        chapter_dumped = chapter_to_yaml(chapter)
-
-        toc_output = join(outputpath, 'groupme__toc.yaml')
-        chapter_output = join(outputpath, 'groupme__chapter.yaml')
-
-        logging('write result to: %s' % outputpath)
-        file_create(toc_output, toc_dumped)
-        file_create(chapter_output, chapter_dumped)
-    except Exception as error:  #pylint: disable=broad-except
-        logging_error(error)
-        logging_stacktrace()
-        return FAILURE
-    return SUCCESS
+]
+FEATURE_PATH = join(ROOT, 'groupme/feature')
 
 
-def check_resources(inputpath: str, outputpath: str, parser):
-    if not inputpath and not outputpath:
-        logging_error('missing output- or inputpath')
-        parser.print_help()
-        exit(FAILURE)
-    textpath = join(inputpath, 'rawmaker__text_text.yaml')
-    if not exists(textpath):
-        logging_error('missing text path %s' % textpath)
-        exit(INVALID_COMMAND)
-    return textpath
+def main():
+    featurepack(
+        workplan=WORKPLAN,
+        feature_path=FEATURE_PATH,
+        feature_package='groupme.feature',
+        name=PROCESS_NAME,
+        description=DESCRIPTION,
+        version=__version__,
+    )
