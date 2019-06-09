@@ -25,117 +25,35 @@ pages:
   number: 2
 - children:
   - - TextContainer
+    - - 'Contents
+
+        '
+  - - TextContainer
     - - '1 RestructuredText Tutorial
+
+        '
+  - - TextContainer
+    - - '3
 
         '
   - - TextContainer
     - - '2 RestructuredText Guide
 
         '
-      - '.
-
-        '
-      - '.
-
-        '
-      - '.
-
-        '
   - - TextContainer
-    - - 'Basics .
+    - - '5
 
         '
-      - '.
+      - '2.1 Basics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . . . . . . 5
 
         '
-      - '.
+      - '2.2 Blockquotes . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . . . . 6
 
         '
-      - 'Blockquotes
-
-        '
-      - '.
-
-        '
-      - 'Code: Block .
-
-        '
-  - - TextContainer
-    - - '2.1
-
-        '
-      - '2.2
-
-        '
-      - '2.3
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-      - '.
+      - '2.3 Code: Block . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . . . . 6
 
         '
   - - TextContainer
@@ -143,97 +61,23 @@ pages:
 
         '
   - - TextContainer
+    - - '7
+
+        '
+  - - TextContainer
     - - '4 Sphinx Tutorial
 
         '
-      - '.
-
-        '
-      - '.
-
-        '
   - - TextContainer
-    - - 'Step 1 .
+    - - '9
 
         '
-      - 'Step 2 .
+      - '4.1 Step 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . . . . . . 9
 
         '
-  - - TextContainer
-    - - '4.1
-
-        '
-      - '4.2
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
+      - '4.2 Step 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . . . . . . 13
 
         '
   - - TextContainer
@@ -250,95 +94,6 @@ pages:
         '
   - - TextContainer
     - - '8 Indices and tables
-
-        '
-  - - TextContainer
-    - - 'Contents
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '.
-
-        '
-      - '.
-
-        '
-  - - TextContainer
-    - - '. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-
-        '
-      - '.
-
-        '
-      - '. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-
-        '
-      - '. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-
-        '
-  - - TextContainer
-    - - '. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-
-        '
-      - '. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-
-        '
-  - - TextContainer
-    - - '3
-
-        '
-  - - TextContainer
-    - - '5
-
-        '
-      - '5
-
-        '
-      - '6
-
-        '
-      - '6
-
-        '
-  - - TextContainer
-    - - '7
-
-        '
-  - - TextContainer
-    - - '9
-
-        '
-      - '9
-
-        '
-      - '13
 
         '
   - - TextContainer
@@ -1004,11 +759,7 @@ pages:
       - 'channel on Freenode_. We hang out there and you can get real-time help with
 
         '
-      - 'your projects.
-
-        '
-  - - TextContainer
-    - - 'The other good way is to open an issue on Github_.
+      - 'your projects. The other good way is to open an issue on Github_.
 
         '
   - - TextContainer
@@ -1041,11 +792,7 @@ pages:
 
         '
       - "The link target is de\uFB01ned at the bottom of the section with .. _<link\
-        \ text>:\n"
-  - - TextContainer
-    - - '<target>.
-
-        '
+        \ text>: <target>.\n"
   - - TextContainer
     - - 'Installation docs
 
@@ -1757,11 +1504,7 @@ pages:
 
         '
   - - TextContainer
-    - - 'Chapter 8.
-
-        '
-  - - TextContainer
-    - - 'Indices and tables
+    - - 'Chapter 8. Indices and tables
 
         '
   - - PageObject

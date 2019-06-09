@@ -1,0 +1,30 @@
+children:
+- level: 1
+  title: RestructuredText Tutorial
+- children:
+  - level: 2
+    title: Basics
+  - level: 2
+    title: Blockquotes
+  - level: 2
+    title: 'Code: Block'
+  level: 1
+  title: RestructuredText Guide
+- level: 1
+  title: RestructuredText Customizations
+- children:
+  - level: 2
+    title: Step 1
+  - level: 2
+    title: Step 2
+  level: 1
+  title: Sphinx Tutorial
+- level: 1
+  title: Sphinx Guide
+- level: 1
+  title: Sphinx Customizations
+- level: 1
+  title: Testing your Documentation
+- level: 1
+  title: Indices and tables
+level: 0
