@@ -7,7 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from collections import defaultdict
 from typing import List
+from typing import Tuple
 
 from iamraw import Document
 from iamraw import Page
@@ -33,15 +35,113 @@ def work(documentpath: str) -> str:
 def toc(document: Document):
     """
     # TODO: Include page distance!
+    # TODO: We need a more stable approach
     """
+
     result = []
-    for page in document.pages:
-        result.extend(toc_from_page(page))
+    for index, page in enumerate(document.pages):
+        tocpage = toc_from_page(page)
+        if tocpage is None:
+            logging('empty page: %d' % index)
+            continue
+        result.extend(tocpage)
 
     # Title must occurs double, first in the TOC and after this, following in
     # the text.
     hundert_percent_toc = filter_double(result)
+    # This strategy does not always work
+    if not hundert_percent_toc:
+        # If the title does not have the level as the same notation in the
+        # document, the first method will not work. So, in the second approach
+        # we search for the title onyl, without the level.
+        count = defaultdict(int)
+        snippets = text_snippets(document)
+        for item in snippets:
+            count[item] += 1
+        single_title = [
+            (level, title) for level, title in result if count[title] >= 1
+        ]
+        single_title = filter_common_headlines(single_title)
+
+        return single_title
+
     return hundert_percent_toc
+
+
+Level = str
+Title = str
+
+
+def uniform_level(level: str) -> str:
+    """Uniform potential level
+
+    The valid level format according to DUDEN is X.Y.Z without trailing `.`
+
+    Example:
+        1.3.3. - > 1.3.3
+        TODO: make upper/lower of ROMAN level iii -> III ? - decide later
+    Args:
+        level(str): level to unify
+    Returns:
+        unified level
+    """
+    assert level
+    level = str(level)
+    if level.endswith('.'):
+        level = level[0:-1]
+    return level
+
+
+def filter_common_headlines(potential_titles: List[Tuple[Level, Title]]):
+    """
+
+    In some cases it is possible that mostly equal titles are extracted. That
+    is possible when the title in the document differ from the title in the table
+    of content. An another possiblity is that titles from footer or header are
+    a little bit different.
+
+    Example:
+       ('4.1', 'Step 1')    - uniformed title
+       ('4.1.', 'Step 1')   - different title
+       ('4.2', 'Step 2')    - uniformed title
+       ('4.2.', ' Step 2 ') - different title
+
+    This method removes the `different title`.
+
+    Args:
+        potential_titles(List[Tuple[Level, Title]]): title to filter
+    Returns:
+        filtered uniformed title and level, without duplications
+    """
+    result = []
+    used = set()
+    for level, title in potential_titles:
+        uniformed_level = uniform_level(level)
+        striped_title = title.strip()
+
+        uniformed = (
+            uniformed_level,
+            striped_title,
+        )
+        # TODO: Remove unified and save the un-unified
+        if uniformed in used:
+            # Title is already present
+            continue
+        used.add(uniformed)
+        result.append(uniformed)
+    return result
+
+
+def text_snippets(document: Document):
+    result = []
+    for page in document:
+        for item in page:
+            try:
+                # TODO: Why strip?
+                result.append(item.text.strip())
+            except AttributeError:
+                pass
+    return result
 
 
 def toc_to_yaml(tableofcontent):
