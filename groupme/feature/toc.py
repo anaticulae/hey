@@ -157,7 +157,8 @@ def toc_from_page(page: Page) -> List[RawSection]:
     """Extract headlines from page"""
     page_sections = sections_from_page(page)
     if not page_sections:
-        raise ValueError('No sections in page: %s' % page)
+        # Empty page
+        return None
 
     result = []
     # Filter non toc items, very simple rules!
