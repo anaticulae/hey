@@ -63,6 +63,8 @@ for item in [
 HEADLINES_PAGE_3 = 4
 TOC_LINES = 12
 
+FOOTER_TOC_LINES = 13
+
 
 @fixture
 def document() -> Document:
