@@ -79,7 +79,6 @@ def toc_from_page(page: Page) -> List[RawSection]:
     if not result:
         # TODO: No data on page ?
         return []
-
     group = group_segmentation(result)
     longest = [page_sections[index] for index in longest_group(group)]
 

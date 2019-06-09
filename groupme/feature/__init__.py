@@ -43,4 +43,4 @@ def create_raw(headline: Tuple[str, str], text) -> RawSection:
 
 def format_title(title: Title) -> str:
     """Convert title to str"""
-    return title[0] + ' ' + title[1]
+    return '%s %s' % (title[0], title[1])
