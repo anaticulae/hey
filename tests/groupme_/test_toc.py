@@ -14,6 +14,8 @@ from serializeraw import load_document
 from groupme.feature.toc import toc
 from groupme.feature.toc import toc_from_page
 from groupme.feature.toc import toc_to_yaml
+from tests.groupme_ import FOOTER_TEXT
+from tests.groupme_ import FOOTER_TOC_LINES
 from tests.groupme_ import SIMPLE_TEXT
 from tests.groupme_ import TOC_LINES
 from tests.groupme_ import document  # pylint: disable=unused-import
@@ -36,3 +38,9 @@ def test_extract_toc(page_0: Page):  # pylint: disable=W0621
 def test_extract_toc_from_document(document: Document):  # pylint: disable=W0621
     tableofcontent = toc(document)
     assert len(tableofcontent) == TOC_LINES
+
+
+def test_extract_toc_from_restructured():
+    document = load_document(FOOTER_TEXT)
+    tocs = toc(document)
+    assert len(tocs) == FOOTER_TOC_LINES
