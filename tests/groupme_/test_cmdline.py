@@ -28,9 +28,15 @@ def test_run_groupme():
     assert completed.returncode == SUCCESS, completed.stdout + completed.stderr
 
 
+# TODO: Implement a new concept
+TODO_ERROR = ('concept of splitting with first headline does not work, when '
+              'first headline differ from table of content')
+
+
 @mark.parametrize('command', [
     ['--help'],
     ['-i', SIMPLE, '-o', 'output'],
+    param(['-i', FOOTER, '-o', 'output'], marks=mark.xfail(reason=TODO_ERROR)),
 ])
 def test_run_rawmaker(command, testdir, monkeypatch):  #pylint: disable=W0613
     """Run help and version and format command to reach basic test coverage"""
