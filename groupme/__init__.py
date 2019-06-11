@@ -8,7 +8,9 @@
 #==============================================================================
 import os
 
-__version__ = '0.1.0'
+from hey import __version__ as HEY_VERSION
+
+__version__ = HEY_VERSION
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
