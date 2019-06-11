@@ -9,25 +9,25 @@
 
 from pytest import mark
 from pytest import param
-from utila import SUCCESS
-from utila.test import run
-from utila.test import skip_not_virtual
+from utila import install_and_run
+from utila.test import skip_nonvirtual
 
+from groupme import PROCESS_NAME
 from groupme import ROOT
+from hey import PACKAGE_NAME
 from tests.groupme_ import FOOTER
 from tests.groupme_ import SIMPLE
 from tests.groupme_ import run_success
 
 
-@skip_not_virtual
+@skip_nonvirtual
 def test_run_groupme():
     """Install groupme and run groupme --help to ensure basic function"""
-    uninstall = 'pip uninstall hey -y'
-    install = 'python setup.py install && groupme --help'
-
-    clean_and_run = uninstall + ' && ' + install
-    completed = run(clean_and_run, cwd=ROOT)
-    assert completed.returncode == SUCCESS, completed.stdout + completed.stderr
+    install_and_run(
+        ROOT,
+        PACKAGE_NAME,
+        PROCESS_NAME,
+    )
 
 
 # TODO: Implement a new concept
