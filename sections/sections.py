@@ -28,11 +28,6 @@
     * Literature
 """
 
-from dataclasses import dataclass
-from dataclasses import field
-from typing import List
-from typing import Tuple
-
 from utila import from_raw_or_path
 from yaml import FullLoader
 from yaml import dump
@@ -43,22 +38,6 @@ from sections.ctor import Sections
 
 # TODO: define interface
 def extract_sections() -> Sections:
-    result = Sections()
-
-    return result
-
-
-def dump_sections(document: Sections) -> str:
-    result = []
-
-    dumped = dump(result)
-    return dumped
-
-
-def load_sections(content: str) -> Sections:
-    content = from_raw_or_path(content, ftype='yaml')
-    loaded = load(content, Loader=FullLoader)
-
     result = Sections()
 
     return result

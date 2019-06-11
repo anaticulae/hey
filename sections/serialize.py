@@ -1,0 +1,31 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2019 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+
+from utila import from_raw_or_path
+from yaml import FullLoader
+from yaml import dump
+from yaml import load
+
+from sections.ctor import Sections
+
+
+def dump_sections(document: Sections) -> str:
+    result = []
+
+    dumped = dump(result)
+    return dumped
+
+
+def load_sections(content: str) -> Sections:
+    content = from_raw_or_path(content, ftype='yaml')
+    loaded = load(content, Loader=FullLoader)
+
+    result = Sections()
+
+    return result

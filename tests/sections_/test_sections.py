@@ -21,10 +21,10 @@ from sections.ctor import END
 from sections.ctor import PERCENT_100
 from sections.ctor import START
 from sections.ctor import Sections
-from sections.sections import dump_sections
 from sections.sections import extract_sections
-from sections.sections import load_sections
 from sections.sections import validate
+from sections.serialize import dump_sections
+from sections.serialize import load_sections
 
 
 def test_sections_iterable():
@@ -78,6 +78,7 @@ def restructured() -> Sections:
     add_chapter(content, 20, 21, number=6)
     add_chapter(content, 22, 23, number=7)
     add_chapter(content, 24, 25, number=8)
+
     # Second pages with table
     table_second = analyse(add_table, 26, 26)
     add_children(table_second, add_index, 26, 26)
