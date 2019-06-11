@@ -1,0 +1,89 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2019 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+"""
+* Introduction
+    * Titlepage
+    * Thank you
+    * Copyright etc.
+    * Erklaerung
+* Table-Area
+    * Table of content
+    * Short cuts
+    * Figure table
+* Content
+    * Chapter
+        * Figure
+        * Text
+        * Headlines
+* Table-Area-B
+* Appendix
+    * Resources
+    * Link
+    * Literature
+"""
+
+from dataclasses import dataclass
+from dataclasses import field
+from typing import List
+from typing import Tuple
+
+from utila import from_raw_or_path
+from yaml import FullLoader
+from yaml import dump
+from yaml import load
+
+from sections.ctor import Sections
+
+
+# TODO: define interface
+def extract_sections() -> Sections:
+    result = Sections()
+
+    return result
+
+
+def dump_sections(document: Sections) -> str:
+    result = []
+
+    dumped = dump(result)
+    return dumped
+
+
+def load_sections(content: str) -> Sections:
+    content = from_raw_or_path(content, ftype='yaml')
+    loaded = load(content, Loader=FullLoader)
+
+    result = Sections()
+
+    return result
+
+
+def validate(document: Sections) -> bool:
+    """Validate page order of `AreaSections`. A ascending order is required
+
+    Args:
+        document(Sections): to validate
+    Returns:
+        True if all page orders are correct, else False
+    """
+    # test of ascending page order
+    start, end = -1, -1
+    for section in document:
+        if section.end[0] < section.start[0]:
+            return False
+        if section.start[0] < start:
+            return False
+        if section.end[0] < end:
+            return False
+        if not section.start[0] == end + 1:
+            return False
+
+        start = section.start[0]
+        end = section.end[0]
+    return True
