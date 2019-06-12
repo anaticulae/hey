@@ -66,13 +66,12 @@ WORKPLAN = [
         output=('footer',),
     )
 ]
-FEATURE_PATH = join(ROOT, 'groupme/feature')
 
 
 def main():
     featurepack(
         workplan=WORKPLAN,
-        feature_path=FEATURE_PATH,
+        root=ROOT,
         feature_package='groupme.feature',
         name=PROCESS_NAME,
         description=DESCRIPTION,

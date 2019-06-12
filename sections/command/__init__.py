@@ -9,7 +9,8 @@
 
 from os.path import join
 
-from hey.utils import featurepack
+from utila import featurepack
+
 from sections import PROCESS_NAME
 from sections import ROOT
 from sections import __version__
