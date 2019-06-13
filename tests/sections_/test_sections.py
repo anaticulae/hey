@@ -27,26 +27,6 @@ from sections.serialize import dump_sections
 from sections.serialize import load_sections
 
 
-def test_sections_iterable():
-    """Create empty `Sections` and iterate over `Sections` and `AreaItem`s"""
-    document = Sections()
-    for section in document:
-        len(section)
-        for item in section:  #pylint:disable=unused-variable
-            pass
-
-
-@mark.xfail(reason='not fully implemented')
-def test_dump_and_load_sections(restructured):
-    data = restructured
-
-    dumped = dump_sections(data)
-
-    loaded = load_sections(dumped)
-
-    assert loaded == data
-
-
 @fixture
 def restructured() -> Sections:
     result = Sections()
@@ -86,13 +66,33 @@ def restructured() -> Sections:
     return result
 
 
-def test_validate_restructured(restructured):
+def test_sections_iterable():
+    """Create empty `Sections` and iterate over `Sections` and `AreaItem`s"""
+    document = Sections()
+    for section in document:
+        len(section)
+        for item in section:  #pylint:disable=unused-variable
+            pass
+
+
+@mark.xfail(reason='not fully implemented')
+def test_dump_and_load_sections(restructured):  #pylint:disable=W0621
+    data = restructured
+
+    dumped = dump_sections(data)
+
+    loaded = load_sections(dumped)
+
+    assert loaded == data
+
+
+def test_validate_restructured(restructured):  #pylint:disable=W0621
     validated = validate(restructured)
     assert validated
 
 
 @mark.xfail(reason='not fully implemented')
-def test_structure_document(restructured):
+def test_structure_document(restructured):  #pylint:disable=W0621
     extracted = extract_sections()
 
     assert extracted == restructured
