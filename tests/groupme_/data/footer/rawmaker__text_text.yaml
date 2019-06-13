@@ -29,19 +29,11 @@ pages:
 
         '
   - - TextContainer
-    - - '1 RestructuredText Tutorial
+    - - '1 RestructuredText Tutorial 3
 
         '
   - - TextContainer
-    - - '3
-
-        '
-  - - TextContainer
-    - - '2 RestructuredText Guide
-
-        '
-  - - TextContainer
-    - - '5
+    - - '2 RestructuredText Guide 5
 
         '
       - '2.1 Basics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -57,19 +49,11 @@ pages:
 
         '
   - - TextContainer
-    - - '3 RestructuredText Customizations
+    - - '3 RestructuredText Customizations 7
 
         '
   - - TextContainer
-    - - '7
-
-        '
-  - - TextContainer
-    - - '4 Sphinx Tutorial
-
-        '
-  - - TextContainer
-    - - '9
+    - - '4 Sphinx Tutorial 9
 
         '
       - '4.1 Step 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -81,35 +65,19 @@ pages:
 
         '
   - - TextContainer
-    - - '5 Sphinx Guide
+    - - '5 Sphinx Guide 15
 
         '
   - - TextContainer
-    - - '6 Sphinx Customizations
+    - - '6 Sphinx Customizations 17
 
         '
   - - TextContainer
-    - - '7 Testing your Documentation
+    - - '7 Testing your Documentation 19
 
         '
   - - TextContainer
-    - - '8 Indices and tables
-
-        '
-  - - TextContainer
-    - - '15
-
-        '
-  - - TextContainer
-    - - '17
-
-        '
-  - - TextContainer
-    - - '19
-
-        '
-  - - TextContainer
-    - - '21
+    - - '8 Indices and tables 21
 
         '
   - - TextContainer
@@ -161,11 +129,7 @@ pages:
 
         '
   - - TextContainer
-    - - 'Contents
-
-        '
-  - - TextContainer
-    - - '1
+    - - 'Contents 1
 
         '
   - - PageObject
@@ -179,11 +143,7 @@ pages:
 
         '
   - - TextContainer
-    - - '2
-
-        '
-  - - TextContainer
-    - - 'Contents
+    - - '2 Contents
 
         '
   - - PageObject
@@ -217,11 +177,7 @@ pages:
 
         '
   - - TextContainer
-    - - '4
-
-        '
-  - - TextContainer
-    - - 'Chapter 1. RestructuredText Tutorial
+    - - '4 Chapter 1. RestructuredText Tutorial
 
         '
   - - PageObject
@@ -348,11 +304,7 @@ pages:
 
         '
   - - TextContainer
-    - - '6
-
-        '
-  - - TextContainer
-    - - 'Chapter 2. RestructuredText Guide
+    - - '6 Chapter 2. RestructuredText Guide
 
         '
   - - PageObject
@@ -410,11 +362,7 @@ pages:
 
         '
   - - TextContainer
-    - - '8
-
-        '
-  - - TextContainer
-    - - 'Chapter 3. RestructuredText Customizations
+    - - '8 Chapter 3. RestructuredText Customizations
 
         '
   - - PageObject
@@ -642,11 +590,7 @@ pages:
 
         '
   - - TextContainer
-    - - '10
-
-        '
-  - - TextContainer
-    - - 'Chapter 4. Sphinx Tutorial
+    - - '10 Chapter 4. Sphinx Tutorial
 
         '
   - - PageObject
@@ -809,11 +753,7 @@ pages:
 
         '
   - - TextContainer
-    - - '4.1. Step 1
-
-        '
-  - - TextContainer
-    - - '11
+    - - '4.1. Step 1 11
 
         '
   - - PageObject
@@ -965,11 +905,7 @@ pages:
 
         '
   - - TextContainer
-    - - '12
-
-        '
-  - - TextContainer
-    - - 'Chapter 4. Sphinx Tutorial
+    - - '12 Chapter 4. Sphinx Tutorial
 
         '
   - - PageObject
@@ -1132,11 +1068,7 @@ pages:
 
         '
   - - TextContainer
-    - - '4.2. Step 2
-
-        '
-  - - TextContainer
-    - - '13
+    - - '4.2. Step 2 13
 
         '
   - - PageObject
@@ -1252,11 +1184,7 @@ pages:
 
         '
   - - TextContainer
-    - - '14
-
-        '
-  - - TextContainer
-    - - 'Chapter 4. Sphinx Tutorial
+    - - '14 Chapter 4. Sphinx Tutorial
 
         '
   - - PageObject
@@ -1300,11 +1228,7 @@ pages:
 
         '
   - - TextContainer
-    - - '16
-
-        '
-  - - TextContainer
-    - - 'Chapter 5. Sphinx Guide
+    - - '16 Chapter 5. Sphinx Guide
 
         '
   - - PageObject
@@ -1342,11 +1266,7 @@ pages:
 
         '
   - - TextContainer
-    - - '18
-
-        '
-  - - TextContainer
-    - - 'Chapter 6. Sphinx Customizations
+    - - '18 Chapter 6. Sphinx Customizations
 
         '
   - - PageObject
@@ -1458,11 +1378,7 @@ pages:
 
         '
   - - TextContainer
-    - - '20
-
-        '
-  - - TextContainer
-    - - 'Chapter 7. Testing your Documentation
+    - - '20 Chapter 7. Testing your Documentation
 
         '
   - - PageObject
@@ -1500,11 +1416,7 @@ pages:
 
         '
   - - TextContainer
-    - - '22
-
-        '
-  - - TextContainer
-    - - 'Chapter 8. Indices and tables
+    - - '22 Chapter 8. Indices and tables
 
         '
   - - PageObject
