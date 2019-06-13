@@ -21,12 +21,10 @@ Required API:
 """
 
 from itertools import chain
-from typing import Iterable
 from typing import List
 from typing import Tuple
 
 from iamraw import BoundingBox
-from iamraw import Document
 from serializeraw import load_document
 from utila import Flag
 from utila import from_raw_or_path
