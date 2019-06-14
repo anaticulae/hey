@@ -6,19 +6,26 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
+"""
+TODO:
+    - support table of figures
+              table of abbreviation
+"""
 from typing import List
 
 from iamraw import Document
 from serializeraw import load_document
 
+from sections.feature import dump_likelihood
 from sections.feature import uniform_result
 
 
-def work(text_linewise: str, pagenumbers: str) -> str:
+def work(text_linewise: str) -> str:
     document = load_document(text_linewise)
 
-    extract_toc_likelihood(document)
+    extracted = extract_toc_likelihood(document)
+    dumped = dump_likelihood(extracted)
+    return dumped
 
 
 def extract_toc_likelihood(document: Document) -> List[float]:
