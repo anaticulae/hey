@@ -7,8 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 from iamraw import Font
-from serializeraw import load_fonts
-from serializeraw import load_fontstore
+# TODO: rename in serializeraw package
+from serializeraw import load_fonts as load_font_content
+from serializeraw import load_fontstore as load_font_header
 
 
 class FontLookUp:
@@ -46,8 +47,8 @@ class FontLookUp:
 
 
 def create_font_lookup(header: str, content: str) -> FontLookUp:
-    fonts = load_fontstore(header)
-    pages = load_fonts(content)
+    fonts = load_font_header(header)
+    pages = load_font_content(content)
 
     result = FontLookUp(fonts, pages)
     return result
