@@ -11,6 +11,8 @@ from iamraw import Font
 from pytest import approx
 from pytest import mark
 
+from sections.feature import dump_likelihood
+from sections.feature import load_likelihood
 from sections.feature.title import extract_title_likelihood
 from sections.feature.title import split_page
 from tests.sections_ import restructured_document  # pylint:disable=W0611
@@ -132,3 +134,17 @@ def test_split_page(
 
     result = split_page(first_page, position)
     assert result == expected
+
+
+def test_dump_and_load_likelhood(
+        restructured_document,  #pylint:disable=W0621
+        restructured_fontlookup,  #pylint:disable=W0621
+):
+    result = extract_title_likelihood(
+        restructured_document,
+        restructured_fontlookup,
+    )
+    dumped = dump_likelihood(result)
+    loaded = load_likelihood(dumped)
+
+    assert loaded == result
