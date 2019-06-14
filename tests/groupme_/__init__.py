@@ -32,12 +32,14 @@ TEST_DATA = join(ROOT, 'tests/groupme_/data')
 assert exists(TEST_DATA), TEST_DATA
 
 FOOTER = join(TEST_DATA, 'footer')
+FOOTER_FONT_CONTENT = join(FOOTER, 'rawmaker__fonts_content.yaml')
+FOOTER_FONT_HEADER = join(FOOTER, 'rawmaker__fonts_header.yaml')
+FOOTER_HORIZONTAL = join(FOOTER, 'rawmaker__boxes_horizontal.yaml')
+FOOTER_ONELINE_POSITION = join(FOOTER, 'rawmaker__oneline_text_positions.yaml')
+FOOTER_ONELINE_TEXT = join(FOOTER, 'rawmaker__oneline_text_text.yaml')
 FOOTER_PAGESIZE = join(FOOTER, 'rawmaker__border_pages.yaml')
 FOOTER_POSITION = join(FOOTER, 'rawmaker__text_positions.yaml')
 FOOTER_TEXT = join(FOOTER, 'rawmaker__text_text.yaml')
-FOOTER_HORIZONTAL = join(FOOTER, 'rawmaker__boxes_horizontal.yaml')
-FOOTER_FONT_HEADER = join(FOOTER, 'rawmaker__fonts_header.yaml')
-FOOTER_FONT_CONTENT = join(FOOTER, 'rawmaker__fonts_content.yaml')
 
 SIMPLE = join(TEST_DATA, 'simple')
 SIMPLE_PAGESIZE = join(SIMPLE, 'rawmaker__border_pages.yaml')
@@ -53,6 +55,8 @@ for item in [
         FOOTER_FONT_CONTENT,
         FOOTER_FONT_HEADER,
         FOOTER_HORIZONTAL,
+        FOOTER_ONELINE_POSITION,
+        FOOTER_ONELINE_TEXT,
         FOOTER_PAGESIZE,
         FOOTER_POSITION,
         FOOTER_TEXT,
