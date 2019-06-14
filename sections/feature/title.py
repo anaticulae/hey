@@ -10,17 +10,24 @@ from typing import List
 
 from iamraw import Document
 from iamraw import Page
-from iamraw import TextContainer
 from serializeraw import load_document
 
+from sections.feature import dump_likelihood
 from sections.feature import uniform_result
 from sections.font import FontLookUp
+from sections.font import create_font_lookup
+from sections.textprocessor import split_page
 
 
-def work(text_linewise: str, pagenumbers: str) -> str:
+def work(text_linewise: str, font_header: str, font_content: str) -> str:
     # TODO: Share resources
     document = load_document(text_linewise)
-    extract_index_likelihood(document)
+
+    lookup = create_font_lookup(font_header, font_content)
+
+    result = extract_title_likelihood(document, lookup)
+    dumped = dump_likelihood(result)
+    return dumped
 
 
 def extract_title_likelihood(
