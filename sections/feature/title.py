@@ -32,94 +32,26 @@ def extract_title_likelihood(
     return uniformed
 
 
-class TextContainerIterator:
-
-    def __init__(self, page):
-        # TODO: We do not want to copy!
-        self.page = [item for item in page if isinstance(item, TextContainer)]
-
-    def __getitem__(self, index):
-        return self.page[index]
-
-    def __len__(self):
-        return len(self.page)
-
-
-class PageIter:
-    # Contenxt Manager?
-    def __init__(self, page):
-        self.page = TextContainerIterator(page)
-        self.container = 0
-        self.line = 0
-        self.char = 0
-
-    def next(self, container, line, char):
-        result = ''
-
-        if self.line > 0 and self.container < container:
-            # Fill up the container before continuing with the next
-            for item in self.page[self.container][self.line:]:
-                result += item.text
-            self.line = 0
-            self.container += 1
-
-        while self.container < container:
-            result += self.page[self.container].text
-            self.container += 1
-        while self.line < line:
-            result += self.page[self.container][self.line].text
-            self.line += 1
-        return result
-
-    def finish(self):
-        return self.next(len(self.page), 0, 0)
-
-
-def split_page(page: Page, positions: List) -> List[str]:
-    """Split page into chunks given by `positions`. The source of these
-    positions can be rawmaker with font-extractor, ..., .
-
-    page(Page): page with text content(TextContainer)
-    positions(List[(container, line, char)]): List with separation order
-
-    Returns:
-        List[str]: text content of chunk
-    """
-    pageiter = PageIter(page=page)
-    result = [pageiter.next(*item).strip() for item in positions]
-    finish = pageiter.finish().strip()
-    if finish:
-        result.append(finish)
-    return result
-
-
 MINIMAL_TITLE_LENGTH = 10
 MAXIMAL_TITLE_LENGTH = 200
 
+EMPTY_RESULT = (0, 0.0)
+
 
 def analyse_page(page: Page, fontstore: FontLookUp) -> float:
-    # TODO: -1, investigate, why page number does not start with zero!
-    number = page.number - 1
-    positions = [(
-        container,
-        line,
-        char,
-    ) for container, line, char, _ in fontstore.page_iter(number)]
+    number = page.number
 
-    fonts = [
-        fontstore.fromindex(font).scale
-        for _, __, ___, font in fontstore.page_iter(number)
-    ]
-    if not fonts:
-        return 1, 0.0
+    positions = font_positions_from_page(fontstore, number)
+    fonts = font_sizes_from_page(fontstore, number)
 
-    max_font = max(fonts)
-    max_font_index = fonts.index(max_font)
+    if not fonts:  # empty page or page with images
+        return EMPTY_RESULT
 
-    text_length = [len(item) for item in split_page(page, positions)]
-    max_font_length = text_length[max_font_index]
-
+    max_font, max_font_length = determine_hugest_font(fonts, positions, page)
     value = 0
+    # the title must not be to short and it unlikeli that the title is very,
+    # very long.
+    # TODO: We need a concept for this "holy" values. Make them configurable
     if MINIMAL_TITLE_LENGTH <= max_font_length < MAXIMAL_TITLE_LENGTH:
         value = max_font_length * pow(max_font, 3)
     # Malus per page, reduce value 10% per page, the higher the page number
@@ -127,3 +59,30 @@ def analyse_page(page: Page, fontstore: FontLookUp) -> float:
     # TODO: investigate if this is a good idea
     value = value * pow(0.10, number)
     return max_font_length, value
+
+
+def font_sizes_from_page(store: FontLookUp, pagenumber: int):
+    fonts = [
+        store.fromindex(font).scale
+        for _, __, ___, font in store.page_iter(pagenumber)
+    ]
+    return fonts
+
+
+def font_positions_from_page(store: FontLookUp, pagenumber: int):
+    positions = [(
+        container,
+        line,
+        char,
+    ) for container, line, char, _ in store.page_iter(pagenumber)]
+    return positions
+
+
+def determine_hugest_font(fonts, positions, page: Page):
+    # determine the biggest font size
+    max_font = max(fonts)
+    max_font_index = fonts.index(max_font)
+
+    text_length = [len(item) for item in split_page(page, positions)]
+    max_font_length = text_length[max_font_index]
+    return max_font, max_font_length
