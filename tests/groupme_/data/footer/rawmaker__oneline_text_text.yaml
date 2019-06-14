@@ -20,9 +20,9 @@ pages:
         '
   - - PageObject
     - <LTLine 72.000,710.536,540.000,710.536>
-  number: 1
+  number: 0
 - children: []
-  number: 2
+  number: 1
 - children:
   - - TextContainer
     - - 'Contents
@@ -90,7 +90,7 @@ pages:
     - <LTLine 72.000,601.694,540.000,601.694>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 3
+  number: 2
 - children:
   - - TextContainer
     - - 'ii
@@ -98,7 +98,7 @@ pages:
         '
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 4
+  number: 3
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -136,7 +136,7 @@ pages:
     - <LTLine 72.000,744.707,540.000,744.707>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 5
+  number: 4
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -150,7 +150,7 @@ pages:
     - <LTLine 72.000,744.707,540.000,744.707>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 6
+  number: 5
 - children:
   - - TextContainer
     - - 'CHAPTER 1
@@ -170,7 +170,7 @@ pages:
     - <LTLine 72.000,508.045,540.000,508.045>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 7
+  number: 6
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -184,7 +184,7 @@ pages:
     - <LTLine 72.000,744.707,540.000,744.707>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 8
+  number: 7
 - children:
   - - TextContainer
     - - 'CHAPTER 2
@@ -232,7 +232,7 @@ pages:
     - <LTLine 72.000,508.045,540.000,508.045>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 9
+  number: 8
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -331,7 +331,7 @@ pages:
     - <LTLine 68.613,446.944,543.388,446.944>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 10
+  number: 9
 - children:
   - - TextContainer
     - - 'CHAPTER 3
@@ -355,7 +355,7 @@ pages:
     - <LTLine 72.000,508.045,540.000,508.045>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 11
+  number: 10
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -369,7 +369,7 @@ pages:
     - <LTLine 72.000,744.707,540.000,744.707>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 12
+  number: 11
 - children:
   - - TextContainer
     - - 'CHAPTER 4
@@ -466,7 +466,7 @@ pages:
     - <LTLine 72.000,125.120,540.000,125.120>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 13
+  number: 12
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -647,7 +647,7 @@ pages:
     - <LTLine 68.613,169.362,543.388,169.362>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 14
+  number: 13
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -776,7 +776,7 @@ pages:
     - <LTLine 68.613,286.124,543.388,286.124>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 15
+  number: 14
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -942,7 +942,7 @@ pages:
     - <LTLine 68.613,161.016,543.388,161.016>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 16
+  number: 15
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -1125,7 +1125,7 @@ pages:
     - <LTLine 68.613,73.100,543.388,73.100>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 17
+  number: 16
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -1201,7 +1201,7 @@ pages:
     - <LTLine 68.613,446.426,543.388,446.426>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 18
+  number: 17
 - children:
   - - TextContainer
     - - 'CHAPTER 5
@@ -1221,7 +1221,7 @@ pages:
     - <LTLine 72.000,508.045,540.000,508.045>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 19
+  number: 18
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -1235,7 +1235,7 @@ pages:
     - <LTLine 72.000,744.707,540.000,744.707>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 20
+  number: 19
 - children:
   - - TextContainer
     - - 'Utilities:
@@ -1259,7 +1259,7 @@ pages:
     - <LTLine 72.000,508.045,540.000,508.045>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 21
+  number: 20
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -1273,7 +1273,7 @@ pages:
     - <LTLine 72.000,744.707,540.000,744.707>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 22
+  number: 21
 - children:
   - - TextContainer
     - - 'CHAPTER 7
@@ -1371,7 +1371,7 @@ pages:
     - <LTLine 68.613,237.210,543.388,237.210>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 23
+  number: 22
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -1385,7 +1385,7 @@ pages:
     - <LTLine 72.000,744.707,540.000,744.707>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 24
+  number: 23
 - children:
   - - TextContainer
     - - "\u2022 genindex\n"
@@ -1409,7 +1409,7 @@ pages:
     - <LTLine 72.000,508.045,540.000,508.045>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 25
+  number: 24
 - children:
   - - TextContainer
     - - 'The RestructuredText Book Documentation, Release 0.1
@@ -1423,7 +1423,7 @@ pages:
     - <LTLine 72.000,744.707,540.000,744.707>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 26
+  number: 25
 - children:
   - - TextContainer
     - - 'C
@@ -1488,4 +1488,4 @@ pages:
     - <LTLine 72.000,629.091,540.000,629.091>
   - - PageObject
     - <LTLine 72.000,54.267,540.000,54.267>
-  number: 27
+  number: 26
