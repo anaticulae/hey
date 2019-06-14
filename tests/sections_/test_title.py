@@ -9,7 +9,6 @@
 
 from iamraw import Font
 from pytest import approx
-from pytest import fixture
 from pytest import mark
 
 from sections.feature.title import extract_title_likelihood

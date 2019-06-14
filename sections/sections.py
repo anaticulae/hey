@@ -28,11 +28,6 @@
     * Literature
 """
 
-from utila import from_raw_or_path
-from yaml import FullLoader
-from yaml import dump
-from yaml import load
-
 from sections.ctor import Sections
 
 

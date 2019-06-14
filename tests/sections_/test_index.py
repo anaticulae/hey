@@ -7,8 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pytest import approx
-
 from sections.feature.index import extract_index_likelihood
 # pylint:disable=unused-import
 from tests.sections_ import restructured_document
