@@ -10,12 +10,12 @@ from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 
-from groupme.feature.footer import dump_pagenumbers
-from groupme.feature.footer import footer
-from groupme.feature.footer import header
-from groupme.feature.footer import load_pagenumbers
-from groupme.feature.footer import load_textposition
-from groupme.feature.footer import pagenumbers
+from groupme.feature.numbers import dump_pagenumbers
+from groupme.feature.numbers import footer
+from groupme.feature.numbers import header
+from groupme.feature.numbers import load_pagenumbers
+from groupme.feature.numbers import load_textposition
+from groupme.feature.numbers import pagenumbers
 from groupme.textnavigator import load_pagetextnavigator
 from tests.groupme_ import FOOTER_HORIZONTAL
 from tests.groupme_ import FOOTER_PAGESIZE

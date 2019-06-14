@@ -34,7 +34,7 @@ from groupme import __version__
 from groupme.feature.chapter import chapter_to_yaml
 from groupme.feature.chapter import chapters
 from groupme.feature.chapter import work as extract_chapter
-from groupme.feature.footer import work as extract_footer
+from groupme.feature.numbers import work as extract_pagenumbers
 from groupme.feature.toc import work as extract_toc
 
 PROCESS_NAME = 'groupme'
@@ -58,12 +58,12 @@ WORKPLAN = [
     ),
     create_step(
         PROCESS_NAME,
-        extract_footer,
+        extract_pagenumbers,
         inputs=[
             ('rawmaker', 'text_text'),
             ('rawmaker', 'text_positions'),
         ],
-        output=('footer',),
+        output=('pagenumbers',),
     )
 ]
 

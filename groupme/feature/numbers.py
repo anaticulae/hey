@@ -332,11 +332,11 @@ def determine_cluster(todo, classificator):
 
 
 def name():
-    return 'footer'
+    return 'pagenumbers'
 
 
 def commandline():
     return Flag(
         longcut=name(),
-        message='extract data from footer and header',
+        message='extract page numbers from footer and header',
     )
