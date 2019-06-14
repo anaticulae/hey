@@ -45,16 +45,20 @@ SIMPLE_POSITION = join(SIMPLE, 'rawmaker__text_positions.yaml')
 SIMPLE_TEXT = join(SIMPLE, 'rawmaker__text_text.yaml')
 SIMPLE_TOC = join(SIMPLE, 'rawmaker__toc.yaml')
 SIMPLE_HORIZONTAL = join(SIMPLE, 'rawmaker__boxes_horizontal.yaml')
+SIMPLE_FONT_HEADER = join(SIMPLE, 'rawmaker__fonts_header.yaml')
+SIMPLE_FONT_CONTENT = join(SIMPLE, 'rawmaker__fonts_content.yaml')
 
 for item in [
         FOOTER,
+        FOOTER_FONT_CONTENT,
+        FOOTER_FONT_HEADER,
         FOOTER_HORIZONTAL,
         FOOTER_PAGESIZE,
         FOOTER_POSITION,
         FOOTER_TEXT,
-        FOOTER_FONT_HEADER,
-        FOOTER_FONT_CONTENT,
         SIMPLE,
+        SIMPLE_FONT_CONTENT,
+        SIMPLE_FONT_HEADER,
         SIMPLE_HORIZONTAL,
         SIMPLE_PAGESIZE,
         SIMPLE_POSITION,
