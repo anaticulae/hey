@@ -34,10 +34,7 @@ class FontLookUp:
         return None
 
     def page_iter(self, pagenumber):
-        try:
-            return iter(self.pages[pagenumber])
-        except IndexError:
-            raise StopIteration
+        return iter(self.pages[pagenumber])
 
     def __len__(self) -> int:
         return len(self.pages)
