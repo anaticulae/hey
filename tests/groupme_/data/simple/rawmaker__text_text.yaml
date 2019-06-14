@@ -27,6 +27,10 @@ pages:
 
         '
   - - TextContainer
+    - - '2
+
+        '
+  - - TextContainer
     - - 'Contents
 
         '
@@ -39,84 +43,47 @@ pages:
 
         '
   - - TextContainer
-    - - '2.1 Drop support for Python 2.6 and older . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . .
+    - - '2
+
+        '
+      - '2.1 Drop support for Python 2.6 and older . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . 2
 
         '
       - '2.2 Make sure you specify the proper version support in your setup.py file
-
-        '
-      - '. . . . . . . . . . . .
+        . . . . . . . . . . . . 3
 
         '
       - '2.3 Have good test coverage . . . . . . . . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . . 3
 
         '
       - '2.4 Learn the differences between Python 2 & 3 . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . 3
 
         '
       - '2.5 Update your code . . . . . . . . . . . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . . . 3
 
         '
       - '2.6 Prevent compatibility regressions . . . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . . 6
 
         '
       - '2.7 Check which dependencies block your transition . . . . . . . . . . .
-        . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . 6
 
         '
       - '2.8 Update your setup.py file to denote Python 3 compatibility . . . . .
-        . . . . . . . . . . . . .
+        . . . . . . . . . . . . . 7
 
         '
       - '2.9 Use continuous integration to stay compatible . . . . . . . . . . . .
-        . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . 7
 
         '
       - '2.10 Consider using optional static type checking . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-
-        '
-  - - TextContainer
-    - - '2
-
-        '
-  - - TextContainer
-    - - '2
-
-        '
-      - '2
-
-        '
-      - '3
-
-        '
-      - '3
-
-        '
-      - '3
-
-        '
-      - '3
-
-        '
-      - '6
-
-        '
-      - '6
-
-        '
-      - '7
-
-        '
-      - '7
-
-        '
-      - '7
+        . . . . . . . . . . . . . . . . 7
 
         '
   - - TextContainer

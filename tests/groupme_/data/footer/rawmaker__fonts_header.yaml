@@ -1,112 +1,126 @@
 - font:
+    name: WLXADN+NimbusSanL
+    scale: 31.1
+    stretch: REGULAR
+    style: NORMAL
+    weight: BOLD
+  index: 0
+- font:
     name: AJOVIH+NimbusSanL
     scale: 21.7
     stretch: REGULAR
     style: ITALIC
     weight: BOLD
-  index: 0
+  index: 1
 - font:
     name: WLXADN+NimbusSanL
     scale: 21.6
     stretch: REGULAR
     style: NORMAL
     weight: BOLD
-  index: 1
+  index: 2
 - font:
     name: WLXADN+NimbusSanL
     scale: 15.0
     stretch: REGULAR
     style: NORMAL
     weight: BOLD
-  index: 2
-- font:
-    name: DMSGBW+NimbusRomNo9L
-    scale: 13.0
-    stretch: REGULAR
-    style: NORMAL
-    weight: MEDIUM
   index: 3
-- font:
-    name: OUYNTX+NimbusRomNo9L
-    scale: 12.0
-    stretch: REGULAR
-    style: NORMAL
-    weight: LIGHT
-  index: 4
-- font:
-    name: WLXADN+NimbusSanL
-    scale: 12.5
-    stretch: REGULAR
-    style: NORMAL
-    weight: BOLD
-  index: 5
-- font:
-    name: WNIDNY+NimbusSanL
-    scale: 30.7
-    stretch: REGULAR
-    style: NORMAL
-    weight: LIGHT
-  index: 6
-- font:
-    name: WLXADN+NimbusSanL
-    scale: 18.0
-    stretch: REGULAR
-    style: NORMAL
-    weight: BOLD
-  index: 7
-- font:
-    name: KVNFJF+NimbusMonL
-    scale: 9.4
-    stretch: REGULAR
-    style: NORMAL
-    weight: LIGHT
-  index: 8
-- font:
-    name: CIAQQF+NimbusMonL
-    scale: 10.3
-    stretch: REGULAR
-    style: NORMAL
-    weight: BOLD
-  index: 9
-- font:
-    name: KVNFJF+NimbusMonL
-    scale: 10.4
-    stretch: REGULAR
-    style: NORMAL
-    weight: LIGHT
-  index: 10
-- font:
-    name: YINRGF+NimbusRomNo9L
-    scale: 11.9
-    stretch: REGULAR
-    style: ITALIC
-    weight: LIGHT
-  index: 11
-- font:
-    name: CIAQQF+NimbusMonL
-    scale: 11.4
-    stretch: REGULAR
-    style: NORMAL
-    weight: BOLD
-  index: 12
-- font:
-    name: YUMNXC+NimbusMonL
-    scale: 9.4
-    stretch: REGULAR
-    style: OBLIQUE
-    weight: LIGHT
-  index: 13
-- font:
-    name: GCJXHR+CMMI5
-    scale: 5.0
-    stretch: REGULAR
-    style: NORMAL
-    weight: LIGHT
-  index: 14
 - font:
     name: WNIDNY+NimbusSanL
     scale: 17.8
     stretch: REGULAR
     style: NORMAL
     weight: LIGHT
+  index: 4
+- font:
+    name: DMSGBW+NimbusRomNo9L
+    scale: 13.0
+    stretch: REGULAR
+    style: NORMAL
+    weight: MEDIUM
+  index: 5
+- font:
+    name: OUYNTX+NimbusRomNo9L
+    scale: 12.0
+    stretch: REGULAR
+    style: NORMAL
+    weight: LIGHT
+  index: 6
+- font:
+    name: WLXADN+NimbusSanL
+    scale: 12.5
+    stretch: REGULAR
+    style: NORMAL
+    weight: BOLD
+  index: 7
+- font:
+    name: WNIDNY+NimbusSanL
+    scale: 30.7
+    stretch: REGULAR
+    style: NORMAL
+    weight: LIGHT
+  index: 8
+- font:
+    name: WLXADN+NimbusSanL
+    scale: 18.0
+    stretch: REGULAR
+    style: NORMAL
+    weight: BOLD
+  index: 9
+- font:
+    name: KVNFJF+NimbusMonL
+    scale: 9.4
+    stretch: REGULAR
+    style: NORMAL
+    weight: LIGHT
+  index: 10
+- font:
+    name: CIAQQF+NimbusMonL
+    scale: 10.3
+    stretch: REGULAR
+    style: NORMAL
+    weight: BOLD
+  index: 11
+- font:
+    name: KVNFJF+NimbusMonL
+    scale: 10.4
+    stretch: REGULAR
+    style: NORMAL
+    weight: LIGHT
+  index: 12
+- font:
+    name: YINRGF+NimbusRomNo9L
+    scale: 11.9
+    stretch: REGULAR
+    style: ITALIC
+    weight: LIGHT
+  index: 13
+- font:
+    name: CIAQQF+NimbusMonL
+    scale: 11.4
+    stretch: REGULAR
+    style: NORMAL
+    weight: BOLD
+  index: 14
+- font:
+    name: YUMNXC+NimbusMonL
+    scale: 9.4
+    stretch: REGULAR
+    style: OBLIQUE
+    weight: LIGHT
   index: 15
+- font:
+    name: GCJXHR+CMMI5
+    scale: 5.0
+    stretch: REGULAR
+    style: NORMAL
+    weight: LIGHT
+  index: 16
+- font:
+    name: AXXKPS+CMSY5
+    scale: 8.6
+    stretch: REGULAR
+    style: NORMAL
+    weight: LIGHT
+  index: 17
