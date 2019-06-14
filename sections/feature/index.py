@@ -17,6 +17,7 @@ from iamraw import Document
 from iamraw import Page
 from serializeraw import load_document
 
+from sections.feature import dump_likelihood
 from sections.feature import uniform_result
 
 
@@ -30,7 +31,10 @@ def work(text_linewise: str) -> str:
     """
     # TODO: Share resources
     document = load_document(text_linewise)
-    extract_index_likelihood(document)
+    extracted = extract_index_likelihood(document)
+    dumped = dump_likelihood(extracted)
+    assert len(dumped) > 100
+    return dumped
 
 
 def extract_index_likelihood(document: Document) -> List[float]:
