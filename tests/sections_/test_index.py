@@ -8,6 +8,8 @@
 # =============================================================================
 
 from sections.feature.index import extract_index_likelihood
+from sections.feature.index import work
+from tests.groupme_ import FOOTER_ONELINE_TEXT
 # pylint:disable=unused-import
 from tests.sections_ import restructured_document
 
@@ -23,3 +25,8 @@ def test_extract_index_likelihood(restructured_document):
     # The index is on the last page
     last_page = result[-1]
     assert last_page >= LAST_PAGE_INDEX_LIKELYHOOD, result
+
+
+def test_index_work():
+    dumped = work(FOOTER_ONELINE_TEXT)
+    assert len(dumped) > 100
