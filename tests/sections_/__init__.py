@@ -21,6 +21,9 @@ from sections.font import create_font_lookup
 from tests.groupme_ import FOOTER_FONT_CONTENT
 from tests.groupme_ import FOOTER_FONT_HEADER
 from tests.groupme_ import FOOTER_TEXT
+from tests.groupme_ import SIMPLE_FONT_CONTENT
+from tests.groupme_ import SIMPLE_FONT_HEADER
+from tests.groupme_ import SIMPLE_TEXT
 
 #pylint:disable=C0103
 run_sections_success = partial(
@@ -47,4 +50,36 @@ def restructured_document() -> Document:
 @fixture
 def restructured_fontlookup() -> FontLookUp:
     lookup = create_font_lookup(FOOTER_FONT_HEADER, FOOTER_FONT_CONTENT)
+    return lookup
+
+
+@fixture
+def simple_document() -> Document:
+    loaded = load_document(SIMPLE_TEXT)
+    return loaded
+
+
+@fixture
+def simple_fontlookup() -> FontLookUp:
+    lookup = create_font_lookup(SIMPLE_FONT_HEADER, SIMPLE_FONT_CONTENT)
+    return lookup
+
+
+def restructured_document_fixture() -> Document:
+    loaded = load_document(FOOTER_TEXT)
+    return loaded
+
+
+def restructured_fontlookup_fixture() -> FontLookUp:
+    lookup = create_font_lookup(FOOTER_FONT_HEADER, FOOTER_FONT_CONTENT)
+    return lookup
+
+
+def simple_document_fixture() -> Document:
+    loaded = load_document(SIMPLE_TEXT)
+    return loaded
+
+
+def simple_fontlookup_fixture() -> FontLookUp:
+    lookup = create_font_lookup(SIMPLE_FONT_HEADER, SIMPLE_FONT_CONTENT)
     return lookup
