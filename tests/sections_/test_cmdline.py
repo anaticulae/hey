@@ -14,6 +14,7 @@ from utila.test import skip_nonvirtual
 from sections import PACKAGE_NAME
 from sections import PROCESS_NAME
 from sections import ROOT
+from tests.groupme_ import FOOTER
 from tests.sections_ import run_sections_success
 
 
@@ -25,6 +26,7 @@ def test_sections_setup_py():
 
 @mark.parametrize('command', [
     ['--help'],
+    ['-i', FOOTER, '-o', '.', '--title', '--toc', '--index'],
 ])
 def test_run_sections(command, testdir, monkeypatch):  #pylint: disable=W0613
     """Run help and version and format command to reach basic test coverage"""
