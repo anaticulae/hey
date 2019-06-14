@@ -122,7 +122,8 @@ def analyse_page(page: Page, fontstore: FontLookUp) -> float:
     value = 0
     if MINIMAL_TITLE_LENGTH <= max_font_length < MAXIMAL_TITLE_LENGTH:
         value = max_font_length * pow(max_font, 3)
-    # Malus per page, reduce value 5% per page, the higher the page number
+    # Malus per page, reduce value 10% per page, the higher the page number
     # the lower the likelihood to be the title page.
-    value = value * pow(0.95, number)
+    # TODO: investigate if this is a good idea
+    value = value * pow(0.10, number)
     return max_font_length, value
