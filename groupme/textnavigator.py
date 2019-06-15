@@ -75,6 +75,18 @@ class PageTextNavigator:
         result = list(reversed(result))
         return result
 
+    def between(self, top, bottom):
+        assert 0.0 <= top <= bottom <= 1.0
+
+        after = (1.0 - top) * self.height
+        before = (1.0 - bottom) * self.height  # greater than
+        result = []
+        for box, item in self.data:
+            # before and after are pixel coordinates
+            if before <= box.y_top <= after:
+                result.append((box, item))
+        return result
+
 
 def load_pagetextnavigator(position, document: Document):
     navigators = []
