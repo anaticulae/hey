@@ -16,7 +16,7 @@ from groupme.feature.numbers import header
 from groupme.feature.numbers import load_pagenumbers
 from groupme.feature.numbers import load_textposition
 from groupme.feature.numbers import pagenumbers
-from groupme.textnavigator import load_pagetextnavigator
+from groupme.textnavigator import create_pagetextnavigator
 from tests.groupme_ import FOOTER_HORIZONTAL
 from tests.groupme_ import FOOTER_PAGESIZE
 from tests.groupme_ import FOOTER_POSITION
@@ -49,7 +49,7 @@ def simple():
     assert len(position) == len(document)
     assert len(horizontals) == len(document)
 
-    navigator = load_pagetextnavigator(position, document)
+    navigator = create_pagetextnavigator(position, document)
     return navigator, horizontals
 
 
@@ -92,7 +92,7 @@ def restructured():
     assert len(position) == len(document)
     assert len(horizontals) == len(document)
 
-    navigator = load_pagetextnavigator(position, document)
+    navigator = create_pagetextnavigator(position, document)
     return navigator, horizontals
 
 

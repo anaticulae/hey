@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from typing import List
+
 from iamraw import BoundingBox
 from iamraw import Document
 
@@ -88,7 +90,10 @@ class PageTextNavigator:
         return result
 
 
-def load_pagetextnavigator(position, document: Document):
+def create_pagetextnavigator(
+        position,
+        document: Document,
+) -> List[PageTextNavigator]:
     navigators = []
     for page, textposition in enumerate(position):
         navigator = PageTextNavigator()
