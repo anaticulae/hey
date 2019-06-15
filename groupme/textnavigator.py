@@ -74,7 +74,6 @@ class PageTextNavigator:
                     box,
                     item,
                 ))
-        result = list(reversed(result))
         return result
 
     def between(self, top, bottom):
