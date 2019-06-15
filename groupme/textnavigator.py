@@ -110,3 +110,27 @@ def create_pagetextnavigator(
                 pass
 
     return navigators
+
+
+def percent_to_pagesize(
+        size: float,
+        percent: float,
+):
+    # height(float[0.0,1.0]): 0.0 is top, 1.0 is bottom
+    assert size >= 0.0
+    assert 0.0 <= percent <= 1.0
+
+    result = (1.0 - percent) * size
+    return result
+
+
+def percent_from_pagesize(size, current):
+    """
+    size    500
+    current 100
+    return  0.8%
+    """
+    assert size > 0
+    assert size >= current
+
+    return (size - current) / size

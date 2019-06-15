@@ -8,8 +8,10 @@
 # =============================================================================
 from iamraw import BoundingBox
 from pytest import fixture
+from pytest import mark
 
 from groupme.textnavigator import PageTextNavigator
+from groupme.textnavigator import percent_to_pagesize
 
 SAMPLE = [
     (0, BoundingBox.from_str("130.91 668.55 540.00 704.02")),
@@ -64,3 +66,16 @@ def test_before(navigator):  #pylint:disable=W0621
     # 2 items in this example
     result = navigator.before(before)
     assert len(result) == 2, before
+
+
+@mark.parametrize('size,percent,expected', [
+    (100.0, 1.0, 0),
+    (100.0, 0.0, 100),
+    (100.0, 0.75, 25),
+])
+def test_textnavigator_percent_to_page(size, percent, expected):
+    result = percent_to_pagesize(
+        size,
+        percent,
+    )
+    assert result == expected
