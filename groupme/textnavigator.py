@@ -54,7 +54,13 @@ class PageTextNavigator:
                 ))
         return result
 
-    def before(self, height, width=0.0):
+    def before(self, height: float, width=0.0):
+        """
+        Args:
+            height(float[0.0,1.0]): 0.0 is top, 1.0 is bottom
+        Returns:
+            List[PageObjects]
+        """
         assert 0.0 <= height <= 1.0
         assert 0.0 <= width <= 1.0
 
