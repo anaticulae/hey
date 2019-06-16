@@ -119,7 +119,7 @@ class TitlePage(AreaItem):
 
 @dataclass
 class Chapter(AreaItem):
-    pass
+    number: int = -1
 
 
 @dataclass
