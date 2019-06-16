@@ -13,6 +13,7 @@ from yaml import dump
 from sections.ctor import Chapter
 from sections.ctor import Index
 from sections.ctor import TableOfContent
+from sections.ctor import Text
 from sections.ctor import TitlePage
 from sections.ctor import WhitePage
 from sections.feature import load_likelihood
@@ -39,14 +40,16 @@ def work(
     whitepage = load_whitepages(whitepage)
     whitepage = [whitepage_value_to_percent(item) for item in whitepage]
 
-    result = []
-
     builder = [Chapter, Index, TitlePage, TableOfContent, WhitePage]
+
+    result = []
     for number, page in enumerate(zip(chapter, index, title, toc, whitepage)):
         # TODO:  What if more than one item is max? 1.0, 1.0?
         value = max(page)
-        selected = page.index(value)
-        ctor = builder[selected]
+        if value < 0.4:  # TODO: Holy value
+            result.append(Text(start=number, end=number, trust=1.0))
+            continue
+        ctor = builder[page.index(value)]
         result.append(ctor(
             start=number,
             end=number,

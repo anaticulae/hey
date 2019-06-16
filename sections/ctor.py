@@ -103,6 +103,11 @@ class Index(AreaItem):
 
 
 @dataclass
+class Text(AreaItem):
+    pass
+
+
+@dataclass
 class TableOfContent(AreaItem):
     pass
 
