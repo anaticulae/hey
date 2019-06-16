@@ -30,7 +30,6 @@ from serializeraw import load_document
 from serializeraw import load_toc
 from utila import NEWLINE
 from utila import from_raw_or_path
-from utila import logging
 from yaml import FullLoader
 from yaml import dump
 from yaml import load
