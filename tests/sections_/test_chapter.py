@@ -1,0 +1,95 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2019 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+
+from serializeraw import load_document
+from serializeraw import load_horizontals
+from serializeraw import load_toc
+
+from groupme.feature.footer import extract_pages
+from groupme.feature.numbers import load_textposition
+from groupme.textnavigator import create_pagetextnavigator
+from sections.feature.chapter import dump_chapter_detection
+from sections.feature.chapter import load_chapter_detection
+from sections.feature.chapter import space_between_header_and_first_line
+from tests.groupme_ import FOOTER_HORIZONTAL
+from tests.groupme_ import FOOTER_POSITION
+from tests.groupme_ import FOOTER_TEXT
+from tests.groupme_ import FOOTER_TOC
+
+
+# def space_between_header_and_first_line(
+#         document: Document,
+#         navigators: List[PageTextNavigator],
+#         headerfooters,
+# ):
+def test_chapter_extract():
+    # load
+    document = load_document(FOOTER_TEXT)
+    position = load_textposition(FOOTER_POSITION)
+    tocs = load_toc(FOOTER_TOC)
+    # TODO: Think about how to handle this, invocation order of features?
+    navigators = create_pagetextnavigator(position, document)
+
+    result = space_between_header_and_first_line(
+        navigators,
+        tocs,
+    )
+
+    expected = [
+        False,
+        False,
+        False,
+        False,
+        False,
+        False,
+        True,
+        False,
+        True,
+        False,
+        True,
+        False,
+        True,
+        False,
+        False,
+        False,
+        False,
+        False,
+        True,
+        False,
+        True,
+        False,
+        True,
+        False,
+        True,
+        False,
+        False,
+    ]
+
+    selected = [item > 0.0 for item in result]
+
+    assert selected == expected
+
+
+def test_chapter_dump_and_load_detection():
+    # load
+    document = load_document(FOOTER_TEXT)
+    position = load_textposition(FOOTER_POSITION)
+    tocs = load_toc(FOOTER_TOC)
+    # TODO: Think about how to handle this, invocation order of features?
+    navigators = create_pagetextnavigator(position, document)
+
+    result = space_between_header_and_first_line(
+        navigators,
+        tocs,
+    )
+
+    dumped = dump_chapter_detection(result)
+    loaded = load_chapter_detection(dumped)
+
+    assert loaded == result
