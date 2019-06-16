@@ -103,13 +103,18 @@ class Index(AreaItem):
 
 
 @dataclass
+class TableOfContent(AreaItem):
+    pass
+
+
+@dataclass
 class TitlePage(AreaItem):
     pass
 
 
 @dataclass
 class Chapter(AreaItem):
-    number: int
+    pass
 
 
 @dataclass
