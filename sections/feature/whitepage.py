@@ -43,7 +43,7 @@ class WhitePage(Enum):
     WHITE = 1  # page with footer and or header
 
 
-def work(document: str, position: str, horizontal_lines: str):
+def work(document: str, position: str, horizontal_lines: str) -> str:
     # load
     document = load_document(document)
     position = load_textposition(position)
@@ -54,7 +54,9 @@ def work(document: str, position: str, horizontal_lines: str):
     navigators = create_pagetextnavigator(position, document)
 
     # work
-    extract_whitepages(document, navigators, headerfooters)
+    extracted = extract_whitepages(document, navigators, headerfooters)
+    dumped = dump_whitepages(extracted)
+    return dumped
 
 
 def extract_whitepages(
@@ -86,6 +88,13 @@ def extract_whitepages(
                 # page with footer and/or header and content - "normal page"
                 result.append(None)
     return result
+
+
+def whitepage_value_to_percent(whitepage: WhitePage):
+    if whitepage is None or whitepage == '':
+        # TODO: str comparison is not very consequent, but ok in the moment
+        return 0.0
+    return 1.0
 
 
 def dump_whitepages(pages) -> str:
