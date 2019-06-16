@@ -8,10 +8,60 @@
 # =============================================================================
 
 from utila import Flag
+from yaml import dump
+
+from sections.ctor import Chapter
+from sections.ctor import Index
+from sections.ctor import TableOfContent
+from sections.ctor import TitlePage
+from sections.ctor import WhitePage
+from sections.feature import load_likelihood
+from sections.feature.chapter import chapter_value_to_percent
+from sections.feature.chapter import load_chapter_detection
+from sections.feature.whitepage import load_whitepages
+from sections.feature.whitepage import whitepage_value_to_percent
 
 
-def work():
-    pass
+def work(
+        chapter: str,
+        index: str,
+        title: str,
+        toc: str,
+        whitepage: str,
+) -> str:
+    chapter = load_chapter_detection(chapter)
+    chapter = [chapter_value_to_percent(item) for item in chapter]
+
+    index = load_likelihood(index)
+    title = load_likelihood(title)
+    toc = load_likelihood(toc)
+
+    whitepage = load_whitepages(whitepage)
+    whitepage = [whitepage_value_to_percent(item) for item in whitepage]
+
+    result = []
+
+    builder = [Chapter, Index, TitlePage, TableOfContent, WhitePage]
+    for number, page in enumerate(zip(chapter, index, title, toc, whitepage)):
+        # TODO:  What if more than one item is max? 1.0, 1.0?
+        value = max(page)
+        selected = page.index(value)
+        ctor = builder[selected]
+        result.append(ctor(
+            start=number,
+            end=number,
+            trust=value,
+        ))
+
+    dumped = dump_sections(result)
+    return dumped
+
+
+def dump_sections(pages):
+    page = [str(type(item)) for item in pages]
+
+    result = dump(page)
+    return result
 
 
 def commandline():
