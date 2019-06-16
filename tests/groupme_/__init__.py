@@ -40,6 +40,7 @@ FOOTER_ONELINE_TEXT = join(FOOTER, 'rawmaker__oneline_text_text.yaml')
 FOOTER_PAGESIZE = join(FOOTER, 'rawmaker__border_pages.yaml')
 FOOTER_POSITION = join(FOOTER, 'rawmaker__text_positions.yaml')
 FOOTER_TEXT = join(FOOTER, 'rawmaker__text_text.yaml')
+FOOTER_TOC = join(FOOTER, 'rawmaker__toc.yaml')
 
 SIMPLE = join(TEST_DATA, 'simple')
 SIMPLE_PAGESIZE = join(SIMPLE, 'rawmaker__border_pages.yaml')

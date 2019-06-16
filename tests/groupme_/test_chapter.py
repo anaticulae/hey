@@ -63,8 +63,6 @@ def test_headline_match(headline):
 
 
 def test_parse_headlines(page_2_text_only):  # pylint: disable=W0621
-    # print(len(page_3_text_only))
-    # assert 0
     headlines = []
     for line in page_2_text_only:
         result = parse_headline(line)
