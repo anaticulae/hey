@@ -61,7 +61,8 @@ def work(
 
 
 def dump_sections(pages):
-    page = [str(type(item)) for item in pages]
+    # convert to raw
+    page = [item.__class__.__name__ for item in pages]
 
     result = dump(page)
     return result
