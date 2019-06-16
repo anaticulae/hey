@@ -10,11 +10,12 @@
 from os.path import join
 
 from utila import create_step
-from utila import featurepack
 
 from sections import PROCESS_NAME
 from sections import ROOT
 from sections import __version__
+from sections.command.patch import featurepack
+from sections.feature.chapter import work as work_chapter
 from sections.feature.index import work as work_index
 from sections.feature.title import work as work_title
 from sections.feature.toc import work as work_toc
