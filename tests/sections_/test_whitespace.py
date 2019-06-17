@@ -17,11 +17,11 @@ from sections.feature.whitepage import WhitePage
 from sections.feature.whitepage import dump_whitepages
 from sections.feature.whitepage import extract_whitepages
 from sections.feature.whitepage import load_whitepages
-from tests.resources import FOOTER_HORIZONTAL
-from tests.resources import FOOTER_POSITION
-from tests.resources import FOOTER_TEXT
+from tests.resources import RESTRUCT_HORIZONTAL
+from tests.resources import RESTRUCT_POSITION
+from tests.resources import RESTRUCT_TEXT
 
-FOOTER_EXPECTED = [
+RESTRUCT_EXPECTED = [
     None,
     WhitePage.BLANK,
     None,
@@ -55,9 +55,9 @@ FOOTER_EXPECTED = [
 def test_whitepages_extract():
 
     # load
-    document = load_document(FOOTER_TEXT)
-    position = load_textposition(FOOTER_POSITION)
-    horizontals = load_horizontals(FOOTER_HORIZONTAL)
+    document = load_document(RESTRUCT_TEXT)
+    position = load_textposition(RESTRUCT_POSITION)
+    horizontals = load_horizontals(RESTRUCT_HORIZONTAL)
 
     # TODO: Think about how to handle this, invocation order of features?
     headerfooters = extract_pages(horizontals)
@@ -66,12 +66,12 @@ def test_whitepages_extract():
     # work
     result = extract_whitepages(document, navigators, headerfooters)
 
-    assert result == FOOTER_EXPECTED
+    assert result == RESTRUCT_EXPECTED
 
 
 def test_whitepages_dump_and_load():
-    dumped = dump_whitepages(FOOTER_EXPECTED)
+    dumped = dump_whitepages(RESTRUCT_EXPECTED)
 
     loaded = load_whitepages(dumped)
 
-    assert loaded == FOOTER_EXPECTED
+    assert loaded == RESTRUCT_EXPECTED

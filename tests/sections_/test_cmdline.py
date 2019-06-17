@@ -14,7 +14,7 @@ from utila.test import skip_nonvirtual
 from sections import PACKAGE_NAME
 from sections import PROCESS_NAME
 from sections import ROOT
-from tests.resources import FOOTER
+from tests.resources import RESTRUCT
 from tests.sections_ import run_sections_success
 
 
@@ -31,7 +31,7 @@ def test_sections_setup_py():
         ['--help'],
         [
             '-i',
-            FOOTER,
+            RESTRUCT,
             '-o',
             '.',
             '--chapter',

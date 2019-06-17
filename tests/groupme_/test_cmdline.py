@@ -16,7 +16,7 @@ from groupme import PROCESS_NAME
 from groupme import ROOT
 from hey import PACKAGE_NAME
 from tests.groupme_ import run_success
-from tests.resources import FOOTER
+from tests.resources import RESTRUCT
 from tests.resources import SIMPLE
 
 
@@ -38,7 +38,8 @@ TODO_ERROR = ('concept of splitting with first headline does not work, when '
 @mark.parametrize('command', [
     ['--help'],
     ['-i', SIMPLE, '-o', 'output'],
-    param(['-i', FOOTER, '-o', 'output'], marks=mark.xfail(reason=TODO_ERROR)),
+    param(['-i', RESTRUCT, '-o', 'output'],
+          marks=mark.xfail(reason=TODO_ERROR)),
 ])
 def test_run_rawmaker(command, testdir, monkeypatch):  #pylint: disable=W0613
     """Run help and version and format command to reach basic test coverage"""

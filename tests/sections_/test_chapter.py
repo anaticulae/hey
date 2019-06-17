@@ -17,10 +17,10 @@ from groupme.textnavigator import create_pagetextnavigator
 from sections.feature.chapter import dump_chapter_detection
 from sections.feature.chapter import load_chapter_detection
 from sections.feature.chapter import space_between_header_and_first_line
-from tests.resources import FOOTER_HORIZONTAL
-from tests.resources import FOOTER_POSITION
-from tests.resources import FOOTER_TEXT
-from tests.resources import FOOTER_TOC
+from tests.resources import RESTRUCT_HORIZONTAL
+from tests.resources import RESTRUCT_POSITION
+from tests.resources import RESTRUCT_TEXT
+from tests.resources import RESTRUCT_TOC
 
 
 # def space_between_header_and_first_line(
@@ -30,9 +30,9 @@ from tests.resources import FOOTER_TOC
 # ):
 def test_chapter_extract():
     # load
-    document = load_document(FOOTER_TEXT)
-    position = load_textposition(FOOTER_POSITION)
-    tocs = load_toc(FOOTER_TOC)
+    document = load_document(RESTRUCT_TEXT)
+    position = load_textposition(RESTRUCT_POSITION)
+    tocs = load_toc(RESTRUCT_TOC)
     # TODO: Think about how to handle this, invocation order of features?
     navigators = create_pagetextnavigator(position, document)
 
@@ -78,9 +78,9 @@ def test_chapter_extract():
 
 def test_chapter_dump_and_load_detection():
     # load
-    document = load_document(FOOTER_TEXT)
-    position = load_textposition(FOOTER_POSITION)
-    tocs = load_toc(FOOTER_TOC)
+    document = load_document(RESTRUCT_TEXT)
+    position = load_textposition(RESTRUCT_POSITION)
+    tocs = load_toc(RESTRUCT_TOC)
     # TODO: Think about how to handle this, invocation order of features?
     navigators = create_pagetextnavigator(position, document)
 

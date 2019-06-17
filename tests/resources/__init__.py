@@ -23,18 +23,19 @@ TEST_DATA = join(ROOT, 'tests/resources')
 
 assert exists(TEST_DATA), TEST_DATA
 
-FOOTER = join(TEST_DATA, 'footer')
-FOOTER_FONT_CONTENT = join(FOOTER, 'rawmaker__fonts_content.yaml')
-FOOTER_FONT_HEADER = join(FOOTER, 'rawmaker__fonts_header.yaml')
-FOOTER_HORIZONTAL = join(FOOTER, 'rawmaker__boxes_horizontal.yaml')
-FOOTER_ONELINE_POSITION = join(FOOTER, 'rawmaker__oneline_text_positions.yaml')
-FOOTER_ONELINE_TEXT = join(FOOTER, 'rawmaker__oneline_text_text.yaml')
-FOOTER_PAGESIZE = join(FOOTER, 'rawmaker__border_pages.yaml')
-FOOTER_POSITION = join(FOOTER, 'rawmaker__text_positions.yaml')
-FOOTER_TEXT = join(FOOTER, 'rawmaker__text_text.yaml')
-FOOTER_TOC = join(FOOTER, 'rawmaker__toc.yaml')
+RESTRUCT = join(TEST_DATA, 'restruct')
+RESTRUCT_FONT_CONTENT = join(RESTRUCT, 'rawmaker__fonts_content.yaml')
+RESTRUCT_FONT_HEADER = join(RESTRUCT, 'rawmaker__fonts_header.yaml')
+RESTRUCT_HORIZONTAL = join(RESTRUCT, 'rawmaker__boxes_horizontal.yaml')
+RESTRUCT_ONELINE_POSITION = join(RESTRUCT,
+                                 'rawmaker__oneline_text_positions.yaml')
+RESTRUCT_ONELINE_TEXT = join(RESTRUCT, 'rawmaker__oneline_text_text.yaml')
+RESTRUCT_PAGESIZE = join(RESTRUCT, 'rawmaker__border_pages.yaml')
+RESTRUCT_POSITION = join(RESTRUCT, 'rawmaker__text_positions.yaml')
+RESTRUCT_TEXT = join(RESTRUCT, 'rawmaker__text_text.yaml')
+RESTRUCT_TOC = join(RESTRUCT, 'rawmaker__toc.yaml')
 
-FOOTER_TOC_LINES = 13
+RESTRUCT_TOC_LINES = 13
 
 SIMPLE = join(TEST_DATA, 'simple')
 SIMPLE_PAGESIZE = join(SIMPLE, 'rawmaker__border_pages.yaml')
@@ -49,15 +50,15 @@ SIMPLE_HEADLINES_PAGE_3 = 4
 SIMPLE_TOC_LINES = 12
 
 for item in [
-        FOOTER,
-        FOOTER_FONT_CONTENT,
-        FOOTER_FONT_HEADER,
-        FOOTER_HORIZONTAL,
-        FOOTER_ONELINE_POSITION,
-        FOOTER_ONELINE_TEXT,
-        FOOTER_PAGESIZE,
-        FOOTER_POSITION,
-        FOOTER_TEXT,
+        RESTRUCT,
+        RESTRUCT_FONT_CONTENT,
+        RESTRUCT_FONT_HEADER,
+        RESTRUCT_HORIZONTAL,
+        RESTRUCT_ONELINE_POSITION,
+        RESTRUCT_ONELINE_TEXT,
+        RESTRUCT_PAGESIZE,
+        RESTRUCT_POSITION,
+        RESTRUCT_TEXT,
         SIMPLE,
         SIMPLE_FONT_CONTENT,
         SIMPLE_FONT_HEADER,

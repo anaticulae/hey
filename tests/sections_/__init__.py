@@ -18,9 +18,9 @@ from sections import PROCESS_NAME
 from sections.command import main
 from sections.font import FontLookUp
 from sections.font import create_font_lookup
-from tests.resources import FOOTER_FONT_CONTENT
-from tests.resources import FOOTER_FONT_HEADER
-from tests.resources import FOOTER_TEXT
+from tests.resources import RESTRUCT_FONT_CONTENT
+from tests.resources import RESTRUCT_FONT_HEADER
+from tests.resources import RESTRUCT_TEXT
 from tests.resources import SIMPLE_FONT_CONTENT
 from tests.resources import SIMPLE_FONT_HEADER
 from tests.resources import SIMPLE_TEXT
@@ -43,13 +43,13 @@ run_sections_failure = partial(
 
 @fixture
 def restructured_document() -> Document:
-    loaded = load_document(FOOTER_TEXT)
+    loaded = load_document(RESTRUCT_TEXT)
     return loaded
 
 
 @fixture
 def restructured_fontlookup() -> FontLookUp:
-    lookup = create_font_lookup(FOOTER_FONT_HEADER, FOOTER_FONT_CONTENT)
+    lookup = create_font_lookup(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
     return lookup
 
 
@@ -66,12 +66,12 @@ def simple_fontlookup() -> FontLookUp:
 
 
 def restructured_document_fixture() -> Document:
-    loaded = load_document(FOOTER_TEXT)
+    loaded = load_document(RESTRUCT_TEXT)
     return loaded
 
 
 def restructured_fontlookup_fixture() -> FontLookUp:
-    lookup = create_font_lookup(FOOTER_FONT_HEADER, FOOTER_FONT_CONTENT)
+    lookup = create_font_lookup(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
     return lookup
 
 
