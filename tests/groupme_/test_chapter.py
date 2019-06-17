@@ -21,26 +21,26 @@ from groupme.feature.chapter import chapters
 from groupme.structure import parse_headline
 from groupme.structure import sections
 from groupme.structure import sections_from_page
-from tests.groupme_ import HEADLINES_PAGE_3
-from tests.groupme_ import SIMPLE_TEXT
-from tests.groupme_ import TOC_LINES
-from tests.groupme_ import document  # pylint: disable=unused-import
-from tests.groupme_ import page_2  # pylint: disable=unused-import
-from tests.groupme_ import page_2_text_only  # pylint: disable=unused-import
+from tests.resources import SIMPLE_HEADLINES_PAGE_3
+from tests.resources import SIMPLE_TEXT
+from tests.resources import SIMPLE_TOC_LINES
+from tests.resources import document  # pylint: disable=unused-import
+from tests.resources import page_2  # pylint: disable=unused-import
+from tests.resources import page_2_text_only  # pylint: disable=unused-import
 
 
 def test_content_to_yaml():
     """Ensure that every section have an textbody"""
     doc = load_document(file_read(SIMPLE_TEXT))
     content = chapters(doc)
-    assert len(content) == TOC_LINES
+    assert len(content) == SIMPLE_TOC_LINES
     dumped = chapter_to_yaml(content)
     assert dumped
 
 
 def test_extract_page_2(page_2: Page):  # pylint: disable=W0621
     blocks = sections_from_page(page_2)
-    assert len(blocks) == HEADLINES_PAGE_3
+    assert len(blocks) == SIMPLE_HEADLINES_PAGE_3
 
 
 def test_extract_document(document: Document):  # pylint: disable=W0621
@@ -69,4 +69,4 @@ def test_parse_headlines(page_2_text_only):  # pylint: disable=W0621
         if not result:
             continue
         headlines.append(result[1])
-    assert len(headlines) == HEADLINES_PAGE_3, headlines
+    assert len(headlines) == SIMPLE_HEADLINES_PAGE_3, headlines

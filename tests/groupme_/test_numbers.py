@@ -17,14 +17,14 @@ from groupme.feature.numbers import load_pagenumbers
 from groupme.feature.numbers import load_textposition
 from groupme.feature.numbers import pagenumbers
 from groupme.textnavigator import create_pagetextnavigator
-from tests.groupme_ import FOOTER_HORIZONTAL
-from tests.groupme_ import FOOTER_PAGESIZE
-from tests.groupme_ import FOOTER_POSITION
-from tests.groupme_ import FOOTER_TEXT
-from tests.groupme_ import SIMPLE_HORIZONTAL
-from tests.groupme_ import SIMPLE_PAGESIZE
-from tests.groupme_ import SIMPLE_POSITION
-from tests.groupme_ import SIMPLE_TEXT
+from tests.resources import FOOTER_HORIZONTAL
+from tests.resources import FOOTER_PAGESIZE
+from tests.resources import FOOTER_POSITION
+from tests.resources import FOOTER_TEXT
+from tests.resources import SIMPLE_HORIZONTAL
+from tests.resources import SIMPLE_PAGESIZE
+from tests.resources import SIMPLE_POSITION
+from tests.resources import SIMPLE_TEXT
 
 
 # TODO: Remove after upgrading `iamraw`

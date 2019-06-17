@@ -15,9 +15,9 @@ from utila.test import skip_nonvirtual
 from groupme import PROCESS_NAME
 from groupme import ROOT
 from hey import PACKAGE_NAME
-from tests.groupme_ import FOOTER
-from tests.groupme_ import SIMPLE
 from tests.groupme_ import run_success
+from tests.resources import FOOTER
+from tests.resources import SIMPLE
 
 
 @skip_nonvirtual

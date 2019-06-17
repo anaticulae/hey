@@ -15,7 +15,7 @@ from groupme.feature.footer import extract_common_footer
 from groupme.feature.footer import extract_pages
 from groupme.feature.footer import load_headerfooter
 from groupme.feature.footer import work
-from tests.groupme_ import FOOTER_HORIZONTAL as HORIZONTALS
+from tests.resources import FOOTER_HORIZONTAL as HORIZONTALS
 
 
 @fixture

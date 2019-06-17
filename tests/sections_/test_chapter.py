@@ -17,10 +17,10 @@ from groupme.textnavigator import create_pagetextnavigator
 from sections.feature.chapter import dump_chapter_detection
 from sections.feature.chapter import load_chapter_detection
 from sections.feature.chapter import space_between_header_and_first_line
-from tests.groupme_ import FOOTER_HORIZONTAL
-from tests.groupme_ import FOOTER_POSITION
-from tests.groupme_ import FOOTER_TEXT
-from tests.groupme_ import FOOTER_TOC
+from tests.resources import FOOTER_HORIZONTAL
+from tests.resources import FOOTER_POSITION
+from tests.resources import FOOTER_TEXT
+from tests.resources import FOOTER_TOC
 
 
 # def space_between_header_and_first_line(

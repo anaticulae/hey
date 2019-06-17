@@ -9,7 +9,7 @@
 
 from sections.feature.index import extract_index_likelihood
 from sections.feature.index import work
-from tests.groupme_ import FOOTER_ONELINE_TEXT
+from tests.resources import FOOTER_ONELINE_TEXT
 # pylint:disable=unused-import
 from tests.sections_ import restructured_document
 

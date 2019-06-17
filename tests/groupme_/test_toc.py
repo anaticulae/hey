@@ -14,12 +14,12 @@ from serializeraw import load_document
 from groupme.feature.toc import toc
 from groupme.feature.toc import toc_from_page
 from groupme.feature.toc import toc_to_yaml
-from tests.groupme_ import FOOTER_TEXT
-from tests.groupme_ import FOOTER_TOC_LINES
-from tests.groupme_ import SIMPLE_TEXT
-from tests.groupme_ import TOC_LINES
-from tests.groupme_ import document  # pylint: disable=unused-import
-from tests.groupme_ import page_0  # pylint: disable=unused-import
+from tests.resources import FOOTER_TEXT
+from tests.resources import FOOTER_TOC_LINES
+from tests.resources import SIMPLE_TEXT
+from tests.resources import SIMPLE_TOC_LINES
+from tests.resources import document  # pylint: disable=unused-import
+from tests.resources import page_0  # pylint: disable=unused-import
 
 
 def test_toc_to_yaml():
@@ -32,12 +32,12 @@ def test_toc_to_yaml():
 
 def test_extract_toc(page_0: Page):  # pylint: disable=W0621
     result = toc_from_page(page_0)
-    assert len(result) == TOC_LINES
+    assert len(result) == SIMPLE_TOC_LINES
 
 
 def test_extract_toc_from_document(document: Document):  # pylint: disable=W0621
     tableofcontent = toc(document)
-    assert len(tableofcontent) == TOC_LINES
+    assert len(tableofcontent) == SIMPLE_TOC_LINES
 
 
 def test_extract_toc_from_restructured():

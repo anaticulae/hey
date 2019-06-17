@@ -18,12 +18,12 @@ from sections import PROCESS_NAME
 from sections.command import main
 from sections.font import FontLookUp
 from sections.font import create_font_lookup
-from tests.groupme_ import FOOTER_FONT_CONTENT
-from tests.groupme_ import FOOTER_FONT_HEADER
-from tests.groupme_ import FOOTER_TEXT
-from tests.groupme_ import SIMPLE_FONT_CONTENT
-from tests.groupme_ import SIMPLE_FONT_HEADER
-from tests.groupme_ import SIMPLE_TEXT
+from tests.resources import FOOTER_FONT_CONTENT
+from tests.resources import FOOTER_FONT_HEADER
+from tests.resources import FOOTER_TEXT
+from tests.resources import SIMPLE_FONT_CONTENT
+from tests.resources import SIMPLE_FONT_HEADER
+from tests.resources import SIMPLE_TEXT
 
 #pylint:disable=C0103
 run_sections_success = partial(

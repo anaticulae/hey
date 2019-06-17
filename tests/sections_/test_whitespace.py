@@ -17,9 +17,9 @@ from sections.feature.whitepage import WhitePage
 from sections.feature.whitepage import dump_whitepages
 from sections.feature.whitepage import extract_whitepages
 from sections.feature.whitepage import load_whitepages
-from tests.groupme_ import FOOTER_HORIZONTAL
-from tests.groupme_ import FOOTER_POSITION
-from tests.groupme_ import FOOTER_TEXT
+from tests.resources import FOOTER_HORIZONTAL
+from tests.resources import FOOTER_POSITION
+from tests.resources import FOOTER_TEXT
 
 FOOTER_EXPECTED = [
     None,
