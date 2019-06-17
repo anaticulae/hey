@@ -6,6 +6,20 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+"""The word package is a text processor which convert the pdf file into a
+text markup for further analysis.
+
+The package supports the following features:
+
+    Chapter:            with title and number
+    Font:               bold, italic, underline
+    Hyperlinks:
+    List:               sorted, unsorted
+    Text:               headlines(h1,h2,h3...), sentences(.,?,!,:)
+
+Required resources: text, font, position
+
+"""
 import os
 
 from hey import PACKAGE_NAME as HEY_PACKAGENAME
