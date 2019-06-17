@@ -21,12 +21,13 @@ from groupme.feature.chapter import chapters
 from groupme.structure import parse_headline
 from groupme.structure import sections
 from groupme.structure import sections_from_page
+# pylint: disable=unused-import
 from tests.resources import SIMPLE_HEADLINES_PAGE_3
 from tests.resources import SIMPLE_TEXT
 from tests.resources import SIMPLE_TOC_LINES
-from tests.resources import document  # pylint: disable=unused-import
-from tests.resources import page_2  # pylint: disable=unused-import
-from tests.resources import page_2_text_only  # pylint: disable=unused-import
+from tests.resources import simpledocument
+from tests.resources import simplepage_2
+from tests.resources import simplepage_2_text_only
 
 
 def test_content_to_yaml():
@@ -38,13 +39,13 @@ def test_content_to_yaml():
     assert dumped
 
 
-def test_extract_page_2(page_2: Page):  # pylint: disable=W0621
-    blocks = sections_from_page(page_2)
+def test_extract_page_2(simplepage_2: Page):  # pylint: disable=W0621
+    blocks = sections_from_page(simplepage_2)
     assert len(blocks) == SIMPLE_HEADLINES_PAGE_3
 
 
-def test_extract_document(document: Document):  # pylint: disable=W0621
-    result = sections(document)
+def test_extract_document(simpledocument: Document):  # pylint: disable=W0621
+    result = sections(simpledocument)
     assert result
 
 
@@ -62,9 +63,9 @@ def test_headline_match(headline):
     assert len(parsed) == 2, parsed
 
 
-def test_parse_headlines(page_2_text_only):  # pylint: disable=W0621
+def test_parse_headlines(simplepage_2_text_only):  # pylint: disable=W0621
     headlines = []
-    for line in page_2_text_only:
+    for line in simplepage_2_text_only:
         result = parse_headline(line)
         if not result:
             continue

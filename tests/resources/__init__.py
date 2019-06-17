@@ -73,27 +73,27 @@ for item in [
 
 
 @fixture
-def document() -> Document:
+def simpledocument() -> Document:
     doc: Document = load_document(SIMPLE_TEXT)
     return doc
 
 
 @fixture
-def page_0(document: Document) -> Page:  # pylint: disable=W0621
-    page: Page = document.pages[0]
+def simplepage_0(simpledocument: Document) -> Page:  # pylint: disable=W0621
+    page: Page = simpledocument.pages[0]
     return page
 
 
 @fixture
-def page_2(document: Document) -> Page:  # pylint: disable=W0621
-    page: Page = document.pages[2]
+def simplepage_2(simpledocument: Document) -> Page:  # pylint: disable=W0621
+    page: Page = simpledocument.pages[2]
     return page
 
 
 @fixture
-def page_2_text_only(page_2: Page):  # pylint: disable=W0621
+def simplepage_2_text_only(simplepage_2: Page):  # pylint: disable=W0621
     lines = []
-    for child in page_2.children:
+    for child in simplepage_2:
         if not isinstance(child, TextContainer):
             continue
         lines.extend(child.text.splitlines())

@@ -18,8 +18,8 @@ from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TOC_LINES
 from tests.resources import SIMPLE_TEXT
 from tests.resources import SIMPLE_TOC_LINES
-from tests.resources import document  # pylint: disable=unused-import
-from tests.resources import page_0  # pylint: disable=unused-import
+from tests.resources import simpledocument  # pylint: disable=unused-import
+from tests.resources import simplepage_0  # pylint: disable=unused-import
 
 
 def test_toc_to_yaml():
@@ -30,13 +30,13 @@ def test_toc_to_yaml():
     assert result
 
 
-def test_extract_toc(page_0: Page):  # pylint: disable=W0621
-    result = toc_from_page(page_0)
+def test_extract_toc(simplepage_0: Page):  # pylint: disable=W0621
+    result = toc_from_page(simplepage_0)
     assert len(result) == SIMPLE_TOC_LINES
 
 
-def test_extract_toc_from_document(document: Document):  # pylint: disable=W0621
-    tableofcontent = toc(document)
+def test_extract_toc_from_document(simpledocument: Document):  # pylint: disable=W0621
+    tableofcontent = toc(simpledocument)
     assert len(tableofcontent) == SIMPLE_TOC_LINES
 
 
