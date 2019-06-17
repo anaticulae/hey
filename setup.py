@@ -72,12 +72,16 @@ if __name__ == "__main__":
             'sections',
             'sections.command',
             'sections.feature',
+            'words',
+            'words.command',
+            'words.feature',
         ],
         entry_points={
             'console_scripts': [
                 'hey = hey.command:main',
                 'groupme = groupme.command:main',
                 'sections = sections.command:main',
+                'words = words.command:main',
             ],
         },
     )
