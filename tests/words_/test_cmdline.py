@@ -23,12 +23,10 @@ def test_words_setup_py():
     install_and_run(ROOT, PACKAGE_NAME, PROCESS_NAME)
 
 
-@mark.parametrize(
-    # TODO: add master --todo to activate more than one feature, see --sections
-    'command',
-    [
-        ['--help'],
-    ])
+@mark.parametrize('command', [
+    ['--help'],
+    ['--version'],
+])
 def test_run_sections(command, testdir, monkeypatch):  #pylint: disable=W0613
-    """Run help and version and format command to reach basic test coverage"""
+    """Run help and version command to reach basic test coverage"""
     run_words_success(command, monkeypatch=monkeypatch)
