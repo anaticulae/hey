@@ -9,8 +9,10 @@
 from iamraw import BoundingBox
 from pytest import mark
 
-from groupme.textnavigator import PageTextNavigator
-from groupme.textnavigator import percent_to_pagesize
+from groupme.textnavigator.fonts import navigator_to_bounds
+from groupme.textnavigator.navigator import PageTextNavigator
+from groupme.textnavigator.navigator import percent_to_pagesize
+from tests.groupme_ import navigator  # pylint:disable=W0611
 
 
 def test_insert_order(navigator: PageTextNavigator):  #pylint:disable=W0621
@@ -28,7 +30,7 @@ def test_insert_order(navigator: PageTextNavigator):  #pylint:disable=W0621
     assert current_order == list(range(len(navigator))), current_order
 
 
-def test_after(navigator):  #pylint:disable=W0621
+def test_after(navigator: PageTextNavigator):  #pylint:disable=W0621
     # Bottom footer
     after = 0.8  # from 80% to 100%
     # smaller than 158.4
@@ -37,7 +39,7 @@ def test_after(navigator):  #pylint:disable=W0621
     assert len(result) == 1, result
 
 
-def test_before(navigator):  #pylint:disable=W0621
+def test_before(navigator: PageTextNavigator):  #pylint:disable=W0621
     # Top footer
     before = 0.2  # from 20% to 0%
     # greater than 633.6
