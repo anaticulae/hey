@@ -7,7 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 from iamraw import BoundingBox
-from pytest import fixture
 from pytest import mark
 
 from groupme.textnavigator import PageTextNavigator
@@ -58,3 +57,10 @@ def test_textnavigator_percent_to_page(size, percent, expected):
         percent,
     )
     assert result == expected
+
+
+#pylint:disable=W0621
+def test_fonts_navigator_to_bounds(navigator: PageTextNavigator):
+    result = navigator_to_bounds(navigator)
+
+    assert all([isinstance(item, BoundingBox) for item in result])
