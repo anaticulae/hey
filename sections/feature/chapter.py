@@ -35,8 +35,8 @@ from yaml import dump
 from yaml import load
 
 from groupme.feature.numbers import load_textposition
-from groupme.textnavigator import PageTextNavigator
-from groupme.textnavigator import create_pagetextnavigator
+from groupme.textnavigator.navigator import PageTextNavigator
+from groupme.textnavigator.navigator import create_pagetextnavigator
 
 
 def work(document: str, position: str, tocpath: str) -> str:

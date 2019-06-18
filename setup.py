@@ -67,6 +67,7 @@ if __name__ == "__main__":
             'groupme',
             'groupme.command',
             'groupme.feature',
+            'groupme.textnavigator',
             'hey',
             'hey.command',
             'sections',

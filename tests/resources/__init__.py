@@ -9,6 +9,7 @@
 
 from os.path import exists
 from os.path import join
+from typing import List
 
 from iamraw import Document
 from iamraw import Page
@@ -16,7 +17,11 @@ from iamraw import TextContainer
 from pytest import fixture
 from pytest import mark
 from serializeraw import load_document
+from serializeraw import load_pageborders
 
+from groupme.feature.numbers import load_textposition
+from groupme.textnavigator.navigator import PageTextNavigator
+from groupme.textnavigator.navigator import create_pagetextnavigator
 from hey import ROOT
 
 TEST_DATA = join(ROOT, 'tests/resources')
@@ -78,15 +83,39 @@ def simpledocument() -> Document:
     return doc
 
 
+TextPageNavigators = List[PageTextNavigator]
+
+
+@fixture
+def simplepagetextnavigators(
+        simpledocument: Document,  #pylint:disable=W0621
+) -> TextPageNavigators:
+    textpositions = load_textposition(SIMPLE_POSITION)
+
+    return create_pagetextnavigator(textpositions, simpledocument)
+
+
+@fixture
+def simplepagesize():
+    size, _ = load_pageborders(SIMPLE_PAGESIZE)
+    return size
+
+
+@fixture
+def simplecontentborder():
+    _, border = load_pageborders(SIMPLE_PAGESIZE)
+    return border
+
+
 @fixture
 def simplepage_0(simpledocument: Document) -> Page:  # pylint: disable=W0621
-    page: Page = simpledocument.pages[0]
+    page: Page = simpledocument[0]
     return page
 
 
 @fixture
 def simplepage_2(simpledocument: Document) -> Page:  # pylint: disable=W0621
-    page: Page = simpledocument.pages[2]
+    page: Page = simpledocument[2]
     return page
 
 

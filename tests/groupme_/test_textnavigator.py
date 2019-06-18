@@ -9,7 +9,7 @@
 from iamraw import BoundingBox
 from pytest import mark
 
-from groupme.textnavigator.fonts import navigator_to_bounds
+from groupme.textnavigator import navigator_to_bounds
 from groupme.textnavigator.navigator import PageTextNavigator
 from groupme.textnavigator.navigator import percent_to_pagesize
 from tests.groupme_ import navigator  # pylint:disable=W0611

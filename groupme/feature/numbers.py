@@ -32,7 +32,7 @@ from yaml import FullLoader
 from yaml import dump
 from yaml import load
 
-from groupme.textnavigator import create_pagetextnavigator
+from groupme.textnavigator.navigator import create_pagetextnavigator
 
 
 def work(documentpath: str, positionpath: str) -> str:
