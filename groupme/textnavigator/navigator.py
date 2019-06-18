@@ -11,6 +11,7 @@ from typing import List
 
 from iamraw import BoundingBox
 from iamraw import Document
+from utila import NEWLINE
 
 
 class PageTextNavigator:
