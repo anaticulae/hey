@@ -12,6 +12,12 @@
 from groupme import *
 from groupme.command import *
 from groupme.feature import *
+from sections import *
+from sections.command import *
+from sections.feature import *
+from words import *
+from words.command import *
+from words.feature import *
 
 
 def test_import_all():
