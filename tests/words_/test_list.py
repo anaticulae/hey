@@ -23,6 +23,7 @@ from tests.resources import simplepagetextnavigators
 from words.feature.list import LType
 from words.feature.list import PageList
 from words.feature.list import extract_lists
+from words.feature.list import parse_dotted_list
 from words.feature.list import parse_numbered_list
 
 
@@ -156,3 +157,51 @@ def test_groupme_words_list_numbered_regex_single_item():
     assert len(parsed) == 1
     level = parsed[0][1]
     assert level == "8."
+
+
+DOTTED_LIST = """
+Basics
+Improving upon the pattern established at:
+• Code: Block
+• Code: Inline
+• Emphasis: Italics
+• Emphasis: Strong
+• Headers
+• Horizontal rules
+  more than one line
+  futher more lines
+• Images: Inline
+• Line Return
+• Links: Inline
+• Links: Inline with title
+• Links: Reference
+• Lists: Simple
+• Lists: Nested
+• Paragraphs
+• Images: Reference
+Futher text
+"""
+
+DOTTED_LIST_EXPECTED = [
+    'Code: Block',
+    'Code: Inline',
+    'Emphasis: Italics',
+    'Emphasis: Strong',
+    'Headers',
+    'Horizontal rules\n  more than one line\n  futher more lines',
+    'Images: Inline',
+    'Line Return',
+    'Links: Inline',
+    'Links: Inline with title',
+    'Links: Reference',
+    'Lists: Simple',
+    'Lists: Nested',
+    'Paragraphs',
+    'Images: Reference',
+]
+
+
+def test_groupme_words_list_dotted():
+    parsed = parse_dotted_list(DOTTED_LIST)
+
+    assert parsed == DOTTED_LIST_EXPECTED

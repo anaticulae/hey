@@ -113,12 +113,16 @@ def extract_lists(
     return result
 
 
-NUMBERED_LIST_PATTERN = r"""
-    ^(?P<LEVEL>[0-9]+\.[0-9]{0})           # list level e.g. 1. 4. 5.
-    \s                                     # whitespace
-    (?P<TEXT>(?:.+\s){1,7}?)               # list item content
-    (?=[0-9]+\.\s?|$)                      # new list start or final newline
-    """
+def parse_dotted_list(content: str) -> List[str]:
+    return parse_general_list(content, '•')
+
+
+def parse_plus_list(content: str) -> List[str]:
+    return parse_general_list(content, '+')
+
+
+def parse_minus_list(content: str) -> List[str]:
+    return parse_general_list(content, '-')
 
 
 def parse_numbered_list(content: str):
@@ -150,6 +154,38 @@ def parse_numbered_list(content: str):
             text.strip(),
             level,
         ))
+    return result
+
+
+NUMBERED_LIST_PATTERN = r"""
+    ^(?P<LEVEL>[0-9]+\.[0-9]{0})           # list level e.g. 1. 4. 5.
+    \s                                     # whitespace
+    (?P<TEXT>(?:.+\s){1,7}?)               # list item content
+    (?=[0-9]+\.\s?|$)                      # new list start or final newline
+    """
+
+
+def general_list_pattern(descriptor: str):
+    general = r"""
+        ^(?:%s\s)
+        (?P<TEXT>(?:.+\s){1,7}?) # list item content
+                                 # Final
+        (?=%s\s?|                # next item
+         $                       # final line
+         |\w)                    # following text after last dot
+    """
+    return general % (descriptor, descriptor)
+
+
+def parse_general_list(content: str, selector: str) -> List[str]:
+    assert isinstance(content, str), str(content)
+    pattern = general_list_pattern(selector)
+    parsed = finditer(
+        pattern,
+        content,
+        flags=MULTILINE | VERBOSE,
+    )
+    result = [item.group(1).strip() for item in parsed]
     return result
 
 
