@@ -11,6 +11,7 @@ from os.path import exists
 from os.path import join
 from typing import List
 
+from iamraw import Border
 from iamraw import Document
 from iamraw import Page
 from iamraw import TextContainer
@@ -127,3 +128,14 @@ def simplepage_2_text_only(simplepage_2: Page):  # pylint: disable=W0621
             continue
         lines.extend(child.text.splitlines())
     return lines
+
+
+# TODO: Reduce amout of fixtures
+@fixture
+def simple_second_page_navigator(simplepagetextnavigators) -> PageTextNavigator:
+    return simplepagetextnavigators[1]
+
+
+@fixture
+def simple_second_page_size(simplecontentborder) -> Border:
+    return simplecontentborder[1]
