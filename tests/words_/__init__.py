@@ -6,7 +6,13 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
+"""
+    Required resources:
+        * text
+        * font
+        * position
+        * page-size, to determine the distance from left border to text
+"""
 from functools import partial
 
 from utila import run_command
