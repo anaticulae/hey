@@ -12,7 +12,7 @@ from serializeraw import load_horizontals
 
 from groupme.feature.footer import extract_pages
 from groupme.feature.numbers import load_textposition
-from groupme.textnavigator.navigator import create_pagetextnavigator
+from hey.textnavigator.navigator import create_pagetextnavigator
 from sections.feature.whitepage import WhitePage
 from sections.feature.whitepage import dump_whitepages
 from sections.feature.whitepage import extract_whitepages

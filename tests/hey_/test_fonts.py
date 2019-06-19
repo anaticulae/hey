@@ -7,34 +7,24 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from iamraw import Border
-from pytest import fixture
-
-from groupme.textnavigator.fonts import fontdistance
-from groupme.textnavigator.fonts import fontsizes
-from groupme.textnavigator.fonts import textbounds
-from groupme.textnavigator.fonts import textsize
-from groupme.textnavigator.navigator import PageTextNavigator
+from hey.textnavigator.fonts import fontdistance
+from hey.textnavigator.fonts import fontsizes
+from hey.textnavigator.fonts import textbounds
+from hey.textnavigator.fonts import textsize
+from hey.textnavigator.navigator import navigator_to_bounds
+from tests.resources import simple_second_page_navigator
+from tests.resources import simple_second_page_size
 from tests.resources import simplecontentborder
 from tests.resources import simpledocument
 from tests.resources import simplepagetextnavigators
 
 
-@fixture
-def simple_second_page_navigator(simplepagetextnavigators) -> PageTextNavigator:
-    return simplepagetextnavigators[1]
-
-
-@fixture
-def simple_second_page_size(simplecontentborder) -> Border:
-    return simplecontentborder[1]
-
-
 def test_groupme_fonts_fondistance(simple_second_page_navigator):
+    content = list(simple_second_page_navigator)
     # if you have 3 item, you have 2 distances A -> B, B-> C
-    distance_count = len(list(simple_second_page_navigator)) - 1
-
-    distances = fontdistance(simple_second_page_navigator)
+    distance_count = len(content) - 1
+    bounds = navigator_to_bounds(content)
+    distances = fontdistance(bounds)
 
     assert len(distances) == distance_count
 

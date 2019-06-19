@@ -15,7 +15,7 @@ from utila import run_command
 
 from groupme.command import PROCESS_NAME
 from groupme.command import main
-from groupme.textnavigator.navigator import PageTextNavigator
+from hey.textnavigator.navigator import PageTextNavigator
 
 #pylint: disable=invalid-name
 run_success = partial(

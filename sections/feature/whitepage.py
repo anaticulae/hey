@@ -33,9 +33,9 @@ from yaml import load
 
 from groupme.feature.footer import extract_pages
 from groupme.feature.numbers import load_textposition
-from groupme.textnavigator.navigator import PageTextNavigator
-from groupme.textnavigator.navigator import create_pagetextnavigator
-from groupme.textnavigator.navigator import percent_from_pagesize
+from hey.textnavigator.navigator import PageTextNavigator
+from hey.textnavigator.navigator import create_pagetextnavigator
+from hey.textnavigator.navigator import percent_from_pagesize
 
 
 class WhitePage(Enum):

@@ -20,9 +20,9 @@ from serializeraw import load_document
 from serializeraw import load_pageborders
 
 from groupme.feature.numbers import load_textposition
-from groupme.textnavigator.navigator import PageTextNavigator
-from groupme.textnavigator.navigator import create_pagetextnavigator
 from hey import ROOT
+from hey.textnavigator.navigator import PageTextNavigator
+from hey.textnavigator.navigator import create_pagetextnavigator
 
 TEST_DATA = join(ROOT, 'tests/resources')
 

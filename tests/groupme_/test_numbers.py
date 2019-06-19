@@ -16,7 +16,7 @@ from groupme.feature.numbers import header
 from groupme.feature.numbers import load_pagenumbers
 from groupme.feature.numbers import load_textposition
 from groupme.feature.numbers import pagenumbers
-from groupme.textnavigator.navigator import create_pagetextnavigator
+from hey.textnavigator.navigator import create_pagetextnavigator
 from tests.resources import RESTRUCT_HORIZONTAL
 from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_POSITION

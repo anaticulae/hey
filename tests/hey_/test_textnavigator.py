@@ -6,13 +6,24 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+from iamraw import Border
 from iamraw import BoundingBox
+from pytest import fixture
 from pytest import mark
 
-from groupme.textnavigator import navigator_to_bounds
-from groupme.textnavigator.navigator import PageTextNavigator
-from groupme.textnavigator.navigator import percent_to_pagesize
+from hey.textnavigator import navigator_to_bounds
+from hey.textnavigator.navigator import PageTextNavigator
+from hey.textnavigator.navigator import merge_content
+from hey.textnavigator.navigator import percent_to_pagesize
+from hey.textnavigator.navigator import to_content
 from tests.groupme_ import navigator  # pylint:disable=W0611
+from tests.resources import simple_second_page_navigator
+from tests.resources import simple_second_page_size
+from tests.resources import simplecontentborder
+from tests.resources import simpledocument
+from tests.resources import simplepagetextnavigators
+from words.feature.list import PageList
+from words.feature.list import extract_lists
 
 
 def test_insert_order(navigator: PageTextNavigator):  #pylint:disable=W0621
@@ -66,3 +77,15 @@ def test_fonts_navigator_to_bounds(navigator: PageTextNavigator):
     result = navigator_to_bounds(navigator)
 
     assert all([isinstance(item, BoundingBox) for item in result])
+
+
+def test_groupme_navigator_merge_content(simple_second_page_navigator):
+    content = to_content(simple_second_page_navigator)
+
+    paragraph_after_merge = 8
+
+    merged = merge_content(content)
+    for item in merged:
+        print(item[0:3])
+        print()
+    assert len(merged) == paragraph_after_merge

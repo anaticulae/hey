@@ -8,15 +8,14 @@
 # =============================================================================
 
 from collections import defaultdict
-from itertools import zip_longest
 from typing import List
 from typing import Tuple
 
 from iamraw import Border
 from iamraw import BoundingBox
 
-from groupme.textnavigator import navigator_to_bounds
-from groupme.textnavigator.navigator import PageTextNavigator
+# TODO: rejoin with newer python
+# from hey.textnavigator.navigator import PageTextNavigator
 
 TextBounds = Tuple[int, int, int, int, int]
 TextBoundsList = List[Tuple[TextBounds, str]]
@@ -27,8 +26,7 @@ FontOccurrence = Tuple[FontSize, Occurrence]
 FontOccurrenceList = List[FontOccurrence]
 
 
-def fontdistance(navigator: PageTextNavigator) -> List[float]:
-    bounds = navigator_to_bounds(navigator)
+def fontdistance(bounds: List[BoundingBox]) -> List[float]:
     distance = [
         round(first.y_bottom - second.y_top, 2)
         for (first), (second) in zip(bounds[0:], bounds[1:])
@@ -37,7 +35,7 @@ def fontdistance(navigator: PageTextNavigator) -> List[float]:
 
 
 def textbounds(
-        navigator: PageTextNavigator,
+        navigator: 'PageTextNavigator',
         contentborder: Border,
 ) -> TextBoundsList:
     __x0, __y0, __x1, __y1 = contentborder

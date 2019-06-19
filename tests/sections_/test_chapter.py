@@ -13,7 +13,7 @@ from serializeraw import load_toc
 
 from groupme.feature.footer import extract_pages
 from groupme.feature.numbers import load_textposition
-from groupme.textnavigator.navigator import create_pagetextnavigator
+from hey.textnavigator.navigator import create_pagetextnavigator
 from sections.feature.chapter import dump_chapter_detection
 from sections.feature.chapter import load_chapter_detection
 from sections.feature.chapter import space_between_header_and_first_line

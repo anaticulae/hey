@@ -13,6 +13,10 @@ from iamraw import BoundingBox
 from iamraw import Document
 from utila import NEWLINE
 
+from hey.textnavigator import navigator_to_bounds
+from hey.textnavigator.fonts import TextBoundsList
+from hey.textnavigator.fonts import fontdistance
+
 
 class PageTextNavigator:
     """The direction of the text is top down and left to right"""
@@ -134,3 +138,42 @@ def percent_from_pagesize(size, current):
     assert size >= current
 
     return (size - current) / size
+
+
+def to_content(navigator: PageTextNavigator) -> TextBoundsList:
+    # result = [(bounding, item) for bounding, item in navigator]
+    result = list(navigator)
+    return result
+
+
+def merge_content(content: TextBoundsList) -> TextBoundsList:
+    bounds = navigator_to_bounds(content)
+    text = to_content(content)
+
+    if not text:
+        # Nothing to merge
+        return []
+
+    distance = fontdistance(bounds)
+    result = []
+
+    result.append(text[0])
+    for index, dist in enumerate(distance, start=1):
+        if dist > 3.55:  # TODO: Holy value
+            result.append(text[index])
+            continue
+        # Merge me
+        (x0, y0, x1, y1), content = result[-1]
+        (cx0, cy0, cx1, cy1), c_content = text[index]
+
+        content = '%s\n%s' % (content, c_content)
+        result[-1] = (
+            BoundingBox.from_list([
+                min(x0, cx0),
+                min(y0, cy0),
+                max(x1, cx1),
+                max(y1, cy1),
+            ]),
+            content,
+        )
+    return result

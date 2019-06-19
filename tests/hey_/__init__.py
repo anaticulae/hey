@@ -6,14 +6,3 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
-from typing import List
-
-from iamraw import BoundingBox
-
-from groupme.textnavigator.navigator import PageTextNavigator
-
-
-def navigator_to_bounds(navigator: PageTextNavigator) -> List[BoundingBox]:
-    """Extract list of `BoundingBox` from `PageTextNavigator`"""
-    return [item for item, _ in navigator]
