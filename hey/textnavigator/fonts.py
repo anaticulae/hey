@@ -56,12 +56,25 @@ def textbounds(
 
 
 def fontsize_from_textbounds(textbound: TextBounds) -> int:
+    # TODO: WE NEED THE TEXT DISTANCE OF EVERY LINE
     # xdist
     # ydist
     # width
     # height
     # fontsize
     return textbound[4]
+
+
+def textfeed(textbounds: TextBounds) -> int:
+    """The textfeed describes the distances from left content border to start
+    of text.
+
+    Args:
+        textbounds(TextBounds):
+    Returns:
+        distance to content border
+    """
+    return textbounds[0]
 
 
 def fontsizes(textbounds: TextBoundsList) -> FontOccurrenceList:
@@ -87,3 +100,12 @@ def textsize(occurrences: FontOccurrenceList) -> int:
     most_font_item = mostly[0]
     size = most_font_item[0]
     return size
+
+
+def textsize_from_textbounds(
+        navigator: 'PageTextNavigator',
+        contentborder: Border,
+) -> int:
+    text_bounds = textbounds(navigator, contentborder)
+    font_sizes = fontsizes(text_bounds)
+    return textsize(font_sizes)
