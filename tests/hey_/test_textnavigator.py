@@ -6,9 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-from iamraw import Border
 from iamraw import BoundingBox
-from pytest import fixture
 from pytest import mark
 
 from hey.textnavigator import navigator_to_bounds
@@ -17,13 +15,10 @@ from hey.textnavigator.navigator import merge_content
 from hey.textnavigator.navigator import percent_to_pagesize
 from hey.textnavigator.navigator import to_content
 from tests.groupme_ import navigator  # pylint:disable=W0611
+#pylint:disable=W0611
 from tests.resources import simple_second_page_navigator
-from tests.resources import simple_second_page_size
-from tests.resources import simplecontentborder
 from tests.resources import simpledocument
 from tests.resources import simplepagetextnavigators
-from words.feature.list import PageList
-from words.feature.list import extract_lists
 
 
 def test_insert_order(navigator: PageTextNavigator):  #pylint:disable=W0621

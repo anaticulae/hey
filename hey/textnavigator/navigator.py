@@ -11,7 +11,6 @@ from typing import List
 
 from iamraw import BoundingBox
 from iamraw import Document
-from utila import NEWLINE
 
 from hey.textnavigator import navigator_to_bounds
 from hey.textnavigator.fonts import TextBoundsList

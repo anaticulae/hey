@@ -12,6 +12,7 @@ from hey.textnavigator.fonts import fontsizes
 from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.fonts import textsize
 from hey.textnavigator.navigator import navigator_to_bounds
+#pylint:disable=W0611
 from tests.resources import simple_second_page_navigator
 from tests.resources import simple_second_page_size
 from tests.resources import simplecontentborder
@@ -19,7 +20,7 @@ from tests.resources import simpledocument
 from tests.resources import simplepagetextnavigators
 
 
-def test_groupme_fonts_fondistance(simple_second_page_navigator):
+def test_groupme_fonts_fondistance(simple_second_page_navigator):  #pylint:disable=W0621
     content = list(simple_second_page_navigator)
     # if you have 3 item, you have 2 distances A -> B, B-> C
     distance_count = len(content) - 1
@@ -41,8 +42,8 @@ def test_groupme_fonts_fondistance(simple_second_page_navigator):
 
 
 def test_groupme_fonts_textbounds(
-        simple_second_page_navigator,
-        simple_second_page_size,
+        simple_second_page_navigator,  #pylint:disable=W0621
+        simple_second_page_size,  #pylint:disable=W0621
 ):
     bounds = textbounds(simple_second_page_navigator, simple_second_page_size)
 
@@ -50,8 +51,8 @@ def test_groupme_fonts_textbounds(
 
 
 def test_groupme_fonts_textsize(
-        simple_second_page_navigator,
-        simple_second_page_size,
+        simple_second_page_navigator,  #pylint:disable=W0621
+        simple_second_page_size,  #pylint:disable=W0621
 ):
     bounds = textbounds(simple_second_page_navigator, simple_second_page_size)
 
