@@ -7,8 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 #==============================================================================
 
-from os.path import join
-
 from utila import create_step
 
 from sections import PROCESS_NAME
