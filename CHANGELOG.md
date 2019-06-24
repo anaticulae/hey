@@ -2,6 +2,22 @@
 
 Every noteable change is logged here.
 
+## v0.4.1
+
+### Feature
+
+* extend list parser with +, -, dotted (16d29b753659)
+* add feature to extract list out of documents (b491dedc4c8f)
+* add method to determine font feed and font distance (6cd43c39f390)
+* add text font extractor (0bb6eb60e8e1)
+* extract BoundingBoxes out of PageTextNavigator (256c928b39d9)
+* start new feature words as text processor (e949eff36466)
+
+### Documentation
+
+* add required resource in words description (d58d88ad4f24)
+* add description with `words` functionality (4ec3cc3a14f6)
+
 ## v0.4.0
 
 ### Feature
