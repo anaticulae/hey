@@ -13,8 +13,8 @@ from iamraw import BoundingBox
 from pytest import fixture
 from utila import run_command
 
-from groupme.command import PROCESS_NAME
-from groupme.command import main
+from groupme.cli import PROCESS_NAME
+from groupme.cli import main
 from hey.textnavigator.navigator import PageTextNavigator
 
 #pylint: disable=invalid-name

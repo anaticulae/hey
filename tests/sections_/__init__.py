@@ -15,7 +15,7 @@ from serializeraw import load_document
 from utila import run_command
 
 from sections import PROCESS_NAME
-from sections.command import main
+from sections.cli import main
 from sections.font import FontLookUp
 from sections.font import create_font_lookup
 from tests.resources import RESTRUCT_FONT_CONTENT

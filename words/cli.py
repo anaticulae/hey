@@ -7,12 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 #==============================================================================
 
-from os.path import join
+from utila import featurepack
 
-from utila import create_step
-
-import words
-from sections.command.patch import featurepack
+from words import PROCESS_NAME
+from words import ROOT
+from words import __version__
 
 DESCRIPTION = 'TODO'
 
@@ -23,9 +22,9 @@ def main():
     # TODO: Introduce mega --command which activates more than one --todo!
     featurepack(
         description=DESCRIPTION,
-        feature_package='words.feature',
-        name=words.PROCESS_NAME,
-        root=words.ROOT,
-        version=words.__version__,
+        featurepackage='words.feature',
+        name=PROCESS_NAME,
+        root=ROOT,
+        version=__version__,
         workplan=WORKPLAN,
     )

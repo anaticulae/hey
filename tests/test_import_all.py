@@ -10,15 +10,11 @@
 # pylint: disable=wildcard-import
 # pylint: disable=unused-wildcard-import
 from groupme import *
-from groupme.command import *
 from groupme.feature import *
 from hey import *
-from hey.command import *
 from sections import *
-from sections.command import *
 from sections.feature import *
 from words import *
-from words.command import *
 from words.feature import *
 
 

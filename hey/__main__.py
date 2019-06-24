@@ -6,6 +6,6 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 #==============================================================================
-from hey.command import main
+from hey.cli import main
 
 main()

@@ -65,24 +65,20 @@ if __name__ == "__main__":
         ],
         packages=[
             'groupme',
-            'groupme.command',
             'groupme.feature',
             'hey.textnavigator',
             'hey',
-            'hey.command',
             'sections',
-            'sections.command',
             'sections.feature',
             'words',
-            'words.command',
             'words.feature',
         ],
         entry_points={
             'console_scripts': [
-                'hey = hey.command:main',
-                'groupme = groupme.command:main',
-                'sections = sections.command:main',
-                'words = words.command:main',
+                'hey = hey.cli:main',
+                'groupme = groupme.cli:main',
+                'sections = sections.cli:main',
+                'words = words.cli:main',
             ],
         },
     )

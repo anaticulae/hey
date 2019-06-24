@@ -18,7 +18,7 @@ from functools import partial
 from utila import run_command
 
 from words import PROCESS_NAME
-from words.command import main
+from words.cli import main
 
 #pylint:disable=C0103
 run_words_success = partial(
