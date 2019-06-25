@@ -16,8 +16,9 @@ from pytest import mark
 from serializeraw import load_document
 from utila import file_read
 
-from groupme.feature.chapter import chapter_to_yaml
 from groupme.feature.chapter import chapters
+from groupme.feature.chapter import dump_chapter
+from groupme.feature.chapter import load_chapter
 from groupme.structure import parse_headline
 from groupme.structure import sections
 from groupme.structure import sections_from_page
@@ -30,13 +31,17 @@ from tests.resources import simplepage_2
 from tests.resources import simplepage_2_text_only
 
 
-def test_content_to_yaml():
+def test_dump_and_load_chapter():
     """Ensure that every section have an textbody"""
     doc = load_document(file_read(SIMPLE_TEXT))
     content = chapters(doc)
     assert len(content) == SIMPLE_TOC_LINES
-    dumped = chapter_to_yaml(content)
+
+    dumped = dump_chapter(content)
     assert dumped
+
+    loaded = load_chapter(dumped)
+    assert loaded == content
 
 
 def test_extract_page_2(simplepage_2: Page):  # pylint: disable=W0621

@@ -8,11 +8,7 @@
 #==============================================================================
 
 from dataclasses import dataclass
-from re import match
 from typing import Tuple
-
-from iamraw import Document
-from iamraw import Page
 
 Level = str
 Text = str

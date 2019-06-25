@@ -14,11 +14,17 @@
 
 """
 
+from typing import Dict
+from typing import List
+
 from iamraw import Document
 from serializeraw import load_document
 from utila import NEWLINE
 from utila import Flag
+from utila import from_raw_or_path
+from yaml import FullLoader
 from yaml import dump
+from yaml import load
 
 from groupme.feature import format_title
 from groupme.feature.toc import toc
@@ -29,7 +35,7 @@ def work(documentpath: str) -> str:
     document = load_document(documentpath)
 
     result = chapters(document)
-    dumped = chapter_to_yaml(result)
+    dumped = dump_chapter(result)
     return dumped
 
 
@@ -42,18 +48,38 @@ def chapters(document: Document):
         headline = format_title(title)
         current_chapter, headline, rest = content.partition(headline)
         content = headline + rest
-        result.append(current_chapter)
-    result.append(content)
+
+        _title, _content = current_chapter.split(NEWLINE, maxsplit=1)
+        result.append({
+            'title': _title,
+            'content': _content,
+        })
+
+    _title, _content = content.split(NEWLINE, maxsplit=1)
+    result.append({
+        'title': _title,
+        'content': _content,
+    })
     return result
 
 
 # TODO: Move to serialzeraw?
-def chapter_to_yaml(chapter):
+def dump_chapter(chapter) -> str:
     result = []
     for item in chapter:
-        title, _, content = item.partition(NEWLINE)
-        result.append({'title': title, 'content': content})
-    return dump(result)
+        title, content = item['title'], item['content']
+        result.append({
+            'title': title,
+            'content': content,
+        })
+    dumped = dump(result)
+    return dumped
+
+
+def load_chapter(content: str) -> List[Dict]:
+    content = from_raw_or_path(content, ftype='yaml')
+    loaded = load(content, Loader=FullLoader)
+    return loaded
 
 
 def name():
