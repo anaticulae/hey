@@ -68,7 +68,7 @@ class Sections:
         return self.content[index]
 
     def __len__(self):
-        return len(self.areas)
+        return len(self.content)
 
 
 @dataclass
