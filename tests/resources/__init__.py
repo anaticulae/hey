@@ -33,6 +33,10 @@ RESTRUCT = join(TEST_DATA, 'restruct')
 RESTRUCT_FONT_CONTENT = join(RESTRUCT, 'rawmaker__fonts_content.yaml')
 RESTRUCT_FONT_HEADER = join(RESTRUCT, 'rawmaker__fonts_header.yaml')
 RESTRUCT_HORIZONTAL = join(RESTRUCT, 'rawmaker__boxes_horizontal.yaml')
+RESTRUCT_ONELINE_FONT_CONTENT = join(RESTRUCT,
+                                     'rawmaker__oneline_fonts_content.yaml')
+RESTRUCT_ONELINE_FONT_HEADER = join(RESTRUCT,
+                                    'rawmaker__oneline_fonts_header.yaml')
 RESTRUCT_ONELINE_POSITION = join(RESTRUCT,
                                  'rawmaker__oneline_text_positions.yaml')
 RESTRUCT_ONELINE_TEXT = join(RESTRUCT, 'rawmaker__oneline_text_text.yaml')

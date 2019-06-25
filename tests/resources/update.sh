@@ -11,6 +11,7 @@ rawmaker -i restruct/restructuredtext.pdf\
          -o ./restruct\
          --prefix=oneline\
          --text\
+         --font\
          --char_margin=100.0
 
 rawmaker -i restruct/restructuredtext.pdf\
