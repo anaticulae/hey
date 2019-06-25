@@ -38,10 +38,7 @@ TODO_ERROR = ('concept of splitting with first headline does not work, when '
 @mark.parametrize('command', [
     ['--help'],
     ['-i', SIMPLE, '-o', 'output'],
-    param(
-        ['-i', RESTRUCT, '-o', 'output'],
-        marks=mark.xfail(reason=TODO_ERROR),
-    ),
+    ['-i', RESTRUCT, '-o', 'output'],
 ])
 def test_run_groupme(command, testdir, monkeypatch):  #pylint: disable=W0613
     """Run help and version and format command to reach basic test coverage"""
