@@ -6,15 +6,19 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
 from iamraw import Font
 from pytest import approx
+from pytest import fixture
 from pytest import mark
 from serializeraw import dump_likelihood
 from serializeraw import load_likelihood
 
 from sections.feature.title import extract_title_likelihood
 from sections.feature.title import split_page
+from sections.feature.title import work
+from tests.resources import RESTRUCT_ONELINE_FONT_CONTENT
+from tests.resources import RESTRUCT_ONELINE_FONT_HEADER
+from tests.resources import RESTRUCT_ONELINE_TEXT
 from tests.sections_ import restructured_document  # pylint:disable=W0611
 from tests.sections_ import restructured_document_fixture
 from tests.sections_ import restructured_fontlookup  # pylint:disable=W0611
