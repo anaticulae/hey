@@ -77,6 +77,11 @@ class Introduction(DocumentSection):
 
 
 @dataclass
+class Unknown(DocumentSection):
+    pass
+
+
+@dataclass
 class Table(DocumentSection):
     """Table of content, table of figure, shortcuts"""
 
@@ -120,8 +125,3 @@ class TitlePage(AreaItem):
 @dataclass
 class Chapter(AreaItem):
     number: int = -1
-
-
-@dataclass
-class Toc(AreaItem):
-    pass

@@ -78,7 +78,6 @@ def space_between_header_and_first_line(
     return result
 
 
-# NUMBER_PATTERN = r'^[0-9]+\.?$'
 NUMBER_PATTERN = r'\s[0-9]{1,2}\.?\s'
 
 

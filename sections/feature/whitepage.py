@@ -8,9 +8,9 @@
 # =============================================================================
 """
 Concept:
-    use footer and header to detect white paper
+    use footer and header to detect white pages
 
-    2 types of white paper:
+    2 types of white pages:
         - complete white: blank page
         - white page with footer and or header
 
@@ -40,7 +40,7 @@ from hey.textnavigator.navigator import percent_from_pagesize
 
 class WhitePage(Enum):
     BLANK = 0  # nothing on the page
-    WHITE = 1  # page with footer and or header
+    WHITE = 1  # page with footer and/or header
 
 
 def work(document: str, position: str, horizontal_lines: str) -> str:
