@@ -10,10 +10,10 @@ from typing import List
 
 from iamraw import Document
 from iamraw import Page
+from serializeraw import dump_likelihood
 from serializeraw import load_document
+from utila import uniform_result
 
-from sections.feature import dump_likelihood
-from sections.feature import uniform_result
 from sections.font import FontLookUp
 from sections.font import create_font_lookup
 from sections.textprocessor import split_page

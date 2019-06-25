@@ -15,12 +15,12 @@ from typing import Tuple
 
 from serializeraw import load_horizontals
 from utila import from_raw_or_path
+from utila import uniform_result
 from yaml import FullLoader
 from yaml import dump
 from yaml import load
 
 from groupme.feature.numbers import common_items
-from sections.feature import uniform_result
 
 
 def work(horizontal_lines: str) -> str:

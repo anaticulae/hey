@@ -10,9 +10,9 @@
 from iamraw import Font
 from pytest import approx
 from pytest import mark
+from serializeraw import dump_likelihood
+from serializeraw import load_likelihood
 
-from sections.feature import dump_likelihood
-from sections.feature import load_likelihood
 from sections.feature.title import extract_title_likelihood
 from sections.feature.title import split_page
 from tests.sections_ import restructured_document  # pylint:disable=W0611

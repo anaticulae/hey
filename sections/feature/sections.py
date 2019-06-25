@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from serializeraw import load_likelihood
 from utila import Flag
 from yaml import dump
 
@@ -16,7 +17,6 @@ from sections.ctor import TableOfContent
 from sections.ctor import Text
 from sections.ctor import TitlePage
 from sections.ctor import WhitePage
-from sections.feature import load_likelihood
 from sections.feature.chapter import chapter_value_to_percent
 from sections.feature.chapter import load_chapter_detection
 from sections.feature.whitepage import load_whitepages

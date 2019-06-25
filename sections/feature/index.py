@@ -15,10 +15,9 @@ from typing import Tuple
 
 from iamraw import Document
 from iamraw import Page
+from serializeraw import dump_likelihood
 from serializeraw import load_document
-
-from sections.feature import dump_likelihood
-from sections.feature import uniform_result
+from utila import uniform_result
 
 
 def work(text_linewise: str) -> str:
