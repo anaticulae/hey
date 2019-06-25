@@ -7,14 +7,14 @@ pushd $scriptroot
 
 # footer
 
-rawmaker -i footer/restructuredtext.pdf\
-         -o ./footer\
+rawmaker -i restruct/restructuredtext.pdf\
+         -o ./restruct\
          --prefix=oneline\
          --text\
          --char_margin=100.0
 
-rawmaker -i footer/restructuredtext.pdf\
-         -o ./footer\
+rawmaker -i restruct/restructuredtext.pdf\
+         -o ./restruct\
          --border\
          --boxes\
          --font\
