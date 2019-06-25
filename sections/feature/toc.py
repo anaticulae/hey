@@ -28,12 +28,27 @@ def work(text_linewise: str) -> str:
 
 
 def extract_toc_likelihood(document: Document) -> List[float]:
+    """Iterate throw the document and determine the uniformed likelihood of
+    beeing a table page
+
+    Returns:
+        uniformed likelihood list with probabilty of beeing a table page
+    """
     result = [analyse_page(page) for page in document]
     uniformed = uniform_result(result)
     return uniformed
 
 
 def analyse_page(page) -> float:
+    """Extract the number of lines which can be contain any table-content
+
+    Dots(. . .) are charactaristical for table lines.
+
+    Args:
+        page():
+    Returns:
+        (linecount, possible_table_lines)
+    """
     content = page.text.splitlines()
     linecount = len(content)
 
