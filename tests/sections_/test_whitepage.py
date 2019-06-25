@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from pytest import fixture
 from serializeraw import load_document
 from serializeraw import load_horizontals
 
@@ -17,6 +18,7 @@ from sections.feature.whitepage import WhitePage
 from sections.feature.whitepage import dump_whitepages
 from sections.feature.whitepage import extract_whitepages
 from sections.feature.whitepage import load_whitepages
+from sections.feature.whitepage import work
 from tests.resources import RESTRUCT_HORIZONTAL
 from tests.resources import RESTRUCT_POSITION
 from tests.resources import RESTRUCT_TEXT
@@ -75,3 +77,9 @@ def test_whitepages_dump_and_load():
     loaded = load_whitepages(dumped)
 
     assert loaded == RESTRUCT_EXPECTED
+
+
+@fixture
+def restructured_whitepage():
+    result = work(RESTRUCT_TEXT, RESTRUCT_POSITION, RESTRUCT_HORIZONTAL)
+    return result

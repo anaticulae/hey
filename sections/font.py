@@ -22,8 +22,6 @@ class FontLookUp:
         page = self.pages[page_number]
         for item in page:
             cur_container, cur_line, cur_char, cur_font = item
-            # print(container, cur_container)
-            # print(item)
             if container < cur_container:
                 continue
             if line < cur_line:
