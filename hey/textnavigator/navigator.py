@@ -28,7 +28,7 @@ class PageTextNavigator:
         return self.data[index]
 
     def insert(self, box: BoundingBox, item):
-        x_bottom, y_bottom, x_top, y_top = box
+        x_bottom, _, __, y_top = box
 
         insert_position = 0
         for pos, _ in self.data:
