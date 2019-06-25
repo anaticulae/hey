@@ -12,21 +12,34 @@ from typing import List
 
 from iamraw import Document
 from iamraw import Page
+from utila import NEWLINE
 
 from groupme.feature import HEADLINE
 from groupme.feature import create_raw
 from groupme.feature import format_title
 
+SMALL_HEADER = 300
+
 
 def header(document: Document) -> str:
+    """Extract header out of document content
+
+    The header starts at the top of the document and ends with the start of the
+    content. The start of the content is the first headline.
+    """
     from groupme.feature.toc import toc
     tableofcontent = toc(document)
     if not tableofcontent:
         # No toc in document
         return None
     # Split content from header due first headline
+    # TODO: This is very dirty here
+    level, title = tableofcontent[0][0], tableofcontent[0][1]
+    splitter = title + NEWLINE
     first_headline = format_title(tableofcontent[0])
-    splitted = document.text.rsplit(first_headline, 1)
+    splitted = document.text.rsplit(splitter, 1)
+
+    # print(splitted)
     # print('Splitted')
     # # print(splitted)
     # print('Start')
@@ -36,7 +49,7 @@ def header(document: Document) -> str:
     # print(splitted)
     # TODO: We need a better algorithmn
     # Detect toc-page and split after
-    assert len(splitted[0]) > 300  # front page, toc etc.
+    assert len(splitted[0]) > SMALL_HEADER, splitted[0]  # front page, toc etc.
     return splitted[0]
 
 

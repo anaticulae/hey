@@ -48,6 +48,11 @@ def chapters(document: Document):
         _level, _title = title
         headline = format_title(title)
         current_chapter, headline, rest = content.partition(headline)
+        if not headline:
+            # split with chapter level was not successfull, try without level
+            simple_splitter = _title + NEWLINE
+            current_chapter, headline, rest = content.partition(simple_splitter)
+
         content = headline + rest
 
         _title, _content = current_chapter.split(NEWLINE, maxsplit=1)
