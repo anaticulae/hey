@@ -20,3 +20,8 @@ Split the document in different sections, based on probalstic values:
   * Chapters
   * Index
   * Appendix...
+
+
+## CHECK THIS
+
+(inspired from sklearn.pipeline.Pipeline)
