@@ -49,15 +49,15 @@ def validate(document: Sections) -> bool:
     # test of ascending page order
     start, end = -1, -1
     for section in document:
-        if section.end[0] < section.start[0]:
+        if section.end < section.start:
             return False
-        if section.start[0] < start:
+        if section.start < start:
             return False
-        if section.end[0] < end:
+        if section.end < end:
             return False
-        if not section.start[0] == end + 1:
+        if not section.start == end + 1:
             return False
 
-        start = section.start[0]
-        end = section.end[0]
+        start = section.start
+        end = section.end
     return True

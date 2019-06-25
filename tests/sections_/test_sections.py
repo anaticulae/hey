@@ -17,9 +17,7 @@ from sections.creator import add_table
 from sections.creator import add_title
 from sections.creator import add_toc
 from sections.creator import add_whitepage
-from sections.ctor import END
 from sections.ctor import PERCENT_100
-from sections.ctor import START
 from sections.ctor import Sections
 from sections.sections import extract_sections
 from sections.sections import validate
@@ -32,24 +30,30 @@ def restructured() -> Sections:
     result = Sections()
 
     def analyse(section, start, end):
-        return section(result, [start, START], [end, END], PERCENT_100)
+        return section(result, start, end, PERCENT_100)
+        # TODO: reactivate [start, START] later
+        # return section(result, [start, START], [end, END], PERCENT_100)
 
     def add_children(parent, ctor, start, end):
-        new = ctor(parent, [start, START], [end, END], PERCENT_100)
+        # new = ctor(parent, [start, START], [end, END], PERCENT_100)
+        new = ctor(parent, start, end, PERCENT_100)
         return new
 
     # Page, Start
     # Intro
     intro = analyse(add_introduction, 0, 1)
     add_children(intro, add_title, 0, 0)
-    add_children(intro, add_whitepage, 0, 0)
+    add_children(intro, add_whitepage, 1, 1)
 
     # First pages with tables
-    table_first = analyse(add_table, 2, 3)
+    table_first = analyse(add_table, 2, 5)
     add_children(table_first, add_toc, 2, 2)
+    add_children(table_first, add_whitepage, 3, 3)
+    add_children(table_first, add_text, 4, 4)
+    add_children(table_first, add_whitepage, 5, 5)
 
     # Content starts here
-    content = analyse(add_content, 4, 25)
+    content = analyse(add_content, 6, 25)
     add_chapter(content, 6, 7, number=1)
     add_chapter(content, 8, 9, number=2)
     add_chapter(content, 10, 11, number=3)

@@ -9,9 +9,7 @@
 
 from functools import partial
 
-from sections.ctor import END
 from sections.ctor import PERCENT_100
-from sections.ctor import START
 from sections.ctor import Appendix
 from sections.ctor import Chapter
 from sections.ctor import Content
@@ -21,8 +19,9 @@ from sections.ctor import Percentage
 from sections.ctor import Position
 from sections.ctor import Sections
 from sections.ctor import Table
+from sections.ctor import TableOfContent
+from sections.ctor import Text
 from sections.ctor import TitlePage
-from sections.ctor import Toc
 from sections.ctor import WhitePage
 
 
@@ -46,8 +45,9 @@ add_appendix = partial(_add_x, constructor=Appendix)
 
 add_title = partial(_add_x, constructor=TitlePage)
 add_whitepage = partial(_add_x, constructor=WhitePage)
-add_toc = partial(_add_x, constructor=Toc)
+add_toc = partial(_add_x, constructor=TableOfContent)
 add_index = partial(_add_x, constructor=Index)
+add_text = partial(_add_x, constructor=Text)
 
 
 def add_chapter(
@@ -59,8 +59,10 @@ def add_chapter(
 ):
 
     insert = Chapter(
-        start=[pstart, START],
-        end=[pend, END],
+        start=pstart,
+        end=pend,
+        # start=[pstart, START],
+        # end=[pend, END],
         trust=trust,
         number=number,
     )

@@ -18,10 +18,10 @@ Page = int
 Percentage = float  # start of area [0.0 Pagestart, 100.0 Pageend]
 Position = Tuple[Page, Percentage]
 
-PERCENT_100 = 100.0  # analysed by hand
+PERCENT_100 = 1.0  # analysed by hand
 
 START = 0.0  # Page start
-END = 100.0  # Page end
+END = 1.0  # Page end
 
 
 @dataclass
@@ -50,7 +50,7 @@ class DocumentSection:
 
     start: Position
     end: Position
-    trust: Percentage  # [0.0 100.0]
+    trust: Percentage = field(default=0.0, compare=False)  # [0.0 100.0]
     content: List[AreaItem] = field(default_factory=list)
 
     def __getitem__(self, index):
