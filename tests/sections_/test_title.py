@@ -148,3 +148,13 @@ def test_dump_and_load_likelhood(
     loaded = load_likelihood(dumped)
 
     assert loaded == result
+
+
+@fixture
+def restructured_title():
+    result = work(
+        RESTRUCT_ONELINE_TEXT,
+        RESTRUCT_ONELINE_FONT_HEADER,
+        RESTRUCT_ONELINE_FONT_CONTENT,
+    )
+    return result

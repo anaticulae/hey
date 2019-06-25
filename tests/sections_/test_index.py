@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from pytest import fixture
+
 from sections.feature.index import extract_index_likelihood
 from sections.feature.index import work
 from tests.resources import RESTRUCT_ONELINE_TEXT
@@ -30,3 +32,9 @@ def test_extract_index_likelihood(restructured_document):
 def test_index_work():
     dumped = work(RESTRUCT_ONELINE_TEXT)
     assert len(dumped) > 100
+
+
+@fixture
+def restructured_index():
+    result = work(RESTRUCT_ONELINE_TEXT)
+    return result

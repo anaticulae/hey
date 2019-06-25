@@ -7,17 +7,17 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from pytest import fixture
 from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_toc
 
-from groupme.feature.footer import extract_pages
 from groupme.feature.numbers import load_textposition
 from hey.textnavigator.navigator import create_pagetextnavigator
 from sections.feature.chapter import dump_chapter_detection
 from sections.feature.chapter import load_chapter_detection
 from sections.feature.chapter import space_between_header_and_first_line
-from tests.resources import RESTRUCT_HORIZONTAL
+from sections.feature.chapter import work
 from tests.resources import RESTRUCT_POSITION
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TOC
@@ -93,3 +93,9 @@ def test_chapter_dump_and_load_detection():
     loaded = load_chapter_detection(dumped)
 
     assert loaded == result
+
+
+@fixture
+def restructured_chapter():
+    result = work(RESTRUCT_TEXT, RESTRUCT_POSITION, RESTRUCT_TOC)
+    return result

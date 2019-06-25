@@ -8,12 +8,21 @@
 # =============================================================================
 
 from pytest import approx
+from pytest import fixture
 
 from sections.feature.toc import extract_toc_likelihood
-from tests.sections_ import restructured_document
+from sections.feature.toc import work
+from tests.resources import RESTRUCT_ONELINE_TEXT
+from tests.sections_ import restructured_document  # pylint:disable=W0611
 
 
 #pylint:disable=W0621
 def test_extract_toc_likelihood(restructured_document):
     extracted = extract_toc_likelihood(restructured_document)
     assert sum(extracted) == approx(1.0)
+
+
+@fixture
+def restructured_toc():
+    result = work(RESTRUCT_ONELINE_TEXT)
+    return result
