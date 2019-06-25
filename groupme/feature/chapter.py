@@ -45,18 +45,22 @@ def chapters(document: Document):
     content = body(document)
     result = []
     for title in tableofcontent[1:]:  # skip first one
+        _level, _title = title
         headline = format_title(title)
         current_chapter, headline, rest = content.partition(headline)
         content = headline + rest
 
         _title, _content = current_chapter.split(NEWLINE, maxsplit=1)
         result.append({
+            'level': _level,
             'title': _title,
             'content': _content,
         })
 
     _title, _content = content.split(NEWLINE, maxsplit=1)
+    _level, _title = _title.split(maxsplit=1)
     result.append({
+        'level': _level,
         'title': _title,
         'content': _content,
     })
@@ -64,11 +68,12 @@ def chapters(document: Document):
 
 
 # TODO: Move to serialzeraw?
-def dump_chapter(chapter) -> str:
+def dump_chapter(chapter: List[Dict]) -> str:
     result = []
     for item in chapter:
-        title, content = item['title'], item['content']
+        level, title, content = item['level'], item['title'], item['content']
         result.append({
+            'level': level,
             'title': title,
             'content': content,
         })
