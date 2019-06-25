@@ -132,10 +132,6 @@ def test_groupme_words_list_numbered_regex():
 
     parsed = parse_numbered_list(NUMBERED_LIST)
 
-    # print("GOOOO")
-    # for text, level in parsed:
-    #     print(level)
-    #     print(text)
     assert len(parsed) == NUMBERED_LIST_SAMPLE_SIZE, parsed
 
     # Final example is very important!
