@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 #==============================================================================
 
+from utila import ResultFile as RF
 from utila import create_step as step
 from utila import featurepack
 
@@ -17,58 +18,60 @@ from sections import __version__
 DESCRIPTION = ('The sections tool analyses every single page of an pdf file '
                'and determines the likelihood to be an feature')
 
+ResultFile = lambda producer, name: RF(producer=producer, name=name)
+
 WORKPLAN = [
     step(
         'index',
         inputs=[
-            ('rawmaker', 'oneline_text_text'),
+            ResultFile('rawmaker', 'oneline_text_text'),
         ],
-        output=('likelihood_index',),
+        output=('likelihood',),
     ),
     step(
         'toc',
         inputs=[
-            ('rawmaker', 'oneline_text_text'),
+            ResultFile('rawmaker', 'oneline_text_text'),
         ],
-        output=('likelihood_toc',),
+        output=('likelihood',),
     ),
     step(
         'title',
         inputs=[
-            ('rawmaker', 'text_text'),
-            ('rawmaker', 'fonts_header'),
-            ('rawmaker', 'fonts_content'),
+            ResultFile('rawmaker', 'text_text'),
+            ResultFile('rawmaker', 'fonts_header'),
+            ResultFile('rawmaker', 'fonts_content'),
         ],
-        output=('likelihood_title',),
+        output=('likelihood',),
     ),
     step(
         'whitepage',
         inputs=[
-            ('rawmaker', 'text_text'),
-            ('rawmaker', 'text_positions'),
-            ('rawmaker', 'boxes_horizontal'),
+            ResultFile('rawmaker', 'text_text'),
+            ResultFile('rawmaker', 'text_positions'),
+            ResultFile('rawmaker', 'boxes_horizontal'),
         ],
-        output=('likelihood_whitepage',),
+        output=('likelihood',),
     ),
     step(
         'chapter',
         inputs=[
-            ('rawmaker', 'text_text'),
-            ('rawmaker', 'text_positions'),
-            ('rawmaker', 'toc'),
+            ResultFile('rawmaker', 'text_text'),
+            ResultFile('rawmaker', 'text_positions'),
+            ResultFile('rawmaker', 'toc'),
         ],
-        output=('likelihood_chapter',),
+        output=('likelihood',),
     ),
     step(
         'sections',
         inputs=[
-            ('sections', 'likelihood_chapter'),
-            ('sections', 'likelihood_index'),
-            ('sections', 'likelihood_title'),
-            ('sections', 'likelihood_toc'),
-            ('sections', 'likelihood_whitepage'),
+            ResultFile('sections', 'chapter_likelihood'),
+            ResultFile('sections', 'index_likelihood'),
+            ResultFile('sections', 'title_likelihood'),
+            ResultFile('sections', 'toc_likelihood'),
+            ResultFile('sections', 'whitepage_likelihood'),
         ],
-        output=('likelihood_sections',),
+        output=('likelihood',),
     ),
 ]
 

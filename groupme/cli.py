@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 #==============================================================================
 
+from utila import ResultFile
 from utila import create_step as step
 from utila import featurepack
 
@@ -19,22 +20,22 @@ WORKPLAN = [
     step(
         'chapter',
         inputs=[
-            ('rawmaker', 'text_text'),
+            ResultFile(producer='rawmaker', name='text_text'),
         ],
         output=('chapter',),
     ),
     step(
         'toc',
         inputs=[
-            ('rawmaker', 'text_text'),
+            ResultFile(producer='rawmaker', name='text_text'),
         ],
         output=('toc',),
     ),
     step(
         'pagenumbers',
         inputs=[
-            ('rawmaker', 'text_text'),
-            ('rawmaker', 'text_positions'),
+            ResultFile(producer='rawmaker', name='text_text'),
+            ResultFile(producer='rawmaker', name='text_positions'),
         ],
         output=('pagenumbers',),
     )

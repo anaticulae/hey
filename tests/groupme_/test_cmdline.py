@@ -12,16 +12,16 @@ from pytest import param
 from utila import install_and_run
 from utila.test import skip_nonvirtual
 
+from groupme import PACKAGE_NAME
 from groupme import PROCESS_NAME
 from groupme import ROOT
-from hey import PACKAGE_NAME
 from tests.groupme_ import run_success
 from tests.resources import RESTRUCT
 from tests.resources import SIMPLE
 
 
 @skip_nonvirtual
-def test_run_groupme():
+def test_install_and_run_groupme():
     """Install groupme and run groupme --help to ensure basic function"""
     install_and_run(
         ROOT,
@@ -38,9 +38,11 @@ TODO_ERROR = ('concept of splitting with first headline does not work, when '
 @mark.parametrize('command', [
     ['--help'],
     ['-i', SIMPLE, '-o', 'output'],
-    param(['-i', RESTRUCT, '-o', 'output'],
-          marks=mark.xfail(reason=TODO_ERROR)),
+    param(
+        ['-i', RESTRUCT, '-o', 'output'],
+        marks=mark.xfail(reason=TODO_ERROR),
+    ),
 ])
-def test_run_rawmaker(command, testdir, monkeypatch):  #pylint: disable=W0613
+def test_run_groupme(command, testdir, monkeypatch):  #pylint: disable=W0613
     """Run help and version and format command to reach basic test coverage"""
     run_success(command, monkeypatch=monkeypatch)
