@@ -9,9 +9,9 @@
 from iamraw import BoundingBox
 from pytest import mark
 
-from hey.textnavigator import navigator_to_bounds
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import merge_content
+from hey.textnavigator.navigator import navigator_to_bounds
 from hey.textnavigator.navigator import percent_to_pagesize
 from hey.textnavigator.navigator import to_content
 from tests.groupme_ import navigator  # pylint:disable=W0611

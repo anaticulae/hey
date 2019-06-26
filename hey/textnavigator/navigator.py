@@ -13,7 +13,6 @@ from iamraw import BoundingBox
 from iamraw import Document
 from utila import INF
 
-from hey.textnavigator import navigator_to_bounds
 from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import fontdistance
 
@@ -227,3 +226,8 @@ def common_box(items) -> BoundingBox:
         x1 = max(x1, cx1)
         y1 = max(y1, cy1)
     return BoundingBox.from_list([x0, y0, x1, y1])
+
+
+def navigator_to_bounds(navigator: PageTextNavigator) -> List[BoundingBox]:
+    """Extract list of `BoundingBox` from `PageTextNavigator`"""
+    return [item for item, _ in navigator]
