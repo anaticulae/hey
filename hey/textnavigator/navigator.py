@@ -11,6 +11,7 @@ from typing import List
 
 from iamraw import BoundingBox
 from iamraw import Document
+from utila import INF
 
 from hey.textnavigator import navigator_to_bounds
 from hey.textnavigator.fonts import TextBoundsList
@@ -27,8 +28,16 @@ class PageTextNavigator:
     def __getitem__(self, index):
         return self.data[index]
 
-    def insert(self, box: BoundingBox, item):
-        x_bottom, _, __, y_top = box
+    def insert(self, box: BoundingBox, item: str):
+        """Insert text element top to bottom and left to right
+
+        Args:
+            box(BoundingBox): position and dimension of text area
+            item(str): content of text chunck
+        """
+        x_bottom, y_bottom, x_top, y_top = box
+        assert 0 <= x_bottom <= x_top <= self.width
+        assert 0 <= y_bottom <= y_top <= self.height
 
         insert_position = 0
         for pos, _ in self.data:
@@ -40,7 +49,8 @@ class PageTextNavigator:
             insert_position += 1
         self.data.insert(insert_position, (box, item))
 
-    def __len__(self):
+    def __len__(self) -> int:
+        """Count text chuncks"""
         return len(self.data)
 
     def __iter__(self):
@@ -65,7 +75,7 @@ class PageTextNavigator:
         Args:
             height(float[0.0,1.0]): 0.0 is top, 1.0 is bottom
         Returns:
-            List[PageObjects]
+            List[(position, PageObjects)]
         """
         assert 0.0 <= height <= 1.0
         assert 0.0 <= width <= 1.0
@@ -80,7 +90,15 @@ class PageTextNavigator:
                 ))
         return result
 
-    def between(self, top, bottom):
+    def between(self, top: float, bottom: float):
+        """Return the content between top(0.0) and bottom(1.0) position.
+
+        Args:
+            top(float):
+            bottom(float):
+        Returns:
+            List[(position, content)]
+        """
         assert 0.0 <= top <= bottom <= 1.0
 
         after = (1.0 - top) * self.height
@@ -118,8 +136,17 @@ def create_pagetextnavigator(
 def percent_to_pagesize(
         size: float,
         percent: float,
-):
-    # height(float[0.0,1.0]): 0.0 is top, 1.0 is bottom
+) -> float:
+    """Convert a percent value to page coordinates
+
+    The top coordinate starts with 0.0 and ends on the bottom with 1.0.
+
+    Args:
+        size(float): paper height/width
+        percent(float): [0.0; 1.0] of used size
+    Returns:
+        percentage page height/width value
+    """
     assert size >= 0.0
     assert 0.0 <= percent <= 1.0
 
@@ -127,16 +154,29 @@ def percent_to_pagesize(
     return result
 
 
-def percent_from_pagesize(size, current):
-    """
-    size    500
-    current 100
-    return  0.8%
+def percent_from_pagesize(size, current) -> float:
+    """Determine the percentage value of a pagesize
+
+    Example:
+        size    500
+        current 100
+        return  0.8%
+
+    Hint:
+        The maxsize start at the top of the page.
+
+    Args:
+        size(float): size of current page
+        current(float):
+    Returns:
+        value in percent in range of [0.0, 1.0]
     """
     assert size > 0
     assert size >= current
 
-    return (size - current) / size
+    value = (size - current) / size
+    assert 0.0 <= value < 1.0
+    return value
 
 
 def to_content(navigator: PageTextNavigator) -> TextBoundsList:
@@ -145,9 +185,12 @@ def to_content(navigator: PageTextNavigator) -> TextBoundsList:
     return result
 
 
-def merge_content(content: TextBoundsList) -> TextBoundsList:
-    bounds = navigator_to_bounds(content)
-    text = to_content(content)
+# Merge lines with lower distance to one text chunck.
+MAX_MERGE_DISTANCE = 3.55  # TODO: Holy value
+
+
+def merge_content(text: TextBoundsList) -> TextBoundsList:
+    bounds = navigator_to_bounds(text)
 
     if not text:
         # Nothing to merge
@@ -156,23 +199,31 @@ def merge_content(content: TextBoundsList) -> TextBoundsList:
     distance = fontdistance(bounds)
     result = []
 
-    result.append(text[0])
+    result.append(text[0])  # single item is always merged
     for index, dist in enumerate(distance, start=1):
-        if dist > 3.55:  # TODO: Holy value
+        if dist > MAX_MERGE_DISTANCE:
             result.append(text[index])
             continue
         # Merge me
-        (x0, y0, x1, y1), content = result[-1]
-        (cx0, cy0, cx1, cy1), c_content = text[index]
+        (member_location), content = result[-1]
+        (merger_location), c_content = text[index]
 
         content = '%s\n%s' % (content, c_content)
+        # merged items together and save them as last item
         result[-1] = (
-            BoundingBox.from_list([
-                min(x0, cx0),
-                min(y0, cy0),
-                max(x1, cx1),
-                max(y1, cy1),
-            ]),
+            common_box([member_location, merger_location]),
             content,
         )
     return result
+
+
+def common_box(items) -> BoundingBox:
+    """Determine largest box which contains the border of all `items`"""
+    # TODO: replace with utila code
+    x0, y0, x1, y1 = INF, INF, -INF, -INF
+    for (cx0, cy0, cx1, cy1) in items:
+        x0 = min(x0, cx0)
+        y0 = min(y0, cy0)
+        x1 = max(x1, cx1)
+        y1 = max(y1, cy1)
+    return BoundingBox.from_list([x0, y0, x1, y1])
