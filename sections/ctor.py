@@ -125,3 +125,4 @@ class TitlePage(AreaItem):
 @dataclass
 class Chapter(AreaItem):
     number: int = -1
+    title: str = ''
