@@ -11,6 +11,7 @@ from pytest import fixture
 from pytest import mark
 from serializeraw import load_likelihood
 
+# from sections.sections import extract_sections
 from sections.creator import add_chapter
 from sections.creator import add_content
 from sections.creator import add_index
@@ -20,14 +21,13 @@ from sections.creator import add_text
 from sections.creator import add_title
 from sections.creator import add_toc
 from sections.creator import add_whitepage
+from sections.creator import validate
 from sections.ctor import PERCENT_100
 from sections.ctor import Sections
 from sections.feature.chapter import load_chapter_detection
 from sections.feature.sections import extract_sections
 from sections.feature.whitepage import load_whitepages
 from sections.feature.whitepage import whitepage_value_to_percent
-# from sections.sections import extract_sections
-from sections.sections import validate
 from sections.serialize import dump_sections
 from sections.serialize import load_sections
 #pylint:disable=W0611

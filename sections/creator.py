@@ -68,3 +68,28 @@ def add_chapter(
     )
     root.content.append(insert)
     return insert
+
+
+def validate(document: Sections) -> bool:
+    """Validate page order of `AreaSections`. A ascending order is required
+
+    Args:
+        document(Sections): to validate
+    Returns:
+        True if all page orders are correct, else False
+    """
+    # test of ascending page order
+    start, end = -1, -1
+    for section in document:
+        if section.end < section.start:
+            return False
+        if section.start < start:
+            return False
+        if section.end < end:
+            return False
+        if not section.start == end + 1:
+            return False
+
+        start = section.start
+        end = section.end
+    return True

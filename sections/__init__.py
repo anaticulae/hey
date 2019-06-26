@@ -6,6 +6,28 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 #==============================================================================
+"""
+* Introduction
+    * Titlepage
+    * Thank you
+    * Copyright etc.
+    * Erklaerung
+* Table-Area
+    * Table of content
+    * Short cuts
+    * Figure table
+* Content
+    * Chapter
+        * Figure
+        * Text
+        * Headlines
+* Table-Area-B
+* Appendix
+    * Resources
+    * Link
+    * Literature
+"""
+
 import os
 
 from hey import PACKAGE_NAME as HEY_PACKAGENAME
