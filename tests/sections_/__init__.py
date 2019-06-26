@@ -20,6 +20,7 @@ from sections.font import FontStore
 from sections.font import create_fontstore
 from tests.resources import RESTRUCT_FONT_CONTENT
 from tests.resources import RESTRUCT_FONT_HEADER
+from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import SIMPLE_FONT_CONTENT
 from tests.resources import SIMPLE_FONT_HEADER

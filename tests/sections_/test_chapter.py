@@ -18,7 +18,7 @@ from sections.feature.chapter import dump_chapter_detection
 from sections.feature.chapter import load_chapter_detection
 from sections.feature.chapter import space_between_header_and_first_line
 from sections.feature.chapter import work
-from tests.resources import RESTRUCT_POSITION
+from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TOC
 
@@ -31,7 +31,7 @@ from tests.resources import RESTRUCT_TOC
 def test_chapter_extract():
     # load
     document = load_document(RESTRUCT_TEXT)
-    position = load_textposition(RESTRUCT_POSITION)
+    position = load_textposition(RESTRUCT_TEXT_POSITION)
     tocs = load_toc(RESTRUCT_TOC)
     # TODO: Think about how to handle this, invocation order of features?
     navigators = create_pagetextnavigator(position, document)
@@ -79,7 +79,7 @@ def test_chapter_extract():
 def test_chapter_dump_and_load_detection():
     # load
     document = load_document(RESTRUCT_TEXT)
-    position = load_textposition(RESTRUCT_POSITION)
+    position = load_textposition(RESTRUCT_TEXT_POSITION)
     tocs = load_toc(RESTRUCT_TOC)
     # TODO: Think about how to handle this, invocation order of features?
     navigators = create_pagetextnavigator(position, document)
@@ -97,5 +97,5 @@ def test_chapter_dump_and_load_detection():
 
 @fixture
 def restructured_chapter():
-    result = work(RESTRUCT_TEXT, RESTRUCT_POSITION, RESTRUCT_TOC)
+    result = work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION, RESTRUCT_TOC)
     return result

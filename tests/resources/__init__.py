@@ -41,7 +41,7 @@ RESTRUCT_ONELINE_POSITION = join(RESTRUCT,
                                  'rawmaker__oneline_text_positions.yaml')
 RESTRUCT_ONELINE_TEXT = join(RESTRUCT, 'rawmaker__oneline_text_text.yaml')
 RESTRUCT_PAGESIZE = join(RESTRUCT, 'rawmaker__border_pages.yaml')
-RESTRUCT_POSITION = join(RESTRUCT, 'rawmaker__text_positions.yaml')
+RESTRUCT_TEXT_POSITION = join(RESTRUCT, 'rawmaker__text_positions.yaml')
 RESTRUCT_TEXT = join(RESTRUCT, 'rawmaker__text_text.yaml')
 RESTRUCT_TOC = join(RESTRUCT, 'rawmaker__toc.yaml')
 
@@ -67,8 +67,8 @@ for item in [
         RESTRUCT_ONELINE_POSITION,
         RESTRUCT_ONELINE_TEXT,
         RESTRUCT_PAGESIZE,
-        RESTRUCT_POSITION,
         RESTRUCT_TEXT,
+        RESTRUCT_TEXT_POSITION,
         SIMPLE,
         SIMPLE_FONT_CONTENT,
         SIMPLE_FONT_HEADER,

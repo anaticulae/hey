@@ -20,7 +20,7 @@ from sections.feature.whitepage import extract_whitepages
 from sections.feature.whitepage import load_whitepages
 from sections.feature.whitepage import work
 from tests.resources import RESTRUCT_HORIZONTAL
-from tests.resources import RESTRUCT_POSITION
+from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import RESTRUCT_TEXT
 
 RESTRUCT_EXPECTED = [
@@ -58,7 +58,7 @@ def test_whitepages_extract():
 
     # load
     document = load_document(RESTRUCT_TEXT)
-    position = load_textposition(RESTRUCT_POSITION)
+    position = load_textposition(RESTRUCT_TEXT_POSITION)
     horizontals = load_horizontals(RESTRUCT_HORIZONTAL)
 
     # TODO: Think about how to handle this, invocation order of features?
@@ -81,5 +81,5 @@ def test_whitepages_dump_and_load():
 
 @fixture
 def restructured_whitepage():
-    result = work(RESTRUCT_TEXT, RESTRUCT_POSITION, RESTRUCT_HORIZONTAL)
+    result = work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION, RESTRUCT_HORIZONTAL)
     return result

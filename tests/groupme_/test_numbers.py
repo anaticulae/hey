@@ -19,8 +19,8 @@ from groupme.feature.numbers import pagenumbers
 from hey.textnavigator.navigator import create_pagetextnavigator
 from tests.resources import RESTRUCT_HORIZONTAL
 from tests.resources import RESTRUCT_PAGESIZE
-from tests.resources import RESTRUCT_POSITION
 from tests.resources import RESTRUCT_TEXT
+from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import SIMPLE_HORIZONTAL
 from tests.resources import SIMPLE_PAGESIZE
 from tests.resources import SIMPLE_POSITION
@@ -82,7 +82,7 @@ def test_header_simple(simple):  #pylint:disable=W0621
 def restructured():
     pagesize = load_pageborders(RESTRUCT_PAGESIZE)
     horizontals = load_horizontals(RESTRUCT_HORIZONTAL)
-    position = load_textposition(RESTRUCT_POSITION)
+    position = load_textposition(RESTRUCT_TEXT_POSITION)
     document = load_document(RESTRUCT_TEXT)
 
     assert pagesize
