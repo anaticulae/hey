@@ -186,6 +186,20 @@ def load_sections(content: str) -> List[str]:
     return result
 
 
+def chapters(sections: Sections):
+    content = [item for item in sections if isinstance(item, Content)]
+    if not content:
+        # no content in document
+        return []
+
+    result = []
+    for area in content:
+        for chapter in area:
+            result.append((chapter.start, chapter.end))
+
+    return result
+
+
 def commandline():
     return Flag(
         longcut=name(),

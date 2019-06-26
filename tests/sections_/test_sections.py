@@ -25,6 +25,7 @@ from sections.creator import validate
 from sections.ctor import PERCENT_100
 from sections.ctor import Sections
 from sections.feature.chapter import load_chapter_detection
+from sections.feature.sections import chapters
 from sections.feature.sections import extract_sections
 from sections.feature.whitepage import load_whitepages
 from sections.feature.whitepage import whitepage_value_to_percent
@@ -141,3 +142,15 @@ def test_sections_extract_sections(
 
     # TODO: activate later, do not want to make this test so explicit
     # assert result == restructured
+
+
+def test_sections_chapters(restructured):
+    result = chapters(restructured)
+
+    # start is lower or equal than end page size
+    # start = item[0]
+    # end   = item[1]
+    ascending_page_order = all([item[0] <= item[1] for item in result])
+
+    assert ascending_page_order, str([result])
+    assert len(result) == 8, str(result)
