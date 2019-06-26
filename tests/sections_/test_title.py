@@ -21,16 +21,16 @@ from tests.resources import RESTRUCT_ONELINE_FONT_HEADER
 from tests.resources import RESTRUCT_ONELINE_TEXT
 from tests.sections_ import restructured_document  # pylint:disable=W0611
 from tests.sections_ import restructured_document_fixture
-from tests.sections_ import restructured_fontlookup  # pylint:disable=W0611
-from tests.sections_ import restructured_fontlookup_fixture
+from tests.sections_ import restructured_fontstore  # pylint:disable=W0611
+from tests.sections_ import restructured_fontstore_fixture
 from tests.sections_ import simple_document  # pylint:disable=W0611
 from tests.sections_ import simple_document_fixture
 from tests.sections_ import simple_fontlookup  # pylint:disable=W0611
 from tests.sections_ import simple_fontlookup_fixture
 
 
-def test_load_font_lookup(restructured_fontlookup):  #pylint:disable=W0621
-    first_font = restructured_fontlookup.font(
+def test_load_font_lookup(restructured_fontstore):  #pylint:disable=W0621
+    first_font = restructured_fontstore.font(
         page_number=0,
         container=0,
         line=2,
@@ -47,14 +47,14 @@ MIN_TITLE_LIKELIHOOD = 0.70
 
 # TODO: google: pytest + parametrize + fixture
 @mark.parametrize('document,fontlookup', [
-    (restructured_document_fixture(), restructured_fontlookup_fixture()),
+    (restructured_document_fixture(), restructured_fontstore_fixture()),
     (simple_document_fixture(), simple_fontlookup_fixture()),
 ])
 def test_extract_title_likelihood(
         document,
         fontlookup,
         # restructured_document,  #pylint:disable=W0621
-        # restructured_fontlookup,  #pylint:disable=W0621
+        # restructured_fontstore,  #pylint:disable=W0621
 ):
     result = extract_title_likelihood(
         document,
@@ -142,11 +142,11 @@ def test_split_page(
 
 def test_dump_and_load_likelhood(
         restructured_document,  #pylint:disable=W0621
-        restructured_fontlookup,  #pylint:disable=W0621
+        restructured_fontstore,  #pylint:disable=W0621
 ):
     result = extract_title_likelihood(
         restructured_document,
-        restructured_fontlookup,
+        restructured_fontstore,
     )
     dumped = dump_likelihood(result)
     loaded = load_likelihood(dumped)

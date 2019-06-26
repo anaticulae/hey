@@ -14,8 +14,8 @@ from serializeraw import dump_likelihood
 from serializeraw import load_document
 from utila import uniform_result
 
-from sections.font import FontLookUp
-from sections.font import create_font_lookup
+from sections.font import FontStore
+from sections.font import create_fontstore
 from sections.textprocessor import split_page
 
 
@@ -23,7 +23,7 @@ def work(text_linewise: str, font_header: str, font_content: str) -> str:
     # TODO: Share resources
     document = load_document(text_linewise)
 
-    lookup = create_font_lookup(font_header, font_content)
+    lookup = create_fontstore(font_header, font_content)
 
     result = extract_title_likelihood(document, lookup)
     dumped = dump_likelihood(result)
@@ -32,7 +32,7 @@ def work(text_linewise: str, font_header: str, font_content: str) -> str:
 
 def extract_title_likelihood(
         document: Document,
-        fontstore: FontLookUp,
+        fontstore: FontStore,
 ) -> List[float]:
     result = [analyse_page(page, fontstore) for page in document]
     uniformed = uniform_result(result)
@@ -45,7 +45,7 @@ MAXIMAL_TITLE_LENGTH = 200
 EMPTY_RESULT = (0, 0.0)
 
 
-def analyse_page(page: Page, fontstore: FontLookUp) -> float:
+def analyse_page(page: Page, fontstore: FontStore) -> float:
     number = page.number
 
     positions = font_positions_from_page(fontstore, number)
@@ -68,7 +68,7 @@ def analyse_page(page: Page, fontstore: FontLookUp) -> float:
     return max_font_length, value
 
 
-def font_sizes_from_page(store: FontLookUp, pagenumber: int):
+def font_sizes_from_page(store: FontStore, pagenumber: int):
     fonts = [
         store.fromindex(font).scale
         for _, __, ___, font in store.page_iter(pagenumber)
@@ -76,7 +76,7 @@ def font_sizes_from_page(store: FontLookUp, pagenumber: int):
     return fonts
 
 
-def font_positions_from_page(store: FontLookUp, pagenumber: int):
+def font_positions_from_page(store: FontStore, pagenumber: int):
     positions = [(
         container,
         line,

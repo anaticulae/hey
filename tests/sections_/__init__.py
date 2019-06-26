@@ -16,8 +16,8 @@ from utila import run_command
 
 from sections import PROCESS_NAME
 from sections.cli import main
-from sections.font import FontLookUp
-from sections.font import create_font_lookup
+from sections.font import FontStore
+from sections.font import create_fontstore
 from tests.resources import RESTRUCT_FONT_CONTENT
 from tests.resources import RESTRUCT_FONT_HEADER
 from tests.resources import RESTRUCT_TEXT
@@ -48,8 +48,8 @@ def restructured_document() -> Document:
 
 
 @fixture
-def restructured_fontlookup() -> FontLookUp:
-    lookup = create_font_lookup(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
+def restructured_fontstore() -> FontStore:
+    lookup = create_fontstore(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
     return lookup
 
 
@@ -60,8 +60,8 @@ def simple_document() -> Document:
 
 
 @fixture
-def simple_fontlookup() -> FontLookUp:
-    lookup = create_font_lookup(SIMPLE_FONT_HEADER, SIMPLE_FONT_CONTENT)
+def simple_fontlookup() -> FontStore:
+    lookup = create_fontstore(SIMPLE_FONT_HEADER, SIMPLE_FONT_CONTENT)
     return lookup
 
 
@@ -70,8 +70,8 @@ def restructured_document_fixture() -> Document:
     return loaded
 
 
-def restructured_fontlookup_fixture() -> FontLookUp:
-    lookup = create_font_lookup(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
+def restructured_fontstore_fixture() -> FontStore:
+    lookup = create_fontstore(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
     return lookup
 
 
@@ -80,6 +80,6 @@ def simple_document_fixture() -> Document:
     return loaded
 
 
-def simple_fontlookup_fixture() -> FontLookUp:
-    lookup = create_font_lookup(SIMPLE_FONT_HEADER, SIMPLE_FONT_CONTENT)
+def simple_fontlookup_fixture() -> FontStore:
+    lookup = create_fontstore(SIMPLE_FONT_HEADER, SIMPLE_FONT_CONTENT)
     return lookup

@@ -12,7 +12,7 @@ from serializeraw import load_fonts as load_font_content
 from serializeraw import load_fontstore as load_font_header
 
 
-class FontLookUp:
+class FontStore:
 
     def __init__(self, header, pages):
         self.header = header
@@ -41,9 +41,9 @@ class FontLookUp:
         return self.header[index]
 
 
-def create_font_lookup(header: str, content: str) -> FontLookUp:
+def create_fontstore(header: str, content: str) -> FontStore:
     fonts = load_font_header(header)
     pages = load_font_content(content)
 
-    result = FontLookUp(fonts, pages)
+    result = FontStore(fonts, pages)
     return result
