@@ -25,8 +25,8 @@ from tests.sections_ import restructured_fontstore  # pylint:disable=W0611
 from tests.sections_ import restructured_fontstore_fixture
 from tests.sections_ import simple_document  # pylint:disable=W0611
 from tests.sections_ import simple_document_fixture
-from tests.sections_ import simple_fontlookup  # pylint:disable=W0611
-from tests.sections_ import simple_fontlookup_fixture
+from tests.sections_ import simple_fontstore  # pylint:disable=W0611
+from tests.sections_ import simple_fontstore_fixture
 
 
 def test_load_font_lookup(restructured_fontstore):  #pylint:disable=W0621
@@ -46,19 +46,19 @@ MIN_TITLE_LIKELIHOOD = 0.70
 
 
 # TODO: google: pytest + parametrize + fixture
-@mark.parametrize('document,fontlookup', [
+@mark.parametrize('document,fontstore', [
     (restructured_document_fixture(), restructured_fontstore_fixture()),
-    (simple_document_fixture(), simple_fontlookup_fixture()),
+    (simple_document_fixture(), simple_fontstore_fixture()),
 ])
 def test_extract_title_likelihood(
         document,
-        fontlookup,
+        fontstore,
         # restructured_document,  #pylint:disable=W0621
         # restructured_fontstore,  #pylint:disable=W0621
 ):
     result = extract_title_likelihood(
         document,
-        fontlookup,
+        fontstore,
     )
     assert result[0] >= MIN_TITLE_LIKELIHOOD
     assert sum(result) == approx(1.0)

@@ -14,8 +14,8 @@ from serializeraw import dump_likelihood
 from serializeraw import load_document
 from utila import uniform_result
 
-from sections.font import FontStore
-from sections.font import create_fontstore
+from hey.fonts.store import FontStore
+from hey.fonts.store import create_fontstore
 from sections.textprocessor import split_page
 
 

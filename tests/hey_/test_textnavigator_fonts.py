@@ -57,7 +57,6 @@ def test_groupme_fonts_textsize(
     bounds = textbounds(simple_second_page_navigator, simple_second_page_size)
 
     sizes = fontsizes(bounds)
-
     common_size = textsize(sizes)
 
     assert common_size == 13

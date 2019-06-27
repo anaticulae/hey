@@ -16,8 +16,8 @@ from utila import run_command
 
 from sections import PROCESS_NAME
 from sections.cli import main
-from sections.font import FontStore
-from sections.font import create_fontstore
+from hey.fonts.store import FontStore
+from hey.fonts.store import create_fontstore
 from tests.resources import RESTRUCT_FONT_CONTENT
 from tests.resources import RESTRUCT_FONT_HEADER
 from tests.resources import RESTRUCT_TEXT_POSITION
@@ -61,7 +61,7 @@ def simple_document() -> Document:
 
 
 @fixture
-def simple_fontlookup() -> FontStore:
+def simple_fontstore() -> FontStore:
     lookup = create_fontstore(SIMPLE_FONT_HEADER, SIMPLE_FONT_CONTENT)
     return lookup
 
@@ -81,6 +81,6 @@ def simple_document_fixture() -> Document:
     return loaded
 
 
-def simple_fontlookup_fixture() -> FontStore:
+def simple_fontstore_fixture() -> FontStore:
     lookup = create_fontstore(SIMPLE_FONT_HEADER, SIMPLE_FONT_CONTENT)
     return lookup

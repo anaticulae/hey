@@ -15,30 +15,60 @@ from serializeraw import load_fontstore as load_font_header
 class FontStore:
 
     def __init__(self, header, pages):
+        """Define `FontStore`
+
+        Args:
+            header:
+            pages:
+        """
         self.header = header
         self.pages = pages
 
-    def font(self, page_number, container, line, char) -> Font:
-        page = self.pages[page_number]
+    def font(self, number: int, container: int, line: int, char: int) -> Font:
+        """Extract `Font` out out text position
+
+        Args:
+            number(int): `number` of given page
+            container(int):
+            line(int):
+            char(int):
+        Returns:
+            Font
+        """
+        # TODO: linear complexity!
+        page = self.pages[number]
         for item in page:
             cur_container, cur_line, cur_char, cur_font = item
-            if container < cur_container:
+            print(item)
+            if container > cur_container:
                 continue
-            if line < cur_line:
+            if line > cur_line:
                 continue
-            if char < cur_char:
+            if char > cur_char:
                 continue
-            return self.fromindex(cur_font)
+            return self[cur_font]
         return None
 
-    def page_iter(self, pagenumber):
-        return iter(self.pages[pagenumber])
+    def page_iter(self, number):
+        return iter(self.pages[number])
 
     def __len__(self) -> int:
         return len(self.pages)
 
-    def fromindex(self, index: int) -> Font:
+    def __getitem__(self, index: int) -> Font:
         return self.header[index]
+
+
+class FontContenStore:
+
+    def __init__(
+            self,
+            store: FontStore,
+            page: int,
+            top: float,
+            bottom: float,
+    ):
+        pass
 
 
 def create_fontstore(header: str, content: str) -> FontStore:
