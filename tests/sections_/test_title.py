@@ -16,13 +16,14 @@ from serializeraw import load_likelihood
 from sections.feature.title import extract_title_likelihood
 from sections.feature.title import split_page
 from sections.feature.title import work
+# pylint:disable=W0611
+from tests.hey_.test_fonts_store import restructured_fontstore
+from tests.hey_.test_fonts_store import restructured_fontstore_fixture
 from tests.resources import RESTRUCT_ONELINE_FONT_CONTENT
 from tests.resources import RESTRUCT_ONELINE_FONT_HEADER
 from tests.resources import RESTRUCT_ONELINE_TEXT
 from tests.sections_ import restructured_document  # pylint:disable=W0611
 from tests.sections_ import restructured_document_fixture
-from tests.sections_ import restructured_fontstore  # pylint:disable=W0611
-from tests.sections_ import restructured_fontstore_fixture
 from tests.sections_ import simple_document  # pylint:disable=W0611
 from tests.sections_ import simple_document_fixture
 from tests.sections_ import simple_fontstore  # pylint:disable=W0611
