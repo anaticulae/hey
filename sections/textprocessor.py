@@ -35,25 +35,46 @@ class PageIter:
         self.char = 0
 
     def next(self, container, line, char):
+        empty = True
         result = ''
+        if all([
+                container == self.container,
+                line == self.line,
+                char == self.char,
+        ]):
+            raise ValueError('iter stands on goal %d %d' % (container, line))
 
         if self.line > 0 and self.container < container:
             # Fill up the container before continuing with the next
             for item in self.page[self.container][self.line:]:
                 result += item.text
+                empty = False
             self.line = 0
             self.container += 1
-
         while self.container < container:
             result += self.page[self.container].text
             self.container += 1
+            empty = False
         while self.line < line:
             result += self.page[self.container][self.line].text
             self.line += 1
+            empty = False
+        if char:
+            result += self.page[self.container][self.line].text[self.char:char]
+            self.char += char
+            empty = False
+
+        if empty:
+            msg = 'no content selected %d %d %d' % (container, line, char)
+            raise ValueError(msg)
         return result
 
     def finish(self):
-        return self.next(len(self.page), 0, 0)
+        # TODO Dirty hack!
+        try:
+            return self.next(len(self.page), 0, 0)
+        except ValueError:
+            return ''
 
 
 def split_page(page: Page, positions: List) -> List[str]:
