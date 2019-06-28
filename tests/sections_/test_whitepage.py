@@ -20,8 +20,8 @@ from sections.feature.whitepage import extract_whitepages
 from sections.feature.whitepage import load_whitepages
 from sections.feature.whitepage import work
 from tests.resources import RESTRUCT_HORIZONTAL
-from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import RESTRUCT_TEXT
+from tests.resources import RESTRUCT_TEXT_POSITION
 
 RESTRUCT_EXPECTED = [
     None,

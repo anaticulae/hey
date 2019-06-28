@@ -12,16 +12,16 @@ from functools import partial
 from iamraw import Document
 from pytest import fixture
 from serializeraw import load_document
+from serializeraw import load_horizontals
 from utila import run_command
 
-from sections import PROCESS_NAME
-from sections.cli import main
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
-from tests.resources import RESTRUCT_FONT_CONTENT
-from tests.resources import RESTRUCT_FONT_HEADER
-from tests.resources import RESTRUCT_TEXT_POSITION
+from sections import PROCESS_NAME
+from sections.cli import main
+from tests.resources import RESTRUCT_HORIZONTAL
 from tests.resources import RESTRUCT_TEXT
+from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import SIMPLE_FONT_CONTENT
 from tests.resources import SIMPLE_FONT_HEADER
 from tests.resources import SIMPLE_TEXT
@@ -49,9 +49,16 @@ def restructured_document() -> Document:
 
 
 @fixture
-def restructured_fontstore() -> FontStore:
-    lookup = create_fontstore(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
-    return lookup
+def restructured_horizontals():
+    loaded = load_horizontals(RESTRUCT_HORIZONTAL)
+    return loaded
+
+
+@fixture
+def restructured_text_positions():
+    from groupme.feature.numbers import load_textposition
+    loaded = load_textposition(RESTRUCT_TEXT_POSITION)
+    return loaded
 
 
 @fixture
@@ -69,11 +76,6 @@ def simple_fontstore() -> FontStore:
 def restructured_document_fixture() -> Document:
     loaded = load_document(RESTRUCT_TEXT)
     return loaded
-
-
-def restructured_fontstore_fixture() -> FontStore:
-    lookup = create_fontstore(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
-    return lookup
 
 
 def simple_document_fixture() -> Document:

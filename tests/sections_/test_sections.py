@@ -131,7 +131,6 @@ def test_sections_extract_sections(
 
     source = [chapter, index, title, toc, whitepage]
     result = extract_sections(*source)
-
     assert result
 
     for index, (actual, expected) in enumerate(zip(result, restructured)):

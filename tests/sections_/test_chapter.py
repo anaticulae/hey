@@ -18,8 +18,8 @@ from sections.feature.chapter import dump_chapter_detection
 from sections.feature.chapter import load_chapter_detection
 from sections.feature.chapter import space_between_header_and_first_line
 from sections.feature.chapter import work
-from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import RESTRUCT_TEXT
+from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import RESTRUCT_TOC
 
 

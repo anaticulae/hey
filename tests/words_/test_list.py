@@ -14,7 +14,6 @@ from hey.textnavigator.navigator import merge_content
 from hey.textnavigator.navigator import to_content
 # from hey.textnavigator.navigator import PageTextContentNavigator
 #pylint:disable=W0611
-from tests.resources import TextPageNavigators
 from tests.resources import simple_second_page_navigator
 from tests.resources import simple_second_page_size
 from tests.resources import simplecontentborder
