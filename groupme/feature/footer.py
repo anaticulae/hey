@@ -10,9 +10,11 @@
 TODO:
     what should we do with empty header/footer
 """
+from statistics import mode
 from typing import List
 from typing import Tuple
 
+from iamraw import Border
 from serializeraw import load_horizontals
 from utila import from_raw_or_path
 from utila import uniform_result
@@ -41,6 +43,28 @@ def work(horizontal_lines: str) -> str:
     # dump
     dumped = dump_headerfooter(extracted)
     return dumped
+
+
+Top = float
+Bottom = float
+
+FooterBorder = Tuple[Top, Bottom]
+
+
+def document_footer(horizontals) -> FooterBorder:
+    extracted = extract_pages(horizontals)
+
+    top = [item for (item, _) in extracted]
+    bottom = [item for (_, item) in extracted]
+
+    top = mode(top)
+    bottom = mode(bottom)
+    return top, bottom
+
+
+def footerborder_to_bounds(border: FooterBorder) -> Border:
+    border = Border(None, border[1], None, border[0])
+    return border
 
 
 def extract_pages(horizontals: List):
