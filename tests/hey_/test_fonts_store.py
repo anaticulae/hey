@@ -10,6 +10,7 @@
 # TODO: Move to iamraw
 
 from pytest import fixture
+from pytest import mark
 
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
@@ -28,3 +29,32 @@ def restructured_fontstore_fixture() -> FontStore:
     # use fixture in paramertized tests.
     lookup = create_fontstore(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
     return lookup
+
+
+@mark.parametrize(
+    'page,container,line,char,expected_fontid',
+    [
+        (0, 0, 1, 5, 0),
+        (0, 1, 0, 5, 1),
+        (0, 1, 0, 10, 1),
+        (0, 2, 0, 11, 2),
+        (0, 3, 0, 0, 3),
+        (0, 4, 0, 0, None),
+        (0, 3, 0, 13, None),
+        (0, 3, 1, 0, None),
+        (1, 0, 0, 0, None),  # Empty page
+        (2, 0, 0, 0, 4),
+        (2, 0, 0, 7, 4),
+    ])
+def test_fontstore_access_font_id(
+        restructured_fontstore: FontStore,  # pylint:disable=W0621
+        page,
+        container,
+        line,
+        char,
+        expected_fontid,
+):
+    fontstore = restructured_fontstore
+    fontid = fontstore.fontid(page, container, line, char)
+
+    assert fontid == expected_fontid
