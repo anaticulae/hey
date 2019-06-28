@@ -392,20 +392,26 @@ pages:
 
         '
   - - TextContainer
-    - - "Sphinx is what is called a documentation generator. This means that it takes\
-        \ a bunch of source \uFB01les in plain text, and\n"
+    - - 'Sphinx is what is called a documentation generator. This means that it takes
+        a bunch of source files in plain text, and
+
+        '
       - 'generates a bunch of other awesome things, mainly HTML. For our use case
         you can think of it as a program that takes
 
         '
-      - "in plain text \uFB01les in reStructuredText format, and outputs HTML.\n"
+      - 'in plain text files in reStructuredText format, and outputs HTML.
+
+        '
   - - TextContainer
     - - 'reST -> Sphinx -> HTML
 
         '
   - - TextContainer
-    - - "So as a user of Sphinx, your main job will be writing these text \uFB01les.\
-        \ This means that you should be minimally\n"
+    - - 'So as a user of Sphinx, your main job will be writing these text files. This
+        means that you should be minimally
+
+        '
       - "familiar with reStructuredText as a language. It\u2019s similar to Markdown\
         \ in a lot of ways, if you are already familiar\n"
       - 'with Markdown.
@@ -416,8 +422,10 @@ pages:
 
         '
   - - TextContainer
-    - - "The \uFB01rst step is installing Sphinx. Sphinx is a python project, so it\
-        \ can be installed like any other python library. Every\n"
+    - - 'The first step is installing Sphinx. Sphinx is a python project, so it can
+        be installed like any other python library. Every
+
+        '
       - 'Operating System should have Python pre-installed, so you should just have
         to run:
 
@@ -427,8 +435,10 @@ pages:
 
         '
   - - TextContainer
-    - - "Note: Advanced users can install this in a virtualenv if they wish. Also,\
-        \ pip install Sphinx works \uFB01ne if you\n"
+    - - 'Note: Advanced users can install this in a virtualenv if they wish. Also,
+        pip install Sphinx works fine if you
+
+        '
       - 'have Pip.
 
         '
@@ -506,8 +516,10 @@ pages:
 
         '
   - - TextContainer
-    - - "accepting all the defaults, calling the project Crawler, and giving it a\
-        \ 1.0 version. Your \uFB01le system should now look\n"
+    - - 'accepting all the defaults, calling the project Crawler, and giving it a
+        1.0 version. Your file system should now look
+
+        '
       - 'similar to this:
 
         '
@@ -534,8 +546,10 @@ pages:
         of this is:
 
         '
-      - "index.rst: This is the index \uFB01le for the documentation, or what lives\
-        \ at /. It normally contains a Table of Contents\n"
+      - 'index.rst: This is the index file for the documentation, or what lives at
+        /. It normally contains a Table of Contents
+
+        '
   - - TextContainer
     - - 'that will link to all other pages of the documentation.
 
@@ -544,12 +558,18 @@ pages:
     - - "conf.py: which allows for customization of Sphinx. You won\u2019t need to\
         \ use this too much yet, but it\u2019s good to be\n"
   - - TextContainer
-    - - "familiar with this \uFB01le.\n"
+    - - 'familiar with this file.
+
+        '
   - - TextContainer
     - - "Makefile: This ships with Sphinx, and is the main interface for local development,\
         \ and shouldn\u2019t be changed.\n"
-      - "_build: The directory that your output \uFB01les go into.\n"
-      - "_static: The directory to include all your static \uFB01les, like images.\n"
+      - '_build: The directory that your output files go into.
+
+        '
+      - '_static: The directory to include all your static files, like images.
+
+        '
       - '_templates: Allows you to override Sphinx templates to customze look and
         feel.
 
@@ -735,8 +755,10 @@ pages:
       - 'one word. This keeps the syntax consistent.
 
         '
-      - "The link target is de\uFB01ned at the bottom of the section with .. _<link\
-        \ text>: <target>.\n"
+      - 'The link target is defined at the bottom of the section with .. _<link text>:
+        <target>.
+
+        '
   - - TextContainer
     - - 'Installation docs
 
@@ -878,8 +900,10 @@ pages:
         of the current page.
 
         '
-      - "You should go ahead and include the above toctree directive in your index.rst\
-        \ \uFB01le.\n"
+      - 'You should go ahead and include the above toctree directive in your index.rst
+        file.
+
+        '
   - - TextContainer
     - - 'Build Docs Again
 
@@ -982,8 +1006,10 @@ pages:
         multiple pages. This is another area
 
         '
-      - "where Sphinx shines. You can write your documentation in multiple \uFB01\
-        les to make editing and updating easier. Then if\n"
+      - 'where Sphinx shines. You can write your documentation in multiple files to
+        make editing and updating easier. Then if
+
+        '
       - 'you want to distribute a single page HTML version:
 
         '
@@ -1002,7 +1028,7 @@ pages:
         '
   - - TextContainer
     - - "You\u2019ll notice that it included the documents in the order that your\
-        \ TOC Tree was de\uFB01ned.\n"
+        \ TOC Tree was defined.\n"
   - - TextContainer
     - - 'Step 2
 
@@ -1284,8 +1310,10 @@ pages:
 
         '
   - - TextContainer
-    - - "If you want to con\uFB01rm that your docs build successfully, you add this\
-        \ to your tox.ini \uFB01le:\n"
+    - - 'If you want to confirm that your docs build successfully, you add this to
+        your tox.ini file:
+
+        '
   - - TextContainer
     - - '[tox]
 
