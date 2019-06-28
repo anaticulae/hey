@@ -9,20 +9,19 @@
 
 from os.path import exists
 from os.path import join
-from typing import List
 
 from iamraw import Border
 from iamraw import Document
 from iamraw import Page
 from iamraw import TextContainer
 from pytest import fixture
-from pytest import mark
 from serializeraw import load_document
 from serializeraw import load_pageborders
 
 from groupme.feature.numbers import load_textposition
 from hey import ROOT
 from hey.textnavigator.navigator import PageTextNavigator
+from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigator
 
 TEST_DATA = join(ROOT, 'tests/resources')
@@ -88,13 +87,10 @@ def simpledocument() -> Document:
     return doc
 
 
-TextPageNavigators = List[PageTextNavigator]
-
-
 @fixture
 def simplepagetextnavigators(
         simpledocument: Document,  #pylint:disable=W0621
-) -> TextPageNavigators:
+) -> PageTextNavigators:
     textpositions = load_textposition(SIMPLE_POSITION)
 
     return create_pagetextnavigator(textpositions, simpledocument)

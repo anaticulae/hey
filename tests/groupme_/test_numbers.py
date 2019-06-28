@@ -92,14 +92,20 @@ def restructured():
     assert len(position) == len(document)
     assert len(horizontals) == len(document)
 
-    navigator = create_pagetextnavigator(position, document)
-    return navigator, horizontals
+    navigators = create_pagetextnavigator(position, document)
+    return navigators, horizontals
 
 
 @fixture
 def restructured_navigator(restructured):  #pylint:disable=W0621
-    navigator, _ = restructured
-    return navigator
+    navigators, _ = restructured
+    return navigators
+
+
+@fixture
+def restructured_sizeandborder():
+    size, border = load_pageborders(RESTRUCT_PAGESIZE)
+    return size, border
 
 
 def test_footer_restructured(restructured_navigator):  #pylint:disable=W0621
