@@ -8,8 +8,8 @@
 # =============================================================================
 from iamraw import Font
 # TODO: rename in serializeraw package
-from serializeraw import load_fonts as load_font_content
-from serializeraw import load_fontstore as load_font_header
+from serializeraw import load_font_content
+from serializeraw import load_font_header
 
 
 class FontStore:
