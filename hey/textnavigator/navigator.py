@@ -8,9 +8,12 @@
 # =============================================================================
 
 from typing import List
+from typing import Tuple
 
+from iamraw import Border
 from iamraw import BoundingBox
 from iamraw import Document
+from iamraw import PageSize
 from utila import INF
 
 from hey.textnavigator.fonts import TextBoundsList
@@ -23,9 +26,6 @@ class PageTextNavigator:
     def __init__(self, size=(612.0, 792.0)):
         self.data = []
         self.width, self.height = size
-
-    def __getitem__(self, index):
-        return self.data[index]
 
     def insert(self, box: BoundingBox, item: str):
         """Insert text element top to bottom and left to right
@@ -48,26 +48,15 @@ class PageTextNavigator:
             insert_position += 1
         self.data.insert(insert_position, (box, item))
 
+    def __getitem__(self, index):
+        return self.data[index]
+
     def __len__(self) -> int:
         """Count text chuncks"""
         return len(self.data)
 
     def __iter__(self):
         return iter(self.data)
-
-    def after(self, height, width=0.0):
-        assert 0.0 <= height <= 1.0
-        assert 0.0 <= width <= 1.0
-
-        after = (1.0 - height) * self.height
-        result = []
-        for box, item in self.data:
-            if box.y_top <= after:
-                result.append((
-                    box,
-                    item,
-                ))
-        return result
 
     def before(self, height: float, width=0.0):
         """
@@ -99,7 +88,6 @@ class PageTextNavigator:
             List[(position, content)]
         """
         assert 0.0 <= top <= bottom <= 1.0
-
         after = (1.0 - top) * self.height
         before = (1.0 - bottom) * self.height  # greater than
         result = []
@@ -109,11 +97,77 @@ class PageTextNavigator:
                 result.append((box, item))
         return result
 
+    def after(self, height, width=0.0):
+        assert 0.0 <= height <= 1.0
+        assert 0.0 <= width <= 1.0
+
+        after = (1.0 - height) * self.height
+        result = []
+        for box, item in self.data:
+            if box.y_top <= after:
+                result.append((
+                    box,
+                    item,
+                ))
+        return result
+
+    def offset(self, top: float, bottom: float) -> Tuple[int, int]:
+        # """Determine offset
+        assert 0.0 <= top <= bottom <= 1.0
+        after = (1.0 - top) * self.height
+        before = (1.0 - bottom) * self.height  # greater than
+
+        result = []
+        for index, (box, _) in enumerate(self.data):
+            # before and after are pixel coordinates
+            if before <= box.y_top <= after:
+                result.append(index)
+        if not result:
+            return None, None
+        top = max(result[0] - 1, 0)
+        bottom = result[-1] + 1
+
+        return top, bottom
+
+
+class PageTextContentNavigator:
+
+    def __init__(
+            self,
+            textnavigator: PageTextNavigator,
+            content: Border,
+    ):
+        """Navigate throw text content, ignore footer and header
+
+        Args:
+            textnavigator(PageTextNavigator):
+            content(Tuple[top,bottom]):
+        """
+        assert isinstance(content, tuple)
+        # tb = document_footer(horizontals)
+        pagesize = PageSize(
+            width=textnavigator.width,
+            height=textnavigator.height,
+        )
+        top, bottom = topbottom(pagesize, content)
+        self.data = textnavigator.between(top, bottom)
+
+        self.offset = textnavigator.offset(top, bottom)
+
+    def __getitem__(self, index):
+        return self.data[index]
+
+    def __len__(self):
+        return len(self.data)
+
+
+PageTextNavigators = List[PageTextNavigator]
+
 
 def create_pagetextnavigator(
         position,
         document: Document,
-) -> List[PageTextNavigator]:
+) -> PageTextNavigators:
     navigators = []
     for page, textposition in enumerate(position):
         navigator = PageTextNavigator()
@@ -130,6 +184,15 @@ def create_pagetextnavigator(
                 pass
 
     return navigators
+
+
+def topbottom(size: PageSize, contentborder: Border):
+    height = size.height
+    top, bottom = contentborder.top, contentborder.bottom
+    top = percent_from_pagesize(height, top)
+    bottom = percent_from_pagesize(height, bottom)
+
+    return top, bottom
 
 
 def percent_to_pagesize(
