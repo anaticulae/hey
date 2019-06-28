@@ -46,32 +46,41 @@ EMPTY_RESULT = (0, 0.0)
 
 
 def analyse_page(page: Page, fontstore: FontStore) -> float:
-    number = page.number
+    """Determine the likelihood that `page` is a title page
 
-    positions = font_positions_from_page(fontstore, number)
-    fonts = font_sizes_from_page(fontstore, number)
+    A hight title_indicator provides a hight likelihood of beeing a title
+    page. Aditionally the max_font_length is provided.
+
+    Args:
+        page(Page):
+        fontstore(FontStore):
+    Returns:
+        (max_font_length, title_indicator):
+    """
+    pagenumber = page.number
+    positions = font_positions_from_page(fontstore, pagenumber)
+    fonts = font_sizes_from_page(fontstore, pagenumber)
 
     if not fonts:  # empty page or page with images
         return EMPTY_RESULT
 
     max_font, max_font_length = determine_hugest_font(fonts, positions, page)
-    value = 0
+    title_indicator = 0
     # the title must not be to short and it unlikeli that the title is very,
     # very long.
     # TODO: We need a concept for this "holy" values. Make them configurable
     if MINIMAL_TITLE_LENGTH <= max_font_length < MAXIMAL_TITLE_LENGTH:
-        value = max_font_length * pow(max_font, 3)
+        title_indicator = max_font_length * pow(max_font, 3)
     # Malus per page, reduce value 10% per page, the higher the page number
     # the lower the likelihood to be the title page.
     # TODO: investigate if this is a good idea
-    value = value * pow(0.10, number)
-    return max_font_length, value
+    title_indicator = title_indicator * pow(0.10, pagenumber)
+    return max_font_length, title_indicator
 
 
 def font_sizes_from_page(store: FontStore, pagenumber: int):
     fonts = [
-        store.fromindex(font).scale
-        for _, __, ___, font in store.page_iter(pagenumber)
+        store[font].scale for _, __, ___, font in store.page_iter(pagenumber)
     ]
     return fonts
 
