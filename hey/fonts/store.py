@@ -24,7 +24,23 @@ class FontStore:
         self.header = header
         self.pages = pages
 
-    def font(self, number: int, container: int, line: int, char: int) -> Font:
+    def font(
+            self,
+            number: int,
+            container: int,
+            line: int,
+            char: int,
+    ) -> int:
+        fontid = self.fontid(number, container, line, char)
+        return self[fontid]
+
+    def fontid(
+            self,
+            number: int,
+            container: int,
+            line: int,
+            char: int,
+    ) -> int:
         """Extract `Font` out out text position
 
         Args:
@@ -39,14 +55,19 @@ class FontStore:
         page = self.pages[number]
         for item in page:
             cur_container, cur_line, cur_char, cur_font = item
-            print(item)
-            if container > cur_container:
+            if cur_container > container:
+                return cur_font
+            if cur_container == container:
+                if cur_line > line:
+                    return cur_font
+                if cur_line == line:
+                    if char >= cur_char:
+                        continue
+                    return cur_font
                 continue
-            if line > cur_line:
+            else:
                 continue
-            if char > cur_char:
-                continue
-            return self[cur_font]
+
         return None
 
     def page_iter(self, number):
