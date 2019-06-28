@@ -8,6 +8,7 @@
 # =============================================================================
 
 from collections import defaultdict
+from statistics import mode
 from typing import List
 from typing import Tuple
 
@@ -97,6 +98,8 @@ def fontsizes(textbounds: TextBoundsList) -> FontOccurrenceList:
 def textsize(occurrences: FontOccurrenceList) -> int:
     """Compute size of text"""
     mostly = sorted(occurrences, key=lambda item: item[1], reverse=True)
+    if not mostly:
+        return None
     most_font_item = mostly[0]
     size = most_font_item[0]
     return size
@@ -109,3 +112,11 @@ def textsize_from_textbounds(
     text_bounds = textbounds(navigator, contentborder)
     font_sizes = fontsizes(text_bounds)
     return textsize(font_sizes)
+
+
+def document_textsize(navigators, contentborders: List[Border]) -> int:
+    result = []
+    for navigator, contentborder in zip(navigators, contentborders):
+        size = textsize_from_textbounds(navigator, contentborder)
+        result.append(size)
+    return mode(result)
