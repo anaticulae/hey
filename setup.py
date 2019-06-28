@@ -66,8 +66,9 @@ if __name__ == "__main__":
         packages=[
             'groupme',
             'groupme.feature',
-            'hey.textnavigator',
             'hey',
+            'hey.fonts',
+            'hey.textnavigator',
             'sections',
             'sections.feature',
             'words',
