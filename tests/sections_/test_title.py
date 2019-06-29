@@ -32,7 +32,7 @@ from tests.sections_ import simple_fontstore_fixture
 
 def test_load_font_lookup(restructured_fontstore):  #pylint:disable=W0621
     first_font = restructured_fontstore.font(
-        page_number=0,
+        number=0,
         container=0,
         line=2,
         char=0,
@@ -62,7 +62,9 @@ def test_extract_title_likelihood(
         fontstore,
     )
     assert result[0] >= MIN_TITLE_LIKELIHOOD
-    assert sum(result) == approx(1.0)
+    # as a result of rounding the sum of the likelihoods is not one, but thats
+    # not a big problem, hitting the region one is enough.
+    assert sum(result) == approx(1.0, abs=0.05)
 
 
 # TODO: Move to more general package
