@@ -71,66 +71,71 @@ def test_extract_title_likelihood(
 # TODO Investigate on this example. Page number must have a different font
 @mark.parametrize(
     'page,position,expected',
-    [(
-        0,
-        [
-            (0, 2, 0),
-            (1, 0, 0),
-            (2, 0, 0),
-            (3, 0, 12),
-        ],
-        [
-            'The RestructuredText Book\nDocumentation',
-            'Release 0.1',
-            'Daniel Greenfeld, Eric Holscher',
-            'Sep 27, 2017',
-        ],
-    ), (
-        1,
-        [],
-        [],
-    ),
-     (
-         2,
-         [
-             (1, 0, 0),
-             (4, 1, 0),
-             (5, 0, 0),
-             (8, 1, 0),
-             (9, 0, 0),
-             (17, 0, 0),
-         ],
-         [
-             'Contents',
-             ('1 RestructuredText Tutorial\n'
-              '3\n'
-              '2 RestructuredText Guide\n'
-              '5'),
-             ('2.1 Basics . . . . . . . . . . . . . . . . . . . . . . . . . . '
-              '. . . . . . . . . . . . . . . . . . . . . . . . . 5\n'
-              '2.2 Blockquotes . . . . . . . . . . . . . . . . . . . . . . . '
-              '. . . . . . . . . . . . . . . . . . . . . . . . 6\n'
-              '2.3 Code: Block . . . . . . . . . . . . . . . . . . . . . . . '
-              '. . . . . . . . . . . . . . . . . . . . . . . . 6'),
-             ('3 RestructuredText Customizations\n'
-              '7\n'
-              '4 Sphinx Tutorial\n'
-              '9'),
-             ('4.1 Step 1 . . . . . . . . . . . . . . . . . . . . . . . . . . '
-              '. . . . . . . . . . . . . . . . . . . . . . . . . 9\n'
-              '4.2 Step 2 . . . . . . . . . . . . . . . . . . . . . . . . . . '
-              '. . . . . . . . . . . . . . . . . . . . . . . . . 13'),
-             ('5 Sphinx Guide\n'
-              '6 Sphinx Customizations\n'
-              '7 Testing your Documentation\n'
-              '8 Indices and tables\n'
-              '15\n'
-              '17\n'
-              '19\n'
-              '21'),
-             ('i'),
-         ],
-     )])
+    [
+        (
+            0,
+            [
+                (0, 2, 0),
+                (2, 0, 0),
+                (3, 0, 0),
+                (4, 0, 0),
+                # (3, 0, 12),
+                # (3, 0, 12),
+            ],
+            [
+                'The RestructuredText Book\nDocumentation',
+                'Release 0.1',
+                'Daniel Greenfeld, Eric Holscher',
+                'Sep 27, 2017',
+            ],
+        ),
+        (
+            1,
+            [],
+            [],
+        ),
+        (
+            2,
+            [
+                (1, 0, 0),
+                (3, 1, 0),
+                (5, 0, 0),
+                (7, 1, 0),
+                (9, 0, 0),
+                (17, 0, 0),
+            ],
+            [
+                'Contents',
+                ('1 RestructuredText Tutorial\n'
+                 '3\n'
+                 '2 RestructuredText Guide'),
+                ('5\n'
+                 '2.1 Basics . . . . . . . . . . . . . . . . . . . . . . . . . . '
+                 '. . . . . . . . . . . . . . . . . . . . . . . . . 5\n'
+                 '2.2 Blockquotes . . . . . . . . . . . . . . . . . . . . . . . '
+                 '. . . . . . . . . . . . . . . . . . . . . . . . 6\n'
+                 '2.3 Code: Block . . . . . . . . . . . . . . . . . . . . . . . '
+                 '. . . . . . . . . . . . . . . . . . . . . . . . 6'),
+                ('3 RestructuredText Customizations\n'
+                 '7\n'
+                 '4 Sphinx Tutorial'),
+                '9\n'
+                '4.1 Step 1 . . . . . . . . . . . . . . . . . . . . . . . . . . '
+                '. . . . . . . . . . . . . . . . . . . . . . . . . 9\n'
+                '4.2 Step 2 . . . . . . . . . . . . . . . . . . . . . . . . . . '
+                '. . . . . . . . . . . . . . . . . . . . . . . . . 13',
+                ('5 Sphinx Guide\n'
+                 '6 Sphinx Customizations\n'
+                 '7 Testing your Documentation\n'
+                 '8 Indices and tables\n'
+                 '15\n'
+                 '17\n'
+                 '19\n'
+                 '21'),
+                ('i'),
+            ],
+        )
+    ])
 def test_split_page(
         restructured_document,  #pylint:disable=W0621
         page,
