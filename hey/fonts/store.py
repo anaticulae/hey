@@ -10,6 +10,7 @@ from iamraw import Font
 # TODO: rename in serializeraw package
 from serializeraw import load_font_content
 from serializeraw import load_font_header
+from utila import NEWLINE
 
 
 class FontStore:
@@ -69,6 +70,43 @@ class FontStore:
                 continue
 
         return None
+
+    def fromstr(
+            self,
+            page: int,
+            container: int,
+            line: int,
+            text: str,
+    ) -> Font:
+        result = []
+        current = self.font(page, container, line, 0)
+        collector = ''
+        lines = text.splitlines()
+        for linenumber, textline in enumerate(lines, start=line):
+            for index, item in enumerate(textline, start=0):
+                font = self.font(page, container, linenumber, index)
+                if font != current:
+                    result.append((
+                        collector,
+                        current,
+                    ))
+                    collector = item
+                    current = font
+                else:
+                    collector += item
+            if linenumber + 1 < len(lines):
+                # last item neeeds no newline
+                collector += NEWLINE
+        # Final font
+        if collector:
+            result.append((
+                collector,
+                current,
+            ))
+
+        for item in result:
+            print(item)
+        return result
 
     def page_iter(self, number):
         return iter(self.pages[number])

@@ -9,6 +9,10 @@
 
 # TODO: Move to iamraw
 
+from iamraw import Font
+from iamraw import Stretch
+from iamraw import Style
+from iamraw import Weight
 from pytest import fixture
 from pytest import mark
 
@@ -58,3 +62,41 @@ def test_fontstore_access_font_id(
     fontid = fontstore.fontid(page, container, line, char)
 
     assert fontid == expected_fontid
+
+
+def test_fontstore_from_str(
+        restructured_fontstore: FontStore,  # pylint:disable=W0621
+):
+    """Determine fonts via text input and start of text sequence"""
+    fontstore = restructured_fontstore
+    text = ('RestructuredText (reST) is a markup language, it’s name coming '
+            'from that it’s considered a revision and reinterpreta-\ntion of'
+            ' two other markup languages, Setext and StructuredText.')
+    first = Font(
+        name='OUYNTX+NimbusRomNo9L',
+        scale=12.0,
+        weight=Weight.LIGHT,
+        style=Style.NORMAL,
+        stretch=Stretch.REGULAR,
+    )
+    bold = Font(
+        name='DMSGBW+NimbusRomNo9L',
+        scale=13.0,
+        weight=Weight.MEDIUM,
+        style=Style.NORMAL,
+        stretch=Stretch.REGULAR,
+    )
+    expected = [
+        (text[0:154], first),
+        (text[154:161], bold),
+        (text[161:165], first),
+        (text[165:179], bold),
+        (text[179:], first),
+    ]
+    page = 4
+    result = fontstore.fromstr(page, 1, 0, text)
+
+    assert len(result) == len(expected), str(result)
+    for (res, exp) in zip(result, expected):
+        assert res == exp
+    assert result == expected, str(result)
