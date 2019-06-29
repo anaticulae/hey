@@ -124,9 +124,7 @@ class PageTextNavigator:
                 result.append(index)
         if not result:
             return None, None
-        top = max(result[0] - 1, 0)
-        bottom = result[-1] + 1
-
+        top, bottom = result[0], result[-1] + 1
         return top, bottom
 
 
