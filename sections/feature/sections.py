@@ -181,8 +181,6 @@ def load_sections(content: str) -> List[str]:
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)
     result = []
-    for item in loaded:
-        print(item)
     return result
 
 

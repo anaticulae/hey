@@ -4,59 +4,18 @@ Extract footer out of document.
 
 from typing import Iterable
 
-from iamraw import Document
 from pytest import fixture
-from serializeraw import load_document
-from serializeraw import load_horizontals
-from serializeraw import load_pageborders
 
 from groupme.feature.numbers import dump_pagenumbers
 from groupme.feature.numbers import footer
 from groupme.feature.numbers import header
 from groupme.feature.numbers import load_pagenumbers
-from groupme.feature.numbers import load_textposition
 from groupme.feature.numbers import pagenumbers
-from hey.textnavigator.navigator import create_pagetextnavigator
-from tests.resources import RESTRUCT_HORIZONTAL
-from tests.resources import RESTRUCT_PAGESIZE
-from tests.resources import RESTRUCT_TEXT
-from tests.resources import RESTRUCT_TEXT_POSITION
-from tests.resources import SIMPLE_HORIZONTAL
-from tests.resources import SIMPLE_PAGESIZE
-from tests.resources import SIMPLE_POSITION
-from tests.resources import SIMPLE_TEXT
-
-
-# TODO: Remove after upgrading `iamraw`
-def __len__(self):
-    return len(self.pages)
-
-
-Document.__len__ = __len__
-
-
-@fixture
-def simple():
-    pagesize = load_pageborders(SIMPLE_PAGESIZE)
-    horizontals = load_horizontals(SIMPLE_HORIZONTAL)
-    position = load_textposition(SIMPLE_POSITION)
-    document = load_document(SIMPLE_TEXT)
-
-    assert pagesize
-    assert horizontals
-    assert position
-
-    assert len(position) == len(document)
-    assert len(horizontals) == len(document)
-
-    navigator = create_pagetextnavigator(position, document)
-    return navigator, horizontals
-
-
-@fixture
-def simple_navigator(simple):  #pylint:disable=W0621
-    navigator, _ = simple
-    return navigator
+# pylint:disable=W0611
+from tests.fixtures.restruct import restructured
+from tests.fixtures.restruct import restructured_navigator
+from tests.fixtures.simple import simple
+from tests.fixtures.simple import simple_navigator
 
 
 def test_simple_example(simple):  #pylint:disable=W0621
@@ -76,36 +35,6 @@ def test_header_simple(simple):  #pylint:disable=W0621
     navigator, _ = simple
     result = header(navigator)
     assert not result
-
-
-@fixture
-def restructured():
-    pagesize = load_pageborders(RESTRUCT_PAGESIZE)
-    horizontals = load_horizontals(RESTRUCT_HORIZONTAL)
-    position = load_textposition(RESTRUCT_TEXT_POSITION)
-    document = load_document(RESTRUCT_TEXT)
-
-    assert pagesize
-    assert horizontals
-    assert position
-
-    assert len(position) == len(document)
-    assert len(horizontals) == len(document)
-
-    navigators = create_pagetextnavigator(position, document)
-    return navigators, horizontals
-
-
-@fixture
-def restructured_navigator(restructured):  #pylint:disable=W0621
-    navigators, _ = restructured
-    return navigators
-
-
-@fixture
-def restructured_sizeandborder():
-    size, border = load_pageborders(RESTRUCT_PAGESIZE)
-    return size, border
 
 
 def test_footer_restructured(restructured_navigator):  #pylint:disable=W0621

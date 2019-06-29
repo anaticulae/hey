@@ -8,26 +8,25 @@
 # =============================================================================
 from iamraw import Font
 from pytest import approx
-from pytest import fixture
 from pytest import mark
 from serializeraw import dump_likelihood
 from serializeraw import load_likelihood
 
 from sections.feature.title import extract_title_likelihood
 from sections.feature.title import split_page
-from sections.feature.title import work
 # pylint:disable=W0611
-from tests.hey_.test_fonts_store import restructured_fontstore
-from tests.hey_.test_fonts_store import restructured_fontstore_fixture
+from tests.fixtures.restruct import restructured_document
+from tests.fixtures.restruct import restructured_document_fixture
+from tests.fixtures.restruct import restructured_fontstore
+from tests.fixtures.restruct import restructured_fontstore_fixture
+from tests.fixtures.simple import simple_document  # pylint:disable=W0611
+from tests.fixtures.simple import simple_document_fixture
+from tests.fixtures.simple import simple_fontstore  # pylint:disable=W0611
+from tests.fixtures.simple import simple_fontstore_fixture
+# pylint:disable=W0611
 from tests.resources import RESTRUCT_ONELINE_FONT_CONTENT
 from tests.resources import RESTRUCT_ONELINE_FONT_HEADER
 from tests.resources import RESTRUCT_ONELINE_TEXT
-from tests.sections_ import restructured_document  # pylint:disable=W0611
-from tests.sections_ import restructured_document_fixture
-from tests.sections_ import simple_document  # pylint:disable=W0611
-from tests.sections_ import simple_document_fixture
-from tests.sections_ import simple_fontstore  # pylint:disable=W0611
-from tests.sections_ import simple_fontstore_fixture
 
 
 def test_load_font_lookup(restructured_fontstore):  #pylint:disable=W0621
@@ -160,13 +159,3 @@ def test_dump_and_load_likelhood(
     loaded = load_likelihood(dumped)
 
     assert loaded == result
-
-
-@fixture
-def restructured_title():
-    result = work(
-        RESTRUCT_ONELINE_TEXT,
-        RESTRUCT_ONELINE_FONT_HEADER,
-        RESTRUCT_ONELINE_FONT_CONTENT,
-    )
-    return result

@@ -14,11 +14,11 @@ from hey.textnavigator.navigator import merge_content
 from hey.textnavigator.navigator import navigator_to_bounds
 from hey.textnavigator.navigator import percent_to_pagesize
 from hey.textnavigator.navigator import to_content
-from tests.groupme_ import navigator  # pylint:disable=W0611
 #pylint:disable=W0611
-from tests.resources import simple_second_page_navigator
-from tests.resources import simpledocument
-from tests.resources import simplepagetextnavigators
+from tests.fixtures.simple import simple_document
+from tests.fixtures.simple import simple_pagetextnavigators
+from tests.fixtures.simple import simple_second_page_navigator
+from tests.groupme_ import navigator  # pylint:disable=W0611
 
 
 def test_insert_order(navigator: PageTextNavigator):  #pylint:disable=W0621

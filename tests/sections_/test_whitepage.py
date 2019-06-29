@@ -77,9 +77,3 @@ def test_whitepages_dump_and_load():
     loaded = load_whitepages(dumped)
 
     assert loaded == RESTRUCT_EXPECTED
-
-
-@fixture
-def restructured_whitepage():
-    result = work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION, RESTRUCT_HORIZONTAL)
-    return result

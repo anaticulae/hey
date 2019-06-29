@@ -16,13 +16,33 @@ from iamraw import Page
 from iamraw import TextContainer
 from pytest import fixture
 from serializeraw import load_document
+from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 
 from groupme.feature.numbers import load_textposition
 from hey import ROOT
+from hey.fonts.store import FontStore
+from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigator
+from sections.creator import add_chapter
+from sections.creator import add_content
+from sections.creator import add_index
+from sections.creator import add_introduction
+from sections.creator import add_table
+from sections.creator import add_text
+from sections.creator import add_title
+from sections.creator import add_toc
+from sections.creator import add_whitepage
+from sections.creator import validate
+from sections.ctor import PERCENT_100
+from sections.ctor import Sections
+from sections.feature.chapter import work as work_chapter
+from sections.feature.index import work as work_index
+from sections.feature.title import work as work_title
+from sections.feature.toc import work as work_toc
+from sections.feature.whitepage import work as work_whitepage
 
 TEST_DATA = join(ROOT, 'tests/resources')
 
@@ -79,63 +99,3 @@ for item in [
 ]:
     msg = 'missing resource: %s' % item
     assert exists(item), item
-
-
-@fixture
-def simpledocument() -> Document:
-    doc: Document = load_document(SIMPLE_TEXT)
-    return doc
-
-
-@fixture
-def simplepagetextnavigators(
-        simpledocument: Document,  #pylint:disable=W0621
-) -> PageTextNavigators:
-    textpositions = load_textposition(SIMPLE_POSITION)
-
-    return create_pagetextnavigator(textpositions, simpledocument)
-
-
-@fixture
-def simplepagesize():
-    size, _ = load_pageborders(SIMPLE_PAGESIZE)
-    return size
-
-
-@fixture
-def simplecontentborder():
-    _, border = load_pageborders(SIMPLE_PAGESIZE)
-    return border
-
-
-@fixture
-def simplepage_0(simpledocument: Document) -> Page:  # pylint: disable=W0621
-    page: Page = simpledocument[0]
-    return page
-
-
-@fixture
-def simplepage_2(simpledocument: Document) -> Page:  # pylint: disable=W0621
-    page: Page = simpledocument[2]
-    return page
-
-
-@fixture
-def simplepage_2_text_only(simplepage_2: Page):  # pylint: disable=W0621
-    lines = []
-    for child in simplepage_2:
-        if not isinstance(child, TextContainer):
-            continue
-        lines.extend(child.text.splitlines())
-    return lines
-
-
-# TODO: Reduce amout of fixtures
-@fixture
-def simple_second_page_navigator(simplepagetextnavigators) -> PageTextNavigator:
-    return simplepagetextnavigators[1]
-
-
-@fixture
-def simple_second_page_size(simplecontentborder) -> Border:
-    return simplecontentborder[1]

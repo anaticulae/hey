@@ -9,7 +9,6 @@
 
 from pytest import fixture
 from serializeraw import load_document
-from serializeraw import load_horizontals
 from serializeraw import load_toc
 
 from groupme.feature.numbers import load_textposition
@@ -93,9 +92,3 @@ def test_chapter_dump_and_load_detection():
     loaded = load_chapter_detection(dumped)
 
     assert loaded == result
-
-
-@fixture
-def restructured_chapter():
-    result = work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION, RESTRUCT_TOC)
-    return result

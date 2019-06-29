@@ -6,28 +6,30 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import create_pagetextnavigator
-from tests.groupme_.test_numbers import restructured_sizeandborder
-from tests.hey_.test_fonts_store import restructured_fontstore
-from tests.sections_ import restructured_document  # pylint:disable=W0611
-from tests.sections_ import restructured_horizontals
-from tests.sections_ import restructured_text_positions
-from tests.sections_.test_sections import restructured
+# pylint:disable=W0611
+from tests.fixtures.restruct import restructured
+from tests.fixtures.restruct import restructured_document
+from tests.fixtures.restruct import restructured_fontstore
+from tests.fixtures.restruct import restructured_horizontals
+from tests.fixtures.restruct import restructured_sections
+from tests.fixtures.restruct import restructured_sizeandborder
+from tests.fixtures.restruct import restructured_text_positions
 from words.feature.headlines import Headline
 from words.feature.headlines import extract_headlines
 
 
 # def extract_headlines(sections: Sections, text, fontstore: FontStore):
 def test_headlines_extract_headlines(
-        restructured,
+        # pylint:disable=W0621
+        restructured_sections,
         restructured_text_positions,
         restructured_document,
         restructured_fontstore,
         restructured_sizeandborder,
         restructured_horizontals,
 ):
-    sections = restructured
+    sections = restructured_sections
     position = restructured_text_positions
     document = restructured_document
     sizeandborder = restructured_sizeandborder
@@ -58,21 +60,3 @@ def test_headlines_extract_headlines(
     ]
 
     assert extracted == expected
-
-
-# def extract_headlines(sections: Sections, text, fontstore: FontStore):
-
-# RESTRUCT_FONT_CONTENT = join(RESTRUCT, 'rawmaker__fonts_content.yaml')
-# RESTRUCT_FONT_HEADER = join(RESTRUCT, 'rawmaker__fonts_header.yaml')
-# RESTRUCT_HORIZONTAL = join(RESTRUCT, 'rawmaker__boxes_horizontal.yaml')
-# RESTRUCT_ONELINE_FONT_CONTENT = join(RESTRUCT,
-#                                      'rawmaker__oneline_fonts_content.yaml')
-# RESTRUCT_ONELINE_FONT_HEADER = join(RESTRUCT,
-#                                     'rawmaker__oneline_fonts_header.yaml')
-# RESTRUCT_ONELINE_POSITION = join(RESTRUCT,
-#                                  'rawmaker__oneline_text_positions.yaml')
-# RESTRUCT_ONELINE_TEXT = join(RESTRUCT, 'rawmaker__oneline_text_text.yaml')
-# RESTRUCT_PAGESIZE = join(RESTRUCT, 'rawmaker__border_pages.yaml')
-# RESTRUCT_TEXT_POSITION = join(RESTRUCT, 'rawmaker__text_positions.yaml')
-# RESTRUCT_TEXT = join(RESTRUCT, 'rawmaker__text_text.yaml')
-# RESTRUCT_TOC = join(RESTRUCT, 'rawmaker__toc.yaml')

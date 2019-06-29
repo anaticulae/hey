@@ -23,12 +23,12 @@ from groupme.structure import parse_headline
 from groupme.structure import sections
 from groupme.structure import sections_from_page
 # pylint: disable=unused-import
+from tests.fixtures.simple import simple_document
+from tests.fixtures.simple import simple_page_2
+from tests.fixtures.simple import simple_page_2_text_only
 from tests.resources import SIMPLE_HEADLINES_PAGE_3
 from tests.resources import SIMPLE_TEXT
 from tests.resources import SIMPLE_TOC_LINES
-from tests.resources import simpledocument
-from tests.resources import simplepage_2
-from tests.resources import simplepage_2_text_only
 
 
 def test_dump_and_load_chapter():
@@ -44,13 +44,13 @@ def test_dump_and_load_chapter():
     assert loaded == content
 
 
-def test_extract_page_2(simplepage_2: Page):  # pylint: disable=W0621
-    blocks = sections_from_page(simplepage_2)
+def test_extract_page_2(simple_page_2: Page):  # pylint: disable=W0621
+    blocks = sections_from_page(simple_page_2)
     assert len(blocks) == SIMPLE_HEADLINES_PAGE_3
 
 
-def test_extract_document(simpledocument: Document):  # pylint: disable=W0621
-    result = sections(simpledocument)
+def test_extract_document(simple_document: Document):  # pylint: disable=W0621
+    result = sections(simple_document)
     assert result
 
 
@@ -68,9 +68,9 @@ def test_headline_match(headline):
     assert len(parsed) == 2, parsed
 
 
-def test_parse_headlines(simplepage_2_text_only):  # pylint: disable=W0621
+def test_parse_headlines(simple_page_2_text_only):  # pylint: disable=W0621
     headlines = []
-    for line in simplepage_2_text_only:
+    for line in simple_page_2_text_only:
         result = parse_headline(line)
         if not result:
             continue

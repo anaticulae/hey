@@ -21,10 +21,8 @@ Required resources:
 from dataclasses import dataclass
 from dataclasses import field
 from statistics import mode
-from typing import Tuple
 
 from iamraw import Border
-from iamraw import PageSize
 
 from groupme.feature.footer import document_footer
 from groupme.feature.footer import footerborder_to_bounds
@@ -33,13 +31,9 @@ from hey.textnavigator.fonts import document_textsize
 from hey.textnavigator.fonts import fontdistance
 from hey.textnavigator.fonts import fontsize_from_textbounds
 from hey.textnavigator.fonts import textbounds
-from hey.textnavigator.fonts import textfeed
 from hey.textnavigator.navigator import PageTextContentNavigator
-from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
-from hey.textnavigator.navigator import create_pagetextnavigator
 from hey.textnavigator.navigator import navigator_to_bounds
-from hey.textnavigator.navigator import percent_from_pagesize
 from sections.feature.sections import Sections
 from sections.feature.sections import chapters
 
@@ -85,6 +79,8 @@ def extract_headlines(
         horizontals,
         chapter: int = 0,
 ):
+    assert isinstance(sections, Sections), type(sections)
+
     chapter = [chapter] if isinstance(chapter, int) else chapter
     content = chapters(sections)
     pagesizes, contentborders = sizeandborder
@@ -123,11 +119,7 @@ def extract_headlines(
                 if fontsize <= textsize:
                     continue
 
-                print('page: %d' % number)
                 font = fontstore.font(number, containerid, line=1, char=1)
-                print('Font %r' % font)
-                print(fontsize)
-                print(text)
                 chaptercontent.append(Headline(
                     text=text,
                     level=fontsize,

@@ -6,15 +6,3 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
-from pytest import approx
-
-from sections.feature.toc import extract_toc_likelihood
-# pylint:disable=W0611
-from tests.fixtures.restruct import restructured_document
-
-
-#pylint:disable=W0621
-def test_extract_toc_likelihood(restructured_document):
-    extracted = extract_toc_likelihood(restructured_document)
-    assert sum(extracted) == approx(1.0)

@@ -21,31 +21,16 @@ from serializeraw import load_pageborders
 from groupme.feature.numbers import load_textposition
 from hey.fonts.store import FontContentStore
 from hey.fonts.store import FontStore
-from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import PageTextContentNavigator
-from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigator
-from tests.resources import RESTRUCT_FONT_CONTENT
-from tests.resources import RESTRUCT_FONT_HEADER
+# pylint:disable=W0611
+from tests.fixtures.restruct import restructured_document
+from tests.fixtures.restruct import restructured_fontstore
+from tests.fixtures.restruct import restructured_horizontals
 from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT_POSITION
-from tests.sections_ import restructured_document
-from tests.sections_ import restructured_horizontals
 from words.feature.headlines import content_border
-
-
-@fixture
-def restructured_fontstore() -> FontStore:
-    lookup = create_fontstore(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
-    return lookup
-
-
-def restructured_fontstore_fixture() -> FontStore:
-    # TODO: Remove with new pytest - this is required, because pytest carn't
-    # use fixture in paramertized tests.
-    lookup = create_fontstore(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
-    return lookup
 
 
 @mark.parametrize(

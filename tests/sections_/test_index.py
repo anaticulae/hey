@@ -7,13 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pytest import fixture
-
 from sections.feature.index import extract_index_likelihood
 from sections.feature.index import work
-from tests.resources import RESTRUCT_ONELINE_TEXT
+from tests.fixtures.restruct import restructured_document
 # pylint:disable=unused-import
-from tests.sections_ import restructured_document
+from tests.resources import RESTRUCT_ONELINE_TEXT
 
 # manually set to secure index finder quality
 LAST_PAGE_INDEX_LIKELYHOOD = 0.45
@@ -32,9 +30,3 @@ def test_extract_index_likelihood(restructured_document):
 def test_index_work():
     dumped = work(RESTRUCT_ONELINE_TEXT)
     assert len(dumped) > 100
-
-
-@fixture
-def restructured_index():
-    result = work(RESTRUCT_ONELINE_TEXT)
-    return result

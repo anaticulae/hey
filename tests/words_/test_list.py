@@ -14,11 +14,11 @@ from hey.textnavigator.navigator import merge_content
 from hey.textnavigator.navigator import to_content
 # from hey.textnavigator.navigator import PageTextContentNavigator
 #pylint:disable=W0611
-from tests.resources import simple_second_page_navigator
-from tests.resources import simple_second_page_size
-from tests.resources import simplecontentborder
-from tests.resources import simpledocument
-from tests.resources import simplepagetextnavigators
+from tests.fixtures.simple import simple_contentborder
+from tests.fixtures.simple import simple_document
+from tests.fixtures.simple import simple_pagetextnavigators
+from tests.fixtures.simple import simple_second_page_navigator
+from tests.fixtures.simple import simple_second_page_size
 from words.feature.list import LType
 from words.feature.list import PageList
 from words.feature.list import extract_lists
@@ -28,13 +28,13 @@ from words.feature.list import parse_numbered_list
 
 #pylint:disable=W0621
 def test_list_extract_page(
-        simpledocument,
-        simplepagetextnavigators,
-        simplecontentborder,
+        simple_document,
+        simple_pagetextnavigators,
+        simple_contentborder,
 ):
-    page_1 = simpledocument[1]
-    navigator_1 = simplepagetextnavigators[1]
-    contentborder_1 = simplecontentborder[1]
+    page_1 = simple_document[1]
+    navigator_1 = simple_pagetextnavigators[1]
+    contentborder_1 = simple_contentborder[1]
 
     return
     navigator = PageTextContentNavigator(navigator_1, contentborder_1)

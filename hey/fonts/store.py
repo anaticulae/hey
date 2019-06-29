@@ -7,7 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 from iamraw import Font
-# TODO: rename in serializeraw package
 from serializeraw import load_font_content
 from serializeraw import load_font_header
 from utila import NEWLINE
@@ -106,8 +105,6 @@ class FontStore:
                 current,
             ))
 
-        for item in result:
-            print(item)
         return result
 
     def page_iter(self, number):

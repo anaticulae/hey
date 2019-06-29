@@ -13,11 +13,11 @@ from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.fonts import textsize
 from hey.textnavigator.navigator import navigator_to_bounds
 #pylint:disable=W0611
-from tests.resources import simple_second_page_navigator
-from tests.resources import simple_second_page_size
-from tests.resources import simplecontentborder
-from tests.resources import simpledocument
-from tests.resources import simplepagetextnavigators
+from tests.fixtures.simple import simple_contentborder
+from tests.fixtures.simple import simple_document
+from tests.fixtures.simple import simple_pagetextnavigators
+from tests.fixtures.simple import simple_second_page_navigator
+from tests.fixtures.simple import simple_second_page_size
 
 
 def test_groupme_fonts_fondistance(simple_second_page_navigator):  #pylint:disable=W0621
