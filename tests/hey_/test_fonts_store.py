@@ -9,17 +9,30 @@
 
 # TODO: Move to iamraw
 
+from iamraw import Document
 from iamraw import Font
 from iamraw import Stretch
 from iamraw import Style
 from iamraw import Weight
 from pytest import fixture
 from pytest import mark
+from serializeraw import load_pageborders
 
+from groupme.feature.numbers import load_textposition
+from hey.fonts.store import FontContentStore
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
+from hey.textnavigator.navigator import PageTextContentNavigator
+from hey.textnavigator.navigator import PageTextNavigator
+from hey.textnavigator.navigator import PageTextNavigators
+from hey.textnavigator.navigator import create_pagetextnavigator
 from tests.resources import RESTRUCT_FONT_CONTENT
 from tests.resources import RESTRUCT_FONT_HEADER
+from tests.resources import RESTRUCT_PAGESIZE
+from tests.resources import RESTRUCT_TEXT_POSITION
+from tests.sections_ import restructured_document
+from tests.sections_ import restructured_horizontals
+from words.feature.headlines import content_border
 
 
 @fixture
@@ -64,11 +77,7 @@ def test_fontstore_access_font_id(
     assert fontid == expected_fontid
 
 
-def test_fontstore_from_str(
-        restructured_fontstore: FontStore,  # pylint:disable=W0621
-):
-    """Determine fonts via text input and start of text sequence"""
-    fontstore = restructured_fontstore
+def expected_result():
     text = ('RestructuredText (reST) is a markup language, it’s name coming '
             'from that it’s considered a revision and reinterpreta-\ntion of'
             ' two other markup languages, Setext and StructuredText.')
@@ -94,7 +103,71 @@ def test_fontstore_from_str(
         (text[179:], first),
     ]
     page = 4
+
+    return (text, page, expected)
+
+
+def test_fontstore_from_str(
+        restructured_fontstore: FontStore,  # pylint:disable=W0621
+):
+    """Determine fonts via text input and start of text sequence"""
+    fontstore = restructured_fontstore
+    (text, page, expected) = expected_result()
     result = fontstore.fromstr(page, 1, 0, text)
+
+    assert len(result) == len(expected), str(result)
+    for (res, exp) in zip(result, expected):
+        assert res == exp
+    assert result == expected, str(result)
+
+
+@fixture
+def restructured_textnavigators(restructured_document: Document,
+                               ) -> PageTextNavigators:
+    textpositions = load_textposition(RESTRUCT_TEXT_POSITION)
+    return create_pagetextnavigator(textpositions, restructured_document)
+
+
+@fixture
+def restructured_contentborder():
+    _, border = load_pageborders(RESTRUCT_PAGESIZE)
+    return border
+
+
+@fixture
+def restructured_pagetextcontentnavigator(
+        # restructured_document,
+        restructured_textnavigators,
+        restructured_contentborder,
+        restructured_horizontals,
+) -> PageTextContentNavigator:
+    # page_1 = res[1]
+    # pagetextnavigator: PageTextNavigators(),
+    page = 4
+    navigator = restructured_textnavigators[page]
+    horizontals = restructured_horizontals
+    contentborders = restructured_contentborder
+    border = content_border(horizontals, contentborders)
+    pagecontent = PageTextContentNavigator(
+        navigator,
+        border,
+    )
+    return pagecontent
+
+
+def test_fontstore_fontcontentstore(
+        restructured_pagetextcontentnavigator,
+        restructured_fontstore,
+):
+    navigator = restructured_pagetextcontentnavigator
+    fontstore = restructured_fontstore
+    content = FontContentStore(
+        store=fontstore,
+        navigator=navigator,
+        page=4,
+    )
+    (text, _, expected) = expected_result()
+    result = content.fromstr(0, 0, text)
 
     assert len(result) == len(expected), str(result)
     for (res, exp) in zip(result, expected):
