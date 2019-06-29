@@ -12,6 +12,8 @@ from serializeraw import load_font_content
 from serializeraw import load_font_header
 from utila import NEWLINE
 
+from hey.textnavigator.navigator import PageTextContentNavigator
+
 
 class FontStore:
 
@@ -118,16 +120,72 @@ class FontStore:
         return self.header[index]
 
 
-class FontContenStore:
+class FontContentStore:
 
     def __init__(
             self,
             store: FontStore,
+            navigator: PageTextContentNavigator,
             page: int,
-            top: float,
-            bottom: float,
     ):
-        pass
+        assert store, navigator
+        self.store = store
+        self.off_start = navigator.offset[0]
+        self.off_end = navigator.offset[1]
+        self.page = page
+
+    def fontid(
+            self,
+            container: int,
+            line: int,
+            char: int,
+    ) -> int:
+        """Determine fontid based on location. The contaienr index starts with
+        zero. The container id is relativ to start of content.
+
+        Args:
+            container(int): containerid relativ to start of content. The
+                            internal containerid is determined as
+                            `content-start` + `container`.
+            line(int): line in selected container
+            char(int): char in goal line
+        Returns:
+            fontid which determines the font definion which is defined in
+            header.
+        """
+        current_container = self.off_start + container
+        if container >= len(self):
+            # TODO: check the index
+            raise IndexError('Index %d out of bounds' % container)
+        fontid = self.store.fontid(self.page, current_container, line, char)
+        return fontid
+
+    def fromstr(
+            self,
+            container: int,
+            line: int,
+            text: str,
+    ) -> Font:
+        current_container = self.off_start + container
+        result = self.store.fromstr(
+            self.page,
+            current_container,
+            line,
+            text,
+        )
+        return result
+
+    def __len__(self):
+        return self.off_end - 1
+
+    def __getitem__(self, index: int) -> Font:
+        try:
+            return self.store[index]
+        except (KeyError, TypeError):
+            raise IndexError('Invalid font index: %r' % index)
+
+    # def page_iter(self, number):
+    #     return iter(self.pages[number])
 
 
 def create_fontstore(header: str, content: str) -> FontStore:
