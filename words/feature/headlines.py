@@ -17,10 +17,18 @@ Required resources:
     sections
     text
     font?
+
+
+TODO: New concept:
+
+Collect all title, cluster them by size and font distance and derivate the
+headline level out of these information. Use further text information out of
+headline.
 """
 from dataclasses import dataclass
 from dataclasses import field
 from statistics import mode
+from typing import List
 
 from iamraw import Border
 
@@ -28,7 +36,7 @@ from groupme.feature.footer import document_footer
 from groupme.feature.footer import footerborder_to_bounds
 from hey.fonts.store import FontStore
 from hey.textnavigator.fonts import document_textsize
-from hey.textnavigator.fonts import fontdistance
+from hey.textnavigator.fonts import fontdistance_textbounds
 from hey.textnavigator.fonts import fontsize_from_textbounds
 from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.navigator import PageTextContentNavigator
@@ -37,38 +45,26 @@ from hey.textnavigator.navigator import navigator_to_bounds
 from sections.feature.sections import Sections
 from sections.feature.sections import chapters
 
+BorderList = List[Border]
+
 
 @dataclass
 class Headline:
     text: str
-    level: int = field(default=0, compare=False)
+    level: int = field(default=0)
     rawlevel: str = field(default=None, compare=False)
+
+
+PagesHeadlineList = List[List[Headline]]
 
 
 def work():
     pass
 
 
-def document_border(contentborders) -> Border:
-    # 'left bottom right top'
-    left, bottom, right, top = [], [], [], []
-
-    for item in contentborders:
-        left.append(item[0])
-        bottom.append(item[1])
-        right.append(item[2])
-        top.append(item[3])
-
-    left, bottom, right, top = mode(left), mode(bottom), mode(right), mode(top)
-
-    return Border(left, bottom, right, top)
-
-
-def content_border(horizontals, contentborders):
-    border = document_footer(horizontals)
-    border = footerborder_to_bounds(border)
-    leftright = document_border(contentborders)
-    return Border(leftright.left, border.bottom, leftright.right, border.top)
+SMALLEST_HEADLINE_FACTOR = 1.1  # TODO: HOLY VALUE
+FIRST_LEVEL = 0.9  # TODO: HOLY VALUE
+SECOND_LEVEL = 0.7
 
 
 def extract_headlines(
@@ -83,64 +79,120 @@ def extract_headlines(
 
     chapter = [chapter] if isinstance(chapter, int) else chapter
     content = chapters(sections)
-    pagesizes, contentborders = sizeandborder
+    _, contentborders = sizeandborder
     border = content_border(horizontals, contentborders)
 
     textsize = document_textsize(
         navigators=pagetextnavigator,
         contentborders=contentborders,
-    ) * 1.1
+    )
+    smallest_headline_size = textsize * SMALLEST_HEADLINE_FACTOR
+
     result = []
-    font = fontstore.font(0, 0, line=0, char=0)
     for index in chapter:
         chaptercontent = []
         (start, end) = content[index]
 
-        for number in range(start, end + 1):
-            # TODO: FIX PageTextContentNavigator
-            # pagesize = pagesizes[number]
-            # contentborder = contentborders[number]
-            # top, bottom = topbottom(pagesize, tb)
+        for page in range(start, end + 1):
             pagecontent = PageTextContentNavigator(
-                pagetextnavigator[number],
+                pagetextnavigator[page],
                 border,
             )
             xoff = pagecontent.offset[0]
             xoff = xoff if xoff is not None else 0
 
             bounds = navigator_to_bounds(pagecontent)
-            distances = fontdistance(bounds)
             bounds = textbounds(pagecontent, border)
+            without_content = [item[0] for item in bounds]
+            distances = fontdistance_textbounds(without_content)
             for containerid, (item, text) in enumerate(bounds, start=xoff):
+                # font = fontstore.font(page, containerid, line=0, char=0)
                 splitted = text.splitlines()
                 if len(splitted) > 1:
                     continue
                 fontsize = fontsize_from_textbounds(item)
-                if fontsize <= textsize:
+                if fontsize <= smallest_headline_size:
+                    # text is to small to be a headline
                     continue
 
-                font = fontstore.font(number, containerid, line=1, char=1)
+                level = None
+                try:
+                    level = distances[containerid] + distances[containerid + 1]
+                except IndexError:
+                    level = distances[containerid] * 2
+
                 chaptercontent.append(Headline(
                     text=text,
-                    level=fontsize,
+                    level=level,
                 ))
-                # for item in pagecontent:
-                #     # fontsize =
-                #     splitted = item[1].splitlines()
-                #     if len(splitted) > 1:
-                #         continue
-
-                #                     def textbounds(
-                #         navigator: 'PageTextNavigator',
-                #         contentborder: Border,
-                # ) -> TextBoundsList:
-                # bounds, text = splitted[0]
-                # textfeed()
-
-                # print(splitted)
-                # print(item[1])
-                # print(type(item[1]))
-            print()
-            print('NewPage')
         result.append(chaptercontent)
+    convert_level(result)
+    return result
+
+
+def document_border(contentborders: BorderList) -> Border:
+    """Extract all content border for every page and determine the most common
+    border. Every direction is analyzed separatly.
+
+    Args:
+        contentborders(BorderList):
+    Returns:
+        most common border
+    """
+    # TODO: Move this code
+    # TODO: Change!
+    # 'left bottom right top'
+    left, bottom, right, top = [], [], [], []
+
+    # TODO: Check the positions
+    for item in contentborders:
+        left.append(item[0])
+        bottom.append(item[1])
+        right.append(item[2])
+        top.append(item[3])
+
+    left, bottom, right, top = mode(left), mode(bottom), mode(right), mode(top)
+
+    return Border(left=left, bottom=bottom, right=right, top=top)
+
+
+def content_border(horizontals, contentborders: BorderList) -> Border:
+    # TODO: extend type hints after upgrading iamraw
+    """Determine the content border as a result of left/right-side and detected
+    footer"""
+    border = document_footer(horizontals)
+    border = footerborder_to_bounds(border)
+    leftright = document_border(contentborders)
+
+    result = Border(
+        bottom=border.bottom,
+        left=leftright.left,
+        right=leftright.right,
+        top=border.top,
+    )
+    return result
+
+
+def convert_level(result: PagesHeadlineList) -> int:
+    """Convert chapter level based on text distances to logical level
+    (1,2,3,4,...).
+
+    Hint: This function updates the level
+    TODO: copy items
+    """
+    maxsize = max([max([item.level for item in chapter]) for chapter in result])
+    first_level = FIRST_LEVEL * maxsize
+    second_level = SECOND_LEVEL * maxsize
+
+    def get_level(value):
+        if value >= first_level:
+            return 1
+        if value >= second_level:
+            return 2
+        return 3
+
+    # TODO: copy elements
+    for items in result:
+        for item in items:
+            item.level = get_level(item.level)
     return result
