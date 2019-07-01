@@ -1,4 +1,4 @@
-iamraw==0.4.24
+iamraw==0.4.25
 utila==0.7.6
 
 # ensure that test data is generated with the right version of rawmaker
