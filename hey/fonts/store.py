@@ -6,6 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+
 from iamraw import Font
 from serializeraw import load_font_content
 from serializeraw import load_font_header
@@ -20,9 +21,11 @@ class FontStore:
         """Define `FontStore`
 
         Args:
-            header:
-            pages:
+            header: a table with font styles, accessible by index
+            pages: font content for every page
         """
+        assert header
+        assert pages
         self.header = header
         self.pages = pages
 
@@ -43,7 +46,7 @@ class FontStore:
             line: int,
             char: int,
     ) -> int:
-        """Extract `Font` out out text position
+        """Extract `Font` out of text position.
 
         Args:
             number(int): `number` of given page
@@ -51,7 +54,7 @@ class FontStore:
             line(int):
             char(int):
         Returns:
-            Font
+            Fontid
         """
         # TODO: linear complexity!
         page = self.pages[number]
@@ -79,6 +82,16 @@ class FontStore:
             line: int,
             text: str,
     ) -> Font:
+        """
+
+        Args:
+            page(int):
+            container(int):
+            line(int):
+            text(str):
+        Returns:
+            Font
+        """
         result = []
         current = self.font(page, container, line, 0)
         collector = ''
@@ -96,7 +109,7 @@ class FontStore:
                 else:
                     collector += item
             if linenumber + 1 < len(lines):
-                # last item neeeds no newline
+                # last item needs no newline
                 collector += NEWLINE
         # Final font
         if collector:
@@ -137,18 +150,17 @@ class FontContentStore:
             line: int,
             char: int,
     ) -> int:
-        """Determine fontid based on location. The contaienr index starts with
-        zero. The container id is relativ to start of content.
+        """Determine fontid based on location. The container index starts with
+        zero. The containerid is relative to the start of content.
 
         Args:
-            container(int): containerid relativ to start of content. The
+            container(int): containerid relative to start of content. The
                             internal containerid is determined as
                             `content-start` + `container`.
             line(int): line in selected container
             char(int): char in goal line
         Returns:
-            fontid which determines the font definion which is defined in
-            header.
+            fontid - font number defined in font_header
         """
         current_container = self.off_start + container
         if container >= len(self):
@@ -181,11 +193,17 @@ class FontContentStore:
         except (KeyError, TypeError):
             raise IndexError('Invalid font index: %r' % index)
 
-    # def page_iter(self, number):
-    #     return iter(self.pages[number])
-
 
 def create_fontstore(header: str, content: str) -> FontStore:
+    """Load FontStore from `header`-path and `content`-path
+
+    Args:
+        header(str): path to saved font-header
+        content(str): path to saved font-content
+    Returns:
+        created FontStore
+    """
+
     fonts = load_font_header(header)
     pages = load_font_content(content)
 
