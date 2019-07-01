@@ -2,6 +2,47 @@
 
 Every noteable change is logged here.
 
+## v0.4.2
+
+### Feature
+
+* add method to determine font distances based on TextBounds (4f3112995622)
+* determine font level based on font-size/position information (d9873544e303)
+* use central roundme method to avoid code duplicates (0f7b89513623)
+* ensure rawmaker version for generating test data (e193c6257036)
+* add FontContentStore to analyze fonts on current content page (a36442601646)
+* add method to determine fonts from text sequence (39a7ef42b7ad)
+* add headline extractor - not finished yet (49be003da2aa)
+* add textnavigator which ignores footer and header information (b82c5072f299)
+* add method to extract footer area from page (cc6b51479033)
+* add method to determine font size of normal text of document (6d822e7159cb)
+* add templates for new features style, text, words (f64c5e82362d)
+* add title to chapter (d16b6883c906)
+* add method to extract chapter out of `Sections` (03e581891ab5)
+* extend interface documentation add some assertion (d55ffbe6ca1d)
+* group sections to determine document structure (b6978f174be6)
+* count ". ." instead of "." (74d35becd031)
+* add extraction of chapter with incomplete chapter title (12c1ed5b533e)
+* add separate serializing of title and level (7bff73817054)
+* add `dump_chapter` method (f692e91bd8e3)
+
+### Fix
+
+* fix offset index (9b89acc24639)
+* fix textprocessor accessing the right token (4704f3d4ee21)
+* fix font store access via fontid (9ef271d37c7b)
+* fix imports to new serializeraw version (f6245ad8c480)
+* fix missing refactored package (89a1cccdaa0d)
+* fix __len__ method of sections (83bcd87a1db0)
+* remove percentage of page number, take only full page numbers (2a8367f49fe6)
+* fix to new feature interface (44ff6236456f)
+
+### Documentation
+
+* extend interface documentation of FontStore (1bfa5c246f53)
+* extend toc interface documentation (3f13246aa9eb)
+* add hint to investigate to pipeline (b2b7805b84c6)
+
 ## v0.4.1
 
 ### Feature
