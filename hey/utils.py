@@ -7,3 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 """Store experimental code here"""
+
+NDIGITS = 2
+
+
+def roundme(value: float):
+    """Round value to `NDGITS`=2"""
+    return round(value, NDIGITS)

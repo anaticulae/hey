@@ -15,6 +15,8 @@ from typing import Tuple
 from iamraw import Border
 from iamraw import BoundingBox
 
+from hey.utils import roundme
+
 # TODO: rejoin with newer python
 # from hey.textnavigator.navigator import PageTextNavigator
 
@@ -90,7 +92,7 @@ def fontsizes(textbounds: TextBoundsList) -> FontOccurrenceList:
     common = sum(sizes.values())
     result = [(
         size,
-        round(occurence / common, 2),
+        roundme(occurence / common),
     ) for size, occurence in sizes.items()]
     return result
 

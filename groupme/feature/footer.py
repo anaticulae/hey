@@ -23,6 +23,7 @@ from yaml import dump
 from yaml import load
 
 from groupme.feature.numbers import common_items
+from hey.utils import roundme
 
 
 def work(horizontal_lines: str) -> str:
@@ -104,8 +105,8 @@ def extract_page_footerheader(
         bottomed = match_horizontals(page, bottom)
 
         result.append((
-            round(top * topped, 2),
-            round(bottom * bottomed, 2),
+            roundme(top * topped),
+            roundme(bottom * bottomed),
         ))
     return result
 
