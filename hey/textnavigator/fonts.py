@@ -37,6 +37,17 @@ def fontdistance(bounds: List[BoundingBox]) -> List[float]:
     return distance
 
 
+def fontdistance_textbounds(bounds: TextBoundsList) -> List[float]:
+    distance = [
+        round(second[1] - (first[1] + first[3]), 2)
+        for (first), (second) in zip(bounds[0:], bounds[1:])
+    ]
+    if bounds:
+        # add distance from first content to page start
+        distance.insert(0, bounds[0][1])
+    return distance
+
+
 def textbounds(
         navigator: 'PageTextNavigator',
         contentborder: Border,

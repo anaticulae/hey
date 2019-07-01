@@ -19,7 +19,6 @@ from words.feature.headlines import Headline
 from words.feature.headlines import extract_headlines
 
 
-# def extract_headlines(sections: Sections, text, fontstore: FontStore):
 def test_headlines_extract_headlines(
         # pylint:disable=W0621
         restructured_sections,
@@ -58,5 +57,4 @@ def test_headlines_extract_headlines(
             Headline(text='Code: Block', level=3, rawlevel=''),
         ],
     ]
-
     assert extracted == expected
