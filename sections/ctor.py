@@ -12,6 +12,9 @@ from dataclasses import field
 from typing import List
 from typing import Tuple
 
+from hey.textnavigator.navigator import END
+from hey.textnavigator.navigator import START
+
 # TODO: after beta, move them to iamraw, serialzeraw
 
 Page = int
@@ -19,9 +22,6 @@ Percentage = float  # start of area [0.0 Pagestart, 100.0 Pageend]
 Position = Tuple[Page, Percentage]
 
 PERCENT_100 = 1.0  # analysed by hand
-
-START = 0.0  # Page start
-END = 1.0  # Page end
 
 
 @dataclass

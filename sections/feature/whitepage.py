@@ -33,6 +33,8 @@ from yaml import load
 
 from groupme.feature.footer import extract_pages
 from groupme.feature.numbers import load_textposition
+from hey.textnavigator.navigator import END
+from hey.textnavigator.navigator import START
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import create_pagetextnavigator
 from hey.textnavigator.navigator import percent_from_pagesize
@@ -80,8 +82,8 @@ def extract_whitepages(
             else:
                 result.append(WhitePage.BLANK)
         else:
-            top = percent_from_pagesize(height, header) if header else 0.0
-            bottom = percent_from_pagesize(height, footer) if footer else 1.0
+            top = percent_from_pagesize(height, header) if header else START
+            bottom = percent_from_pagesize(height, footer) if footer else END
             if not navigator.between(top, bottom):
                 result.append(WhitePage.WHITE)
             else:
