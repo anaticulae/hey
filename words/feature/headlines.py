@@ -32,8 +32,8 @@ from typing import List
 
 from iamraw import Border
 
-from groupme.feature.footer import document_footer
-from groupme.feature.footer import footerborder_to_bounds
+from groupme.feature.footer import document_footerheader
+from groupme.feature.footer import footerborder_to_border
 from hey.fonts.store import FontStore
 from hey.textnavigator.fonts import document_textsize
 from hey.textnavigator.fonts import fontdistance_textbounds
@@ -160,8 +160,8 @@ def content_border(horizontals, contentborders: BorderList) -> Border:
     # TODO: extend type hints after upgrading iamraw
     """Determine the content border as a result of left/right-side and detected
     footer"""
-    border = document_footer(horizontals)
-    border = footerborder_to_bounds(border)
+    border = document_footerheader(horizontals)
+    border = footerborder_to_border(border)
     leftright = document_border(contentborders)
 
     result = Border(

@@ -70,8 +70,15 @@ def extract_pages(horizontals: List[List[HorizontalLine]],
     return extracted
 
 
+def document_footerheader(horizontals: PagesWithHorizontalList,
+                         ) -> FooterBorder:
+    """Extract most common header/footer of the document
 
-def document_footer(horizontals) -> FooterBorder:
+    Args:
+        horizontals: a list of pages with a list of horizontals
+    Return:
+        the most common header/foooter combination for the document
+    """
     extracted = extract_pages(horizontals)
 
     top = [item for (item, _) in extracted]
@@ -125,6 +132,7 @@ def footer(clusters: List) -> float:
 
 
 def header(clusters: List) -> float:
+    """Determine all elements in the potential header area"""
     # TODO: Make dependent on page size
     return area(clusters, 700, 800)
 
