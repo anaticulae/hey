@@ -146,10 +146,10 @@ def document_border(contentborders: BorderList) -> Border:
 
     # TODO: Check the positions
     for item in contentborders:
-        left.append(item[0])
-        bottom.append(item[1])
-        right.append(item[2])
-        top.append(item[3])
+        left.append(item.left)
+        bottom.append(item.bottom)
+        right.append(item.right)
+        top.append(item.top)
 
     left, bottom, right, top = mode(left), mode(bottom), mode(right), mode(top)
 
