@@ -53,6 +53,7 @@ class Headline:
     text: str
     level: int = field(default=0)
     rawlevel: str = field(default=None, compare=False)
+    container: int = field(default=-1)
 
 
 PagesHeadlineList = List[List[Headline]]
@@ -121,10 +122,12 @@ def extract_headlines(
                 except IndexError:
                     level = distances[containerid] * 2
 
-                chaptercontent.append(Headline(
-                    text=text,
-                    level=level,
-                ))
+                chaptercontent.append(
+                    Headline(
+                        container=containerid,
+                        level=level,
+                        text=text,
+                    ))
         result.append(chaptercontent)
     convert_level(result)
     return result

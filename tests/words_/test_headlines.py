@@ -46,15 +46,50 @@ def test_headlines_extract_headlines(
 
     expected = [
         [
-            Headline(text='CHAPTER 1', level=1, rawlevel='1'),
-            Headline(text='RestructuredText Tutorial', level=2, rawlevel=''),
+            Headline(
+                text='CHAPTER 1',
+                level=1,
+                rawlevel='1',
+                container=0,
+            ),
+            Headline(
+                text='RestructuredText Tutorial',
+                level=2,
+                rawlevel='',
+                container=1,
+            ),
         ],
         [
-            Headline(text='CHAPTER 2', level=1, rawlevel='2'),
-            Headline(text='RestructuredText Guide', level=2, rawlevel=''),
-            Headline(text='Basics', level=3, rawlevel=''),
-            Headline(text='Blockquotes', level=3, rawlevel=''),
-            Headline(text='Code: Block', level=3, rawlevel=''),
+            Headline(
+                text='CHAPTER 2',
+                level=1,
+                rawlevel='2',
+                container=0,
+            ),
+            Headline(
+                text='RestructuredText Guide',
+                level=2,
+                rawlevel='',
+                container=1,
+            ),
+            Headline(
+                text='Basics',
+                level=3,
+                rawlevel='',
+                container=2,
+            ),
+            Headline(
+                text='Blockquotes',
+                level=3,
+                rawlevel='',
+                container=1,
+            ),
+            Headline(
+                text='Code: Block',
+                level=3,
+                rawlevel='',
+                container=10,
+            ),
         ],
     ]
     assert extracted == expected
