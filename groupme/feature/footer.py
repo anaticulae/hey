@@ -15,6 +15,8 @@ from typing import List
 from typing import Tuple
 
 from iamraw import Border
+from iamraw import Box
+from iamraw import HorizontalLine
 from serializeraw import load_horizontals
 from utila import from_raw_or_path
 from utila import uniform_result
@@ -24,6 +26,18 @@ from yaml import load
 
 from hey.cluster import common_items
 from hey.utils import roundme
+
+# TODO: Remove after upgrading iamraw
+PagesWithBoxList = List[List[Box]]
+PagesWithHorizontalList = List[List[HorizontalLine]]
+
+Header = float
+Footer = float
+
+Top = float
+Bottom = float
+
+FooterBorder = Tuple[Top, Bottom]
 
 
 def work(horizontal_lines: str) -> str:
@@ -46,10 +60,15 @@ def work(horizontal_lines: str) -> str:
     return dumped
 
 
-Top = float
-Bottom = float
+def extract_pages(horizontals: List[List[HorizontalLine]],
+                 ) -> List[FooterBorder]:
+    assert isinstance(horizontals, List), str(horizontals)
+    # determine border for all pages
+    top, bottom = extract_common_footer(horizontals)
+    # look for every page if footer/header are present
+    extracted = extract_page_footerheader(horizontals, top, bottom)
+    return extracted
 
-FooterBorder = Tuple[Top, Bottom]
 
 
 def document_footer(horizontals) -> FooterBorder:
@@ -61,21 +80,6 @@ def document_footer(horizontals) -> FooterBorder:
     top = mode(top)
     bottom = mode(bottom)
     return top, bottom
-
-
-def footerborder_to_bounds(border: FooterBorder) -> Border:
-    border = Border(None, border[1], None, border[0])
-    return border
-
-
-def extract_pages(horizontals: List):
-    assert isinstance(horizontals, List), str(horizontals)
-    # determine border for all pages
-    top, bottom = extract_common_footer(horizontals)
-    # look for every page if footer/header are present
-    extracted = extract_page_footerheader(horizontals, top, bottom)
-    return extracted
-
 
 def extract_common_footer(horizontal_lines):
     with_box = [[(
@@ -109,34 +113,6 @@ def extract_page_footerheader(
             roundme(bottom * bottomed),
         ))
     return result
-
-
-Header = float
-Footer = float
-
-
-def dump_headerfooter(pages) -> str:
-    result = []
-    for index, (top, bottom) in enumerate(pages):
-        result.append({
-            'page': index,
-            'headerfooter': '%.2f %.2f' % (top, bottom),
-        })
-    return dump(result)
-
-
-def load_headerfooter(content: str) -> List[Tuple[Header, Footer]]:
-    content = from_raw_or_path(content, ftype='yaml')
-    loaded = load(content, Loader=FullLoader)
-
-    result = []
-    for item in loaded:
-        top, bottom = [
-            float(splitted) for splitted in item['headerfooter'].split()
-        ]
-        result.append((top, bottom))
-    return result
-
 
 def match_horizontals(todo, position: float):
     return any(item.box.y_top == position for item in todo)
@@ -184,3 +160,38 @@ def area_likelihood(clusters, ymin, ymax):
         ))
     uniformed = uniform_result(result)
     return uniformed
+
+
+def footerborder_to_border(border: FooterBorder) -> Border:
+    """Convert FooterBorder to Border"""
+    border = Border(
+        bottom=border[1],
+        left=None,
+        right=None,
+        top=border[0],
+    )
+    return border
+
+
+def dump_headerfooter(pages) -> str:
+    # TODO: Move to iamraw
+    result = []
+    for index, (top, bottom) in enumerate(pages):
+        result.append({
+            'page': index,
+            'headerfooter': '%.2f %.2f' % (top, bottom),
+        })
+    return dump(result)
+
+
+def load_headerfooter(content: str) -> List[Tuple[Header, Footer]]:
+    content = from_raw_or_path(content, ftype='yaml')
+    loaded = load(content, Loader=FullLoader)
+
+    result = []
+    for item in loaded:
+        top, bottom = [
+            float(splitted) for splitted in item['headerfooter'].split()
+        ]
+        result.append((top, bottom))
+    return result
