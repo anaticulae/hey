@@ -31,6 +31,10 @@ from statistics import mode
 from typing import List
 
 from iamraw import Border
+from utila import from_raw_or_path
+from yaml import FullLoader
+from yaml import dump
+from yaml import load
 
 from groupme.feature.footer import document_footerheader
 from groupme.feature.footer import footerborder_to_border
@@ -198,4 +202,37 @@ def convert_level(result: PagesHeadlineList) -> int:
     for items in result:
         for item in items:
             item.level = get_level(item.level)
+    return result
+
+
+# TODO: MOVE TO SERIALIZERAW
+def dump_headlines(headlines: List[Headline]) -> str:
+    raw = []
+    for index, page in enumerate(headlines):
+        content = [{
+            'container': item.container,
+            'level': item.level,
+            'rawlevel': item.rawlevel,
+            'text': item.text,
+        } for item in page]
+        raw.append({'page': index, 'headlines': content})
+    dumped = dump(raw)
+    return dumped
+
+
+def load_headlines(content: str) -> List[Headline]:
+    content = from_raw_or_path(content, ftype='yaml')
+    loaded = load(content, Loader=FullLoader)
+    result = []
+    for page in loaded:
+        step = []
+        for headline in page['headlines']:
+            step.append(
+                Headline(
+                    container=int(headline['container']),
+                    level=int(headline['level']),
+                    rawlevel=headline['rawlevel'],
+                    text=headline['text'],
+                ))
+        result.append(step)
     return result
