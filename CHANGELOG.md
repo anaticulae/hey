@@ -2,6 +2,21 @@
 
 Every noteable change is logged here.
 
+## v1.0.0
+
+### Feature
+
+* use central constant to describe START and END of a page (e483da22dc64)
+
+### Fix
+
+* use new BoundingBox-API (b7030ad511c7)
+* flip y-coordinate and use new BoundingBox-API (b345b3187d6d)
+
+### Documentation
+
+* extend interface documentation (1653b4ab9b37)
+
 ## v0.4.2
 
 ### Feature
