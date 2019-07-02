@@ -114,7 +114,7 @@ def dump_pagenumbers(pagenumbers_):
     def raw(content):
         items = [{
             'pdfpage': pdfpage,
-            'bounding': bounding.raw(),
+            'bounding': str(bounding),
             'detected': detectedpage
         } for pdfpage, bounding, detectedpage in sorted(
             content, key=lambda number: number[0])]
