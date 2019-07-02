@@ -62,7 +62,8 @@ class PageTextNavigator:
         return iter(self.data)
 
     def before(self, height: float, width=0.0):
-        """
+        """Determine elements on the top of the document
+
         Args:
             height(float[0.0,1.0]): 0.0 is top, 1.0 is bottom
         Returns:

@@ -137,6 +137,7 @@ def match_horizontals(todo: List[HorizontalLine], vertical_position: float):
 
 
 def footer(clusters: List) -> float:
+    """Determine all elements in the potential footer area"""
     # TODO: remove holy value
     # TODO: Make dependent on page size
     return area(clusters, 700, 800)

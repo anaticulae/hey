@@ -44,6 +44,7 @@ def fontdistance_textbounds(bounds: TextBoundsList) -> List[float]:
     ]
     if bounds:
         # add distance from first content to page start
+        # TODO: check index
         distance.insert(0, bounds[0][1])
     return distance
 
