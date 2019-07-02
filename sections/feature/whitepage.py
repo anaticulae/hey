@@ -45,11 +45,11 @@ class WhitePage(Enum):
     WHITE = 1  # page with footer and/or header
 
 
-def work(document: str, position: str, horizontal_lines: str) -> str:
+def work(document: str, position: str, horizontals: str) -> str:
     # load
     document = load_document(document)
     position = load_textposition(position)
-    horizontals = load_horizontals(horizontal_lines)
+    horizontals = load_horizontals(horizontals)
 
     # TODO: Think about how to handle this, invocation order of features?
     headerfooters = extract_pages(horizontals)
@@ -89,6 +89,7 @@ def extract_whitepages(
             else:
                 # page with footer and/or header and content - "normal page"
                 result.append(None)
+
     return result
 
 

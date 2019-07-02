@@ -40,17 +40,17 @@ Bottom = float
 FooterBorder = Tuple[Top, Bottom]
 
 
-def work(horizontal_lines: str) -> str:
+def work(horizontals: str) -> str:
     """Extract footer and header area out of horizontal lines
 
     Args:
-        horizontal_lines(str): path to file with extract lines
+        horizontals(str): path to file with extract lines
     Returns:
         dumped list with top and bottom border for every page
     """
 
     # load
-    horizontals = load_horizontals(horizontal_lines)
+    horizontals = load_horizontals(horizontals)
 
     # work
     extracted = extract_pages(horizontals)
@@ -88,11 +88,12 @@ def document_footerheader(horizontals: PagesWithHorizontalList,
     bottom = mode(bottom)
     return top, bottom
 
-def extract_common_footer(horizontal_lines):
+
+def extract_common_footer(horizontals: PagesWithHorizontalList):
     with_box = [[(
         horizontal.box,
         horizontal,
-    ) for horizontal in page] for page in horizontal_lines]
+    ) for horizontal in page] for page in horizontals]
 
     # cluster horizontal lines
     clusters = common_items(with_box, max_difference=2.0)
@@ -106,12 +107,12 @@ def extract_common_footer(horizontal_lines):
 
 
 def extract_page_footerheader(
-        horizontal_lines,
+        horizontals: PagesWithHorizontalList,
         top: float,
         bottom: float,
-) -> List:
+) -> List[FooterBorder]:
     result = []
-    for page in horizontal_lines:
+    for page in horizontals:
         topped = match_horizontals(page, top)
         bottomed = match_horizontals(page, bottom)
 
