@@ -98,29 +98,36 @@
   index: 13
 - font:
     name: CIAQQF+NimbusMonL
-    scale: 11.4
+    scale: 11.5
     stretch: REGULAR
     style: NORMAL
     weight: BOLD
   index: 14
+- font:
+    name: CIAQQF+NimbusMonL
+    scale: 11.4
+    stretch: REGULAR
+    style: NORMAL
+    weight: BOLD
+  index: 15
 - font:
     name: YUMNXC+NimbusMonL
     scale: 9.4
     stretch: REGULAR
     style: OBLIQUE
     weight: LIGHT
-  index: 15
+  index: 16
 - font:
     name: GCJXHR+CMMI5
     scale: 5.0
     stretch: REGULAR
     style: NORMAL
     weight: LIGHT
-  index: 16
+  index: 17
 - font:
     name: AXXKPS+CMSY5
     scale: 8.6
     stretch: REGULAR
     style: NORMAL
     weight: LIGHT
-  index: 17
+  index: 18
