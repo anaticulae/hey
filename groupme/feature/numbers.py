@@ -19,8 +19,6 @@ Required API:
 
     # before/ after method to determine items
 """
-
-from itertools import chain
 from typing import List
 from typing import Tuple
 
@@ -32,6 +30,7 @@ from yaml import FullLoader
 from yaml import dump
 from yaml import load
 
+from hey.cluster import common_items
 from hey.textnavigator.navigator import create_pagetextnavigator
 
 
@@ -202,133 +201,6 @@ def pagenumbers(clusters: List[Cluster]):
         ]
         return singlepage
     return left, right
-
-
-def common_items(collected, max_difference: float):
-    """Cluster items due `same_area_cluster`
-
-    Args:
-        collected:
-        max_difference(float): upper bound of differences which is accepted
-                               by classificator as same item.
-    """
-    flat = list(chain.from_iterable(collected))
-    clusters = same_area_cluster(
-        flat,
-        max_difference=max_difference,
-    )
-
-    result = [page_from_cluster(cluster, collected) for cluster in clusters]
-    return result
-
-
-def page_from_cluster(cluster, collected):
-    result = []
-    for pagecount, content in enumerate(collected):
-        result.extend([(
-            pagecount,
-            test,
-        ) for test in content if test in cluster])
-    return result
-
-
-def three_side_cluster_equal(todo):
-
-    def classificator(candidat, clusteritem):
-
-        def matcher(candidat, clusteritem):
-            candidat_pos, _ = candidat
-            cluster_pos, _ = clusteritem
-
-            eqaul = sum([
-                abs(first - second) < 0.001  # float difference is allowed
-                for (first, second) in zip(candidat_pos, cluster_pos)
-            ])
-            return eqaul >= 3
-
-        return matcher(candidat, clusteritem)
-
-    return determine_cluster(todo, classificator)
-
-
-def same_area_cluster(todo, max_difference=10.0):
-
-    def classificator(candidat, clusteritem, max_difference=max_difference):
-        assert max_difference > 0.0
-
-        from math import sqrt
-
-        def distance(x0, y0, x1, y1):
-            return sqrt(pow((x0 - x1), 2) + pow((y0 - y1), 2))
-
-        def matcher(candidat, clusteritem):
-            testbox, _ = candidat
-            goalbox, _ = clusteritem
-            equality = distance(
-                testbox.x_bottom,
-                testbox.y_bottom,
-                goalbox.x_bottom,
-                goalbox.y_bottom,
-            ) + distance(
-                testbox.x_top,
-                testbox.y_top,
-                goalbox.x_top,
-                goalbox.y_top,
-            )
-            return equality <= max_difference
-
-        return matcher(candidat, clusteritem)
-
-    return determine_cluster(todo, classificator)
-
-
-def determine_cluster(todo, classificator):
-    import warnings
-    warnings.warn('Remove after upgrading to utila 0.6.3', DeprecationWarning)
-    if not todo:
-        return []
-
-    # prepare cluster, a single element is a cluster
-    result = [[item] for item in todo]
-
-    def match(result, current):
-        for clusterindex, cluster in enumerate(result):
-            for clusteritem in cluster:
-                match = [
-                    classificator(candidat=test, clusteritem=clusteritem)
-                    for test in current
-                ]
-                if any(match):
-                    return clusterindex
-        return None
-
-    def clusterme(result):
-        result, todo = result[0], result[1:]
-        if not isinstance(result[0], list):
-            result = [result]
-        while todo:
-            current = todo.pop()
-            index = match(result, current)
-            if index is None:
-                # No match, create new cluster
-                result.insert(0, current)
-            else:
-                result[index].extend(current)
-        return result
-
-    # Break when cluster does not change result
-    # Cluster till cluster move does not change the result
-    before = set()
-    while True:
-        result = clusterme(result)
-        hashid = hash(str(result))
-        if hashid in before:
-            break
-        before.add(hashid)
-
-    # A cluster must have at least 2 items
-    clusters = [item for item in result if len(item) > 1]
-    return clusters
 
 
 def name():
