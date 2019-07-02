@@ -67,7 +67,6 @@ def test_whitepages_extract():
 
     # work
     result = extract_whitepages(document, navigators, headerfooters)
-
     assert result == RESTRUCT_EXPECTED
 
 

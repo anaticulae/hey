@@ -19,6 +19,9 @@ from utila import INF
 from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import fontdistance
 
+START = 0.0
+END = 1.0
+
 
 class PageTextNavigator:
     """The direction of the text is top down and left to right"""
@@ -34,16 +37,16 @@ class PageTextNavigator:
             box(BoundingBox): position and dimension of text area
             item(str): content of text chunck
         """
-        x_bottom, y_bottom, x_top, y_top = box
-        assert 0 <= x_bottom <= x_top <= self.width
-        assert 0 <= y_bottom <= y_top <= self.height
+        x0, y0, x1, y1 = box
+        assert 0 <= x0 <= x1 <= self.width
+        assert 0 <= y0 <= y1 <= self.height
 
         insert_position = 0
         for pos, _ in self.data:
-            if int(pos.y_top) == int(y_top):
-                if int(x_bottom) <= int(pos.x_bottom):
+            if int(pos.y0) == int(y0):
+                if int(x0) <= int(pos.x0):
                     break
-            elif y_top >= pos.y_top:
+            elif y0 <= pos.y0:
                 break
             insert_position += 1
         self.data.insert(insert_position, (box, item))
@@ -65,17 +68,7 @@ class PageTextNavigator:
         Returns:
             List[(position, PageObjects)]
         """
-        assert 0.0 <= height <= 1.0
-        assert 0.0 <= width <= 1.0
-
-        before = (1.0 - height) * self.height  # greater than
-        result = []
-        for box, item in self.data:
-            if box.y_bottom >= before:
-                result.append((
-                    box,
-                    item,
-                ))
+        result = self.between(START, height)
         return result
 
     def between(self, top: float, bottom: float):
@@ -87,40 +80,31 @@ class PageTextNavigator:
         Returns:
             List[(position, content)]
         """
-        assert 0.0 <= top <= bottom <= 1.0
-        after = (1.0 - top) * self.height
-        before = (1.0 - bottom) * self.height  # greater than
+        assert START <= top <= bottom <= END
+        before = top * self.height
+        after = bottom * self.height
         result = []
         for box, item in self.data:
             # before and after are pixel coordinates
-            if before <= box.y_top <= after:
+            if before <= box.y0 <= box.y1 <= after:
                 result.append((box, item))
         return result
 
     def after(self, height, width=0.0):
-        assert 0.0 <= height <= 1.0
-        assert 0.0 <= width <= 1.0
-
-        after = (1.0 - height) * self.height
-        result = []
-        for box, item in self.data:
-            if box.y_top <= after:
-                result.append((
-                    box,
-                    item,
-                ))
+        """Determine elements on the bottom of the page"""
+        result = self.between(height, END)
         return result
 
     def offset(self, top: float, bottom: float) -> Tuple[int, int]:
         # """Determine offset
-        assert 0.0 <= top <= bottom <= 1.0
-        after = (1.0 - top) * self.height
-        before = (1.0 - bottom) * self.height  # greater than
+        assert START <= top <= bottom <= END
+        after = bottom * self.height
+        before = top * self.height  # greater than
 
         result = []
         for index, (box, _) in enumerate(self.data):
             # before and after are pixel coordinates
-            if before <= box.y_top <= after:
+            if before <= box.y0 <= box.y1 <= after:
                 result.append(index)
         if not result:
             return None, None
@@ -149,7 +133,6 @@ class PageTextContentNavigator:
         )
         top, bottom = topbottom(pagesize, content)
         self.data = textnavigator.between(top, bottom)
-
         self.offset = textnavigator.offset(top, bottom)
 
     def __getitem__(self, index):
@@ -233,10 +216,7 @@ def percent_from_pagesize(size, current) -> float:
     """
     assert size > 0
     assert size >= current
-
-    value = (size - current) / size
-    assert 0.0 <= value < 1.0
-    return value
+    return current / size
 
 
 def to_content(navigator: PageTextNavigator) -> TextBoundsList:

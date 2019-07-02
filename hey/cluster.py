@@ -65,7 +65,7 @@ def same_area_cluster(todo, max_difference=10.0):
         from math import sqrt
 
         def distance(x0, y0, x1, y1):
-            return sqrt(pow((x0 - x1), 2) + pow((y0 - y1), 2))
+            return sqrt(pow((x1 - x0), 2) + pow((y1 - y0), 2))
 
         def matcher(candidat, clusteritem):
             testbox, _ = candidat

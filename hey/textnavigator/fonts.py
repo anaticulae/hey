@@ -31,7 +31,7 @@ FontOccurrenceList = List[FontOccurrence]
 
 def fontdistance(bounds: List[BoundingBox]) -> List[float]:
     distance = [
-        round(first.y_bottom - second.y_top, 2)
+        roundme(second.y0 - first.y1)
         for (first), (second) in zip(bounds[0:], bounds[1:])
     ]
     return distance
@@ -39,7 +39,7 @@ def fontdistance(bounds: List[BoundingBox]) -> List[float]:
 
 def fontdistance_textbounds(bounds: TextBoundsList) -> List[float]:
     distance = [
-        round(second[1] - (first[1] + first[3]), 2)
+        roundme(second[1] - (first[1] + first[3]))
         for (first), (second) in zip(bounds[0:], bounds[1:])
     ]
     if bounds:
@@ -52,14 +52,15 @@ def textbounds(
         navigator: 'PageTextNavigator',
         contentborder: Border,
 ) -> TextBoundsList:
-    __x0, __y0, __x1, __y1 = contentborder
-
+    # ensure that order of items has no effect
+    cb = contentborder  # pylint:disable=C0103
+    __x0, __y0, __x1, __y1 = cb.left, cb.top, cb.right, cb.bottom
     result = []
     for (x0, y0, x1, y1), item in navigator:
         lines = len(item.splitlines())
         xdist, ydist, width, height, fontsize = (
             int(x0 - __x0),
-            int(__y1 - y1),
+            int(y0 - __y0),
             int(x1 - x0),
             int(y1 - y0),
             int((y1 - y0) / lines) if lines else 0,

@@ -33,15 +33,15 @@ run_failure = partial(
 )
 
 SAMPLE = [
-    (0, BoundingBox.from_str("130.91 668.55 540.00 704.02")),
-    (2, BoundingBox.from_str("358.45 605.24 480.47 625.77")),
-    (1, BoundingBox.from_str("467.46 650.40 540.00 667.51")),
-    (4, BoundingBox.from_str("409.67 513.88 540.01 558.02")),
-    (5, BoundingBox.from_str("550.0 513.88 600.0 558.02")),
-    (3, BoundingBox.from_str("304.91 587.31 534.01 607.84")),
-    (6, BoundingBox.from_str("77.38 216.25 121.22 230.47")),
-    (8, BoundingBox.from_str("303.26 40.18 308.74 54.44")),
-    (7, BoundingBox.from_str("77.38 102.67 534.62 206.45")),
+    (8, BoundingBox.from_str("130.91 668.55 540.00 704.02")),
+    (6, BoundingBox.from_str("358.45 605.24 480.47 625.77")),
+    (7, BoundingBox.from_str("467.46 650.40 540.00 667.51")),
+    (3, BoundingBox.from_str("409.67 513.88 540.01 558.02")),
+    (4, BoundingBox.from_str("550.0 513.88 600.0 558.02")),
+    (5, BoundingBox.from_str("304.91 587.31 534.01 607.84")),
+    (2, BoundingBox.from_str("77.38 216.25 121.22 230.47")),
+    (0, BoundingBox.from_str("303.26 40.18 308.74 54.44")),
+    (1, BoundingBox.from_str("77.38 102.67 534.62 206.45")),
 ]
 
 

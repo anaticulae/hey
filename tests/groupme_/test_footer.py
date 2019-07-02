@@ -28,7 +28,7 @@ def test_footer_extract(horizontals):  #pylint:disable=W0621
     top, bottom = extract_common_footer(horizontals)
     assert top  # document has header
     assert bottom  # document has footer
-    assert top > bottom
+    assert top < bottom
 
 
 def test_footer_work():  #pylint:disable=W0621

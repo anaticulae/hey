@@ -100,8 +100,8 @@ def extract_common_footer(horizontal_lines):
     top = header(clusters)
     bottom = footer(clusters)
 
-    assert top > bottom
-
+    # the header is on the top(0.0) and the footer is on the bottom(1.0)
+    assert top < bottom, '%.2f < %.2f' % (top, bottom)
     return top, bottom
 
 
@@ -121,20 +121,30 @@ def extract_page_footerheader(
         ))
     return result
 
-def match_horizontals(todo, position: float):
-    return any(item.box.y_top == position for item in todo)
+
+def match_horizontals(todo: List[HorizontalLine], vertical_position: float):
+    """Check if any horizontal match the `vertical_position`
+
+    Args:
+        todo(List[HorizontalLine]): list with horizontal lines, mostly one page
+        vertical_position(float): position on the page in 'pixel'
+    Returns:
+        True if any horizontal line match the `vertical_position`
+    """
+    vertical_position = round(vertical_position, 1)
+    return any(round(item.box.y0, 1) == vertical_position for item in todo)
 
 
 def footer(clusters: List) -> float:
     # TODO: remove holy value
     # TODO: Make dependent on page size
-    return area(clusters, 0, 100)
+    return area(clusters, 700, 800)
 
 
 def header(clusters: List) -> float:
     """Determine all elements in the potential header area"""
     # TODO: Make dependent on page size
-    return area(clusters, 700, 800)
+    return area(clusters, 0, 100)
 
 
 def area(clusters: List, ymin: float, ymax: float) -> int:
@@ -145,7 +155,8 @@ def area(clusters: List, ymin: float, ymax: float) -> int:
 
     _, (bounding, __) = clusters[index][0]
 
-    return bounding.y_bottom
+    # return top or bottom? The element is a line, so it does not matter
+    return bounding.y1  # y0?
 
 
 EMPTY = (0, 0.0)
@@ -156,8 +167,8 @@ def area_likelihood(clusters, ymin, ymax):
     for cluster in clusters:
         _, item = cluster[0]
         bounding, _ = item
-        assert bounding.y_top == bounding.y_bottom
-        yvalue = bounding.y_top
+        assert bounding.y0 == bounding.y1
+        yvalue = bounding.y0
         if not ymin <= yvalue <= ymax:
             result.append(EMPTY)
             continue

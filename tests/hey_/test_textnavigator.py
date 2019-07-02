@@ -22,13 +22,10 @@ from tests.groupme_ import navigator  # pylint:disable=W0611
 
 
 def test_insert_order(navigator: PageTextNavigator):  #pylint:disable=W0621
-    for index in range(len(navigator) - 1):
-        before, _ = navigator[index]
-        after, _ = navigator[index + 1]
-
-        assert before.y_top >= after.y_top
-        if before.y_top == after.y_top:
-            assert before.x_bottom <= after.x_bottom
+    for (before, _), (after, _) in zip(navigator[:-1], navigator[1:]):
+        assert before.y0 <= after.y0
+        if before.y0 == after.y0:
+            assert before.x0 <= after.x0
 
     current_order = [item for pos, item in navigator]
 
@@ -39,19 +36,19 @@ def test_insert_order(navigator: PageTextNavigator):  #pylint:disable=W0621
 def test_after(navigator: PageTextNavigator):  #pylint:disable=W0621
     # Bottom footer
     after = 0.8  # from 80% to 100%
-    # smaller than 158.4
+    # greater than 633.6
     # 1 item in this example
     result = navigator.after(after)
-    assert len(result) == 1, result
+    assert len(result) == 2, result
 
 
 def test_before(navigator: PageTextNavigator):  #pylint:disable=W0621
     # Top footer
+    # smaller than 158.4
     before = 0.2  # from 20% to 0%
-    # greater than 633.6
     # 2 items in this example
     result = navigator.before(before)
-    assert len(result) == 2, before
+    assert len(result) == 1, before
 
 
 @mark.parametrize('size,percent,expected', [
