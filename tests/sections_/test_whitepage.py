@@ -70,7 +70,7 @@ def test_whitepages_extract():
 
 def test_whitepages_dump_and_load():
     dumped = dump_whitepages(RESTRUCT_EXPECTED)
-
+    assert len(dumped) > 100, str(dumped)
     loaded = load_whitepages(dumped)
 
     assert loaded == RESTRUCT_EXPECTED
