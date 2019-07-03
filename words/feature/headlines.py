@@ -65,6 +65,7 @@ class Headline:
     text: str
     level: int = field(default=0)
     rawlevel: str = field(default=None, compare=False)
+    page: int = field(default=-1)
     container: int = field(default=-1)
 
 
@@ -188,6 +189,7 @@ def extract_headlines(
                 headline = Headline(
                     container=containerid,
                     level=level,
+                    page=page,
                     text=text,
                 )
                 chaptercontent.append(headline)
@@ -277,6 +279,7 @@ def dump_headlines(headlines: List[Headline]) -> str:
         content = [{
             'container': item.container,
             'level': item.level,
+            'page': item.page,
             'rawlevel': item.rawlevel,
             'text': item.text,
         } for item in page]
@@ -302,6 +305,7 @@ def load_headlines(content: str) -> List[Headline]:
                 Headline(
                     container=int(headline['container']),
                     level=int(headline['level']),
+                    page=headline['page'],
                     rawlevel=headline['rawlevel'],
                     text=headline['text'],
                 ))
