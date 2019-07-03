@@ -31,6 +31,9 @@ from statistics import mode
 from typing import List
 
 from iamraw import Border
+from serializeraw import load_document
+from serializeraw import load_horizontals
+from serializeraw import load_pageborders
 from utila import from_raw_or_path
 from yaml import FullLoader
 from yaml import dump
@@ -38,16 +41,21 @@ from yaml import load
 
 from groupme.feature.footer import document_footerheader
 from groupme.feature.footer import footerborder_to_border
+from groupme.feature.numbers import load_textposition
 from hey.fonts.store import FontStore
+from hey.fonts.store import create_fontstore
 from hey.textnavigator.fonts import document_textsize
 from hey.textnavigator.fonts import fontdistance_textbounds
 from hey.textnavigator.fonts import fontsize_from_textbounds
 from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
+from hey.textnavigator.navigator import create_pagetextnavigator
 from hey.textnavigator.navigator import navigator_to_bounds
+from sections.feature.sections import Content
 from sections.feature.sections import Sections
 from sections.feature.sections import chapters
+from sections.serialize import load_sections
 
 BorderList = List[Border]
 
@@ -63,8 +71,53 @@ class Headline:
 PagesHeadlineList = List[List[Headline]]
 
 
-def work():
-    pass
+def work(
+        sections: str,
+        text: str,
+        text_position: str,
+        font_header: str,
+        font_content: str,
+        sizeandborder: str,
+        horizontals: str,
+) -> str:
+    """Extract headlines out of data
+
+    Args:
+        sections
+        text
+        text_position
+        font_header
+        sizeandborder
+        horizontals
+    """
+    # prepare
+    document = load_document(text)
+    position = load_textposition(text_position)
+    sections = load_sections(sections)
+    sizeandborder = load_pageborders(sizeandborder)
+    horizontals = load_horizontals(horizontals)
+
+    pagetextnavigator = create_pagetextnavigator(
+        position=position,
+        document=document,
+    )
+    fontstore = create_fontstore(
+        font_header,
+        font_content,
+    )
+    # work
+    extracted = extract_headlines(
+        sections,
+        pagetextnavigator=pagetextnavigator,
+        fontstore=fontstore,
+        sizeandborder=sizeandborder,
+        horizontals=horizontals,
+        chapter=None,
+    )
+
+    # save
+    dumped = dump_headlines(extracted)
+    return dumped
 
 
 SMALLEST_HEADLINE_FACTOR = 1.1  # TODO: HOLY VALUE
