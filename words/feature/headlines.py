@@ -287,7 +287,7 @@ def dump_headlines(headlines: List[Headline]) -> str:
             # do not write empty pages
             continue
         raw.append({
-            'page': index,
+            'chapter': index,  # TODO: How to deal with empty chapter?
             'headlines': content,
         })
     dumped = dump(raw)
