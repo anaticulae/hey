@@ -214,7 +214,13 @@ def dump_headlines(headlines: List[Headline]) -> str:
             'rawlevel': item.rawlevel,
             'text': item.text,
         } for item in page]
-        raw.append({'page': index, 'headlines': content})
+        if not content:
+            # do not write empty pages
+            continue
+        raw.append({
+            'page': index,
+            'headlines': content,
+        })
     dumped = dump(raw)
     return dumped
 
