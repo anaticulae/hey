@@ -53,8 +53,6 @@ MIN_TITLE_LIKELIHOOD = 0.70
 def test_extract_title_likelihood(
         document,
         fontstore,
-        # restructured_document,  #pylint:disable=W0621
-        # restructured_fontstore,  #pylint:disable=W0621
 ):
     result = extract_title_likelihood(
         document,

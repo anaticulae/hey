@@ -29,8 +29,6 @@ from utila import Flag
 from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.fonts import textfeed
-from hey.textnavigator.fonts import textsize_from_textbounds
-# from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import merge_content
 
 

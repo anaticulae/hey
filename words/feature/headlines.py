@@ -97,7 +97,6 @@ def extract_headlines(
     for index in chapter:
         chaptercontent = []
         (start, end) = content[index]
-
         for page in range(start, end + 1):
             pagecontent = PageTextContentNavigator(
                 pagetextnavigator[page],

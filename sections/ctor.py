@@ -12,9 +12,6 @@ from dataclasses import field
 from typing import List
 from typing import Tuple
 
-from hey.textnavigator.navigator import END
-from hey.textnavigator.navigator import START
-
 # TODO: after beta, move them to iamraw, serialzeraw
 
 Page = int

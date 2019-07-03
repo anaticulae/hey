@@ -121,7 +121,6 @@ def restructured_contentborder():
 
 @fixture
 def restructured_pagetextcontentnavigator(
-        # restructured_document,
         restructured_textnavigators,
         restructured_contentborder,
         restructured_horizontals,

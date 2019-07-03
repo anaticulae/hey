@@ -7,7 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pytest import fixture
 from serializeraw import load_document
 from serializeraw import load_toc
 
@@ -16,17 +15,11 @@ from hey.textnavigator.navigator import create_pagetextnavigator
 from sections.feature.chapter import dump_chapter_detection
 from sections.feature.chapter import load_chapter_detection
 from sections.feature.chapter import space_between_header_and_first_line
-from sections.feature.chapter import work
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import RESTRUCT_TOC
 
 
-# def space_between_header_and_first_line(
-#         document: Document,
-#         navigators: List[PageTextNavigator],
-#         headerfooters,
-# ):
 def test_chapter_extract():
     # load
     document = load_document(RESTRUCT_TEXT)
