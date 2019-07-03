@@ -9,8 +9,8 @@
 
 from sections.feature.index import extract_index_likelihood
 from sections.feature.index import work
+# pylint:disable=W0611
 from tests.fixtures.restruct import restructured_document
-# pylint:disable=unused-import
 from tests.resources import RESTRUCT_ONELINE_TEXT
 
 # manually set to secure index finder quality
