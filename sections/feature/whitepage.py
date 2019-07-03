@@ -103,22 +103,26 @@ def whitepage_value_to_percent(whitepage: WhitePage):
 def dump_whitepages(pages) -> str:
     result = []
     for index, whitepage in enumerate(pages):
+        if not whitepage:
+            continue
         result.append({
             'page': index,
-            'whitepage': whitepage.name if whitepage else '',
+            'whitepage': whitepage.name,
         })
-    return dump(result)
+    raw = {
+        'pages': len(pages),
+        'content': result,
+    }
+    return dump(raw)
 
 
 def load_whitepages(content: str) -> List[WhitePage]:
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)
 
-    result = []
-    for item in loaded:
-        whitepage = item['whitepage']
-        if not whitepage:
-            result.append(None)
-        else:
-            result.append(WhitePage[whitepage])
+    result = [None for item in range(loaded['pages'])]
+
+    for item in loaded['content']:
+        page, whitepage = item['page'], item['whitepage']
+        result[page] = WhitePage[whitepage]
     return result
