@@ -164,12 +164,13 @@ def extract_headlines(
             )
             xoff = pagecontent.offset[0]
             xoff = xoff if xoff is not None else 0
-
             bounds = navigator_to_bounds(pagecontent)
             bounds = textbounds(pagecontent, border)
             without_content = [item[0] for item in bounds]
+            # PageContentNavigator, the header and footer is ignored
             distances = fontdistance_textbounds(without_content)
             for containerid, (item, text) in enumerate(bounds, start=xoff):
+                distanceid = containerid - xoff
                 # font = fontstore.font(page, containerid, line=0, char=0)
                 splitted = text.splitlines()
                 if len(splitted) > 1:
@@ -178,20 +179,20 @@ def extract_headlines(
                 if fontsize <= smallest_headline_size:
                     # text is to small to be a headline
                     continue
-
                 level = None
                 try:
-                    level = distances[containerid] + distances[containerid + 1]
+                    level = distances[distanceid] + distances[distanceid + 1]
                 except IndexError:
-                    level = distances[containerid] * 2
+                    level = distances[distanceid] * 2
 
-                chaptercontent.append(
-                    Headline(
-                        container=containerid,
-                        level=level,
-                        text=text,
-                    ))
+                headline = Headline(
+                    container=containerid,
+                    level=level,
+                    text=text,
+                )
+                chaptercontent.append(headline)
         result.append(chaptercontent)
+
     convert_level(result)
     return result
 
