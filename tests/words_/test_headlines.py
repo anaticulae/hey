@@ -6,7 +6,9 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-from hey.textnavigator.navigator import create_pagetextnavigator
+from pytest import fixture
+
+from hey.textnavigator.navigator import create_pagetextnavigators
 from sections.feature.chapter import work as chapter_work
 from sections.feature.index import work as index_work
 from sections.feature.sections import work as section_work
@@ -105,7 +107,7 @@ def test_headlines_extract_headlines(
     document = restructured_document
     sizeandborder = restructured_sizeandborder
 
-    navigator = create_pagetextnavigator(position, document)
+    navigator = create_pagetextnavigators(position, document)
 
     extracted = extract_headlines(
         sections=sections,

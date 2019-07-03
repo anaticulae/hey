@@ -50,7 +50,7 @@ from hey.textnavigator.fonts import fontsize_from_textbounds
 from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
-from hey.textnavigator.navigator import create_pagetextnavigator
+from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.textnavigator.navigator import navigator_to_bounds
 from sections.feature.sections import Content
 from sections.feature.sections import Sections
@@ -98,7 +98,7 @@ def work(
     sizeandborder = load_pageborders(sizeandborder)
     horizontals = load_horizontals(horizontals)
 
-    pagetextnavigator = create_pagetextnavigator(
+    pagetextnavigator = create_pagetextnavigators(
         position=position,
         document=document,
     )

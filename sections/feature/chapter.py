@@ -36,7 +36,7 @@ from yaml import load
 
 from groupme.feature.numbers import load_textposition
 from hey.textnavigator.navigator import PageTextNavigator
-from hey.textnavigator.navigator import create_pagetextnavigator
+from hey.textnavigator.navigator import create_pagetextnavigators
 
 
 def work(document: str, position: str, tocpath: str) -> str:
@@ -46,7 +46,7 @@ def work(document: str, position: str, tocpath: str) -> str:
     tocs = load_toc(tocpath)
 
     # TODO: Think about how to handle this, invocation order of features?
-    navigators = create_pagetextnavigator(position, document)
+    navigators = create_pagetextnavigators(position, document)
 
     # work
     result = space_between_header_and_first_line(

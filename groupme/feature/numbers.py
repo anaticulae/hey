@@ -31,14 +31,14 @@ from yaml import dump
 from yaml import load
 
 from hey.cluster import common_items
-from hey.textnavigator.navigator import create_pagetextnavigator
+from hey.textnavigator.navigator import create_pagetextnavigators
 
 
 def work(documentpath: str, positionpath: str) -> str:
     document = load_document(documentpath)
     position = load_textposition(positionpath)
 
-    navigator = create_pagetextnavigator(position, document)
+    navigator = create_pagetextnavigators(position, document)
 
     footer_pagenumbers = determine_pagenumbers(navigator)
     dumped = dump_pagenumbers(footer_pagenumbers)

@@ -25,7 +25,7 @@ from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
-from hey.textnavigator.navigator import create_pagetextnavigator
+from hey.textnavigator.navigator import create_pagetextnavigators
 from sections.creator import add_chapter
 from sections.creator import add_content
 from sections.creator import add_index

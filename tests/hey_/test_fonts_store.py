@@ -23,7 +23,7 @@ from hey.fonts.store import FontContentStore
 from hey.fonts.store import FontStore
 from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
-from hey.textnavigator.navigator import create_pagetextnavigator
+from hey.textnavigator.navigator import create_pagetextnavigators
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_document
 from tests.fixtures.restruct import restructured_fontstore
@@ -110,7 +110,7 @@ def test_fontstore_from_str(
 def restructured_textnavigators(restructured_document: Document,
                                ) -> PageTextNavigators:
     textpositions = load_textposition(RESTRUCT_TEXT_POSITION)
-    return create_pagetextnavigator(textpositions, restructured_document)
+    return create_pagetextnavigators(textpositions, restructured_document)
 
 
 @fixture

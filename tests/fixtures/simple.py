@@ -21,7 +21,7 @@ from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
-from hey.textnavigator.navigator import create_pagetextnavigator
+from hey.textnavigator.navigator import create_pagetextnavigators
 from tests.resources import SIMPLE_FONT_CONTENT
 from tests.resources import SIMPLE_FONT_HEADER
 from tests.resources import SIMPLE_HORIZONTAL
@@ -44,7 +44,7 @@ def simple():
     assert len(position) == len(document)
     assert len(horizontals) == len(document)
 
-    navigator = create_pagetextnavigator(position, document)
+    navigator = create_pagetextnavigators(position, document)
     return navigator, horizontals
 
 
@@ -82,7 +82,7 @@ def simple_pagetextnavigators(
 ) -> PageTextNavigators:
     textpositions = load_textposition(SIMPLE_POSITION)
 
-    return create_pagetextnavigator(textpositions, simple_document)
+    return create_pagetextnavigators(textpositions, simple_document)
 
 
 @fixture

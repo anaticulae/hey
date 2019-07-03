@@ -146,7 +146,7 @@ class PageTextContentNavigator:
 PageTextNavigators = List[PageTextNavigator]
 
 
-def create_pagetextnavigator(
+def create_pagetextnavigators(
         position,
         document: Document,
 ) -> PageTextNavigators:

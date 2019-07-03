@@ -36,7 +36,7 @@ from groupme.feature.numbers import load_textposition
 from hey.textnavigator.navigator import END
 from hey.textnavigator.navigator import START
 from hey.textnavigator.navigator import PageTextNavigator
-from hey.textnavigator.navigator import create_pagetextnavigator
+from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.textnavigator.navigator import percent_from_pagesize
 
 
@@ -53,7 +53,7 @@ def work(document: str, position: str, horizontals: str) -> str:
 
     # TODO: Think about how to handle this, invocation order of features?
     headerfooters = extract_pages(horizontals)
-    navigators = create_pagetextnavigator(position, document)
+    navigators = create_pagetextnavigators(position, document)
 
     # work
     extracted = extract_whitepages(document, navigators, headerfooters)

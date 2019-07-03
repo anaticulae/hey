@@ -11,7 +11,7 @@ from serializeraw import load_document
 from serializeraw import load_toc
 
 from groupme.feature.numbers import load_textposition
-from hey.textnavigator.navigator import create_pagetextnavigator
+from hey.textnavigator.navigator import create_pagetextnavigators
 from sections.feature.chapter import dump_chapter_detection
 from sections.feature.chapter import load_chapter_detection
 from sections.feature.chapter import space_between_header_and_first_line
@@ -26,7 +26,7 @@ def test_chapter_extract():
     position = load_textposition(RESTRUCT_TEXT_POSITION)
     tocs = load_toc(RESTRUCT_TOC)
     # TODO: Think about how to handle this, invocation order of features?
-    navigators = create_pagetextnavigator(position, document)
+    navigators = create_pagetextnavigators(position, document)
 
     result = space_between_header_and_first_line(
         navigators,
@@ -74,7 +74,7 @@ def test_chapter_dump_and_load_detection():
     position = load_textposition(RESTRUCT_TEXT_POSITION)
     tocs = load_toc(RESTRUCT_TOC)
     # TODO: Think about how to handle this, invocation order of features?
-    navigators = create_pagetextnavigator(position, document)
+    navigators = create_pagetextnavigators(position, document)
 
     result = space_between_header_and_first_line(
         navigators,
