@@ -70,6 +70,9 @@ class Sections:
     def __len__(self):
         return len(self.content)
 
+    def append(self, item):
+        self.content.append(item)
+
 
 @dataclass
 class Introduction(DocumentSection):

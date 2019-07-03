@@ -38,7 +38,6 @@ def test_sections_iterable():
             pass
 
 
-@mark.xfail(reason='not fully implemented')
 def test_sections_dump_and_load_sections(restructured_sections):  #pylint:disable=W0621
     data = restructured_sections
 

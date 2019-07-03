@@ -11,10 +11,6 @@ from typing import List
 
 from serializeraw import load_likelihood
 from utila import Flag
-from utila import from_raw_or_path
-from yaml import FullLoader
-from yaml import dump
-from yaml import load
 
 from sections.ctor import AreaItem
 from sections.ctor import Chapter
@@ -33,6 +29,7 @@ from sections.feature.chapter import chapter_value_to_percent
 from sections.feature.chapter import load_chapter_detection
 from sections.feature.whitepage import load_whitepages
 from sections.feature.whitepage import whitepage_value_to_percent
+from sections.serialize import dump_sections
 
 MIN_FEATURE_TRUST = 0.4  # Holy value
 
@@ -163,25 +160,6 @@ def load_features(chapter, index, title, toc, whitepage):
     whitepage = [whitepage_value_to_percent(item) for item in whitepage]
 
     return chapter, index, title, toc, whitepage
-
-
-def create_builder():
-    return builder
-
-
-def dump_sections(pages):
-    # convert to raw
-    page = [item.__class__.__name__ for item in pages]
-
-    result = dump(page)
-    return result
-
-
-def load_sections(content: str) -> List[str]:
-    content = from_raw_or_path(content, ftype='yaml')
-    loaded = load(content, Loader=FullLoader)
-    result = []
-    return result
 
 
 def chapters(sections: Sections):
