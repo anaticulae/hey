@@ -134,9 +134,16 @@ def extract_headlines(
         chapter: int = 0,
 ):
     assert isinstance(sections, Sections), type(sections)
-
-    chapter = [chapter] if isinstance(chapter, int) else chapter
+    assert sections, 'no sections provided'
+    if chapter is None:
+        # TODO: clearify code
+        # analyze all chapter of the document
+        chapter = sum([
+            len(item.content) for item in sections if isinstance(item, Content)
+        ])
+        chapter = list(range(0, chapter))
     content = chapters(sections)
+    chapter = [chapter] if isinstance(chapter, int) else chapter
     _, contentborders = sizeandborder
     border = content_border(horizontals, contentborders)
 
