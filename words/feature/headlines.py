@@ -247,7 +247,12 @@ def convert_level(result: PagesHeadlineList) -> int:
     Hint: This function updates the level
     TODO: copy items
     """
-    maxsize = max([max([item.level for item in chapter]) for chapter in result])
+
+    # pylint:disable=len-as-condition
+    assert len(result) > 0, 'empty PageHeadlineList'
+    maxsize = max([
+        max([item.level for item in chapter]) for chapter in result if chapter
+    ])
     first_level = FIRST_LEVEL * maxsize
     second_level = SECOND_LEVEL * maxsize
 
