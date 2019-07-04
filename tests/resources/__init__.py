@@ -49,6 +49,7 @@ TEST_DATA = join(ROOT, 'tests/resources')
 assert exists(TEST_DATA), TEST_DATA
 
 RESTRUCT = join(TEST_DATA, 'restruct')
+RESTRUCT_BOXES = join(RESTRUCT, 'rawmaker__boxes_boxes.yaml')
 RESTRUCT_FONT_CONTENT = join(RESTRUCT, 'rawmaker__fonts_content.yaml')
 RESTRUCT_FONT_HEADER = join(RESTRUCT, 'rawmaker__fonts_header.yaml')
 RESTRUCT_HORIZONTAL = join(RESTRUCT, 'rawmaker__boxes_horizontal.yaml')
