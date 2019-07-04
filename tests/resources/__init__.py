@@ -61,34 +61,38 @@ RESTRUCT_ONELINE_POSITION = join(RESTRUCT,
                                  'rawmaker__oneline_text_positions.yaml')
 RESTRUCT_ONELINE_TEXT = join(RESTRUCT, 'rawmaker__oneline_text_text.yaml')
 RESTRUCT_PAGESIZE = join(RESTRUCT, 'rawmaker__border_pages.yaml')
-RESTRUCT_TEXT_POSITION = join(RESTRUCT, 'rawmaker__text_positions.yaml')
 RESTRUCT_TEXT = join(RESTRUCT, 'rawmaker__text_text.yaml')
+RESTRUCT_TEXT_POSITION = join(RESTRUCT, 'rawmaker__text_positions.yaml')
 RESTRUCT_TOC = join(RESTRUCT, 'rawmaker__toc.yaml')
 
 RESTRUCT_TOC_LINES = 13
 
 SIMPLE = join(TEST_DATA, 'simple')
+SIMPLE_FONT_CONTENT = join(SIMPLE, 'rawmaker__fonts_content.yaml')
+SIMPLE_FONT_HEADER = join(SIMPLE, 'rawmaker__fonts_header.yaml')
+SIMPLE_HORIZONTAL = join(SIMPLE, 'rawmaker__boxes_horizontal.yaml')
 SIMPLE_PAGESIZE = join(SIMPLE, 'rawmaker__border_pages.yaml')
 SIMPLE_POSITION = join(SIMPLE, 'rawmaker__text_positions.yaml')
 SIMPLE_TEXT = join(SIMPLE, 'rawmaker__text_text.yaml')
 SIMPLE_TOC = join(SIMPLE, 'rawmaker__toc.yaml')
-SIMPLE_HORIZONTAL = join(SIMPLE, 'rawmaker__boxes_horizontal.yaml')
-SIMPLE_FONT_HEADER = join(SIMPLE, 'rawmaker__fonts_header.yaml')
-SIMPLE_FONT_CONTENT = join(SIMPLE, 'rawmaker__fonts_content.yaml')
 
 SIMPLE_HEADLINES_PAGE_3 = 4
 SIMPLE_TOC_LINES = 12
 
 for item in [
         RESTRUCT,
+        RESTRUCT_BOXES,
         RESTRUCT_FONT_CONTENT,
         RESTRUCT_FONT_HEADER,
         RESTRUCT_HORIZONTAL,
+        RESTRUCT_ONELINE_FONT_CONTENT,
+        RESTRUCT_ONELINE_FONT_HEADER,
         RESTRUCT_ONELINE_POSITION,
         RESTRUCT_ONELINE_TEXT,
         RESTRUCT_PAGESIZE,
         RESTRUCT_TEXT,
         RESTRUCT_TEXT_POSITION,
+        RESTRUCT_TOC,
         SIMPLE,
         SIMPLE_FONT_CONTENT,
         SIMPLE_FONT_HEADER,
