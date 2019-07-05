@@ -29,6 +29,7 @@ word.style = [i, b, u, strong? etc?]
 from dataclasses import dataclass
 from dataclasses import field
 from enum import Enum
+from itertools import groupby
 from itertools import zip_longest
 from re import finditer
 from typing import List
@@ -190,6 +191,9 @@ def extract_texts(
         boxes: BoxedChecker,
 ):
     result = []
+    # fill headlines
+    headlines = fill_headlines(headlines)
+    # start analyzing
     for headline in headlines:
         analyzed = analyze_page(
             headline,
@@ -198,10 +202,36 @@ def extract_texts(
             border,
             boxes,
         )
+        _, content = analyzed
+        if not content:
+            continue
         result.append(analyzed)
     result = squeeze_text(result)
-
     return result
+
+
+def fill_headlines(headlines):
+    """Add pages with content but without any headlines.
+
+    What happens when we forget to fill the headlines? All pages without any
+    headlines are ignored in content analyzis.
+    """
+    # fill headlines
+    heads = []
+    for first, second in zip_longest(
+            flatten(headlines),
+            flatten(headlines)[1:],
+            fillvalue=None,
+    ):
+        heads.append(first)
+        if second is None:
+            print('Implemnt fill last one till chapter ends')
+            break
+        for index in range(first.page + 1, second.page):
+            heads.append(Headline(text=None, level=None, page=index))
+
+    headlines = [list(group) for _, group in groupby(heads, lambda x: x.page)]
+    return headlines
 
 
 NEW_SENTENCE = [
@@ -272,8 +302,7 @@ def analyze_page(
         content=border,
     )
     fontstore = FontContentStore(fontstore, pcn, page)
-
-    if content[0].container > pcn.offset[0]:
+    if content[0].container == -1 or content[0].container > pcn.offset[0]:
         # the page does not start with a headline, without inserting an empty
         # line the starting content of the page is ignored
         # -> add starting container
@@ -282,16 +311,17 @@ def analyze_page(
             level=None,
             rawlevel=None,
             page=page,
-            container=pcn.offset[0],
+            container=pcn.offset[0] if pcn.offset[0] is not None else -1,
         )
         content = [headline] + content
     result = []
     for first, second in zip_longest(content, content[1:], fillvalue=None):
         start = first.container + 1
         # determine end mark
-        end = len(pcn)
         if second and first.page == second.page:
             end = second.container - 1
+        else:
+            end = len(pcn)
         # collect content after headline
         collector = []
         for index in range(start, end):
@@ -304,6 +334,10 @@ def analyze_page(
                 collector.append(Undefined(container=index))
         result.append((first, collector))
 
+    # remove empty content
+    result = [(headline, item)
+              for (headline, item) in result
+              if (headline.container is not None and headline.container > -1)]
     return (page, result)
 
 

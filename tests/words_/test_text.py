@@ -106,9 +106,24 @@ def test_word_text_extractor_titles(textexample):
     assert result[4][1][1][0].text == 'Sphinx Tutorial'
     assert result[4][1][2][0].text == 'Step 1'
 
+    # page13
+    assert result[5][1][0][0].text is None
+
     # page14
-    assert result[5][1][0][0].text == 'Documenting a Project'
+    assert result[6][1][0][0].text == 'Documenting a Project'
 
     #page15
-    assert result[6][1][0][0].text is None
-    assert result[6][1][1][0].text == 'Aside: Other formats'
+    assert result[7][1][0][0].text is None
+    assert result[7][1][1][0].text == 'Aside: Other formats'
+
+    #page16
+    assert result[8][1][0][0].text is None
+    assert result[8][1][1][0].text == 'Step 2'
+    assert result[8][1][2][0].text == 'Referencing Code'
+
+    #page17
+    assert result[9][1][0][0].text is None
+
+    #page18
+    assert result[10][1][0][0].text == 'CHAPTER 5'
+    assert result[10][1][1][0].text == 'Sphinx Guide'
