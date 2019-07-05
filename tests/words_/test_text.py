@@ -84,7 +84,6 @@ def test_word_text_extractor_titles(textexample):
     result = textexample
     # [(6, [(Headline(text='CHAPTER 1', level=1, rawlevel=None, page=6,
     #                 container=0), []), (Headline(text='RestructuredText Tutor
-
     # page6
     assert result[0][1][0][0].text == 'CHAPTER 1'
     assert result[0][1][1][0].text == 'RestructuredText Tutorial'

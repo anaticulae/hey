@@ -39,14 +39,6 @@ def header(document: Document) -> str:
     first_headline = format_title(tableofcontent[0])
     splitted = document.text.rsplit(splitter, 1)
 
-    # print(splitted)
-    # print('Splitted')
-    # # print(splitted)
-    # print('Start')
-    # print(first_headline)
-    # print(splitted[0])
-    # print('End')
-    # print(splitted)
     # TODO: We need a better algorithmn
     # Detect toc-page and split after
     assert len(splitted[0]) > SMALL_HEADER, splitted[0]  # front page, toc etc.
