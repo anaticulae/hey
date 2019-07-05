@@ -7,7 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pytest import mark
 from serializeraw import load_likelihood
 
 # from sections.sections import extract_sections

@@ -8,7 +8,6 @@
 # =============================================================================
 
 from pytest import mark
-from pytest import param
 from utila import install_and_run
 from utila.test import skip_nonvirtual
 

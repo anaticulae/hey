@@ -180,12 +180,10 @@ def extract_headlines(
                 if fontsize <= smallest_headline_size:
                     # text is to small to be a headline
                     continue
-                level = None
                 try:
                     level = distances[distanceid] + distances[distanceid + 1]
                 except IndexError:
                     level = distances[distanceid] * 2
-
                 headline = Headline(
                     container=containerid,
                     level=level,
