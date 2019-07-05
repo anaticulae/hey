@@ -78,3 +78,38 @@ def test_word_text_dump_and_load_text(textexample, restrucutured_headlines):
     for first, second in zip(loaded, textexample):
         assert first == second, '\n\n%s\n%s\n\n\n' % (first, second)
     assert loaded == textexample
+
+
+def test_word_text_extractor_titles(textexample):
+    result = textexample
+    # [(6, [(Headline(text='CHAPTER 1', level=1, rawlevel=None, page=6,
+    #                 container=0), []), (Headline(text='RestructuredText Tutor
+
+    # page6
+    assert result[0][1][0][0].text == 'CHAPTER 1'
+    assert result[0][1][1][0].text == 'RestructuredText Tutorial'
+
+    # page8
+    assert result[1][1][0][0].text == 'CHAPTER 2'
+    assert result[1][1][1][0].text == 'RestructuredText Guide'
+    assert result[1][1][2][0].text == 'Basics'
+
+    # page9
+    assert result[2][1][0][0].text == 'Blockquotes'
+    assert result[2][1][1][0].text == 'Code: Block'
+
+    # page10
+    assert result[3][1][0][0].text == 'CHAPTER 3'
+    assert result[3][1][1][0].text == 'RestructuredText Customizations'
+
+    # page12
+    assert result[4][1][0][0].text == 'CHAPTER 4'
+    assert result[4][1][1][0].text == 'Sphinx Tutorial'
+    assert result[4][1][2][0].text == 'Step 1'
+
+    # page14
+    assert result[5][1][0][0].text == 'Documenting a Project'
+
+    #page15
+    assert result[6][1][0][0].text is None
+    assert result[6][1][1][0].text == 'Aside: Other formats'
