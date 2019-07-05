@@ -134,7 +134,11 @@ class PageTextContentNavigator:
         )
         top, bottom = topbottom(pagesize, content)
         self.data = textnavigator.between(top, bottom)
-        self.offset = textnavigator.offset(top, bottom)
+        self._offset = textnavigator.offset(top, bottom)
+
+    @property
+    def offset(self):
+        return self._offset
 
     def __getitem__(self, index):
         return self.data[index]
