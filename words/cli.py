@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 #==============================================================================
 
+from utila import ResultFile as RF
+from utila import create_step as step
 from utila import featurepack
 
 from words import PROCESS_NAME
@@ -15,7 +17,37 @@ from words import __version__
 
 DESCRIPTION = 'TODO'
 
-WORKPLAN = []
+ResultFile = lambda producer, name: RF(producer=producer, name=name)
+
+WORKPLAN = [
+    step(
+        'headlines',
+        inputs=[
+            ResultFile('sections', 'sections_result'),
+            ResultFile('rawmaker', 'text_text'),
+            ResultFile('rawmaker', 'text_positions'),
+            ResultFile('rawmaker', 'fonts_header'),
+            ResultFile('rawmaker', 'fonts_content'),
+            ResultFile('rawmaker', 'border_pages'),
+            ResultFile('rawmaker', 'boxes_horizontal'),
+        ],
+        output=('headlines',),
+    ),
+    step(
+        'text',
+        inputs=[
+            ResultFile('rawmaker', 'text_text'),
+            ResultFile('rawmaker', 'text_positions'),
+            ResultFile('rawmaker', 'fonts_header'),
+            ResultFile('rawmaker', 'fonts_content'),
+            ResultFile('words', 'headlines_headlines'),
+            ResultFile('rawmaker', 'border_pages'),
+            ResultFile('rawmaker', 'boxes_horizontal'),
+            ResultFile('rawmaker', 'boxes_boxes'),
+        ],
+        output=('text',),
+    ),
+]
 
 
 def main():

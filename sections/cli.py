@@ -71,7 +71,7 @@ WORKPLAN = [
             ResultFile('sections', 'toc_likelihood'),
             ResultFile('sections', 'whitepage_likelihood'),
         ],
-        output=('likelihood',),
+        output=('result',),
     ),
 ]
 
@@ -85,4 +85,5 @@ def main():
         root=ROOT,
         version=__version__,
         workplan=WORKPLAN,
+        singleinput=True,
     )

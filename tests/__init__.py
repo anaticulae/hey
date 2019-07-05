@@ -6,3 +6,12 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+
+from utila import file_create
+
+
+def write_capsys(capsys):
+    """Save logged capsys to filespace"""
+    stdout, stderr = capsys.readouterr()
+    file_create('logging.txt', stdout)
+    file_create('error.txt', stderr)

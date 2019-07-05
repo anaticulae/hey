@@ -8,9 +8,12 @@
 # =============================================================================
 
 from pytest import mark
+from utila import file_create
 from utila import install_and_run
 from utila.test import skip_nonvirtual
 
+from tests import write_capsys
+from tests.resources import RESTRUCT
 from tests.words_ import run_words_success
 from words import PACKAGE_NAME
 from words import PROCESS_NAME
@@ -26,7 +29,15 @@ def test_words_setup_py():
 @mark.parametrize('command', [
     ['--help'],
     ['--version'],
+    [
+        '-i',
+        RESTRUCT,
+        '-o',
+        '.',
+    ],
 ])
-def test_run_sections(command, testdir, monkeypatch):  #pylint: disable=W0613
+def test_words_run(command, testdir, monkeypatch, capsys):  #pylint: disable=W0613
     """Run help and version command to reach basic test coverage"""
     run_words_success(command, monkeypatch=monkeypatch)
+
+    write_capsys(capsys)
