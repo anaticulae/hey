@@ -1,0 +1,20 @@
+content:
+- page: 1
+  whitepage: BLANK
+- page: 3
+  whitepage: WHITE
+- page: 5
+  whitepage: WHITE
+- page: 7
+  whitepage: WHITE
+- page: 11
+  whitepage: WHITE
+- page: 19
+  whitepage: WHITE
+- page: 21
+  whitepage: WHITE
+- page: 23
+  whitepage: WHITE
+- page: 25
+  whitepage: WHITE
+pages: 27

@@ -25,6 +25,14 @@ rawmaker -i restruct/restructuredtext.pdf\
          --boxes_flow=1.0\
          --line_margin=0.3
 
+sections -i restruct/restructuredtext.pdf\
+         -o ./restruct\
+         --chapter\
+         --index\
+         --sections\
+         --title\
+         --toc\
+         --whitepage
 # simple
 
 rawmaker -i simple/howto_pyporting.pdf\
