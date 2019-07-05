@@ -1,70 +1,51 @@
 - font:
     name: FWMLLU+LMSans10
     scale: 35.5
-    stretch: REGULAR
-    style: NORMAL
     weight: BOLD
   index: 0
 - font:
     name: QJWNBT+LMSans10
     scale: 17.1
-    stretch: REGULAR
     style: OBLIQUE
     weight: BOLD
   index: 1
 - font:
     name: FWMLLU+LMSans10
     scale: 20.5
-    stretch: REGULAR
-    style: NORMAL
     weight: BOLD
   index: 2
 - font:
     name: FWMLLU+LMSans10
     scale: 14.3
-    stretch: REGULAR
-    style: NORMAL
     weight: BOLD
   index: 3
 - font:
     name: ITUKGN+LMRoman10
     scale: 14.2
-    stretch: REGULAR
-    style: NORMAL
     weight: BOLD
   index: 4
 - font:
     name: DQPYUV+LMRoman10
     scale: 14.1
-    stretch: REGULAR
-    style: NORMAL
     weight: LIGHT
   index: 5
 - font:
     name: PCSMXX+LMMono10
     scale: 13.3
-    stretch: REGULAR
-    style: NORMAL
     weight: LIGHT
   index: 6
 - font:
     name: FWMLLU+LMSans10
     scale: 17.1
-    stretch: REGULAR
-    style: NORMAL
     weight: BOLD
   index: 7
 - font:
     name: WCVKNG+LMMonoLt10
     scale: 16.1
-    stretch: REGULAR
-    style: NORMAL
     weight: BOLD
   index: 8
 - font:
     name: WCVKNG+LMMonoLt10
     scale: 13.4
-    stretch: REGULAR
-    style: NORMAL
     weight: BOLD
   index: 9
