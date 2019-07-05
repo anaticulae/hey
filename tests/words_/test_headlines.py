@@ -156,6 +156,21 @@ def test_headlines_work():
     assert len(dumped) > 2100, str(dumped)
 
 
+@fixture
+def restrucutured_headlines():
+    sections_ = sections()
+    dumped = work(
+        sections=sections_,
+        text=RESTRUCT_TEXT,
+        text_position=RESTRUCT_TEXT_POSITION,
+        font_header=RESTRUCT_FONT_HEADER,
+        font_content=RESTRUCT_FONT_CONTENT,
+        sizeandborder=RESTRUCT_PAGESIZE,
+        horizontals=RESTRUCT_HORIZONTAL,
+    )
+    return dumped
+
+
 def test_headlines_dump_and_load_headlines():
     """Dump and load the example above"""
     dumped = dump_headlines(EXPECTED)
