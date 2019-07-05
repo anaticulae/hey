@@ -335,7 +335,7 @@ def dump_text(text: List[ChapterText]) -> str:
             current = {
                 # placeholder headline
                 'headline': None,
-                'firstcontainer': headline.container,
+                'fc': headline.container,
                 'content': [],
             }
             if headline.text is not None:
@@ -380,7 +380,7 @@ def load_text(content: str, headlines) -> List[ChapterText]:
                     level=None,
                     rawlevel=None,
                     page=page,
-                    container=section['firstcontainer'])
+                    container=section['fc'])
             pagecontent.append((headline, section_content))
 
         result.append((page, pagecontent))
