@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from functools import lru_cache
+
 from iamraw import Font
 from serializeraw import load_font_content
 from serializeraw import load_font_header
@@ -74,6 +76,13 @@ class FontStore:
                 continue
 
         return None
+
+    @lru_cache()
+    def font_to_fontid(self, font: Font) -> int:
+        for index, (compare) in enumerate(self):
+            if font == compare:
+                return index
+        return -1
 
     def fromstr(
             self,
