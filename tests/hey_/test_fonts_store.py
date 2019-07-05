@@ -157,3 +157,23 @@ def test_fontstore_fontcontentstore(
     for (res, exp) in zip(result, expected):
         assert res == exp
     assert result == expected, str(result)
+
+
+def test_fontstore_font_to_fontid():
+    # prepare sample font store
+    # pylint:disable=C0103
+    f0 = Font(name='SuperFont', scale=12.5)
+    f1 = Font(name='Arial', scale=12.5)
+    f2 = Font(name='Verdana', scale=17.5)
+    f3 = Font(name='Times', scale=5)
+    f4 = Font(name='Arial', scale=20)
+    f5 = Font(name='Arial', scale=5)
+    header = [f0, f1, f2, f3, f4, f5]
+    content = [[]]
+
+    store = FontStore(header, content)
+    assert store.font_to_fontid(f4) == 4
+    assert store.font_to_fontid(f3) == 3
+    assert store.font_to_fontid(f3) == 3
+    assert store.font_to_fontid(f0) == 0
+    assert store.font_to_fontid(f5) == 5
