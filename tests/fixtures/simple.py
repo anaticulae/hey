@@ -44,7 +44,10 @@ def simple():
     assert len(position) == len(document)
     assert len(horizontals) == len(document)
 
-    navigator = create_pagetextnavigators(position, document)
+    navigator = create_pagetextnavigators(
+        text=document,
+        text_position=position,
+    )
     return navigator, horizontals
 
 
@@ -82,7 +85,10 @@ def simple_pagetextnavigators(
 ) -> PageTextNavigators:
     textpositions = load_textposition(SIMPLE_POSITION)
 
-    return create_pagetextnavigators(textpositions, simple_document)
+    return create_pagetextnavigators(
+        text=simple_document,
+        text_position=textpositions,
+    )
 
 
 @fixture

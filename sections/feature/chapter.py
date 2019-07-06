@@ -46,7 +46,10 @@ def work(document: str, position: str, tocpath: str) -> str:
     tocs = load_toc(tocpath)
 
     # TODO: Think about how to handle this, invocation order of features?
-    navigators = create_pagetextnavigators(position, document)
+    navigators = create_pagetextnavigators(
+        text=document,
+        text_position=position,
+    )
 
     # work
     result = space_between_header_and_first_line(

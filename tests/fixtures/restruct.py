@@ -59,7 +59,10 @@ def restructured():
     assert len(position) == len(document)
     assert len(horizontals) == len(document)
 
-    navigators = create_pagetextnavigators(position, document)
+    navigators = create_pagetextnavigators(
+        text=document,
+        text_position=position,
+    )
     return navigators, horizontals
 
 

@@ -151,15 +151,15 @@ PageTextNavigators = List[PageTextNavigator]
 
 
 def create_pagetextnavigators(
-        position,
-        document: Document,
+        text: Document,
+        text_position,
 ) -> PageTextNavigators:
     navigators = []
-    for page, textposition in enumerate(position):
+    for page, textposition in enumerate(text_position):
         navigator = PageTextNavigator()
         navigators.append(navigator)
         textid = 0
-        for item in document[page]:
+        for item in text[page]:
             try:
                 # TODO: Remove strip after container is fixed
                 content = item.text.strip()

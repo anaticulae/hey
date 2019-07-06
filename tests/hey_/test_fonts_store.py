@@ -110,7 +110,10 @@ def test_fontstore_from_str(
 def restructured_textnavigators(restructured_text: Document,
                                ) -> PageTextNavigators:
     textpositions = load_textposition(RESTRUCT_TEXT_POSITION)
-    return create_pagetextnavigators(textpositions, restructured_text)
+    return create_pagetextnavigators(
+        text=restructured_text,
+        text_position=textpositions,
+    )
 
 
 @fixture

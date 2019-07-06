@@ -107,7 +107,10 @@ def test_headlines_extract_headlines(
     document = restructured_text
     sizeandborder = restructured_sizeandborder
 
-    navigator = create_pagetextnavigators(position, document)
+    navigator = create_pagetextnavigators(
+        text=document,
+        text_position=position,
+    )
 
     extracted = extract_headlines(
         sections=sections,

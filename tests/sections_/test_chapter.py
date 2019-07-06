@@ -26,7 +26,10 @@ def test_chapter_extract():
     position = load_textposition(RESTRUCT_TEXT_POSITION)
     tocs = load_toc(RESTRUCT_TOC)
     # TODO: Think about how to handle this, invocation order of features?
-    navigators = create_pagetextnavigators(position, document)
+    navigators = create_pagetextnavigators(
+        text=document,
+        text_position=position,
+    )
 
     result = space_between_header_and_first_line(
         navigators,
@@ -74,7 +77,10 @@ def test_chapter_dump_and_load_detection():
     position = load_textposition(RESTRUCT_TEXT_POSITION)
     tocs = load_toc(RESTRUCT_TOC)
     # TODO: Think about how to handle this, invocation order of features?
-    navigators = create_pagetextnavigators(position, document)
+    navigators = create_pagetextnavigators(
+        text=document,
+        text_position=position,
+    )
 
     result = space_between_header_and_first_line(
         navigators,

@@ -99,8 +99,8 @@ def work(
     horizontals = load_horizontals(horizontals)
 
     pagetextnavigator = create_pagetextnavigators(
-        position=position,
-        document=document,
+        text=document,
+        text_position=position,
     )
     fontstore = create_fontstore(
         font_header,

@@ -168,7 +168,10 @@ def prepare_input(
     horizontals = load_horizontals(horizontals)
     boxes = load_boxes(boxes)
     fontstore = create_fontstore(font_header, font_content)
-    textnavigators = create_pagetextnavigators(position, text)
+    textnavigators = create_pagetextnavigators(
+        text=text,
+        text_position=position,
+    )
     _, contentborder = load_pageborders(pagesizes)
     border = content_border(horizontals, contentborder)
     boxes = BoxedChecker(boxes)

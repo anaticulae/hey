@@ -61,7 +61,10 @@ def test_whitepages_extract():
 
     # TODO: Think about how to handle this, invocation order of features?
     headerfooters = extract_pages(horizontals)
-    navigators = create_pagetextnavigators(position, document)
+    navigators = create_pagetextnavigators(
+        text=document,
+        text_position=position,
+    )
 
     # work
     result = extract_whitepages(document, navigators, headerfooters)

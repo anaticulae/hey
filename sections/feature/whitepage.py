@@ -53,7 +53,10 @@ def work(document: str, position: str, horizontals: str) -> str:
 
     # TODO: Think about how to handle this, invocation order of features?
     headerfooters = extract_pages(horizontals)
-    navigators = create_pagetextnavigators(position, document)
+    navigators = create_pagetextnavigators(
+        text=document,
+        text_position=position,
+    )
 
     # work
     extracted = extract_whitepages(document, navigators, headerfooters)
