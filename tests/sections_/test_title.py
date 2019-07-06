@@ -15,10 +15,10 @@ from serializeraw import load_likelihood
 from sections.feature.title import extract_title_likelihood
 from sections.feature.title import split_page
 # pylint:disable=W0611
-from tests.fixtures.restruct import restructured_document
-from tests.fixtures.restruct import restructured_document_fixture
 from tests.fixtures.restruct import restructured_fontstore
 from tests.fixtures.restruct import restructured_fontstore_fixture
+from tests.fixtures.restruct import restructured_text
+from tests.fixtures.restruct import restructured_text_fixture
 from tests.fixtures.simple import simple_document  # pylint:disable=W0611
 from tests.fixtures.simple import simple_document_fixture
 from tests.fixtures.simple import simple_fontstore  # pylint:disable=W0611
@@ -47,7 +47,7 @@ MIN_TITLE_LIKELIHOOD = 0.70
 
 # TODO: google: pytest + parametrize + fixture
 @mark.parametrize('document,fontstore', [
-    (restructured_document_fixture(), restructured_fontstore_fixture()),
+    (restructured_text_fixture(), restructured_fontstore_fixture()),
     (simple_document_fixture(), simple_fontstore_fixture()),
 ])
 def test_extract_title_likelihood(
@@ -134,23 +134,23 @@ def test_extract_title_likelihood(
         )
     ])
 def test_split_page(
-        restructured_document,  #pylint:disable=W0621
+        restructured_text,  #pylint:disable=W0621
         page,
         position,
         expected,
 ):
-    first_page = restructured_document[page]
+    first_page = restructured_text[page]
 
     result = split_page(first_page, position)
     assert result == expected
 
 
 def test_dump_and_load_likelhood(
-        restructured_document,  #pylint:disable=W0621
+        restructured_text,  #pylint:disable=W0621
         restructured_fontstore,  #pylint:disable=W0621
 ):
     result = extract_title_likelihood(
-        restructured_document,
+        restructured_text,
         restructured_fontstore,
     )
     dumped = dump_likelihood(result)

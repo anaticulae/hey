@@ -10,7 +10,7 @@
 from sections.feature.index import extract_index_likelihood
 from sections.feature.index import work
 # pylint:disable=W0611
-from tests.fixtures.restruct import restructured_document
+from tests.fixtures.restruct import restructured_text
 from tests.resources import RESTRUCT_ONELINE_TEXT
 
 # manually set to secure index finder quality
@@ -18,8 +18,8 @@ LAST_PAGE_INDEX_LIKELYHOOD = 0.45
 
 
 #pylint:disable=W0621
-def test_extract_index_likelihood(restructured_document):
-    result = extract_index_likelihood(restructured_document)
+def test_extract_index_likelihood(restructured_text):
+    result = extract_index_likelihood(restructured_text)
     assert 0.95 <= sum(result) <= 1.05
 
     # The index is on the last page

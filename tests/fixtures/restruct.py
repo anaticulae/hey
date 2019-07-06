@@ -70,7 +70,7 @@ def restructured_chapter():
 
 
 @fixture
-def restructured_document() -> Document:
+def restructured_text() -> Document:
     loaded = load_document(RESTRUCT_TEXT)
     return loaded
 
@@ -179,7 +179,7 @@ def restructured_toc():
     return result
 
 
-def restructured_document_fixture() -> Document:
+def restructured_text_fixture() -> Document:
     loaded = load_document(RESTRUCT_TEXT)
     return loaded
 

@@ -11,10 +11,10 @@ from pytest import approx
 
 from sections.feature.toc import extract_toc_likelihood
 # pylint:disable=W0611
-from tests.fixtures.restruct import restructured_document
+from tests.fixtures.restruct import restructured_text
 
 
 #pylint:disable=W0621
-def test_extract_toc_likelihood(restructured_document):
-    extracted = extract_toc_likelihood(restructured_document)
+def test_extract_toc_likelihood(restructured_text):
+    extracted = extract_toc_likelihood(restructured_text)
     assert sum(extracted) == approx(1.0)

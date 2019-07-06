@@ -25,9 +25,9 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 # pylint:disable=W0611
-from tests.fixtures.restruct import restructured_document
 from tests.fixtures.restruct import restructured_fontstore
 from tests.fixtures.restruct import restructured_horizontals
+from tests.fixtures.restruct import restructured_text
 from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT_POSITION
 from words.feature.headlines import content_border
@@ -107,10 +107,10 @@ def test_fontstore_from_str(
 
 
 @fixture
-def restructured_textnavigators(restructured_document: Document,
+def restructured_textnavigators(restructured_text: Document,
                                ) -> PageTextNavigators:
     textpositions = load_textposition(RESTRUCT_TEXT_POSITION)
-    return create_pagetextnavigators(textpositions, restructured_document)
+    return create_pagetextnavigators(textpositions, restructured_text)
 
 
 @fixture

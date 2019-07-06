@@ -17,11 +17,11 @@ from sections.feature.toc import work as toc_work
 from sections.feature.whitepage import work as whitepage_work
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured
-from tests.fixtures.restruct import restructured_document
 from tests.fixtures.restruct import restructured_fontstore
 from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_sections
 from tests.fixtures.restruct import restructured_sizeandborder
+from tests.fixtures.restruct import restructured_text
 from tests.fixtures.restruct import restructured_text_positions
 from tests.resources import RESTRUCT_FONT_CONTENT
 from tests.resources import RESTRUCT_FONT_HEADER
@@ -97,14 +97,14 @@ def test_headlines_extract_headlines(
         # pylint:disable=W0621
         restructured_sections,
         restructured_text_positions,
-        restructured_document,
+        restructured_text,
         restructured_fontstore,
         restructured_sizeandborder,
         restructured_horizontals,
 ):
     sections = restructured_sections
     position = restructured_text_positions
-    document = restructured_document
+    document = restructured_text
     sizeandborder = restructured_sizeandborder
 
     navigator = create_pagetextnavigators(position, document)
