@@ -134,40 +134,49 @@ def test_words_text_extractor_titles(textexample):
     assert result[10][1][1][0].text == 'Sphinx Guide'
 
 
-@mark.parametrize('current_page,current_headline,expected_start,expected_end', [
-    param(
-        13,
-        7,
-        ('Getting Started'),
-        ('make html is the main way you will '
-         'build HTML documentation locally. It is simply a wrapper '
-         'around a more complex call to Sphinx.'),
-        id='page 13',
-    ),
-    param(
-        14,
-        8,
-        ('Now that we have our basic skeleton, let’s document the project. '
-         'As you might have guessed from the name, we’ll be documenting a'
-         ' basic web crawler.'),
-        ('Include the following in your install.rst:'),
-        id='page 14',
-    ),
-    param(
-        15,
-        9,
-        ('u0'),
-        (None),
-        id='page 15',
-    ),
-    param(
-        16,
-        10,
-        ('Make a manpage'),
-        ('u21'),
-        id='page 16',
-    ),
-])
+@mark.parametrize(
+    'current_page,current_headline,expected_start,expected_end',
+    [
+        param(
+            8,
+            2,
+            ([]),  # no content after headline
+            ('u18'),
+            id='page 8',
+        ),
+        param(
+            13,
+            7,
+            ('Getting Started'),
+            ('make html is the main way you will '
+             'build HTML documentation locally. It is simply a wrapper '
+             'around a more complex call to Sphinx.'),
+            id='page 13',
+        ),
+        param(
+            14,
+            8,
+            ('Now that we have our basic skeleton, let’s document the project. '
+             'As you might have guessed from the name, we’ll be documenting a'
+             ' basic web crawler.'),
+            ('Include the following in your install.rst:'),
+            id='page 14',
+        ),
+        param(
+            15,
+            9,
+            ('u0'),
+            (None),
+            id='page 15',
+        ),
+        param(
+            16,
+            10,
+            ('Make a manpage'),
+            ('u21'),
+            id='page 16',
+        ),
+    ])
 def test_words_extract_texts_page_x(
         current_page,
         current_headline,
@@ -204,12 +213,16 @@ def test_words_extract_texts_page_x(
     assert first_headline.page == current_page
     assert last_headline.page == current_page
 
-    assert first_output, str(first_output)
+    if expected_start == []:
+        # empty content on Headlines without content is possible
+        assert first_output == expected_start
+    else:
+        assert first_output, str(first_output)
+        first_line = join_output(first_output[0])
+        assert first_line == expected_start
 
-    first_line = join_output(first_output[0])
     last_line = join_output(last_output[-1]) if last_output else None
     assert last_line == expected_end
-    assert first_line == expected_start
 
 
 def join_output(paragraph):
