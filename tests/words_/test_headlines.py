@@ -157,7 +157,7 @@ def test_headlines_work():
 
 
 @fixture
-def restrucutured_headlines():
+def restructured_headlines():
     sections_ = sections()
     dumped = work(
         sections=sections_,

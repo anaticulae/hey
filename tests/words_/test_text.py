@@ -17,7 +17,7 @@ from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
 # pylint:disable=W0611
-from tests.words_.test_headlines import restrucutured_headlines
+from tests.words_.test_headlines import restructured_headlines
 from words.feature.headlines import load_headlines
 from words.feature.text import dump_text
 from words.feature.text import extract_texts
@@ -26,8 +26,8 @@ from words.feature.text import prepare_input
 from words.feature.text import work
 
 
-def test_word_text_work(restrucutured_headlines):
-    headlines = restrucutured_headlines
+def test_words_text_work(restructured_headlines):
+    headlines = restructured_headlines
     result = work(
         text=RESTRUCT_TEXT,
         text_position=RESTRUCT_TEXT_POSITION,
@@ -42,8 +42,8 @@ def test_word_text_work(restrucutured_headlines):
 
 
 @fixture
-def textexample(restrucutured_headlines):
-    headlines = restrucutured_headlines
+def textexample(restructured_headlines):
+    headlines = restructured_headlines
     border, fontstore, headlines, textnavigators, boxes = prepare_input(
         text=RESTRUCT_TEXT,
         text_position=RESTRUCT_TEXT_POSITION,
@@ -66,8 +66,8 @@ def textexample(restrucutured_headlines):
     return extracted
 
 
-def test_word_text_dump_and_load_text(textexample, restrucutured_headlines):
-    headlines = restrucutured_headlines
+def test_words_text_dump_and_load_text(textexample, restructured_headlines):
+    headlines = restructured_headlines
     assert textexample is not None
     assert headlines is not None
     headlines = load_headlines(headlines)
@@ -80,7 +80,7 @@ def test_word_text_dump_and_load_text(textexample, restrucutured_headlines):
     assert loaded == textexample
 
 
-def test_word_text_extractor_titles(textexample):
+def test_words_text_extractor_titles(textexample):
     result = textexample
     # [(6, [(Headline(text='CHAPTER 1', level=1, rawlevel=None, page=6,
     #                 container=0), []), (Headline(text='RestructuredText Tutor
