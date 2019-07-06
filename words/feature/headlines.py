@@ -66,7 +66,7 @@ class Headline:
     level: int = field(default=0)
     rawlevel: str = field(default=None, compare=False)
     page: int = field(default=-1)
-    container: int = field(default=-1)
+    container: int = field(default=None)
 
 
 PagesHeadlineList = List[List[Headline]]
