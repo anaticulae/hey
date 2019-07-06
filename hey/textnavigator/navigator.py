@@ -126,8 +126,11 @@ class PageTextContentNavigator:
             textnavigator(PageTextNavigator):
             content(Tuple[top,bottom]):
         """
-        assert isinstance(content, tuple)
-        # tb = document_footer(horizontals)
+        msg = 'require `PageTextNavigator` got: %s'
+        assert isinstance(textnavigator,
+                          PageTextNavigator), msg % type(textnavigator)
+        msg = 'require `Border` got: %s'
+        assert isinstance(content, Border), msg % type(content)
         pagesize = PageSize(
             width=textnavigator.width,
             height=textnavigator.height,
