@@ -29,10 +29,12 @@ word.style = [i, b, u, strong? etc?]
 from dataclasses import dataclass
 from dataclasses import field
 from enum import Enum
+from functools import partial
 from itertools import groupby
 from itertools import zip_longest
 from re import finditer
 from typing import List
+from typing import Tuple
 
 from iamraw import Border
 from serializeraw import load_boxes
@@ -55,62 +57,15 @@ from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.utils import flatten
+from words.boxed import BoxedChecker
 from words.feature.headlines import Headline
 from words.feature.headlines import content_border
 from words.feature.headlines import load_headlines
 
-
-@dataclass
-class Content:
-    content: object
-
-
-@dataclass
-class Paragraph(Content):
-    pass
-
-
-@dataclass
-class BoxedContent(Content):
-    boxid: int = field(default=-1)
-
-
-@dataclass
-class Undefined(Content):
-    container: int = field(default=-1)
-    content: str = None
-
-
-@dataclass
-class NoParagraph(Content):
-    pass
-
-
-ChapterText = List[Content]
-
-
-class BoxedChecker:
-    # TODO: VERY SLOW, REPLACE WITH GOOD ONE, FOR THE FIRST TIME, TIME IS NOT
-    # IMPORTANT.
-    def __init__(self, boxes):
-        self.data = []
-        for page in boxes:
-            content = []
-            for box in page:
-                bounding = box.box
-                content.append(bounding)
-            self.data.append(content)
-
-    def contains(self, page, bounds) -> int:
-        return self.boxid(page, bounds) >= 0
-
-    def boxid(self, page, bounds) -> int:
-        y0, x0, y1, x1 = bounds
-        for index, bound in enumerate(self.data[page]):
-            _y0, _x0, _y1, _x1 = bound
-            if _y0 <= y0 <= y1 <= _y1 and _x0 <= x0 <= x1 <= _x1:
-                return index
-        return -1
+Page = int
+ParagraphContent = List[str]
+ParagraphItem = Tuple[Headline, ParagraphContent]
+Paragraphs = List[ParagraphItem]
 
 
 def work(
@@ -159,6 +114,43 @@ def work(
     return dumped
 
 
+def analyze_page(
+        headlines,
+        fontstore: FontStore,
+        textnavigators: PageTextNavigator,
+        border: Border,
+        boxes: BoxedChecker,
+) -> Tuple[Page, Paragraphs]:
+    """ """
+    assert headlines, 'empty `headlines`'
+    try:
+        prepared = prepare_analyze_page(
+            headlines,
+            textnavigators,
+            fontstore,
+            border,
+        )
+    except EmptyPageError as error:
+        # Skip analyzing empty pages
+        return (error.page, None)
+
+    # prepare collection
+    page, headlines, pcn, fcs = prepared
+    call = partial(collect_paragraph, page=page, pcn=pcn, fcs=fcs, boxes=boxes)
+    zipped = zip_longest(headlines, headlines[1:], fillvalue=None)
+
+    # collect paragraphs
+    result = [
+        (first, call(first=first, second=second)) for (first, second) in zipped
+    ]
+
+    # clear result, remove empty content
+    result = [(headline, content)
+              for (headline, content) in result
+              if (headline.container is not None and headline.container > -1)]
+    return (page, result)
+
+
 def prepare_input(
         text: str,
         text_position: str,
@@ -183,6 +175,87 @@ def prepare_input(
     return border, fontstore, headlines, textnavigators, boxes
 
 
+def collect_paragraph(
+        first: Headline,
+        second: Headline,
+        page: int,
+        pcn: PageTextContentNavigator,
+        fcs: FontContentStore,
+        boxes,
+):
+    """
+    Hint: The Headlines/Container are numbered in absolute indies. Accessing
+    the content requires to subtract the offset which is produced by the
+    header.
+    """
+    # convert to content coordiante, and step one element further cause of
+    # current element is the headline and we want to start with content
+    start = first.container + 1 - pcn.offset[0]
+    # determine end mark
+    if second and first.page == second.page:
+        end = second.container - 1
+    else:
+        end = len(pcn)
+    # collect content after headline
+    collector = []
+    for index in range(start, end):
+        _bounding, _content = pcn[index]  # bounding, content
+        fonts = fcs.fromstr(index, 0, _content)
+        contenttype = content_type(boxes, page, _bounding, _content)
+        if contenttype == ContentType.PARAGRAPH:
+            collector.append(Paragraph(content=fonts))
+        else:
+            collector.append(Undefined(container=index))
+    return collector
+
+
+def prepare_analyze_page(
+        headlines,
+        textnavigators,
+        fontstore,
+        border,
+):
+    """Add dummy headline if required
+
+    Some pages does not contain a headline or the headline starts after the
+    first text content. Therefore add dummy headline is required to collect
+    this content under the dummy headline.
+
+    Args:
+
+    """
+    page = headlines[0].page
+    pcn = PageTextContentNavigator(
+        textnavigator=textnavigators[page],
+        content=border,
+    )
+    if pcn.offset == (None, None):
+        # empty page
+        raise EmptyPageError(page)
+    fontstore = FontContentStore(fontstore, pcn, page)
+    # pcn.offset[0] - 1: the "virtual" headline is one container element before
+    # the first content.
+    if headlines[0].container is None:
+        # start with None-Container
+        headlines[0].container = pcn.offset[0] - 1  # absolute coordinate
+    elif headlines[0].container > pcn.offset[0]:
+        # the page does not start with a headline, without inserting an empty
+        # line the starting content of the page is ignored
+        # -> add starting container
+        headline = Headline(
+            text=None,
+            level=None,
+            rawlevel=None,
+            page=page,
+            container=pcn.offset[0] - 1,  # absoulte coordinate
+        )
+        headlines = [headline] + headlines
+    else:
+        # normal headline
+        pass
+    return page, headlines, pcn, fontstore
+
+
 def extract_texts(
         headlines,
         fontstore: FontStore,
@@ -191,6 +264,7 @@ def extract_texts(
         boxes: BoxedChecker,
 ):
     result = []
+
     # fill headlines
     headlines = fill_headlines(headlines)
     # start analyzing
@@ -225,24 +299,13 @@ def fill_headlines(headlines):
     ):
         heads.append(first)
         if second is None:
-            print('Implemnt fill last one till chapter ends')
+            print('Implement fill last one till chapter ends')
             break
         for index in range(first.page + 1, second.page):
             heads.append(Headline(text=None, level=None, page=index))
 
     headlines = [list(group) for _, group in groupby(heads, lambda x: x.page)]
     return headlines
-
-
-NEW_SENTENCE = [
-    r'[\w|>|<]\. ',  # TODO: add more special chars
-    r'[\w|>|<]\.$',
-    r'\? ',
-    r'\?$',
-    r'\w: ',
-    r'\w:$',
-]
-PATTERN = '|'.join(NEW_SENTENCE)
 
 
 def squeeze_text(containers):
@@ -258,8 +321,23 @@ def squeeze_text(containers):
 
 SPACE = ' '
 
+# TODO: add more special chars
+SPECIAL_CHARS = ['>', '<', r'\)', r'\(']
+SPECIAL_CHARS = '|'.join(SPECIAL_CHARS)
+
+NEW_SENTENCE = [
+    r'[\w' + SPECIAL_CHARS + r']\. ',
+    r'[\w' + SPECIAL_CHARS + r']\.$',
+    r'\? ',
+    r'\?$',
+    r'\w: ',
+    r'\w:$',
+]
+PATTERN = '|'.join(NEW_SENTENCE)
+
 
 def squeeze_text_page(page):
+
     result = []
     for (headline, sequence) in page:
         lines = []
@@ -288,58 +366,23 @@ def squeeze_text_page(page):
     return result
 
 
-def analyze_page(
-        content,
-        fontstore: FontStore,
-        textnavigators: PageTextNavigator,
-        border: Border,
-        boxes: BoxedChecker,
-):
-    assert content, 'empty `content`'
-    page = content[0].page
-    pcn = PageTextContentNavigator(
-        textnavigator=textnavigators[page],
-        content=border,
-    )
-    fontstore = FontContentStore(fontstore, pcn, page)
-    if content[0].container == -1 or content[0].container > pcn.offset[0]:
-        # the page does not start with a headline, without inserting an empty
-        # line the starting content of the page is ignored
-        # -> add starting container
-        headline = Headline(
-            text=None,
-            level=None,
-            rawlevel=None,
-            page=page,
-            container=pcn.offset[0] if pcn.offset[0] is not None else -1,
-        )
-        content = [headline] + content
-    result = []
-    for first, second in zip_longest(content, content[1:], fillvalue=None):
-        start = first.container + 1
-        # determine end mark
-        if second and first.page == second.page:
-            end = second.container - 1
-        else:
-            end = len(pcn)
-        # collect content after headline
-        collector = []
-        for index in range(start, end):
-            _bounding, _content = pcn[index]  # bounding, content
-            fonts = fontstore.fromstr(index, 0, _content)
-            contenttype = content_type(boxes, page, _bounding, _content)
-            if contenttype == ContentType.PARAGRAPH:
-                collector.append(Paragraph(content=fonts))
-            else:
-                collector.append(Undefined(container=index))
-        result.append((first, collector))
+@dataclass
+class Content:
+    content: object
 
-    # remove empty content
-    result = [(headline, item)
-              for (headline, item) in result
-              if (headline.container is not None and headline.container > -1)]
-    return (page, result)
 
+@dataclass
+class Paragraph(Content):
+    pass
+
+
+@dataclass
+class Undefined(Content):
+    container: int = field(default=-1)
+    content: str = None
+
+
+ChapterText = List[Content]
 
 # TODO: Remove duplication
 DOT = '•'
@@ -419,3 +462,11 @@ def load_text(content: str, headlines) -> List[ChapterText]:
 
         result.append((page, pagecontent))
     return result
+
+
+class EmptyPageError(ValueError):
+    """Page contains no content but maybe header and/or footer"""
+
+    def __init__(self, page):
+        super().__init__()
+        self.page = page
