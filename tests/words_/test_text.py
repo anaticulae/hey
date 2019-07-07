@@ -7,11 +7,13 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pytest import fixture
 from pytest import mark
 from pytest import param
 from utila import NEWLINE
 
+# pylint:disable=W0611
+from tests.fixtures.restruct import restructured_headlines
+from tests.fixtures.restruct import restructured_textexample
 from tests.resources import RESTRUCT_BOXES
 from tests.resources import RESTRUCT_FONT_CONTENT
 from tests.resources import RESTRUCT_FONT_HEADER
@@ -19,8 +21,6 @@ from tests.resources import RESTRUCT_HORIZONTAL
 from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
-# pylint:disable=W0611
-from tests.words_.test_headlines import restructured_headlines
 from words.feature.headlines import load_headlines
 from words.feature.text import analyze_page
 from words.feature.text import dump_text
@@ -46,38 +46,17 @@ def test_words_text_work(restructured_headlines):
     assert len(result) > 6000, str(result)
 
 
-@fixture
-def textexample(restructured_headlines):
+def test_words_text_dump_and_load_text(
+        restructured_headlines,
+        restructured_textexample,
+):
     headlines = restructured_headlines
-    border, fontstore, headlines, textnavigators, boxes = prepare_input(
-        text=RESTRUCT_TEXT,
-        text_position=RESTRUCT_TEXT_POSITION,
-        font_header=RESTRUCT_FONT_HEADER,
-        font_content=RESTRUCT_FONT_CONTENT,
-        headlines=headlines,
-        pagesizes=RESTRUCT_PAGESIZE,
-        horizontals=RESTRUCT_HORIZONTAL,
-        boxes=RESTRUCT_BOXES,
-    )
-
-    extracted = extract_texts(
-        border=border,
-        fontstore=fontstore,
-        headlines=headlines,
-        textnavigators=textnavigators,
-        boxes=boxes,
-    )
-    assert extracted is not None
-    return extracted
-
-
-def test_words_text_dump_and_load_text(textexample, restructured_headlines):
-    headlines = restructured_headlines
+    textexample = restructured_textexample
     assert textexample is not None
     assert headlines is not None
     headlines = load_headlines(headlines)
 
-    dumped = dump_text(textexample)
+    dumped = dump_text(restructured_textexample)
     loaded = load_text(dumped, headlines)
 
     for first, second in zip(loaded, textexample):
@@ -85,8 +64,8 @@ def test_words_text_dump_and_load_text(textexample, restructured_headlines):
     assert loaded == textexample
 
 
-def test_words_text_extractor_titles(textexample):
-    result = textexample
+def test_words_text_extractor_titles(restructured_textexample):
+    result = restructured_textexample
     # [(6, [(Headline(text='CHAPTER 1', level=1, rawlevel=None, page=6,
     #                 container=0), []), (Headline(text='RestructuredText Tutor
     # page6

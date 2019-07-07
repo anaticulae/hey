@@ -28,11 +28,13 @@ from sections.creator import add_toc
 from sections.creator import add_whitepage
 from sections.ctor import PERCENT_100
 from sections.ctor import Sections
-from sections.feature.chapter import work as work_chapter
-from sections.feature.index import work as work_index
-from sections.feature.title import work as work_title
-from sections.feature.toc import work as work_toc
-from sections.feature.whitepage import work as work_whitepage
+from sections.feature.chapter import work as chapter_work
+from sections.feature.index import work as index_work
+from sections.feature.sections import work as section_work
+from sections.feature.title import work as title_work
+from sections.feature.toc import work as toc_work
+from sections.feature.whitepage import work as whitepage_work
+from tests.resources import RESTRUCT_BOXES
 from tests.resources import RESTRUCT_FONT_CONTENT
 from tests.resources import RESTRUCT_FONT_HEADER
 from tests.resources import RESTRUCT_HORIZONTAL
@@ -43,6 +45,9 @@ from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import RESTRUCT_TOC
+from words.feature.headlines import work as headlines_work
+from words.feature.text import extract_texts
+from words.feature.text import prepare_input
 
 
 @fixture
@@ -68,7 +73,7 @@ def restructured():
 
 @fixture
 def restructured_chapter():
-    result = work_chapter(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION, RESTRUCT_TOC)
+    result = chapter_work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION, RESTRUCT_TOC)
     return result
 
 
@@ -99,7 +104,7 @@ def restructured_horizontals():
 
 @fixture
 def restructured_index():
-    result = work_index(RESTRUCT_ONELINE_TEXT)
+    result = index_work(RESTRUCT_ONELINE_TEXT)
     return result
 
 
@@ -110,7 +115,22 @@ def restructured_navigator(restructured):  #pylint:disable=W0621
 
 
 @fixture
-def restructured_sections() -> Sections:
+def restructured_headlines():
+    sections_ = restructured_sections()
+    dumped = headlines_work(
+        sections=sections_,
+        text=RESTRUCT_TEXT,
+        text_position=RESTRUCT_TEXT_POSITION,
+        font_header=RESTRUCT_FONT_HEADER,
+        font_content=RESTRUCT_FONT_CONTENT,
+        sizeandborder=RESTRUCT_PAGESIZE,
+        horizontals=RESTRUCT_HORIZONTAL,
+    )
+    return dumped
+
+
+@fixture
+def restructured_sections_manual() -> Sections:
     result = Sections()
 
     def analyse(section, start, end):
@@ -168,7 +188,7 @@ def restructured_text_positions():
 
 @fixture
 def restructured_title():
-    result = work_title(
+    result = title_work(
         RESTRUCT_ONELINE_TEXT,
         RESTRUCT_ONELINE_FONT_HEADER,
         RESTRUCT_ONELINE_FONT_CONTENT,
@@ -178,7 +198,7 @@ def restructured_title():
 
 @fixture
 def restructured_toc():
-    result = work_toc(RESTRUCT_ONELINE_TEXT)
+    result = toc_work(RESTRUCT_ONELINE_TEXT)
     return result
 
 
@@ -189,9 +209,53 @@ def restructured_text_fixture() -> Document:
 
 @fixture
 def restructured_whitepage():
-    result = work_whitepage(
+    result = whitepage_work(
         RESTRUCT_TEXT,
         RESTRUCT_TEXT_POSITION,
         RESTRUCT_HORIZONTAL,
     )
     return result
+
+
+def restructured_sections():
+    chapter = chapter_work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION, RESTRUCT_TOC)
+
+    index = index_work(RESTRUCT_TEXT)
+    title = title_work(
+        RESTRUCT_TEXT,
+        RESTRUCT_FONT_HEADER,
+        RESTRUCT_FONT_CONTENT,
+    )
+    toc = toc_work(RESTRUCT_TEXT)
+    whitepage = whitepage_work(
+        RESTRUCT_TEXT,
+        RESTRUCT_TEXT_POSITION,
+        RESTRUCT_HORIZONTAL,
+    )
+    result = section_work(chapter, index, title, toc, whitepage)
+    return result
+
+
+@fixture
+def restructured_textexample(restructured_headlines):
+    headlines = restructured_headlines
+    border, fontstore, headlines, textnavigators, boxes = prepare_input(
+        text=RESTRUCT_TEXT,
+        text_position=RESTRUCT_TEXT_POSITION,
+        font_header=RESTRUCT_FONT_HEADER,
+        font_content=RESTRUCT_FONT_CONTENT,
+        headlines=headlines,
+        pagesizes=RESTRUCT_PAGESIZE,
+        horizontals=RESTRUCT_HORIZONTAL,
+        boxes=RESTRUCT_BOXES,
+    )
+
+    extracted = extract_texts(
+        border=border,
+        fontstore=fontstore,
+        headlines=headlines,
+        textnavigators=textnavigators,
+        boxes=boxes,
+    )
+    assert extracted is not None
+    return extracted

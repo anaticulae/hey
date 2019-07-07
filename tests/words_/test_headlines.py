@@ -6,20 +6,14 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-from pytest import fixture
 
 from hey.textnavigator.navigator import create_pagetextnavigators
-from sections.feature.chapter import work as chapter_work
-from sections.feature.index import work as index_work
-from sections.feature.sections import work as section_work
-from sections.feature.title import work as title_work
-from sections.feature.toc import work as toc_work
-from sections.feature.whitepage import work as whitepage_work
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured
 from tests.fixtures.restruct import restructured_fontstore
 from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_sections
+from tests.fixtures.restruct import restructured_sections_manual
 from tests.fixtures.restruct import restructured_sizeandborder
 from tests.fixtures.restruct import restructured_text
 from tests.fixtures.restruct import restructured_text_positions
@@ -95,14 +89,14 @@ EXPECTED = [
 
 def test_headlines_extract_headlines(
         # pylint:disable=W0621
-        restructured_sections,
+        restructured_sections_manual,
         restructured_text_positions,
         restructured_text,
         restructured_fontstore,
         restructured_sizeandborder,
         restructured_horizontals,
 ):
-    sections = restructured_sections
+    sections = restructured_sections_manual
     position = restructured_text_positions
     document = restructured_text
     sizeandborder = restructured_sizeandborder
@@ -125,27 +119,8 @@ def test_headlines_extract_headlines(
     assert extracted == EXPECTED
 
 
-def sections():
-    chapter = chapter_work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION, RESTRUCT_TOC)
-
-    index = index_work(RESTRUCT_TEXT)
-    title = title_work(
-        RESTRUCT_TEXT,
-        RESTRUCT_FONT_HEADER,
-        RESTRUCT_FONT_CONTENT,
-    )
-    toc = toc_work(RESTRUCT_TEXT)
-    whitepage = whitepage_work(
-        RESTRUCT_TEXT,
-        RESTRUCT_TEXT_POSITION,
-        RESTRUCT_HORIZONTAL,
-    )
-    result = section_work(chapter, index, title, toc, whitepage)
-    return result
-
-
 def test_headlines_work():
-    sections_ = sections()
+    sections_ = restructured_sections()
     dumped = work(
         sections=sections_,
         text=RESTRUCT_TEXT,
@@ -157,21 +132,6 @@ def test_headlines_work():
     )
     # dump some headlines
     assert len(dumped) > 2100, str(dumped)
-
-
-@fixture
-def restructured_headlines():
-    sections_ = sections()
-    dumped = work(
-        sections=sections_,
-        text=RESTRUCT_TEXT,
-        text_position=RESTRUCT_TEXT_POSITION,
-        font_header=RESTRUCT_FONT_HEADER,
-        font_content=RESTRUCT_FONT_CONTENT,
-        sizeandborder=RESTRUCT_PAGESIZE,
-        horizontals=RESTRUCT_HORIZONTAL,
-    )
-    return dumped
 
 
 def test_headlines_dump_and_load_headlines():

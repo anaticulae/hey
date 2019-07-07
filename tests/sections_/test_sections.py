@@ -22,7 +22,7 @@ from sections.serialize import load_sections
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_chapter
 from tests.fixtures.restruct import restructured_index
-from tests.fixtures.restruct import restructured_sections
+from tests.fixtures.restruct import restructured_sections_manual
 from tests.fixtures.restruct import restructured_title
 from tests.fixtures.restruct import restructured_toc
 from tests.fixtures.restruct import restructured_whitepage
@@ -37,8 +37,8 @@ def test_sections_iterable():
             pass
 
 
-def test_sections_dump_and_load_sections(restructured_sections):  #pylint:disable=W0621
-    data = restructured_sections
+def test_sections_dump_and_load_sections(restructured_sections_manual):  #pylint:disable=W0621
+    data = restructured_sections_manual
 
     dumped = dump_sections(data)
     assert dumped
@@ -49,8 +49,8 @@ def test_sections_dump_and_load_sections(restructured_sections):  #pylint:disabl
     assert loaded == data
 
 
-def test_validate_restructured(restructured_sections):  #pylint:disable=W0621
-    validated = validate(restructured_sections)
+def test_validate_restructured(restructured_sections_manual):  #pylint:disable=W0621
+    validated = validate(restructured_sections_manual)
     assert validated
 
 
@@ -58,7 +58,7 @@ def test_validate_restructured(restructured_sections):  #pylint:disable=W0621
 def test_sections_extract_sections(
         restructured_chapter,
         restructured_index,
-        restructured_sections,
+        restructured_sections_manual,
         restructured_title,
         restructured_toc,
         restructured_whitepage,
@@ -75,7 +75,7 @@ def test_sections_extract_sections(
     assert result
 
     for index, (actual, expected) in enumerate(
-            zip(result, restructured_sections)):
+            zip(result, restructured_sections_manual)):
         print('check level %d' % index)
         # Compare only the first level
         assert actual.start == expected.start
@@ -85,8 +85,8 @@ def test_sections_extract_sections(
     # assert result == restructured_sections
 
 
-def test_sections_chapters(restructured_sections):
-    result = chapters(restructured_sections)
+def test_sections_chapters(restructured_sections_manual):
+    result = chapters(restructured_sections_manual)
 
     # start is lower or equal than end page size
     # start = item[0]
