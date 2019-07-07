@@ -104,13 +104,25 @@ def extract_lists(
             # no text feed
             continue
 
-        numbered_list = parse_numbered_list(text)
-        if not numbered_list:
-            continue
+        numbered_list = []
+        for parser in [
+                parse_dotted_list,
+                parse_minus_list,
+                parse_numbered_list,
+                parse_plus_list,
+        ]:
+            numbered_list = parser(text)
+            # TODO: parse all and compare
+            if numbered_list:
+                break
         pagelist = PageList()
-        for content, level in numbered_list:
+        for item in numbered_list:
             # remove newline
-            pagelist.append(content, level)
+            if isinstance(item, str):
+                pagelist.append(item, 0)
+            else:
+                content, level = item
+                pagelist.append((content, level))
         result.append(pagelist)
     return result
 
@@ -120,7 +132,7 @@ def parse_dotted_list(content: str) -> List[str]:
 
 
 def parse_plus_list(content: str) -> List[str]:
-    return parse_general_list(content, '+')
+    return parse_general_list(content, r'\+')
 
 
 def parse_minus_list(content: str) -> List[str]:
