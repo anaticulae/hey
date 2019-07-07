@@ -180,11 +180,12 @@ NUMBERED_LIST_PATTERN = r"""
 
 
 def general_list_pattern(descriptor: str):
+    # TODO: refactor pattern, this pattern looks not very beautiful
     general = r"""
-        ^(?:%s\s)
+        ^[ ]{0,20}(?:%s\s)       # possible Whitespaces at front and DESCRIPTOR
         (?P<TEXT>(?:.+\s){1,7}?) # list item content
                                  # Final
-        (?=%s\s?|                # next item
+        (?=[ ]{0,20}%s\s?|       # next item possible Whitespace and DESCRIPTOR
          $                       # final line
          |\w)                    # following text after last dot
     """
