@@ -198,5 +198,30 @@ DOTTED_LIST_EXPECTED = [
 
 def test_groupme_words_list_dotted():
     parsed = parse_dotted_list(DOTTED_LIST)
-
     assert parsed == DOTTED_LIST_EXPECTED
+
+
+DOTTED_EXAMPLE = """
+For this project, we’ll have the following pages:
+  • Index Page
+    • Support
+      • Installation
+  • Cookbook/Examples
+• Command Line Options
+• Changelog
+Let’s start with the Support page.
+"""
+
+DOTTED_EXAMPLE_EXPECTED = [
+    'Index Page',
+    'Support',
+    'Installation',
+    'Cookbook/Examples',
+    'Command Line Options',
+    'Changelog',
+]
+
+
+def test_groupme_words_list_dotted_with_start_and_end():
+    parsed = parse_dotted_list(DOTTED_EXAMPLE)
+    assert parsed == DOTTED_EXAMPLE_EXPECTED
