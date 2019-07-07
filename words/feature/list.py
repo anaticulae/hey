@@ -81,13 +81,12 @@ def extract_lists(
         page:
         pagesize(Border): size of current page [left bottom right top]
     """
-    page = merge_content(page)
+    page = merge_content(page, max_y_merge=10)
     text_bounds = textbounds(
         page,
         pagesize,
     )
     # textsize = textsize_from_textbounds(page, pagesize)
-
     result = []
     for parapraph in text_bounds:
         bounds, text = parapraph
@@ -99,31 +98,33 @@ def extract_lists(
         #     # Collect lists only in text, avoid collecting in headlines
         #     continue
         feed = textfeed(bounds)
-        if feed <= 0.0:
-            # TODO: Improve this
-            # no text feed
-            continue
+        # if feed <= 0.0:
+        #     # TODO: Improve this
+        #     # no text feed
+        #     continue
 
-        numbered_list = []
+        detected = []
         for parser in [
                 parse_dotted_list,
                 parse_minus_list,
                 parse_numbered_list,
                 parse_plus_list,
         ]:
-            numbered_list = parser(text)
+            detected = parser(text)
             # TODO: parse all and compare
-            if numbered_list:
+            if detected:
                 break
         pagelist = PageList()
-        for item in numbered_list:
+        for index, item in enumerate(detected):
             # remove newline
             if isinstance(item, str):
-                pagelist.append(item, 0)
+                pagelist.append(item, index)
             else:
                 content, level = item
-                pagelist.append((content, level))
-        result.append(pagelist)
+                pagelist.append(content, level)
+
+        if pagelist:
+            result.append(pagelist)
     return result
 
 
@@ -161,9 +162,7 @@ def parse_numbered_list(content: str):
             if before != NEWLINE:
                 # item is not located at the start of the text
                 continue
-
         level, text = item[1], item[2]
-
         result.append((
             text.strip(),
             level,
