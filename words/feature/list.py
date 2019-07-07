@@ -11,6 +11,10 @@
     * the ordered (1.,2.,3.,...)
     * dotted, plus, minus - list (* Bratwurst, * Currwurst, +, -.)
 
+     - load extracted text
+     - filter undefined areas
+     - check undefined area that area is list
+
 """
 
 from dataclasses import dataclass
