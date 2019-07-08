@@ -45,6 +45,7 @@ from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import RESTRUCT_TOC
+from words.feature.headlines import content_border
 from words.feature.headlines import work as headlines_work
 from words.feature.text import dump_text
 from words.feature.text import extract_texts
@@ -265,3 +266,17 @@ def restructured_textexample(restructured_headlines):
 @fixture
 def restructured_textexample_dumped(restructured_textexample) -> str:
     return dump_text(restructured_textexample)
+
+
+@fixture
+def restructured_border():
+    _, border = load_pageborders(RESTRUCT_PAGESIZE)
+    return border
+
+
+@fixture
+def restructured_contentborder(restructured_horizontals, restructured_border):
+    horizontals = restructured_horizontals
+    border = restructured_border
+    result = content_border(horizontals, border)
+    return result

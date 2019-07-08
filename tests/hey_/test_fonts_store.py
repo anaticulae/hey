@@ -16,7 +16,6 @@ from iamraw import Style
 from iamraw import Weight
 from pytest import fixture
 from pytest import mark
-from serializeraw import load_pageborders
 
 from groupme.feature.numbers import load_textposition
 from hey.fonts.store import FontContentStore
@@ -25,6 +24,8 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 # pylint:disable=W0611
+from tests.fixtures.restruct import restructured_border
+from tests.fixtures.restruct import restructured_contentborder
 from tests.fixtures.restruct import restructured_fontstore
 from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_text
@@ -117,27 +118,18 @@ def restructured_textnavigators(restructured_text: Document,
 
 
 @fixture
-def restructured_contentborder():
-    _, border = load_pageborders(RESTRUCT_PAGESIZE)
-    return border
-
-
-@fixture
 def restructured_pagetextcontentnavigator(
         restructured_textnavigators,
         restructured_contentborder,
-        restructured_horizontals,
 ) -> PageTextContentNavigator:
     # page_1 = res[1]
     # pagetextnavigator: PageTextNavigators(),
+    contentborders = restructured_contentborder
     page = 4
     navigator = restructured_textnavigators[page]
-    horizontals = restructured_horizontals
-    contentborders = restructured_contentborder
-    border = content_border(horizontals, contentborders)
     pagecontent = PageTextContentNavigator(
         navigator,
-        border,
+        contentborders,
     )
     return pagecontent
 
