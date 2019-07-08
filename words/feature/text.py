@@ -124,6 +124,7 @@ def analyze_page(
 ) -> Tuple[Page, Paragraphs]:
     """ """
     assert headlines, 'empty `headlines`'
+    # TODO: Remove try/except
     try:
         prepared = prepare_analyze_page(
             headlines,
