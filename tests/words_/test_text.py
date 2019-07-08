@@ -24,14 +24,15 @@ from tests.resources import RESTRUCT_TEXT_POSITION
 from words.feature.headlines import load_headlines
 from words.feature.text import analyze_page
 from words.feature.text import dump_text
-from words.feature.text import extract_texts
 from words.feature.text import fill_headlines
 from words.feature.text import load_text
 from words.feature.text import prepare_input
 from words.feature.text import work
 
 
-def test_words_text_work(restructured_headlines):
+def test_words_text_work(
+        restructured_headlines,  # pylint:disable=W0621
+):
     headlines = restructured_headlines
     result = work(
         text=RESTRUCT_TEXT,
@@ -47,8 +48,8 @@ def test_words_text_work(restructured_headlines):
 
 
 def test_words_text_dump_and_load_text(
-        restructured_headlines,
-        restructured_textexample,
+        restructured_headlines,  # pylint:disable=W0621
+        restructured_textexample,  # pylint:disable=W0621
 ):
     headlines = restructured_headlines
     textexample = restructured_textexample
@@ -64,7 +65,9 @@ def test_words_text_dump_and_load_text(
     assert loaded == textexample
 
 
-def test_words_text_extractor_titles(restructured_textexample):
+def test_words_text_extractor_titles(
+        restructured_textexample,  # pylint:disable=W0621
+):
     result = restructured_textexample
     # [(6, [(Headline(text='CHAPTER 1', level=1, rawlevel=None, page=6,
     #                 container=0), []), (Headline(text='RestructuredText Tutor
@@ -161,7 +164,7 @@ def test_words_extract_texts_page_x(
         current_headline,
         expected_start,
         expected_end,
-        restructured_headlines,
+        restructured_headlines,  # pylint:disable=W0621
 ):
     headlines = restructured_headlines
     border, fontstore, headlines, textnavigators, boxes = prepare_input(
@@ -184,14 +187,14 @@ def test_words_extract_texts_page_x(
 
     # fill headlines
     headlines = fill_headlines(headlines)
-    # ensure that all collect headlines are from page 13
+    # ensure that all collect headlines are from page `current_page`
     current = headlines[current_headline]
     assert all([item.page == current_page for item in current])
 
     analyzed = analyze_page(current, fontstore, textnavigators, border, boxes)
-
     page, (content) = analyzed
     assert page == current_page, 'wrong extracted page: %d' % page
+
     first_headline, first_output = content[0][0], content[0][1]
     last_headline, last_output = content[-1][0], content[-1][1]
     # msg = 'invalid returned value due `analyze_page`'
