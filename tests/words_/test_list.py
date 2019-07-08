@@ -274,6 +274,28 @@ def dumped_list(
 def test_words_list_work(dumped_list):
     assert len(dumped_list) > 400, str(dumped_list)
 
+    result = load_lists(dumped_list)
+    assert len(result) == 3, str(result)
+
+    first_items = [item for (_, item) in result[0][1][0][2].data]
+    second_items = [item for (_, item) in result[1][1][0][2].data]
+    last_items = [item for (_, item) in result[2][1][0][2].data]
+
+    assert len(first_items) == 15, str(first_items)
+    assert first_items == [
+        'Code: Block', 'Code: Inline', 'Emphasis: Italics', 'Emphasis: Strong',
+        'Headers', 'Horizontal rules', 'Images: Inline', 'Line Return',
+        'Links: Inline', 'Links: Inline with title', 'Links: Reference',
+        'Lists: Simple', 'Lists: Nested', 'Paragraphs', 'Images: Reference'
+    ]
+    assert len(second_items) == 6, str(second_items)
+    assert second_items == [
+        'Index Page', 'Support', 'Installation', 'Cookbook/Examples',
+        'Command Line Options', 'Changelog'
+    ]
+    assert len(last_items) == 3, str(last_items)
+    assert last_items == ['genindex', 'modindex', 'search']
+
 
 def test_words_list_dump_and_load_lists(dumped_list):
     loaded = load_lists(dumped_list)
