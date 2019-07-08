@@ -71,7 +71,7 @@ def simple_second_page_merged_content(simple_second_page_navigator,
     return merged
 
 
-def test_groupme_navigator_extract_lists(
+def test_words_list_navigator_extract_lists(
         simple_second_page_merged_content,
         simple_second_page_size,
 ):
@@ -135,7 +135,7 @@ Text
 """
 
 
-def test_groupme_words_list_numbered_regex():
+def test_words_list_numbered_regex():
 
     parsed = parse_numbered_list(NUMBERED_LIST)
 
@@ -150,7 +150,7 @@ def test_groupme_words_list_numbered_regex():
         "to check your typing under both Python 2 & Python 3).")
 
 
-def test_groupme_words_list_numbered_regex_single_item():
+def test_words_list_numbered_regex_single_item():
     raw = (
         "8. Consider using optional static type checking to make sure your "
         "type usage works in both Python 2 &\n3 (e.g. use mypy to check your "
@@ -204,7 +204,7 @@ DOTTED_LIST_EXPECTED = [
 ]
 
 
-def test_groupme_words_list_dotted():
+def test_words_list_dotted():
     parsed = parse_dotted_list(DOTTED_LIST)
     assert parsed == DOTTED_LIST_EXPECTED
 
@@ -230,7 +230,7 @@ DOTTED_EXAMPLE_EXPECTED = [
 ]
 
 
-def test_groupme_words_list_dotted_with_start_and_end():
+def test_words_list_dotted_with_start_and_end():
     parsed = parse_dotted_list(DOTTED_EXAMPLE)
     assert parsed == DOTTED_EXAMPLE_EXPECTED
 
