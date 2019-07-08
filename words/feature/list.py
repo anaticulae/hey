@@ -180,7 +180,8 @@ def extract_lists(
         page:
         pagesize(Border): size of current page [left bottom right top]
     """
-    page = merge_content(page, max_y_merge=10)
+    # TODO: MAX_Y_MERGE IS VERY INSTABLE
+    page = merge_content(page, max_y_merge=15)  # TODO: HOLY VALUE
 
     text_bounds = textbounds(
         page,
@@ -297,6 +298,10 @@ def general_list_pattern(descriptor: str):
 def parse_general_list(content: str, selector: str) -> List[str]:
     assert isinstance(content, str), str(content)
     pattern = general_list_pattern(selector)
+
+    # Workaround: Adding newline to content. The regex does not work, if the
+    # content ends with a newline. TODO: Improve regex
+    content = content + NEWLINE
     parsed = finditer(
         pattern,
         content,
