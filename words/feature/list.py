@@ -164,6 +164,7 @@ def extract_lists(
         pagesize(Border): size of current page [left bottom right top]
     """
     page = merge_content(page, max_y_merge=10)
+
     text_bounds = textbounds(
         page,
         pagesize,
@@ -184,7 +185,6 @@ def extract_lists(
         #     # TODO: Improve this
         #     # no text feed
         #     continue
-
         detected = []
         for parser in [
                 parse_dotted_list,
@@ -198,7 +198,7 @@ def extract_lists(
                 break
         # parsing was not succesfull
         if not detected:
-            return None
+            continue
         pagelist = PageList()
         for index, item in enumerate(detected):
             # remove newline
@@ -255,6 +255,7 @@ def parse_numbered_list(content: str):
     return result
 
 
+# TODO: Merge both pattern!
 NUMBERED_LIST_PATTERN = r"""
     ^(?P<LEVEL>[0-9]+\.[0-9]{0})           # list level e.g. 1. 4. 5.
     \s                                     # whitespace
