@@ -17,6 +17,7 @@ from iamraw import PageSize
 from utila import INF
 
 from hey.textnavigator.fonts import TextBoundsList
+from hey.textnavigator.fonts import feeddistance
 from hey.textnavigator.fonts import fontdistance
 
 START = 0.0
@@ -235,21 +236,31 @@ def to_content(navigator: PageTextNavigator) -> TextBoundsList:
 
 # Merge lines with lower distance to one text chunck.
 MAX_MERGE_DISTANCE = 3.55  # TODO: Holy value
+MAX_MERGE_HORIZONTALY = 14.0  # TODO: HOLY VALUE
 
 
-def merge_content(text: TextBoundsList) -> TextBoundsList:
+def merge_content(
+        text: TextBoundsList,
+        max_x_merge=MAX_MERGE_HORIZONTALY,
+        max_y_merge=MAX_MERGE_DISTANCE,
+) -> TextBoundsList:
     bounds = navigator_to_bounds(text)
 
     if not text:
         # Nothing to merge
         return []
 
-    distance = fontdistance(bounds)
+    font_distance = fontdistance(bounds)
+    feed_distance = feeddistance(bounds)
     result = []
 
     result.append(text[0])  # single item is always merged
-    for index, dist in enumerate(distance, start=1):
-        if dist > MAX_MERGE_DISTANCE:
+    for index, (fontdist, feeddist) in enumerate(
+            zip(font_distance, feed_distance), start=1):
+        if fontdist > max_y_merge:
+            result.append(text[index])
+            continue
+        if abs(feeddist) > max_x_merge:
             result.append(text[index])
             continue
         # Merge me
