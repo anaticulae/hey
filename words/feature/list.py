@@ -65,6 +65,9 @@ def work(
         headlines(str): extracted chapter/paragraph headlines of `words` module
         border(str):
     """
+    assert isinstance(border, str), type(border)
+    assert isinstance(horizontals, str), type(horizontals)
+
     extracted, contentborder = prepare_input(
         extracted_text,
         text,
