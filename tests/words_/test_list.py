@@ -13,6 +13,12 @@ from hey.textnavigator.navigator import TextBoundsList
 from hey.textnavigator.navigator import merge_content
 from hey.textnavigator.navigator import to_content
 #pylint:disable=W0611
+from tests.fixtures.restruct import restructured_headlines
+from tests.fixtures.restruct import restructured_sizeandborder
+from tests.fixtures.restruct import restructured_text
+from tests.fixtures.restruct import restructured_text_positions
+from tests.fixtures.restruct import restructured_textexample
+from tests.fixtures.restruct import restructured_textexample_dumped
 from tests.fixtures.simple import simple_contentborder
 from tests.fixtures.simple import simple_document
 from tests.fixtures.simple import simple_pagetextnavigators
@@ -20,9 +26,12 @@ from tests.fixtures.simple import simple_second_page_navigator
 from tests.fixtures.simple import simple_second_page_size
 from words.feature.list import LType
 from words.feature.list import PageList
+from words.feature.list import dump_lists
 from words.feature.list import extract_lists
+from words.feature.list import load_lists
 from words.feature.list import parse_dotted_list
 from words.feature.list import parse_numbered_list
+from words.feature.list import work
 
 
 #pylint:disable=W0621
@@ -224,3 +233,38 @@ DOTTED_EXAMPLE_EXPECTED = [
 def test_groupme_words_list_dotted_with_start_and_end():
     parsed = parse_dotted_list(DOTTED_EXAMPLE)
     assert parsed == DOTTED_EXAMPLE_EXPECTED
+
+
+@fixture
+def dumped_list(
+        restructured_textexample_dumped,
+        restructured_text,
+        restructured_text_positions,
+        restructured_sizeandborder,
+        restructured_headlines,
+):
+    text = restructured_text
+    headlines = restructured_headlines
+    undefined = restructured_textexample_dumped
+    text_position = restructured_text_positions
+
+    _, border = restructured_sizeandborder
+    dumped = work(
+        undefined,
+        text,
+        text_position,
+        headlines=headlines,
+        border=border,
+    )
+    return dumped
+
+
+def test_words_list_work(dumped_list):
+    assert len(dumped_list) > 400, str(dumped_list)
+
+
+def test_words_list_dump_and_load_lists(dumped_list):
+    loaded = load_lists(dumped_list)
+
+    dumped = dump_lists(loaded)
+    assert dumped == dumped_list

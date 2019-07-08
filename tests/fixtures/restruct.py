@@ -46,6 +46,7 @@ from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import RESTRUCT_TOC
 from words.feature.headlines import work as headlines_work
+from words.feature.text import dump_text
 from words.feature.text import extract_texts
 from words.feature.text import prepare_input
 
@@ -259,3 +260,8 @@ def restructured_textexample(restructured_headlines):
     )
     assert extracted is not None
     return extracted
+
+
+@fixture
+def restructured_textexample_dumped(restructured_textexample) -> str:
+    return dump_text(restructured_textexample)
