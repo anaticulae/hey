@@ -238,6 +238,16 @@ def test_words_list_dotted_with_start_and_end():
     assert parsed == DOTTED_EXAMPLE_EXPECTED
 
 
+DOTTED_EXAMPLE_CONTENT_ONLY = """ • Index Page
+    • Support
+• Changelog"""
+
+
+def test_words_list_dotted_with_content_only():
+    parsed = parse_dotted_list(DOTTED_EXAMPLE_CONTENT_ONLY)
+    assert parsed == ['Index Page', 'Support', 'Changelog']
+
+
 @fixture
 def dumped_list(
         restructured_textexample_dumped,
