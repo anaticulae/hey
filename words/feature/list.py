@@ -16,7 +16,6 @@
      - check undefined area that area is list
 
 """
-
 from dataclasses import dataclass
 from dataclasses import field
 from enum import Enum
@@ -34,10 +33,88 @@ from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.fonts import textfeed
 from hey.textnavigator.navigator import merge_content
+from hey.undefined import extract_undefined
+from words.feature.headlines import document_border
+from words.feature.headlines import load_headlines
+from words.feature.text import load_text
 
 
-def work(text: str, textposition: str, pageborder: str) -> str:
-    return ''
+def work(
+        extracted_text: str,
+        text: str,
+        text_position: str,
+        headlines: str,
+        border: str,
+) -> str:
+    """Combine `extracted_text` and check the `undefined` fields for lists
+
+    Args:
+        extracted_text(str): document with `undefined fields` from `text`
+                             module of `words`
+        text(str): extracted text from rawmaker
+        text_position(str): position of extracted text
+        headlines(str): extracted chapter/paragraph headlines of `words` module
+        border(str):
+    """
+    extracted, contentborder = prepare_input(
+        extracted_text,
+        text,
+        text_position,
+        border,
+        headlines,
+    )
+
+    result = []
+    for pagecontent in extracted:
+        extracted = process_page(pagecontent, contentborder)
+        if not extracted:
+            logging('Skip %s' % pagecontent)
+            continue
+        result.append(extracted)
+    return dump_lists(result)
+
+
+def process_page(pagecontent, contentborder: Border):
+    """
+    Args:
+
+    Returns:
+
+    Format:
+        page 5
+            paragraphnumber, mergednumber, list
+            0                1             []
+            0                3             []
+            0                4             []
+            3                1             []
+    """
+    result, page = [], -1
+    for paragraph in pagecontent:
+        page, paragraphnumber, content = paragraph
+        for mergednumber, (_, item) in enumerate(content):
+            potentiallist = extract_lists(item, contentborder)
+            if not potentiallist:
+                # could not extract any list
+                continue
+            for listitem in potentiallist:
+                result.append((paragraphnumber, mergednumber, listitem))
+    if not result:
+        return None
+    return (page, result)
+
+
+def prepare_input(
+        extracted_text,
+        text,
+        text_position,
+        border,
+        headlines,
+):
+    headlines = load_headlines(headlines)
+    extracted_text = load_text(extracted_text, headlines)
+    extracted = extract_undefined(extracted_text, text, text_position, border)
+    contentborder = document_border(border)
+    return extracted, contentborder
 
 
 class LType(Enum):
@@ -56,7 +133,7 @@ class PageList:
     data: List[Tuple[str, str]] = field(default_factory=list)
 
     def append(self, title: str, level: str = None):
-        self.data.append((title, level))
+        self.data.append((level, title))
 
     def __getitem__(self, index):
         return self.data[index]
@@ -88,8 +165,8 @@ def extract_lists(
     )
     # textsize = textsize_from_textbounds(page, pagesize)
     result = []
-    for parapraph in text_bounds:
-        bounds, text = parapraph
+    for paragraph in text_bounds:
+        bounds, text = paragraph
         # ptextsize = fontsize_from_textbounds(bounds)
         # if ptextsize != textsize:
         #     # TODO: Hier gibt es noch ein Problem mit der Berechnung der
@@ -114,6 +191,9 @@ def extract_lists(
             # TODO: parse all and compare
             if detected:
                 break
+        # parsing was not succesfull
+        if not detected:
+            return None
         pagelist = PageList()
         for index, item in enumerate(detected):
             # remove newline

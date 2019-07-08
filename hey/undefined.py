@@ -35,14 +35,14 @@ def extract_undefined(pages, text, text_position, border):
             # split the undefined groups
             splitted_paragraph = splitter(paragraph)
             # fill undefined groups with text content
-            paragraph_items = [[ptcn[int(item[:-1])]
-                                for item in undefineds]
-                               for undefineds in splitted_paragraph]
+            paragraph_items = [(uindex, [
+                ptcn[int(item[:-1])] for item in undefineds
+            ]) for (uindex, undefineds) in enumerate(splitted_paragraph)]
+
             if paragraph_items:
                 _pagecontent.append((
                     page,
                     index,
-                    headline,
                     paragraph_items,
                 ))
         result.append(_pagecontent)
