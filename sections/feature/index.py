@@ -32,7 +32,6 @@ def work(text_linewise: str) -> str:
     document = load_document(text_linewise)
     extracted = extract_index_likelihood(document)
     dumped = dump_likelihood(extracted)
-    assert len(dumped) > 100
     return dumped
 
 
