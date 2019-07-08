@@ -7,21 +7,25 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from iamraw import Border
+
+from hey.document import document_border
 from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import create_pagetextnavigators
 
 
-def extract_undefined(pages, text, text_position, border):
+def extract_undefined(pages, text, text_position, contentborder):
     """Fill `undefined items` with TextContent and BoundingBox
 
     Args:
         pages(int)
         text():
         text_position:
-        border:
+        border(Border): contentborder which is equal for the whole document
     Returns:
         replaced pages with grouped replaced undefined items
     """
+    assert isinstance(contentborder, Border), type(contentborder)
     pagetextnavigators = create_pagetextnavigators(
         text=text,
         text_position=text_position,
@@ -29,9 +33,9 @@ def extract_undefined(pages, text, text_position, border):
     result = []
     for (page, pagecontent) in pages:
         # TODO: do not always create a new pcn
-        ptcn = PageTextContentNavigator(pagetextnavigators[page], border[page])
+        ptcn = PageTextContentNavigator(pagetextnavigators[page], contentborder)
         _pagecontent = []
-        for index, (headline, paragraph) in enumerate(pagecontent):
+        for index, (_, paragraph) in enumerate(pagecontent):
             # split the undefined groups
             splitted_paragraph = splitter(paragraph)
             # fill undefined groups with text content
