@@ -26,6 +26,8 @@ from typing import List
 from typing import Tuple
 
 from iamraw import Border
+from serializeraw import load_horizontals
+from serializeraw import load_pageborders
 from utila import NEWLINE
 from utila import Flag
 from utila import from_raw_or_path
@@ -34,12 +36,13 @@ from yaml import FullLoader
 from yaml import dump
 from yaml import load
 
+from hey.document import document_border
 from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.fonts import textfeed
 from hey.textnavigator.navigator import merge_content
 from hey.undefined import extract_undefined
-from words.feature.headlines import document_border
+from words.feature.headlines import content_border
 from words.feature.headlines import load_headlines
 from words.feature.text import load_text
 
@@ -50,6 +53,7 @@ def work(
         text_position: str,
         headlines: str,
         border: str,
+        horizontals: str,
 ) -> str:
     """Combine `extracted_text` and check the `undefined` fields for lists
 
@@ -67,6 +71,7 @@ def work(
         text_position,
         border,
         headlines,
+        horizontals,
     )
 
     result = []
@@ -114,10 +119,19 @@ def prepare_input(
         text_position,
         border,
         headlines,
+        horizontals,
 ):
     headlines = load_headlines(headlines)
     extracted_text = load_text(extracted_text, headlines)
-    extracted = extract_undefined(extracted_text, text, text_position, border)
+    horizontals = load_horizontals(horizontals)
+    _, border = load_pageborders(border)
+    contentborder = content_border(horizontals, border)
+    extracted = extract_undefined(
+        extracted_text,
+        text,
+        text_position,
+        contentborder=contentborder,
+    )
     contentborder = document_border(border)
     return extracted, contentborder
 
