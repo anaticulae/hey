@@ -175,6 +175,13 @@ def test_words_extract_texts_page_x(
         boxes=RESTRUCT_BOXES,
     )
 
+    def join_output(paragraph):
+        try:
+            joined = ''.join([item for (item, _) in paragraph.content])
+            return joined.replace(NEWLINE, ' ')
+        except TypeError:
+            return 'u%d' % paragraph.container
+
     # fill headlines
     headlines = fill_headlines(headlines)
     # ensure that all collect headlines are from page 13
@@ -202,11 +209,3 @@ def test_words_extract_texts_page_x(
 
     last_line = join_output(last_output[-1]) if last_output else None
     assert last_line == expected_end
-
-
-def join_output(paragraph):
-    try:
-        joined = ''.join([item for (item, _) in paragraph.content])
-        return joined.replace(NEWLINE, ' ')
-    except TypeError:
-        return 'u%d' % paragraph.container

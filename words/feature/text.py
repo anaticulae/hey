@@ -59,6 +59,7 @@ from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.utils import flatten
 from words.boxed import BoxedChecker
 from words.feature.headlines import Headline
+from words.feature.headlines import PagesHeadlineList
 from words.feature.headlines import content_border
 from words.feature.headlines import load_headlines
 
@@ -432,7 +433,7 @@ def dump_text(text: List[ChapterText]) -> str:
     return dumped
 
 
-def load_text(content: str, headlines) -> List[ChapterText]:
+def load_text(content: str, headlines: PagesHeadlineList) -> List[ChapterText]:
     """Load text and replace headline reference with current headline
 
     Args:

@@ -76,10 +76,9 @@ def test_sections_extract_sections(
 
     for index, (actual, expected) in enumerate(
             zip(result, restructured_sections_manual)):
-        print('check level %d' % index)
         # Compare only the first level
-        assert actual.start == expected.start
-        assert actual.end == expected.end
+        assert actual.start == expected.start, 'on level: %d' % index
+        assert actual.end == expected.end, 'on level: %d' % index
 
     # TODO: activate later, do not want to make this test so explicit
     # assert result == restructured_sections

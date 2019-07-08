@@ -112,7 +112,7 @@ def fontsize_from_textbounds(textbound: TextBounds) -> int:
     return textbound[4]
 
 
-def textfeed(textbounds: TextBounds) -> int:
+def textfeed(item: TextBounds) -> int:
     """The textfeed describes the distances from left content border to start
     of text.
 
@@ -121,13 +121,13 @@ def textfeed(textbounds: TextBounds) -> int:
     Returns:
         distance to content border
     """
-    return textbounds[0]
+    return item[0]
 
 
-def fontsizes(textbounds: TextBoundsList) -> FontOccurrenceList:
+def fontsizes(items: TextBoundsList) -> FontOccurrenceList:
     """Return a list of [fontsize, occurence] of the current page"""
     sizes = defaultdict(int)
-    for bounds, text in textbounds:
+    for bounds, text in items:
         fontsize = fontsize_from_textbounds(bounds)
         chars = sum([len(item) for item in text])
         sizes[fontsize] += chars
@@ -153,17 +153,17 @@ def textsize(occurrences: FontOccurrenceList) -> int:
 
 def textsize_from_textbounds(
         navigator: 'PageTextNavigator',
-        contentborder: Border,
+        content: Border,
 ) -> int:
-    text_bounds = textbounds(navigator, contentborder)
+    text_bounds = textbounds(navigator, content)
     font_sizes = fontsizes(text_bounds)
     return textsize(font_sizes)
 
 
-def document_textsize(navigators, contentborders: List[Border]) -> int:
+def document_textsize(navigators, borders: List[Border]) -> int:
     """Determine the most common text size"""
     result = []
-    for navigator, contentborder in zip(navigators, contentborders):
+    for navigator, contentborder in zip(navigators, borders):
         size = textsize_from_textbounds(navigator, contentborder)
         result.append(size)
     return mode(result)

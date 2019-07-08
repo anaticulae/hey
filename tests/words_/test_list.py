@@ -12,7 +12,6 @@ from pytest import fixture
 from hey.textnavigator.navigator import TextBoundsList
 from hey.textnavigator.navigator import merge_content
 from hey.textnavigator.navigator import to_content
-# from hey.textnavigator.navigator import PageTextContentNavigator
 #pylint:disable=W0611
 from tests.fixtures.simple import simple_contentborder
 from tests.fixtures.simple import simple_document

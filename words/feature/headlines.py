@@ -150,7 +150,7 @@ def extract_headlines(
 
     textsize = document_textsize(
         navigators=pagetextnavigator,
-        contentborders=contentborders,
+        borders=contentborders,
     )
     smallest_headline_size = textsize * SMALLEST_HEADLINE_FACTOR
 
@@ -271,7 +271,7 @@ def convert_level(result: PagesHeadlineList) -> int:
 
 
 # TODO: MOVE TO SERIALIZERAW
-def dump_headlines(headlines: List[Headline]) -> str:
+def dump_headlines(headlines: PagesHeadlineList) -> str:
     raw = []
     for index, page in enumerate(headlines):
         content = [{
@@ -292,7 +292,7 @@ def dump_headlines(headlines: List[Headline]) -> str:
     return dumped
 
 
-def load_headlines(content: str) -> List[Headline]:
+def load_headlines(content: str) -> PagesHeadlineList:
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)
     result = []

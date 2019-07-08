@@ -77,7 +77,4 @@ def test_groupme_navigator_merge_content(simple_second_page_navigator):
     paragraph_after_merge = 8
 
     merged = merge_content(content)
-    for item in merged:
-        print(item[0:3])
-        print()
     assert len(merged) == paragraph_after_merge
