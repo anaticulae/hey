@@ -26,6 +26,7 @@ from typing import List
 from typing import Tuple
 
 from iamraw import Border
+from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from utila import NEWLINE
@@ -36,6 +37,7 @@ from yaml import FullLoader
 from yaml import dump
 from yaml import load
 
+from groupme.feature.numbers import load_textposition
 from hey.document import document_border
 from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import textbounds
@@ -67,6 +69,8 @@ def work(
     """
     assert isinstance(border, str), type(border)
     assert isinstance(horizontals, str), type(horizontals)
+    assert isinstance(text, str), type(text)
+    assert isinstance(text_position, str), type(text_position)
 
     extracted, contentborder = prepare_input(
         extracted_text,
@@ -129,6 +133,8 @@ def prepare_input(
     horizontals = load_horizontals(horizontals)
     _, border = load_pageborders(border)
     contentborder = content_border(horizontals, border)
+    text = load_document(text)
+    text_position = load_textposition(text_position)
     extracted = extract_undefined(
         extracted_text,
         text,

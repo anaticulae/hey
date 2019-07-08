@@ -9,7 +9,6 @@
 
 from iamraw import Border
 
-from hey.document import document_border
 from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import create_pagetextnavigators
 

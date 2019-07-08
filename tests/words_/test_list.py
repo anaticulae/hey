@@ -15,6 +15,8 @@ from hey.textnavigator.navigator import to_content
 #pylint:disable=W0611
 from tests.fixtures.restruct import RESTRUCT_HORIZONTAL
 from tests.fixtures.restruct import RESTRUCT_PAGESIZE
+from tests.fixtures.restruct import RESTRUCT_TEXT
+from tests.fixtures.restruct import RESTRUCT_TEXT_POSITION
 from tests.fixtures.restruct import restructured_headlines
 from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_sizeandborder
@@ -251,19 +253,15 @@ def test_words_list_dotted_with_content_only():
 @fixture
 def dumped_list(
         restructured_textexample_dumped,
-        restructured_text,
-        restructured_text_positions,
         restructured_headlines,
 ):
-    text = restructured_text
     headlines = restructured_headlines
     undefined = restructured_textexample_dumped
-    text_position = restructured_text_positions
 
     dumped = work(
         undefined,
-        text,
-        text_position,
+        RESTRUCT_TEXT,
+        RESTRUCT_TEXT_POSITION,
         headlines=headlines,
         border=RESTRUCT_PAGESIZE,
         horizontals=RESTRUCT_HORIZONTAL,
