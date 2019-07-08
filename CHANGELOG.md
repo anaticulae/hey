@@ -2,6 +2,47 @@
 
 Every noteable change is logged here.
 
+## v1.1.0
+
+### Feature
+
+* ensure that passed border and horizontals are resources (8175a0eebf26)
+* use contentborder to determine the correct undefined index (2dd24d487f0e)
+* add method to dump and load extract list result (93801ffa7e1c)
+* add method to extract lists (f2f43071df14)
+* add text feed text detection `merge_content` (9d59df827a83)
+* extend list extractor (95c597269675)
+* add possible space to detection pattern (cef71ddda0a6)
+* extend parser with plus, minus and dotted parser (1e52bea95218)
+* add undefined to content converter (52f210c3de38)
+* reduce confusion when initializing PageTextContentNavigator (af2c2a27d877)
+* add ? to mark that result is not clear (84136bc7d83d)
+* add parsing non headline page and reorder class (b73741344e65)
+* set default container to None to fail faster (2a8efa8763d8)
+* add collect on pages without any headline but text content (21b985d7e514)
+* add text and text- and headlines-extractor to working plan (aa8dbcd5528d)
+* add method to extract text and detect non text areas (76fdf318d7f1)
+* fontstore - provide offset as class property (b3da3cabf3d3)
+* add method to join multiple list to one list (b07ebfee36e2)
+* add method to determine fontid of Font (ea478b459b27)
+* add field page to headline (85ac9a39ce1c)
+* remove None elements from white pages output (5ef13af1d62c)
+* add work method to use headlines in command line tool (4855c5516818)
+* don't write entree for empty page/input (b662c4871a0b)
+* expand method to dump and load sections (55378678e006)
+* add method to dump and load headlines (dd14a30dc538)
+* save containerid for grouping text areas (d649ce931448)
+
+### Fix
+
+* fix list pattern detector (03944c60798f)
+* fix offset bug (35b70d7f4fd3)
+* fix multiple parser (80408b299fe9)
+* rename field to chapter (af49c6abdc63)
+* fix passing empty elements to max size detection (211c75f7fbcb)
+* fix chapter index offset (e50b5f842ba0)
+* fix extracting all chapter (e3dfd023299a)
+
 ## v1.0.0
 
 ### Feature
