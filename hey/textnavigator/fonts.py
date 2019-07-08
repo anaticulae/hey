@@ -30,8 +30,20 @@ FontOccurrenceList = List[FontOccurrence]
 
 
 def fontdistance(bounds: List[BoundingBox]) -> List[float]:
+    """Describes the difference between two content lines"""
     distance = [
         roundme(second.y0 - first.y1)
+        for (first), (second) in zip(bounds[0:], bounds[1:])
+    ]
+    return distance
+
+
+def feeddistance(bounds: List[BoundingBox]) -> List[float]:
+    """The text feed describes the distance from the left content border to
+    the first content. The feeddistance describes the difference of two
+    items"""
+    distance = [
+        roundme(second.x0 - first.x0)
         for (first), (second) in zip(bounds[0:], bounds[1:])
     ]
     return distance
@@ -49,6 +61,35 @@ def fontdistance_textbounds(bounds: TextBoundsList) -> List[float]:
     return distance
 
 
+def bounds_to_textbounds(
+        bounds: BoundingBox,
+        item: str,
+        contentborder: Border,
+) -> TextBounds:
+    """Compute distance to page `contentborder` and determine font size
+
+    Args:
+        bounds(BoundingBox): BoundingBox of item
+        item(str): content
+        contenborder(Border): page border
+    Returns:
+        computed `TextBounds`
+    """
+    cb = contentborder  # pylint:disable=C0103
+    __x0, __y0, __x1, __y1 = cb.left, cb.top, cb.right, cb.bottom
+    x0, y0, x1, y1 = bounds
+    lines = len(item.splitlines())
+    xdist, ydist, width, height, fontsize = (
+        int(x0 - __x0),
+        int(y0 - __y0),
+        int(x1 - x0),
+        int(y1 - y0),
+        int((y1 - y0) / lines) if lines else 0,
+        # TODO: Improve font size calculation
+    )
+    return (xdist, ydist, width, height, fontsize)
+
+
 def textbounds(
         navigator: 'PageTextNavigator',
         contentborder: Border,
@@ -56,18 +97,8 @@ def textbounds(
     # ensure that order of items has no effect
     cb = contentborder  # pylint:disable=C0103
     __x0, __y0, __x1, __y1 = cb.left, cb.top, cb.right, cb.bottom
-    result = []
-    for (x0, y0, x1, y1), item in navigator:
-        lines = len(item.splitlines())
-        xdist, ydist, width, height, fontsize = (
-            int(x0 - __x0),
-            int(y0 - __y0),
-            int(x1 - x0),
-            int(y1 - y0),
-            int((y1 - y0) / lines) if lines else 0,
-            # TODO: Improve font size calculation
-        )
-        result.append(((xdist, ydist, width, height, fontsize), item))
+    result = [(bounds_to_textbounds(bounds, item, contentborder), item)
+              for (bounds, item) in navigator]
     return result
 
 
@@ -130,6 +161,7 @@ def textsize_from_textbounds(
 
 
 def document_textsize(navigators, contentborders: List[Border]) -> int:
+    """Determine the most common text size"""
     result = []
     for navigator, contentborder in zip(navigators, contentborders):
         size = textsize_from_textbounds(navigator, contentborder)
