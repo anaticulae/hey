@@ -28,6 +28,11 @@ from typing import Tuple
 from iamraw import Border
 from utila import NEWLINE
 from utila import Flag
+from utila import from_raw_or_path
+from utila import logging
+from yaml import FullLoader
+from yaml import dump
+from yaml import load
 
 from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import textbounds
@@ -288,3 +293,48 @@ def commandline() -> Flag:
         longcut='list',
         message='Export list of extracted ordered and unordered lists',
     )
+
+
+def dump_lists(lists: List[str]) -> str:
+    raw = []
+    for (number, page) in lists:
+        pageresult = []
+        for (paragraph, merged, content) in page:
+            # Number, Item
+            content = ['%s %s' % (number, item) for (number, item) in content]
+            pageresult.append({
+                'id': '%d %d' % (paragraph, merged),
+                'content': content,
+            })
+        if pageresult:
+            raw.append({
+                'page': number,
+                'lists': pageresult,
+            })
+    dumped = dump(raw)
+    return dumped
+
+
+def load_lists(content: str) -> List[str]:
+    content = from_raw_or_path(content, ftype='yaml')
+    loaded = load(content, Loader=FullLoader)
+    result = []
+    for page in loaded:
+        pagenumber = int(page['page'])
+        content = page['lists']
+        newpage = []
+        for listinstance in content:
+            paragraph, merged = [
+                int(item) for item in listinstance['id'].split()
+            ]
+            instance = PageList()
+            for entree in listinstance['content']:
+                # See (Number, Item)
+                number, text = entree.split(maxsplit=1)
+                # # try to convert to int/float
+                # if number.isdigit():  # all decimal digits and not empty
+                #     number = int(number)
+                instance.append(text, number)
+            newpage.append((paragraph, merged, instance))
+        result.append((pagenumber, newpage))
+    return result
