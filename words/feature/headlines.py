@@ -27,7 +27,6 @@ headline.
 """
 from dataclasses import dataclass
 from dataclasses import field
-from statistics import mode
 from typing import List
 
 from iamraw import Border
@@ -42,6 +41,8 @@ from yaml import load
 from groupme.feature.footer import document_footerheader
 from groupme.feature.footer import footerborder_to_border
 from groupme.feature.numbers import load_textposition
+from hey.document import BorderList
+from hey.document import document_border
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
 from hey.textnavigator.fonts import document_textsize
@@ -56,8 +57,6 @@ from sections.feature.sections import Content
 from sections.feature.sections import Sections
 from sections.feature.sections import chapters
 from sections.serialize import load_sections
-
-BorderList = List[Border]
 
 
 @dataclass
@@ -195,32 +194,6 @@ def extract_headlines(
 
     convert_level(result)
     return result
-
-
-def document_border(contentborders: BorderList) -> Border:
-    """Extract all content border for every page and determine the most common
-    border. Every direction is analyzed separatly.
-
-    Args:
-        contentborders(BorderList):
-    Returns:
-        most common border
-    """
-    # TODO: Move this code
-    # TODO: Change!
-    # 'left bottom right top'
-    left, bottom, right, top = [], [], [], []
-
-    # TODO: Check the positions
-    for item in contentborders:
-        left.append(item.left)
-        bottom.append(item.bottom)
-        right.append(item.right)
-        top.append(item.top)
-
-    left, bottom, right, top = mode(left), mode(bottom), mode(right), mode(top)
-
-    return Border(left=left, bottom=bottom, right=right, top=top)
 
 
 def content_border(horizontals, contentborders: BorderList) -> Border:
