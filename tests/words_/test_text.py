@@ -7,12 +7,20 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from iamraw import BoundingBox
 from pytest import mark
 from pytest import param
 from utila import NEWLINE
 
+from hey.undefined import extract_undefined
 # pylint:disable=W0611
+from tests.fixtures.restruct import restructured_border
+from tests.fixtures.restruct import restructured_contentborder
 from tests.fixtures.restruct import restructured_headlines
+from tests.fixtures.restruct import restructured_horizontals
+from tests.fixtures.restruct import restructured_sizeandborder
+from tests.fixtures.restruct import restructured_text
+from tests.fixtures.restruct import restructured_text_positions
 from tests.fixtures.restruct import restructured_textexample
 from tests.resources import RESTRUCT_BOXES
 from tests.resources import RESTRUCT_FONT_CONTENT
@@ -21,6 +29,7 @@ from tests.resources import RESTRUCT_HORIZONTAL
 from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
+from words.feature.headlines import content_border
 from words.feature.headlines import load_headlines
 from words.feature.text import analyze_page
 from words.feature.text import dump_text
@@ -212,3 +221,46 @@ def test_words_extract_texts_page_x(
 
     last_line = join_output(last_output[-1]) if last_output else None
     assert last_line == expected_end
+
+
+def test_words_text_convert_undefined_to_text(
+        restructured_headlines,  # pylint:disable=W0621
+        restructured_textexample,  # pylint:disable=W0621
+        restructured_text,  # pylint:disable=W0621
+        restructured_text_positions,  # pylint:disable=W0621
+        restructured_sizeandborder,  # pylint:disable=W0621
+        restructured_contentborder,
+):
+    headlines = restructured_headlines
+    textexample = restructured_textexample
+    text = restructured_text
+    text_positions = restructured_text_positions
+    contentborder = restructured_contentborder
+    assert textexample is not None
+    assert headlines is not None
+    headlines = load_headlines(headlines)
+
+    dumped = dump_text(restructured_textexample)
+    loaded = load_text(dumped, headlines)
+
+    undefined = extract_undefined(
+        loaded,
+        text,
+        text_positions,
+        contentborder=contentborder,
+    )
+    last_item = undefined[-1]
+    assert last_item == [(
+        24,
+        1,
+        [
+            (0, [
+                (BoundingBox(x0=88.44, y0=332.13, x1=133.28, y1=344.13),
+                 '• genindex'),
+                (BoundingBox(x0=88.44, y0=350.07, x1=136.61, y1=362.07),
+                 '• modindex'),
+                (BoundingBox(x0=88.44, y0=368.00, x1=122.35, y1=380.00),
+                 '• search'),
+            ]),
+        ],
+    )]
