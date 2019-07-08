@@ -13,7 +13,10 @@ from hey.textnavigator.navigator import TextBoundsList
 from hey.textnavigator.navigator import merge_content
 from hey.textnavigator.navigator import to_content
 #pylint:disable=W0611
+from tests.fixtures.restruct import RESTRUCT_HORIZONTAL
+from tests.fixtures.restruct import RESTRUCT_PAGESIZE
 from tests.fixtures.restruct import restructured_headlines
+from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_sizeandborder
 from tests.fixtures.restruct import restructured_text
 from tests.fixtures.restruct import restructured_text_positions
@@ -240,7 +243,6 @@ def dumped_list(
         restructured_textexample_dumped,
         restructured_text,
         restructured_text_positions,
-        restructured_sizeandborder,
         restructured_headlines,
 ):
     text = restructured_text
@@ -248,13 +250,13 @@ def dumped_list(
     undefined = restructured_textexample_dumped
     text_position = restructured_text_positions
 
-    _, border = restructured_sizeandborder
     dumped = work(
         undefined,
         text,
         text_position,
         headlines=headlines,
-        border=border,
+        border=RESTRUCT_PAGESIZE,
+        horizontals=RESTRUCT_HORIZONTAL,
     )
     return dumped
 

@@ -9,11 +9,14 @@
 
 from hey.undefined import extract_undefined
 # pylint:disable=W0611
+from tests.fixtures.restruct import restructured_border
+from tests.fixtures.restruct import restructured_contentborder
 from tests.fixtures.restruct import restructured_headlines
-from tests.fixtures.restruct import restructured_sizeandborder
+from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_text
 from tests.fixtures.restruct import restructured_text_positions
 from tests.fixtures.restruct import restructured_textexample
+from words.feature.headlines import content_border
 
 # collected by reading the pdf file
 RESTRUCTURED_NON_TEXTUAL_PAGE = 10
@@ -21,19 +24,18 @@ RESTRUCTURED_NON_TEXTUAL_PAGE = 10
 
 # pylint:disable=W0621
 def test_extract_undefined(
-        restructured_sizeandborder,
         restructured_text,
         restructured_text_positions,
         restructured_textexample,
+        restructured_contentborder,
 ):
     """Text replacing the undefined items with content"""
-    _, border = restructured_sizeandborder
     # TODO: Move to hey
     extracted = extract_undefined(
         restructured_textexample,
         restructured_text,
         restructured_text_positions,
-        border,
+        restructured_contentborder,
     )
     assert extracted
     non_empty_pages = [item for item in extracted if item]
