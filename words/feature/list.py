@@ -19,6 +19,7 @@
 from dataclasses import dataclass
 from dataclasses import field
 from enum import Enum
+from pprint import pprint
 from re import MULTILINE
 from re import VERBOSE
 from re import finditer
@@ -85,7 +86,10 @@ def work(
     for pagecontent in extracted:
         extracted = process_page(pagecontent, contentborder)
         if not extracted and pagecontent:
-            logging('Skip on page: %d, content: %s' % (page, pagecontent))
+            # TODO: REMOVE LATER
+            page = pagecontent[0][0]
+            logging('Skip on page: %d' % (page))
+            pprint(pagecontent)
             continue
         result.append(extracted)
     return dump_lists(result)
