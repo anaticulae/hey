@@ -25,6 +25,8 @@ from yaml import dump
 from yaml import load
 
 from hey.cluster import common_items
+from hey.textnavigator.navigator import END
+from hey.textnavigator.navigator import START
 from hey.utils import roundme
 
 # TODO: Remove after upgrading iamraw
@@ -100,6 +102,12 @@ def extract_common_footer(horizontals: PagesWithHorizontalList):
 
     top = header(clusters)
     bottom = footer(clusters)
+    if top is None:
+        # could not detect any header
+        top = START
+    if bottom is None:
+        # could not detect any footer
+        bottom = END
 
     # the header is on the top(0.0) and the footer is on the bottom(1.0)
     assert top < bottom, '%.2f < %.2f' % (top, bottom)
@@ -133,6 +141,7 @@ def match_horizontals(todo: List[HorizontalLine], vertical_position: float):
         True if any horizontal line match the `vertical_position`
     """
     vertical_position = round(vertical_position, 1)
+    # TODO: Check y0/y1
     return any(round(item.box.y0, 1) == vertical_position for item in todo)
 
 
