@@ -19,7 +19,6 @@
 from dataclasses import dataclass
 from dataclasses import field
 from enum import Enum
-from pprint import pprint
 from re import MULTILINE
 from re import VERBOSE
 from re import finditer
@@ -30,7 +29,6 @@ from iamraw import Border
 from utila import NEWLINE
 from utila import Flag
 from utila import from_raw_or_path
-from utila import logging
 from yaml import FullLoader
 from yaml import dump
 from yaml import load
@@ -40,6 +38,7 @@ from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.fonts import textfeed
 from hey.textnavigator.navigator import merge_content
 from words.input import prepare_input
+from words.input import process_input
 
 
 def work(
@@ -74,16 +73,11 @@ def work(
         horizontals,
     )
 
-    result = []
-    for pagecontent in extracted:
-        extracted = process_page(pagecontent, contentborder)
-        if not extracted and pagecontent:
-            # TODO: REMOVE LATER
-            page = pagecontent[0][0]
-            logging('Skip on page: %d' % (page))
-            pprint(pagecontent)
-            continue
-        result.append(extracted)
+    result = process_input(
+        extracted,
+        process_page,
+        contentborder,
+    )
     return dump_lists(result)
 
 

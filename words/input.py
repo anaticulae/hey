@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from pprint import pprint
 from typing import List
 from typing import Tuple
 
@@ -14,6 +15,7 @@ from iamraw import Border
 from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
+from utila import logging
 
 from groupme.feature.numbers import load_textposition
 from hey.document import document_border
@@ -46,3 +48,17 @@ def prepare_input(
     )
     contentborder = document_border(border)
     return extracted, contentborder
+
+
+def process_input(extracted, worker, contentborder):
+    result = []
+    for pagecontent in extracted:
+        extracted = worker(pagecontent, contentborder)
+        if not extracted and pagecontent:
+            # TODO: REMOVE LATER
+            page = pagecontent[0][0]
+            logging('Skip on page: %d' % (page))
+            pprint(pagecontent)
+            continue
+        result.append(extracted)
+    return result
