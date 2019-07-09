@@ -1,5 +1,5 @@
-iamraw==1.1.0
-utila==0.7.6
+iamraw==1.1.1
+utila==0.7.7
 
 # ensure that test data is generated with the right version of rawmaker
-rawmaker==1.0.2
+rawmaker==1.0.3
