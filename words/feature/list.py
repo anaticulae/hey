@@ -84,8 +84,8 @@ def work(
     result = []
     for pagecontent in extracted:
         extracted = process_page(pagecontent, contentborder)
-        if not extracted:
-            logging('Skip %s' % pagecontent)
+        if not extracted and pagecontent:
+            logging('Skip on page: %d, content: %s' % (page, pagecontent))
             continue
         result.append(extracted)
     return dump_lists(result)
