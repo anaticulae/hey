@@ -27,23 +27,15 @@ pages:
 
         '
   - - TextContainer
-    - - '2
-
-        '
-  - - TextContainer
     - - 'Contents
 
         '
   - - TextContainer
-    - - '1 The Short Explanation
+    - - '1 The Short Explanation 2
 
         '
   - - TextContainer
-    - - '2 Details
-
-        '
-  - - TextContainer
-    - - '2
+    - - '2 Details 2
 
         '
       - '2.1 Drop support for Python 2.6 and older . . . . . . . . . . . . . . . .
@@ -827,8 +819,7 @@ pages:
     - - 'if sys.version_info[0] == 3:
 
         '
-  - - TextContainer
-    - - 'from importlib import abc
+      - 'from importlib import abc
 
         '
   - - TextContainer

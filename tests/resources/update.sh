@@ -37,9 +37,29 @@ sections -i restruct/restructuredtext.pdf\
 
 rawmaker -i simple/howto_pyporting.pdf\
          -o ./simple\
+         --prefix=oneline\
+         --text\
+         --font\
+         --char_margin=100.0\
+         --boxes_flow=1.0
+
+rawmaker -i simple/howto_pyporting.pdf\
+         -o ./simple\
+         --border\
+         --boxes\
          --font\
          --text\
          --char_margin=5.0\
-         --boxes_flow=1.0
+         --boxes_flow=1.0\
+         --line_margin=0.3
+
+sections -i simple/howto_pyporting.pdf\
+         -o ./simple\
+         --chapter\
+         --index\
+         --sections\
+         --title\
+         --toc\
+         --whitepage
 
 popd
