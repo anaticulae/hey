@@ -13,7 +13,7 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import create_pagetextnavigators
 
 
-def extract_undefined(pages, text, text_position, contentborder):
+def extract_undefined(pages, text, text_position, contentborder: Border):
     """Fill `undefined items` with TextContent and BoundingBox
 
     Args:
@@ -31,7 +31,6 @@ def extract_undefined(pages, text, text_position, contentborder):
     )
     result = []
     for (page, pagecontent) in pages:
-        # TODO: do not always create a new pcn
         ptcn = PageTextContentNavigator(pagetextnavigators[page], contentborder)
         _pagecontent = []
         for index, (_, paragraph) in enumerate(pagecontent):
@@ -48,7 +47,9 @@ def extract_undefined(pages, text, text_position, contentborder):
                     index,
                     paragraph_items,
                 ))
-        result.append(_pagecontent)
+        # skip empty elements
+        if _pagecontent:
+            result.append(_pagecontent)
     return result
 
 
