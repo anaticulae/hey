@@ -15,7 +15,7 @@ from iamraw import Border
 from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
-from utila import logging
+from utila import info
 
 from groupme.feature.numbers import load_textposition
 from hey.document import document_border
@@ -57,7 +57,7 @@ def process_input(extracted, worker, contentborder):
         if not extracted and pagecontent:
             # TODO: REMOVE LATER
             page = pagecontent[0][0]
-            logging('Skip on page: %d' % (page))
+            info('Skip on page: %d' % (page))
             pprint(pagecontent)
             continue
         result.append(extracted)
