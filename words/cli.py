@@ -58,6 +58,19 @@ WORKPLAN = [
             ResultFile('rawmaker', 'boxes_horizontal'),
         ],
         output=('list',),
+    ),
+    step(
+        'boxed',
+        inputs=[
+            ResultFile('words', 'text_text'),
+            ResultFile('rawmaker', 'text_text'),
+            ResultFile('rawmaker', 'text_positions'),
+            ResultFile('words', 'headlines_headlines'),
+            ResultFile('rawmaker', 'border_pages'),
+            ResultFile('rawmaker', 'boxes_horizontal'),
+            ResultFile('rawmaker', 'boxes_boxes'),
+        ],
+        output=('boxed',),
     )
 ]
 
