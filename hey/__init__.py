@@ -13,3 +13,7 @@ __version__ = '1.1.0'
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 PACKAGE_NAME = 'hey'
+
+CACHE_SMALL = 16
+CACHE_MEDIUM = 32
+CACHE_LARGE = 128

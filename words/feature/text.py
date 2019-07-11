@@ -29,6 +29,7 @@ word.style = [i, b, u, strong? etc?]
 from dataclasses import dataclass
 from dataclasses import field
 from enum import Enum
+from functools import lru_cache
 from functools import partial
 from itertools import groupby
 from itertools import zip_longest

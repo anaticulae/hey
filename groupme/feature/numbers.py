@@ -19,6 +19,7 @@ Required API:
 
     # before/ after method to determine items
 """
+from functools import lru_cache
 from typing import List
 from typing import Tuple
 
@@ -30,6 +31,7 @@ from yaml import FullLoader
 from yaml import dump
 from yaml import load
 
+from hey import CACHE_SMALL
 from hey.cluster import common_items
 from hey.textnavigator.navigator import create_pagetextnavigators
 
@@ -54,6 +56,7 @@ def determine_pagenumbers(navigator):
     return pagenumbers(footer_)
 
 
+@lru_cache(CACHE_SMALL)
 def load_textposition(content: str):
     # TODO: This is from rawmaker->position.py,
     # TODO: remove after moving to serialzeraw
@@ -135,6 +138,7 @@ def dump_pagenumbers(pagenumbers_):
     return dumped
 
 
+@lru_cache(CACHE_SMALL)
 def load_pagenumbers(content: str):
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)

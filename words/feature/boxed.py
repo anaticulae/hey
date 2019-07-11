@@ -21,7 +21,7 @@ from yaml import FullLoader
 from yaml import dump
 from yaml import load
 
-from hey import SMALL_CACHE
+from hey import CACHE_SMALL
 from words.boxed import NO_BOX
 from words.boxed import BoxedChecker
 from words.input import prepare_input
@@ -157,7 +157,7 @@ def dump_boxedcontent(boxed) -> str:
     return dumped
 
 
-@lru_cache(SMALL_CACHE)
+@lru_cache(CACHE_SMALL)
 def load_boxedcontent(content: str):
 
     def _parse_box_content(line: str):

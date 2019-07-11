@@ -7,11 +7,14 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from functools import lru_cache
+
 from utila import from_raw_or_path
 from yaml import FullLoader
 from yaml import dump
 from yaml import load
 
+from hey import CACHE_SMALL
 from sections.ctor import Appendix
 from sections.ctor import Chapter
 from sections.ctor import Content
@@ -47,6 +50,7 @@ def dump_sections(sections: Sections) -> str:
     return dumped
 
 
+@lru_cache(CACHE_SMALL)
 def load_sections(content: str) -> Sections:
     """Load sections from path or str
 

@@ -27,6 +27,7 @@ headline.
 """
 from dataclasses import dataclass
 from dataclasses import field
+from functools import lru_cache
 from typing import List
 
 from iamraw import Border
@@ -42,6 +43,7 @@ from yaml import load
 from groupme.feature.footer import document_footerheader
 from groupme.feature.footer import footerborder_to_border
 from groupme.feature.numbers import load_textposition
+from hey import CACHE_SMALL
 from hey.document import BorderList
 from hey.document import document_border
 from hey.fonts.store import FontStore
@@ -267,6 +269,7 @@ def dump_headlines(headlines: PagesHeadlineList) -> str:
     return dumped
 
 
+@lru_cache(CACHE_SMALL)
 def load_headlines(content: str) -> PagesHeadlineList:
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)

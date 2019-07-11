@@ -10,6 +10,7 @@
 TODO:
     what should we do with empty header/footer
 """
+from functools import lru_cache
 from statistics import mode
 from typing import List
 from typing import Tuple
@@ -24,6 +25,7 @@ from yaml import FullLoader
 from yaml import dump
 from yaml import load
 
+from hey import CACHE_SMALL
 from hey.cluster import common_items
 from hey.textnavigator.navigator import END
 from hey.textnavigator.navigator import START
@@ -214,6 +216,7 @@ def dump_headerfooter(pages) -> str:
     return dump(result)
 
 
+@lru_cache(maxsize=CACHE_SMALL)
 def load_headerfooter(content: str) -> List[Tuple[Header, Footer]]:
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)

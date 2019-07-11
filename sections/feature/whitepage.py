@@ -21,6 +21,7 @@ Concept:
 """
 
 from enum import Enum
+from functools import lru_cache
 from typing import List
 
 from iamraw import Document
@@ -33,6 +34,7 @@ from yaml import load
 
 from groupme.feature.footer import extract_pages
 from groupme.feature.numbers import load_textposition
+from hey import CACHE_SMALL
 from hey.textnavigator.navigator import END
 from hey.textnavigator.navigator import START
 from hey.textnavigator.navigator import PageTextNavigator
@@ -119,6 +121,7 @@ def dump_whitepages(pages) -> str:
     return dump(raw)
 
 
+@lru_cache(CACHE_SMALL)
 def load_whitepages(content: str) -> List[WhitePage]:
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)

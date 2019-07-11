@@ -14,6 +14,7 @@
 
 """
 
+from functools import lru_cache
 from typing import Dict
 from typing import List
 
@@ -29,6 +30,7 @@ from yaml import load
 from groupme.feature import format_title
 from groupme.feature.toc import toc
 from groupme.structure import body
+from hey import CACHE_SMALL
 
 
 def work(documentpath: str) -> str:
@@ -86,6 +88,7 @@ def dump_chapter(chapter: List[Dict]) -> str:
     return dumped
 
 
+@lru_cache(maxsize=CACHE_SMALL)
 def load_chapter(content: str) -> List[Dict]:
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)

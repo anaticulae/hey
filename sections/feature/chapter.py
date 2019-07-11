@@ -22,6 +22,7 @@ What is typical for a start of chapter?
 
 """
 
+from functools import lru_cache
 from re import X as VERBOSE
 from re import search
 from typing import List
@@ -35,6 +36,7 @@ from yaml import dump
 from yaml import load
 
 from groupme.feature.numbers import load_textposition
+from hey import CACHE_SMALL
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import create_pagetextnavigators
 
@@ -128,6 +130,7 @@ def dump_chapter_detection(pages: List[float]) -> str:
     return dump(result)
 
 
+@lru_cache(CACHE_SMALL)
 def load_chapter_detection(content: str) -> List[float]:
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)

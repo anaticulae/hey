@@ -19,6 +19,8 @@
 from dataclasses import dataclass
 from dataclasses import field
 from enum import Enum
+from functools import lru_cache
+from functools import partial
 from re import MULTILINE
 from re import VERBOSE
 from re import finditer
@@ -34,6 +36,7 @@ from yaml import FullLoader
 from yaml import dump
 from yaml import load
 
+from hey import CACHE_SMALL
 from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.fonts import textfeed
@@ -306,6 +309,7 @@ def dump_lists(lists: List[str]) -> str:
     return dumped
 
 
+@lru_cache(CACHE_SMALL)
 def load_lists(content: str) -> List[str]:
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)
