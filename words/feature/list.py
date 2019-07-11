@@ -70,10 +70,10 @@ def work(
         horizontals,
     )
 
+    worker = partial(process_page, contentborder=contentborder)
     result = process_input(
         extracted,
-        process_page,
-        contentborder,
+        worker,
     )
     return dump_lists(result)
 

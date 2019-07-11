@@ -50,10 +50,10 @@ def prepare_input(
     return extracted, contentborder
 
 
-def process_input(extracted, worker, contentborder):
+def process_input(extracted, worker):
     result = []
     for pagecontent in extracted:
-        extracted = worker(pagecontent, contentborder)
+        extracted = worker(pagecontent)
         if not extracted and pagecontent:
             # TODO: REMOVE LATER
             page = pagecontent[0][0]
