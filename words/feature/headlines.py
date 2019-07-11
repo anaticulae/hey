@@ -33,6 +33,7 @@ from iamraw import Border
 from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
+from utila import checkdatatype
 from utila import from_raw_or_path
 from yaml import FullLoader
 from yaml import dump
@@ -71,6 +72,7 @@ class Headline:
 PagesHeadlineList = List[List[Headline]]
 
 
+@checkdatatype
 def work(
         sections: str,
         text: str,

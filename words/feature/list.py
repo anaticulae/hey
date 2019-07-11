@@ -28,6 +28,7 @@ from typing import Tuple
 from iamraw import Border
 from utila import NEWLINE
 from utila import Flag
+from utila import checkdatatype
 from utila import from_raw_or_path
 from yaml import FullLoader
 from yaml import dump
@@ -41,6 +42,7 @@ from words.input import prepare_input
 from words.input import process_input
 
 
+@checkdatatype
 def work(
         extracted_text: str,
         text: str,
@@ -59,11 +61,6 @@ def work(
         headlines(str): extracted chapter/paragraph headlines of `words` module
         border(str):
     """
-    assert isinstance(border, str), type(border)
-    assert isinstance(horizontals, str), type(horizontals)
-    assert isinstance(text, str), type(text)
-    assert isinstance(text_position, str), type(text_position)
-
     extracted, contentborder = prepare_input(
         extracted_text,
         text,
