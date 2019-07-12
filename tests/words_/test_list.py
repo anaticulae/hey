@@ -112,6 +112,7 @@ def test_words_list_navigator_extract_lists(
         simple_second_page_merged_content,
         simple_second_page_size,
     )
+
     assert extracted == expected
 
 

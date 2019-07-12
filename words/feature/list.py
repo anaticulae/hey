@@ -267,7 +267,7 @@ def general_list_pattern(descriptor: str):
 
 
 def parse_general_list(content: str, selector: str) -> List[str]:
-    assert isinstance(content, str), str(content)
+    assert isinstance(content, str), type(content)
     pattern = general_list_pattern(selector)
 
     # Workaround: Adding newline to content. The regex does not work, if the
