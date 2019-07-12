@@ -270,32 +270,33 @@ def merge_content(
 
     # copy element
     result = [(text[0][0], [text[0][1]])]
+    merged = [[0]]
     lines = zip(font_distance, feed_distance)
     for index, (fontdist, feeddist) in enumerate(lines, start=1):
         current_bounds, current_text = text[index]
         if fontdist > max_y_merge:
             # new entree
             result.append((current_bounds, [current_text]))
+            merged.append([index])
             continue
         if abs(feeddist) > max_x_merge:
             # new entree
             result.append((current_bounds, [current_text]))
+            merged.append([index])
             continue
 
         # Merge me
         member_location, member_content = result[-1]
         merger_location, merger_content = text[index]
         member_content.append(merger_content)
-
+        merged[-1].append(index)
         # merged items together and save them as last item
         result[-1] = (
             common_box([member_location, merger_location]),
             member_content,
         )
 
-    # convert back to str
-    result = [(bounds, NEWLINE.join(item)) for (bounds, item) in result]
-    return result
+    return result, merged
 
 
 def navigator_to_bounds(navigator: PageTextNavigator) -> List[BoundingBox]:

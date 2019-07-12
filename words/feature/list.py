@@ -124,6 +124,7 @@ class LType(Enum):
 class PageList:
 
     data: List[Tuple[str, str]] = field(default_factory=list)
+    area: List[int] = field(default_factory=list)
 
     def append(self, title: str, level: str = None):
         self.data.append((level, title))
@@ -152,15 +153,17 @@ def extract_lists(
         pagesize(Border): size of current page [left bottom right top]
     """
     # TODO: MAX_Y_MERGE IS VERY INSTABLE
-    page = merge_content(page, max_y_merge=15)  # TODO: HOLY VALUE
-
+    unmerged = list(page)
+    page, merged = merge_content(page, max_y_merge=15)  # TODO: HOLY VALUE
+    page_str = merge_content_join(page)
     text_bounds = textbounds(
-        page,
+        page_str,
         pagesize,
     )
     # textsize = textsize_from_textbounds(page, pagesize)
     result = []
-    for paragraph in text_bounds:
+    enumerated = enumerate(zip(text_bounds, merged))
+    for paraindex, (paragraph, mergearea) in enumerated:
         bounds, text = paragraph
         # ptextsize = fontsize_from_textbounds(bounds)
         # if ptextsize != textsize:
@@ -189,6 +192,8 @@ def extract_lists(
         if not detected:
             continue
         pagelist = PageList()
+        pagelist.area.extend(mergearea)
+        # before, after = before_and_after(text, position[0], position[1])
         for index, item in enumerate(detected):
             # remove newline
             if isinstance(item, str):
@@ -295,10 +300,12 @@ def dump_lists(lists: List[str]) -> str:
         pageresult = []
         for (paragraph, merged, content) in page:
             # Number, Item
+            area = ' '.join([str(item) for item in content.area])
             content = ['%s %s' % (number, item) for (number, item) in content]
             pageresult.append({
-                'id': '%d %d' % (paragraph, merged),
+                'area': area,
                 'content': content,
+                'id': '%d %d' % (paragraph, merged),
             })
         if pageresult:
             raw.append({
@@ -322,13 +329,14 @@ def load_lists(content: str) -> List[str]:
             paragraph, merged = [
                 int(item) for item in listinstance['id'].split()
             ]
-            instance = PageList()
+            area = [int(item) for item in listinstance['area'].split()]
+            instance = PageList(area=area)
             for entree in listinstance['content']:
                 # See (Number, Item)
                 number, text = entree.split(maxsplit=1)
                 # # try to convert to int/float
-                # if number.isdigit():  # all decimal digits and not empty
-                #     number = int(number)
+                if number.isdigit():  # all decimal digits and not empty
+                    number = int(number)
                 instance.append(text, number)
             newpage.append((paragraph, merged, instance))
         result.append((pagenumber, newpage))

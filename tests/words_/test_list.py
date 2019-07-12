@@ -81,7 +81,7 @@ def test_words_list_navigator_extract_lists(
         simple_second_page_merged_content,
         simple_second_page_size,
 ):
-    expected = PageList()
+    expected = PageList(area=[0, 1, 2])
     raw = [
         "Only worry about supporting Python 2.7",
         ("Make sure you have good test coverage (coverage.py can help; pip"
@@ -112,7 +112,6 @@ def test_words_list_navigator_extract_lists(
         simple_second_page_merged_content,
         simple_second_page_size,
     )
-
     assert extracted == expected
 
 
