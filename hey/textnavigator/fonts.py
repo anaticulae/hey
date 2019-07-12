@@ -75,6 +75,7 @@ def bounds_to_textbounds(
     Returns:
         computed `TextBounds`
     """
+    assert isinstance(item, str), type(item)
     cb = contentborder  # pylint:disable=C0103
     __x0, __y0, __x1, __y1 = cb.left, cb.top, cb.right, cb.bottom
     x0, y0, x1, y1 = bounds
