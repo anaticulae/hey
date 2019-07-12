@@ -15,6 +15,7 @@ from iamraw import BoundingBox
 from iamraw import Document
 from iamraw import PageSize
 from iamraw import common_box
+from utila import NEWLINE
 
 from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import feeddistance
@@ -244,35 +245,56 @@ def merge_content(
         max_x_merge=MAX_MERGE_HORIZONTALY,
         max_y_merge=MAX_MERGE_DISTANCE,
 ) -> TextBoundsList:
-    bounds = navigator_to_bounds(text)
+    """Merge content blocks to create greater content blocks depending on
+    merge strategy.
 
+    Args:
+        text: chunck with BoundingBox to merge
+        max_x_merge(float): feeddistance between the two left sides
+        max_y_merge(float): vertical distance between 2 BoundingBoxes to
+                            merge them into one
+    Returns:
+
+    """
     if not text:
         # Nothing to merge
         return []
 
+    # ensure input
+    for (_, item) in text:
+        assert isinstance(item, str), str(item)
+
+    bounds = navigator_to_bounds(text)
     font_distance = fontdistance(bounds)
     feed_distance = feeddistance(bounds)
-    result = []
 
-    result.append(text[0])  # single item is always merged
-    for index, (fontdist, feeddist) in enumerate(
-            zip(font_distance, feed_distance), start=1):
+    # copy element
+    result = [(text[0][0], [text[0][1]])]
+    lines = zip(font_distance, feed_distance)
+    for index, (fontdist, feeddist) in enumerate(lines, start=1):
+        current_bounds, current_text = text[index]
         if fontdist > max_y_merge:
-            result.append(text[index])
+            # new entree
+            result.append((current_bounds, [current_text]))
             continue
         if abs(feeddist) > max_x_merge:
-            result.append(text[index])
+            # new entree
+            result.append((current_bounds, [current_text]))
             continue
-        # Merge me
-        (member_location), content = result[-1]
-        (merger_location), c_content = text[index]
 
-        content = '%s\n%s' % (content, c_content)
+        # Merge me
+        member_location, member_content = result[-1]
+        merger_location, merger_content = text[index]
+        member_content.append(merger_content)
+
         # merged items together and save them as last item
         result[-1] = (
             common_box([member_location, merger_location]),
-            content,
+            member_content,
         )
+
+    # convert back to str
+    result = [(bounds, NEWLINE.join(item)) for (bounds, item) in result]
     return result
 
 
