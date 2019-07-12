@@ -11,6 +11,7 @@ from pytest import fixture
 
 from hey.textnavigator.navigator import TextBoundsList
 from hey.textnavigator.navigator import merge_content
+from hey.textnavigator.navigator import merge_content_join
 from hey.textnavigator.navigator import to_content
 #pylint:disable=W0611
 from tests.fixtures.restruct import RESTRUCT_HORIZONTAL
@@ -74,7 +75,8 @@ def test_list_extract_page(
 def simple_second_page_merged_content(simple_second_page_navigator,
                                      ) -> TextBoundsList:
     content = to_content(simple_second_page_navigator)
-    merged = merge_content(content)
+    merged, merged_index = merge_content(content)
+    merged = merge_content_join(merged)
     return merged
 
 

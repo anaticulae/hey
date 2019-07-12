@@ -41,6 +41,7 @@ from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.fonts import textfeed
 from hey.textnavigator.navigator import merge_content
+from hey.textnavigator.navigator import merge_content_join
 from words.input import prepare_input
 from words.input import process_input
 

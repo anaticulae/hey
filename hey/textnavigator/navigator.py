@@ -299,6 +299,11 @@ def merge_content(
     return result, merged
 
 
+def merge_content_join(result):
+    result = [(bounds, NEWLINE.join(item)) for (bounds, item) in result]
+    return result
+
+
 def navigator_to_bounds(navigator: PageTextNavigator) -> List[BoundingBox]:
     """Extract list of `BoundingBox` from `PageTextNavigator`"""
     return [item for item, _ in navigator]

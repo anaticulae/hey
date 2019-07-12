@@ -11,6 +11,7 @@ from pytest import mark
 
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import merge_content
+from hey.textnavigator.navigator import merge_content_join
 from hey.textnavigator.navigator import navigator_to_bounds
 from hey.textnavigator.navigator import percent_to_pagesize
 from hey.textnavigator.navigator import to_content
@@ -72,6 +73,10 @@ def test_fonts_navigator_to_bounds(navigator: PageTextNavigator):
 
 
 def test_groupme_navigator_merge_content(simple_second_page_navigator):
+    content = to_content(simple_second_page_navigator)
+    merged, _ = merge_content(content)
+    merged = merge_content_join(merged)
+
     paragraph_after_merge = 8
 
     content = to_content(simple_second_page_navigator)
