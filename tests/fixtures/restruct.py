@@ -51,7 +51,9 @@ from words.feature.boxed import prepare_input as boxed_prepare_input
 from words.feature.boxed import process_content as boxed_process_content
 from words.feature.headlines import content_border
 from words.feature.headlines import work as headlines_work
-from words.feature.list import work as list_work
+from words.feature.list import dump_lists
+from words.feature.list import prepare_input as list_prepare_input
+from words.feature.list import process as list_process
 from words.feature.text import dump_text
 from words.feature.text import extract_texts as text_extract_texts
 from words.feature.text import prepare_input as text_prepare_input
@@ -327,15 +329,14 @@ def restructured_contentborder(
 
 
 @fixture
-def restructured_dumped_list(
-        # pylint:disable=W0611
+def restructured_list_work(
         restructured_textexample_dumped,
         restructured_headlines,
 ):
     headlines = restructured_headlines
     undefined = restructured_textexample_dumped
 
-    dumped = list_work(
+    extracted, contentborder = list_prepare_input(
         undefined,
         RESTRUCT_TEXT,
         RESTRUCT_TEXT_POSITION,
@@ -343,4 +344,14 @@ def restructured_dumped_list(
         border=RESTRUCT_PAGESIZE,
         horizontals=RESTRUCT_HORIZONTAL,
     )
+    result = list_process(extracted, contentborder)
+    return result
+
+
+@fixture
+def restructured_list_dumped(
+        # pylint:disable=W0611
+        restructured_list_work) -> str:
+    result = restructured_list_work
+    dumped = dump_lists(result)
     return dumped

@@ -17,9 +17,10 @@ from tests.fixtures.restruct import RESTRUCT_HORIZONTAL
 from tests.fixtures.restruct import RESTRUCT_PAGESIZE
 from tests.fixtures.restruct import RESTRUCT_TEXT
 from tests.fixtures.restruct import RESTRUCT_TEXT_POSITION
-from tests.fixtures.restruct import restructured_dumped_list
 from tests.fixtures.restruct import restructured_headlines
 from tests.fixtures.restruct import restructured_horizontals
+from tests.fixtures.restruct import restructured_list_dumped
+from tests.fixtures.restruct import restructured_list_work
 from tests.fixtures.restruct import restructured_sizeandborder
 from tests.fixtures.restruct import restructured_text
 from tests.fixtures.restruct import restructured_text_positions
@@ -251,8 +252,8 @@ def test_words_list_dotted_with_content_only():
     assert parsed == ['Index Page', 'Support', 'Changelog']
 
 
-def test_words_list_work(restructured_dumped_list):
-    dumped_list = restructured_dumped_list
+def test_words_list_work(restructured_list_dumped):
+    dumped_list = restructured_list_dumped
     assert len(dumped_list) > 400, str(dumped_list)
 
     result = load_lists(dumped_list)
@@ -278,9 +279,10 @@ def test_words_list_work(restructured_dumped_list):
     assert last_items == ['genindex', 'modindex', 'search']
 
 
-def test_words_list_dump_and_load_lists(restructured_dumped_list):
-    dumped_list = restructured_dumped_list
+def test_words_list_dump_and_load_lists(restructured_list_work):
+    result = restructured_list_work
+
+    dumped_list = dump_lists(result)
     loaded = load_lists(dumped_list)
 
-    dumped = dump_lists(loaded)
-    assert dumped == dumped_list
+    assert loaded == result

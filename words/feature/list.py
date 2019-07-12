@@ -73,12 +73,18 @@ def work(
         horizontals,
     )
 
+    result = process(extracted, contentborder)
+
+    return dump_lists(result)
+
+
+def process(extracted, contentborder):
     worker = partial(process_page, contentborder=contentborder)
     result = process_input(
         extracted,
         worker,
     )
-    return dump_lists(result)
+    return result
 
 
 def process_page(pagecontent, contentborder: Border):
