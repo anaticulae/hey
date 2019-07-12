@@ -72,9 +72,14 @@ def test_fonts_navigator_to_bounds(navigator: PageTextNavigator):
 
 
 def test_groupme_navigator_merge_content(simple_second_page_navigator):
-    content = to_content(simple_second_page_navigator)
-
     paragraph_after_merge = 8
 
+    content = to_content(simple_second_page_navigator)
     merged = merge_content(content)
+
+    content_count = len(''.join([item for (_, item) in content]))
+    merged_count = len(''.join([item for (_, item) in merged]))
+
+    # ensure that no data is lost while merging
+    assert content_count == merged_count - 4  # 4 elements are merged together
     assert len(merged) == paragraph_after_merge
