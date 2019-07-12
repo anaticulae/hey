@@ -9,6 +9,7 @@
 
 from iamraw import Document
 from pytest import fixture
+from serializeraw import load_boxes
 from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
@@ -45,11 +46,15 @@ from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import RESTRUCT_TOC
+from words.feature.boxed import dump_boxedcontent
+from words.feature.boxed import prepare_input as boxed_prepare_input
+from words.feature.boxed import process_content as boxed_process_content
 from words.feature.headlines import content_border
 from words.feature.headlines import work as headlines_work
+from words.feature.list import work as list_work
 from words.feature.text import dump_text
-from words.feature.text import extract_texts
-from words.feature.text import prepare_input
+from words.feature.text import extract_texts as text_extract_texts
+from words.feature.text import prepare_input as text_prepare_input
 
 
 @fixture
@@ -239,9 +244,11 @@ def restructured_sections():
 
 
 @fixture
-def restructured_textexample(restructured_headlines):
+def restructured_textexample(
+        # pylint:disable=W0621
+        restructured_headlines):
     headlines = restructured_headlines
-    border, fontstore, headlines, textnavigators, boxes = prepare_input(
+    border, fontstore, headlines, textnavigators, boxes = text_prepare_input(
         text=RESTRUCT_TEXT,
         text_position=RESTRUCT_TEXT_POSITION,
         font_header=RESTRUCT_FONT_HEADER,
@@ -252,7 +259,7 @@ def restructured_textexample(restructured_headlines):
         boxes=RESTRUCT_BOXES,
     )
 
-    extracted = extract_texts(
+    extracted = text_extract_texts(
         border=border,
         fontstore=fontstore,
         headlines=headlines,
@@ -264,7 +271,9 @@ def restructured_textexample(restructured_headlines):
 
 
 @fixture
-def restructured_textexample_dumped(restructured_textexample) -> str:
+def restructured_textexample_dumped(
+        # pylint:disable=W0621
+        restructured_textexample) -> str:
     return dump_text(restructured_textexample)
 
 
@@ -275,8 +284,63 @@ def restructured_border():
 
 
 @fixture
-def restructured_contentborder(restructured_horizontals, restructured_border):
+def restructured_boxed(
+        # pylint:disable=W0621
+        restructured_textexample_dumped,
+        restructured_headlines,
+):
+    headlines = restructured_headlines
+    undefined = restructured_textexample_dumped
+
+    extracted, _ = boxed_prepare_input(
+        undefined,
+        RESTRUCT_TEXT,
+        RESTRUCT_TEXT_POSITION,
+        border=RESTRUCT_PAGESIZE,
+        headlines=headlines,
+        horizontals=RESTRUCT_HORIZONTAL,
+    )
+    boxes = load_boxes(RESTRUCT_BOXES)
+
+    result = boxed_process_content(extracted, boxes)
+    return result
+
+
+@fixture
+def restructured_boxed_dumped(
+        # pylint:disable=W0621
+        restructured_boxed) -> str:
+    dumped = dump_boxedcontent(restructured_boxed)
+    return dumped
+
+
+@fixture
+def restructured_contentborder(
+        # pylint:disable=W0621
+        restructured_horizontals,
+        restructured_border,
+):
     horizontals = restructured_horizontals
     border = restructured_border
     result = content_border(horizontals, border)
     return result
+
+
+@fixture
+def restructured_dumped_list(
+        # pylint:disable=W0611
+        restructured_textexample_dumped,
+        restructured_headlines,
+):
+    headlines = restructured_headlines
+    undefined = restructured_textexample_dumped
+
+    dumped = list_work(
+        undefined,
+        RESTRUCT_TEXT,
+        RESTRUCT_TEXT_POSITION,
+        headlines=headlines,
+        border=RESTRUCT_PAGESIZE,
+        horizontals=RESTRUCT_HORIZONTAL,
+    )
+    return dumped
