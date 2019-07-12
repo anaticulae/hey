@@ -14,7 +14,7 @@ from iamraw import Border
 from iamraw import BoundingBox
 from iamraw import Document
 from iamraw import PageSize
-from utila import INF
+from iamraw import common_box
 
 from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import feeddistance
@@ -274,18 +274,6 @@ def merge_content(
             content,
         )
     return result
-
-
-def common_box(items) -> BoundingBox:
-    """Determine largest box which contains the border of all `items`"""
-    # TODO: replace with utila code
-    x0, y0, x1, y1 = INF, INF, -INF, -INF
-    for (cx0, cy0, cx1, cy1) in items:
-        x0 = min(x0, cx0)
-        y0 = min(y0, cy0)
-        x1 = max(x1, cx1)
-        y1 = max(y1, cy1)
-    return BoundingBox.from_list([x0, y0, x1, y1])
 
 
 def navigator_to_bounds(navigator: PageTextNavigator) -> List[BoundingBox]:
