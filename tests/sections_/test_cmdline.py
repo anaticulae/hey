@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from pytest import hookimpl
 from pytest import mark
 from utila import install_and_run
 from utila.test import skip_nonvirtual
@@ -19,6 +20,7 @@ from tests.sections_ import run_sections_success
 
 
 @skip_nonvirtual
+@hookimpl(tryfirst=True)
 def test_sections_setup_py():
     """Install sections and run setions --help to ensure basic functionality"""
     install_and_run(ROOT, PACKAGE_NAME, PROCESS_NAME)

@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from pytest import hookimpl
 from pytest import mark
 from utila import install_and_run
 from utila.test import skip_nonvirtual
@@ -20,6 +21,7 @@ from tests.resources import SIMPLE
 
 
 @skip_nonvirtual
+@hookimpl(tryfirst=True)
 def test_install_and_run_groupme():
     """Install groupme and run groupme --help to ensure basic function"""
     install_and_run(
