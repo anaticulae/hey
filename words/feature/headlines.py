@@ -11,7 +11,7 @@ Example driven programming:
 
 for chapter in document:
     for headline in chapter:
-        print(headline)
+        p(headline)
 
 Required resources:
     sections

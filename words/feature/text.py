@@ -9,14 +9,14 @@
 """
 
 for chapter in content:
-    print(chapter.title)
+    p(chapter.title)
     for paragraph in chapter:
-        print(paragraph.title)
-        print(paragraph.number)
+        p(paragraph.title)
+        p(paragraph.number)
         for sentence in paragraph:
-            print('word cout: %d' % len(sentence))
+            p('word cout: %d' % len(sentence))
             for word in sentence:
-                print(word)
+                p(word)
 
 word
 
@@ -29,7 +29,6 @@ word.style = [i, b, u, strong? etc?]
 from dataclasses import dataclass
 from dataclasses import field
 from enum import Enum
-from functools import lru_cache
 from functools import partial
 from itertools import groupby
 from itertools import zip_longest
