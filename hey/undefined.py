@@ -38,7 +38,7 @@ def extract_undefined(pages, text, text_position, contentborder: Border):
             splitted_paragraph = splitter(paragraph)
             # fill undefined groups with text content
             paragraph_items = [(uindex, [
-                ptcn[int(item[:-1])] for item in undefineds
+                ptcn[intindex(item)] for item in undefineds
             ]) for (uindex, undefineds) in enumerate(splitted_paragraph)]
 
             if paragraph_items:
@@ -51,6 +51,12 @@ def extract_undefined(pages, text, text_position, contentborder: Border):
         if _pagecontent:
             result.append(_pagecontent)
     return result
+
+
+def intindex(index: str) -> int:
+    """Convert undefined index `'31u'` to int index `31"""
+    assert index[-1] == 'u', str(index)
+    return int(index[:-1])
 
 
 def splitter(items):
