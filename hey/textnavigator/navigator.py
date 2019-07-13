@@ -244,6 +244,7 @@ def merge_content(
         text: TextBoundsList,
         max_x_merge=MAX_MERGE_HORIZONTALY,
         max_y_merge=MAX_MERGE_DISTANCE,
+        uindex=None,
 ) -> TextBoundsList:
     """Merge content blocks to create greater content blocks depending on
     merge strategy.
@@ -253,8 +254,12 @@ def merge_content(
         max_x_merge(float): feeddistance between the two left sides
         max_y_merge(float): vertical distance between 2 BoundingBoxes to
                             merge them into one
+        uindex(list[int]): undefined index to link text(TextBoundsList) with
+                           text-source if uindex is None, the `uindex` is an
+                           ascending list starting with zero.
     Returns:
-
+        (result, merged) - result is the merged content, merged - stores the
+                           uindex which are merged together
     """
     if not text:
         # Nothing to merge
@@ -264,32 +269,33 @@ def merge_content(
     for (_, item) in text:
         assert isinstance(item, str), str(item)
 
+    uindex = list(range(len(text))) if uindex is None else uindex
     bounds = navigator_to_bounds(text)
     font_distance = fontdistance(bounds)
     feed_distance = feeddistance(bounds)
 
     # copy element
     result = [(text[0][0], [text[0][1]])]
-    merged = [[0]]
+    merged = [[uindex[0]]]
     lines = zip(font_distance, feed_distance)
     for index, (fontdist, feeddist) in enumerate(lines, start=1):
         current_bounds, current_text = text[index]
         if fontdist > max_y_merge:
             # new entree
             result.append((current_bounds, [current_text]))
-            merged.append([index])
+            merged.append([uindex[index]])
             continue
         if abs(feeddist) > max_x_merge:
             # new entree
             result.append((current_bounds, [current_text]))
-            merged.append([index])
+            merged.append([uindex[index]])
             continue
 
         # Merge me
         member_location, member_content = result[-1]
         merger_location, merger_content = text[index]
         member_content.append(merger_content)
-        merged[-1].append(index)
+        merged[-1].append(uindex[index])
         # merged items together and save them as last item
         result[-1] = (
             common_box([member_location, merger_location]),
