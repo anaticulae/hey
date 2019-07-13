@@ -198,8 +198,7 @@ def extract_lists(
         # parsing was not succesfull
         if not detected:
             continue
-        pagelist = PageList()
-        pagelist.area.extend(mergearea)
+        pagelist = PageList(area=mergearea)
         # before, after = before_and_after(text, position[0], position[1])
         for index, item in enumerate(detected):
             # remove newline
@@ -290,7 +289,9 @@ def parse_general_list(content: str, selector: str) -> List[str]:
         content,
         flags=MULTILINE | VERBOSE,
     )
-    result = [item.group(1).strip() for item in parsed]
+    result = []
+    for item in parsed:
+        result.append(item.group(1).strip())
     return result
 
 
