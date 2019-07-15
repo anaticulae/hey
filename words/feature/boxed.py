@@ -57,12 +57,14 @@ def work(
         horizontals,
     )
     boxes = load_boxes(boxes)
+
     result = process_content(extracted, boxes)
+
     dumped = dump_boxedcontent(result)
     return dumped
 
 
-def process_content(extracted, boxes):
+def process_content(extracted, boxes: BoxedChecker):
     boxes = BoxedChecker(boxes)
     worker = partial(extract_boxed_content, boxed=boxes)
     result = process_input(extracted, worker)

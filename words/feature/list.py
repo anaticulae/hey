@@ -233,9 +233,17 @@ def parse_minus_list(content: str) -> List[str]:
 
 
 def parse_numbered_list(content: str):
+    """Parse 1.2.3. list
+
+    Args:
+        content(str):
+    Returns:
+        list with (text, level) of list items
+        None if nothing no list is parsed
+    """
     content = str(content)
     assert content
-    # TODO: Single line does not parse without NEWLINE
+    # TODO: WORKAROUND: Single line does not parse without NEWLINE
     if not content.endswith(NEWLINE):
         content += NEWLINE
 
