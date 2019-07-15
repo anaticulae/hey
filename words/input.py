@@ -7,7 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pprint import pprint
+from pprint import pformat
 from typing import List
 from typing import Tuple
 
@@ -57,8 +57,8 @@ def process_input(extracted, worker):
         if not extracted and pagecontent:
             # TODO: REMOVE LATER
             page = pagecontent[0][0]
-            info('Skip on page: %d' % (page))
-            pprint(pagecontent)
+            info('skip on page: %d' % (page))
+            info(pformat(pagecontent))
             continue
         result.append(extracted)
     return result
