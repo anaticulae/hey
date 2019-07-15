@@ -29,9 +29,9 @@ from itertools import chain
 from re import compile as re_compile
 
 from utila import checkdatatype
+from utila import flatten
 
 from hey.undefined import intindex
-from hey.utils import flatten
 from words.boxed import BoxedChecker
 from words.feature.boxed import load_boxedcontent
 from words.feature.headlines import load_headlines

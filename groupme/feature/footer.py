@@ -20,6 +20,7 @@ from iamraw import Box
 from iamraw import HorizontalLine
 from serializeraw import load_horizontals
 from utila import from_raw_or_path
+from utila import roundme
 from utila import uniform_result
 from yaml import FullLoader
 from yaml import dump
@@ -29,7 +30,6 @@ from hey import CACHE_SMALL
 from hey.cluster import common_items
 from hey.textnavigator.navigator import END
 from hey.textnavigator.navigator import START
-from hey.utils import roundme
 
 # TODO: Remove after upgrading iamraw
 PagesWithBoxList = List[List[Box]]

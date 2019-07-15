@@ -42,6 +42,7 @@ from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from utila import NEWLINE
+from utila import flatten
 from utila import from_raw_or_path
 from utila import logging_error
 from yaml import FullLoader
@@ -56,7 +57,6 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
-from hey.utils import flatten
 from words.boxed import BoxedChecker
 from words.feature.headlines import Headline
 from words.feature.headlines import PagesHeadlineList

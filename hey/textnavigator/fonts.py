@@ -14,8 +14,7 @@ from typing import Tuple
 
 from iamraw import Border
 from iamraw import BoundingBox
-
-from hey.utils import roundme
+from utila import roundme
 
 # TODO: rejoin with newer python
 # from hey.textnavigator.navigator import PageTextNavigator
