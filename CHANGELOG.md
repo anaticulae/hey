@@ -2,6 +2,39 @@
 
 Every noteable change is logged here.
 
+## v1.2.0
+
+### Feature
+
+* add `words` feature to word command line tool (2b03518dbea1)
+* connect text with collected lists and boxed features (ba5bfc2cd471)
+* connect objects with undefined index (20d71eaa36c9)
+*  extend merge_content with optional undefined index's `uindex` (a580a94a1031)
+* convert lists to str (7950e900ae61)
+* add ids of merged paragraphs (412af42fe44a)
+* improve textnavigator (12e13d62f3a6)
+* add lru cache to improve speed (1357cf7cf7f8)
+* use @checkdatatype feature to ensure data input (d883d9bf2f8b)
+* add boxed-feature to `words` executable (7405a621ef91)
+* add method to lookup boxid to `BoundingBox` (a695103afd98)
+* add feature to extract boxes from document (3535f1d95201)
+* add hint of page for skipped item (eaf2944fcbcf)
+* add list to workplan/command line interface (1b09ddeb8a7f)
+
+### Fix
+
+* print skipped content on info level only (6031f5cd9c5e)
+* decrease level of logging to reduce verbosity of logging (87aeeecc4909)
+* skip non parsed area (7cc2933163f0)
+* set default value for non existing header or footer (9c56180f983d)
+* remove index output check - not every document contains a document (4f23ceac766b)
+* enable using raw inputs instead of objects (36c562dda2a5)
+
+### Documentation
+
+* extend interface documentation (5d59f5983ec5)
+* replace print with p to avoid collecting when searching `print` (1f375b2641b1)
+
 ## v1.1.0
 
 ### Feature
