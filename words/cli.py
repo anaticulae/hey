@@ -71,7 +71,17 @@ WORKPLAN = [
             ResultFile('rawmaker', 'boxes_boxes'),
         ],
         output=('boxed',),
-    )
+    ),
+    step(
+        'words',
+        inputs=[
+            ResultFile('words', 'text_text'),
+            ResultFile('words', 'headlines_headlines'),
+            ResultFile('words', 'list_list'),
+            ResultFile('words', 'boxed_boxed'),
+        ],
+        output=('result',),
+    ),
 ]
 
 
