@@ -104,13 +104,16 @@ def work(
         boxed: str,
 ) -> str:
 
-    headlines = load_headlines(headlines)
-    text = load_text(text, headlines=headlines)
-    boxed = load_boxedcontent(boxed)
-    lists = load_lists(lists)
-    listlookup = ListLookUp(lists)
-    boxlookup = BoxLookUp(boxed)
+    text, listlookup, boxlookup = prepare_input(headlines, text, boxed, lists)
 
+    text = process_words(text, listlookup, boxlookup)
+
+    dumped = dump_text(text)
+    return dumped
+
+
+def process_words(text, listlookup, boxlookup):
+    # TODO: Copy before replacing, to avoid side effects
     for (page, pagecontent) in text:
         # headline,
         for (headline, headlinecontent) in pagecontent:
@@ -130,5 +133,19 @@ def work(
                 if searched is not None:
                     headlinecontent[index] = '%db' % searched
                     continue
-    dumped = dump_text(text)
-    return dumped
+    return text
+
+
+def prepare_input(
+        headlines: str,
+        text: str,
+        boxed: str,
+        lists: str,
+):
+    headlines = load_headlines(headlines)
+    text = load_text(text, headlines=headlines)
+    boxed = load_boxedcontent(boxed)
+    lists = load_lists(lists)
+    listlookup = ListLookUp(lists)
+    boxlookup = BoxLookUp(boxed)
+    return text, listlookup, boxlookup
