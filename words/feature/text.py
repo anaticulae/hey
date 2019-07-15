@@ -436,17 +436,19 @@ def dump_text(text: List[ChapterText]) -> str:
 
 def load_text(content: str, headlines: PagesHeadlineList) -> List[ChapterText]:
     """Load text and replace headline reference with current headline
-
     Args:
+
         content(str): path to dumped text
         headlines(List[List[Headline]]): list of page with list of headlines
     Returns:
         loaded text with replaced headlines
     """
+    assert isinstance(headlines, list)
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)
 
     # convert page index to global index
+
     headlines = flatten(headlines)
 
     result = []

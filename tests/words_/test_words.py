@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from pytest import fixture
+
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_boxed
 from tests.fixtures.restruct import restructured_boxed_dumped
@@ -15,10 +17,16 @@ from tests.fixtures.restruct import restructured_list_dumped
 from tests.fixtures.restruct import restructured_list_work
 from tests.fixtures.restruct import restructured_textexample
 from tests.fixtures.restruct import restructured_textexample_dumped
+from words.feature.headlines import load_headlines
+from words.feature.words import dump_text
+from words.feature.words import load_text
+from words.feature.words import prepare_input
+from words.feature.words import process_words
 from words.feature.words import work
 
 
-def test_words_work(
+@fixture
+def restructured_words(
         # pylint:disable=W0621
         restructured_boxed_dumped,
         restructured_list_dumped,
@@ -39,10 +47,25 @@ def test_words_work(
         assert isinstance(item, str), str(item)
 
     # compare text, headlines, lists and boxes to one output
-    dumped = work(
+    text, listlookup, boxlookup = prepare_input(
         boxed=boxed,
         headlines=headlines,
         lists=lists,
         text=text,
     )
-    assert len(dumped) > 2000, str(dumped)
+
+    result = process_words(text, listlookup, boxlookup)
+    assert result
+    return result
+
+
+def test_words_dump_and_load_words_result(
+        restructured_words,
+        restructured_headlines,
+):
+
+    headlines = restructured_headlines
+    dumped = dump_text(restructured_words)
+    headlines = load_headlines(headlines)
+    loaded = load_text(dumped, headlines)
+    assert loaded == restructured_words
