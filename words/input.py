@@ -16,13 +16,13 @@ from serializeraw import load_document
 from serializeraw import load_headlines
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
+from serializeraw import load_text
 from utila import info
 
 from groupme.feature.numbers import load_textposition
 from hey.document import document_border
 from hey.undefined import extract_undefined
 from words.feature.headlines import content_border
-from words.feature.text import load_text
 
 
 def prepare_input(

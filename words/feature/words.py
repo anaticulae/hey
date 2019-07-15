@@ -29,12 +29,12 @@ from re import compile as re_compile
 from serializeraw import dump_text
 from serializeraw import load_headlines
 from serializeraw import load_lists
+from serializeraw import load_text
 from utila import checkdatatype
 from utila import flatten
 
 from hey.undefined import intindex
 from words.feature.boxed import load_boxedcontent
-from words.feature.text import load_text
 
 PATTERN = re_compile(r'^[0-9]+u$')
 

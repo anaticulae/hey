@@ -9,6 +9,7 @@
 
 from iamraw import Document
 from pytest import fixture
+from serializeraw import dump_text
 from serializeraw import load_boxes
 from serializeraw import load_document
 from serializeraw import load_horizontals
@@ -54,7 +55,6 @@ from words.feature.headlines import work as headlines_work
 from words.feature.list import dump_lists
 from words.feature.list import prepare_input as list_prepare_input
 from words.feature.list import process as list_process
-from words.feature.text import dump_text
 from words.feature.text import extract_texts as text_extract_texts
 from words.feature.text import prepare_input as text_prepare_input
 

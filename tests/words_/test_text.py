@@ -10,7 +10,9 @@
 from iamraw import BoundingBox
 from pytest import mark
 from pytest import param
+from serializeraw import dump_text
 from serializeraw import load_headlines
+from serializeraw import load_text
 from utila import NEWLINE
 
 from hey.undefined import extract_undefined
@@ -32,9 +34,7 @@ from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
 from words.feature.headlines import content_border
 from words.feature.text import analyze_page
-from words.feature.text import dump_text
 from words.feature.text import fill_headlines
-from words.feature.text import load_text
 from words.feature.text import prepare_input
 from words.feature.text import work
 

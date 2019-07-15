@@ -26,19 +26,21 @@ word.font.size
 word.style = [i, b, u, strong? etc?]
 """
 
-from dataclasses import dataclass
-from dataclasses import field
-from enum import Enum
 from functools import partial
 from itertools import groupby
 from itertools import zip_longest
 from re import finditer
-from typing import List
 from typing import Tuple
 
+from iamraw import DOT
 from iamraw import Border
+from iamraw import ContentType
 from iamraw import Headline
-from iamraw import PagesHeadlineList
+from iamraw import PageNumber
+from iamraw import Paragraph
+from iamraw import Paragraphs
+from iamraw import Undefined
+from serializeraw import dump_text
 from serializeraw import load_boxes
 from serializeraw import load_document
 from serializeraw import load_headlines
@@ -46,11 +48,7 @@ from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from utila import NEWLINE
 from utila import flatten
-from utila import from_raw_or_path
 from utila import logging_error
-from yaml import FullLoader
-from yaml import dump
-from yaml import load
 
 from groupme.feature.numbers import load_textposition
 from hey.fonts.store import FontContentStore
@@ -62,11 +60,6 @@ from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from words.boxed import BoxedChecker
 from words.feature.headlines import content_border
-
-Page = int
-ParagraphContent = List[str]
-ParagraphItem = Tuple[Headline, ParagraphContent]
-Paragraphs = List[ParagraphItem]
 
 
 def work(
@@ -121,7 +114,7 @@ def analyze_page(
         textnavigators: PageTextNavigator,
         border: Border,
         boxes: BoxedChecker,
-) -> Tuple[Page, Paragraphs]:
+) -> Tuple[PageNumber, Paragraphs]:
     """ """
     assert headlines, 'empty `headlines`'
     # TODO: Remove try/except
@@ -371,104 +364,12 @@ def squeeze_text_page(page):
     return result
 
 
-@dataclass
-class Content:
-    content: object
-
-
-@dataclass
-class Paragraph(Content):
-    pass
-
-
-@dataclass
-class Undefined(Content):
-    container: int = field(default=-1)
-    content: str = None
-
-
-ChapterText = List[Content]
-
-# TODO: Remove duplication
-DOT = '•'
-
-
-class ContentType(Enum):
-    UNDEFINED = 0
-    PARAGRAPH = 1
-    BOXED = 2
-    LIST = 3
-
-
 def content_type(boxed: BoxedChecker, page: int, bounding, content):
     if DOT in content:
         return ContentType.LIST
     if boxed.contains(page, bounding):
         return ContentType.BOXED
     return ContentType.PARAGRAPH
-
-
-def dump_text(text: List[ChapterText]) -> str:
-    raw = []
-    index = 0
-    for (page, content) in text:
-        collector = []
-        for headline, headline_content in content:
-            current = {
-                # placeholder headline
-                'headline': None,
-                'fc': headline.container,
-                'content': [],
-            }
-            if headline.text is not None:
-                current['headline'] = index
-                index += 1
-            for oneline in headline_content:
-                current['content'].append(oneline)
-            collector.append(current)
-        raw.append({
-            'page': page,
-            'content': collector,
-        })
-    dumped = dump(raw)
-    return dumped
-
-
-def load_text(content: str, headlines: PagesHeadlineList) -> List[ChapterText]:
-    """Load text and replace headline reference with current headline
-    Args:
-
-        content(str): path to dumped text
-        headlines(List[List[Headline]]): list of page with list of headlines
-    Returns:
-        loaded text with replaced headlines
-    """
-    assert isinstance(headlines, list)
-    content = from_raw_or_path(content, ftype='yaml')
-    loaded = load(content, Loader=FullLoader)
-
-    # convert page index to global index
-
-    headlines = flatten(headlines)
-
-    result = []
-    for line in loaded:
-        page, content = line['page'], line['content']
-        pagecontent = []
-        for section in content:
-            section_content, headline = section['content'], section['headline']
-            headline = headlines[headline] if headline is not None else None
-            if headline is None:
-                headline = Headline(
-                    text=None,
-                    level=None,
-                    rawlevel=None,
-                    page=page,
-                    container=section['fc'])
-            pagecontent.append((headline, section_content))
-
-        result.append((page, pagecontent))
-    return result
 
 
 class EmptyPageError(ValueError):

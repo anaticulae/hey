@@ -8,7 +8,9 @@
 # =============================================================================
 
 from pytest import fixture
+from serializeraw import dump_text
 from serializeraw import load_headlines
+from serializeraw import load_text
 
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_boxed
@@ -18,8 +20,6 @@ from tests.fixtures.restruct import restructured_list_dumped
 from tests.fixtures.restruct import restructured_list_work
 from tests.fixtures.restruct import restructured_textexample
 from tests.fixtures.restruct import restructured_textexample_dumped
-from words.feature.words import dump_text
-from words.feature.words import load_text
 from words.feature.words import prepare_input
 from words.feature.words import process_words
 from words.feature.words import work
