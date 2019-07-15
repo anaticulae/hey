@@ -104,9 +104,10 @@ def process_page(pagecontent, contentborder: Border):
     """
     result, page = [], -1
     for paragraph in pagecontent:
-        page, paragraphnumber, content = paragraph
-        for mergednumber, (_, item) in enumerate(content):
-            potentiallist = extract_lists(item, contentborder)
+        page, paragraphnumber, (content, uindexs) = paragraph
+        zipped = enumerate(zip(content, uindexs))
+        for mergednumber, ((_, item), uindex) in zipped:
+            potentiallist = extract_lists(item, contentborder, uindex)
             if not potentiallist:
                 # could not extract any list
                 continue
@@ -149,6 +150,7 @@ class PageList:
 def extract_lists(
         page: TextBoundsList,
         pagesize: Border,
+        uindex=None,
         # textnavigator  #PageTextContentNavigator,
 ) -> List[PageList]:
     """Extract lists out of document page. There are different types of Lists.
@@ -161,7 +163,12 @@ def extract_lists(
     """
     # TODO: MAX_Y_MERGE IS VERY INSTABLE
     unmerged = list(page)
-    page, merged = merge_content(page, max_y_merge=15)  # TODO: HOLY VALUE
+    page, merged = merge_content(
+        page,
+        # TODO: HOLY VALUE
+        max_y_merge=15,
+        uindex=uindex,
+    )
     page_str = merge_content_join(page)
     text_bounds = textbounds(
         page_str,

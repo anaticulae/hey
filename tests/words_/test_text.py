@@ -249,18 +249,19 @@ def test_words_text_convert_undefined_to_text(
         text_positions,
         contentborder=contentborder,
     )
-    last_item = undefined[-1]
-    assert last_item == [(
-        24,
-        1,
-        [
-            (0, [
+    expected = [
+        (24, 1, (
+            [(0, [
                 (BoundingBox(x0=88.44, y0=332.13, x1=133.28, y1=344.13),
                  '• genindex'),
                 (BoundingBox(x0=88.44, y0=350.07, x1=136.61, y1=362.07),
                  '• modindex'),
                 (BoundingBox(x0=88.44, y0=368.00, x1=122.35, y1=380.00),
                  '• search'),
-            ]),
-        ],
-    )]
+            ])],
+            [[2, 3, 4]],
+        )),
+    ]
+    last_item = undefined[-1]
+
+    assert last_item == expected

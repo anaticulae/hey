@@ -73,11 +73,11 @@ def extract_boxed_content(contentblock, boxed: BoxedChecker):
     result = defaultdict(list)
     for (page, headlinenumber, headlinecontent) in contentblock:
 
-        for index, (headlineblocknumber, blocks) in enumerate(headlinecontent):
-
+        zipped = zip(headlinecontent[0], headlinecontent[1])
+        for _, ((headlineblockid, blocks), uindexs) in enumerate(zipped):
             collected = []
             current = defaultdict(list)
-            for (bounding, line) in blocks:
+            for ((bounding, line), uindex) in zip(blocks, uindexs):
                 boxid = boxed.boxid(page, bounding)
                 if boxid == NO_BOX:
                     # splitted by non-box-element
@@ -85,11 +85,11 @@ def extract_boxed_content(contentblock, boxed: BoxedChecker):
                         continue
                     collected.append([(
                         boxed.boundingbox(page, boxid_),
-                        (boxid_, content),
+                        (boxid_, uindex, content),
                     ) for boxid_, content in current.items()])
                     current = defaultdict(list)
                 # add line to box, defined by `boxid`
-                current[boxid].append((bounding, line))
+                current[boxid].append((bounding, uindex, line))
             # item ends with box
             if current:
                 collected.append([(
@@ -100,10 +100,9 @@ def extract_boxed_content(contentblock, boxed: BoxedChecker):
             if collected:
                 result[page].append((
                     headlinenumber,
-                    headlineblocknumber,
+                    headlineblockid,
                     collected,
                 ))
-
     if not result:
         return None
     assert len(result) == 1, len(result)
@@ -137,8 +136,8 @@ def dump_boxedcontent(boxed) -> str:
                         'bounding':
                         str(bounding),
                         'content': [
-                            '%s %s' % (str(bounding), contentitem)
-                            for (bounding, contentitem) in _content
+                            '%s %d %s' % (str(bounding), uindex, contentitem)
+                            for (bounding, uindex, contentitem) in _content
                         ]
                     })
                 single_collector.append(items)
@@ -161,16 +160,21 @@ def dump_boxedcontent(boxed) -> str:
 def load_boxedcontent(content: str):
 
     def _parse_box_content(line: str):
-        splitted = line.split(maxsplit=4)
+        """Returns:
+            bounding(BoundingBox):
+            undefined_index(int):
+            content(str):
+        """
+        splitted = line.split(maxsplit=5)
         bounding = BoundingBox.from_str(' '.join(splitted[0:4]))
-        return (bounding, splitted[4])
+        return (bounding, int(splitted[4]), splitted[5])
 
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)
     pagedict = defaultdict(list)
     for line in loaded:
-        page, __content = line['page'], line['content']
-        for item in __content:
+        page = line['page']
+        for item in line['content']:
             multiboxed = []
             headlinenumber = item['headlinenumber']
             headlineblocknumber = item['headlineblocknumber']
@@ -185,8 +189,11 @@ def load_boxedcontent(content: str):
                     m_content = [_parse_box_content(item) for item in m_content]
                     boxed.append((m_bounding, (boxid, m_content)))
                 multiboxed.append(boxed)
-            pagedict[page].append((headlinenumber, headlineblocknumber,
-                                   multiboxed))
+            pagedict[page].append((
+                headlinenumber,
+                headlineblocknumber,
+                multiboxed,
+            ))
     result = []
     for page, value in pagedict.items():
         result.append((page, value))

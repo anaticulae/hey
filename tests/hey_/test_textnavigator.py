@@ -80,10 +80,11 @@ def test_groupme_navigator_merge_content(simple_second_page_navigator):
     paragraph_after_merge = 8
 
     content = to_content(simple_second_page_navigator)
-    merged = merge_content(content)
+    merged, _ = merge_content(content)  # split content and merge_ids
+    merged_content = merge_content_join(merged)
 
     content_count = len(''.join([item for (_, item) in content]))
-    merged_count = len(''.join([item for (_, item) in merged]))
+    merged_count = len(''.join([item for (_, item) in merged_content]))
 
     # ensure that no data is lost while merging
     assert content_count == merged_count - 4  # 4 elements are merged together

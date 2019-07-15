@@ -20,7 +20,8 @@ def extract_undefined(pages, text, text_position, contentborder: Border):
         pages(int)
         text():
         text_position:
-        border(Border): contentborder which is equal for the whole document
+        contentborder(Border): contentborder which is equal for the entire
+                               document
     Returns:
         replaced pages with grouped replaced undefined items
     """
@@ -41,11 +42,15 @@ def extract_undefined(pages, text, text_position, contentborder: Border):
                 ptcn[intindex(item)] for item in undefineds
             ]) for (uindex, undefineds) in enumerate(splitted_paragraph)]
 
+            paragraph_undefined = [[
+                int(intindex(item)) for item in undefineds
+            ] for (uindex, undefineds) in enumerate(splitted_paragraph)]
+
             if paragraph_items:
                 _pagecontent.append((
                     page,
                     index,
-                    paragraph_items,
+                    (paragraph_items, paragraph_undefined),
                 ))
         # skip empty elements
         if _pagecontent:
