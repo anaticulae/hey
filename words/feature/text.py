@@ -37,8 +37,11 @@ from typing import List
 from typing import Tuple
 
 from iamraw import Border
+from iamraw import Headline
+from iamraw import PagesHeadlineList
 from serializeraw import load_boxes
 from serializeraw import load_document
+from serializeraw import load_headlines
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from utila import NEWLINE
@@ -58,10 +61,7 @@ from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from words.boxed import BoxedChecker
-from words.feature.headlines import Headline
-from words.feature.headlines import PagesHeadlineList
 from words.feature.headlines import content_border
-from words.feature.headlines import load_headlines
 
 Page = int
 ParagraphContent = List[str]

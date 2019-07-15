@@ -28,13 +28,13 @@ from contextlib import suppress
 from itertools import chain
 from re import compile as re_compile
 
+from serializeraw import load_headlines
 from utila import checkdatatype
 from utila import flatten
 
 from hey.undefined import intindex
 from words.boxed import BoxedChecker
 from words.feature.boxed import load_boxedcontent
-from words.feature.headlines import load_headlines
 from words.feature.list import load_lists
 from words.feature.text import dump_text
 from words.feature.text import load_text

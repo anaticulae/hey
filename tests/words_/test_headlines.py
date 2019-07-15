@@ -7,6 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from iamraw import Headline
+from serializeraw import dump_headlines
+from serializeraw import load_headlines
+
 from hey.textnavigator.navigator import create_pagetextnavigators
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured
@@ -24,10 +28,7 @@ from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import RESTRUCT_TOC
-from words.feature.headlines import Headline
-from words.feature.headlines import dump_headlines
 from words.feature.headlines import extract_headlines
-from words.feature.headlines import load_headlines
 from words.feature.headlines import work
 
 EXPECTED = [

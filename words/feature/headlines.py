@@ -25,25 +25,19 @@ Collect all title, cluster them by size and font distance and derivate the
 headline level out of these information. Use further text information out of
 headline.
 """
-from dataclasses import dataclass
-from dataclasses import field
-from functools import lru_cache
-from typing import List
 
 from iamraw import Border
+from iamraw import Headline
+from iamraw import PagesHeadlineList
+from serializeraw import dump_headlines
 from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from utila import checkdatatype
-from utila import from_raw_or_path
-from yaml import FullLoader
-from yaml import dump
-from yaml import load
 
 from groupme.feature.footer import document_footerheader
 from groupme.feature.footer import footerborder_to_border
 from groupme.feature.numbers import load_textposition
-from hey import CACHE_SMALL
 from hey.document import BorderList
 from hey.document import document_border
 from hey.fonts.store import FontStore
@@ -60,18 +54,6 @@ from sections.feature.sections import Content
 from sections.feature.sections import Sections
 from sections.feature.sections import chapters
 from sections.serialize import load_sections
-
-
-@dataclass
-class Headline:
-    text: str
-    level: int = field(default=0)
-    rawlevel: str = field(default=None, compare=False)
-    page: int = field(default=-1)
-    container: int = field(default=None)
-
-
-PagesHeadlineList = List[List[Headline]]
 
 
 @checkdatatype
@@ -244,46 +226,4 @@ def convert_level(result: PagesHeadlineList) -> int:
     for items in result:
         for item in items:
             item.level = get_level(item.level)
-    return result
-
-
-# TODO: MOVE TO SERIALIZERAW
-def dump_headlines(headlines: PagesHeadlineList) -> str:
-    raw = []
-    for index, page in enumerate(headlines):
-        content = [{
-            'container': item.container,
-            'level': item.level,
-            'page': item.page,
-            'rawlevel': item.rawlevel,
-            'text': item.text,
-        } for item in page]
-        if not content:
-            # do not write empty pages
-            continue
-        raw.append({
-            'chapter?': index,  # TODO: How to deal with empty chapter?
-            'headlines': content,
-        })
-    dumped = dump(raw)
-    return dumped
-
-
-@lru_cache(CACHE_SMALL)
-def load_headlines(content: str) -> PagesHeadlineList:
-    content = from_raw_or_path(content, ftype='yaml')
-    loaded = load(content, Loader=FullLoader)
-    result = []
-    for page in loaded:
-        step = []
-        for headline in page['headlines']:
-            step.append(
-                Headline(
-                    container=int(headline['container']),
-                    level=int(headline['level']),
-                    page=headline['page'],
-                    rawlevel=headline['rawlevel'],
-                    text=headline['text'],
-                ))
-        result.append(step)
     return result

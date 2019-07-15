@@ -10,6 +10,7 @@
 from iamraw import BoundingBox
 from pytest import mark
 from pytest import param
+from serializeraw import load_headlines
 from utila import NEWLINE
 
 from hey.undefined import extract_undefined
@@ -30,7 +31,6 @@ from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
 from words.feature.headlines import content_border
-from words.feature.headlines import load_headlines
 from words.feature.text import analyze_page
 from words.feature.text import dump_text
 from words.feature.text import fill_headlines
