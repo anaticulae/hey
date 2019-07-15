@@ -23,6 +23,112 @@ wie geht es ihnen?
 
 """
 
+from collections import defaultdict
+from contextlib import suppress
+from itertools import chain
+from re import compile as re_compile
 
-def work():
-    pass
+from utila import checkdatatype
+
+from hey.undefined import intindex
+from hey.utils import flatten
+from words.boxed import BoxedChecker
+from words.feature.boxed import load_boxedcontent
+from words.feature.headlines import load_headlines
+from words.feature.list import load_lists
+from words.feature.text import dump_text
+from words.feature.text import load_text
+
+PATTERN = re_compile(r'^[0-9]+u$')
+
+
+class ListLookUp:
+    # TODO: UNITE WITH BOXEDCHECKER!
+    def __init__(self, lists):
+        self.data = {}
+        self.load(lists)
+
+    def load(self, lists):
+        index = 0
+        for page, content in lists:
+            for item in content:
+                try:
+                    self.data[page].append((item, index))
+                except KeyError:
+                    self.data[page] = [(item, index)]
+                index += 1
+
+    def search(self, page, headline, undefined):
+        with suppress(KeyError):
+            current = self.data[page]
+            for ((_, _, content), index) in current:
+                if undefined in content.area:
+                    return index
+        return None
+
+
+class BoxLookUp:
+
+    def __init__(self, boxes):
+        self.data = {}
+        self.load(boxes)
+
+    def load(self, boxes):
+        for line in boxes:
+            page, content = line
+            for item in content:
+                boxid, _, items = item
+                chained = flatten(items)  # support verschachtelte boxes
+                for real in chained:
+                    bounding, (bindex, bcontent) = real
+                    uindexs = [uindex for (_, uindex, _) in bcontent]
+                    self.append(page, bindex, uindexs)
+
+    def append(self, page, boxid, uindex):
+        if page not in self.data:
+            self.data[page] = {}
+        for item in uindex:
+            self.data[page][item] = boxid
+
+    def search(self, page, uindex):
+        with suppress(KeyError):
+            return self.data[page][uindex]
+        return None
+
+
+@checkdatatype
+def work(
+        text: str,
+        headlines: str,
+        lists: str,
+        boxed: str,
+) -> str:
+
+    headlines = load_headlines(headlines)
+    text = load_text(text, headlines=headlines)
+    boxed = load_boxedcontent(boxed)
+    lists = load_lists(lists)
+    listlookup = ListLookUp(lists)
+    boxlookup = BoxLookUp(boxed)
+
+    for (page, pagecontent) in text:
+        # headline,
+        for (headline, headlinecontent) in pagecontent:
+            for index, line in enumerate(headlinecontent):
+                if not PATTERN.match(line):
+                    continue
+                undefined = intindex(line)
+                searched = listlookup.search(
+                    page,
+                    headline.container,
+                    undefined,
+                )
+                if searched is not None:
+                    headlinecontent[index] = '%dl' % searched
+                    continue
+                searched = boxlookup.search(page, undefined)
+                if searched is not None:
+                    headlinecontent[index] = '%db' % searched
+                    continue
+    dumped = dump_text(text)
+    return dumped
