@@ -26,14 +26,14 @@ wie geht es ihnen?
 from contextlib import suppress
 from re import compile as re_compile
 
+from serializeraw import dump_text
 from serializeraw import load_headlines
+from serializeraw import load_lists
 from utila import checkdatatype
 from utila import flatten
 
 from hey.undefined import intindex
 from words.feature.boxed import load_boxedcontent
-from words.feature.list import load_lists
-from words.feature.text import dump_text
 from words.feature.text import load_text
 
 PATTERN = re_compile(r'^[0-9]+u$')

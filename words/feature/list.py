@@ -16,27 +16,19 @@
      - check undefined area that area is list
 
 """
-from dataclasses import dataclass
-from dataclasses import field
-from enum import Enum
-from functools import lru_cache
 from functools import partial
 from re import MULTILINE
 from re import VERBOSE
 from re import finditer
 from typing import List
-from typing import Tuple
 
 from iamraw import Border
+from iamraw import PageList
+from serializeraw import dump_lists
 from utila import NEWLINE
 from utila import Flag
 from utila import checkdatatype
-from utila import from_raw_or_path
-from yaml import FullLoader
-from yaml import dump
-from yaml import load
 
-from hey import CACHE_SMALL
 from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.fonts import textfeed
@@ -116,35 +108,6 @@ def process_page(pagecontent, contentborder: Border):
     if not result:
         return None
     return (page, result)
-
-
-class ListType(Enum):
-    UNDEFINED = None
-    AMBIGUOUS = '*1.+-'
-    DOTTED = '*'
-    NUMBERED = '123'
-    NUMBERED_WITH_DOT = '1.5.9.'  # default style
-    PLUSED = '+'
-    MINUSED = '-'
-
-
-@dataclass
-class PageList:
-
-    data: List[Tuple[str, str]] = field(default_factory=list)
-    area: List[int] = field(default_factory=list)
-
-    def append(self, title: str, level: str = None):
-        self.data.append((level, title))
-
-    def __getitem__(self, index):
-        return self.data[index]
-
-    def __len__(self):
-        return len(self.data)
-
-    def ltype(self):
-        return ListType.UNDEFINED
 
 
 def extract_lists(
@@ -315,52 +278,3 @@ def commandline() -> Flag:
         longcut='list',
         message='Export list of extracted ordered and unordered lists',
     )
-
-
-def dump_lists(lists: List[str]) -> str:
-    raw = []
-    for (number, page) in lists:
-        pageresult = []
-        for (paragraph, merged, content) in page:
-            # Number, Item
-            area = ' '.join([str(item) for item in content.area])
-            content = ['%s %s' % (number, item) for (number, item) in content]
-            pageresult.append({
-                'area': area,
-                'content': content,
-                'id': '%d %d' % (paragraph, merged),
-            })
-        if pageresult:
-            raw.append({
-                'page': number,
-                'lists': pageresult,
-            })
-    dumped = dump(raw)
-    return dumped
-
-
-@lru_cache(CACHE_SMALL)
-def load_lists(content: str) -> List[str]:
-    content = from_raw_or_path(content, ftype='yaml')
-    loaded = load(content, Loader=FullLoader)
-    result = []
-    for page in loaded:
-        pagenumber = int(page['page'])
-        content = page['lists']
-        newpage = []
-        for listinstance in content:
-            paragraph, merged = [
-                int(item) for item in listinstance['id'].split()
-            ]
-            area = [int(item) for item in listinstance['area'].split()]
-            instance = PageList(area=area)
-            for entree in listinstance['content']:
-                # See (Number, Item)
-                number, text = entree.split(maxsplit=1)
-                # # try to convert to int/float
-                if number.isdigit():  # all decimal digits and not empty
-                    number = int(number)
-                instance.append(text, number)
-            newpage.append((paragraph, merged, instance))
-        result.append((pagenumber, newpage))
-    return result

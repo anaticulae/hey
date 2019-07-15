@@ -7,7 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from iamraw import ListType
+from iamraw import PageList
 from pytest import fixture
+from serializeraw import dump_lists
+from serializeraw import load_lists
 
 from hey.textnavigator.navigator import TextBoundsList
 from hey.textnavigator.navigator import merge_content
@@ -32,11 +36,7 @@ from tests.fixtures.simple import simple_document
 from tests.fixtures.simple import simple_pagetextnavigators
 from tests.fixtures.simple import simple_second_page_navigator
 from tests.fixtures.simple import simple_second_page_size
-from words.feature.list import ListType
-from words.feature.list import PageList
-from words.feature.list import dump_lists
 from words.feature.list import extract_lists
-from words.feature.list import load_lists
 from words.feature.list import parse_dotted_list
 from words.feature.list import parse_numbered_list
 from words.feature.list import work
