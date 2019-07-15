@@ -32,7 +32,7 @@ from tests.fixtures.simple import simple_document
 from tests.fixtures.simple import simple_pagetextnavigators
 from tests.fixtures.simple import simple_second_page_navigator
 from tests.fixtures.simple import simple_second_page_size
-from words.feature.list import LType
+from words.feature.list import ListType
 from words.feature.list import PageList
 from words.feature.list import dump_lists
 from words.feature.list import extract_lists
@@ -65,7 +65,7 @@ def test_list_extract_page(
     pagelist: PageList = extracted[0]
 
     assert len(pagelist) == 8
-    assert pagelist.ltype() == LType.NUMBERED
+    assert pagelist.ltype() == ListType.NUMBERED
 
     for index, (_, level) in enumerate(pagelist, start=1):
         assert level == '%d.' % index, index

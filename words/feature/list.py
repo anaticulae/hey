@@ -118,7 +118,7 @@ def process_page(pagecontent, contentborder: Border):
     return (page, result)
 
 
-class LType(Enum):
+class ListType(Enum):
     UNDEFINED = None
     AMBIGUOUS = '*1.+-'
     DOTTED = '*'
@@ -144,7 +144,7 @@ class PageList:
         return len(self.data)
 
     def ltype(self):
-        return LType.UNDEFINED
+        return ListType.UNDEFINED
 
 
 def extract_lists(
