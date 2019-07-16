@@ -58,7 +58,7 @@ WORKPLAN = [
         inputs=[
             ResultFile('rawmaker', 'text_text'),
             ResultFile('rawmaker', 'text_positions'),
-            ResultFile('rawmaker', 'toc'),
+            ResultFile('rawmaker', 'toc_toc'),
         ],
         output=('likelihood',),
     ),

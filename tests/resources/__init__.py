@@ -63,7 +63,7 @@ RESTRUCT_ONELINE_TEXT = join(RESTRUCT, 'rawmaker__oneline_text_text.yaml')
 RESTRUCT_PAGESIZE = join(RESTRUCT, 'rawmaker__border_pages.yaml')
 RESTRUCT_TEXT = join(RESTRUCT, 'rawmaker__text_text.yaml')
 RESTRUCT_TEXT_POSITION = join(RESTRUCT, 'rawmaker__text_positions.yaml')
-RESTRUCT_TOC = join(RESTRUCT, 'rawmaker__toc.yaml')
+RESTRUCT_TOC = join(RESTRUCT, 'rawmaker__toc_toc.yaml')
 
 RESTRUCT_TOC_LINES = 13
 
@@ -74,7 +74,7 @@ SIMPLE_HORIZONTAL = join(SIMPLE, 'rawmaker__boxes_horizontal.yaml')
 SIMPLE_PAGESIZE = join(SIMPLE, 'rawmaker__border_pages.yaml')
 SIMPLE_POSITION = join(SIMPLE, 'rawmaker__text_positions.yaml')
 SIMPLE_TEXT = join(SIMPLE, 'rawmaker__text_text.yaml')
-SIMPLE_TOC = join(SIMPLE, 'rawmaker__toc.yaml')
+SIMPLE_TOC = join(SIMPLE, 'rawmaker__toc_toc.yaml')
 
 SIMPLE_HEADLINES_PAGE_3 = 4
 SIMPLE_TOC_LINES = 12
