@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from pytest import xfail
 from serializeraw import load_likelihood
 
 # from sections.sections import extract_sections
@@ -26,6 +27,12 @@ from tests.fixtures.restruct import restructured_sections_manual
 from tests.fixtures.restruct import restructured_title
 from tests.fixtures.restruct import restructured_toc
 from tests.fixtures.restruct import restructured_whitepage
+from tests.fixtures.simple import simple_chapter
+from tests.fixtures.simple import simple_index
+from tests.fixtures.simple import simple_sections
+from tests.fixtures.simple import simple_title
+from tests.fixtures.simple import simple_toc
+from tests.fixtures.simple import simple_whitepage
 
 
 def test_sections_iterable():
@@ -55,7 +62,7 @@ def test_validate_restructured(restructured_sections_manual):  #pylint:disable=W
 
 
 #pylint:disable=W0621
-def test_sections_extract_sections(
+def test_sections_extract_sections_restructured(
         restructured_chapter,
         restructured_index,
         restructured_sections_manual,
@@ -73,7 +80,6 @@ def test_sections_extract_sections(
     source = [chapter, index, title, toc, whitepage]
     result = extract_sections(*source)
     assert result
-
     for index, (actual, expected) in enumerate(
             zip(result, restructured_sections_manual)):
         # Compare only the first level
@@ -94,3 +100,28 @@ def test_sections_chapters(restructured_sections_manual):
 
     assert ascending_page_order, str([result])
     assert len(result) == 8, str(result)
+
+
+#pylint:disable=W0621
+def test_sections_extract_sections_simple(
+        simple_chapter,
+        simple_index,
+        simple_title,
+        simple_toc,
+        simple_whitepage,
+):
+    chapter = load_chapter_detection(simple_chapter)
+    index = load_likelihood(simple_index)
+    title = load_likelihood(simple_title)
+    toc = load_likelihood(simple_toc)
+    whitepage = load_whitepages(simple_whitepage)
+    whitepage = [whitepage_value_to_percent(item) for item in whitepage]
+
+    source = [chapter, index, title, toc, whitepage]
+    result = extract_sections(*source)
+
+    xfail('multiple feature on one page is not solved')
+
+
+def test_sections_sections_simple(simple_sections):
+    xfail('multiple feature on one page is not solved')

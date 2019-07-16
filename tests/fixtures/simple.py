@@ -22,12 +22,23 @@ from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
+from sections.feature.chapter import work as chapter_work
+from sections.feature.index import work as index_work
+from sections.feature.sections import work as section_work
+from sections.feature.title import work as title_work
+from sections.feature.toc import work as toc_work
+from sections.feature.whitepage import work as whitepage_work
 from tests.resources import SIMPLE_FONT_CONTENT
 from tests.resources import SIMPLE_FONT_HEADER
 from tests.resources import SIMPLE_HORIZONTAL
+from tests.resources import SIMPLE_ONELINE_FONT_CONTENT
+from tests.resources import SIMPLE_ONELINE_FONT_HEADER
+from tests.resources import SIMPLE_ONELINE_TEXT
 from tests.resources import SIMPLE_PAGESIZE
 from tests.resources import SIMPLE_POSITION
 from tests.resources import SIMPLE_TEXT
+from tests.resources import SIMPLE_TEXT_POSITION
+from tests.resources import SIMPLE_TOC
 
 
 @fixture
@@ -127,11 +138,73 @@ def simple_page_2_text_only(simple_page_2: Page):  # pylint: disable=W0621
 
 # TODO: Reduce amout of fixtures
 @fixture
-def simple_second_page_navigator(
-        simple_pagetextnavigators) -> PageTextNavigator:
+def simple_second_page_navigator(simple_pagetextnavigators,
+                                ) -> PageTextNavigator:
     return simple_pagetextnavigators[1]
 
 
 @fixture
 def simple_second_page_size(simple_contentborder) -> Border:
     return simple_contentborder[1]
+
+
+@fixture
+def simple_toc():
+    result = toc_work(SIMPLE_ONELINE_TEXT)
+    return result
+
+
+@fixture
+def simple_whitepage():
+    result = whitepage_work(
+        SIMPLE_TEXT,
+        SIMPLE_TEXT_POSITION,
+        SIMPLE_HORIZONTAL,
+    )
+    return result
+
+
+@fixture
+def simple_title():
+    result = title_work(
+        SIMPLE_ONELINE_TEXT,
+        SIMPLE_ONELINE_FONT_HEADER,
+        SIMPLE_ONELINE_FONT_CONTENT,
+    )
+    return result
+
+
+@fixture
+def simple_index():
+    result = index_work(SIMPLE_ONELINE_TEXT)
+    return result
+
+
+@fixture
+def simple_chapter():
+    result = chapter_work(
+        SIMPLE_TEXT,
+        SIMPLE_TEXT_POSITION,
+        SIMPLE_TOC,
+    )
+    return result
+
+
+@fixture
+def simple_sections():
+    chapter = chapter_work(SIMPLE_TEXT, SIMPLE_TEXT_POSITION, SIMPLE_TOC)
+
+    index = index_work(SIMPLE_TEXT)
+    title = title_work(
+        SIMPLE_TEXT,
+        SIMPLE_FONT_HEADER,
+        SIMPLE_FONT_CONTENT,
+    )
+    toc = toc_work(SIMPLE_TEXT)
+    whitepage = whitepage_work(
+        SIMPLE_TEXT,
+        SIMPLE_TEXT_POSITION,
+        SIMPLE_HORIZONTAL,
+    )
+    result = section_work(chapter, index, title, toc, whitepage)
+    return result

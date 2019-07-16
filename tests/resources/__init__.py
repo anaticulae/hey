@@ -75,6 +75,11 @@ SIMPLE_PAGESIZE = join(SIMPLE, 'rawmaker__border_pages.yaml')
 SIMPLE_POSITION = join(SIMPLE, 'rawmaker__text_positions.yaml')
 SIMPLE_TEXT = join(SIMPLE, 'rawmaker__text_text.yaml')
 SIMPLE_TOC = join(SIMPLE, 'rawmaker__toc_toc.yaml')
+SIMPLE_TEXT_POSITION = join(SIMPLE, 'rawmaker__text_positions.yaml')
+SIMPLE_ONELINE_TEXT = join(SIMPLE, 'rawmaker__oneline_text_text.yaml')
+SIMPLE_ONELINE_FONT_CONTENT = join(SIMPLE,
+                                   'rawmaker__oneline_fonts_content.yaml')
+SIMPLE_ONELINE_FONT_HEADER = join(SIMPLE, 'rawmaker__oneline_fonts_header.yaml')
 
 SIMPLE_HEADLINES_PAGE_3 = 4
 SIMPLE_TOC_LINES = 12
@@ -97,6 +102,9 @@ for item in [
         SIMPLE_FONT_CONTENT,
         SIMPLE_FONT_HEADER,
         SIMPLE_HORIZONTAL,
+        SIMPLE_ONELINE_FONT_CONTENT,
+        SIMPLE_ONELINE_FONT_HEADER,
+        SIMPLE_ONELINE_TEXT,
         SIMPLE_PAGESIZE,
         SIMPLE_POSITION,
         SIMPLE_TEXT,
