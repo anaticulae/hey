@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.2.2
+
+### Fix
+
+* fix output name of toc generation (a3371f9e4dae)
+
 ## v1.2.1
 
 ## v1.2.0
