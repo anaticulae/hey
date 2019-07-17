@@ -24,11 +24,11 @@ from typing import List
 from typing import Tuple
 
 from iamraw import BoundingBox
+from serializeraw import dump_pagenumbers
 from serializeraw import load_document
 from utila import Flag
 from utila import from_raw_or_path
 from yaml import FullLoader
-from yaml import dump
 from yaml import load
 
 from hey import CACHE_SMALL
@@ -113,54 +113,6 @@ def is_rightpage(pdf_pagenumber: int) -> bool:
 
 
 Cluster = List[Tuple[BoundingBox, str]]
-
-
-def dump_pagenumbers(pagenumbers_):
-
-    def raw(content):
-        items = [{
-            'pdfpage': pdfpage,
-            'bounding': str(bounding),
-            'detected': detectedpage
-        } for pdfpage, bounding, detectedpage in sorted(
-            content, key=lambda number: number[0])]
-        return items
-
-    try:
-        result = raw(pagenumbers_)
-    except ValueError:
-        left, right = pagenumbers_
-        result = {
-            'left': raw(left),
-            'right': raw(right),
-        }
-    dumped = dump(result)
-    return dumped
-
-
-@lru_cache(CACHE_SMALL)
-def load_pagenumbers(content: str):
-    content = from_raw_or_path(content, ftype='yaml')
-    loaded = load(content, Loader=FullLoader)
-
-    def to_int(item):
-        try:
-            return int(item)
-        except ValueError:
-            return item
-
-    def fromraw(content):
-        result = [(
-            to_int(item['pdfpage']),
-            BoundingBox.from_str(item['bounding']),
-            to_int(item['detected'],),
-        ) for item in content]
-        return result
-
-    try:
-        return fromraw(loaded)
-    except TypeError:
-        return fromraw(loaded['left']), fromraw(loaded['right'])
 
 
 def pagenumbers(clusters: List[Cluster]):

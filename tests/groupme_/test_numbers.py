@@ -6,10 +6,8 @@ from typing import Iterable
 
 from pytest import fixture
 
-from groupme.feature.numbers import dump_pagenumbers
 from groupme.feature.numbers import footer
 from groupme.feature.numbers import header
-from groupme.feature.numbers import load_pagenumbers
 from groupme.feature.numbers import pagenumbers
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured
@@ -95,22 +93,6 @@ def pagenumbers_restructured(restructured_navigator):  #pylint:disable=W0621
     # double page
     left, right = pagenumbers(result)
     return left, right
-
-
-def test_dump_and_load_pagenumbers_simple(pagenumbers_simple):  #pylint:disable=W0621
-    dumped = dump_pagenumbers(pagenumbers_simple)
-    assert len(dumped) > 100
-
-    loaded = load_pagenumbers(dumped)
-    assert loaded == pagenumbers_simple
-
-
-def test_dump_and_load_pagenumbers_restructured(pagenumbers_restructured):  #pylint:disable=W0621
-    dumped = dump_pagenumbers(pagenumbers_restructured)
-    assert len(dumped) > 100
-
-    loaded = load_pagenumbers(dumped)
-    assert loaded == pagenumbers_restructured
 
 
 def print_cluster(clusters):
