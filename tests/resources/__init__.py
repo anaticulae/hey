@@ -10,39 +10,7 @@
 from os.path import exists
 from os.path import join
 
-from iamraw import Border
-from iamraw import Document
-from iamraw import Page
-from iamraw import TextContainer
-from iamraw.sections import PERCENT_100
-from iamraw.sections import Sections
-from pytest import fixture
-from serializeraw import load_document
-from serializeraw import load_horizontals
-from serializeraw import load_pageborders
-
-from groupme.feature.numbers import load_textposition
 from hey import ROOT
-from hey.fonts.store import FontStore
-from hey.fonts.store import create_fontstore
-from hey.textnavigator.navigator import PageTextNavigator
-from hey.textnavigator.navigator import PageTextNavigators
-from hey.textnavigator.navigator import create_pagetextnavigators
-from sections.creator import add_chapter
-from sections.creator import add_content
-from sections.creator import add_index
-from sections.creator import add_introduction
-from sections.creator import add_table
-from sections.creator import add_text
-from sections.creator import add_title
-from sections.creator import add_toc
-from sections.creator import add_whitepage
-from sections.creator import validate
-from sections.feature.chapter import work as work_chapter
-from sections.feature.index import work as work_index
-from sections.feature.title import work as work_title
-from sections.feature.toc import work as work_toc
-from sections.feature.whitepage import work as work_whitepage
 
 TEST_DATA = join(ROOT, 'tests/resources')
 
