@@ -7,19 +7,19 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from iamraw import Sections
 from pytest import xfail
+from serializeraw import dump_sections
 from serializeraw import load_likelihood
+from serializeraw import load_sections
 
 # from sections.sections import extract_sections
 from sections.creator import validate
-from sections.ctor import Sections
 from sections.feature.chapter import load_chapter_detection
 from sections.feature.sections import chapters
 from sections.feature.sections import extract_sections
 from sections.feature.whitepage import load_whitepages
 from sections.feature.whitepage import whitepage_value_to_percent
-from sections.serialize import dump_sections
-from sections.serialize import load_sections
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_chapter
 from tests.fixtures.restruct import restructured_index

@@ -14,6 +14,8 @@ from iamraw import Border
 from iamraw import Document
 from iamraw import Page
 from iamraw import TextContainer
+from iamraw.sections import PERCENT_100
+from iamraw.sections import Sections
 from pytest import fixture
 from serializeraw import load_document
 from serializeraw import load_horizontals
@@ -36,8 +38,6 @@ from sections.creator import add_title
 from sections.creator import add_toc
 from sections.creator import add_whitepage
 from sections.creator import validate
-from sections.ctor import PERCENT_100
-from sections.ctor import Sections
 from sections.feature.chapter import work as work_chapter
 from sections.feature.index import work as work_index
 from sections.feature.title import work as work_title

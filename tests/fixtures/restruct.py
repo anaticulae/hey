@@ -8,6 +8,8 @@
 # =============================================================================
 
 from iamraw import Document
+from iamraw.sections import PERCENT_100
+from iamraw.sections import Sections
 from pytest import fixture
 from serializeraw import dump_text
 from serializeraw import load_boxes
@@ -28,8 +30,6 @@ from sections.creator import add_text
 from sections.creator import add_title
 from sections.creator import add_toc
 from sections.creator import add_whitepage
-from sections.ctor import PERCENT_100
-from sections.ctor import Sections
 from sections.feature.chapter import work as chapter_work
 from sections.feature.index import work as index_work
 from sections.feature.sections import work as section_work

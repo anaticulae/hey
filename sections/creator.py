@@ -9,20 +9,20 @@
 
 from functools import partial
 
-from sections.ctor import PERCENT_100
-from sections.ctor import Appendix
-from sections.ctor import Chapter
-from sections.ctor import Content
-from sections.ctor import Index
-from sections.ctor import Introduction
-from sections.ctor import Percentage
-from sections.ctor import Position
-from sections.ctor import Sections
-from sections.ctor import Table
-from sections.ctor import TableOfContent
-from sections.ctor import Text
-from sections.ctor import TitlePage
-from sections.ctor import WhitePage
+from iamraw.sections import PERCENT_100
+from iamraw.sections import Appendix
+from iamraw.sections import Chapter
+from iamraw.sections import Content
+from iamraw.sections import Index
+from iamraw.sections import Introduction
+from iamraw.sections import Percentage
+from iamraw.sections import Position
+from iamraw.sections import Sections
+from iamraw.sections import Table
+from iamraw.sections import TableOfContent
+from iamraw.sections import Text
+from iamraw.sections import TitlePage
+from iamraw.sections import WhitePage
 
 
 def _add_x(

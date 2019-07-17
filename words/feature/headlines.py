@@ -33,6 +33,7 @@ from serializeraw import dump_headlines
 from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
+from serializeraw import load_sections
 from utila import checkdatatype
 
 from groupme.feature.footer import document_footerheader
@@ -53,7 +54,6 @@ from hey.textnavigator.navigator import navigator_to_bounds
 from sections.feature.sections import Content
 from sections.feature.sections import Sections
 from sections.feature.sections import chapters
-from sections.serialize import load_sections
 
 
 @checkdatatype

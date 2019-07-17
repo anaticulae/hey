@@ -9,27 +9,27 @@
 
 from typing import List
 
+from iamraw.sections import AreaItem
+from iamraw.sections import Chapter
+from iamraw.sections import Content
+from iamraw.sections import DocumentSection
+from iamraw.sections import Index
+from iamraw.sections import Introduction
+from iamraw.sections import Sections
+from iamraw.sections import Table
+from iamraw.sections import TableOfContent
+from iamraw.sections import Text
+from iamraw.sections import TitlePage
+from iamraw.sections import Unknown
+from iamraw.sections import WhitePage
+from serializeraw import dump_sections
 from serializeraw import load_likelihood
 from utila import Flag
 
-from sections.ctor import AreaItem
-from sections.ctor import Chapter
-from sections.ctor import Content
-from sections.ctor import DocumentSection
-from sections.ctor import Index
-from sections.ctor import Introduction
-from sections.ctor import Sections
-from sections.ctor import Table
-from sections.ctor import TableOfContent
-from sections.ctor import Text
-from sections.ctor import TitlePage
-from sections.ctor import Unknown
-from sections.ctor import WhitePage
 from sections.feature.chapter import chapter_value_to_percent
 from sections.feature.chapter import load_chapter_detection
 from sections.feature.whitepage import load_whitepages
 from sections.feature.whitepage import whitepage_value_to_percent
-from sections.serialize import dump_sections
 
 MIN_FEATURE_TRUST = 0.4  # Holy value
 
