@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v1.2.7
+
+### Feature
+
+* extend logging to ease debugging (1276054bfae0)
+
+### Fix
+
+* fix headline regex to avoid enormous/infinite runtime (5d51f1c252f6)
+
 ## v1.2.6
 
 ### Feature
