@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.2.6
+
+### Feature
+
+* add error message to assertion (177549e1a139)
+
 ## v1.2.5
 
 ## v1.2.4
