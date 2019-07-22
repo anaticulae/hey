@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.2.8
+
+### Fix
+
+* add workaround to fix problem with chapter partition (7b095fdb8622)
+
 ## v1.2.7
 
 ### Feature
