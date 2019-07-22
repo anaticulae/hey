@@ -76,3 +76,13 @@ def test_parse_headlines(simple_page_2_text_only):  # pylint: disable=W0621
             continue
         headlines.append(result[1])
     assert len(headlines) == SIMPLE_HEADLINES_PAGE_3, headlines
+
+
+# TODO: add timeout to this unit test
+# TODO: add timeout to parse_headline
+def test_parse_headline_problematic():
+    """The old regex had a problem to parse the example below. Before this fix
+    the time of parsing this string was enormous."""
+    problem = '1.0011001100110011001100110011001100110011001100110011'
+    parsed = parse_headline(problem)
+    assert parsed is None, str(parsed)

@@ -14,7 +14,10 @@ Level = str
 Text = str
 Title = Tuple[Level, Text]
 
-HEADLINE = (r'^(?P<level>([\d|I|a|b|c]+\.?)+)'
+# {1,5} limit computation time. Increasing to {1,8} drives the time to over 10
+# secs! # TODO: Investigate how to improve this regex.
+
+HEADLINE = (r'^(?P<level>([\d|I|a|b|c]+\.?){1,5})'
             r'[ ]+'
             r'(?P<title>[\w]+[\w| |\d|\.|&|:]+)$')
 
