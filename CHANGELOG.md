@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.2.9
+
+### Fix
+
+* workaround: skip non content at the end (eecd435bce27)
+
 ## v1.2.8
 
 ### Fix
