@@ -40,8 +40,9 @@ class PageTextNavigator:
             item(str): content of text chunck
         """
         x0, y0, x1, y1 = box
-        assert 0 <= x0 <= x1 <= self.width
-        assert 0 <= y0 <= y1 <= self.height
+        msg = '0<=%d<=%d<=%d'
+        assert 0 <= x0 <= x1 <= self.width, msg % (x0, x1, self.width)
+        assert 0 <= y0 <= y1 <= self.height, msg % (y0, y1, self.height)
 
         insert_position = 0
         for pos, _ in self.data:
