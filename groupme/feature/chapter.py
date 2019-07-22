@@ -24,6 +24,7 @@ from utila import NEWLINE
 from utila import Flag
 from utila import call
 from utila import debug
+from utila import error
 from utila import from_raw_or_path
 from yaml import FullLoader
 from yaml import dump
@@ -60,6 +61,18 @@ def chapters(document: Document):
             current_chapter, headline, rest = content.partition(simple_splitter)
 
         content = headline + rest
+        # TODO, WORKAROUND: there is a problem to split some chapter by
+        # headlines. Improve this later.
+        if not current_chapter:
+            result.append({
+                'level': _level,
+                'title': _title,
+                'content': '',
+            })
+            error('can not split chapter')
+            error(headline)
+            error('empty chapter')
+            continue
         _title, _content = current_chapter.split(NEWLINE, maxsplit=1)
         result.append({
             'level': _level,
