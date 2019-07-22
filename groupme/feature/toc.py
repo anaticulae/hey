@@ -19,6 +19,8 @@ from serializeraw import dump_toc
 from serializeraw import load_document
 from utila import NEWLINE
 from utila import Flag
+from utila import call
+from utila import debug
 from utila import logging
 
 from groupme.feature import RawSection
@@ -37,15 +39,15 @@ def toc(document: Document):
     # TODO: Include page distance!
     # TODO: We need a more stable approach
     """
-
+    call('toc')
     result = []
     for index, page in enumerate(document.pages):
+        debug('page %d' % index)
         tocpage = toc_from_page(page)
         if tocpage is None:
             logging('empty page: %d' % index)
             continue
         result.extend(tocpage)
-
     # Title must occurs double, first in the TOC and after this, following in
     # the text.
     hundert_percent_toc = filter_double(result)
@@ -182,9 +184,7 @@ def toc_from_page(page: Page) -> List[RawSection]:
         return []
     group = group_segmentation(result)
     longest = [page_sections[index] for index in longest_group(group)]
-
     filtered = [(item.level, strip_title(item.title)) for item in longest]
-
     return filtered
 
 
@@ -199,7 +199,6 @@ def group_segmentation(items, max_diff: int = 0):
     result = []
     collect = []
     last = 1000
-
     for item in items:
         diff = abs(last - item) - 1  # 6-5 = 1, 1 is no diff, it is next number
         if diff > max_diff:

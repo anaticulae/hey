@@ -22,6 +22,8 @@ from iamraw import Document
 from serializeraw import load_document
 from utila import NEWLINE
 from utila import Flag
+from utila import call
+from utila import debug
 from utila import from_raw_or_path
 from yaml import FullLoader
 from yaml import dump
@@ -43,10 +45,12 @@ def work(documentpath: str) -> str:
 
 def chapters(document: Document):
     """Extract chapter structure from document path"""
+    call('chapter')
     tableofcontent = toc(document)
     content = body(document)
     result = []
     for title in tableofcontent[1:]:  # skip first one
+        debug('process `%s`' % str(title))
         _level, _title = title
         headline = format_title(title)
         current_chapter, headline, rest = content.partition(headline)
@@ -56,7 +60,6 @@ def chapters(document: Document):
             current_chapter, headline, rest = content.partition(simple_splitter)
 
         content = headline + rest
-
         _title, _content = current_chapter.split(NEWLINE, maxsplit=1)
         result.append({
             'level': _level,

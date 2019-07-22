@@ -19,6 +19,7 @@ from iamraw import Border
 from iamraw import Box
 from iamraw import HorizontalLine
 from serializeraw import load_horizontals
+from utila import call
 from utila import from_raw_or_path
 from utila import roundme
 from utila import uniform_result
@@ -52,7 +53,7 @@ def work(horizontals: str) -> str:
     Returns:
         dumped list with top and bottom border for every page
     """
-
+    call('footer')
     # load
     horizontals = load_horizontals(horizontals)
 

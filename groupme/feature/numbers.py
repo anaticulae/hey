@@ -27,6 +27,7 @@ from iamraw import BoundingBox
 from serializeraw import dump_pagenumbers
 from serializeraw import load_document
 from utila import Flag
+from utila import call
 from utila import from_raw_or_path
 from yaml import FullLoader
 from yaml import load
@@ -37,6 +38,7 @@ from hey.textnavigator.navigator import create_pagetextnavigators
 
 
 def work(documentpath: str, positionpath: str) -> str:
+    call('numbers')
     document = load_document(documentpath)
     position = load_textposition(positionpath)
 
