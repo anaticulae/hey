@@ -50,6 +50,12 @@ def chapters(document: Document):
     tableofcontent = toc(document)
     content = body(document)
     result = []
+
+    def log_error(headline):
+        error('can not split chapter')
+        error(headline)
+        error('empty chapter')
+
     for title in tableofcontent[1:]:  # skip first one
         debug('process `%s`' % str(title))
         _level, _title = title
@@ -69,9 +75,7 @@ def chapters(document: Document):
                 'title': _title,
                 'content': '',
             })
-            error('can not split chapter')
-            error(headline)
-            error('empty chapter')
+            log_error(headline)
             continue
         _title, _content = current_chapter.split(NEWLINE, maxsplit=1)
         result.append({
@@ -79,7 +83,10 @@ def chapters(document: Document):
             'title': _title,
             'content': _content,
         })
-
+    if not content:
+        # TODO: investigate here to check that no content is lost
+        log_error('last headline')
+        return result
     _title, _content = content.split(NEWLINE, maxsplit=1)
     _level, _title = _title.split(maxsplit=1)
     result.append({
