@@ -35,7 +35,6 @@ from tests.resources import SIMPLE_ONELINE_FONT_CONTENT
 from tests.resources import SIMPLE_ONELINE_FONT_HEADER
 from tests.resources import SIMPLE_ONELINE_TEXT
 from tests.resources import SIMPLE_PAGESIZE
-from tests.resources import SIMPLE_POSITION
 from tests.resources import SIMPLE_TEXT
 from tests.resources import SIMPLE_TEXT_POSITION
 from tests.resources import SIMPLE_TOC
@@ -45,7 +44,7 @@ from tests.resources import SIMPLE_TOC
 def simple():
     pagesize = load_pageborders(SIMPLE_PAGESIZE)
     horizontals = load_horizontals(SIMPLE_HORIZONTAL)
-    position = load_textposition(SIMPLE_POSITION)
+    position = load_textposition(SIMPLE_TEXT_POSITION)
     document = load_document(SIMPLE_TEXT)
 
     assert pagesize
@@ -94,7 +93,7 @@ def simple_navigator(simple):  #pylint:disable=W0621
 def simple_pagetextnavigators(
         simple_document: Document,  #pylint:disable=W0621
 ) -> PageTextNavigators:
-    textpositions = load_textposition(SIMPLE_POSITION)
+    textpositions = load_textposition(SIMPLE_TEXT_POSITION)
 
     return create_pagetextnavigators(
         text=simple_document,
