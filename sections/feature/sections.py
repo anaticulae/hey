@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from os.path import exists
 from typing import List
 
 from iamraw.sections import AreaItem
@@ -24,7 +25,10 @@ from iamraw.sections import Unknown
 from iamraw.sections import WhitePage
 from serializeraw import dump_sections
 from serializeraw import load_likelihood
+from utila import FAILURE
 from utila import Flag
+from utila import checkdatatype
+from utila import error
 
 from sections.feature.chapter import chapter_value_to_percent
 from sections.feature.chapter import load_chapter_detection
@@ -34,6 +38,7 @@ from sections.feature.whitepage import whitepage_value_to_percent
 MIN_FEATURE_TRUST = 0.4  # Holy value
 
 
+@checkdatatype
 def work(
         chapter: str,
         index: str,
@@ -53,6 +58,16 @@ def work(
     Retruns:
         dumped `Section`
     """
+
+    # TODO: Add @checkfile decorator to utila, to ensure that files exists
+    # TODO: Investigate add check if raw content or file path is used
+    # failure = False
+    # for item in [chapter, index, title, toc, whitepage]:
+    #     if not exists(item):
+    #         error('sections: missing input %s' % item)
+    #         failure = True
+    # if failure:
+    #     exit(FAILURE)
     potential_features = load_features(
         chapter,
         index,
@@ -149,6 +164,7 @@ def determine_document_section(current: DocumentSection, actual: AreaItem):
 
 
 def load_features(chapter, index, title, toc, whitepage):
+
     chapter = load_chapter_detection(chapter)
     chapter = [chapter_value_to_percent(item) for item in chapter]
 
