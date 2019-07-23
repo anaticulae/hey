@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v1.2.10
+
+### Feature
+
+* extend debugging information of textprocessor (0a16551b2dde)
+
+### Fix
+
+* fix error in textprocessor to parse pyporting example (3eb9cc3e01db)
+
 ## v1.2.9
 
 ### Fix
