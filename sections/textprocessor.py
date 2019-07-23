@@ -44,6 +44,14 @@ class PageIter:
         ]):
             raise ValueError('iter stands on goal %d %d' % (container, line))
 
+        if self.char > 0 and char == 0:
+            # text iterator is not on the line start
+            if self.container < container or self.line < line:
+                # fill the rest of the current line and goto next lien
+                result += self.page[self.container][self.line].text[self.char:]
+                self.char = 0
+                self.line += 1
+                empty = False
         if self.line > 0 and self.container < container:
             # Fill up the container before continuing with the next
             for item in self.page[self.container][self.line:]:
@@ -61,7 +69,11 @@ class PageIter:
             empty = False
         if char:
             result += self.page[self.container][self.line].text[self.char:char]
-            self.char += char
+            # Example: iterator stands on 10, next `char` is 15, we have to add
+            # chardistance (15-10) to add. After this the current iterator
+            # stands on 15.
+            charsdistance = (char - self.char)
+            self.char += charsdistance
             empty = False
 
         if empty:

@@ -46,10 +46,7 @@ DEFAULT_FLAGS = [
         ['--help'],
         ['-i', RESTRUCT, '-o', '.'] + DEFAULT_FLAGS,
         ['-i', SIMPLE, '-o', '.'] + DEFAULT_FLAGS,
-        param(
-            ['-i', PYPORTING, '-o', '.'] + DEFAULT_FLAGS,
-            marks=mark.xfail(reason='problem with textprocessor'),
-        ),
+        ['-i', PYPORTING, '-o', '.'] + DEFAULT_FLAGS,
     ])
 def test_run_sections(command, testdir, monkeypatch):  #pylint: disable=W0613
     """Run help and version and format command to reach basic test coverage"""
