@@ -11,6 +11,7 @@ from typing import List
 
 from iamraw import Page
 from iamraw import TextContainer
+from utila import debug
 
 
 class TextContainerIterator:
@@ -34,7 +35,27 @@ class PageIter:
         self.line = 0
         self.char = 0
 
+    def __str__(self):
+        result = "Position[container=%d, line=%d, char=%d]"
+        result = result % (self.container, self.line, self.char)
+        return result
+
     def next(self, container, line, char):
+        """Extract data between `current` iterator position `(self.container,
+        self.line, self.char)` and the passed `new` iterator position
+        `(container, line, char)`.
+
+        Args:
+            container
+            line
+            char
+        Returns:
+            content between current text iterator and passed new iterator
+            if the new iterator is out of bounds a ValueError is raised.
+        """
+        debug('input: %d %d %d' % (container, line, char))
+        debug('current: %d %d %d\n' % (self.container, self.line, self.char))
+
         empty = True
         result = ''
         if all([
