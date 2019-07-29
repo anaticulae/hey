@@ -9,7 +9,6 @@
 
 from pytest import hookimpl
 from pytest import mark
-from pytest import param
 from utila import install_and_run
 from utila.test import skip_nonvirtual
 
@@ -18,7 +17,9 @@ from sections import PROCESS_NAME
 from sections import ROOT
 from tests.resources import PYPORTING
 from tests.resources import RESTRUCT
+from tests.resources import RESTRUCT_PDF
 from tests.resources import SIMPLE
+from tests.sections_ import run_sections_failure
 from tests.sections_ import run_sections_success
 
 
@@ -51,3 +52,11 @@ DEFAULT_FLAGS = [
 def test_run_sections(command, testdir, monkeypatch):  #pylint: disable=W0613
     """Run help and version and format command to reach basic test coverage"""
     run_sections_success(command, monkeypatch=monkeypatch)
+
+
+@mark.parametrize('command', [
+    ['-i', RESTRUCT_PDF, '-o', '.', '--all'],
+])
+def test_run_sections_failed(command, testdir, monkeypatch):  #pylint: disable=W0613
+    """Run `sections` with bad input"""
+    run_sections_failure(command, monkeypatch=monkeypatch)

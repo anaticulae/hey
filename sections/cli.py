@@ -85,5 +85,5 @@ def main():
         root=ROOT,
         version=__version__,
         workplan=WORKPLAN,
-        singleinput=True,
+        singleinput=False,  # require result folder
     )

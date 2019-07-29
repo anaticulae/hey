@@ -57,7 +57,7 @@ rawmaker -i simple/howto_pyporting.pdf\
 
 echo "    running sections restruct"
 
-sections -i restruct/restructuredtext.pdf\
+sections -i restruct\
          -o ./restruct\
          --chapter\
          --index\
@@ -68,7 +68,7 @@ sections -i restruct/restructuredtext.pdf\
 
 echo "    running sections simple"
 
-sections -i simple/howto_pyporting.pdf\
+sections -i simple\
          -o ./simple\
          --chapter\
          --index\
