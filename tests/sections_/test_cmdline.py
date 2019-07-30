@@ -30,25 +30,12 @@ def test_sections_setup_py():
     install_and_run(ROOT, PACKAGE_NAME, PROCESS_NAME)
 
 
-DEFAULT_FLAGS = [
-    '--chapter',
-    '--index',
-    '--title',
-    '--toc',
-    '--whitepage',
-    '--sections',
-]
-
-
-@mark.parametrize(
-    # TODO: add master --todo to activate more than one feature, see --sections
-    'command',
-    [
-        ['--help'],
-        ['-i', RESTRUCT, '-o', '.'] + DEFAULT_FLAGS,
-        ['-i', SIMPLE, '-o', '.'] + DEFAULT_FLAGS,
-        ['-i', PYPORTING, '-o', '.'] + DEFAULT_FLAGS,
-    ])
+@mark.parametrize('command', [
+    ['--help'],
+    ['-i', RESTRUCT, '-o', '.', '--all'],
+    ['-i', SIMPLE, '-o', '.', '--all'],
+    ['-i', PYPORTING, '-o', '.', '--all'],
+])
 def test_run_sections(command, testdir, monkeypatch):  #pylint: disable=W0613
     """Run help and version and format command to reach basic test coverage"""
     run_sections_success(command, monkeypatch=monkeypatch)
