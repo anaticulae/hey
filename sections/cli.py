@@ -85,5 +85,5 @@ def main():
         root=ROOT,
         version=__version__,
         workplan=WORKPLAN,
-        singleinput=False,  # require result folder
+        singleinput=False,  # require result folder, ignore single pdf file
     )
