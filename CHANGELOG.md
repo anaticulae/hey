@@ -2,6 +2,19 @@
 
 Every noteable change is logged here.
 
+## v1.3.0
+
+### Feature
+
+* use real page size instead of constant box (981095e7e328)
+* use `power` tool to generate test pdf data (cd1d689c8d14)
+
+### Fix
+
+* not every page contains a PageHeadlineList (b4a729861dca)
+* workaround: skip broken boxed content (55d8f0939ae7)
+* ignore single input file (19851678b09d)
+
 ## v1.2.10
 
 ### Feature
