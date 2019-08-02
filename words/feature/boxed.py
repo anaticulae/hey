@@ -16,7 +16,9 @@ from functools import partial
 from iamraw import BoundingBox
 from serializeraw import load_boxes
 from utila import checkdatatype
+from utila import error
 from utila import from_raw_or_path
+from utila import log
 from yaml import FullLoader
 from yaml import dump
 from yaml import load
@@ -131,7 +133,12 @@ def dump_boxedcontent(boxed) -> str:
             for multiboxed in collected:
                 items = []
                 for index, item in enumerate(multiboxed):
-                    bounding, (boxid, _content) = item
+                    try:
+                        bounding, (boxid, _content) = item
+                    except ValueError:
+                        # TODO: INVESTIGATE WHAT HAPPENS HERE
+                        error('could not convert, skip boxed: `%s`' % str(item))
+                        continue
                     items.append({
                         'boxed_id':
                         '%d %d' % (boxid, index),
@@ -153,7 +160,6 @@ def dump_boxedcontent(boxed) -> str:
             'page': page,
             'content': pageresult,
         })
-
     dumped = dump(raw)
     return dumped
 
