@@ -37,10 +37,10 @@ def test_insert_order(navigator: PageTextNavigator):  #pylint:disable=W0621
 def test_after(navigator: PageTextNavigator):  #pylint:disable=W0621
     # Bottom footer
     after = 0.8  # from 80% to 100%
-    # greater than 633.6
+    # greater than 563
     # 1 item in this example
     result = navigator.after(after)
-    assert len(result) == 2, result
+    assert len(result) == 4, result
 
 
 def test_before(navigator: PageTextNavigator):  #pylint:disable=W0621

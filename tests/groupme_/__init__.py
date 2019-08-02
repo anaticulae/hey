@@ -10,6 +10,7 @@
 from functools import partial
 
 from iamraw import BoundingBox
+from iamraw import common_box
 from pytest import fixture
 from utila import run_command
 
@@ -47,8 +48,14 @@ SAMPLE = [
 
 @fixture
 def navigator() -> PageTextNavigator:
-    result = PageTextNavigator()
+    dimension = document_size([item for _, item in SAMPLE])
+    result = PageTextNavigator(dimension)
     for item, position in SAMPLE:
         result.insert(position, item)
     assert len(result) == len(SAMPLE)
     return result
+
+
+def document_size(items):
+    dimension = common_box(items)
+    return (dimension[2], dimension[3])

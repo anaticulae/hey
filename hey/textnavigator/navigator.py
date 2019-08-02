@@ -29,6 +29,15 @@ class PageTextNavigator:
     """The direction of the text is top down and left to right"""
 
     def __init__(self, size=(612.0, 792.0)):
+        """Intialize PageTextNavigator with maximal `size`
+
+        Args:
+            size(tuple): maximal width/height of PageTextNavgiator
+
+        Sizes:
+            A4: 210x297mm, 8.26x11.69inc, 595 x 842pt
+                                          612 x 792pt
+        """
         self.data = []
         self.width, self.height = size
 
@@ -161,8 +170,9 @@ def create_pagetextnavigators(
         text_position,
 ) -> PageTextNavigators:
     navigators = []
+    dimension = (text.dimension.width, text.dimension.height)
     for page, textposition in enumerate(text_position):
-        navigator = PageTextNavigator()
+        navigator = PageTextNavigator(dimension)
         navigators.append(navigator)
         textid = 0
         for item in text[page]:
