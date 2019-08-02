@@ -8,7 +8,7 @@
 #==============================================================================
 
 from utila import FAILURE
-from utila import logging_error
+from utila import error
 from utila import saveme
 
 from hey import __version__
@@ -16,6 +16,6 @@ from hey import __version__
 
 @saveme
 def main():
-    logging_error('No implemented')
+    error('No implemented')
 
     return FAILURE

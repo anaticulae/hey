@@ -21,7 +21,7 @@ from utila import NEWLINE
 from utila import Flag
 from utila import call
 from utila import debug
-from utila import logging
+from utila import log
 
 from groupme.feature import RawSection
 from groupme.structure import sections_from_page
@@ -45,7 +45,7 @@ def toc(document: Document):
         debug('page %d' % index)
         tocpage = toc_from_page(page)
         if tocpage is None:
-            logging('empty page: %d' % index)
+            log('empty page: %d' % index)
             continue
         result.extend(tocpage)
     # Title must occurs double, first in the TOC and after this, following in

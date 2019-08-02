@@ -48,7 +48,7 @@ from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from utila import NEWLINE
 from utila import flatten
-from utila import logging_error
+from utila import error
 
 from groupme.feature.numbers import load_textposition
 from hey.fonts.store import FontContentStore
@@ -352,7 +352,7 @@ def squeeze_text_page(page):
                 last = end
             no_match = line == line[last:]
             if no_match:
-                logging_error('No match, potential headline: %s' % line)
+                error('No match, potential headline: %s' % line)
             if line[last:]:
                 lines.append(line[last:])
         # remove `space` after text
