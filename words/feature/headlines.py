@@ -34,7 +34,9 @@ from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from serializeraw import load_sections
+from utila import call
 from utila import checkdatatype
+from utila import info
 
 from groupme.feature.footer import document_footerheader
 from groupme.feature.footer import footerborder_to_border
@@ -208,7 +210,11 @@ def convert_level(result: PagesHeadlineList) -> int:
     """
 
     # pylint:disable=len-as-condition
-    assert len(result) > 0, 'empty PageHeadlineList'
+    call('convert_level')
+    info('empty PageHeadlineList')
+    if not result:
+        return result
+
     maxsize = max([
         max([item.level for item in chapter]) for chapter in result if chapter
     ])
