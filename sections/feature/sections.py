@@ -7,7 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from os.path import exists
 from typing import List
 
 from iamraw.sections import AreaItem
@@ -25,10 +24,8 @@ from iamraw.sections import Unknown
 from iamraw.sections import WhitePage
 from serializeraw import dump_sections
 from serializeraw import load_likelihood
-from utila import FAILURE
 from utila import Flag
 from utila import checkdatatype
-from utila import error
 
 from sections.feature.chapter import chapter_value_to_percent
 from sections.feature.chapter import load_chapter_detection
