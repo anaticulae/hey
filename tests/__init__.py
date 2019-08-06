@@ -14,6 +14,7 @@ from os.path import join
 from utila import FAILURE
 from utila import error
 from utila import file_create
+from utila import forward_slash
 from utila import run
 
 from tests.resources import TEST_DATA
@@ -31,3 +32,13 @@ def pdfs():
     pattern = join(TEST_DATA, '**/*.pdf')
     located = glob(pattern, recursive=True)
     return located
+
+
+def relative_path(item):
+    item = item.replace(TEST_DATA, '')
+    start_with_slash = item[0] in ('/', '\\')
+    if start_with_slash:
+        item = item[1:]
+
+    item = forward_slash(item)
+    return item

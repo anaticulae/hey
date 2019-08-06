@@ -103,13 +103,15 @@ def simple_pagetextnavigators(
 
 @fixture
 def simple_pagesize():
-    size, _ = load_pageborders(SIMPLE_PAGESIZE)
+    size = load_pageborders(SIMPLE_PAGESIZE)
+    size = [item.size for item in size]
     return size
 
 
 @fixture
 def simple_contentborder():
-    _, border = load_pageborders(SIMPLE_PAGESIZE)
+    border = load_pageborders(SIMPLE_PAGESIZE)
+    border = [item.border for item in border]
     return border
 
 

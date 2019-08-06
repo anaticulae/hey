@@ -68,14 +68,14 @@ def expected_result():
             'from that it’s considered a revision and reinterpreta-\ntion of'
             ' two other markup languages, Setext and StructuredText.')
     first = Font(
-        name='OUYNTX+NimbusRomNo9L',
+        name='NimbusRomNo9L',
         scale=12.0,
         weight=Weight.LIGHT,
         style=Style.NORMAL,
         stretch=Stretch.REGULAR,
     )
     bold = Font(
-        name='DMSGBW+NimbusRomNo9L',
+        name='NimbusRomNo9L',
         scale=13.0,
         weight=Weight.MEDIUM,
         style=Style.NORMAL,

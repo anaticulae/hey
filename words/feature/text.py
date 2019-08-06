@@ -47,8 +47,8 @@ from serializeraw import load_headlines
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from utila import NEWLINE
-from utila import flatten
 from utila import error
+from utila import flatten
 
 from groupme.feature.numbers import load_textposition
 from hey.fonts.store import FontContentStore
@@ -167,7 +167,8 @@ def prepare_input(
         text=text,
         text_position=position,
     )
-    _, contentborder = load_pageborders(pagesizes)
+    contentborder = load_pageborders(pagesizes)
+    contentborder = [item.border for item in contentborder]
     border = content_border(horizontals, contentborder)
     boxes = BoxedChecker(boxes)
     return border, fontstore, headlines, textnavigators, boxes

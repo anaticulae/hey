@@ -185,8 +185,8 @@ def restructured_sections_manual() -> Sections:
 
 @fixture
 def restructured_sizeandborder():
-    size, border = load_pageborders(RESTRUCT_PAGESIZE)
-    return size, border
+    loaded = load_pageborders(RESTRUCT_PAGESIZE)
+    return loaded
 
 
 @fixture
@@ -281,7 +281,8 @@ def restructured_textexample_dumped(
 
 @fixture
 def restructured_border():
-    _, border = load_pageborders(RESTRUCT_PAGESIZE)
+    loaded = load_pageborders(RESTRUCT_PAGESIZE)
+    border = [item.border for item in loaded]
     return border
 
 

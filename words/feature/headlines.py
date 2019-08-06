@@ -132,7 +132,8 @@ def extract_headlines(
         chapter = list(range(0, chapter))
     content = chapters(sections)
     chapter = [chapter] if isinstance(chapter, int) else chapter
-    _, contentborders = sizeandborder
+
+    contentborders = [item.border for item in sizeandborder]
     border = content_border(horizontals, contentborders)
 
     textsize = document_textsize(

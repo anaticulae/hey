@@ -36,7 +36,8 @@ def prepare_input(
     headlines = load_headlines(headlines)
     extracted_text = load_text(extracted_text, headlines)
     horizontals = load_horizontals(horizontals)
-    _, border = load_pageborders(border)
+    border = load_pageborders(border)
+    border = [item.border for item in border]
     contentborder = content_border(horizontals, border)
     text = load_document(text)
     text_position = load_textposition(text_position)

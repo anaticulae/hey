@@ -48,6 +48,10 @@ def chapters(document: Document):
     """Extract chapter structure from document path"""
     call('chapter')
     tableofcontent = toc(document)
+    if not tableofcontent:
+        # this appraoch does not work without headlines, we can not split by
+        # headline if there are no headlines.
+        return []
     content = body(document)
     result = []
 
