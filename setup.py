@@ -64,6 +64,8 @@ if __name__ == "__main__":
             'Programming Language :: Python :: 3.8',
         ],
         packages=[
+            'detector',
+            'detector.feature',
             'groupme',
             'groupme.feature',
             'hey',
@@ -76,8 +78,9 @@ if __name__ == "__main__":
         ],
         entry_points={
             'console_scripts': [
-                'hey = hey.cli:main',
+                'detector = detector.cli:main',
                 'groupme = groupme.cli:main',
+                'hey = hey.cli:main',
                 'sections = sections.cli:main',
                 'words = words.cli:main',
             ],
