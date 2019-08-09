@@ -8,7 +8,6 @@
 # =============================================================================
 
 from os import makedirs
-from os.path import basename
 from os.path import join
 
 from pytest import fixture
@@ -18,6 +17,7 @@ from utila import SUCCESS
 from utila import run
 from utila import skip_longrun
 
+from hey.utils import choose_random
 from tests import pdfs
 from tests import relative_path
 
@@ -45,7 +45,6 @@ def params():
     pdf = pdf[0:5]
     result = []
     for item in pdf:
-        # for item in [pdf[0]]:
         double = param(
             (
                 item,
