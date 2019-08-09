@@ -39,6 +39,46 @@ from words.feature.boxed import load_boxedcontent
 PATTERN = re_compile(r'^[0-9]+u$')
 
 
+@checkdatatype
+def work(
+        text: str,
+        headlines: str,
+        lists: str,
+        boxed: str,
+) -> str:
+
+    text, listlookup, boxlookup = prepare_input(headlines, text, boxed, lists)
+
+    text = process_words(text, listlookup, boxlookup)
+
+    dumped = dump_text(text)
+    return dumped
+
+
+def process_words(text, listlookup, boxlookup):
+    # TODO: Copy before replacing, to avoid side effects
+    for (page, pagecontent) in text:
+        # headline,
+        for (headline, headlinecontent) in pagecontent:
+            for index, line in enumerate(headlinecontent):
+                if not PATTERN.match(line):
+                    continue
+                undefined = intindex(line)
+                searched = listlookup.search(
+                    page,
+                    headline.container,
+                    undefined,
+                )
+                if searched is not None:
+                    headlinecontent[index] = '%dl' % searched
+                    continue
+                searched = boxlookup.search(page, undefined)
+                if searched is not None:
+                    headlinecontent[index] = '%db' % searched
+                    continue
+    return text
+
+
 class ListLookUp:
     # TODO: UNITE WITH BOXEDCHECKER!
     def __init__(self, lists):
@@ -91,46 +131,6 @@ class BoxLookUp:
         with suppress(KeyError):
             return self.data[page][uindex]
         return None
-
-
-@checkdatatype
-def work(
-        text: str,
-        headlines: str,
-        lists: str,
-        boxed: str,
-) -> str:
-
-    text, listlookup, boxlookup = prepare_input(headlines, text, boxed, lists)
-
-    text = process_words(text, listlookup, boxlookup)
-
-    dumped = dump_text(text)
-    return dumped
-
-
-def process_words(text, listlookup, boxlookup):
-    # TODO: Copy before replacing, to avoid side effects
-    for (page, pagecontent) in text:
-        # headline,
-        for (headline, headlinecontent) in pagecontent:
-            for index, line in enumerate(headlinecontent):
-                if not PATTERN.match(line):
-                    continue
-                undefined = intindex(line)
-                searched = listlookup.search(
-                    page,
-                    headline.container,
-                    undefined,
-                )
-                if searched is not None:
-                    headlinecontent[index] = '%dl' % searched
-                    continue
-                searched = boxlookup.search(page, undefined)
-                if searched is not None:
-                    headlinecontent[index] = '%db' % searched
-                    continue
-    return text
 
 
 def prepare_input(
