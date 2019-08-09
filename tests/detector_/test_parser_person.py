@@ -41,30 +41,15 @@ KAHN = Person(
 @mark.parametrize('raw, expected', [
     (
         'B.Sc. Helmut Konrad Fahrendholz',
-        Person(
-            Title.BSC,
-            'Fahrendholz',
-            'Helmut Konrad',
-            'B.Sc. Helmut Konrad Fahrendholz',
-        ),
+        HELMUT,
     ),
     (
         'Hochschullehrer: Prof. Dr.-Ing. Fabian Gomez',
-        Person(
-            PROF_DR,
-            'Gomez',
-            'Fabian',
-            'Prof. Dr.-Ing. Fabian Gomez',
-        ),
+        GOMEZ,
     ),
     (
-        'Zweitgutachter: Prof. Dr. Oliver Kahn  ',
-        Person(
-            PROF_DR,
-            'Kahn',
-            'Oliver',
-            'Prof. Dr. Oliver Kahn',
-        ),
+        '  Zweitgutachter: Prof. Dr. Oliver Kahn  ',
+        KAHN,
     ),
     (
         'Betreuer VAI:Dipl. Ing. Andreas Zickler   Hier folgt weiterer Text',
