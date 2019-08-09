@@ -19,6 +19,8 @@ from collections import namedtuple
 from functools import partial
 from re import search as re_search
 
+from detector.parser import extract_match
+
 TitleDate = namedtuple('TitleDate', 'year month day location valid raw')
 
 
@@ -128,7 +130,7 @@ def simple_alpha_date(raw, reduce: int = 0):
     if not res:
         return None
 
-    matched = res.string[res.span()[0]:res.span()[1]]
+    matched = extract_match(res)
     day = int(res['day'])
     collected = month_match[res['month']]
     month = MONTH.index(collected) + 1
