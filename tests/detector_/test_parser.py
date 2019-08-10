@@ -7,23 +7,25 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pytest import mark
+from detector.parser import textblock_token
 
-from detector.parser.thesis import DocumentType
-from detector.parser.thesis import TitleThesisType
-from detector.parser.thesis import parse
+TOKEN = """Hello
+My Name is Token
 
 
-@mark.parametrize('raw, expected', [
-    (
-        'Masterarbeit',
-        TitleThesisType(DocumentType.MASTER, 'Masterarbeit', 'Masterarbeit'),
-    ),
-    (
-        'Promotion',
-        TitleThesisType(DocumentType.DOCTOR, 'Promotion', 'Promotion'),
-    ),
-])
-def test_parse_thesis(raw, expected):
-    parsed = parse(raw)
-    assert parsed == expected, str(parsed)
+DoubleSpace
+
+Single Space"""
+
+
+def test_parser_textblock_token():
+    splitted = textblock_token(TOKEN)
+    assert len(splitted) == 3, str(splitted)
+
+    first = 'Hello\nMy Name is Token'
+    second = 'DoubleSpace'
+    third = 'Single Space'
+
+    assert splitted[0] == first, str(splitted[0])
+    assert splitted[1] == second, str(splitted[1])
+    assert splitted[2] == third, str(splitted[2])

@@ -78,7 +78,6 @@ def test_parse_person(raw, expected):
 def test_parser_person_order_person():
     persons = [KAHN, GOMEZ, HELMUT]
     expected = (HELMUT, [GOMEZ, KAHN])
-
     current = order_persons(persons)
 
     assert current == expected, str(current)

@@ -21,6 +21,8 @@ Institut für Energie und Automatisierungstechnik
 
 Modellierung und Simulation eines hybriden Lokomotivantriebs
 
+Masterarbeit
+
 vorgelegt von:
 
 B.Sc. Helmut Konrad Fahrendholz 321240
@@ -34,7 +36,6 @@ Fachgebiet Trinken und Essen,
 
 Berlin, 19. April 2016
 """
-
 
 FIRST_EXPECTED = TitlePage(
     # title='Modellierung und Simulation eines hybriden Lokomotivantriebs',
