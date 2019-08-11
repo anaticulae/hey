@@ -8,6 +8,7 @@
 # =============================================================================
 
 from pytest import mark
+from pytest import param
 
 from detector.parser.person import Person
 from detector.parser.person import Title
@@ -40,7 +41,7 @@ KAHN = Person(
 
 @mark.parametrize('raw, expected', [
     (
-        'B.Sc. Helmut Konrad Fahrendholz',
+        '  B.Sc. Helmut Konrad Fahrendholz',
         HELMUT,
     ),
     (
@@ -68,6 +69,25 @@ KAHN = Person(
             'Groeg',
             'Betreuer: Prof. Dr. Groeg Trichter',
         ),
+    ),
+    (
+        '2. Betreuer: Dr.-Ing. Dirk Contemporary',
+        Person(
+            Title.DR,
+            'Contemporary',
+            'Dirk',
+            '2. Betreuer: Dr.-Ing. Dirk Contemporary',
+        ),
+    ),
+    param(
+        '   vorgelegt von Thomas Helmer    ',
+        Person(
+            Title.NO_TITLE,
+            'Helmer',
+            'Thomas',
+            'vorgelegt von Thomas Helmer',
+        ),
+        marks=mark.xfail(reason='unsupported in current regex impl'),
     ),
 ])
 def test_parse_person(raw, expected):

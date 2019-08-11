@@ -7,12 +7,33 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from pytest import mark
+from pytest import param
+from utila import NEWLINE
+
 from detector.parser.complete import parse
 from tests.fixtures.titlepage import FIRST
 from tests.fixtures.titlepage import FIRST_EXPECTED
+from tests.fixtures.titlepage import SECOND
+from tests.fixtures.titlepage import SECOND_EXPECTED
 
 
-def test_detector_parser_complete_parse():
-    parsed = parse(FIRST)
+def prepare(item):
+    return item.replace(NEWLINE, '').replace(' ', '_')[0:40]
 
-    assert parsed == FIRST_EXPECTED, str(parsed)
+
+@mark.parametrize('page, expected', [
+    param(
+        FIRST,
+        FIRST_EXPECTED,
+        id=prepare(FIRST),
+    ),
+    param(
+        SECOND,
+        SECOND_EXPECTED,
+        id=prepare(SECOND),
+    ),
+])
+def test_detector_parse_complete_title_page(page, expected):
+    parsed = parse(page)
+    assert parsed == expected, str(parsed)

@@ -10,6 +10,7 @@
 from detector.parser.complete import TitlePage
 from detector.parser.date import TitleDate
 from detector.parser.matrikel import Matrikel
+from detector.parser.person import PROF_DR
 from detector.parser.person import Person
 from detector.parser.person import Title
 from detector.parser.thesis import DocumentType
@@ -79,10 +80,38 @@ zur Erlangung des akademischen Grades Master of Science an der Hochschule
 für Kunst und Musik Berlin, Fachbereich Wirtschaftswissenschaften II,
 Studiengang Angewandte Kunst
 
-vorgelegt von Thomas Helmer Matrikelnummer: 161647
+vorgelegt von B.Sc. Thomas Helmer
+Matrikelnummer: 161647
 
 1. Betreuer: Prof. Dr. Carsten Semilov
 2. Betreuer: Dr.-Ing. Dirk Contemporary
 
 Berlin, den 8. August 2015
 """
+
+SECOND_EXPECTED = TitlePage(
+    # title='Steuerung und Überwachung intelligenter Gebäudetechnik',
+    thesis=TitleThesisType(DocumentType.MASTER, 'Masterarbeit', 'Masterarbeit'),
+    date=TitleDate(2015, 8, 8, 'Berlin', True, 'Berlin, den 8. August 2015'),
+    author=Person(
+        Title.BSC,
+        'Helmer',
+        'Thomas',
+        'vorgelegt von B.Sc. Thomas Helmer',
+    ),
+    matrikel=Matrikel(161647, 'Matrikelnummer:', 'Matrikelnummer: 161647'),
+    examiner=[
+        Person(
+            Title.DR,
+            'Contemporary',
+            'Dirk',
+            '2. Betreuer: Dr.-Ing. Dirk Contemporary',
+        ),
+        Person(
+            PROF_DR,
+            'Semilov',
+            'Carsten',
+            '1. Betreuer: Prof. Dr. Carsten Semilov',
+        ),
+    ],
+)

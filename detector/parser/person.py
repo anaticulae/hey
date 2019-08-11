@@ -79,7 +79,7 @@ def order_persons(persons):
 
 
 class Title(Flag):
-    NONE = auto()
+    NO_TITLE = auto()
     BSC = auto()
     MASTER = auto()
     DR = auto()
@@ -103,6 +103,8 @@ class Title(Flag):
     def keys():
         return [item for item in MATCHES]
 
+
+PROF_DR = Title.PROF | Title.DR
 
 MATCHES = {
     'B.Sc.': Title.BSC,
