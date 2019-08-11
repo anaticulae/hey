@@ -13,6 +13,8 @@ from typing import List
 from detector.parser import textblock_token
 from detector.parser.date import TitleDate
 from detector.parser.date import parse as parse_date
+from detector.parser.institution import Institution
+from detector.parser.institution import parse as parse_institution
 from detector.parser.matrikel import Matrikel
 from detector.parser.matrikel import parse as parse_matrikel
 from detector.parser.person import Person
@@ -30,6 +32,7 @@ class TitlePage:
     author: Person = None
     matrikel: Matrikel = None
     examiner: List[Person] = field(default_factory=list)
+    institution: Institution = None
 
 
 def parse(text: str) -> TitlePage:
@@ -40,11 +43,12 @@ def parse(text: str) -> TitlePage:
     Returns:
         extracted TitlePage
     """
+    result = TitlePage()
+
+    result.institution, text = parse_institution(text)
     parsed = textblock_token(text)
 
     undecided = []
-    result = TitlePage()
-
     # run single/simple parsing tasks
     for (sink, action) in STRATEGY:
         for index, item in enumerate(parsed):
@@ -64,7 +68,6 @@ def parse(text: str) -> TitlePage:
     # run complex parsing
     persons, todo = parse_person_all(parsed)
     result.author, result.examiner = order_persons(persons)
-
     return result
 
 

@@ -9,6 +9,7 @@
 
 from detector.parser.complete import TitlePage
 from detector.parser.date import TitleDate
+from detector.parser.institution import Institution
 from detector.parser.matrikel import Matrikel
 from detector.parser.person import PROF_DR
 from detector.parser.person import Person
@@ -18,7 +19,7 @@ from detector.parser.thesis import TitleThesisType
 
 FIRST = """
 Faktultät IV
-Institut für Energie und Automatisierungstechnik
+Institut für gute Getränke
 
 Modellierung und Simulation eines hybriden Lokomotivantriebs
 
@@ -38,6 +39,13 @@ Fachgebiet Trinken und Essen,
 Berlin, 19. April 2016
 """
 
+FIRST_INSTITUTION = Institution(
+    courseofstudies=None,
+    department='IV',
+    field='Trinken und Essen',
+    institute='für gute Getränke',
+    university='Technische Universität Berlin',
+)
 FIRST_EXPECTED = TitlePage(
     # title='Modellierung und Simulation eines hybriden Lokomotivantriebs',
     thesis=TitleThesisType(DocumentType.MASTER, 'Masterarbeit', 'Masterarbeit'),
@@ -69,6 +77,7 @@ FIRST_EXPECTED = TitlePage(
             'Zweitgutachter: Prof. Dr.-Ing. Coffee Lover',
         ),
     ],
+    institution=FIRST_INSTITUTION,
 )
 
 SECOND = """
@@ -76,8 +85,9 @@ Steuerung und Überwachung intelligenter Gebäudetechnik
 
 Masterarbeit
 
-zur Erlangung des akademischen Grades Master of Science an der Hochschule
-für Kunst und Musik Berlin, Fachbereich Wirtschaftswissenschaften II,
+zur Erlangung des akademischen Grades Master of Science
+an der Hochschule für Technik und Wirtschaft Berlin,
+Fachbereich Wirtschaftswissenschaften II,
 Studiengang Angewandte Kunst
 
 vorgelegt von B.Sc. Thomas Helmer
@@ -89,6 +99,11 @@ Matrikelnummer: 161647
 Berlin, den 8. August 2015
 """
 
+SECOND_INSTITUTION = Institution(
+    university='Hochschule für Technik und Wirtschaft Berlin',
+    field='Wirtschaftswissenschaften II',
+    courseofstudies='Angewandte Kunst',
+)
 SECOND_EXPECTED = TitlePage(
     # title='Steuerung und Überwachung intelligenter Gebäudetechnik',
     thesis=TitleThesisType(DocumentType.MASTER, 'Masterarbeit', 'Masterarbeit'),
@@ -114,4 +129,5 @@ SECOND_EXPECTED = TitlePage(
             '1. Betreuer: Prof. Dr. Carsten Semilov',
         ),
     ],
+    institution=SECOND_INSTITUTION,
 )
