@@ -12,6 +12,7 @@ from os.path import exists
 from os.path import join
 
 from utila import FAILURE
+from utila import NEWLINE
 from utila import error
 from utila import file_create
 from utila import forward_slash
@@ -42,3 +43,7 @@ def relative_path(item):
 
     item = forward_slash(item)
     return item
+
+
+def prepare(item):
+    return item.replace(NEWLINE, '').replace(' ', '_')[0:40]

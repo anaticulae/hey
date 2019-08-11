@@ -9,17 +9,13 @@
 
 from pytest import mark
 from pytest import param
-from utila import NEWLINE
 
 from detector.parser.complete import parse
+from tests import prepare
 from tests.fixtures.titlepage import FIRST
 from tests.fixtures.titlepage import FIRST_EXPECTED
 from tests.fixtures.titlepage import SECOND
 from tests.fixtures.titlepage import SECOND_EXPECTED
-
-
-def prepare(item):
-    return item.replace(NEWLINE, '').replace(' ', '_')[0:40]
 
 
 @mark.parametrize('page, expected', [
