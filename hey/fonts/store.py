@@ -16,6 +16,8 @@ from utila import NEWLINE
 
 from hey.textnavigator.navigator import PageTextContentNavigator
 
+NO_FONT = -1
+
 
 class FontStore:
 
@@ -26,10 +28,9 @@ class FontStore:
             header: a table with font styles, accessible by index
             pages: font content for every page
         """
-        assert header
-        assert pages
-        self.header = header
-        self.pages = pages
+        assert header, pages
+        self.header = {hash(item): item for item in header}
+        self.pages = {page.page: page.content for page in pages}
 
     def font(
             self,
@@ -74,15 +75,16 @@ class FontStore:
                 continue
             else:
                 continue
-
-        return None
+        return NO_FONT
 
     @lru_cache()
     def font_to_fontid(self, font: Font) -> int:
-        for index, (compare) in enumerate(self):
-            if font == compare:
-                return index
-        return -1
+        hashed = hash(font)
+        try:
+            self[hashed]
+            return hashed
+        except KeyError:
+            return NO_FONT
 
     def fromstr(
             self,

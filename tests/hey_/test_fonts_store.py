@@ -11,6 +11,7 @@
 
 from iamraw import Document
 from iamraw import Font
+from iamraw import PageFontContent
 from iamraw import Stretch
 from iamraw import Style
 from iamraw import Weight
@@ -18,6 +19,7 @@ from pytest import fixture
 from pytest import mark
 
 from groupme.feature.numbers import load_textposition
+from hey.fonts.store import NO_FONT
 from hey.fonts.store import FontContentStore
 from hey.fonts.store import FontStore
 from hey.textnavigator.navigator import PageTextContentNavigator
@@ -33,33 +35,67 @@ from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT_POSITION
 from words.feature.headlines import content_border
 
+FIRST_FONT = Font(
+    name='NimbusSanL',
+    scale=31.1,
+    weight=Weight.BOLD,
+)
+
+SECOND_FONT = Font(
+    name='NimbusSanL',
+    scale=21.7,
+    weight=Weight.BOLD,
+    style=Style.ITALIC,
+)
+THIRD_FONT = Font(
+    name='NimbusSanL',
+    scale=21.6,
+    weight=Weight.BOLD,
+)
+
+FORTH_FONT = Font(
+    name='NimbusSanL',
+    scale=15.0,
+    weight=Weight.BOLD,
+)
+
+FIFTH_FONT = Font(
+    name='NimbusSanL',
+    scale=17.8,
+    weight=Weight.LIGHT,
+    style=Style.NORMAL,
+    stretch=Stretch.REGULAR,
+)
+
 
 @mark.parametrize(
-    'page,container,line,char,expected_fontid',
+    'page,container,line,char,expected',
     [
-        (0, 0, 1, 5, 0),
-        (0, 1, 0, 5, 1),
-        (0, 1, 0, 10, 1),
-        (0, 2, 0, 11, 2),
-        (0, 3, 0, 0, 3),
-        (0, 4, 0, 0, None),
-        (0, 3, 0, 13, None),
-        (0, 3, 1, 0, None),
-        (1, 0, 0, 0, None),  # Empty page
-        (2, 0, 0, 0, 4),
-        (2, 0, 0, 7, 4),
-    ])
+        (0, 0, 1, 5, FIRST_FONT),
+        (0, 1, 0, 5, SECOND_FONT),
+        (0, 1, 0, 10, SECOND_FONT),
+        (0, 2, 0, 11, THIRD_FONT),
+        (0, 3, 0, 0, FORTH_FONT),
+        (0, 4, 0, 0, NO_FONT),
+        (0, 3, 0, 13, NO_FONT),
+        (0, 3, 1, 0, NO_FONT),
+        (1, 0, 0, 0, NO_FONT),  # Empty page
+        (2, 0, 0, 0, FIFTH_FONT),
+        (2, 0, 0, 7, FIFTH_FONT),
+    ])  #TODO: THINK ABOUT BETTER APPRAOCH THAN SAVING HASH KEY
 def test_fontstore_access_font_id(
         restructured_fontstore: FontStore,  # pylint:disable=W0621
         page,
         container,
         line,
         char,
-        expected_fontid,
+        expected,
 ):
+    expected_fontid = hash(expected)
     fontstore = restructured_fontstore
     fontid = fontstore.fontid(page, container, line, char)
-
+    if expected == NO_FONT:
+        expected_fontid = NO_FONT
     assert fontid == expected_fontid
 
 
@@ -164,11 +200,11 @@ def test_fontstore_font_to_fontid():
     f4 = Font(name='Arial', scale=20)
     f5 = Font(name='Arial', scale=5)
     header = [f0, f1, f2, f3, f4, f5]
-    content = [[]]
+    content = [PageFontContent(content=[], page=0)]
 
     store = FontStore(header, content)
-    assert store.font_to_fontid(f4) == 4
-    assert store.font_to_fontid(f3) == 3
-    assert store.font_to_fontid(f3) == 3
-    assert store.font_to_fontid(f0) == 0
-    assert store.font_to_fontid(f5) == 5
+    assert store.font_to_fontid(f4) == hash(f4)
+    assert store.font_to_fontid(f3) == hash(f3)
+    assert store.font_to_fontid(f3) == hash(f3)
+    assert store.font_to_fontid(f0) == hash(f0)
+    assert store.font_to_fontid(f5) == hash(f5)
