@@ -6,7 +6,6 @@ scriptroot=$(dirname "$scriptpath")
 pushd $scriptroot
 
 # footer
-
 echo "    running rawmaker restruct oneline"
 
 rawmaker -i restruct/restructuredtext.pdf\
@@ -22,6 +21,30 @@ echo "    running rawmaker restruct"
 
 rawmaker -i restruct/restructuredtext.pdf\
          -o ./restruct\
+         --border\
+         --boxes\
+         --font\
+         --text\
+         --toc\
+         --char_margin=5.0\
+         --boxes_flow=1.0\
+         --line_margin=0.3
+
+echo "    running rawmaker porting_module oneline"
+
+rawmaker -i porting_module/porting_module_to_python3.pdf\
+         -o ./porting_module\
+         --prefix=oneline\
+         --font\
+         --text\
+         --toc\
+         --char_margin=100.0\
+         --boxes_flow=1.0
+
+echo "    running rawmaker porting_module"
+
+rawmaker -i porting_module/porting_module_to_python3.pdf\
+         -o ./porting_module\
          --border\
          --boxes\
          --font\
