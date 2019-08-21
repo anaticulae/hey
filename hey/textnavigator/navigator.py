@@ -26,13 +26,16 @@ END = 1.0
 
 
 class PageTextNavigator:
-    """The direction of the text is top down and left to right"""
+    """The PageTextNavigator eases to navigate through the textutal content
+    of a Page. The footer and header is ignored. The text is processed from
+    top to down and left to right. """
 
     def __init__(self, size=None, page=-1):
         """Intialize PageTextNavigator with maximal `size`
 
         Args:
             size(tuple): maximal width/height of PageTextNavgiator
+            page(int): page number of PageTextNavigator-instance
 
         Sizes:
             A4: 210 x 297 mm, 8.26 x 11.69 inch, 595 x 842pt

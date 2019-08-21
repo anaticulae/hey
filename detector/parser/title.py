@@ -7,20 +7,64 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from hey.fonts.store import FontStore
-from hey.fonts.store import create_fontstore
+from enum import Enum
+from enum import auto
+
+import utila
+
 from hey.textnavigator.fonts import bounds_to_textbounds
+from hey.textnavigator.fonts import fontsize_from_textbounds
 from hey.textnavigator.navigator import PageTextNavigator
 
+# TODO: HOLY VALUE
+MIN_TITLE_FONT_SIZE = 20
 
-def parse(textnavigator: PageTextNavigator):
-    # dimension = textnavigator.
+
+class TitleParserState(Enum):
+    DETECTED_SIZE = auto()
+    NOT_ENOUGH_LINES = auto()
+    NOT_ENOUGH_DISTANCE = auto()
+    TITLE_TO_SMALL = auto()
+
+
+def parse(textnavigator: PageTextNavigator) -> str:
+    """Parse hugest text line as title.
+
+    Requirements for font parsing:
+        - require at least 2 lines
+        - size(headline) 120% of next line
+        - title greater than `MIN_TITLE_FONT_SIZE`
+
+    Args:
+        textnavigator(PageTextNavigator):
+    Returns:
+        parsed title if properties matches to given rules
+        If not, return `TitleParserState` to indicate the problem
+    """
+    sizes = []
     for bounds, text in textnavigator:
-        bounds_to_textbounds(
+        textbounds = bounds_to_textbounds(
             bounds,
             text,
         )
+        fontsize = fontsize_from_textbounds(textbounds)
+        sizes.append((fontsize, text))
 
+    sizes = sorted(sizes, reverse=True)
 
-def parse_title(raw, scale: float):
-    pass
+    if len(sizes) <= 2:
+        return TitleParserState.NOT_ENOUGH_LINES
+
+    detected_size = sizes[0][0]
+    next_size = sizes[1][0]
+
+    # Title size must be 20% greater
+    if detected_size * 0.8 <= next_size:
+        return TitleParserState.NOT_ENOUGH_DISTANCE
+
+    if detected_size < MIN_TITLE_FONT_SIZE:
+        return TitleParserState.TITLE_TO_SMALL
+
+    title = sizes[0][1].replace(utila.NEWLINE, ' ')
+    title = title.strip()
+    return title

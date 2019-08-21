@@ -7,16 +7,16 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from pytest import fixture
 from serializeraw import load_document
 from serializeraw import load_font_content
 from serializeraw import load_font_header
 
 from groupme.feature.numbers import load_textposition
-from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import create_pagetextnavigators
 
-TEXT = """
+TEXT = r"""
 dimension: 595.28 841.89
 pages:
 - children:
@@ -57,6 +57,8 @@ pages:
         '
   page: 0
 """
+
+TEXT_TITLE = 'Steuerung und \xDCberwachung intelligenter Geb\xE4udetechnik'
 
 TEXT_POSITION = """
 - content:
@@ -113,10 +115,11 @@ def new_fontstore():
     return fontstore
 
 
+@fixture
 def new_textnavgiator():
     navigators = create_pagetextnavigators(
-        load_document(TEXT),
-        load_textposition(TEXT_POSITION),
+        load_document(TEXT, pages=0),  # just load the first page
+        load_textposition(TEXT_POSITION, pages=0),
     )
     first = navigators[0]
     return first

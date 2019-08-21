@@ -7,14 +7,24 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+from detector.parser.title import TitleParserState
 from detector.parser.title import parse
-from tests.detector_.titlepage.example import new_fontstore
+# pylint:disable=W0611
+from tests.detector_.titlepage.example import TEXT_TITLE
 from tests.detector_.titlepage.example import new_textnavgiator
 
 
-def test_detector_parse_title():
-    textnavigator = new_textnavgiator()
-    # print(textnavigator)
-    parse(textnavigator)
+def test_detector_parse_title(new_textnavgiator):  # pylint:disable=W0621
+    textnavigator = new_textnavgiator
+    parsed = parse(textnavigator)
 
-    # parse
+    assert parsed == TEXT_TITLE, parsed
+
+
+def test_detector_parse_title_empty(new_textnavgiator):  # pylint:disable=W0621
+    empty_textnavigator = new_textnavgiator
+    empty_textnavigator.data.clear()
+
+    parsed = parse(empty_textnavigator)
+
+    assert parsed == TitleParserState.NOT_ENOUGH_LINES

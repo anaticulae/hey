@@ -8,7 +8,6 @@
 # =============================================================================
 """Store experimental code here"""
 
-import heapq
 from random import shuffle
 
 from utila import INF

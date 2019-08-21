@@ -21,6 +21,7 @@ from hey.utils import sync
 # TODO: rejoin with newer python
 # from hey.textnavigator.navigator import PageTextNavigator
 
+# (xdist, ydist, width, height, fontsize)
 TextBounds = Tuple[int, int, int, int, int]
 TextBoundsList = List[Tuple[TextBounds, str]]
 
