@@ -44,10 +44,12 @@ WORKPLAN = [
 
 def main():
     featurepack(
-        workplan=WORKPLAN,
-        root=ROOT,
-        featurepackage='groupme.feature',
-        name=PROCESS_NAME,
         description=DESCRIPTION,
+        featurepackage='groupme.feature',
+        multiprocessed=True,
+        name=PROCESS_NAME,
+        pages=True,
+        root=ROOT,
         version=__version__,
+        workplan=WORKPLAN,
     )

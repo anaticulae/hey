@@ -86,11 +86,12 @@ WORKPLAN = [
 
 
 def main():
-    # TODO: Introduce mega --command which activates more than one --todo!
     featurepack(
         description=DESCRIPTION,
         featurepackage='words.feature',
+        multiprocessed=True,
         name=PROCESS_NAME,
+        pages=True,
         root=ROOT,
         version=__version__,
         workplan=WORKPLAN,

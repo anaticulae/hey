@@ -34,10 +34,11 @@ def main():
     featurepack(
         description=DESCRIPTION,
         featurepackage='detector.feature',
+        multiprocessed=True,
         name=PROCESS_NAME,
+        pages=True,
         root=ROOT,
+        singleinput=False,  # require result folder, ignore single pdf file
         version=__version__,
         workplan=WORKPLAN,
-        singleinput=False,  # require result folder, ignore single pdf file
-        pages=True,
     )

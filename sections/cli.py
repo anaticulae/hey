@@ -77,13 +77,14 @@ WORKPLAN = [
 
 
 def main():
-    # TODO: Introduce mega --command which activates more than one --todo!
     featurepack(
         description=DESCRIPTION,
         featurepackage='sections.feature',
+        multiprocessed=True,
         name=PROCESS_NAME,
+        pages=True,
         root=ROOT,
+        singleinput=False,  # require result folder, ignore single pdf file
         version=__version__,
         workplan=WORKPLAN,
-        singleinput=False,  # require result folder, ignore single pdf file
     )
