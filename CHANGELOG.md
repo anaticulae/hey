@@ -2,6 +2,30 @@
 
 Every noteable change is logged here.
 
+## v1.4.0
+
+### Feature
+
+* add method to parse title text of title page (898365e6a8b1)
+* add method to parse institute and courses of studies (248dfc715ea6)
+* add method to parse the complete title page (1a5bbd2f8d4f)
+* add method to split text in connected text blocks (53588f3373a9)
+* add very simple parser to extract thesis type out of title page (885d6678b669)
+* add method to parse matrikel number out of title page (6a3808c651c2)
+* reduce required test power due reducing the count of pdfs under test (fa03e349d9de)
+* add person parser to extract person with title from front-page (2f955a12f8d3)
+* add parser to parse the date of title page (289ca8725aa7)
+* add `detector` to analyze special features like title, toc etc. (7144438f6134)
+
+### Fix
+
+* fix massive interface changes after integration (e7a2917bc848)
+* add missing test data generation (660377686f9d)
+
+### Documentation
+
+* add requirements for title parser (c4eb10ebef2a)
+
 ## v1.3.1
 
 ## v1.3.0
