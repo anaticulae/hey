@@ -10,14 +10,15 @@
 TODO:
     what should we do with empty header/footer
 """
+from collections import namedtuple
 from functools import lru_cache
 from statistics import mode
 from typing import List
 from typing import Tuple
 
 from iamraw import Border
-from iamraw import Box
-from iamraw import HorizontalLine
+from iamraw import PageContentHorizontals
+from iamraw import PagesWithHorizontalList
 from serializeraw import load_horizontals
 from utila import call
 from utila import from_raw_or_path
@@ -32,10 +33,6 @@ from hey.cluster import common_items
 from hey.textnavigator.navigator import END
 from hey.textnavigator.navigator import START
 
-# TODO: Remove after upgrading iamraw
-PagesWithBoxList = List[List[Box]]
-PagesWithHorizontalList = List[List[HorizontalLine]]
-
 Header = float
 Footer = float
 
@@ -43,6 +40,7 @@ Top = float
 Bottom = float
 
 FooterBorder = Tuple[Top, Bottom]
+PageContentFooterHeader = namedtuple('PageContentFooterHeader', 'content, page')
 
 
 def work(horizontals: str) -> str:
@@ -56,7 +54,6 @@ def work(horizontals: str) -> str:
     call('footer')
     # load
     horizontals = load_horizontals(horizontals)
-
     # work
     extracted = extract_pages(horizontals)
 
@@ -65,8 +62,7 @@ def work(horizontals: str) -> str:
     return dumped
 
 
-def extract_pages(horizontals: List[List[HorizontalLine]],
-                 ) -> List[FooterBorder]:
+def extract_pages(horizontals: PagesWithHorizontalList) -> List[FooterBorder]:
     assert isinstance(horizontals, List), str(horizontals)
     # determine border for all pages
     top, bottom = extract_common_footer(horizontals)
@@ -86,8 +82,11 @@ def document_footerheader(horizontals: PagesWithHorizontalList,
     """
     extracted = extract_pages(horizontals)
 
-    top = [item for (item, _) in extracted]
-    bottom = [item for (_, item) in extracted]
+    if not extracted:
+        return (START, END)
+
+    top = [item.content[0] for item in extracted]
+    bottom = [item.content[1] for item in extracted]
 
     top = mode(top)
     bottom = mode(bottom)
@@ -98,7 +97,7 @@ def extract_common_footer(horizontals: PagesWithHorizontalList):
     with_box = [[(
         horizontal.box,
         horizontal,
-    ) for horizontal in page] for page in horizontals]
+    ) for horizontal in page.content] for page in horizontals]
 
     # cluster horizontal lines
     clusters = common_items(with_box, max_difference=2.0)
@@ -127,25 +126,33 @@ def extract_page_footerheader(
         topped = match_horizontals(page, top)
         bottomed = match_horizontals(page, bottom)
 
-        result.append((
-            roundme(top * topped),
-            roundme(bottom * bottomed),
-        ))
+        footerandheader = PageContentFooterHeader(
+            content=(
+                roundme(top * topped),
+                roundme(bottom * bottomed),
+            ),
+            page=page.page,
+        )
+        result.append(footerandheader)
     return result
 
 
-def match_horizontals(todo: List[HorizontalLine], vertical_position: float):
+def match_horizontals(
+        todo: PageContentHorizontals,
+        vertical_position: float,
+):
     """Check if any horizontal match the `vertical_position`
 
     Args:
-        todo(List[HorizontalLine]): list with horizontal lines, mostly one page
+        todo(PageContentHorizontals): list with horizontal lines, mostly one page
         vertical_position(float): position on the page in 'pixel'
     Returns:
         True if any horizontal line match the `vertical_position`
     """
-    vertical_position = round(vertical_position, 1)
+    vertical_position = roundme(vertical_position)
+    content = todo.content
     # TODO: Check y0/y1
-    return any(round(item.box.y0, 1) == vertical_position for item in todo)
+    return any(roundme(item.box.y0) == vertical_position for item in content)
 
 
 def footer(clusters: List) -> float:
@@ -209,9 +216,10 @@ def footerborder_to_border(border: FooterBorder) -> Border:
 def dump_headerfooter(pages) -> str:
     # TODO: Move to iamraw
     result = []
-    for index, (top, bottom) in enumerate(pages):
+    for page in pages:
+        (top, bottom) = page.content
         result.append({
-            'page': index,
+            'page': page.page,
             'headerfooter': '%.2f %.2f' % (top, bottom),
         })
     return dump(result)
@@ -224,8 +232,13 @@ def load_headerfooter(content: str) -> List[Tuple[Header, Footer]]:
 
     result = []
     for item in loaded:
+        pagenumber = int(item['page'])
         top, bottom = [
             float(splitted) for splitted in item['headerfooter'].split()
         ]
-        result.append((top, bottom))
+        result.append(
+            PageContentFooterHeader(
+                content=(top, bottom),
+                page=pagenumber,
+            ))
     return result

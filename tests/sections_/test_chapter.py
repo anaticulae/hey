@@ -7,13 +7,13 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import serializeraw
 from serializeraw import load_document
 from serializeraw import load_toc
 
 from groupme.feature.numbers import load_textposition
 from hey.textnavigator.navigator import create_pagetextnavigators
 from sections.feature.chapter import dump_chapter_detection
-from sections.feature.chapter import load_chapter_detection
 from sections.feature.chapter import space_between_header_and_first_line
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
@@ -21,14 +21,13 @@ from tests.resources import RESTRUCT_TOC
 
 
 def test_chapter_extract():
-    # load
     document = load_document(RESTRUCT_TEXT)
     position = load_textposition(RESTRUCT_TEXT_POSITION)
     tocs = load_toc(RESTRUCT_TOC)
-    # TODO: Think about how to handle this, invocation order of features?
+
     navigators = create_pagetextnavigators(
         text=document,
-        text_position=position,
+        text_positions=position,
     )
 
     result = space_between_header_and_first_line(
@@ -36,39 +35,11 @@ def test_chapter_extract():
         tocs,
     )
 
-    expected = [
-        False,
-        False,
-        False,
-        False,
-        False,
-        False,
-        True,
-        False,
-        True,
-        False,
-        True,
-        False,
-        True,
-        False,
-        False,
-        False,
-        False,
-        False,
-        True,
-        False,
-        True,
-        False,
-        True,
-        False,
-        True,
-        False,
-        False,
-    ]
+    expected = [6, 8, 10, 12, 18, 20, 22, 24]
 
-    selected = [item > 0.0 for item in result]
+    pages = [item.page for item in result]
 
-    assert selected == expected
+    assert pages == expected
 
 
 def test_chapter_dump_and_load_detection():
@@ -79,7 +50,7 @@ def test_chapter_dump_and_load_detection():
     # TODO: Think about how to handle this, invocation order of features?
     navigators = create_pagetextnavigators(
         text=document,
-        text_position=position,
+        text_positions=position,
     )
 
     result = space_between_header_and_first_line(
@@ -87,7 +58,7 @@ def test_chapter_dump_and_load_detection():
         tocs,
     )
 
-    dumped = dump_chapter_detection(result)
-    loaded = load_chapter_detection(dumped)
+    dumped = serializeraw.dump_likelihood(result)
+    loaded = serializeraw.load_likelihood(dumped)
 
     assert loaded == result

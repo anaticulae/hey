@@ -99,6 +99,8 @@ Matrikelnummer: 161647
 Berlin, den 8. August 2015
 """
 
+SECOND_FONTSTORE = None
+
 SECOND_INSTITUTION = Institution(
     university='Hochschule für Technik und Wirtschaft Berlin',
     field='Wirtschaftswissenschaften II',

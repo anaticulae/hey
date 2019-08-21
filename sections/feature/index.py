@@ -10,17 +10,15 @@
 from re import X
 from re import compile as recompile
 from re import match
-from typing import List
 from typing import Tuple
 
-from iamraw import Document
-from iamraw import Page
-from serializeraw import dump_likelihood
-from serializeraw import load_document
-from utila import uniform_result
+import iamraw
+import serializeraw
+
+import sections
 
 
-def work(text_linewise: str) -> str:
+def work(text_linewise: str, pages=None) -> str:
     """Load document and extract likelihood of beening an index page
 
     Args:
@@ -28,14 +26,14 @@ def work(text_linewise: str) -> str:
     Returns:
         yaml content with dumped result for every single page
     """
-    # TODO: Share resources
-    document = load_document(text_linewise)
+    document = serializeraw.load_document(text_linewise, pages=pages)
     extracted = extract_index_likelihood(document)
-    dumped = dump_likelihood(extracted)
+    dumped = serializeraw.dump_likelihood(extracted)
     return dumped
 
 
-def extract_index_likelihood(document: Document) -> List[float]:
+def extract_index_likelihood(document: iamraw.Document,
+                            ) -> iamraw.PageContentLikelihoods:
     """Extract likelihood of beeing an index page. Determine a likelihood for
     every single page.
 
@@ -45,10 +43,18 @@ def extract_index_likelihood(document: Document) -> List[float]:
         a normalized List[float] with the normalized likelihood of beeing an
         index page
     """
-    result = [analyse_page(page) for page in document]
-    uniformed = uniform_result(result)
+    result = {page.page: analyse_page(page) for page in document}
+
+    uniformed = sections.feature.uniform_result(result)
     assert len(uniformed) == len(document)
-    return uniformed
+
+    result = [
+        iamraw.PageContentLikelihood(
+            page=page, content=iamraw.Likelihood(value, 'index'))
+        for page, value in uniformed.items()
+    ]
+    result = sorted(result, key=lambda x: x.page)
+    return result
 
 
 # INDEX, PAGENUMBER
@@ -60,7 +66,7 @@ INDEX_ITEM_PATTERN = recompile(
      """, X)
 
 
-def analyse_page(page: Page) -> Tuple[int, int]:
+def analyse_page(page: iamraw.Page) -> Tuple[int, int]:
     """Extract potential features of an index page
 
     This methods search for 2 features. The simpelst feature is a single

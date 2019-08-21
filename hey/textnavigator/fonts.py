@@ -16,6 +16,8 @@ from iamraw import Border
 from iamraw import BoundingBox
 from utila import roundme
 
+from hey.utils import sync
+
 # TODO: rejoin with newer python
 # from hey.textnavigator.navigator import PageTextNavigator
 
@@ -60,28 +62,31 @@ def fontdistance_textbounds(bounds: TextBoundsList) -> List[float]:
     return distance
 
 
+NONE_BORDER = Border(None, None, None, None)
+
+
 def bounds_to_textbounds(
         bounds: BoundingBox,
         item: str,
-        contentborder: Border,
+        contentborder: Border = None,
 ) -> TextBounds:
     """Compute distance to page `contentborder` and determine font size
 
     Args:
         bounds(BoundingBox): BoundingBox of item
         item(str): content
-        contenborder(Border): page border
+        contenborder(Border): the border of page content if None (0,0) is used
     Returns:
         computed `TextBounds`
     """
     assert isinstance(item, str), type(item)
-    cb = contentborder  # pylint:disable=C0103
-    __x0, __y0, __x1, __y1 = cb.left, cb.top, cb.right, cb.bottom
+    if contentborder is None:
+        contentborder = Border(left=0, right=None, top=0, bottom=None)
     x0, y0, x1, y1 = bounds
     lines = len(item.splitlines())
     xdist, ydist, width, height, fontsize = (
-        int(x0 - __x0),
-        int(y0 - __y0),
+        int(x0 - contentborder.left),
+        int(y0 - contentborder.top),
         int(x1 - x0),
         int(y1 - y0),
         int((y1 - y0) / lines) if lines else 0,
@@ -97,6 +102,8 @@ def textbounds(
     # ensure that order of items has no effect
     cb = contentborder  # pylint:disable=C0103
     __x0, __y0, __x1, __y1 = cb.left, cb.top, cb.right, cb.bottom
+    if not navigator:
+        return []
     result = [(bounds_to_textbounds(bounds, item, contentborder), item)
               for (bounds, item) in navigator]
     return result
@@ -155,7 +162,7 @@ def textsize_from_textbounds(
         navigator: 'PageTextNavigator',
         content: Border,
 ) -> int:
-    text_bounds = textbounds(navigator, content)
+    text_bounds = textbounds(navigator, content.border)
     font_sizes = fontsizes(text_bounds)
     return textsize(font_sizes)
 
@@ -163,7 +170,8 @@ def textsize_from_textbounds(
 def document_textsize(navigators, borders: List[Border]) -> int:
     """Determine the most common text size"""
     result = []
-    for navigator, contentborder in zip(navigators, borders):
+    navigators = navigators.values()
+    for number, (navigator, contentborder) in sync([navigators, borders]):
         size = textsize_from_textbounds(navigator, contentborder)
         result.append(size)
     return mode(result)

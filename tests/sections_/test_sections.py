@@ -15,7 +15,6 @@ from serializeraw import load_sections
 
 # from sections.sections import extract_sections
 from sections.creator import validate
-from sections.feature.chapter import load_chapter_detection
 from sections.feature.sections import chapters
 from sections.feature.sections import extract_sections
 from sections.feature.whitepage import load_whitepages
@@ -70,13 +69,11 @@ def test_sections_extract_sections_restructured(
         restructured_toc,
         restructured_whitepage,
 ):
-    chapter = load_chapter_detection(restructured_chapter)
+    chapter = load_likelihood(restructured_chapter)
     index = load_likelihood(restructured_index)
     title = load_likelihood(restructured_title)
     toc = load_likelihood(restructured_toc)
     whitepage = load_whitepages(restructured_whitepage)
-    whitepage = [whitepage_value_to_percent(item) for item in whitepage]
-
     source = [chapter, index, title, toc, whitepage]
     result = extract_sections(*source)
     assert result
@@ -110,12 +107,11 @@ def test_sections_extract_sections_simple(
         simple_toc,
         simple_whitepage,
 ):
-    chapter = load_chapter_detection(simple_chapter)
+    chapter = load_likelihood(simple_chapter)
     index = load_likelihood(simple_index)
     title = load_likelihood(simple_title)
     toc = load_likelihood(simple_toc)
     whitepage = load_whitepages(simple_whitepage)
-    whitepage = [whitepage_value_to_percent(item) for item in whitepage]
 
     source = [chapter, index, title, toc, whitepage]
     result = extract_sections(*source)

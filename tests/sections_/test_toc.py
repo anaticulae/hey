@@ -17,4 +17,5 @@ from tests.fixtures.restruct import restructured_text
 #pylint:disable=W0621
 def test_extract_toc_likelihood(restructured_text):
     extracted = extract_toc_likelihood(restructured_text)
+    extracted = [item.content.value for item in extracted]
     assert sum(extracted) == approx(1.0)

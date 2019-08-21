@@ -13,10 +13,13 @@ TODO:
 """
 from typing import List
 
+import iamraw
 from iamraw import Document
 from serializeraw import dump_likelihood
 from serializeraw import load_document
 from utila import uniform_result
+
+import sections
 
 
 def work(text_linewise: str) -> str:
@@ -34,9 +37,19 @@ def extract_toc_likelihood(document: Document) -> List[float]:
     Returns:
         uniformed likelihood list with probabilty of beeing a table page
     """
-    result = [analyse_page(page) for page in document]
-    uniformed = uniform_result(result)
-    return uniformed
+
+    result = {page.page: analyse_page(page) for page in document}
+
+    uniformed = sections.feature.uniform_result(result)
+    assert len(uniformed) == len(document)
+
+    result = [
+        iamraw.PageContentLikelihood(
+            page=page, content=iamraw.Likelihood(value, 'toc'))
+        for page, value in uniformed.items()
+    ]
+    result = sorted(result, key=lambda x: x.page)
+    return result
 
 
 def analyse_page(page) -> float:

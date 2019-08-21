@@ -14,10 +14,10 @@ from pytest import fixture
 from pytest import mark
 from pytest import param
 from utila import SUCCESS
+from utila import log
 from utila import run
 from utila import skip_longrun
 
-from hey.utils import choose_random
 from tests import pdfs
 from tests import relative_path
 
@@ -80,7 +80,7 @@ def rawresult(request, tmpdir):
 
 
 @fixture
-def sections(rawresult):
+def sections(rawresult):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath = rawresult
 
     sectionspath = join(tmpdir, 'sections')
@@ -90,13 +90,16 @@ def sections(rawresult):
     runme = runme % (generalpath, tocpath, sectionspath)
 
     completed = run(runme)
-    assert completed.returncode == SUCCESS, str(completed)
+    if completed.returncode != SUCCESS:
+        log(completed.stdout)
+        log(completed.stderr)
+    assert completed.returncode == SUCCESS
 
     return (tmpdir, tocpath, generalpath, sectionspath)
 
 
 @fixture
-def words(sections):
+def words(sections):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath, sectionspath = sections
 
     wordspath = join(tmpdir, 'words')
@@ -113,7 +116,7 @@ def words(sections):
 
 
 @fixture
-def groupme(rawresult):
+def groupme(rawresult):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath = rawresult
 
     groupmepath = join(tmpdir, 'groupme')
@@ -127,16 +130,16 @@ def groupme(rawresult):
 
 
 @skip_longrun
-def test_huge_sections_extractor(testdir, sections):
+def test_huge_sections_extractor(testdir, sections):  # pylint:disable=W0621
     assert sections
 
 
 @skip_longrun
-def test_huge_running_words(testdir, words):
+def test_huge_running_words(testdir, words):  # pylint:disable=W0621
     """Run rawmaker -> sections -> words. Ensure that this chain works for
     huge pdf example provided by power tool."""
 
 
 @skip_longrun
-def test_huge_running_groupme(testdir, groupme):
+def test_huge_running_groupme(testdir, groupme):  # pylint:disable=W0621
     """Run rawmaker > groupme"""

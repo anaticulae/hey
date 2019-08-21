@@ -19,6 +19,7 @@ Required API:
 
     # before/ after method to determine items
 """
+from collections import namedtuple
 from functools import lru_cache
 from typing import List
 from typing import Tuple
@@ -29,12 +30,15 @@ from serializeraw import load_document
 from utila import Flag
 from utila import call
 from utila import from_raw_or_path
+from utila import should_skip
 from yaml import FullLoader
 from yaml import load
 
 from hey import CACHE_SMALL
 from hey.cluster import common_items
 from hey.textnavigator.navigator import create_pagetextnavigators
+
+PageContentTextPosition = namedtuple('PageContentTextPosition', 'content, page')
 
 
 def work(documentpath: str, positionpath: str) -> str:
@@ -44,7 +48,7 @@ def work(documentpath: str, positionpath: str) -> str:
 
     navigator = create_pagetextnavigators(
         text=document,
-        text_position=position,
+        text_positions=position,
     )
 
     footer_pagenumbers = determine_pagenumbers(navigator)
@@ -59,7 +63,7 @@ def determine_pagenumbers(navigator):
 
 
 @lru_cache(CACHE_SMALL)
-def load_textposition(content: str):
+def load_textposition(content: str, pages=None):
     # TODO: This is from rawmaker->position.py,
     # TODO: remove after moving to serialzeraw
     content = from_raw_or_path(content, ftype='yaml')
@@ -67,11 +71,19 @@ def load_textposition(content: str):
 
     result = []
     for page in loaded:
+        pagenumber = int(page['page'])
+        if should_skip(pagenumber, pages):
+            continue
         pagedata = {}
         for item in page['content']:
             key, position = item.split(maxsplit=1)
             pagedata[int(key)] = BoundingBox.from_str(position)
-        result.append(pagedata)
+
+        textposition = PageContentTextPosition(
+            content=pagedata,
+            page=pagenumber,
+        )
+        result.append(textposition)
     return result
 
 
@@ -83,13 +95,19 @@ BOTTOM_MAX_DIFFERENCE = 10.0
 
 
 def header(navigators):
-    collected = [page.before(TOP_BORDER) for page in navigators]
+    collected = [
+        page.before(TOP_BORDER)
+        for page in sorted(navigators.values(), key=lambda x: x.page)
+    ]
     common = common_items(collected, max_difference=TOP_MAX_DIFFERENCE)
     return common
 
 
 def footer(navigators):
-    collected = [page.after(BOTTOM_BORDER) for page in navigators]
+    collected = [
+        page.after(BOTTOM_BORDER)
+        for page in sorted(navigators.values(), key=lambda x: x.page)
+    ]
     common = common_items(collected, max_difference=BOTTOM_MAX_DIFFERENCE)
     return common
 

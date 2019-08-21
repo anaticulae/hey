@@ -144,22 +144,21 @@ def test_fontstore_from_str(
 
 
 @fixture
-def restructured_textnavigators(restructured_text: Document,
-                               ) -> PageTextNavigators:
+def restructured_textnavigators(
+        restructured_text: Document,  # pylint:disable=W0621
+) -> PageTextNavigators:
     textpositions = load_textposition(RESTRUCT_TEXT_POSITION)
     return create_pagetextnavigators(
         text=restructured_text,
-        text_position=textpositions,
+        text_positions=textpositions,
     )
 
 
 @fixture
 def restructured_pagetextcontentnavigator(
-        restructured_textnavigators,
-        restructured_contentborder,
+        restructured_textnavigators,  # pylint:disable=W0621
+        restructured_contentborder,  # pylint:disable=W0621
 ) -> PageTextContentNavigator:
-    # page_1 = res[1]
-    # pagetextnavigator: PageTextNavigators(),
     contentborders = restructured_contentborder
     page = 4
     navigator = restructured_textnavigators[page]
@@ -171,8 +170,8 @@ def restructured_pagetextcontentnavigator(
 
 
 def test_fontstore_fontcontentstore(
-        restructured_pagetextcontentnavigator,
-        restructured_fontstore,
+        restructured_pagetextcontentnavigator,  # pylint:disable=W0621
+        restructured_fontstore,  # pylint:disable=W0621
 ):
     navigator = restructured_pagetextcontentnavigator
     fontstore = restructured_fontstore

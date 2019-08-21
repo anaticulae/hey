@@ -13,7 +13,7 @@ from serializeraw import dump_likelihood
 from serializeraw import load_likelihood
 
 from sections.feature.title import extract_title_likelihood
-from sections.feature.title import split_page
+from sections.textprocessor import split_page
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_fontstore
 from tests.fixtures.restruct import restructured_fontstore_fixture
@@ -58,9 +58,10 @@ def test_extract_title_likelihood(
         document,
         fontstore,
     )
-    assert result[0] >= MIN_TITLE_LIKELIHOOD
+    assert result[0].content.value >= MIN_TITLE_LIKELIHOOD
     # as a result of rounding the sum of the likelihoods is not one, but thats
     # not a big problem, hitting the region one is enough.
+    result = [item.content.value for item in result]
     assert sum(result) == approx(1.0, abs=0.05)
 
 

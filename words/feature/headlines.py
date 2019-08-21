@@ -87,7 +87,7 @@ def work(
 
     pagetextnavigator = create_pagetextnavigators(
         text=document,
-        text_position=position,
+        text_positions=position,
     )
     fontstore = create_fontstore(
         font_header,
@@ -138,7 +138,7 @@ def extract_headlines(
 
     textsize = document_textsize(
         navigators=pagetextnavigator,
-        borders=contentborders,
+        borders=sizeandborder,
     )
     smallest_headline_size = textsize * SMALLEST_HEADLINE_FACTOR
 
@@ -215,6 +215,9 @@ def convert_level(result: PagesHeadlineList) -> int:
     info('empty PageHeadlineList')
     if not result:
         return result
+
+    if not any(result):
+        return []
 
     maxsize = max([
         max([item.level for item in chapter]) for chapter in result if chapter

@@ -104,7 +104,7 @@ def test_headlines_extract_headlines(
 
     navigator = create_pagetextnavigators(
         text=document,
-        text_position=position,
+        text_positions=position,
     )
 
     extracted = extract_headlines(

@@ -28,7 +28,7 @@ def extract_undefined(pages, text, text_position, contentborder: Border):
     assert isinstance(contentborder, Border), type(contentborder)
     pagetextnavigators = create_pagetextnavigators(
         text=text,
-        text_position=text_position,
+        text_positions=text_position,
     )
     result = []
     for (page, pagecontent) in pages:

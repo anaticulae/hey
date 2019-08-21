@@ -125,9 +125,9 @@ def analyze_page(
             fontstore,
             border,
         )
-    except EmptyPageError as error:
+    except EmptyPageError as emptypage:
         # Skip analyzing empty pages
-        return (error.page, None)
+        return (emptypage.page, None)
 
     # prepare collection
     page, headlines, pcn, fcs = prepared
@@ -165,7 +165,7 @@ def prepare_input(
     fontstore = create_fontstore(font_header, font_content)
     textnavigators = create_pagetextnavigators(
         text=text,
-        text_position=position,
+        text_positions=position,
     )
     contentborder = load_pageborders(pagesizes)
     contentborder = [item.border for item in contentborder]

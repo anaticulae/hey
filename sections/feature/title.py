@@ -8,20 +8,22 @@
 # =============================================================================
 from typing import List
 
-from iamraw import Document
-from iamraw import Page
+import iamraw
 from serializeraw import dump_likelihood
 from serializeraw import load_document
-from utila import uniform_result
 
+import sections.textprocessor
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
-from sections.textprocessor import split_page
 
 
-def work(text_linewise: str, font_header: str, font_content: str) -> str:
-    # TODO: Share resources
-    document = load_document(text_linewise)
+def work(
+        text_linewise: str,
+        font_header: str,
+        font_content: str,
+        pages=None,
+) -> str:
+    document = load_document(text_linewise, pages=pages)
 
     lookup = create_fontstore(font_header, font_content)
 
@@ -31,12 +33,19 @@ def work(text_linewise: str, font_header: str, font_content: str) -> str:
 
 
 def extract_title_likelihood(
-        document: Document,
+        document: iamraw.Document,
         fontstore: FontStore,
 ) -> List[float]:
-    result = [analyse_page(page, fontstore) for page in document]
-    uniformed = uniform_result(result)
-    return uniformed
+    result = {page.page: analyse_page(page, fontstore) for page in document}
+
+    uniformed = sections.feature.uniform_result(result)
+
+    result = [
+        iamraw.PageContentLikelihood(
+            page=page, content=iamraw.Likelihood(value, 'title'))
+        for page, value in uniformed.items()
+    ]
+    return result
 
 
 MINIMAL_TITLE_LENGTH = 10
@@ -45,10 +54,10 @@ MAXIMAL_TITLE_LENGTH = 200
 EMPTY_RESULT = (0, 0.0)
 
 
-def analyse_page(page: Page, fontstore: FontStore) -> float:
+def analyse_page(page: iamraw.Page, fontstore: FontStore) -> float:
     """Determine the likelihood that `page` is a title page
 
-    A hight title_indicator provides a hight likelihood of beeing a title
+    A high title_indicator provides a high likelihood of beeing a title
     page. Aditionally the max_font_length is provided.
 
     Args:
@@ -57,7 +66,7 @@ def analyse_page(page: Page, fontstore: FontStore) -> float:
     Returns:
         (max_font_length, title_indicator):
     """
-    pagenumber = page.number
+    pagenumber = page.page
     positions = font_positions_from_page(fontstore, pagenumber)
     fonts = font_sizes_from_page(fontstore, pagenumber)
 
@@ -94,11 +103,14 @@ def font_positions_from_page(store: FontStore, pagenumber: int):
     return positions
 
 
-def determine_hugest_font(fonts, positions, page: Page):
+def determine_hugest_font(fonts, positions, page: iamraw.Page):
     # determine the biggest font size
     max_font = max(fonts)
     max_font_index = fonts.index(max_font)
 
-    text_length = [len(item) for item in split_page(page, positions)]
+    text_length = [
+        len(item)
+        for item in sections.textprocessor.split_page(page, positions)
+    ]
     max_font_length = text_length[max_font_index]
     return max_font, max_font_length

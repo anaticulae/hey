@@ -20,6 +20,7 @@ Concept:
         footer
 """
 
+from collections import namedtuple
 from enum import Enum
 from functools import lru_cache
 from typing import List
@@ -27,6 +28,7 @@ from typing import List
 from iamraw import Document
 from serializeraw import load_document
 from serializeraw import load_horizontals
+from utila import INF
 from utila import from_raw_or_path
 from yaml import FullLoader
 from yaml import dump
@@ -40,28 +42,37 @@ from hey.textnavigator.navigator import START
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.textnavigator.navigator import percent_from_pagesize
+from hey.utils import sync
+
+PageContentWhitepages = namedtuple('PageContentWhitepages', 'content, page')
 
 
 class WhitePage(Enum):
+    CONTENT = -1
     BLANK = 0  # nothing on the page
     WHITE = 1  # page with footer and/or header
 
 
-def work(document: str, position: str, horizontals: str) -> str:
+def work(document: str, position: str, horizontals: str, pages=None) -> str:
     # load
-    document = load_document(document)
-    position = load_textposition(position)
-    horizontals = load_horizontals(horizontals)
+    pages = tuple(pages) if pages else None
+    document = load_document(document, pages=pages)
+    position = load_textposition(position, pages=pages)
+    horizontals = load_horizontals(horizontals, pages=pages)
 
     # TODO: Think about how to handle this, invocation order of features?
     headerfooters = extract_pages(horizontals)
     navigators = create_pagetextnavigators(
         text=document,
-        text_position=position,
+        text_positions=position,
     )
 
     # work
-    extracted = extract_whitepages(document, navigators, headerfooters)
+    extracted = extract_whitepages(
+        document,
+        navigators,
+        headerfooters,
+    )
     dumped = dump_whitepages(extracted)
     return dumped
 
@@ -71,30 +82,45 @@ def extract_whitepages(
         navigators: List[PageTextNavigator],
         headerfooters,
 ):
-    result = []
-    for page, navigator, headerfooter in zip(
+    """
+    Args:
+        headerfooters:
+            Position
+    """
+    result = {}
+    navigators = sorted(navigators.values(), key=lambda x: x.page)
+    for pagenumber, (currentpage, navigator, headerfooter) in sync([
             document,
             navigators,
             headerfooters,
-    ):
-        header, footer = headerfooter
+    ]):
+        header, footer = headerfooter.content if headerfooter else (None, None)
+        if not navigator:
+            result[pagenumber] = WhitePage.BLANK
+            continue
         height = navigator.height
-
         if not header and not footer:
-            if page.children:
-                # Elements on the page, maybe title page, chapter page...
-                result.append(None)
+            if not currentpage.children:
+                result[pagenumber] = WhitePage.BLANK
             else:
-                result.append(WhitePage.BLANK)
+                # Elements on the page, maybe title page, chapter page...
+                result[pagenumber] = WhitePage.CONTENT
+                # result[pagenumber] = None
         else:
             top = percent_from_pagesize(height, header) if header else START
             bottom = percent_from_pagesize(height, footer) if footer else END
             if not navigator.between(top, bottom):
-                result.append(WhitePage.WHITE)
+                result[pagenumber] = WhitePage.WHITE
             else:
                 # page with footer and/or header and content - "normal page"
-                result.append(None)
+                result[pagenumber] = WhitePage.CONTENT
 
+    result = {
+        page: PageContentWhitepages(
+            page=page,
+            content=WhitePage[whitepage.name] if whitepage else None,
+        ) for page, whitepage in result.items()
+    }
     return result
 
 
@@ -106,29 +132,23 @@ def whitepage_value_to_percent(whitepage: WhitePage):
 
 
 def dump_whitepages(pages) -> str:
-    result = []
-    for index, whitepage in enumerate(pages):
-        if not whitepage:
-            continue
-        result.append({
-            'page': index,
-            'whitepage': whitepage.name,
-        })
-    raw = {
-        'pages': len(pages),
-        'content': result,
-    }
-    return dump(raw)
+    """Dump list of dict"""
+    result = {}
+    if isinstance(pages, list):
+        pages = {item.page: item for item in pages}
+    for page, value in pages.items():
+        result[page] = value.content.name if value.content else None
+    return dump(result)
 
 
 @lru_cache(CACHE_SMALL)
 def load_whitepages(content: str) -> List[WhitePage]:
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)
-
-    result = [None for item in range(loaded['pages'])]
-
-    for item in loaded['content']:
-        page, whitepage = item['page'], item['whitepage']
-        result[page] = WhitePage[whitepage]
+    result = [
+        PageContentWhitepages(
+            page=page,
+            content=WhitePage[whitepage] if whitepage else None,
+        ) for page, whitepage in loaded.items()
+    ]
     return result

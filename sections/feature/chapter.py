@@ -27,8 +27,8 @@ from re import X as VERBOSE
 from re import search
 from typing import List
 
-from serializeraw import load_document
-from serializeraw import load_toc
+import iamraw
+import serializeraw
 from utila import NEWLINE
 from utila import from_raw_or_path
 from yaml import FullLoader
@@ -41,16 +41,17 @@ from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import create_pagetextnavigators
 
 
-def work(document: str, position: str, tocpath: str) -> str:
+def work(document: str, position: str, tocpath: str, pages=None) -> str:
     # load
-    document = load_document(document)
-    position = load_textposition(position)
-    tocs = load_toc(tocpath)
+    pages = tuple(pages) if pages else None
+    document = serializeraw.load_document(document, pages=pages)
+    position = load_textposition(position, pages=pages)
+    tocs = serializeraw.load_toc(tocpath)
 
     # TODO: Think about how to handle this, invocation order of features?
     navigators = create_pagetextnavigators(
         text=document,
-        text_position=position,
+        text_positions=position,
     )
 
     # work
@@ -58,7 +59,7 @@ def work(document: str, position: str, tocpath: str) -> str:
         navigators=navigators,
         tocs=tocs,
     )
-    dumped = dump_chapter_detection(result)
+    dumped = serializeraw.dump_likelihood(result)
     return dumped
 
 
@@ -69,16 +70,25 @@ def space_between_header_and_first_line(
         navigators: List[PageTextNavigator],
         tocs,
 ):
-    result = []
-    for navigator in navigators:
+    result = {}
+    for navigator in sorted(navigators.values(), key=lambda x: x.page):
         first_content = navigator.before(FIRST_QUARTER)
 
         chapter_rate = contain_chapter(first_content)
         chapter_rate += contain_toc(first_content, tocs)
-        result.append(chapter_rate)
+
+        if chapter_rate <= 0.0:
+            continue
+        result[navigator.page] = chapter_rate / 2.5
         # TODO: There is the possiblity that header and start of chapter
         # are together, support later
         # result.append(0.0)
+
+    result = [
+        iamraw.PageContentLikelihood(
+            page=page, content=iamraw.Likelihood(value, 'chapter'))
+        for page, value in result.items()
+    ]
 
     return result
 
@@ -128,14 +138,3 @@ def dump_chapter_detection(pages: List[float]) -> str:
             'chapter': '%.2f' % chapter,
         })
     return dump(result)
-
-
-@lru_cache(CACHE_SMALL)
-def load_chapter_detection(content: str) -> List[float]:
-    content = from_raw_or_path(content, ftype='yaml')
-    loaded = load(content, Loader=FullLoader)
-
-    result = []
-    for item in loaded:
-        result.append(float(item['chapter']))
-    return result

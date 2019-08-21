@@ -20,6 +20,7 @@ LAST_PAGE_INDEX_LIKELYHOOD = 0.45
 #pylint:disable=W0621
 def test_extract_index_likelihood(restructured_text):
     result = extract_index_likelihood(restructured_text)
+    result = [item.content.value for item in result]
     assert 0.95 <= sum(result) <= 1.05
 
     # The index is on the last page

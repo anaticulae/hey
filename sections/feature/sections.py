@@ -27,8 +27,8 @@ from serializeraw import load_likelihood
 from utila import Flag
 from utila import checkdatatype
 
+import hey
 from sections.feature.chapter import chapter_value_to_percent
-from sections.feature.chapter import load_chapter_detection
 from sections.feature.whitepage import load_whitepages
 from sections.feature.whitepage import whitepage_value_to_percent
 
@@ -42,6 +42,7 @@ def work(
         title: str,
         toc: str,
         whitepage: str,
+        pages=None,
 ) -> str:
     """Combine different featuretypes to determine the page type with more
     confidence.
@@ -87,22 +88,29 @@ def extract_sections(
         toc,
         whitepage,
 ) -> Sections:
-    result = []
-    for number, page in enumerate(zip(chapter, index, title, toc, whitepage)):
+    result = {}
+    for number, content in hey.utils.sync([
+            chapter,
+            index,
+            title,
+            toc,
+            whitepage,
+    ]):
+        # for number, page in enumerate(zip(chapter, index, title, toc, whitepage)):
         # TODO:  What if more than one item is max? 1.0, 1.0?
-        value = max(page)
-        if value < MIN_FEATURE_TRUST:
+        max_item = max(
+            content, key=lambda x: x.content.value if x and x.content else 0.0)
+        if not max_item or max_item.content.value < MIN_FEATURE_TRUST:
             # if trust is to low, the feature is not charactaristical enough,
             # therefore the page is treated as a normal text page
-            result.append(Text(start=number, end=number, trust=1.0))
+            result[number] = Text(start=number, end=number, trust=1.0)
             continue
-        ctor = BUILDER[page.index(value)]
-        result.append(ctor(
+        ctor = BUILDER[content.index(max_item)]
+        result[number] = ctor(
             start=number,
             end=number,
-            trust=value,
-        ))
-
+            trust=max_item.content.value,
+        )
     grouped = group_sections(result)
     return grouped
 
@@ -126,7 +134,7 @@ def group_sections(items: List[AreaItem]) -> Sections:
     result = Sections()
     current = None
     chapter = 1
-    for page, item in enumerate(items):
+    for page, item in items.items():
         next_ = determine_document_section(current, item)
         if is_new_area(current, next_):
             current = next_(start=page, end=page, trust=1.0)
@@ -161,16 +169,13 @@ def determine_document_section(current: DocumentSection, actual: AreaItem):
 
 
 def load_features(chapter, index, title, toc, whitepage):
-
-    chapter = load_chapter_detection(chapter)
-    chapter = [chapter_value_to_percent(item) for item in chapter]
+    chapter = load_likelihood(chapter)
 
     index = load_likelihood(index)
     title = load_likelihood(title)
     toc = load_likelihood(toc)
 
     whitepage = load_whitepages(whitepage)
-    whitepage = [whitepage_value_to_percent(item) for item in whitepage]
 
     return chapter, index, title, toc, whitepage
 

@@ -17,23 +17,28 @@ class BoxedChecker:
     # IMPORTANT.
     def __init__(self, boxes):
         assert isinstance(boxes, list), type(boxes)
-        self.data = []
+        self.data = {}
         for page in boxes:
             content = []
-            for box in page:
+            for box in page.content:
                 bounding = box.box
                 content.append(bounding)
-            self.data.append(content)
+            self.data[page.page] = content
 
     def contains(self, page, bounds) -> int:
         return self.boxid(page, bounds) >= 0
 
     def boxid(self, page, bounds) -> int:
         y0, x0, y1, x1 = bounds
-        for index, bound in enumerate(self.data[page]):
-            _y0, _x0, _y1, _x1 = bound
-            if _y0 <= y0 <= y1 <= _y1 and _x0 <= x0 <= x1 <= _x1:
-                return index
+        try:
+            pagedata = self.data[page]
+        except KeyError:
+            return NO_BOX
+        else:
+            for index, bound in enumerate(pagedata):
+                _y0, _x0, _y1, _x1 = bound
+                if _y0 <= y0 <= y1 <= _y1 and _x0 <= x0 <= x1 <= _x1:
+                    return index
         return NO_BOX
 
     def boundingbox(self, page, boxid: int) -> BoundingBox:

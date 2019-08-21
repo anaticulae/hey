@@ -18,7 +18,8 @@ from tests.fixtures.simple import simple_navigator
 
 def test_simple_example(simple):  #pylint:disable=W0621
     navigator, horizontals = simple
-    assert len(navigator) == len(horizontals)
+    assert len(horizontals) == 1  # first page contains horizontals
+    assert len(navigator) == 7
 
 
 def test_footer_simple(simple):  #pylint:disable=W0621

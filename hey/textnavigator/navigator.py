@@ -28,16 +28,19 @@ END = 1.0
 class PageTextNavigator:
     """The direction of the text is top down and left to right"""
 
-    def __init__(self, size=(612.0, 792.0)):
+    def __init__(self, size=None, page=-1):
         """Intialize PageTextNavigator with maximal `size`
 
         Args:
             size(tuple): maximal width/height of PageTextNavgiator
 
         Sizes:
-            A4: 210x297mm, 8.26x11.69inc, 595 x 842pt
-                                          612 x 792pt
+            A4: 210 x 297 mm, 8.26 x 11.69 inch, 595 x 842pt
+                                                 612 x 792pt
         """
+        if size is None:
+            size = (612.0, 792.0)
+        self.page = page
         self.data = []
         self.width, self.height = size
 
@@ -72,6 +75,10 @@ class PageTextNavigator:
 
     def __iter__(self):
         return iter(self.data)
+
+    @property
+    def dimension(self):
+        return PageSize(width=self.width, height=self.height)
 
     def before(self, height: float, width=0.0):
         """Determine elements on the top of the document
@@ -138,11 +145,10 @@ class PageTextContentNavigator:
             textnavigator(PageTextNavigator):
             content(Tuple[top,bottom]):
         """
-        msg = 'require `PageTextNavigator` got: %s'
-        assert isinstance(textnavigator,
-                          PageTextNavigator), msg % type(textnavigator)
-        msg = 'require `Border` got: %s'
-        assert isinstance(content, Border), msg % type(content)
+        msg = 'require `PageTextNavigator` got: %s' % type(textnavigator)
+        assert isinstance(textnavigator, PageTextNavigator), msg
+        msg = 'require `Border` got: %s' % type(content)
+        assert isinstance(content, Border), msg
         pagesize = PageSize(
             width=textnavigator.width,
             height=textnavigator.height,
@@ -167,23 +173,31 @@ PageTextNavigators = List[PageTextNavigator]
 
 def create_pagetextnavigators(
         text: Document,
-        text_position,
+        text_positions,
 ) -> PageTextNavigators:
-    navigators = []
+    navigators = {}
     dimension = (text.dimension.width, text.dimension.height)
-    for page, textposition in enumerate(text_position):
-        navigator = PageTextNavigator(dimension)
-        navigators.append(navigator)
+
+    for textposition in text_positions:
+        content = textposition.content
+        pagenumber = textposition.page
+        # assert text.number == pagenumber
+
+        navigator = PageTextNavigator(size=dimension, page=pagenumber)
+        navigators[pagenumber] = navigator
         textid = 0
-        for item in text[page]:
+        for item in text[pagenumber]:
+            # assert item.number == pagenumber, item.number
             try:
                 # TODO: Remove strip after container is fixed
-                content = item.text.strip()
-                pos = textposition[textid]
-                navigator.insert(pos, content)
-                textid += 1
+                textcontent = item.text.strip()
             except AttributeError:
-                pass
+                # no text element
+                continue
+            else:
+                pos = content[textid]
+                navigator.insert(pos, textcontent)
+                textid += 1
 
     return navigators
 
@@ -241,7 +255,6 @@ def percent_from_pagesize(size, current) -> float:
 
 
 def to_content(navigator: PageTextNavigator) -> TextBoundsList:
-    # result = [(bounding, item) for bounding, item in navigator]
     result = list(navigator)
     return result
 
