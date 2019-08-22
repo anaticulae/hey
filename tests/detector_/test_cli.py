@@ -7,7 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pytest import mark
+import pytest
+import utila
 from utila import install_and_run
 from utila.test import skip_nonvirtual
 
@@ -19,12 +20,13 @@ from tests.detector_ import run_detector_success
 
 
 @skip_nonvirtual
+@utila.skip_longrun
 def test_detector_setup_py():
     """Install words and run setions --help to ensure basic functionality"""
     install_and_run(ROOT, PACKAGE_NAME, PROCESS_NAME)
 
 
-@mark.parametrize('command', [
+@pytest.mark.parametrize('command', [
     ['--help'],
     ['--version'],
 ])
