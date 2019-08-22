@@ -71,7 +71,6 @@ def test_whitepages_extract():
     result = extract_whitepages(document, navigators, headerfooters)
 
     # convert dict to list
-    result = sorted(result.values(), key=lambda x: x.page)
     assert result == RESTRUCT_EXPECTED
 
 

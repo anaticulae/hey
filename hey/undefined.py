@@ -11,6 +11,7 @@ from iamraw import Border
 
 from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import create_pagetextnavigators
+from hey.utils import select_page
 
 
 def extract_undefined(pages, text, text_position, contentborder: Border):
@@ -32,7 +33,11 @@ def extract_undefined(pages, text, text_position, contentborder: Border):
     )
     result = []
     for (page, pagecontent) in pages:
-        ptcn = PageTextContentNavigator(pagetextnavigators[page], contentborder)
+        navigator = select_page(pagetextnavigators, page)
+        ptcn = PageTextContentNavigator(
+            navigator,
+            contentborder,
+        )
         _pagecontent = []
         for index, (_, paragraph) in enumerate(pagecontent):
             # split the undefined groups

@@ -157,6 +157,7 @@ class PageTextContentNavigator:
             height=textnavigator.height,
         )
         top, bottom = topbottom(pagesize, content)
+        self.page = textnavigator.page
         self.data = textnavigator.between(top, bottom)
         self._offset = textnavigator.offset(top, bottom)
 
@@ -178,18 +179,14 @@ def create_pagetextnavigators(
         text: Document,
         text_positions,
 ) -> PageTextNavigators:
-    navigators = {}
+    result = []
     dimension = (text.dimension.width, text.dimension.height)
 
     for textposition in text_positions:
-        content = textposition.content
-        pagenumber = textposition.page
-        # assert text.number == pagenumber
-
-        navigator = PageTextNavigator(size=dimension, page=pagenumber)
-        navigators[pagenumber] = navigator
+        navigator = PageTextNavigator(size=dimension, page=textposition.page)
+        result.append(navigator)
         textid = 0
-        for item in text[pagenumber]:
+        for item in text[textposition.page]:
             # assert item.number == pagenumber, item.number
             try:
                 # TODO: Remove strip after container is fixed
@@ -198,11 +195,10 @@ def create_pagetextnavigators(
                 # no text element
                 continue
             else:
-                pos = content[textid]
+                pos = textposition.content[textid]
                 navigator.insert(pos, textcontent)
                 textid += 1
-
-    return navigators
+    return result
 
 
 def topbottom(size: PageSize, contentborder: Border):

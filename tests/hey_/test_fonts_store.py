@@ -25,6 +25,7 @@ from hey.fonts.store import FontStore
 from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
+from hey.utils import select_page
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_border
 from tests.fixtures.restruct import restructured_contentborder
@@ -148,10 +149,11 @@ def restructured_textnavigators(
         restructured_text: Document,  # pylint:disable=W0621
 ) -> PageTextNavigators:
     textpositions = load_textposition(RESTRUCT_TEXT_POSITION)
-    return create_pagetextnavigators(
+    navigators = create_pagetextnavigators(
         text=restructured_text,
         text_positions=textpositions,
     )
+    return navigators
 
 
 @fixture
@@ -161,7 +163,7 @@ def restructured_pagetextcontentnavigator(
 ) -> PageTextContentNavigator:
     contentborders = restructured_contentborder
     page = 4
-    navigator = restructured_textnavigators[page]
+    navigator = select_page(restructured_textnavigators, page)
     pagecontent = PageTextContentNavigator(
         navigator,
         contentborders,

@@ -11,6 +11,7 @@ from pytest import mark
 from pytest import param
 
 from detector.parser.complete import parse
+from hey.textnavigator.navigator import create_pagetextnavigators
 from tests import prepare
 from tests.fixtures.titlepage import FIRST
 from tests.fixtures.titlepage import FIRST_EXPECTED

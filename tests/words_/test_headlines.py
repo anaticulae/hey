@@ -109,7 +109,7 @@ def test_headlines_extract_headlines(
 
     extracted = extract_headlines(
         sections=sections,
-        pagetextnavigator=navigator,
+        pagetextnavigators=navigator,
         fontstore=restructured_fontstore,
         sizeandborder=sizeandborder,
         horizontals=restructured_horizontals,

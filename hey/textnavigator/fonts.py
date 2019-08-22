@@ -171,7 +171,6 @@ def textsize_from_textbounds(
 def document_textsize(navigators, borders: List[Border]) -> int:
     """Determine the most common text size"""
     result = []
-    navigators = navigators.values()
     for number, (navigator, contentborder) in sync([navigators, borders]):
         size = textsize_from_textbounds(navigator, contentborder)
         result.append(size)

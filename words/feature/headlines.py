@@ -53,6 +53,7 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.textnavigator.navigator import navigator_to_bounds
+from hey.utils import select_page
 from sections.feature.sections import Content
 from sections.feature.sections import Sections
 from sections.feature.sections import chapters
@@ -85,7 +86,7 @@ def work(
     sizeandborder = load_pageborders(sizeandborder)
     horizontals = load_horizontals(horizontals)
 
-    pagetextnavigator = create_pagetextnavigators(
+    pagetextnavigators = create_pagetextnavigators(
         text=document,
         text_positions=position,
     )
@@ -96,7 +97,7 @@ def work(
     # work
     extracted = extract_headlines(
         sections,
-        pagetextnavigator=pagetextnavigator,
+        pagetextnavigators=pagetextnavigators,
         fontstore=fontstore,
         sizeandborder=sizeandborder,
         horizontals=horizontals,
@@ -115,7 +116,7 @@ SECOND_LEVEL = 0.7
 
 def extract_headlines(
         sections: Sections,
-        pagetextnavigator: PageTextNavigators,
+        pagetextnavigators: PageTextNavigators,
         fontstore: FontStore,
         sizeandborder,
         horizontals,
@@ -137,7 +138,7 @@ def extract_headlines(
     border = content_border(horizontals, contentborders)
 
     textsize = document_textsize(
-        navigators=pagetextnavigator,
+        navigators=pagetextnavigators,
         borders=sizeandborder,
     )
     smallest_headline_size = textsize * SMALLEST_HEADLINE_FACTOR
@@ -148,7 +149,7 @@ def extract_headlines(
         (start, end) = content[index]
         for page in range(start, end + 1):
             pagecontent = PageTextContentNavigator(
-                pagetextnavigator[page],
+                select_page(pagetextnavigators, page=page),
                 border,
             )
             xoff = pagecontent.offset[0]

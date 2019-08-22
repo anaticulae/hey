@@ -150,6 +150,8 @@ class FontContentStore:
             page: int,
     ):
         assert store, navigator
+        assert isinstance(navigator, PageTextContentNavigator)
+        assert page == navigator.page, '%d %d' % (page, navigator.page)
         self.store = store
         self.off_start = navigator.offset[0]
         self.off_end = navigator.offset[1]

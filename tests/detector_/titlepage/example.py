@@ -15,6 +15,7 @@ from serializeraw import load_font_header
 from groupme.feature.numbers import load_textposition
 from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import create_pagetextnavigators
+from hey.utils import select_page
 
 TEXT = r"""
 dimension: 595.28 841.89
@@ -121,5 +122,5 @@ def new_textnavgiator():
         load_document(TEXT, pages=0),  # just load the first page
         load_textposition(TEXT_POSITION, pages=0),
     )
-    first = navigators[0]
+    first = select_page(navigators, page=0)
     return first

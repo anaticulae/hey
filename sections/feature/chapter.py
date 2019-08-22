@@ -36,8 +36,8 @@ from yaml import dump
 from yaml import load
 
 from groupme.feature.numbers import load_textposition
-from hey import CACHE_SMALL
 from hey.textnavigator.navigator import PageTextNavigator
+from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 
 
@@ -67,11 +67,12 @@ FIRST_QUARTER = 0.35
 
 
 def space_between_header_and_first_line(
-        navigators: List[PageTextNavigator],
+        navigators: PageTextNavigators,
         tocs,
 ):
-    result = {}
-    for navigator in sorted(navigators.values(), key=lambda x: x.page):
+    result = []
+    for navigator in navigators:
+        pagenumber = navigator.page
         first_content = navigator.before(FIRST_QUARTER)
 
         chapter_rate = contain_chapter(first_content)
@@ -79,17 +80,17 @@ def space_between_header_and_first_line(
 
         if chapter_rate <= 0.0:
             continue
-        result[navigator.page] = chapter_rate / 2.5
+
+        rate_in_percent = chapter_rate / 2.5
+
+        result.append(
+            iamraw.PageContentLikelihood(
+                page=pagenumber,
+                content=iamraw.Likelihood(rate_in_percent, 'chapter'),
+            ))
         # TODO: There is the possiblity that header and start of chapter
         # are together, support later
         # result.append(0.0)
-
-    result = [
-        iamraw.PageContentLikelihood(
-            page=page, content=iamraw.Likelihood(value, 'chapter'))
-        for page, value in result.items()
-    ]
-
     return result
 
 

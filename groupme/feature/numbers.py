@@ -95,19 +95,13 @@ BOTTOM_MAX_DIFFERENCE = 10.0
 
 
 def header(navigators):
-    collected = [
-        page.before(TOP_BORDER)
-        for page in sorted(navigators.values(), key=lambda x: x.page)
-    ]
+    collected = [page.before(TOP_BORDER) for page in navigators]
     common = common_items(collected, max_difference=TOP_MAX_DIFFERENCE)
     return common
 
 
 def footer(navigators):
-    collected = [
-        page.after(BOTTOM_BORDER)
-        for page in sorted(navigators.values(), key=lambda x: x.page)
-    ]
+    collected = [page.after(BOTTOM_BORDER) for page in navigators]
     common = common_items(collected, max_difference=BOTTOM_MAX_DIFFERENCE)
     return common
 

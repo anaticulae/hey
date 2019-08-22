@@ -58,6 +58,7 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
+from hey.utils import select_page
 from words.boxed import BoxedChecker
 from words.feature.headlines import content_border
 
@@ -225,7 +226,7 @@ def prepare_analyze_page(
     """
     page = headlines[0].page
     pcn = PageTextContentNavigator(
-        textnavigator=textnavigators[page],
+        textnavigator=select_page(textnavigators, page=page),
         content=border,
     )
     if pcn.offset == (None, None):

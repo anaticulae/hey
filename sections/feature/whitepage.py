@@ -88,7 +88,6 @@ def extract_whitepages(
             Position
     """
     result = {}
-    navigators = sorted(navigators.values(), key=lambda x: x.page)
     for pagenumber, (currentpage, navigator, headerfooter) in sync([
             document,
             navigators,
@@ -115,12 +114,13 @@ def extract_whitepages(
                 # page with footer and/or header and content - "normal page"
                 result[pagenumber] = WhitePage.CONTENT
 
-    result = {
-        page: PageContentWhitepages(
+    result = [
+        PageContentWhitepages(
             page=page,
             content=WhitePage[whitepage.name] if whitepage else None,
         ) for page, whitepage in result.items()
-    }
+    ]
+    result = sorted(result, key=lambda x: x.page)
     return result
 
 

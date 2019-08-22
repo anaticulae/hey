@@ -22,6 +22,7 @@ from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
+from hey.utils import select_page
 from sections.feature.chapter import work as chapter_work
 from sections.feature.index import work as index_work
 from sections.feature.sections import work as section_work
@@ -138,7 +139,7 @@ def simple_page_2_text_only(simple_page_2: Page):  # pylint: disable=W0621
 @fixture
 def simple_second_page_navigator(simple_pagetextnavigators,
                                 ) -> PageTextNavigator:
-    return simple_pagetextnavigators[1]
+    return select_page(simple_pagetextnavigators, page=1)
 
 
 @fixture
