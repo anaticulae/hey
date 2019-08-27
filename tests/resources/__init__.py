@@ -117,6 +117,3 @@ REQURIED_RESOURCES = [
     SIMPLE_TEXT_POSITION,
     SIMPLE_TOC,
 ]
-
-for item in REQURIED_RESOURCES:
-    assert exists(item), f'path does not exists {item}'
