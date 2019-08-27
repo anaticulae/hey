@@ -12,9 +12,9 @@ from os.path import join
 
 from hey import ROOT
 
-TEST_DATA = join(ROOT, 'tests/resources')
+RESOURCES = join(ROOT, 'tests/resources')
 
-assert exists(TEST_DATA), TEST_DATA
+assert exists(RESOURCES), RESOURCES
 
 BOXES_BOXES = 'rawmaker__boxes_boxes.yaml'
 FONTS_CONTENT = 'rawmaker__fonts_content.yaml'
@@ -31,7 +31,7 @@ TOC = 'rawmaker__toc_toc.yaml'
 
 # restruct
 
-RESTRUCT = join(TEST_DATA, 'restruct')
+RESTRUCT = join(RESOURCES, 'restruct')
 RESTRUCT_BOXES = join(RESTRUCT, BOXES_BOXES)
 RESTRUCT_FONT_CONTENT = join(RESTRUCT, FONTS_CONTENT)
 RESTRUCT_FONT_HEADER = join(RESTRUCT, FONTS_HEADER)
@@ -50,7 +50,7 @@ RESTRUCT_TOC_LINES = 13
 
 # simple
 
-SIMPLE = join(TEST_DATA, 'simple')
+SIMPLE = join(RESOURCES, 'simple')
 SIMPLE_FONT_CONTENT = join(SIMPLE, FONTS_CONTENT)
 SIMPLE_FONT_HEADER = join(SIMPLE, FONTS_HEADER)
 SIMPLE_HORIZONTAL = join(SIMPLE, HORIZONTAL)
@@ -67,7 +67,7 @@ SIMPLE_TOC_LINES = 12
 
 # porting module
 
-PYPORTING = join(TEST_DATA, 'porting_module')
+PYPORTING = join(RESOURCES, 'porting_module')
 PYPORTING_FONT_CONTENT = join(PYPORTING, FONTS_CONTENT)
 PYPORTING_FONT_HEADER = join(PYPORTING, FONTS_HEADER)
 PYPORTING_HORIZONTAL = join(PYPORTING, HORIZONTAL)
@@ -79,7 +79,7 @@ PYPORTING_TEXT = join(PYPORTING, TEXT)
 PYPORTING_TEXT_POSITION = join(PYPORTING, TEXT_POSITION)
 PYPORTING_TOC = join(PYPORTING, TOC)
 
-RESOURCES = [
+REQURIED_RESOURCES = [
     PYPORTING,
     PYPORTING_FONT_CONTENT,
     PYPORTING_FONT_HEADER,
