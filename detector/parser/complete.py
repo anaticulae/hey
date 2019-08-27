@@ -10,6 +10,8 @@ from dataclasses import dataclass
 from dataclasses import field
 from typing import List
 
+from utila import NEWLINE
+
 from detector.parser import textblock_token
 from detector.parser.date import TitleDate
 from detector.parser.date import parse as parse_date
@@ -22,6 +24,8 @@ from detector.parser.person import order_persons
 from detector.parser.person import parse_all as parse_person_all
 from detector.parser.thesis import DocumentType
 from detector.parser.thesis import parse as parse_thesis
+from detector.parser.title import parse as parse_title
+from hey.textnavigator.navigator import PageTextNavigator
 
 
 @dataclass
@@ -35,7 +39,7 @@ class TitlePage:
     institution: Institution = None
 
 
-def parse(text: str) -> TitlePage:
+def parse(navigator: PageTextNavigator) -> TitlePage:
     """Extract `TitlePage` out of tile page data
 
     Args:
@@ -44,6 +48,19 @@ def parse(text: str) -> TitlePage:
         extracted TitlePage
     """
     result = TitlePage()
+    if isinstance(navigator, PageTextNavigator):
+        title = parse_title(navigator)
+        text = NEWLINE.join(navigator)
+        if isinstance(text, str):
+            text.replace(title, '')
+            result.title = title
+        else:
+            # TODO: check title error lstatus
+            pass
+    else:
+        # TODO: Legacy interface
+        # support str as input
+        text = navigator
 
     result.institution, text = parse_institution(text)
     parsed = textblock_token(text)
