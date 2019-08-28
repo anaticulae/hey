@@ -39,28 +39,31 @@ class TitlePage:
     institution: Institution = None
 
 
-def parse(navigator: PageTextNavigator) -> TitlePage:
+def parse(text: PageTextNavigator) -> TitlePage:
     """Extract `TitlePage` out of tile page data
 
     Args:
-        text(str): complete text content of title page with NEWLINES
+        text(PageTextNavigator/str): complete text content of title page
+                                     with NEWLINES. Ordinary str input
+                                     in conveted to PageTextNavigator
+                                     with equal BoundingBoxes
     Returns:
         extracted TitlePage
     """
     result = TitlePage()
-    if isinstance(navigator, PageTextNavigator):
-        title = parse_title(navigator)
-        text = NEWLINE.join(navigator)
-        if isinstance(text, str):
-            text.replace(title, '')
-            result.title = title
-        else:
-            # TODO: check title error lstatus
-            pass
+
+    if isinstance(text, str):
+        # support
+        text = PageTextNavigator.from_str(text)
+
+    title = parse_title(text)
+    text = utila.NEWLINE.join([text for _, text in text[:]])
+    if isinstance(title, str):
+        text.replace(title, '')
+        result.title = title
     else:
-        # TODO: Legacy interface
-        # support str as input
-        text = navigator
+        # TODO: check title error lstatus
+        pass
 
     result.institution, text = parse_institution(text)
     parsed = textblock_token(text)

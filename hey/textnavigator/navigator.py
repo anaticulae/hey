@@ -134,6 +134,21 @@ class PageTextNavigator:
         top, bottom = result[0], result[-1] + 1
         return top, bottom
 
+    @classmethod
+    def from_str(cls, text: str):
+        """Create PageTextNavigator out of text area
+
+        Hint:
+            text position is not supported
+        """
+        result = cls()
+        for index, line in enumerate(text.splitlines()):
+            result.insert(
+                BoundingBox.from_list([0, index * 20, 300, (index + 1) * 20]),
+                line,
+            )
+        return result
+
 
 class PageTextContentNavigator:
 
