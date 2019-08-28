@@ -7,23 +7,23 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from functools import partial
+import functools
 
-from utila import run_command
+import utila
 
 from detector import PROCESS_NAME
 from detector.cli import main
 
 #pylint:disable=C0103
-run_detector_success = partial(
-    run_command,
+run_detector_success = functools.partial(
+    utila.run_command,
     main=main,
     process=PROCESS_NAME,
     success=True,
 )
 
-run_detector_failure = partial(
-    run_command,
+run_detector_failure = functools.partial(
+    utila.run_command,
     main=main,
     process=PROCESS_NAME,
     success=False,

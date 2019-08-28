@@ -7,13 +7,13 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pytest import mark
+import pytest
 
 from detector.parser.matrikel import Matrikel
 from detector.parser.matrikel import parse
 
 
-@mark.parametrize('raw, expected', [
+@pytest.mark.parametrize('raw, expected', [
     (
         '   Matrikelnummer: 519448   ',
         Matrikel(519448, 'Matrikelnummer:', 'Matrikelnummer: 519448'),

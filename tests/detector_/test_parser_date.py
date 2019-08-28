@@ -7,13 +7,13 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pytest import mark
+import pytest
 
 from detector.parser.date import TitleDate
 from detector.parser.date import parse
 
 
-@mark.parametrize('raw, expected', [
+@pytest.mark.parametrize('raw, expected', [
     (
         'Berlin, den 4. Juni 2010',
         TitleDate(2010, 6, 4, 'Berlin', True, 'Berlin, den 4. Juni 2010'),

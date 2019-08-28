@@ -7,8 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pytest import mark
-from pytest import param
+import pytest
 
 from detector.parser.person import Person
 from detector.parser.person import Title
@@ -39,7 +38,7 @@ KAHN = Person(
 )
 
 
-@mark.parametrize('raw, expected', [
+@pytest.mark.parametrize('raw, expected', [
     (
         '  B.Sc. Helmut Konrad Fahrendholz',
         HELMUT,
@@ -79,7 +78,7 @@ KAHN = Person(
             '2. Betreuer: Dr.-Ing. Dirk Contemporary',
         ),
     ),
-    param(
+    pytest.param(
         '   vorgelegt von Thomas Helmer    ',
         Person(
             Title.NO_TITLE,
@@ -87,7 +86,7 @@ KAHN = Person(
             'Thomas',
             'vorgelegt von Thomas Helmer',
         ),
-        marks=mark.xfail(reason='unsupported in current regex impl'),
+        marks=pytest.mark.xfail(reason='unsupported in current regex impl'),
     ),
 ])
 def test_parse_person(raw, expected):

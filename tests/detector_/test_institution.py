@@ -6,11 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
-from functools import partial
-
-from pytest import mark
-from pytest import param
+import pytest
 
 from detector.parser.institution import parse
 from tests import prepare as prepare_name
@@ -24,9 +20,9 @@ def prepare(item):
     return prepare_name('institution_' + item)
 
 
-@mark.parametrize('example, expected', [
-    param(FIRST, FIRST_INSTITUTION, id=prepare(FIRST)),
-    param(SECOND, SECOND_INSTITUTION, id=prepare(SECOND)),
+@pytest.mark.parametrize('example, expected', [
+    pytest.param(FIRST, FIRST_INSTITUTION, id=prepare(FIRST)),
+    pytest.param(SECOND, SECOND_INSTITUTION, id=prepare(SECOND)),
 ])
 def test_parser_institution_parse(example, expected):
     parsed, _ = parse(example)

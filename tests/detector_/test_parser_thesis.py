@@ -7,14 +7,14 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pytest import mark
+import pytest
 
 from detector.parser.thesis import DocumentType
 from detector.parser.thesis import TitleThesisType
 from detector.parser.thesis import parse
 
 
-@mark.parametrize('raw, expected', [
+@pytest.mark.parametrize('raw, expected', [
     (
         'Masterarbeit',
         TitleThesisType(DocumentType.MASTER, 'Masterarbeit', 'Masterarbeit'),

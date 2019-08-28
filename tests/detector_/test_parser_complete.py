@@ -7,8 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pytest import mark
-from pytest import param
+import pytest
 
 from detector.parser.complete import parse
 from hey.textnavigator.navigator import create_pagetextnavigators
@@ -19,13 +18,13 @@ from tests.fixtures.titlepage import SECOND
 from tests.fixtures.titlepage import SECOND_EXPECTED
 
 
-@mark.parametrize('page, expected', [
-    param(
+@pytest.mark.parametrize('page, expected', [
+    pytest.param(
         FIRST,
         FIRST_EXPECTED,
         id=prepare(FIRST),
     ),
-    param(
+    pytest.param(
         SECOND,
         SECOND_EXPECTED,
         id=prepare(SECOND),
