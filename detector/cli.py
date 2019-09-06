@@ -24,8 +24,9 @@ WORKPLAN = [
         'title',
         inputs=[
             ResultFile('rawmaker', 'oneline_text_text'),
+            ResultFile('rawmaker', 'oneline_text_positions'),
         ],
-        output=('features', 'broken'),
+        output=('page_detected',),
     ),
 ]
 

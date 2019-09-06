@@ -55,12 +55,13 @@ from typing import Tuple
 import serializeraw
 import utila
 
+from detector.parser.complete import dump_title_page
 from detector.parser.complete import parse
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.utils import select_page
 
 
-def work(text: str, text_positions: str) -> Tuple[str, str]:
+def work(text: str, text_positions: str) -> str:
     text = serializeraw.load_document(text, pages=0)
     text_positions = serializeraw.load_textpositions(text_positions, pages=0)
 
@@ -68,7 +69,8 @@ def work(text: str, text_positions: str) -> Tuple[str, str]:
     navigator = select_page(navigators, page=0)
     parsed = parse(navigator)
 
-    return parsed
+    dumped = dump_title_page(parsed)
+    return dumped
 
 
 def name():

@@ -11,6 +11,7 @@ import dataclasses
 import typing
 
 import utila
+import yaml
 
 from detector.parser import textblock_token
 from detector.parser.date import TitleDate
@@ -89,6 +90,7 @@ def parse(text: PageTextNavigator) -> TitlePage:
     persons, todo = parse_person_all(parsed)
     if persons:
         result.author, result.examiner = order_persons(persons)
+
     return result
 
 
@@ -97,3 +99,15 @@ STRATEGY = [
     ('thesis', parse_thesis),
     ('matrikel', parse_matrikel),
 ]
+
+
+def dump_title_page(titlepage: TitlePage) -> str:
+    # TODO: Improve with human readable format
+    dumped = yaml.dump(titlepage)
+    return dumped
+
+
+def load_title_page(content: str) -> TitlePage:
+    content = utila.from_raw_or_path(content, ftype='yaml')
+    loaded = yaml.load(content, Loader=yaml.FullLoader)
+    return loaded

@@ -83,9 +83,21 @@ MONTH = [
     'Dezember',
 ]
 
+# TODO: Add shorten month name, see `Sep`
+
 MONTH_ENG = [
     'January',
     'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'Sep',
+    'October',
+    'November',
+    'December',
 ]
 
 MONTH_GROUP = r'(?P<month>' + '|'.join(MONTH) + ')'

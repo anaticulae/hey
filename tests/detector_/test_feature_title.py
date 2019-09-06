@@ -15,3 +15,6 @@ from tests.resources import SIMPLE_ONELINE_TEXT
 def test_title_parser():
     extracted = work(SIMPLE_ONELINE_TEXT, SIMPLE_ONELINE_POSITION)
     assert extracted
+
+    # ensure that result is converted to yaml
+    assert isinstance(extracted, str), type(extracted)
