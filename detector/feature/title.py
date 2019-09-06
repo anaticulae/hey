@@ -24,7 +24,7 @@ Shortcuts:
     AU  - Advice unit
     PL  - Presentation layer
 
-How does the `tpe` work:
+How does the `TPE` work:
 
 Extract Strings
         Numbers
@@ -39,7 +39,7 @@ Requirements - "Wissenschaftliches Arbeiten" - Manuel Rene Theisen:
 
    + Universitaets, Fakultaet, Institut, Seminar
    + Pruefungszeit, laufendes Semenster
-   + Art: These, Seminar, Bachelor, Master, Disteration
+   + Art: Thesis, Seminar, Bachelor, Master, Disteration
    + Thema
    + Namensangabe des Pruefers
    + Name, Vorname des Verfassers mit eventuellem akademischem Titel

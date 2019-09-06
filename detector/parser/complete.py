@@ -6,11 +6,11 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-from dataclasses import dataclass
-from dataclasses import field
-from typing import List
 
-from utila import NEWLINE
+import dataclasses
+import typing
+
+import utila
 
 from detector.parser import textblock_token
 from detector.parser.date import TitleDate
@@ -28,14 +28,14 @@ from detector.parser.title import parse as parse_title
 from hey.textnavigator.navigator import PageTextNavigator
 
 
-@dataclass
+@dataclasses.dataclass
 class TitlePage:
     title: str = ''
     thesis: DocumentType = None
     date: TitleDate = None
     author: Person = None
     matrikel: Matrikel = None
-    examiner: List[Person] = field(default_factory=list)
+    examiner: typing.List[Person] = dataclasses.field(default_factory=list)
     institution: Institution = None
 
 
