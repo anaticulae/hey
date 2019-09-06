@@ -58,6 +58,10 @@ from detector.parser.date import parse
         'First printing, Oktober 2004 ',
         TitleDate(2004, 10, None, None, True, 'Oktober 2004'),
     ),
+    (
+        'February 28, 2019',
+        TitleDate(2019, 2, 28, None, True, 'February 28, 2019'),
+    ),
 ])
 def test_parse_date(raw, expected):
     parsed = parse(raw)

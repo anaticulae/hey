@@ -12,6 +12,7 @@ TODO:
     Make parser more tolerant, if nothing matches, reduces accuracy due
     reduce the search pattern like Januar -> Janua, Janu, .. Jan..
 
+    Refactor and think about new concept
 """
 
 from calendar import weekday
@@ -35,10 +36,16 @@ def parse(raw: str) -> TitleDate:
 
     # Require different regex
     # Judge function to decide when having multiple results
+    simple_alpha_date_month_first = partial(
+        simple_alpha_date,
+        month=MONTH_ENG,
+        pattern=SIMPLE_ALPHA_DATE_MONTH_FIRST,
+    )
 
     pattern = [
         location_comman_day_month_year,
         simple_alpha_date,
+        simple_alpha_date_month_first,
         simple_month_year_date,
         simple_date,
     ] + [partial(simple_alpha_date, reduce=index) for index in range(7)]
@@ -76,11 +83,19 @@ MONTH = [
     'Dezember',
 ]
 
+MONTH_ENG = [
+    'January',
+    'February',
+]
+
 MONTH_GROUP = r'(?P<month>' + '|'.join(MONTH) + ')'
+MONTH_GROUP_ENG = r'(?P<month>' + '|'.join(MONTH_ENG) + ')'
 
 SIMPLE_DATE = r'(?P<day>\d{1,2})\.(?P<month>\d{1,2})\.(?P<year>\d{4})'
 
 SIMPLE_ALPHA_DATE = r'(?P<day>\d{1,2})([\.|,]) ' + MONTH_GROUP\
+                                                 + r' (?P<year>\d{4})'
+SIMPLE_ALPHA_DATE_MONTH_FIRST = MONTH_GROUP_ENG +   r' (?P<day>\d{1,2})([\.|,])'\
                                                  + r' (?P<year>\d{4})'
 
 SIMPLE_MONTH_YEAR = MONTH_GROUP + r' (\d{4})'
@@ -115,15 +130,20 @@ def reduce_word(word, count):
     return reduced
 
 
-def simple_alpha_date(raw, reduce: int = 0):
+def simple_alpha_date(
+        raw,
+        reduce: int = 0,
+        month=MONTH,
+        pattern=SIMPLE_ALPHA_DATE,
+):
     """
     Args:
         reduce(int):
     Returns:
 
     """
-    month_match = {reduce_word(item, reduce): item for item in MONTH}
-    changed_pattern = str(SIMPLE_ALPHA_DATE)
+    month_match = {reduce_word(item, reduce): item for item in month}
+    changed_pattern = str(pattern)
     for key, value in month_match.items():
         changed_pattern = changed_pattern.replace(value, key)
     res = re_search(changed_pattern, raw)
@@ -133,12 +153,12 @@ def simple_alpha_date(raw, reduce: int = 0):
     matched = extract_match(res)
     day = int(res['day'])
     collected = month_match[res['month']]
-    month = MONTH.index(collected) + 1
+    month_ = month.index(collected) + 1
     year = int(res['year'])
     valid = len(res['day']) == 2
     result = TitleDate(
         year=year,
-        month=month,
+        month=month_,
         day=day,
         location=None,
         valid=valid,
@@ -147,7 +167,7 @@ def simple_alpha_date(raw, reduce: int = 0):
     return result
 
 
-def simple_month_year_date(raw,):
+def simple_month_year_date(raw):
     res = re_search(SIMPLE_MONTH_YEAR, raw)
     if not res:
         return None
