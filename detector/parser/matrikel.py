@@ -57,4 +57,5 @@ INTRO = [
     'vorgelegt von',
 ]
 
-PATTERN = r'(?P<intro>(' + '|'.join(INTRO) + r')?[:,]?)\s?' + r'(?P<number>\d+)'
+PATTERN = r'(?P<intro>(' + '|'.join(INTRO) + r')?[:,]?)\s?'
+PATTERN += r'(?P<number>\d{4,10})'  # number contains from 4 to 10 digits
