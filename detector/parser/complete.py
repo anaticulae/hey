@@ -87,7 +87,8 @@ def parse(text: PageTextNavigator) -> TitlePage:
 
     # run complex parsing
     persons, todo = parse_person_all(parsed)
-    result.author, result.examiner = order_persons(persons)
+    if persons:
+        result.author, result.examiner = order_persons(persons)
     return result
 
 
