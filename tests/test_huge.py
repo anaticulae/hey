@@ -30,9 +30,14 @@ UNSUPPORTED_DOCUMENTS = {
 
 SKIP_DOCUMENTS = {
     'bachelor/page_111_images_toc.pdf',
+    'bachelor/page_63_images_toc.pdf',
     'docu/vimguide.pdf',
     'homework/page_40_images_toc.pdf',
+    'master/page_116_images_toc_formular.pdf',
+    'master/page_72_noimages_toc.pdf',
     'master/page_78_images_toc.pdf',
+    'master/page_83_noimages_toc.pdf',
+    'master/page_89_noimages_toc.pdf',
 }
 
 

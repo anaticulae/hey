@@ -66,6 +66,7 @@ if __name__ == "__main__":
         packages=[
             'detector',
             'detector.feature',
+            'detector.parser',
             'groupme',
             'groupme.feature',
             'hey',
