@@ -78,6 +78,24 @@ KAHN = Person(
             '2. Betreuer: Dr.-Ing. Dirk Contemporary',
         ),
     ),
+    (
+        'Erstgutachter: Prof. Dr. rer. biol. hum. Erwin Paulat',
+        Person(
+            PROF_DR,
+            'Paulat',
+            'Erwin',
+            'Erstgutachter: Prof. Dr. rer. biol. hum. Erwin Paulat',
+        ),
+    ),
+    (
+        'Zweitgutachter: Prof. Dr. med. Dr.-Ing. Ronald Verbus-Trapp',
+        Person(
+            PROF_DR,
+            'Verbus-Trapp',
+            'Ronald',
+            'Zweitgutachter: Prof. Dr. med. Dr.-Ing. Ronald Verbus-Trapp',
+        ),
+    ),
     pytest.param(
         '   vorgelegt von Thomas Helmer    ',
         Person(

@@ -7,11 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import re
 from collections import namedtuple
 from enum import Flag
 from enum import auto
 from operator import attrgetter
-from re import search
 
 from detector.parser import extract_match
 
@@ -26,7 +26,7 @@ def parse(raw: str) -> Person:
     Returns
         Person if parsing was successful, else None
     """
-    result = search(PATTERN, raw)
+    result = re.search(PATTERN, raw)
     if not result:
         return None
 
@@ -109,10 +109,14 @@ PROF_DR = Title.PROF | Title.DR
 MATCHES = {
     'B.Sc.': Title.BSC,
     'Dipl. Ing.': Title.MASTER,
-    'Dr.': Title.DR,
     'Dr.-Ing.': Title.DR,
+    'Dr.': Title.DR,
     'M.Sc.': Title.MASTER,
     'Prof.': Title.PROF,
+    r'\w+. ': Title.DR,
+    # see general pattern above
+    # 'Dr. rer. biol. hum.': Title.DR,
+    # 'Dr. med.': Title.DR,
 }
 
 EXAMINER = [
@@ -125,11 +129,19 @@ EXAMINER = [
     r'(\w+\s?){1,4}',
 ]
 
-PREPHASE = r'(?P<examiner>(' + '|'.join(EXAMINER) + r')[:]?\s?)?'
-PATTERN = '|'.join('(?P<t%d>%s)' % (index, item.replace('.', r'\.'))
-                   for index, item in enumerate(Title.keys()))
-PATTERN = r'(%s\ *)+( )?(?P<fname>(\w+[ ]?)*) (?P<name>\w+)' % PATTERN
-PATTERN = PREPHASE + PATTERN
+TITLE_KEYS = [
+    item.replace('.', r'\.').replace(' ', '[ ]') for item in Title.keys()
+]
+MATCHER = '|'.join(
+    fr'(?P<t{index}>{item})[\ ]?' for index, item in enumerate(TITLE_KEYS))
+EXAMINER = '|'.join(EXAMINER)
+
+PATTERN = rf"""(?P<examiner>({EXAMINER})[:]?\s?)?
+               ({MATCHER}\ *)+(\ )?
+               (?P<fname>(\w+[ ]?)*)\ (?P<name>[\w|-]+)
+            """
+
+PATTERN = re.compile(PATTERN, re.X)
 
 
 def extract_title(result):
@@ -151,5 +163,7 @@ def merge_title(items) -> Title:
         return None
     result = items[0]
     for item in items:
+        if not item:
+            continue
         result |= item
     return result
