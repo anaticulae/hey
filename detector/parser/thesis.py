@@ -8,12 +8,13 @@
 # =============================================================================
 
 from collections import namedtuple
-from enum import Enum
-from enum import auto
 from re import search
+
+import iamraw
 
 from detector.parser import extract_match
 
+# TODO: MOVE TO IAMRAW
 TitleThesisType = namedtuple('TitleThesisType', 'typ, title raw')
 
 
@@ -24,7 +25,8 @@ def parse(token: str) -> TitleThesisType:
 
     # TODO: HOW TO HANDLE MULTIPLE COLLECTION, e.g. Master, Bachelor on the
     # same page.
-    for item in THESIS:
+    # TODO: ADD DIRECT IMPORT OF THESIS
+    for item in iamraw.titlepage.THESIS:
         finding = collected[item.name]
         if not finding:
             continue
@@ -34,41 +36,9 @@ def parse(token: str) -> TitleThesisType:
     return None
 
 
-class DocumentType(Enum):
-    NONE = auto()
-    STUDY = auto()
-    BACHELOR = auto()
-    MASTER = auto()
-    DOCTOR = auto()
-    BOOK = auto()
-
-
-THESIS = {
-    DocumentType.STUDY: {
-        'Komplexe Transferaufgabe',
-        'Studienarbeit',
-    },
-    DocumentType.BACHELOR: {
-        'Bachelor',
-        'Bachelorarbeit',
-        'Bachelorthesis',
-    },
-    DocumentType.MASTER: {
-        'Master',
-        'Masterarbeit',
-        'Masterthesis',
-    },
-    DocumentType.DOCTOR: {
-        'Doktor',
-        'Doktorarbeit',
-        'Promotion',
-    },
-}
-
-
 def construct_pattern():
     pattern = []
-    for key, values in THESIS.items():
+    for key, values in iamraw.titlepage.THESIS.items():
         subpattern = []
         subpattern = '(?P<%s>(' % str(key.name)
         # reverse to have the longer pattern in front, `Masterarbeit` before

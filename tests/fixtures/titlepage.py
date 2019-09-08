@@ -7,14 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from detector.parser.complete import TitlePage
-from detector.parser.date import TitleDate
-from detector.parser.institution import Institution
-from detector.parser.matrikel import Matrikel
+import iamraw
+
 from detector.parser.person import PROF_DR
-from detector.parser.person import Person
 from detector.parser.person import Title
-from detector.parser.thesis import DocumentType
 from detector.parser.thesis import TitleThesisType
 
 FIRST = """
@@ -39,38 +35,49 @@ Fachgebiet Trinken und Essen,
 Berlin, 19. April 2016
 """
 
-FIRST_INSTITUTION = Institution(
+FIRST_INSTITUTION = iamraw.Institution(
     courseofstudies=None,
     department='IV',
     field='Trinken und Essen',
     institute='für gute Getränke',
     university='Technische Universität Berlin',
 )
-FIRST_EXPECTED = TitlePage(
+FIRST_EXPECTED = iamraw.TitlePage(
     # title='Modellierung und Simulation eines hybriden Lokomotivantriebs',
-    thesis=TitleThesisType(DocumentType.MASTER, 'Masterarbeit', 'Masterarbeit'),
-    date=TitleDate(2016, 4, 19, 'Berlin', True, 'Berlin, 19. April 2016'),
-    author=Person(
+    thesis=TitleThesisType(
+        iamraw.DocumentType.MASTER,
+        'Masterarbeit',
+        'Masterarbeit',
+    ),
+    date=iamraw.TitleDate(
+        2016,
+        4,
+        19,
+        'Berlin',
+        True,
+        'Berlin, 19. April 2016',
+    ),
+    author=iamraw.Person(
         Title.BSC,
         'Fahrendholz',
         'Helmut Konrad',
         'B.Sc. Helmut Konrad Fahrendholz',
     ),
-    matrikel=Matrikel(321240, '', '321240'),
+    matrikel=iamraw.Matrikel(321240, '', '321240'),
     examiner=[
-        Person(
+        iamraw.Person(
             Title.MASTER,
             'MÜller',
             'Thomas',
             'Betreuer: Dipl. Ing. Thomas MÜller',
         ),
-        Person(
+        iamraw.Person(
             Title.PROF | Title.DR,
             'Libre',
             'Cuba',
             'Hochschullehrer: Prof. Dr.-Ing. Cuba Libre',
         ),
-        Person(
+        iamraw.Person(
             Title.PROF | Title.DR,
             'Lover',
             'Coffee',
@@ -101,30 +108,45 @@ Berlin, den 8. August 2015
 
 SECOND_FONTSTORE = None
 
-SECOND_INSTITUTION = Institution(
+SECOND_INSTITUTION = iamraw.Institution(
     university='Hochschule für Technik und Wirtschaft Berlin',
     field='Wirtschaftswissenschaften II',
     courseofstudies='Angewandte Kunst',
 )
-SECOND_EXPECTED = TitlePage(
+SECOND_EXPECTED = iamraw.TitlePage(
     # title='Steuerung und Überwachung intelligenter Gebäudetechnik',
-    thesis=TitleThesisType(DocumentType.MASTER, 'Masterarbeit', 'Masterarbeit'),
-    date=TitleDate(2015, 8, 8, 'Berlin', True, 'Berlin, den 8. August 2015'),
-    author=Person(
+    thesis=TitleThesisType(
+        iamraw.DocumentType.MASTER,
+        'Masterarbeit',
+        'Masterarbeit',
+    ),
+    date=iamraw.TitleDate(
+        2015,
+        8,
+        8,
+        'Berlin',
+        True,
+        'Berlin, den 8. August 2015',
+    ),
+    author=iamraw.Person(
         Title.BSC,
         'Helmer',
         'Thomas',
         'vorgelegt von B.Sc. Thomas Helmer',
     ),
-    matrikel=Matrikel(161647, 'Matrikelnummer:', 'Matrikelnummer: 161647'),
+    matrikel=iamraw.Matrikel(
+        161647,
+        'Matrikelnummer:',
+        'Matrikelnummer: 161647',
+    ),
     examiner=[
-        Person(
+        iamraw.Person(
             Title.DR,
             'Contemporary',
             'Dirk',
             '2. Betreuer: Dr.-Ing. Dirk Contemporary',
         ),
-        Person(
+        iamraw.Person(
             PROF_DR,
             'Semilov',
             'Carsten',

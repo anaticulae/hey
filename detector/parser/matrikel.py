@@ -23,15 +23,14 @@ not contains a matrikel-number-intro.
 
 """
 
-from collections import namedtuple
-from re import search
+import re
+
+import iamraw
 
 from detector.parser import extract_match
 
-Matrikel = namedtuple('Matrikel', 'number intro raw')
 
-
-def parse(raw: str) -> Matrikel:
+def parse(raw: str) -> iamraw.Matrikel:
     """Parse matrikel number from text line
 
     Args:
@@ -40,13 +39,13 @@ def parse(raw: str) -> Matrikel:
         parsed `Matrikel` or None if nothing matched
     """
     raw = raw.strip()
-    result = search(PATTERN, raw)
+    result = re.search(PATTERN, raw)
     if not result:
         return None
     intro = result['intro']
     number = int(result['number'])
     raw = extract_match(result).strip()  # TODO: remove after fixing regex
-    matrikel = Matrikel(number=number, intro=intro, raw=raw)
+    matrikel = iamraw.Matrikel(number=number, intro=intro, raw=raw)
     return matrikel
 
 

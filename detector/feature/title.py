@@ -54,7 +54,6 @@ Requirements - "Wissenschaftliches Arbeiten" - Manuel Rene Theisen:
 import serializeraw
 import utila
 
-from detector.parser.complete import dump_title_page
 from detector.parser.complete import parse
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.utils import select_page
@@ -68,7 +67,7 @@ def work(text: str, text_positions: str) -> str:
     navigator = select_page(navigators, page=0)
     parsed = parse(navigator)
 
-    dumped = dump_title_page(parsed)
+    dumped = serializeraw.dump_titlepage(parsed)
     return dumped
 
 

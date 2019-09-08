@@ -7,32 +7,32 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw
 import pytest
 
-from detector.parser.matrikel import Matrikel
 from detector.parser.matrikel import parse
 
 
 @pytest.mark.parametrize('raw, expected', [
     (
         '   Matrikelnummer: 519448   ',
-        Matrikel(519448, 'Matrikelnummer:', 'Matrikelnummer: 519448'),
+        iamraw.Matrikel(519448, 'Matrikelnummer:', 'Matrikelnummer: 519448'),
     ),
     (
         'Matrikel-Nr. 1024577',
-        Matrikel(1024577, 'Matrikel-Nr.', 'Matrikel-Nr. 1024577'),
+        iamraw.Matrikel(1024577, 'Matrikel-Nr.', 'Matrikel-Nr. 1024577'),
     ),
     (
         '   vorgelegt von: 321240',
-        Matrikel(321240, 'vorgelegt von:', 'vorgelegt von: 321240'),
+        iamraw.Matrikel(321240, 'vorgelegt von:', 'vorgelegt von: 321240'),
     ),
     (
         '   16348',
-        Matrikel(16348, '', '16348'),
+        iamraw.Matrikel(16348, '', '16348'),
     ),
     (
         '321240',
-        Matrikel(321240, '', '321240'),
+        iamraw.Matrikel(321240, '', '321240'),
     ),
 ])
 def test_parse_matrikel(raw, expected):

@@ -7,7 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 """
-
+# TODO: MOVE DESCRIPTION TO IAMRAW
 Institution - Institut
 Department - Fakultaet
 Institute - Institut
@@ -16,22 +16,11 @@ Course of studies - Studiengang
 Academic year - Studienjahr/Semester
 """
 
-from dataclasses import dataclass
-
-from utila import NEWLINE
-from utila import flatten
+import iamraw
+import utila
 
 
-@dataclass
-class Institution:
-    courseofstudies: str = None
-    department: str = None
-    field: str = None
-    institute: str = None
-    university: str = None
-
-
-def parse(raw: str) -> Institution:
+def parse(raw: str) -> iamraw.Institution:
     university = find_institution(raw)
     if university:
         university, raw = university
@@ -50,7 +39,7 @@ def parse(raw: str) -> Institution:
 
     (department, institute, field, courses) = results
 
-    result = Institution(
+    result = iamraw.Institution(
         courseofstudies=courses,
         department=department,
         field=field,
@@ -66,7 +55,7 @@ def detection(raw, items, remove: bool = True):
     # FIRST DRAFT
 
     splitted = raw.split(',')
-    splitted = flatten([item.split(NEWLINE) for item in splitted])
+    splitted = utila.flatten([item.split(utila.NEWLINE) for item in splitted])
     result = []
     for item in items:
         for chunk in splitted:
@@ -102,7 +91,7 @@ SELECTOR = {
 
 def words(raw):
     result = raw
-    for item in [',', '.', '-', NEWLINE]:
+    for item in [',', '.', '-', utila.NEWLINE]:
         result = result.replace(item, ' ')
     result = result.split()
     result = [item.title() for item in result]
@@ -148,7 +137,7 @@ def find_institution(raw) -> str:
         None if `institution` is in dictonary else collected
     """
     splitted = raw.split(',')
-    splitted = flatten([item.split(NEWLINE) for item in splitted])
+    splitted = utila.flatten([item.split(utila.NEWLINE) for item in splitted])
     # TODO require better lookup technology with hashing
     collected = [
         item for item in UNIVERSITIES

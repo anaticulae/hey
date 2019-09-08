@@ -7,13 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw
 import pytest
+import serializeraw
 
-from detector.parser.complete import TitlePage
-from detector.parser.complete import dump_title_page
-from detector.parser.complete import load_title_page
 from detector.parser.complete import parse
-from hey.textnavigator.navigator import create_pagetextnavigators
 from tests import prepare
 from tests.fixtures.titlepage import FIRST
 from tests.fixtures.titlepage import FIRST_EXPECTED
@@ -39,11 +37,10 @@ def test_detector_parse_complete_title_page(page, expected):
 
 
 def test_detector_parser_complete_dump_and_load_titlepage():
-    current = TitlePage()
+    current = iamraw.TitlePage()
 
-    dumped = dump_title_page(current)
+    dumped = serializeraw.dump_titlepage(current)
     assert len(dumped) > 100, str(dumped)
 
-    loaded = load_title_page(dumped)
-
+    loaded = serializeraw.load_titlepage(dumped)
     assert loaded == current

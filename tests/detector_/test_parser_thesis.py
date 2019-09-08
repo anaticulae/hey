@@ -7,9 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw
 import pytest
 
-from detector.parser.thesis import DocumentType
 from detector.parser.thesis import TitleThesisType
 from detector.parser.thesis import parse
 
@@ -17,11 +17,19 @@ from detector.parser.thesis import parse
 @pytest.mark.parametrize('raw, expected', [
     (
         'Masterarbeit',
-        TitleThesisType(DocumentType.MASTER, 'Masterarbeit', 'Masterarbeit'),
+        TitleThesisType(
+            iamraw.DocumentType.MASTER,
+            'Masterarbeit',
+            'Masterarbeit',
+        ),
     ),
     (
         'Promotion',
-        TitleThesisType(DocumentType.DOCTOR, 'Promotion', 'Promotion'),
+        TitleThesisType(
+            iamraw.DocumentType.DOCTOR,
+            'Promotion',
+            'Promotion',
+        ),
     ),
 ])
 def test_parse_thesis(raw, expected):

@@ -7,30 +7,30 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw
 import pytest
 
-from detector.parser.person import Person
 from detector.parser.person import Title
 from detector.parser.person import order_persons
 from detector.parser.person import parse
 
 PROF_DR = Title.PROF | Title.DR
 
-HELMUT = Person(
+HELMUT = iamraw.Person(
     Title.BSC,
     'Fahrendholz',
     'Helmut Konrad',
     'B.Sc. Helmut Konrad Fahrendholz',
 )
 
-GOMEZ = Person(
+GOMEZ = iamraw.Person(
     PROF_DR,
     'Gomez',
     'Fabian',
     'Hochschullehrer: Prof. Dr.-Ing. Fabian Gomez',
 )
 
-KAHN = Person(
+KAHN = iamraw.Person(
     PROF_DR,
     'Kahn',
     'Oliver',
@@ -53,7 +53,7 @@ KAHN = Person(
     ),
     (
         'Betreuer VAI:Dipl. Ing. Andreas Zickler   Hier folgt weiterer Text',
-        Person(
+        iamraw.Person(
             Title.MASTER,
             'Zickler',
             'Andreas',
@@ -62,7 +62,7 @@ KAHN = Person(
     ),
     (
         'Betreuer: Prof. Dr. Groeg Trichter  ',
-        Person(
+        iamraw.Person(
             PROF_DR,
             'Trichter',
             'Groeg',
@@ -71,7 +71,7 @@ KAHN = Person(
     ),
     (
         '2. Betreuer: Dr.-Ing. Dirk Contemporary',
-        Person(
+        iamraw.Person(
             Title.DR,
             'Contemporary',
             'Dirk',
@@ -80,7 +80,7 @@ KAHN = Person(
     ),
     (
         'Erstgutachter: Prof. Dr. rer. biol. hum. Erwin Paulat',
-        Person(
+        iamraw.Person(
             PROF_DR,
             'Paulat',
             'Erwin',
@@ -89,7 +89,7 @@ KAHN = Person(
     ),
     (
         'Zweitgutachter: Prof. Dr. med. Dr.-Ing. Ronald Verbus-Trapp',
-        Person(
+        iamraw.Person(
             PROF_DR,
             'Verbus-Trapp',
             'Ronald',
@@ -98,7 +98,7 @@ KAHN = Person(
     ),
     pytest.param(
         '   vorgelegt von Thomas Helmer    ',
-        Person(
+        iamraw.Person(
             Title.NO_TITLE,
             'Helmer',
             'Thomas',

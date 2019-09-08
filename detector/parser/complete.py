@@ -7,40 +7,22 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import dataclasses
-import typing
-
+import iamraw
 import utila
 import yaml
 
 from detector.parser import textblock_token
-from detector.parser.date import TitleDate
 from detector.parser.date import parse as parse_date
-from detector.parser.institution import Institution
 from detector.parser.institution import parse as parse_institution
-from detector.parser.matrikel import Matrikel
 from detector.parser.matrikel import parse as parse_matrikel
-from detector.parser.person import Person
 from detector.parser.person import order_persons
 from detector.parser.person import parse_all as parse_person_all
-from detector.parser.thesis import DocumentType
 from detector.parser.thesis import parse as parse_thesis
 from detector.parser.title import parse as parse_title
 from hey.textnavigator.navigator import PageTextNavigator
 
 
-@dataclasses.dataclass
-class TitlePage:
-    title: str = ''
-    thesis: DocumentType = None
-    date: TitleDate = None
-    author: Person = None
-    matrikel: Matrikel = None
-    examiner: typing.List[Person] = dataclasses.field(default_factory=list)
-    institution: Institution = None
-
-
-def parse(text: PageTextNavigator) -> TitlePage:
+def parse(text: PageTextNavigator) -> iamraw.TitlePage:
     """Extract `TitlePage` out of tile page data
 
     Args:
@@ -51,7 +33,7 @@ def parse(text: PageTextNavigator) -> TitlePage:
     Returns:
         extracted TitlePage
     """
-    result = TitlePage()
+    result = iamraw.TitlePage()
 
     if isinstance(text, str):
         # support
@@ -99,15 +81,3 @@ STRATEGY = [
     ('thesis', parse_thesis),
     ('matrikel', parse_matrikel),
 ]
-
-
-def dump_title_page(titlepage: TitlePage) -> str:
-    # TODO: Improve with human readable format
-    dumped = yaml.dump(titlepage)
-    return dumped
-
-
-def load_title_page(content: str) -> TitlePage:
-    content = utila.from_raw_or_path(content, ftype='yaml')
-    loaded = yaml.load(content, Loader=yaml.FullLoader)
-    return loaded

@@ -6,19 +6,17 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
 import re
-from collections import namedtuple
 from enum import Flag
 from enum import auto
 from operator import attrgetter
 
+import iamraw
+
 from detector.parser import extract_match
 
-Person = namedtuple('Person', 'title name firstname raw')
 
-
-def parse(raw: str) -> Person:
+def parse(raw: str) -> iamraw.Person:
     """Parse `Person` out of name line
 
     Args:
@@ -35,7 +33,7 @@ def parse(raw: str) -> Person:
 
     name, firstname = result['name'], result['fname']
     raw = extract_match(result)
-    person = Person(title=title, name=name, firstname=firstname, raw=raw)
+    person = iamraw.Person(title=title, name=name, firstname=firstname, raw=raw)
     return person
 
 
@@ -79,6 +77,7 @@ def order_persons(persons):
 
 
 class Title(Flag):
+    # TODO: MOVE TO IAMRAW
     NO_TITLE = auto()
     BSC = auto()
     MASTER = auto()

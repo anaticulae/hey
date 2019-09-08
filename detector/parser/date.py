@@ -16,16 +16,15 @@ TODO:
 """
 
 from calendar import weekday
-from collections import namedtuple
 from functools import partial
 from re import search as re_search
 
+import iamraw
+
 from detector.parser import extract_match
 
-TitleDate = namedtuple('TitleDate', 'year month day location valid raw')
 
-
-def parse(raw: str) -> TitleDate:
+def parse(raw: str) -> iamraw.TitleDate:
     """Convert `raw` line to `TitleDate`
 
     Args:
@@ -124,7 +123,7 @@ def simple_date(raw):
     valid = len(res[0]) == len(res[1]) == 2
     raw = '%s.%s.%s' % res
     year, month, day = int(res[2]), int(res[1]), int(res[0])
-    result = TitleDate(
+    result = iamraw.TitleDate(
         year=year,
         month=month,
         day=day,
@@ -168,7 +167,7 @@ def simple_alpha_date(
     month_ = month.index(collected) + 1
     year = int(res['year'])
     valid = len(res['day']) == 2
-    result = TitleDate(
+    result = iamraw.TitleDate(
         year=year,
         month=month_,
         day=day,
@@ -187,7 +186,7 @@ def simple_month_year_date(raw):
     raw = '%s %s' % res
     month = MONTH.index(res[0]) + 1
     year = int(res[1])
-    result = TitleDate(
+    result = iamraw.TitleDate(
         year=year,
         month=month,
         day=None,
@@ -208,7 +207,7 @@ def location_comman_day_month_year(raw):
     year = int(res['year'])
     valid = validate_date(year, month, day)
 
-    return TitleDate(
+    return iamraw.TitleDate(
         year=year,
         month=month,
         day=day,
