@@ -50,7 +50,6 @@ Requirements - "Wissenschaftliches Arbeiten" - Manuel Rene Theisen:
 
 
 """
-from typing import Tuple
 
 import serializeraw
 import utila
