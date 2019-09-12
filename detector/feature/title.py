@@ -58,6 +58,10 @@ from detector.parser.complete import parse
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.utils import select_page
 
+RAWMAKER_CONFIGURATION = ('--prefix=oneline '
+                          '--font --text --toc '
+                          '--char_margin=100.0 --boxes_flow=1.0')
+
 
 def work(text: str, text_positions: str) -> str:
     text = serializeraw.load_document(text, pages=0)

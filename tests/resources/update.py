@@ -9,6 +9,7 @@
 
 import utila
 
+import detector.feature.title
 from hey import ROOT
 from tests.resources import RESOURCES
 
@@ -49,9 +50,7 @@ def create_todo_rawmaker(inpath, outpath):
             'rawmaker',
             inpath,
             outpath,
-            ('--prefix=oneline '
-             '--font --text --toc '
-             '--char_margin=100.0 --boxes_flow=1.0'),
+            detector.feature.title.RAWMAKER_CONFIGURATION,
         ),
         (
             'rawmaker',

@@ -9,6 +9,8 @@
 
 import os
 
+# public title configuration
+from detector.feature.title import RAWMAKER_CONFIGURATION
 from hey import PACKAGE_NAME as HEY_PACKAGE_NAME
 from hey import __version__ as HEY_VERSION
 
