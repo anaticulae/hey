@@ -2,6 +2,26 @@
 
 Every noteable change is logged here.
 
+## v1.5.0
+
+### Feature
+
+* extend detector API with rawmaker configuration used in title extraction (f4052491791f)
+* add general pattern to support Dr. med. bio. etc. (76814aee5b65)
+* convert extracted TitlePage to yaml (df7fe27fd7d1)
+* add work method of title parser (3446fcac1bbc)
+* support date format "February 20, 2019" to use pydoc examples (d8416eae9d91)
+* convert text to PageTextNavigator to use all parsing features (46da025adbc6)
+* add title parser to complete parser (52684be9c585)
+* activate multiprocessing and page selection (0d3ecbf59f52)
+* add parser to parse title from hugest font (5af21ebf8abd)
+
+### Fix
+
+* handle no detected persons (38c361f9303b)
+* increase the number of required digits for valid matrikel (4213b130cbba)
+* add missing assertion after refactoring (5c021320f9a0)
+
 ## v1.4.0
 
 ### Feature
