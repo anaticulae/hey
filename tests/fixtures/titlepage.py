@@ -160,7 +160,7 @@ THIRD = """
 
 Technische Universität Berlin
 
-Fakultät I - Geisteswissenschaften
+Fakultät I – Geisteswissenschaften
 Institut für Sprache und Kommunikation
 Studiengang: Kommunikation und Sprache
 Studienschwerpunkt: Medienwissenschaft
