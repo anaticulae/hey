@@ -207,7 +207,7 @@ THIRD_EXPECTED = iamraw.TitlePage(
     examiner=[
         # TODO: One Person missing
         iamraw.Person(
-            title=Title.DR,
+            title=PROF_DR,
             name='Bolz',
             firstname='Nobert',
             raw='Prof. Dr. Nobert Bolz',

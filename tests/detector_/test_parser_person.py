@@ -97,13 +97,22 @@ KAHN = iamraw.Person(
             'Zweitgutachter: Prof. Dr. med. Dr.-Ing. Ronald Verbus-Trapp',
         ),
     ),
-    pytest.param(
+    (
         '   vorgelegt von   Thomas Helmer  ',
         iamraw.Person(
             Title.NO_TITLE,
             'Helmer',
             'Thomas',
             'vorgelegt von   Thomas Helmer',
+        ),
+    ),
+    (
+        'Prof. Dr. Nobert Bolz',
+        iamraw.Person(
+            PROF_DR,
+            'Bolz',
+            'Nobert',
+            'Prof. Dr. Nobert Bolz',
         ),
     ),
 ])

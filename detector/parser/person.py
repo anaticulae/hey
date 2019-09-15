@@ -159,7 +159,9 @@ EXAMINER = [
     r'Gutachter',
     r'Hochschullehrer',
     r'(\d\.\s?)?Betreuer',
-    r'(\w+\s?){1,4}',
+    # [\s|:] to avoid confusing 'Prof. Dr. Theo Wil'
+    r'(\w+\s?){1,4}?[\s|:]',
+    r'^',
 ]
 
 TITLE_KEYS = [
@@ -175,7 +177,6 @@ PATTERN = rf"""(?P<examiner>({EXAMINER})[:]?\s?)?
                ({MATCHER}\ *)+(\ )?
                (?P<fname>(\w+[ ]?)*)\ (?P<name>[\w|-]+)
             """
-
 PATTERN = re.compile(PATTERN, re.X)
 
 
@@ -189,7 +190,8 @@ def extract_title(result):
         except KeyError:
             continue
         else:
-            title.append(Title.fromstring(parsed_title))
+            matches = [item for item in MATCHES.values()]
+            title.append(matches[item])
     return title
 
 
