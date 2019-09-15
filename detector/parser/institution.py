@@ -57,18 +57,20 @@ def detection(raw, items, remove: bool = True):
 
     splitted = raw.split(',')
     splitted = utila.flatten([item.split(utila.NEWLINE) for item in splitted])
+    splitted = [item for item in splitted if item]  # remove empty items
+
     result = []
     for item in items:
         for chunk in splitted:
-            if item in chunk:
-                if remove:
-                    # use words after `collector` as the result
-                    prepared = chunk.split(item)[1].strip()
-                    result.append(prepared)
-                else:
-                    result.append(chunk)
-                raw.replace(chunk, '')
-
+            if not item in chunk:
+                continue
+            if remove:
+                # use words after `collector` as the result
+                prepared = chunk.split(item)[1].strip()
+                result.append(prepared)
+            else:
+                result.append(chunk.strip())
+            raw.replace(chunk, '')
     # make results unique
     result = make_unique(result)
     return result, raw
