@@ -9,7 +9,6 @@
 
 import iamraw
 import utila
-import yaml
 
 from detector.parser import textblock_token
 from detector.parser.date import parse as parse_date

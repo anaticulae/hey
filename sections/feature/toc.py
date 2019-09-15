@@ -17,7 +17,6 @@ import iamraw
 from iamraw import Document
 from serializeraw import dump_likelihood
 from serializeraw import load_document
-from utila import uniform_result
 
 import sections
 

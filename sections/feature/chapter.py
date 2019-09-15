@@ -22,7 +22,6 @@ What is typical for a start of chapter?
 
 """
 
-from functools import lru_cache
 from re import X as VERBOSE
 from re import search
 from typing import List
@@ -30,13 +29,9 @@ from typing import List
 import iamraw
 import serializeraw
 from utila import NEWLINE
-from utila import from_raw_or_path
-from yaml import FullLoader
 from yaml import dump
-from yaml import load
 
 from groupme.feature.numbers import load_textposition
-from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 

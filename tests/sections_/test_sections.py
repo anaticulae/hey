@@ -18,7 +18,6 @@ from sections.creator import validate
 from sections.feature.sections import chapters
 from sections.feature.sections import extract_sections
 from sections.feature.whitepage import load_whitepages
-from sections.feature.whitepage import whitepage_value_to_percent
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_chapter
 from tests.fixtures.restruct import restructured_index

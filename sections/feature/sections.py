@@ -28,9 +28,7 @@ from utila import Flag
 from utila import checkdatatype
 
 import hey
-from sections.feature.chapter import chapter_value_to_percent
 from sections.feature.whitepage import load_whitepages
-from sections.feature.whitepage import whitepage_value_to_percent
 
 MIN_FEATURE_TRUST = 0.4  # Holy value
 

@@ -28,7 +28,6 @@ from typing import List
 from iamraw import Document
 from serializeraw import load_document
 from serializeraw import load_horizontals
-from utila import INF
 from utila import from_raw_or_path
 from yaml import FullLoader
 from yaml import dump

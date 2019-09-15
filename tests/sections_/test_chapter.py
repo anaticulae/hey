@@ -13,7 +13,6 @@ from serializeraw import load_toc
 
 from groupme.feature.numbers import load_textposition
 from hey.textnavigator.navigator import create_pagetextnavigators
-from sections.feature.chapter import dump_chapter_detection
 from sections.feature.chapter import space_between_header_and_first_line
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION

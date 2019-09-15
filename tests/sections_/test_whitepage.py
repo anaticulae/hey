@@ -7,7 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import iamraw
 from serializeraw import load_document
 from serializeraw import load_horizontals
 

@@ -18,7 +18,6 @@ from serializeraw import load_boxes
 from utila import checkdatatype
 from utila import error
 from utila import from_raw_or_path
-from utila import log
 from yaml import FullLoader
 from yaml import dump
 from yaml import load
