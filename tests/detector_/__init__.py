@@ -11,20 +11,20 @@ import functools
 
 import utila
 
-from detector import PROCESS_NAME
+from detector import PROCESS
 from detector.cli import main
 
 #pylint:disable=C0103
 run_detector_success = functools.partial(
     utila.run_command,
     main=main,
-    process=PROCESS_NAME,
+    process=PROCESS,
     success=True,
 )
 
 run_detector_failure = functools.partial(
     utila.run_command,
     main=main,
-    process=PROCESS_NAME,
+    process=PROCESS,
     success=False,
 )

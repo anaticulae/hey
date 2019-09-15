@@ -12,8 +12,8 @@ import os
 import pytest
 import utila
 
-from detector import PACKAGE_NAME
-from detector import PROCESS_NAME
+from detector import PACKAGE
+from detector import PROCESS
 from detector import ROOT
 from tests import write_capsys
 from tests.detector_ import run_detector_success
@@ -26,7 +26,7 @@ from tests.resources import SIMPLE
 @utila.skip_nonvirtual
 def test_detector_setup_py():
     """Install words and run setions --help to ensure basic functionality"""
-    utila.install_and_run(ROOT, PACKAGE_NAME, PROCESS_NAME)
+    utila.install_and_run(ROOT, PACKAGE, PROCESS)
 
 
 @pytest.mark.parametrize('command', [

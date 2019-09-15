@@ -15,8 +15,8 @@ from utila.test import skip_nonvirtual
 from tests import write_capsys
 from tests.resources import RESTRUCT
 from tests.words_ import run_words_success
-from words import PACKAGE_NAME
-from words import PROCESS_NAME
+from words import PACKAGE
+from words import PROCESS
 from words import ROOT
 
 
@@ -24,7 +24,7 @@ from words import ROOT
 @utila.skip_longrun
 def test_words_setup_py():
     """Install words and run setions --help to ensure basic functionality"""
-    install_and_run(ROOT, PACKAGE_NAME, PROCESS_NAME)
+    install_and_run(ROOT, PACKAGE, PROCESS)
 
 
 @pytest.mark.parametrize('command', [

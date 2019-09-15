@@ -17,7 +17,7 @@ from utila import run_command
 
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
-from sections import PROCESS_NAME
+from sections import PROCESS
 from sections.cli import main
 from tests.resources import RESTRUCT_HORIZONTAL
 from tests.resources import RESTRUCT_TEXT
@@ -30,13 +30,13 @@ from tests.resources import SIMPLE_TEXT
 run_sections_success = partial(
     run_command,
     main=main,
-    process=PROCESS_NAME,
+    process=PROCESS,
     success=True,
 )
 
 run_sections_failure = partial(
     run_command,
     main=main,
-    process=PROCESS_NAME,
+    process=PROCESS,
     success=False,
 )

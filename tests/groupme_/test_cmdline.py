@@ -12,8 +12,8 @@ from pytest import mark
 from utila import install_and_run
 from utila.test import skip_nonvirtual
 
-from groupme import PACKAGE_NAME
-from groupme import PROCESS_NAME
+from groupme import PACKAGE
+from groupme import PROCESS
 from groupme import ROOT
 from tests.groupme_ import run_success
 from tests.resources import RESTRUCT
@@ -26,8 +26,8 @@ def test_install_and_run_groupme():
     """Install groupme and run groupme --help to ensure basic function"""
     install_and_run(
         ROOT,
-        PACKAGE_NAME,
-        PROCESS_NAME,
+        PACKAGE,
+        PROCESS,
     )
 
 

@@ -8,12 +8,12 @@
 #==============================================================================
 import os
 
-from hey import PACKAGE_NAME as HEY_PACKAGE_NAME
+from hey import PACKAGE as HEY_PACKAGE
 from hey import __version__ as HEY_VERSION
 
 __version__ = HEY_VERSION
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-PROCESS_NAME = 'groupme'
-PACKAGE_NAME = HEY_PACKAGE_NAME
+PROCESS = 'groupme'
+PACKAGE = HEY_PACKAGE

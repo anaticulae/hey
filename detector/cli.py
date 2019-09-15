@@ -11,7 +11,7 @@ from utila import ResultFile as RF
 from utila import create_step as step
 from utila import featurepack
 
-from detector import PROCESS_NAME
+from detector import PROCESS
 from detector import ROOT
 from detector import __version__
 
@@ -36,7 +36,7 @@ def main():
         description=DESCRIPTION,
         featurepackage='detector.feature',
         multiprocessed=True,
-        name=PROCESS_NAME,
+        name=PROCESS,
         pages=True,
         root=ROOT,
         singleinput=False,  # require result folder, ignore single pdf file

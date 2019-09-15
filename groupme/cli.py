@@ -11,11 +11,12 @@ from utila import ResultFile
 from utila import create_step as step
 from utila import featurepack
 
+from groupme import PROCESS
 from groupme import ROOT
 from groupme import __version__
 
-PROCESS_NAME = 'groupme'
 DESCRIPTION = 'TODO'
+
 WORKPLAN = [
     step(
         'chapter',
@@ -47,7 +48,7 @@ def main():
         description=DESCRIPTION,
         featurepackage='groupme.feature',
         multiprocessed=True,
-        name=PROCESS_NAME,
+        name=PROCESS,
         pages=True,
         root=ROOT,
         version=__version__,

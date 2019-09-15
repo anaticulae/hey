@@ -17,20 +17,20 @@ from functools import partial
 
 from utila import run_command
 
-from words import PROCESS_NAME
+from words import PROCESS
 from words.cli import main
 
 #pylint:disable=C0103
 run_words_success = partial(
     run_command,
     main=main,
-    process=PROCESS_NAME,
+    process=PROCESS,
     success=True,
 )
 
 run_words_failure = partial(
     run_command,
     main=main,
-    process=PROCESS_NAME,
+    process=PROCESS,
     success=False,
 )

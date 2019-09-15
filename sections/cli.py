@@ -11,7 +11,7 @@ from utila import ResultFile as RF
 from utila import create_step as step
 from utila import featurepack
 
-from sections import PROCESS_NAME
+from sections import PROCESS
 from sections import ROOT
 from sections import __version__
 
@@ -81,7 +81,7 @@ def main():
         description=DESCRIPTION,
         featurepackage='sections.feature',
         multiprocessed=True,
-        name=PROCESS_NAME,
+        name=PROCESS,
         pages=True,
         root=ROOT,
         singleinput=False,  # require result folder, ignore single pdf file

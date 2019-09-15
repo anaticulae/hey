@@ -30,12 +30,12 @@
 
 import os
 
-from hey import PACKAGE_NAME as HEY_PACKAGENAME
+from hey import PACKAGE as HEY_PACKAGE
 from hey import __version__ as HEY_VERSION
 
 __version__ = HEY_VERSION
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-PROCESS_NAME = 'sections'
-PACKAGE_NAME = HEY_PACKAGENAME
+PROCESS = 'sections'
+PACKAGE = HEY_PACKAGE

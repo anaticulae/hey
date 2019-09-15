@@ -11,7 +11,7 @@ from utila import ResultFile as RF
 from utila import create_step as step
 from utila import featurepack
 
-from words import PROCESS_NAME
+from words import PROCESS
 from words import ROOT
 from words import __version__
 
@@ -90,7 +90,7 @@ def main():
         description=DESCRIPTION,
         featurepackage='words.feature',
         multiprocessed=True,
-        name=PROCESS_NAME,
+        name=PROCESS,
         pages=True,
         root=ROOT,
         version=__version__,

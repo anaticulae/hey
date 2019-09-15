@@ -14,7 +14,7 @@ from iamraw import common_box
 from pytest import fixture
 from utila import run_command
 
-from groupme.cli import PROCESS_NAME
+from groupme.cli import PROCESS
 from groupme.cli import main
 from hey.textnavigator.navigator import PageTextNavigator
 
@@ -22,14 +22,14 @@ from hey.textnavigator.navigator import PageTextNavigator
 run_success = partial(
     run_command,
     main=main,
-    process=PROCESS_NAME,
+    process=PROCESS,
     success=True,
 )
 
 run_failure = partial(
     run_command,
     main=main,
-    process=PROCESS_NAME,
+    process=PROCESS,
     success=False,
 )
 

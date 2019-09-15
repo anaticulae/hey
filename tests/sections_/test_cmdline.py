@@ -12,8 +12,8 @@ import utila
 from utila import install_and_run
 from utila.test import skip_nonvirtual
 
-from sections import PACKAGE_NAME
-from sections import PROCESS_NAME
+from sections import PACKAGE
+from sections import PROCESS
 from sections import ROOT
 from tests.resources import PYPORTING
 from tests.resources import RESTRUCT
@@ -28,7 +28,7 @@ from tests.sections_ import run_sections_success
 @pytest.hookimpl(tryfirst=True)
 def test_sections_setup_py():
     """Install sections and run setions --help to ensure basic functionality"""
-    install_and_run(ROOT, PACKAGE_NAME, PROCESS_NAME)
+    install_and_run(ROOT, PACKAGE, PROCESS)
 
 
 @pytest.mark.parametrize('command', [
