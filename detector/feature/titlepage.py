@@ -54,9 +54,9 @@ Requirements - "Wissenschaftliches Arbeiten" - Manuel Rene Theisen:
 import serializeraw
 import utila
 
-from detector.parser.complete import parse
-from hey.textnavigator.navigator import create_pagetextnavigators
-from hey.utils import select_page
+import detector.parser.complete
+import hey.textnavigator.navigator
+import hey.utils
 
 RAWMAKER_CONFIGURATION = ('--prefix=oneline '
                           '--font --text --toc '
@@ -67,9 +67,12 @@ def work(text: str, text_positions: str) -> str:
     text = serializeraw.load_document(text, pages=0)
     text_positions = serializeraw.load_textpositions(text_positions, pages=0)
 
-    navigators = create_pagetextnavigators(text, text_positions)
-    navigator = select_page(navigators, page=0)
-    parsed = parse(navigator)
+    navigators = hey.textnavigator.navigator.create_pagetextnavigators(
+        text,
+        text_positions,
+    )
+    navigator = hey.utils.select_page(navigators, page=0)
+    parsed = detector.parser.complete.parse(navigator)
 
     dumped = serializeraw.dump_titlepage(parsed)
     return dumped

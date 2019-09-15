@@ -7,32 +7,35 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import os
+
 import iamraw
 import pytest
 import serializeraw
+import utila
 
-from detector.parser.complete import parse
-from tests import prepare
-from tests.fixtures.titlepage import FIRST
-from tests.fixtures.titlepage import FIRST_EXPECTED
-from tests.fixtures.titlepage import SECOND
-from tests.fixtures.titlepage import SECOND_EXPECTED
+import detector.cli
+import detector.feature.titlepage
+import detector.parser.complete
+import tests
+import tests.fixtures.titlepage
+import tests.resources
 
 
 @pytest.mark.parametrize('page, expected', [
     pytest.param(
-        FIRST,
-        FIRST_EXPECTED,
-        id=prepare(FIRST),
+        tests.fixtures.titlepage.FIRST,
+        tests.fixtures.titlepage.FIRST_EXPECTED,
+        id=tests.prepare(tests.fixtures.titlepage.FIRST),
     ),
     pytest.param(
-        SECOND,
-        SECOND_EXPECTED,
-        id=prepare(SECOND),
+        tests.fixtures.titlepage.SECOND,
+        tests.fixtures.titlepage.SECOND_EXPECTED,
+        id=tests.prepare(tests.fixtures.titlepage.SECOND),
     ),
 ])
 def test_detector_parse_complete_title_page(page, expected):
-    parsed = parse(page)
+    parsed = detector.parser.complete.parse(page)
     assert parsed == expected, str(parsed)
 
 
