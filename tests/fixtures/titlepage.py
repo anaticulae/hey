@@ -39,7 +39,7 @@ FIRST_INSTITUTION = iamraw.Institution(
     courseofstudies=None,
     department='IV',
     field='Trinken und Essen',
-    institute='für gute Getränke',
+    institute='gute Getränke',
     university='Technische Universität Berlin',
 )
 FIRST_EXPECTED = iamraw.TitlePage(
@@ -154,4 +154,68 @@ SECOND_EXPECTED = iamraw.TitlePage(
         ),
     ],
     institution=SECOND_INSTITUTION,
+)
+
+THIRD = """
+
+Technische Universität Berlin
+
+Fakultät I - Geisteswissenschaften
+Institut für Sprache und Kommunikation
+Studiengang: Kommunikation und Sprache
+Studienschwerpunkt: Medienwissenschaft
+
+Identittsbildung 2.0
+Selbstdarstellung und Privatheit im Social Web
+___________________________________________________________________
+
+
+Masterarbeit
+Vorgelegt von   Tabea Canham
+
+
+
+Gutachter:    Prof. Dr. Nobert Bolz
+Zweitgutachter:  Dipl.-Medienberater Stephan Frhwirt
+
+
+Abgabedatum:   31.7.2014
+"""
+THIRD_INSTITUTION = iamraw.Institution(
+    courseofstudies='Kommunikation und Sprache',
+    department='Geisteswissenschaften',
+    institute='Sprache und Kommunikation',
+    university='Technische Universität Berlin',
+)
+
+THIRD_EXPECTED = iamraw.TitlePage(
+    institution=THIRD_INSTITUTION,
+    author=iamraw.Person(
+        title=Title.NO_TITLE,
+        name='Canham',
+        firstname='Tabea',
+        raw='Vorgelegt von   Tabea Canham',
+    ),
+    date=iamraw.TitleDate(
+        year=2014,
+        month=7,
+        day=31,
+        location=None,
+        valid=False,  # TODO: Check why invalid
+        raw='31.7.2014',
+    ),
+    examiner=[
+        # TODO: One Person missing
+        iamraw.Person(
+            title=Title.DR,
+            name='Bolz',
+            firstname='Nobert',
+            raw='Prof. Dr. Nobert Bolz',
+        ),
+    ],
+    thesis=TitleThesisType(
+        iamraw.DocumentType.MASTER,
+        title='Masterarbeit',
+        raw='Masterarbeit',
+    ),
 )

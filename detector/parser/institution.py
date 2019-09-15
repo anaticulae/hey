@@ -101,6 +101,7 @@ SELECTOR = {
     'Grad',
     'Grades',
     'Hochschule',
+    'Institut für',
     'Institut',
     'Studiengang',
     'Universität',
@@ -116,12 +117,20 @@ def words(raw):
     return result
 
 
+# Replace this approach due regex
+
 INSTITUTE = [
+    'Institut für ',
     'Institut',
 ]
 
 DEPARTMENT = [
-    'Faktultät',
+    # TODO: Think about chaning in parser, special character?
+    # 2 different minus signs
+    'Fakultät I –',
+    'Fakultät I -',
+    'Fakultät I ',
+    'Fakultät',
 ]
 
 FIELD = [
@@ -134,7 +143,10 @@ UNIVERSITY = [
     'Universität',
 ]
 
-COURSES = ['Studiengang']
+COURSES = [
+    'Studiengang:',
+    'Studiengang',
+]
 
 # TODO: Load from dictonary
 UNIVERSITIES = [

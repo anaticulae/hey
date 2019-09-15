@@ -51,3 +51,7 @@ def test_detector_feature_titlepage_complete(testdir, monkeypatch):
 
     titlepage: iamraw.TitlePage = serializeraw.load_titlepage(resultpath)
     assert titlepage
+    deparment = titlepage.institution.department
+    # TODO: Decide what is the better approach
+    # assert deparment == 'Fakultät I – Geisteswissenschaften', str(deparment)
+    assert deparment == 'Geisteswissenschaften', str(deparment)

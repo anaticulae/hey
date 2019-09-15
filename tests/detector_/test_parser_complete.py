@@ -30,6 +30,11 @@ import tests.resources
         tests.fixtures.titlepage.SECOND_EXPECTED,
         id=tests.prepare(tests.fixtures.titlepage.SECOND),
     ),
+    pytest.param(
+        tests.fixtures.titlepage.THIRD,
+        tests.fixtures.titlepage.THIRD_EXPECTED,
+        id=tests.prepare(tests.fixtures.titlepage.THIRD),
+    ),
 ])
 def test_detector_parse_complete_title_page(page, expected):
     parsed = detector.parser.complete.parse(page)
