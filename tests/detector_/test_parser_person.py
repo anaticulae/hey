@@ -107,12 +107,12 @@ KAHN = iamraw.Person(
         ),
     ),
 ])
-def test_parse_person(raw, expected):
+def test_detector_parser_parse_person(raw, expected):
     parsed = parse(raw)
     assert parsed == expected, str(parsed)
 
 
-def test_parser_person_order_person():
+def test_detector_parser_person_order_person():
     persons = [KAHN, GOMEZ, HELMUT]
     expected = (HELMUT, [GOMEZ, KAHN])
     current = order_persons(persons)
