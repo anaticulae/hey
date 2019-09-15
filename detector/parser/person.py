@@ -26,6 +26,10 @@ def parse(raw: str) -> iamraw.Person:
     """
     result = re.search(PATTERN, raw)
     if not result:
+        # try second parser
+        result = parser_person_without_title(raw)
+        if result:
+            return result
         return None
 
     title = extract_title(result)
@@ -35,6 +39,34 @@ def parse(raw: str) -> iamraw.Person:
     raw = extract_match(result)
     person = iamraw.Person(title=title, name=name, firstname=firstname, raw=raw)
     return person
+
+
+def parser_person_without_title(raw: str) -> iamraw.Person:
+    raw = raw.strip()
+
+    preamble = [
+        r'vorgelegt von[ ]{0,8}',
+    ]
+    preamble = '|'.join(
+        fr'(?P<t{index}>{item})[\ ]?' for index, item in enumerate(preamble))
+
+    name = r'(?P<names>(\w+\s{0,5}){1,5})'
+
+    pattern = re.compile(preamble + name, re.IGNORECASE)
+    matched = re.search(pattern, raw)
+
+    if not matched:
+        return None
+    firstname, name = matched['names'].rsplit(' ', maxsplit=1)
+    firstname, name = firstname.strip(), name.strip()
+
+    result = iamraw.Person(
+        title=Title.NO_TITLE,
+        name=name,
+        firstname=firstname,
+        raw=extract_match(matched),
+    )
+    return result
 
 
 def parse_all(items):
@@ -90,6 +122,8 @@ class Title(Flag):
             return self.value < item.value  # pylint:disable=comparison-with-callable
         except ValueError:
             return False
+        except AttributeError:
+            return False
 
     @staticmethod
     def fromstring(value):
@@ -129,7 +163,9 @@ EXAMINER = [
 ]
 
 TITLE_KEYS = [
-    item.replace('.', r'\.').replace(' ', '[ ]') for item in Title.keys()
+    item.replace('.', r'\.').replace(' ', '[ ]')
+    for item in Title.keys()
+    if item
 ]
 MATCHER = '|'.join(
     fr'(?P<t{index}>{item})[\ ]?' for index, item in enumerate(TITLE_KEYS))

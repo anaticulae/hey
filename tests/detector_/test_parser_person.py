@@ -10,6 +10,7 @@
 import iamraw
 import pytest
 
+import detector.parser.person
 from detector.parser.person import Title
 from detector.parser.person import order_persons
 from detector.parser.person import parse
@@ -97,14 +98,13 @@ KAHN = iamraw.Person(
         ),
     ),
     pytest.param(
-        '   vorgelegt von Thomas Helmer    ',
+        '   vorgelegt von   Thomas Helmer  ',
         iamraw.Person(
             Title.NO_TITLE,
             'Helmer',
             'Thomas',
-            'vorgelegt von Thomas Helmer',
+            'vorgelegt von   Thomas Helmer',
         ),
-        marks=pytest.mark.xfail(reason='unsupported in current regex impl'),
     ),
 ])
 def test_parse_person(raw, expected):
@@ -118,3 +118,15 @@ def test_parser_person_order_person():
     current = order_persons(persons)
 
     assert current == expected, str(current)
+
+
+def test_detector_parser_person_parse_person_without_title():
+    raw = '  Vorgelegt von    Helmut Konrad Fahrendholz   '
+    expected = iamraw.Person(
+        title=Title.NO_TITLE,
+        name='Fahrendholz',
+        firstname='Helmut Konrad',
+        raw=raw.strip(),
+    )
+    parsed = detector.parser.person.parser_person_without_title(raw)
+    assert parsed == expected
