@@ -7,14 +7,47 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from detector.feature.titlepage import work
-from tests.resources import SIMPLE_ONELINE_POSITION
-from tests.resources import SIMPLE_ONELINE_TEXT
+import os
+
+import iamraw
+import serializeraw
+import utila
+
+import detector
+import detector.feature.titlepage
+import tests
 
 
 def test_titlepage_parser():
-    extracted = work(SIMPLE_ONELINE_TEXT, SIMPLE_ONELINE_POSITION)
+    extracted = detector.feature.titlepage.work(
+        tests.resources.SIMPLE_ONELINE_TEXT,
+        tests.resources.SIMPLE_ONELINE_POSITION,
+    )
     assert extracted
 
     # ensure that result is converted to yaml
     assert isinstance(extracted, str), type(extracted)
+
+
+def test_detector_feature_titlepage_complete(testdir, monkeypatch):
+    """Intergration test to ensure that rawmaker -> detector works correctly"""
+    root = str(testdir)
+    cmd = (f'rawmaker -i {tests.resources.MASTER_72PAGES} --pages=0 '
+           f'{detector.feature.titlepage.RAWMAKER_CONFIGURATION}')
+    rawmaker__ = utila.run(cmd)
+    assert rawmaker__.returncode == utila.SUCCESS, str(rawmaker__)
+
+    cmd = f'-i {root}'
+    utila.run_command(
+        cmd,
+        process=detector.cli.PROCESS,
+        main=detector.cli.main,
+        success=True,
+        monkeypatch=monkeypatch,
+    )
+    cli = detector.cli
+    resultfile = f'{cli.PROCESS}__{cli.TITLEPAGE_STEP}_{cli.TITLEPAGE_OUTPUT}.yaml'
+    resultpath = os.path.join(root, resultfile)
+
+    titlepage: iamraw.TitlePage = serializeraw.load_titlepage(resultpath)
+    assert titlepage

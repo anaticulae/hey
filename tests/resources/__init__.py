@@ -6,7 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
+import os
 from os.path import exists
 from os.path import join
 
@@ -80,7 +80,11 @@ PYPORTING_TEXT = join(PYPORTING, TEXT)
 PYPORTING_TEXT_POSITION = join(PYPORTING, TEXT_POSITION)
 PYPORTING_TOC = join(PYPORTING, TOC)
 
+MASTER = os.path.join(RESOURCES, 'master')
+MASTER_72PAGES = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
+
 REQURIED_RESOURCES = [
+    MASTER_72PAGES,
     PYPORTING,
     PYPORTING_FONT_CONTENT,
     PYPORTING_FONT_HEADER,

@@ -7,12 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import os
-
 import iamraw
 import pytest
 import serializeraw
-import utila
 
 import detector.cli
 import detector.feature.titlepage
