@@ -176,7 +176,7 @@ Vorgelegt von   Tabea Canham
 
 
 Gutachter:    Prof. Dr. Nobert Bolz
-Zweitgutachter:  Dipl.-Medienberater Stephan Frhwirt
+Zweitgutachter:  Dipl.-Medienberater Stephan Frühwirt
 
 
 Abgabedatum:   31.7.2014
@@ -205,7 +205,12 @@ THIRD_EXPECTED = iamraw.TitlePage(
         raw='31.7.2014',
     ),
     examiner=[
-        # TODO: One Person missing
+        iamraw.Person(
+            title=Title.MASTER,
+            name='Frühwirt',
+            firstname='Stephan',
+            raw='Dipl.-Medienberater Stephan Frühwirt',
+        ),
         iamraw.Person(
             title=PROF_DR,
             name='Bolz',

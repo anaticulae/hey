@@ -107,6 +107,15 @@ KAHN = iamraw.Person(
         ),
     ),
     (
+        'Zweitgutachter: Dipl.-Medienberater Stephan Frühwirt',
+        iamraw.Person(
+            Title.MASTER,
+            'Frühwirt',
+            'Stephan',
+            'Zweitgutachter: Dipl.-Medienberater Stephan Frühwirt',
+        ),
+    ),
+    (
         'Prof. Dr. Nobert Bolz',
         iamraw.Person(
             PROF_DR,

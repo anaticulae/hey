@@ -31,7 +31,6 @@ def parse(raw: str) -> iamraw.Person:
         if result:
             return result
         return None
-
     title = extract_title(result)
     title = merge_title(title)
 
@@ -141,6 +140,7 @@ PROF_DR = Title.PROF | Title.DR
 
 MATCHES = {
     'B.Sc.': Title.BSC,
+    r'Dipl.-\w+': Title.MASTER,
     'Dipl. Ing.': Title.MASTER,
     'Dr.-Ing.': Title.DR,
     'Dr.': Title.DR,
