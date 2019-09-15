@@ -16,6 +16,8 @@ Course of studies - Studiengang
 Academic year - Studienjahr/Semester
 """
 
+import typing
+
 import iamraw
 import utila
 
@@ -24,7 +26,6 @@ def parse(raw: str) -> iamraw.Institution:
     university = find_institution(raw)
     if university:
         university, raw = university
-
     results = []
     for item in [DEPARTMENT, INSTITUTE, FIELD, COURSES]:
         parsed, raw = detection(raw, item)
@@ -69,8 +70,23 @@ def detection(raw, items, remove: bool = True):
                 raw.replace(chunk, '')
 
     # make results unique
-    result = list(set(result))
+    result = make_unique(result)
     return result, raw
+
+
+# TODO: Move to utila
+def make_unique(items) -> typing.List[str]:
+    """Convert collection where every element exists only once.
+
+    Hint:
+        stable algorithm which hold the previous order
+    """
+    result = []
+    for item in items:
+        if item in result:
+            continue
+        result.append(item)
+    return result
 
 
 SELECTOR = {
