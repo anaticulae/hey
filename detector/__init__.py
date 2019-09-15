@@ -10,7 +10,7 @@
 import os
 
 # public title configuration
-from detector.feature.title import RAWMAKER_CONFIGURATION
+from detector.feature.titlepage import RAWMAKER_CONFIGURATION
 from hey import PACKAGE as HEY_PACKAGE
 from hey import __version__ as HEY_VERSION
 

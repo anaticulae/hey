@@ -76,7 +76,7 @@ def work(text: str, text_positions: str) -> str:
 
 
 def name():
-    return 'title'
+    return 'titlepage'
 
 
 def commandline():

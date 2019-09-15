@@ -7,12 +7,12 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from detector.feature.title import work
+from detector.feature.titlepage import work
 from tests.resources import SIMPLE_ONELINE_POSITION
 from tests.resources import SIMPLE_ONELINE_TEXT
 
 
-def test_title_parser():
+def test_titlepage_parser():
     extracted = work(SIMPLE_ONELINE_TEXT, SIMPLE_ONELINE_POSITION)
     assert extracted
 
