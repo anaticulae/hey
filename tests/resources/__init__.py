@@ -82,9 +82,11 @@ PYPORTING_TOC = join(PYPORTING, TOC)
 
 MASTER = os.path.join(RESOURCES, 'master')
 MASTER_72PAGES = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
+MASTER_78PAGES = os.path.join(MASTER, 'page_78_images_toc.pdf')
 
 REQURIED_RESOURCES = [
     MASTER_72PAGES,
+    MASTER_78PAGES,
     PYPORTING,
     PYPORTING_FONT_CONTENT,
     PYPORTING_FONT_HEADER,

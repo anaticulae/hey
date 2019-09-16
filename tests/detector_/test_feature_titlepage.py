@@ -10,6 +10,7 @@
 import os
 
 import iamraw
+import pytest
 import serializeraw
 import utila
 
@@ -29,10 +30,30 @@ def test_titlepage_parser():
     assert isinstance(extracted, str), type(extracted)
 
 
-def test_detector_feature_titlepage_complete(testdir, monkeypatch):
+def check_72_pages(titlepage: iamraw.TitlePage):
+    deparment = titlepage.institution.department
+    # TODO: Decide what is the better approach
+    # assert deparment == 'Fakultät I – Geisteswissenschaften', str(deparment)
+    assert deparment == 'Geisteswissenschaften', str(deparment)
+
+
+def check_78_pages(titlepage: iamraw.TitlePage):
+    assert titlepage.thesis.typ == iamraw.DocumentType.MASTER
+
+
+@pytest.mark.parametrize('source, checker', [
+    (tests.resources.MASTER_72PAGES, check_72_pages),
+    (tests.resources.MASTER_78PAGES, check_78_pages),
+])
+def test_detector_feature_titlepage_complete(
+        source,
+        checker,
+        testdir,
+        monkeypatch,
+):
     """Intergration test to ensure that rawmaker -> detector works correctly"""
     root = str(testdir)
-    cmd = (f'rawmaker -i {tests.resources.MASTER_72PAGES} --pages=0 '
+    cmd = (f'rawmaker -i {source} --pages=0 '
            f'{detector.feature.titlepage.RAWMAKER_CONFIGURATION}')
     rawmaker__ = utila.run(cmd)
     assert rawmaker__.returncode == utila.SUCCESS, str(rawmaker__)
@@ -51,7 +72,5 @@ def test_detector_feature_titlepage_complete(testdir, monkeypatch):
 
     titlepage: iamraw.TitlePage = serializeraw.load_titlepage(resultpath)
     assert titlepage
-    deparment = titlepage.institution.department
-    # TODO: Decide what is the better approach
-    # assert deparment == 'Fakultät I – Geisteswissenschaften', str(deparment)
-    assert deparment == 'Geisteswissenschaften', str(deparment)
+
+    checker(titlepage)
