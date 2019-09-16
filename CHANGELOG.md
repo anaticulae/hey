@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.6.1
+
+### Fix
+
+* add workaround to support 'Diplomarbeit' till iamraw is patched (2c8b932fb6eb)
+
 ## v1.6.0
 
 ### Feature
