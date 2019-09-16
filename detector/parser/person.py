@@ -19,14 +19,13 @@ Examples:
         Prof. Dr. Nobert Bolz
         Zweitgutachter: Dipl.-Medienberater Stephan Frühwirt
 """
+import enum
+import operator
 import re
-from enum import Flag
-from enum import auto
-from operator import attrgetter
 
 import iamraw
 
-from detector.parser import extract_match
+import detector.parser
 
 
 def parse(raw: str) -> iamraw.Person:
@@ -48,7 +47,7 @@ def parse(raw: str) -> iamraw.Person:
     title = merge_title(title)
 
     name, firstname = result['name'], result['fname']
-    raw = extract_match(result)
+    raw = detector.parser.extract_match(result)
     person = iamraw.Person(title=title, name=name, firstname=firstname, raw=raw)
     return person
 
@@ -86,7 +85,7 @@ def parser_person_without_title(raw: str) -> iamraw.Person:
         title=title,
         name=name,
         firstname=firstname,
-        raw=extract_match(matched),
+        raw=detector.parser.extract_match(matched),
     )
     return result
 
@@ -125,20 +124,20 @@ def order_persons(persons):
     if not persons:
         return None
     # sort persons by title and name as a tiebraker
-    persons = sorted(persons, key=attrgetter('title', 'name'))
+    persons = sorted(persons, key=operator.attrgetter('title', 'name'))
     author, examiner = persons[0], persons[1:]
     return author, examiner
 
 
-class Title(Flag):
+class Title(enum.Flag):
     # TODO: MOVE TO IAMRAW
-    NO_TITLE = auto()
-    STUDENT = auto()  # author without academic title
-    BSC = auto()
-    MASTER = auto()
-    EXAMINIER = auto()  # examiner without academic title
-    DR = auto()
-    PROF = auto()
+    NO_TITLE = enum.auto()
+    STUDENT = enum.auto()  # author without academic title
+    BSC = enum.auto()
+    MASTER = enum.auto()
+    EXAMINIER = enum.auto()  # examiner without academic title
+    DR = enum.auto()
+    PROF = enum.auto()
 
     def __lt__(self, item):
         # make `Title` orderable
@@ -168,9 +167,9 @@ MATCHES = {
     r'Dipl.-\w+': Title.MASTER,
     'Dipl. Ing.': Title.MASTER,
     'M.A.': Title.MASTER,
+    'M.Sc.': Title.MASTER,
     'Dr.-Ing.': Title.DR,
     'Dr.': Title.DR,
-    'M.Sc.': Title.MASTER,
     'Prof.': Title.PROF,
     r'\w+. ': Title.DR,
     # see general pattern above
@@ -180,11 +179,11 @@ MATCHES = {
 
 EXAMINER = [
     # it's important to limit parsing length to avoid very long running parsing
+    r'(\d\.\s?)?Betreuer',
     r'Erstgutachter',
-    r'Zweitgutachter',
     r'Gutachter',
     r'Hochschullehrer',
-    r'(\d\.\s?)?Betreuer',
+    r'Zweitgutachter',
     # [\s|:] to avoid confusing 'Prof. Dr. Theo Wil'
     r'(\w+\s?){1,4}?[\s|:]',
     r'^',
