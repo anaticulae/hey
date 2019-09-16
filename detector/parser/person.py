@@ -39,7 +39,7 @@ def parse(raw: str) -> iamraw.Person:
     result = re.search(PATTERN, raw)
     if not result:
         # try second parser
-        result = parser_person_without_title(raw)
+        result = parse_person_without_title(raw)
         if result:
             return result
         return None
@@ -52,7 +52,7 @@ def parse(raw: str) -> iamraw.Person:
     return person
 
 
-def parser_person_without_title(raw: str) -> iamraw.Person:
+def parse_person_without_title(raw: str) -> iamraw.Person:
     """Parse `Person`s without any academic title. In general, this is
     the author of the document.
 

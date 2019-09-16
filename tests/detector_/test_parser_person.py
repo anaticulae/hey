@@ -164,5 +164,5 @@ def test_detector_parser_person_parse_person_without_title():
         firstname='Helmut Konrad',
         raw=raw.strip(),
     )
-    parsed = detector.parser.person.parser_person_without_title(raw)
+    parsed = detector.parser.person.parse_person_without_title(raw)
     assert parsed == expected

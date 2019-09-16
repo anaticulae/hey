@@ -24,6 +24,6 @@ def prepare(item):
     pytest.param(FIRST, FIRST_INSTITUTION, id=prepare(FIRST)),
     pytest.param(SECOND, SECOND_INSTITUTION, id=prepare(SECOND)),
 ])
-def test_parser_institution_parse(example, expected):
+def test_detector_parser_institution_parse(example, expected):
     parsed, _ = parse(example)
     assert parsed == expected, str(parsed)
