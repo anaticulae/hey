@@ -100,7 +100,7 @@ KAHN = iamraw.Person(
     (
         '   vorgelegt von   Thomas Helmer  ',
         iamraw.Person(
-            Title.NO_TITLE,
+            Title.STUDENT,
             'Helmer',
             'Thomas',
             'vorgelegt von   Thomas Helmer',
@@ -136,7 +136,7 @@ KAHN = iamraw.Person(
     (
         'Zweitprüfer: Peter Thomson',
         iamraw.Person(
-            Title.NO_TITLE,
+            Title.EXAMINIER,
             'Thomson',
             'Peter',
             'Zweitprüfer: Peter Thomson',
@@ -159,7 +159,7 @@ def test_detector_parser_person_order_person():
 def test_detector_parser_person_parse_person_without_title():
     raw = '  Vorgelegt von    Helmut Konrad Fahrendholz   '
     expected = iamraw.Person(
-        title=Title.NO_TITLE,
+        title=Title.STUDENT,
         name='Fahrendholz',
         firstname='Helmut Konrad',
         raw=raw.strip(),

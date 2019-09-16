@@ -60,8 +60,10 @@ def parser_person_without_title(raw: str) -> iamraw.Person:
     firstname, name = matched['names'].rsplit(' ', maxsplit=1)
     firstname, name = firstname.strip(), name.strip()
 
+    title = author_or_examiner(raw)
+
     result = iamraw.Person(
-        title=Title.NO_TITLE,
+        title=title,
         name=name,
         firstname=firstname,
         raw=extract_match(matched),
@@ -111,8 +113,10 @@ def order_persons(persons):
 class Title(Flag):
     # TODO: MOVE TO IAMRAW
     NO_TITLE = auto()
+    STUDENT = auto()  # author without academic title
     BSC = auto()
     MASTER = auto()
+    EXAMINIER = auto()  # examiner without academic title
     DR = auto()
     PROF = auto()
 
@@ -195,6 +199,20 @@ def extract_title(result):
             matches = [item for item in MATCHES.values()]
             title.append(matches[item])
     return title
+
+
+def author_or_examiner(raw: str) -> Title:
+    raw = raw.lower()
+
+    author = ['vorgelegt']
+    if any([item in raw for item in author]):
+        return Title.STUDENT
+
+    examiner = ['prüfer', 'gutachter']
+    if any([item in raw for item in examiner]):
+        return Title.EXAMINIER
+
+    return Title.NO_TITLE
 
 
 def merge_title(items) -> Title:
