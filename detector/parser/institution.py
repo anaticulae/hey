@@ -154,6 +154,8 @@ UNIVERSITIES = [
     'Hochschule für Technik und Wirtschaft Berlin',
     'Technische Universität Berlin',
     'Technische Universität Darmstadt',
+    # TODO: INVESTIGATE THIS '' char later. Don't know how to solve yet.
+    'Technische Universit¨at Darmstadt',
     'Universität Münster',
 ]
 
@@ -165,6 +167,8 @@ def find_institution(raw) -> str:
         institution(str):
     Returns:
         None if `institution` is in dictonary else collected
+
+    TODO: Use difflib to improve collecting approach
     """
     splitted = raw.split(',')
     splitted = utila.flatten([item.split(utila.NEWLINE) for item in splitted])

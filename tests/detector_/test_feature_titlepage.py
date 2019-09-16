@@ -40,6 +40,9 @@ def check_72_pages(titlepage: iamraw.TitlePage):
 def check_78_pages(titlepage: iamraw.TitlePage):
     assert titlepage.thesis.typ == iamraw.DocumentType.MASTER
 
+    university = titlepage.institution.university
+    assert university == 'Technische Universit¨at Darmstadt', str(university)
+
 
 @pytest.mark.parametrize('source, checker', [
     (tests.resources.MASTER_72PAGES, check_72_pages),
