@@ -6,6 +6,19 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+"""There are two types of person which must appear on the titlepage. The
+author and examiner. An author can have an academic title. An Examiner
+must have an academic title.
+
+Examples:
+
+    Author:
+        Vorgelegt von Helmut Konrad Fahrendholz
+
+    Examiner:
+        Prof. Dr. Nobert Bolz
+        Zweitgutachter: Dipl.-Medienberater Stephan Frühwirt
+"""
 import re
 from enum import Flag
 from enum import auto
@@ -41,6 +54,13 @@ def parse(raw: str) -> iamraw.Person:
 
 
 def parser_person_without_title(raw: str) -> iamraw.Person:
+    """Parse `Person`s without any academic title. In general, this is
+    the author of the document.
+
+    Hint:
+        Examiner must have an academic title, but in some thesis this is not
+        so. Therefore we have to mark it later as an error.
+    """
     raw = raw.strip()
 
     preamble = [
