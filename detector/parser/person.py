@@ -44,16 +44,17 @@ def parser_person_without_title(raw: str) -> iamraw.Person:
     raw = raw.strip()
 
     preamble = [
-        r'vorgelegt von[ ]{0,8}',
+        r'vorgelegt von',
+        r'Erstprüfer',  # TODO: Remove this later
+        r'Zweitprüfer',
     ]
-    preamble = '|'.join(
-        fr'(?P<t{index}>{item})[\ ]?' for index, item in enumerate(preamble))
-
+    preamble = '(' + '|'.join(
+        fr'(?P<t{index}>{item})' for index, item in enumerate(preamble)) + ')'
+    between = r'[:]?[ ]{0,8}'
     name = r'(?P<names>(\w+\s{0,5}){1,5})'
 
-    pattern = re.compile(preamble + name, re.IGNORECASE)
+    pattern = re.compile(preamble + between + name, re.IGNORECASE)
     matched = re.search(pattern, raw)
-
     if not matched:
         return None
     firstname, name = matched['names'].rsplit(' ', maxsplit=1)
@@ -142,6 +143,7 @@ MATCHES = {
     'B.Sc.': Title.BSC,
     r'Dipl.-\w+': Title.MASTER,
     'Dipl. Ing.': Title.MASTER,
+    'M.A.': Title.MASTER,
     'Dr.-Ing.': Title.DR,
     'Dr.': Title.DR,
     'M.Sc.': Title.MASTER,

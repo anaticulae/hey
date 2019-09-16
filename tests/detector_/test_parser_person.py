@@ -124,6 +124,24 @@ KAHN = iamraw.Person(
             'Prof. Dr. Nobert Bolz',
         ),
     ),
+    (
+        'Zweitgutachter: M.A. Erwin Nolte',
+        iamraw.Person(
+            Title.MASTER,
+            'Nolte',
+            'Erwin',
+            'Zweitgutachter: M.A. Erwin Nolte',
+        ),
+    ),
+    (
+        'Zweitprüfer: Peter Thomson',
+        iamraw.Person(
+            Title.NO_TITLE,
+            'Thomson',
+            'Peter',
+            'Zweitprüfer: Peter Thomson',
+        ),
+    ),
 ])
 def test_detector_parser_parse_person(raw, expected):
     parsed = parse(raw)
