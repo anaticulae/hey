@@ -37,6 +37,9 @@ def parse(token: str) -> TitleThesisType:
 
 
 def construct_pattern():
+    # TODO: REMOVE PATCH afer upgrading IAMRAW
+    iamraw.titlepage.THESIS[iamraw.titlepage.DocumentType.MASTER].add(
+        'Diplomarbeit',)
     pattern = []
     for key, values in iamraw.titlepage.THESIS.items():
         subpattern = []
