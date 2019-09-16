@@ -2,6 +2,25 @@
 
 Every noteable change is logged here.
 
+## v1.6.0
+
+### Feature
+
+* add order for more than one person without academic title (42a5a0f6dc79)
+* extend person parser to support more pattern (754d21544515)
+* extend person parser to support every Dipl.- title (b949859b5284)
+* extend parser to parse Persons without academic title (53811cd64d93)
+
+### Fix
+
+* fix test resource to be in sync with pdf (3fbb4daab251)
+* fix person parser without text before academic title (803ba580d840)
+* ensure that order in document is preserved (6d8ace3d5e83)
+
+### Documentation
+
+* extend interface documentation of person parser (d898b8e59aff)
+
 ## v1.5.1
 
 ## v1.5.0
