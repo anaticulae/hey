@@ -32,6 +32,7 @@ from itertools import zip_longest
 from re import finditer
 from typing import Tuple
 
+import utila
 from iamraw import DOT
 from iamraw import Border
 from iamraw import ContentType
@@ -46,9 +47,6 @@ from serializeraw import load_document
 from serializeraw import load_headlines
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
-from utila import NEWLINE
-from utila import error
-from utila import flatten
 
 from groupme.feature.numbers import load_textposition
 from hey.fonts.store import FontContentStore
@@ -58,7 +56,6 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
-from hey.utils import select_page
 from words.boxed import BoxedChecker
 from words.feature.headlines import content_border
 
@@ -226,7 +223,7 @@ def prepare_analyze_page(
     """
     page = headlines[0].page
     pcn = PageTextContentNavigator(
-        textnavigator=select_page(textnavigators, page=page),
+        textnavigator=utila.select_page(textnavigators, pagenumber=page),
         content=border,
     )
     if pcn.offset == (None, None):
@@ -293,8 +290,8 @@ def fill_headlines(headlines):
     # fill headlines
     heads = []
     for first, second in zip_longest(
-            flatten(headlines),
-            flatten(headlines)[1:],
+            utila.flatten(headlines),
+            utila.flatten(headlines)[1:],
             fillvalue=None,
     ):
         heads.append(first)
@@ -346,7 +343,7 @@ def squeeze_text_page(page):
                 lines.append('%du' % seq.container)
                 continue
             line = ''.join([item for (item, _) in seq.content])
-            line = line.replace(NEWLINE, SPACE)
+            line = line.replace(utila.NEWLINE, SPACE)
             last = 0
             for item in finditer(PATTERN, line):
                 _, end = item.start(), item.end()
@@ -354,7 +351,7 @@ def squeeze_text_page(page):
                 last = end
             no_match = line == line[last:]
             if no_match:
-                error('No match, potential headline: %s' % line)
+                utila.error('No match, potential headline: %s' % line)
             if line[last:]:
                 lines.append(line[last:])
         # remove `space` after text

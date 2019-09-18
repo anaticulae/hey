@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import utila
 from pytest import fixture
 from serializeraw import load_document
 from serializeraw import load_font_content
@@ -15,7 +16,6 @@ from serializeraw import load_font_header
 from groupme.feature.numbers import load_textposition
 from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import create_pagetextnavigators
-from hey.utils import select_page
 
 TEXT = r"""
 dimension: 595.28 841.89
@@ -122,5 +122,5 @@ def new_textnavgiator():
         load_document(TEXT, pages=0),  # just load the first page
         load_textposition(TEXT_POSITION, pages=0),
     )
-    first = select_page(navigators, page=0)
+    first = utila.select_page(navigators, pagenumber=0)
     return first

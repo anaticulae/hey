@@ -7,11 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import utila
 from iamraw import Border
 
 from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import create_pagetextnavigators
-from hey.utils import select_page
 
 
 def extract_undefined(pages, text, text_position, contentborder: Border):
@@ -33,7 +33,7 @@ def extract_undefined(pages, text, text_position, contentborder: Border):
     )
     result = []
     for (page, pagecontent) in pages:
-        navigator = select_page(pagetextnavigators, page)
+        navigator = utila.select_page(pagetextnavigators, page)
         ptcn = PageTextContentNavigator(
             navigator,
             contentborder,

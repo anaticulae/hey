@@ -63,10 +63,3 @@ def page(item):
         return item.page
     except AttributeError:
         return item.number
-
-
-# TODO: MOVE TO UTILA
-def select_page(items, page: int):
-    if not isinstance(items, dict):
-        items = {item.page: item for item in items}
-    return items[page]

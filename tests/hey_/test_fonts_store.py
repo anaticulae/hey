@@ -9,6 +9,7 @@
 
 # TODO: Move to iamraw
 
+import utila
 from iamraw import Document
 from iamraw import Font
 from iamraw import PageFontContent
@@ -25,7 +26,6 @@ from hey.fonts.store import FontStore
 from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
-from hey.utils import select_page
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_border
 from tests.fixtures.restruct import restructured_contentborder
@@ -163,7 +163,7 @@ def restructured_pagetextcontentnavigator(
 ) -> PageTextContentNavigator:
     contentborders = restructured_contentborder
     page = 4
-    navigator = select_page(restructured_textnavigators, page)
+    navigator = utila.select_page(restructured_textnavigators, page)
     pagecontent = PageTextContentNavigator(
         navigator,
         contentborders,

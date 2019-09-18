@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import utila
 from iamraw import ListType
 from iamraw import PageList
 from pytest import fixture
@@ -17,7 +18,6 @@ from hey.textnavigator.navigator import TextBoundsList
 from hey.textnavigator.navigator import merge_content
 from hey.textnavigator.navigator import merge_content_join
 from hey.textnavigator.navigator import to_content
-from hey.utils import select_page
 #pylint:disable=W0611
 from tests.fixtures.restruct import RESTRUCT_HORIZONTAL
 from tests.fixtures.restruct import RESTRUCT_PAGESIZE
@@ -50,7 +50,7 @@ def test_list_extract_page(
         simple_contentborder,
 ):
     page_1 = simple_document[1]
-    navigator_1 = select_page(simple_pagetextnavigators, page=1)
+    navigator_1 = utila.select_page(simple_pagetextnavigators, pagenumber=1)
     contentborder_1 = simple_contentborder[1]
 
     return

@@ -16,8 +16,6 @@ Course of studies - Studiengang
 Academic year - Studienjahr/Semester
 """
 
-import typing
-
 import iamraw
 import utila
 
@@ -72,23 +70,8 @@ def detection(raw, items, remove: bool = True):
                 result.append(chunk.strip())
             raw.replace(chunk, '')
     # make results unique
-    result = make_unique(result)
+    result = utila.make_unique(result)
     return result, raw
-
-
-# TODO: Move to utila
-def make_unique(items) -> typing.List[str]:
-    """Convert collection where every element exists only once.
-
-    Hint:
-        stable algorithm which hold the previous order
-    """
-    result = []
-    for item in items:
-        if item in result:
-            continue
-        result.append(item)
-    return result
 
 
 SELECTOR = {

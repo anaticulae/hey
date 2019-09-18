@@ -26,6 +26,7 @@ headline level out of these information. Use further text information out of
 headline.
 """
 
+import utila
 from iamraw import Border
 from iamraw import Headline
 from iamraw import PagesHeadlineList
@@ -34,9 +35,6 @@ from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from serializeraw import load_sections
-from utila import call
-from utila import checkdatatype
-from utila import info
 
 from groupme.feature.footer import document_footerheader
 from groupme.feature.footer import footerborder_to_border
@@ -53,13 +51,12 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.textnavigator.navigator import navigator_to_bounds
-from hey.utils import select_page
 from sections.feature.sections import Content
 from sections.feature.sections import Sections
 from sections.feature.sections import chapters
 
 
-@checkdatatype
+@utila.checkdatatype
 def work(
         sections: str,
         text: str,
@@ -149,7 +146,7 @@ def extract_headlines(
         (start, end) = content[index]
         for page in range(start, end + 1):
             pagecontent = PageTextContentNavigator(
-                select_page(pagetextnavigators, page=page),
+                utila.select_page(pagetextnavigators, pagenumber=page),
                 border,
             )
             xoff = pagecontent.offset[0]
@@ -212,8 +209,8 @@ def convert_level(result: PagesHeadlineList) -> int:
     """
 
     # pylint:disable=len-as-condition
-    call('convert_level')
-    info('empty PageHeadlineList')
+    utila.call('convert_level')
+    utila.info('empty PageHeadlineList')
     if not result:
         return result
 
