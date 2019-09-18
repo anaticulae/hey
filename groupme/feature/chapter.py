@@ -14,33 +14,24 @@
 
 """
 
-from functools import lru_cache
-from typing import Dict
-from typing import List
-
+import serializeraw
 from iamraw import Document
-from serializeraw import load_document
 from utila import NEWLINE
 from utila import Flag
 from utila import call
 from utila import debug
 from utila import error
-from utila import from_raw_or_path
-from yaml import FullLoader
-from yaml import dump
-from yaml import load
 
 from groupme.feature import format_title
 from groupme.feature.toc import toc
 from groupme.structure import body
-from hey import CACHE_SMALL
 
 
 def work(documentpath: str) -> str:
-    document = load_document(documentpath)
+    document = serializeraw.load_document(documentpath)
 
     result = chapters(document)
-    dumped = dump_chapter(result)
+    dumped = serializeraw.dump_chapter(result)
     return dumped
 
 
@@ -99,27 +90,6 @@ def chapters(document: Document):
         'content': _content,
     })
     return result
-
-
-# TODO: Move to serialzeraw?
-def dump_chapter(chapter: List[Dict]) -> str:
-    result = []
-    for item in chapter:
-        level, title, content = item['level'], item['title'], item['content']
-        result.append({
-            'level': level,
-            'title': title,
-            'content': content,
-        })
-    dumped = dump(result)
-    return dumped
-
-
-@lru_cache(maxsize=CACHE_SMALL)
-def load_chapter(content: str) -> List[Dict]:
-    content = from_raw_or_path(content, ftype='yaml')
-    loaded = load(content, Loader=FullLoader)
-    return loaded
 
 
 def name():

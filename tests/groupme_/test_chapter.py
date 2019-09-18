@@ -10,15 +10,13 @@
 Test to group chapter out of text and and headlines.
 """
 
+import serializeraw
 from iamraw import Document
 from iamraw import Page
 from pytest import mark
-from serializeraw import load_document
 from utila import file_read
 
 from groupme.feature.chapter import chapters
-from groupme.feature.chapter import dump_chapter
-from groupme.feature.chapter import load_chapter
 from groupme.structure import parse_headline
 from groupme.structure import sections
 from groupme.structure import sections_from_page
@@ -33,14 +31,14 @@ from tests.resources import SIMPLE_TOC_LINES
 
 def test_dump_and_load_chapter():
     """Ensure that every section have an textbody"""
-    doc = load_document(file_read(SIMPLE_TEXT))
+    doc = serializeraw.load_document(file_read(SIMPLE_TEXT))
     content = chapters(doc)
     assert len(content) == SIMPLE_TOC_LINES
 
-    dumped = dump_chapter(content)
+    dumped = serializeraw.dump_chapter(content)
     assert dumped
 
-    loaded = load_chapter(dumped)
+    loaded = serializeraw.load_chapter(dumped)
     assert loaded == content
 
 
