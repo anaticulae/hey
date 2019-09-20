@@ -15,6 +15,7 @@ from utila.test import skip_nonvirtual
 from sections import PACKAGE
 from sections import PROCESS
 from sections import ROOT
+from tests.resources import MASTER_72PAGES
 from tests.resources import PYPORTING
 from tests.resources import RESTRUCT
 from tests.resources import RESTRUCT_PDF
@@ -48,3 +49,13 @@ def test_run_sections(command, testdir, monkeypatch):  #pylint: disable=W0613
 def test_run_sections_failed(command, testdir, monkeypatch):  #pylint: disable=W0613
     """Run `sections` with bad input"""
     run_sections_failure(command, monkeypatch=monkeypatch)
+
+
+@pytest.mark.xfail(reson='problem in resource order - todo: fix resource order')
+def test_run_sections_multicore(testdir, monkeypatch):
+    # TODO: THERE IS A PROBLEM WITH MULTIPROCESSING
+    root = str(testdir)
+    jobs = 2
+    cmd = (f'-j{jobs} -i {MASTER_72PAGES} -o {root}'
+           ' --chapter --index --sections --title --toc --whitepage')
+    run_sections_success(cmd, monkeypatch=monkeypatch)
