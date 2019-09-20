@@ -45,8 +45,8 @@ def check_78_pages(titlepage: iamraw.TitlePage):
 
 
 @pytest.mark.parametrize('source, checker', [
-    (tests.resources.MASTER_72PAGES, check_72_pages),
-    (tests.resources.MASTER_78PAGES, check_78_pages),
+    (tests.resources.MASTER_72PAGES_PDF, check_72_pages),
+    (tests.resources.MASTER_78PAGES_PDF, check_78_pages),
 ])
 def test_detector_feature_titlepage_complete(
         source,

@@ -7,39 +7,49 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import os
+
 import utila
 
 import detector.feature.titlepage
-from hey import ROOT
-from tests.resources import RESOURCES
+import hey
+import tests.resources
 
 
 def install_requirements():
-    utila.clean_install(ROOT, 'hey')
+    utila.clean_install(hey.ROOT, hey.PACKAGE)
 
 
 def sync_resources():
-    completed = utila.run('power --all', RESOURCES)  # pylint:disable=C0103
+    completed = utila.run('power --all', tests.resources.RESOURCES)  # pylint:disable=C0103
     assert completed.returncode == utila.SUCCESS, str(completed)
 
 
 def extract_examples():
+    if os.path.exists(tests.resources.GENERATED):
+        return
+    os.makedirs(tests.resources.GENERATED)
+
     todo = create_todo_rawmaker(
+        'master/page_72_noimages_toc.pdf',
+        tests.resources.MASTER_72PAGES,
+    ) + create_todo_rawmaker(
         'restruct/restructuredtext.pdf',
-        './restruct',
+                tests.resources.RESTRUCT,
     ) + create_todo_rawmaker(
         'porting_module/porting_module_to_python3.pdf',
-        './porting_module',
+                tests.resources.PYPORTING,
     ) + create_todo_rawmaker(
         'simple/howto_pyporting.pdf',
-        './simple',
-    ) + create_todo_sections('./restruct') + create_todo_sections(
-        './simple') + create_todo_sections('./porting_module')
+        tests.resources.SIMPLE,
+    ) + create_todo_sections(tests.resources.RESTRUCT) \
+      + create_todo_sections(tests.resources.SIMPLE)\
+      + create_todo_sections(tests.resources.PYPORTING)
 
     for (executable, inpath, outpath, configuration) in todo:
         cmd = f'{executable} -i {inpath} -o {outpath} {configuration}'
         utila.debug(f'run {cmd}')
-        completed = utila.run(cmd, cwd=RESOURCES)
+        completed = utila.run(cmd, cwd=tests.resources.RESOURCES)
         assert completed.returncode == utila.SUCCESS, str(completed)
         utila.debug('completed')
 
