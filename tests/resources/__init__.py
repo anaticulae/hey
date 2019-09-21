@@ -128,3 +128,23 @@ REQURIED_RESOURCES = [
     SIMPLE_TEXT_POSITION,
     SIMPLE_TOC,
 ]
+
+
+# TODO: MOVE TO RAWMAKER
+def text(path: str, prefix: str = '') -> str:
+    """Add text file name of `rawmaker` to given `path
+
+    Pattern:
+        {path}_rawmaker_{prefix}_text_text.yaml
+
+    Args:
+        path(str): path to extracted `rawmaker`-content
+        prefix(str): optional {prefix} to separate rawmaker-files
+    Returns:
+        comined path
+    """
+    assert os.path.isdir(path), str(path)
+    prefix = f'{prefix}_' if prefix else ''
+    filename = f'rawmaker__{prefix}text_text.yaml'
+    result = os.path.join(path, filename)
+    return result
