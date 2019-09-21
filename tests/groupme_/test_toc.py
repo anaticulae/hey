@@ -11,7 +11,6 @@ from iamraw import Document
 from iamraw import Page
 from serializeraw import load_document
 
-import tests.resources
 from groupme.feature.toc import toc
 from groupme.feature.toc import toc_from_page
 from groupme.feature.toc import toc_to_yaml

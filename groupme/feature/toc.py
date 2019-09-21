@@ -11,17 +11,13 @@ from collections import defaultdict
 from typing import List
 from typing import Tuple
 
+import utila
 from iamraw import Document
 from iamraw import Page
 from iamraw import Section
 from iamraw import create_toc
 from serializeraw import dump_toc
 from serializeraw import load_document
-from utila import NEWLINE
-from utila import Flag
-from utila import call
-from utila import debug
-from utila import log
 
 from groupme.feature import RawSection
 from groupme.structure import sections_from_page
@@ -39,13 +35,13 @@ def toc(document: Document):
     # TODO: Include page distance!
     # TODO: We need a more stable approach
     """
-    call('toc')
+    utila.call('toc')
     result = []
     for index, page in enumerate(document.pages):
-        debug('page %d' % index)
+        utila.debug('page %d' % index)
         tocpage = toc_from_page(page)
         if tocpage is None:
-            log('empty page: %d' % index)
+            utila.log('empty page: %d' % index)
             continue
         result.extend(tocpage)
     # Title must occurs double, first in the TOC and after this, following in
@@ -168,7 +164,7 @@ def toc_from_page(page: Page) -> List[RawSection]:
         if not item.title or not item.level:
             continue
 
-        if item.title.count(NEWLINE) > 1:
+        if item.title.count(utila.NEWLINE) > 1:
             continue
 
         if item.title.count(' .') > 2 or item.title.count('...') > 2:
@@ -245,7 +241,7 @@ def name():
 
 
 def commandline():
-    return Flag(
+    return utila.Flag(
         longcut=name(),
         message='extract table of content',
     )
