@@ -63,3 +63,7 @@ def page(item):
         return item.page
     except AttributeError:
         return item.number
+
+
+# Unicode special minus sign
+SPECIAL_MINUS_SIGN = '–'

@@ -51,9 +51,10 @@ def chapters(document: Document):
         error(headline)
         error('empty chapter')
 
-    for title in tableofcontent[1:]:  # skip first one
+    for title in tableofcontent[1:]:  # skip the first one
+        print(title)
         debug('process `%s`' % str(title))
-        _level, _title = title
+        _level, _title = title.level, title.title
         headline = format_title(title)
         current_chapter, headline, rest = content.partition(headline)
         if not headline:
@@ -78,6 +79,7 @@ def chapters(document: Document):
             'title': _title,
             'content': _content,
         })
+
     if not content:
         # TODO: investigate here to check that no content is lost
         log_error('last headline')

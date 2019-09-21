@@ -7,7 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from collections import defaultdict
+import typing
 from typing import List
 from typing import Tuple
 
@@ -19,8 +19,17 @@ from iamraw import create_toc
 from serializeraw import dump_toc
 from serializeraw import load_document
 
+import groupme.toc
+import groupme.toc.regex
 from groupme.feature import RawSection
 from groupme.structure import sections_from_page
+
+
+"""
+Outdated approaches:
+
+  - collect title and check if sequence exists again in the document
+"""
 
 
 def work(documentpath: str) -> str:
@@ -36,34 +45,19 @@ def toc(document: Document):
     # TODO: We need a more stable approach
     """
     utila.call('toc')
+
     result = []
     for index, page in enumerate(document.pages):
         utila.debug('page %d' % index)
-        tocpage = toc_from_page(page)
+        tocpage = groupme.toc.regex.parse_page(page)
         if tocpage is None:
             utila.log('empty page: %d' % index)
             continue
         result.extend(tocpage)
-    # Title must occurs double, first in the TOC and after this, following in
-    # the text.
-    hundert_percent_toc = filter_double(result)
-    # This strategy does not always work
-    if not hundert_percent_toc:
-        # If the title does not have the level as the same notation in the
-        # document, the first method will not work. So, in the second approach
-        # we search for the title onyl, without the level.
-        count = defaultdict(int)
-        snippets = text_snippets(document)
-        for item in snippets:
-            count[item] += 1
-        single_title = [
-            (level, title) for level, title in result if count[title] >= 1
-        ]
-        single_title = filter_common_headlines(single_title)
 
-        return single_title
-
-    return hundert_percent_toc
+    # if headline occurs on table of content and on page it occurs twive
+    result = groupme.toc.remove_duplication(result)
+    return result
 
 
 Level = str
@@ -142,13 +136,15 @@ def text_snippets(document: Document):
     return result
 
 
-def toc_to_yaml(tableofcontent):
-    termal = []
-    for level, title in tableofcontent:
-        level = 1 + level.count('.')  # TODO: NOT VERY STABLE
-        termal.append(Section(level=level, title=title))
-
-    return dump_toc(create_toc(termal))
+def toc_to_yaml(tableofcontent: typing.List[groupme.toc.TocLine]) -> str:
+    # TODO: MOVE TO SERIALIZERAW
+    outlines = []
+    for line in tableofcontent:
+        level = 1 + line.level.count('.')  # TODO: NOT VERY STABLE
+        section = Section(level=level, title=line.title)
+        outlines.append(section)
+    dumped = dump_toc(create_toc(outlines))
+    return dumped
 
 
 def toc_from_page(page: Page) -> List[RawSection]:

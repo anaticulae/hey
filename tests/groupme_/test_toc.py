@@ -38,10 +38,11 @@ def test_extract_toc(simple_page_0: Page):  # pylint: disable=W0621
 
 def test_extract_toc_from_document(simple_document: Document):  # pylint: disable=W0621
     tableofcontent = toc(simple_document)
+
     assert len(tableofcontent) == SIMPLE_TOC_LINES
 
 
 def test_extract_toc_from_restructured():
     document = load_document(RESTRUCT_TEXT)
     tocs = toc(document)
-    assert len(tocs) == RESTRUCT_TOC_LINES
+    assert len(tocs) == RESTRUCT_TOC_LINES, str(tocs)
