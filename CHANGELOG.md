@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v1.7.0
+
+### Feature
+
+* add method to parse to via regex (687eb753a78b)
+* add method to create path to rawmaker-test-resources (61b727e0d554)
+
 ## v1.6.2
 
 ## v1.6.1
