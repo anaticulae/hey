@@ -130,6 +130,19 @@ REQURIED_RESOURCES = [
 ]
 
 
+def pathconnector(
+        path: str,
+        runner: str,
+        filename: str,
+        prefix: str = '',
+) -> str:
+    assert os.path.isdir(path), str(path)
+    prefix = f'{prefix}_' if prefix else ''
+    filename = f'{runner}__{prefix}{filename}.yaml'
+    result = os.path.join(path, filename)
+    return result
+
+
 # TODO: MOVE TO RAWMAKER
 def text(path: str, prefix: str = '') -> str:
     """Add text file name of `rawmaker` to given `path
@@ -143,8 +156,32 @@ def text(path: str, prefix: str = '') -> str:
     Returns:
         comined path
     """
-    assert os.path.isdir(path), str(path)
-    prefix = f'{prefix}_' if prefix else ''
-    filename = f'rawmaker__{prefix}text_text.yaml'
-    result = os.path.join(path, filename)
-    return result
+    return pathconnector(path, 'rawmaker', 'text_text', prefix)
+
+
+def text_positions(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'text_positions', prefix)
+
+
+def toc(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'toc_toc', prefix)
+
+
+def font_header(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'fonts_header', prefix)
+
+
+def font_content(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'fonts_content', prefix)
+
+
+def sizeandborder(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'border_pages', prefix)
+
+
+def horizontals(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'boxes_horizontal', prefix)
+
+
+def sections(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'sections', 'sections_result', prefix)
