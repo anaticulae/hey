@@ -6,6 +6,16 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+"""
+
+Design decissions:
+
+    Should we support following whitespaces?
+        It is not required to support lines with ending whitespaces.
+        Following whitespace puts water into the wine and leads to more
+        missmatchings. The better approach is to improve the pdf-parser
+        to avoid following whitespaces.
+"""
 
 import contextlib
 import re
@@ -92,30 +102,36 @@ WITH_NEWLINE = r'\s'
 
 # \W to ensure non-unicode character, like special - chars
 EXTENDED_PATTERN = re.compile(
-    (r'^'
-     r'(?P<level>(\d{1,2}\.)+\d{0,2})'
-     r'[ ]{1,5}'
-     fr'(?P<text>[{USER_CONTENT}{WITH_NEWLINE}]+?\w+?)'
-     r'([ \.]{3,})'
-     r'(?P<page>\d+)'
-     r'$'),
+    (
+        r'^'
+        r'(?P<level>(\d{1,2}\.)+\d{0,2})'
+        r'[ ]{1,5}'
+        r'(?P<text>\w'  # ensure that text does not start with whitespace
+        fr'[{USER_CONTENT}{WITH_NEWLINE}]+?\w+?)'
+        r'([ \.]{3,})'
+        r'(?P<page>\d+)'
+        r'$'),
     re.VERBOSE | re.MULTILINE | re.UNICODE,
 )
 
 NO_DOTS = re.compile(
-    (r'^'
-     r'(?P<level>(\d))'
-     r'[ ]{1,5}'
-     r'(?P<text>[\w ]+)'
-     r'$'),
+    (
+        r'^'
+        r'(?P<level>(\d))'
+        r'[ ]{1,5}'
+        r'(?P<text>\w'  # ensure that text does not start with whitespace
+        r'[\w ]+)'
+        r'$'),
     re.VERBOSE | re.MULTILINE | re.UNICODE,
 )
 
 NO_LEVEL = re.compile(
-    (r'^'
-     fr'(?P<text>[{USER_CONTENT}]+?\w+?)'
-     r'([ \.]{3,})'
-     r'(?P<page>\d+)'),
+    (
+        r'^'
+        r'(?P<text>\w'  # ensure that text does not start with whitespace
+        fr'[{USER_CONTENT}]+?\w+?)'
+        r'([ \.]{3,})'
+        r'(?P<page>\d+)'),
     re.VERBOSE | re.UNICODE,
 )
 

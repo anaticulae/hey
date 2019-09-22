@@ -75,3 +75,19 @@ SECOND_LINE = (
 def test_extract_toc_line(content, expected):
     parsed = groupme.toc.regex.parse(content)
     assert parsed == expected, str(parsed)
+
+
+def test_extract_toc_line_whitespace_decission():
+    """See design decission: We do not want to support following whitespaces."""
+
+    text = '2. We do not want whitespaces at the end ......... 4     '
+    parsed = groupme.toc.regex.parse(text)
+    assert not parsed, 'we do not want to support whitespaces'
+
+    text = '       2. We do not want whitespaces at the end ......... 4'
+    parsed = groupme.toc.regex.parse(text)
+    assert not parsed, 'we do not want to support whitespaces'
+
+    text = '       2. We do not want whitespaces at the end ......... 4   '
+    parsed = groupme.toc.regex.parse(text)
+    assert not parsed, 'we do not want to support whitespaces'
