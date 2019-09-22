@@ -14,13 +14,14 @@ import groupme.feature.toc
 import groupme.toc.regex
 import tests
 
+MASTER_72PAGES_TEXT = tests.resources.text(
+    tests.resources.MASTER_72PAGES,
+    prefix='oneline',
+)
+
 
 def test_extract_toc_from_master_pages72_page_1and2():
-    inpath = tests.resources.text(
-        tests.resources.MASTER_72PAGES,
-        prefix='oneline',
-    )
-    document = serializeraw.load_document(inpath)
+    document = serializeraw.load_document(MASTER_72PAGES_TEXT)
 
     page1, page2 = document[1:3]
 
