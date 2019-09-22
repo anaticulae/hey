@@ -34,6 +34,14 @@ def test_extract_toc_from_master_pages72_page_1and2():
     assert all([not '...' in item.title for item in result_page2])
 
 
+def test_extract_toc_from_master_pages72_page_withouttoc():
+    document = serializeraw.load_document(MASTER_72PAGES_TEXT)
+
+    result = groupme.toc.regex.parse_page(document[4:])
+
+    assert not result, str(result)
+
+
 FIRST_LINE = ('2.1 Web 2.0, Social Web und Social Media: '
               'Abgrenzungen und Definitionen   .............. 4')
 
