@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import serializeraw
 from iamraw import Document
 from iamraw.sections import PERCENT_100
 from iamraw.sections import Sections
@@ -17,6 +18,8 @@ from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 
+import tests.fixtures
+import tests.resources
 from groupme.feature.numbers import load_textposition
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
@@ -123,6 +126,7 @@ def restructured_navigator(restructured):  #pylint:disable=W0621
 @fixture
 def restructured_headlines():
     sections_ = restructured_sections()
+
     dumped = headlines_work(
         sections=sections_,
         text=RESTRUCT_TEXT,
@@ -226,6 +230,12 @@ def restructured_whitepage():
 def restructured_sections():
     chapter = chapter_work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION, RESTRUCT_TOC)
 
+    # ensure that all chapters are detected
+    tests.fixtures.assert_chapter_count(
+        serializeraw.load_likelihood(chapter),
+        tests.resources.RESTRUCT_CHAPTER_COUNT,
+    )
+
     index = index_work(RESTRUCT_TEXT)
     title = title_work(
         RESTRUCT_TEXT,
@@ -239,6 +249,7 @@ def restructured_sections():
         RESTRUCT_HORIZONTAL,
     )
     result = section_work(chapter, index, title, toc, whitepage)
+
     return result
 
 

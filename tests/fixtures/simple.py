@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import serializeraw
 import utila
 from iamraw import Border
 from iamraw import Document
@@ -17,6 +18,9 @@ from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 
+import tests
+import tests.fixtures
+import tests.resources
 from groupme.feature.numbers import load_textposition
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
@@ -185,6 +189,12 @@ def simple_chapter():
         SIMPLE_TEXT,
         SIMPLE_TEXT_POSITION,
         SIMPLE_TOC,
+    )
+
+    # ensure that all chapters are detected
+    tests.fixtures.assert_chapter_count(
+        serializeraw.load_likelihood(result),
+        tests.resources.SIMPLE_CHAPTER_PAGE_COUNT,
     )
     return result
 
