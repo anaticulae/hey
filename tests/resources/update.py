@@ -33,16 +33,17 @@ def extract_examples():
     todo = create_todo_rawmaker(
         'master/page_72_noimages_toc.pdf',
         tests.resources.MASTER_72PAGES,
-    ) + create_todo_rawmaker(
+    ) + create_todo_sections(tests.resources.MASTER_72PAGES)\
+    + create_todo_rawmaker(
         'restruct/restructuredtext.pdf',
-                tests.resources.RESTRUCT,
+        tests.resources.RESTRUCT,
     ) + create_todo_rawmaker(
         'porting_module/porting_module_to_python3.pdf',
-                tests.resources.PYPORTING,
+        tests.resources.PYPORTING,
     ) + create_todo_rawmaker(
         'simple/howto_pyporting.pdf',
         tests.resources.SIMPLE,
-    ) + create_todo_sections(tests.resources.RESTRUCT) \
+    ) + create_todo_sections(tests.resources.RESTRUCT)\
       + create_todo_sections(tests.resources.SIMPLE)\
       + create_todo_sections(tests.resources.PYPORTING)
 
@@ -57,13 +58,13 @@ def extract_examples():
 def create_todo_rawmaker(inpath, outpath):
     result = [
         (
-            'rawmaker',
+            'rawmaker -j8',
             inpath,
             outpath,
             detector.feature.titlepage.RAWMAKER_CONFIGURATION,
         ),
         (
-            'rawmaker',
+            'rawmaker -j8',
             inpath,
             outpath,
             ('--border --boxes --font --text --toc '

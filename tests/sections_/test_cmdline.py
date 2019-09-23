@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import os
+
 import pytest
 import utila
 from utila import install_and_run
@@ -53,9 +55,29 @@ def test_run_sections_failed(command, testdir, monkeypatch):  #pylint: disable=W
 
 @pytest.mark.xfail(reson='problem in resource order - todo: fix resource order')
 def test_run_sections_multicore(testdir, monkeypatch):
+    """Regression test to ensure the correct order of the different
+    steps in multicore behavior.
+
+    There is a bug that steps which requires resources from previous
+    steps run before these steps are finished."""
     # TODO: THERE IS A PROBLEM WITH MULTIPROCESSING
     root = str(testdir)
+
+    def setup_testresources():
+        # this step is required, cause the test generator already
+        # generates this required items.
+        source = [
+            item.name
+            for item in os.scandir(MASTER_72PAGES)
+            if item.name.startswith('rawmaker')
+        ]
+        for item in source:
+            # TODO: extend copy_content with `search_pattern`
+            utila.copy_content(os.path.join(MASTER_72PAGES, item), root)
+
+    setup_testresources()
+
     jobs = 2
-    cmd = (f'-j{jobs} -i {MASTER_72PAGES} -o {root}'
+    cmd = (f'-j{jobs} -i {root} -o {root}'
            ' --chapter --index --sections --title --toc --whitepage')
     run_sections_success(cmd, monkeypatch=monkeypatch)
