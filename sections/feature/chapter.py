@@ -21,30 +21,36 @@ What is typical for a start of chapter?
 2. Check the second line
 
 """
-
-from re import X as VERBOSE
-from re import search
-from typing import List
+import re
+import typing
 
 import iamraw
 import serializeraw
-from utila import NEWLINE
-from yaml import dump
+import utila
+import yaml
 
-from groupme.feature.numbers import load_textposition
-from hey.textnavigator.navigator import PageTextNavigators
-from hey.textnavigator.navigator import create_pagetextnavigators
+import groupme.feature.numbers
+import hey.textnavigator.navigator
 
 
 def work(document: str, position: str, tocpath: str, pages=None) -> str:
-    # load
+    """Determine likelihood of beeing a chapter startpage
+
+    Args:
+        document(str):
+        position(str):
+        tocpath(str):
+        pages(list): list with page number to work on
+    Returns:
+        dumped list with ChapterLikelihood
+    """
+    # load and setup
     pages = tuple(pages) if pages else None
     document = serializeraw.load_document(document, pages=pages)
-    position = load_textposition(position, pages=pages)
+    position = groupme.feature.numbers.load_textposition(position, pages=pages)
     tocs = serializeraw.load_toc(tocpath)
 
-    # TODO: Think about how to handle this, invocation order of features?
-    navigators = create_pagetextnavigators(
+    navigators = hey.textnavigator.navigator.create_pagetextnavigators(
         text=document,
         text_positions=position,
     )
@@ -54,6 +60,8 @@ def work(document: str, position: str, tocpath: str, pages=None) -> str:
         navigators=navigators,
         tocs=tocs,
     )
+
+    # write result
     dumped = serializeraw.dump_likelihood(result)
     return dumped
 
@@ -62,25 +70,27 @@ FIRST_QUARTER = 0.35
 
 
 def space_between_header_and_first_line(
-        navigators: PageTextNavigators,
+        navigators: hey.textnavigator.navigator.PageTextNavigators,
         tocs,
-):
+) -> iamraw.PageContentLikelihoods:
     result = []
-    for navigator in navigators:
-        pagenumber = navigator.page
-        first_content = navigator.before(FIRST_QUARTER)
+    for page in navigators:
+        first_content = page.before(FIRST_QUARTER)
 
         chapter_rate = contain_chapter(first_content)
         chapter_rate += contain_toc(first_content, tocs)
 
+        if is_tocpage(first_content):
+            # TODO: See todo below
+            chapter_rate = 0
         if chapter_rate <= 0.0:
             continue
 
-        rate_in_percent = chapter_rate / 2.5
+        rate_in_percent = chaptervalue_to_percent(chapter_rate, tocs)
 
         result.append(
             iamraw.PageContentLikelihood(
-                page=pagenumber,
+                page=page.page,
                 content=iamraw.Likelihood(rate_in_percent, 'chapter'),
             ))
         # TODO: There is the possiblity that header and start of chapter
@@ -89,48 +99,104 @@ def space_between_header_and_first_line(
     return result
 
 
-NUMBER_PATTERN = r'\s[0-9]{1,2}\.?\s'
+# We need only one number with dot, because we want only chapters, not
+# sections etc.
+NUMBER_PATTERN = re.compile(
+    r'^'  # page start
+    r'[0-9]{1,2}\.'  # chapter number with dot
+    r'[ ]{1,4}'
+    r'\D',  # non numeric element
+    re.VERBOSE,
+)
 
 
 def contain_chapter(content):
-    result = 0.0
-    raw_content = NEWLINE.join([item for _, item in content])
-    raw_content = raw_content.lower()
+    """Check if `content` contains elements which are hints that this
+    content is part of the start of the chapter.
 
-    if 'kapitel' in raw_content or 'chapter' in raw_content:
+    A big hint is that the word `Kapitel` occurs on the start of the
+    text. We have to keep in mind, that the sentence: 'Wie in Kapitel ..
+    beschrieben' can occurs everywhere, therefore only searching the
+    word is not a good approach. Only some works use this pattern.
+
+    A second option is to look for the headline-pattern: '1. Einleitung'.
+    """
+
+    def startwith_chapterpattern(raw):
+        firstline = raw.splitlines()[0] if raw else ''
+
+        result = 'kapitel' in firstline or 'chapter' in firstline
+        return result
+
+    def startwith_firstlevelheadline(raw):
+        # Search a number with possible dot
+        matched = re.match(NUMBER_PATTERN, raw)
+        return matched is not None
+
+    raw = rawcontent(content)
+
+    result = 0.0
+    if startwith_chapterpattern(raw):
         result += 1.0
-    # Search a number with possible dot
-    if search(NUMBER_PATTERN, raw_content, flags=VERBOSE):
+    if startwith_firstlevelheadline(raw):
         result += 0.5
     else:
         result -= 0.5
+
+    return result
+
+
+def is_tocpage(content):
+    raw = rawcontent(content)
+    dots = raw.count('.')
+
+    result = dots > 20
     return result
 
 
 def contain_toc(content, toc):
     flat_toc = [item.title for item in toc.children]
-
+    if not flat_toc:
+        # no table of content was extracted
+        return 0
     flat_content = ' '.join([item for _, item in content])
 
     # is any toc title part of content
-    if any(item in flat_content for item in flat_toc):
+    toc_count = sum(item in flat_content for item in flat_toc)
+    if 0 < toc_count <= 2:
         return 1.0
     return -0.5
 
 
-def chapter_value_to_percent(value: float):
-    if value >= 2.5:
+def chaptervalue_to_percent(chaptervalue: float, hastoc: bool) -> float:
+    """Convert `chaptervalue` to percent.
+
+    Args:
+        chaptervalue(float): value of detected features
+        hastoc(bool): if no toc is provided, some features can not be
+                       processed.
+    """
+    # HOLY VALUES
+    if not hastoc and chaptervalue >= 1.0:
         return 1.0
-    if value >= 1.0:
-        return 0.25
+    if chaptervalue >= 2.5:
+        return 1.0
+    if chaptervalue >= 1.0:
+        return 0.5
     return 0.0
 
 
-def dump_chapter_detection(pages: List[float]) -> str:
+def rawcontent(content) -> str:
+    raw = utila.NEWLINE.join([item for _, item in content])
+    raw = raw.lower()
+    return raw
+
+
+def dump_chapter_detection(pages: typing.List[float]) -> str:
     result = []
     for index, chapter in enumerate(pages):
         result.append({
             'page': index,
             'chapter': '%.2f' % chapter,
         })
-    return dump(result)
+    return yaml.dump(result)
