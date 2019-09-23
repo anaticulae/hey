@@ -26,6 +26,13 @@ import tests.resources
         [6, 8, 10, 12, 18, 20, 22, 24],
         id='restruct',
     ),
+    pytest.param(
+        tests.resources.text(tests.resources.MASTER_72PAGES),
+        tests.resources.text_positions(tests.resources.MASTER_72PAGES),
+        tests.resources.toc(tests.resources.MASTER_72PAGES),
+        [3, 6, 22, 45, 63],
+        id='master72pages',
+    ),
 ])
 def test_sections_chapter_extract(document, position, toc, expected):
     result = extract_chapter(document, position, toc)
