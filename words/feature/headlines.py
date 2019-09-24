@@ -39,6 +39,7 @@ from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from serializeraw import load_sections
 
+import sections.feature.sections
 from groupme.feature.footer import document_footerheader
 from groupme.feature.footer import footerborder_to_border
 from groupme.feature.numbers import load_textposition
@@ -54,9 +55,6 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.textnavigator.navigator import navigator_to_bounds
-from sections.feature.sections import Content
-from sections.feature.sections import Sections
-from sections.feature.sections import chapters
 
 
 @utila.checkdatatype
@@ -115,23 +113,25 @@ SECOND_LEVEL = 0.7
 
 
 def extract_headlines(
-        sections: Sections,
+        sections: sections.feature.sections.Sections,
         pagetextnavigators: PageTextNavigators,
         fontstore: FontStore,
         sizeandborder,
         horizontals,
         chapter: int = 0,
 ):
-    assert isinstance(sections, Sections), type(sections)
+    assert isinstance(sections, sections.feature.sections.Sections)
     assert sections, 'no sections provided'
     if chapter is None:
         # TODO: clearify code
         # analyze all chapter of the document
         chapter = sum([
-            len(item.content) for item in sections if isinstance(item, Content)
+            len(item.content)
+            for item in sections
+            if isinstance(item, sections.feature.sections.Content)
         ])
         chapter = list(range(0, chapter))
-    content = chapters(sections)
+    content = sections.feature.sections.chapters(sections)
     chapter = [chapter] if isinstance(chapter, int) else chapter
 
     contentborders = [item.border for item in sizeandborder]

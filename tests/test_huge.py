@@ -10,13 +10,8 @@
 from os import makedirs
 from os.path import join
 
-from pytest import fixture
-from pytest import mark
-from pytest import param
-from utila import SUCCESS
-from utila import log
-from utila import run
-from utila import skip_longrun
+import pytest
+import utila
 
 from tests import pdfs
 from tests import relative_path
@@ -50,20 +45,21 @@ def params():
     pdf = pdf[0:5]
     result = []
     for item in pdf:
-        double = param(
+        double = pytest.param(
             (
                 item,
                 '--char_margin 100.0 --boxes_flow 1.0',
                 '--char_margin 5.0 --boxes_flow 1.0 --line_margin 0.3',
             ),
             id=relative_path(item),
-            marks=mark.xfail(reason="unsupported font format with current impl")
-            if relative_path(item) in UNSUPPORTED_DOCUMENTS else mark.huge)
+            marks=pytest.mark.xfail(
+                reason="unsupported font format with current impl") if
+            relative_path(item) in UNSUPPORTED_DOCUMENTS else pytest.mark.huge)
         result.append(double)
     return result
 
 
-@fixture(params=params())
+@pytest.fixture(params=params())
 def rawresult(request, tmpdir):
     tmpdir = str(tmpdir)
     tocpath = join(tmpdir, 'toc')
@@ -75,16 +71,16 @@ def rawresult(request, tmpdir):
     rawtoc = 'rawmaker -i %s -o %s --prefix=oneline %s' % (pdf, tocpath, toccmd)
     rawgeneral = 'rawmaker -i %s -o %s %s' % (pdf, generalpath, generalcmd)
 
-    completed = run(rawtoc)
-    assert completed.returncode == SUCCESS, str(completed)
+    completed = utila.run(rawtoc)
+    assert completed.returncode == utila.SUCCESS, str(completed)
 
-    completed = run(rawgeneral)
-    assert completed.returncode == SUCCESS, str(completed)
+    completed = utila.run(rawgeneral)
+    assert completed.returncode == utila.SUCCESS, str(completed)
 
     return (tmpdir, tocpath, generalpath)
 
 
-@fixture
+@pytest.fixture
 def sections(rawresult):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath = rawresult
 
@@ -94,16 +90,16 @@ def sections(rawresult):  # pylint:disable=W0621
     runme = 'sections -i %s -i %s -o %s --all'
     runme = runme % (generalpath, tocpath, sectionspath)
 
-    completed = run(runme)
-    if completed.returncode != SUCCESS:
-        log(completed.stdout)
-        log(completed.stderr)
-    assert completed.returncode == SUCCESS
+    completed = utila.run(runme)
+    if completed.returncode != utila.SUCCESS:
+        utila.log(completed.stdout)
+        utila.log(completed.stderr)
+    assert completed.returncode == utila.SUCCESS
 
     return (tmpdir, tocpath, generalpath, sectionspath)
 
 
-@fixture
+@pytest.fixture
 def words(sections):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath, sectionspath = sections
 
@@ -113,14 +109,14 @@ def words(sections):  # pylint:disable=W0621
     runme = 'words -i %s -i %s -o %s --all'
     runme = runme % (generalpath, sectionspath, wordspath)
 
-    completed = run(runme)
-    assert completed.returncode == SUCCESS, str(completed)
+    completed = utila.run(runme)
+    assert completed.returncode == utila.SUCCESS, str(completed)
 
     # TODO: ADD TEST THAT WORDS WROTE USEFULL THINGS
     return (tmpdir, tocpath, generalpath, sectionspath, wordspath)
 
 
-@fixture
+@pytest.fixture
 def groupme(rawresult):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath = rawresult
 
@@ -130,21 +126,25 @@ def groupme(rawresult):  # pylint:disable=W0621
     runme = 'groupme -i %s -i %s -o %s --all'
     runme = runme % (generalpath, tocpath, groupmepath)
 
-    completed = run(runme)
-    assert completed.returncode == SUCCESS, str(completed)
+    completed = utila.run(runme)
+    assert completed.returncode == utila.SUCCESS, str(completed)
 
 
-@skip_longrun
+@utila.skip_longrun
 def test_huge_sections_extractor(testdir, sections):  # pylint:disable=W0621
     assert sections
 
 
-@skip_longrun
-def test_huge_running_words(testdir, words):  # pylint:disable=W0621
+@utila.skip_longrun
+@pytest.mark.usefixtures('words')
+@pytest.mark.usefixtures('testdir')
+def test_huge_running_words():
     """Run rawmaker -> sections -> words. Ensure that this chain works for
     huge pdf example provided by power tool."""
 
 
-@skip_longrun
-def test_huge_running_groupme(testdir, groupme):  # pylint:disable=W0621
+@utila.skip_longrun
+@pytest.mark.usefixtures('groupme')
+@pytest.mark.usefixtures('testdir')
+def test_huge_running_groupme():
     """Run rawmaker > groupme"""
