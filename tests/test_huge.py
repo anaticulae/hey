@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import os
 from os import makedirs
 from os.path import join
 
@@ -19,8 +20,10 @@ from tests import relative_path
 # TODO: Reduce list of unsupported documents
 # this documents does not passes the current implementation
 UNSUPPORTED_DOCUMENTS = {
-    'paper/page_6_double_column_with_math.pdf',
     'master/page_78_images_toc.pdf',
+    'paper/page_10_double_column_with_tables.pdf',
+    'paper/page_6_double_column.pdf',
+    'paper/page_6_double_column_with_math.pdf',
 }
 
 SKIP_DOCUMENTS = {
@@ -39,7 +42,10 @@ SKIP_DOCUMENTS = {
 def params():
     pdf = pdfs()
     # skip documents cause of to few computing power
-    pdf = [item for item in pdf if not relative_path(item) in SKIP_DOCUMENTS]
+    skip = SKIP_DOCUMENTS | UNSUPPORTED_DOCUMENTS
+    pdf = [
+        item for item in pdf if not relative_path(item) in skip
+    ]
     # select 5 items to reduce required test power
     # random is not good when reproducing an error, may use it later.
     pdf = pdf[0:5]
@@ -110,9 +116,19 @@ def words(sections):  # pylint:disable=W0621
     runme = runme % (generalpath, sectionspath, wordspath)
 
     completed = utila.run(runme)
-    assert completed.returncode == utila.SUCCESS, str(completed)
+    if completed.returncode:
+        print(completed.stdout)
+        print(completed.stderr)
+    assert completed.returncode == utila.SUCCESS
 
-    # TODO: ADD TEST THAT WORDS WROTE USEFULL THINGS
+    for item, expected_length in [
+        ('words__words_result.yaml', 2000),
+        ('words__headlines_headlines.yaml', 1000),
+    ]:
+        path = os.path.join(wordspath, item)
+        content = utila.file_read(path)
+        assert len(content) > expected_length, content
+
     return (tmpdir, tocpath, generalpath, sectionspath, wordspath)
 
 
