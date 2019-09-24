@@ -8,8 +8,10 @@
 # =============================================================================
 
 import iamraw
+import pytest
 import serializeraw
 
+import tests.resources
 from hey.textnavigator.navigator import create_pagetextnavigators
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured
@@ -140,3 +142,30 @@ def test_headlines_dump_and_load_headlines():
     loaded = serializeraw.load_headlines(dumped)
 
     assert loaded == EXPECTED
+
+
+def test_headlines_master72_pages():
+    master72 = tests.resources.MASTER_72PAGES
+    sections = tests.resources.sections(master72)
+    text = tests.resources.text(master72)
+    text_positions = tests.resources.text_positions(master72)
+    font_header = tests.resources.font_header(master72)
+    font_content = tests.resources.font_content(master72)
+    sizeandborder = tests.resources.sizeandborder(master72)
+    horizontals = tests.resources.horizontals(master72)
+
+    headlines = work(
+        sections,
+        text,
+        text_positions,
+        font_header,
+        font_content,
+        sizeandborder,
+        horizontals,
+    )
+    assert len(headlines) > 400, str(headlines)
+
+    headlines_loaded = serializeraw.load_headlines(headlines)
+
+    with pytest.raises(AssertionError):  # TODO: REMOVE AFTER SOLVED
+        assert len(headlines_loaded) == 5, str(headlines_loaded)
