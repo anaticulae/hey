@@ -176,12 +176,13 @@ def chaptervalue_to_percent(chaptervalue: float, hastoc: bool) -> float:
         hastoc(bool): if no toc is provided, some features can not be
                        processed.
     """
-    # HOLY VALUES
+    # TODO: HOLY VALUES
+    # TODO: IMPROVE THIS CONCEPT
     if not hastoc and chaptervalue >= 1.0:
         return 1.0
     if chaptervalue >= 2.5:
         return 1.0
-    if chaptervalue >= 1.0:
+    if chaptervalue >= 0.5:
         return 0.5
     return 0.0
 

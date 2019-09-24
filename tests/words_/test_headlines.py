@@ -11,6 +11,7 @@ import iamraw
 import pytest
 import serializeraw
 
+import hey.utils
 import tests.resources
 from hey.textnavigator.navigator import create_pagetextnavigators
 # pylint:disable=W0611
@@ -109,7 +110,7 @@ def test_headlines_extract_headlines(
     )
 
     extracted = extract_headlines(
-        sections=sections,
+        sections_=sections,
         pagetextnavigators=navigator,
         fontstore=restructured_fontstore,
         sizeandborder=sizeandborder,
@@ -117,6 +118,7 @@ def test_headlines_extract_headlines(
         chapter=[0, 1],
     )
     assert len(extracted) == len(EXPECTED)
+
     assert [len(item) for item in extracted] == [len(item) for item in EXPECTED]
     assert extracted == EXPECTED
 
@@ -167,5 +169,16 @@ def test_headlines_master72_pages():
 
     headlines_loaded = serializeraw.load_headlines(headlines)
 
-    with pytest.raises(AssertionError):  # TODO: REMOVE AFTER SOLVED
-        assert len(headlines_loaded) == 5, str(headlines_loaded)
+    # TODO: CHANGE AFTER SUPPORTING LITERATURVERZEICH AND ERKLARUNG
+    assert len(headlines_loaded) == 5, str(headlines_loaded)
+
+    expected_headlines = [
+        '1.  Einleitung',
+        '2.  Das Social Web und die Privatsphäre –',
+        '3.  Systemtheorie und moderne Netzwerksoziologie –',
+        '4.  Privatheit  und  Identitätsbildung  im  Social  Web  –',
+        '5.  Schlussbetrachtung und Fazit',
+    ]
+    # headlines of first element in section
+    headlines_text = [item[0].text for item in headlines_loaded]
+    assert headlines_text == expected_headlines, str(headlines_text)

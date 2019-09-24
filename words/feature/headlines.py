@@ -39,6 +39,7 @@ from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from serializeraw import load_sections
 
+import hey.textnavigator.navigator
 import sections.feature.sections
 from groupme.feature.footer import document_footerheader
 from groupme.feature.footer import footerborder_to_border
@@ -94,7 +95,7 @@ def work(
     )
     # work
     extracted = extract_headlines(
-        sections,
+        sections_=sections,
         pagetextnavigators=pagetextnavigators,
         fontstore=fontstore,
         sizeandborder=sizeandborder,
@@ -112,30 +113,63 @@ FIRST_LEVEL = 0.9  # TODO: HOLY VALUE
 SECOND_LEVEL = 0.7
 
 
+def determine_content_border(items):
+    # analyze all chapter of the document
+    contents = [
+        item for item in items
+        if isinstance(item, sections.feature.sections.Content)
+    ]
+    # support more than one content element
+    chapters = [[
+        chapter
+        for chapter in content.content
+        if isinstance(chapter, iamraw.sections.Chapter)
+    ]
+                for content in contents]
+    chapters = utila.flatten(chapters)
+
+    if not chapters:
+        # TODO: INVESTIGATE HERE
+        return []
+
+    result = []
+    for current, after in zip(chapters[:-1], chapters[1:]):
+        # TODO: check after.start - 1 later
+        result.append((current.start, after.start - 1))
+    result.append((chapters[-1].start, contents[-1].end))
+
+    # ensure ascending page numbers
+    assert all([start <= end for start, end in result]), str(result)
+    return result
+
+
 def extract_headlines(
-        sections: sections.feature.sections.Sections,
+        sections_: typing.List[sections.feature.sections.Sections],
         pagetextnavigators: PageTextNavigators,
         fontstore: FontStore,
         sizeandborder,
         horizontals,
         chapter: int = 0,
 ):
-    assert isinstance(sections, sections.feature.sections.Sections)
-    assert sections, 'no sections provided'
+    """
+    TODO: why do we need the chapter selector?
+    """
+    assert isinstance(sections_, sections.feature.sections.Sections)
+    assert sections_, 'no sections provided'
     if chapter is None:
+        # process all chapter
         # TODO: clearify code
+        content = determine_content_border(sections_)
+        chapter = list(range(len(content)))
+    else:
+        content = sections.feature.sections.chapters(sections_)
+
         # analyze all chapter of the document
-        chapter = sum([
-            len(item.content)
-            for item in sections
-            if isinstance(item, sections.feature.sections.Content)
-        ])
-        chapter = list(range(0, chapter))
-    content = sections.feature.sections.chapters(sections)
     chapter = [chapter] if isinstance(chapter, int) else chapter
 
     contentborders = [item.border for item in sizeandborder]
     border = content_border(horizontals, contentborders)
+    assert border.bottom >= 100, str(border)
 
     textsize = document_textsize(
         navigators=pagetextnavigators,

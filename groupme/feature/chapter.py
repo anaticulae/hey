@@ -52,7 +52,6 @@ def chapters(document: Document):
         error('empty chapter')
 
     for title in tableofcontent[1:]:  # skip the first one
-        print(title)
         debug('process `%s`' % str(title))
         _level, _title = title.level, title.title
         headline = format_title(title)

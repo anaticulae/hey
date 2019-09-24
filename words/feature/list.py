@@ -146,7 +146,6 @@ def extract_lists(
         # if ptextsize != textsize:
         #     # TODO: Hier gibt es noch ein Problem mit der Berechnung der
         #     # Schriftgroesse, da der Zeilenabstand nicht beruecksichtigt wird
-        #     print(ptextsize, textsize)
         #     # Collect lists only in text, avoid collecting in headlines
         #     continue
         feed = textfeed(bounds)

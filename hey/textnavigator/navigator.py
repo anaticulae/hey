@@ -171,7 +171,9 @@ class PageTextContentNavigator:
             width=textnavigator.width,
             height=textnavigator.height,
         )
+        assert content.bottom >= 100, str(content)  # ensure that are pixel
         top, bottom = topbottom(pagesize, content)
+        assert 0 <= top <= bottom <= 1.0, str(top) + str(bottom)
         self.page = textnavigator.page
         self.data = textnavigator.between(top, bottom)
         self._offset = textnavigator.offset(top, bottom)
