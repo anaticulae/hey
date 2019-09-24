@@ -26,6 +26,9 @@ headline level out of these information. Use further text information out of
 headline.
 """
 
+import typing
+
+import iamraw
 import utila
 from iamraw import Border
 from iamraw import Headline
@@ -183,13 +186,46 @@ def extract_headlines(
     return result
 
 
-def content_border(horizontals, contentborders: BorderList) -> Border:
-    # TODO: extend type hints after upgrading iamraw
+HORIZONTAL_MIN_COUNT = 5  # TODO: HOLY VALUES
+
+
+def content_border(
+        horizontals: typing.List[iamraw.HorizontalLine],
+        contentborders: BorderList,
+) -> Border:
     """Determine the content border as a result of left/right-side and detected
-    footer"""
+    footer.
+
+    If no `horizontals` are provied, the `contentborders` is the only
+    source of detecting the border.
+
+    If `horizontals` are provided the horizontals determine top and
+    bottom border. The content defines the border left and right.
+
+    TODO: What should we do, if only top or only bottom horizontal line
+    are provided?
+
+    Args:
+        horizontals:
+        contentborders:
+    Return:
+        single `Border` which separates the textual content from footer
+        and header with text and pagecount.
+    """
+
+    leftright = document_border(contentborders)
+
+    if not horizontals:
+        return leftright
+
+    # Using one or two horizontals for determining the footer or header
+    # makes no sence. Therefore we need some elements.
+    if len(horizontals) < HORIZONTAL_MIN_COUNT:
+        return leftright
+
     border = document_footerheader(horizontals)
     border = footerborder_to_border(border)
-    leftright = document_border(contentborders)
+    assert border.bottom > 0, str(border)
 
     result = Border(
         bottom=border.bottom,
