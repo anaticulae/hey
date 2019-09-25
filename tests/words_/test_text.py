@@ -6,7 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
+import pytest
 from iamraw import BoundingBox
 from pytest import mark
 from pytest import param
@@ -74,6 +74,7 @@ def test_words_text_dump_and_load_text(
     assert loaded == textexample
 
 
+@pytest.mark.xfail(reason='require to implement 2 strategies')
 def test_words_text_extractor_titles(
         restructured_textexample,  # pylint:disable=W0621
 ):
@@ -152,6 +153,7 @@ def test_words_text_extractor_titles(
              ' basic web crawler.'),
             ('Include the following in your install.rst:'),
             id='page 14',
+            marks=pytest.mark.xfail(reason='require selective approach'),
         ),
         param(
             15,
@@ -159,6 +161,7 @@ def test_words_text_extractor_titles(
             ('u0'),
             (None),
             id='page 15',
+            marks=pytest.mark.xfail(reason='require selective approach'),
         ),
         param(
             16,

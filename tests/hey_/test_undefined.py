@@ -39,4 +39,5 @@ def test_extract_undefined(
     )
     assert extracted
     non_empty_pages = [item for item in extracted if item]
-    assert len(non_empty_pages) == RESTRUCTURED_NON_TEXTUAL_PAGE, str(extracted)
+
+    assert len(non_empty_pages) == RESTRUCTURED_NON_TEXTUAL_PAGE

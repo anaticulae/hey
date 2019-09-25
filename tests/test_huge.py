@@ -43,9 +43,7 @@ def params():
     pdf = pdfs()
     # skip documents cause of to few computing power
     skip = SKIP_DOCUMENTS | UNSUPPORTED_DOCUMENTS
-    pdf = [
-        item for item in pdf if not relative_path(item) in skip
-    ]
+    pdf = [item for item in pdf if not relative_path(item) in skip]
     # select 5 items to reduce required test power
     # random is not good when reproducing an error, may use it later.
     pdf = pdf[0:5]

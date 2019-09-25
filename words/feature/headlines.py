@@ -18,6 +18,7 @@ Required resources:
     text
     font?
 
+TODO: DO NOT MIX STRATEGYS
 
 TODO: New concept:
 
@@ -26,7 +27,9 @@ headline level out of these information. Use further text information out of
 headline.
 """
 
+import re
 import typing
+import warnings
 
 import iamraw
 import utila
@@ -39,6 +42,7 @@ from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from serializeraw import load_sections
 
+import groupme.toc.regex
 import hey.textnavigator.navigator
 import sections.feature.sections
 from groupme.feature.footer import document_footerheader
@@ -48,6 +52,7 @@ from hey.document import BorderList
 from hey.document import document_border
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
+from hey.textnavigator.fonts import document_textdistance
 from hey.textnavigator.fonts import document_textsize
 from hey.textnavigator.fonts import fontdistance_textbounds
 from hey.textnavigator.fonts import fontsize_from_textbounds
@@ -103,12 +108,93 @@ def work(
         chapters=None,
     )
 
+    # TODO: We need the approach
+    # More than one INDEPENDANT strategies
+    # Execute them all
+    # Run judge instance to select the best one
+    dotted = isdotted(extracted)
+    if dotted:
+        extracted = filter_headlines(extracted)
+    else:
+        # TODO: EXTEND AND DOCUMENT THIS APPROACH
+        # Rerun computation with differnet holy value
+        extracted = extract_headlines(
+            sections_=sections,
+            pagetextnavigators=pagetextnavigators,
+            fontstore=fontstore,
+            sizeandborder=sizeandborder,
+            horizontals=horizontals,
+            chapters=None,
+            smallest_headline_distance=SMALLEST_HEADLINE_DISTANCE_NOLEVEL,
+        )
+
     # save
     dumped = dump_headlines(extracted)
+
     return dumped
 
 
-SMALLEST_HEADLINE_FACTOR = 1.1  # TODO: HOLY VALUE
+WHITELIST = set([
+    'Literaturverzeichnis',
+    'Eidesstattliche Erklärung',
+])
+
+
+def filter_headlines(items: iamraw.PagesHeadlineList):
+    dotted = isdotted(items)
+    if dotted:
+        result = []
+        for chapter in items:
+            chapter_headlines = []
+            for headline in chapter:
+                parsed = parse_headline(headline.text)
+                if parsed:
+                    chapter_headlines.append(headline)
+                    continue
+                if headline.text in WHITELIST:
+                    chapter_headlines.append(headline)
+                    continue
+            result.append(chapter_headlines)
+        return result
+
+    warnings.warn('not dotted not supported')
+    return items
+
+
+MIN_DOTTED_COUNT = 0.1  # TODO: HOLY VALUE
+
+
+def isdotted(items):
+    assert items
+    flat = utila.flatten(items)
+
+    dotted = [item for item in flat if parse_headline(item.text)]
+    percent = len(dotted) / len(flat)
+
+    return percent >= MIN_DOTTED_COUNT
+
+
+def parse_headline(line):
+    line = line.strip()
+    return re.match(HEADLINE, line) is not None
+
+
+USER_CONTENT = r'\w\d\.&:, \-' + hey.utils.SPECIAL_MINUS_SIGN
+# \W to ensure non-unicode character, like special - chars
+HEADLINE = re.compile(
+    (
+        r'^'
+        r'(?P<level>(\d{1,2}\.)+\d{0,2})'
+        r'[ ]{1,5}'
+        r'(?P<text>\w'  # ensure that text does not start with whitespace
+        fr'[{USER_CONTENT}]+?)'
+        r'$'),
+    re.VERBOSE,
+)
+
+SMALLEST_HEADLINE_SIZE = 1.1  # TODO: HOLY VALUE
+SMALLEST_HEADLINE_DISTANCE = 1.05  # TODO:HOLY VALUE
+SMALLEST_HEADLINE_DISTANCE_NOLEVEL = 1.1  # TODO:HOLY VALUE
 FIRST_LEVEL = 0.9  # TODO: HOLY VALUE
 SECOND_LEVEL = 0.7
 
@@ -120,7 +206,8 @@ def extract_headlines(
         sizeandborder,
         horizontals,
         chapters: int = 0,
-):
+        smallest_headline_distance=SMALLEST_HEADLINE_DISTANCE,
+) -> iamraw.PagesHeadlineList:
     """
     TODO: why do we need the chapter selector?
     """
@@ -132,8 +219,13 @@ def extract_headlines(
         navigators=pagetextnavigators,
         borders=sizeandborder,
     )
-    smallest_headline_size = textsize * SMALLEST_HEADLINE_FACTOR
+    textdistance = document_textdistance(
+        navigators=pagetextnavigators,
+        borders=sizeandborder,
+    )
 
+    smallest_headline_size = textsize * SMALLEST_HEADLINE_SIZE
+    smallest_headline_distance = textdistance * smallest_headline_distance
     result = []
     for index in chapters:
         chaptercontent = extract_headlines_chapter(
@@ -141,6 +233,7 @@ def extract_headlines(
             border,
             pagetextnavigators,
             smallest_headline_size,
+            smallest_headline_distance,
         )
         result.append(chaptercontent)
 
@@ -153,6 +246,7 @@ def extract_headlines_chapter(
         border,
         pagetextnavigators,
         smallest_headlinesize,
+        smallest_headlinedistance,
 ):
     result = []
     start, end = pagerange
@@ -166,12 +260,19 @@ def extract_headlines_chapter(
             pagecontent,
             border,
             smallest_headlinesize,
+            smallest_headlinedistance,
         )
         result.extend(pageheadlines)
     return result
 
 
-def extract_headlines_page(page, pagecontent, border, smallest_headlinesize):
+def extract_headlines_page(
+        page,
+        pagecontent,
+        border,
+        smallest_headlinesize,
+        smallest_headlinedistance,
+):
     result = []
     xoff = pagecontent.offset[0]
     xoff = xoff if xoff is not None else 0
@@ -180,17 +281,28 @@ def extract_headlines_page(page, pagecontent, border, smallest_headlinesize):
     without_content = [item[0] for item in bounds]
     # PageContentNavigator, the header and footer is ignored
     distances = fontdistance_textbounds(without_content)
-    for containerid, (item, text) in enumerate(bounds, start=xoff):
-        distanceid = containerid - xoff
+    for containerid, (item, text) in enumerate(
+            bounds,
+            start=xoff,
+    ):
+        # TODO: INVESTIGATE LAST ONE
+        distanceid = containerid - xoff + 1
         # font = fontstore.font(page, containerid, line=0, char=0)
         splitted = text.splitlines()
         if len(splitted) > 1:
             continue
         fontsize = fontsize_from_textbounds(item)
-        if fontsize <= smallest_headlinesize:
-            # text is to small to be a headline
+
+        fontdistance = distances[distanceid]
+
+        headline_tosmall = fontsize <= smallest_headlinesize
+        distance_tosmall = fontdistance <= smallest_headlinedistance
+        if (headline_tosmall and distance_tosmall) or distance_tosmall:
             continue
+
         try:
+            # TODO: IMPROVE LEVEL CALCULATION
+            # Space after and before
             level = distances[distanceid] + distances[distanceid + 1]
         except IndexError:
             level = distances[distanceid] * 2
@@ -325,6 +437,7 @@ def convert_level(result: PagesHeadlineList) -> int:
     maxsize = max([
         max([item.level for item in chapter]) for chapter in result if chapter
     ])
+    # TODO: check this approach
     first_level = FIRST_LEVEL * maxsize
     second_level = SECOND_LEVEL * maxsize
 

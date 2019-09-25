@@ -60,6 +60,7 @@ def fontdistance_textbounds(bounds: TextBoundsList) -> List[float]:
         # add distance from first content to page start
         # xdist, ydist(1), width, height, fontsize
         distance.insert(0, bounds[0][1])
+    distance.append(0)  # TODO: CHECK AGAIN
     return distance
 
 
@@ -171,7 +172,27 @@ def textsize_from_textbounds(
 def document_textsize(navigators, borders: List[Border]) -> int:
     """Determine the most common text size"""
     result = []
-    for number, (navigator, contentborder) in sync([navigators, borders]):
+    for _, (navigator, contentborder) in sync([navigators, borders]):
         size = textsize_from_textbounds(navigator, contentborder)
         result.append(size)
+    return mode(result)
+
+
+def document_textdistance(navigators, borders: List[Border]) -> int:
+    """Determine the most common text distance"""
+    result = []
+    for _, (navigator, contentborder) in sync([navigators, borders]):
+        bounds = textbounds(navigator, contentborder.border)
+        # ignore empty content
+        bounds = [item[0] for item in bounds if len(item[1])]
+        ydist = [item[1] for item in bounds]
+        height = [item[3] for item in bounds]
+
+        for yfirst, ysecond, firstheight in zip(
+                ydist[:-1],
+                ydist[1:],
+                height[:-1],
+        ):
+            distance = ysecond - yfirst - firstheight
+            result.append(distance)
     return mode(result)
