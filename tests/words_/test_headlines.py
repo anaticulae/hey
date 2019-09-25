@@ -6,10 +6,12 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import os
 
 import iamraw
 import pytest
 import serializeraw
+import utila
 
 import hey.utils
 import tests.resources
@@ -146,7 +148,8 @@ def test_headlines_dump_and_load_headlines():
     assert loaded == EXPECTED
 
 
-def test_headlines_master72_pages():
+def test_headlines_master72_pages(testdir):
+    root = str(testdir)
     master72 = tests.resources.MASTER_72PAGES
     sections = tests.resources.sections(master72)
     text = tests.resources.text(master72)
@@ -165,8 +168,10 @@ def test_headlines_master72_pages():
         sizeandborder,
         horizontals,
     )
-    assert len(headlines) > 400, str(headlines)
+    headlines_outpath = os.path.join(root, 'headlines_result.yaml')
+    utila.file_create(headlines_outpath, headlines)
 
+    assert len(headlines) > 400, str(headlines)
     headlines_loaded = serializeraw.load_headlines(headlines)
 
     # TODO: CHANGE AFTER SUPPORTING LITERATURVERZEICH AND ERKLARUNG
