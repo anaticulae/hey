@@ -139,8 +139,7 @@ def test_headlines_dump_and_load_headlines():
     assert loaded == EXPECTED
 
 
-def test_headlines_master72_pages(testdir):
-    root = str(testdir)
+def extract_master72_headlines(root: str):
     master72 = tests.resources.MASTER_72PAGES
     sections = tests.resources.sections(master72)
     text = tests.resources.text(master72)
@@ -163,7 +162,14 @@ def test_headlines_master72_pages(testdir):
     utila.file_create(headlines_outpath, headlines)
 
     assert len(headlines) > 400, str(headlines)
-    headlines_loaded = serializeraw.load_headlines(headlines)
+    result = serializeraw.load_headlines(headlines)
+
+    return result
+
+
+def test_words_features_headlines_work_master72_pages(testdir):
+    root = str(testdir)
+    headlines_loaded = extract_master72_headlines(root)
 
     # TODO: CHANGE AFTER SUPPORTING LITERATURVERZEICH AND ERKLARUNG
     assert len(headlines_loaded) == 5, str(headlines_loaded)
