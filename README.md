@@ -8,7 +8,7 @@ level` data out of it.
 ### groupme
 
   * chapter: split document text by chapter
-  * structure: devide document in head(toc) and tail(rest)
+  * structure: divide document in head(toc) and tail(rest)
   * toc: create table of content out of raw text data
 
 ### sections

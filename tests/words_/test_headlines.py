@@ -9,14 +9,14 @@
 import os
 
 import iamraw
-import pytest
 import serializeraw
 import utila
 
-import hey.utils
+import hey.textnavigator.navigator
 import tests.resources
-from hey.textnavigator.navigator import create_pagetextnavigators
-# pylint:disable=W0611
+import words.feature.headlines
+# pylint:disable=ungrouped-imports
+# pylint:disable=unused-import
 from tests.fixtures.restruct import restructured
 from tests.fixtures.restruct import restructured_fontstore
 from tests.fixtures.restruct import restructured_horizontals
@@ -25,15 +25,6 @@ from tests.fixtures.restruct import restructured_sections_manual
 from tests.fixtures.restruct import restructured_sizeandborder
 from tests.fixtures.restruct import restructured_text
 from tests.fixtures.restruct import restructured_text_positions
-from tests.resources import RESTRUCT_FONT_CONTENT
-from tests.resources import RESTRUCT_FONT_HEADER
-from tests.resources import RESTRUCT_HORIZONTAL
-from tests.resources import RESTRUCT_PAGESIZE
-from tests.resources import RESTRUCT_TEXT
-from tests.resources import RESTRUCT_TEXT_POSITION
-from tests.resources import RESTRUCT_TOC
-from words.feature.headlines import extract_headlines
-from words.feature.headlines import work
 
 EXPECTED = [
     [
@@ -106,12 +97,12 @@ def test_headlines_extract_headlines(
     document = restructured_text
     sizeandborder = restructured_sizeandborder
 
-    navigator = create_pagetextnavigators(
+    navigator = hey.textnavigator.navigator.create_pagetextnavigators(
         text=document,
         text_positions=position,
     )
 
-    extracted = extract_headlines(
+    extracted = words.feature.headlines.extract_headlines(
         sections_=sections,
         pagetextnavigators=navigator,
         fontstore=restructured_fontstore,
@@ -127,14 +118,14 @@ def test_headlines_extract_headlines(
 
 def test_headlines_work():
     sections_ = restructured_sections()
-    dumped = work(
+    dumped = words.feature.headlines.work(
         sections=sections_,
-        text=RESTRUCT_TEXT,
-        text_position=RESTRUCT_TEXT_POSITION,
-        font_header=RESTRUCT_FONT_HEADER,
-        font_content=RESTRUCT_FONT_CONTENT,
-        sizeandborder=RESTRUCT_PAGESIZE,
-        horizontals=RESTRUCT_HORIZONTAL,
+        text=tests.resources.text(tests.resources.RESTRUCT),
+        text_position=tests.resources.text_positions(tests.resources.RESTRUCT),
+        font_header=tests.resources.font_header(tests.resources.RESTRUCT),
+        font_content=tests.resources.font_content(tests.resources.RESTRUCT),
+        sizeandborder=tests.resources.sizeandborder(tests.resources),
+        horizontals=tests.resources.horizontals(tests.resources),
     )
     # dump some headlines
     assert len(dumped) > 2100, str(dumped)
@@ -159,7 +150,7 @@ def test_headlines_master72_pages(testdir):
     sizeandborder = tests.resources.sizeandborder(master72)
     horizontals = tests.resources.horizontals(master72)
 
-    headlines = work(
+    headlines = words.feature.headlines.work(
         sections,
         text,
         text_positions,
