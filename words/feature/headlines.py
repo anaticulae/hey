@@ -100,7 +100,7 @@ def work(
         fontstore=fontstore,
         sizeandborder=sizeandborder,
         horizontals=horizontals,
-        chapter=None,
+        chapters=None,
     )
 
     # save
@@ -111,6 +111,118 @@ def work(
 SMALLEST_HEADLINE_FACTOR = 1.1  # TODO: HOLY VALUE
 FIRST_LEVEL = 0.9  # TODO: HOLY VALUE
 SECOND_LEVEL = 0.7
+
+
+def extract_headlines(
+        sections_: typing.List[sections.feature.sections.Sections],
+        pagetextnavigators: PageTextNavigators,
+        fontstore: FontStore,
+        sizeandborder,
+        horizontals,
+        chapters: int = 0,
+):
+    """
+    TODO: why do we need the chapter selector?
+    """
+    chapters, content = prepare_chapter_and_content(sections_, chapters)
+    # bounding box of text content
+    border = contentborder(sizeandborder, horizontals)
+
+    textsize = document_textsize(
+        navigators=pagetextnavigators,
+        borders=sizeandborder,
+    )
+    smallest_headline_size = textsize * SMALLEST_HEADLINE_FACTOR
+
+    result = []
+    for index in chapters:
+        chaptercontent = extract_headlines_chapter(
+            content[index],
+            border,
+            pagetextnavigators,
+            smallest_headline_size,
+        )
+        result.append(chaptercontent)
+
+    convert_level(result)
+    return result
+
+
+def extract_headlines_chapter(
+        pagerange,
+        border,
+        pagetextnavigators,
+        smallest_headlinesize,
+):
+    result = []
+    start, end = pagerange
+    for page in range(start, end + 1):
+        pagecontent = PageTextContentNavigator(
+            utila.select_page(pagetextnavigators, pagenumber=page),
+            border,
+        )
+        pageheadlines = extract_headlines_page(
+            page,
+            pagecontent,
+            border,
+            smallest_headlinesize,
+        )
+        result.extend(pageheadlines)
+    return result
+
+
+def extract_headlines_page(page, pagecontent, border, smallest_headlinesize):
+    result = []
+    xoff = pagecontent.offset[0]
+    xoff = xoff if xoff is not None else 0
+    bounds = navigator_to_bounds(pagecontent)
+    bounds = textbounds(pagecontent, border)
+    without_content = [item[0] for item in bounds]
+    # PageContentNavigator, the header and footer is ignored
+    distances = fontdistance_textbounds(without_content)
+    for containerid, (item, text) in enumerate(bounds, start=xoff):
+        distanceid = containerid - xoff
+        # font = fontstore.font(page, containerid, line=0, char=0)
+        splitted = text.splitlines()
+        if len(splitted) > 1:
+            continue
+        fontsize = fontsize_from_textbounds(item)
+        if fontsize <= smallest_headlinesize:
+            # text is to small to be a headline
+            continue
+        try:
+            level = distances[distanceid] + distances[distanceid + 1]
+        except IndexError:
+            level = distances[distanceid] * 2
+        headline = Headline(
+            container=containerid,
+            level=level,
+            page=page,
+            text=text,
+        )
+        result.append(headline)
+    return result
+
+
+def prepare_chapter_and_content(sections_, chapter):
+    assert isinstance(sections_, sections.feature.sections.Sections)
+    assert sections_, 'no sections provided'
+    if chapter is None:
+        # process all chapter
+        # TODO: clearify code
+        content = determine_content_border(sections_)
+        chapter = list(range(len(content)))
+    else:
+        content = sections.feature.sections.chapters(sections_)
+        chapter = [chapter] if isinstance(chapter, int) else chapter
+    return chapter, content
+
+
+def contentborder(sizeandborder, horizontals):
+    contentborders = [item.border for item in sizeandborder]
+    border = content_border(horizontals, contentborders)
+    assert border.bottom >= 100, str(border)
+    return border
 
 
 def determine_content_border(items):
@@ -140,83 +252,6 @@ def determine_content_border(items):
 
     # ensure ascending page numbers
     assert all([start <= end for start, end in result]), str(result)
-    return result
-
-
-def extract_headlines(
-        sections_: typing.List[sections.feature.sections.Sections],
-        pagetextnavigators: PageTextNavigators,
-        fontstore: FontStore,
-        sizeandborder,
-        horizontals,
-        chapter: int = 0,
-):
-    """
-    TODO: why do we need the chapter selector?
-    """
-    assert isinstance(sections_, sections.feature.sections.Sections)
-    assert sections_, 'no sections provided'
-    if chapter is None:
-        # process all chapter
-        # TODO: clearify code
-        content = determine_content_border(sections_)
-        chapter = list(range(len(content)))
-    else:
-        content = sections.feature.sections.chapters(sections_)
-
-        # analyze all chapter of the document
-    chapter = [chapter] if isinstance(chapter, int) else chapter
-
-    contentborders = [item.border for item in sizeandborder]
-    border = content_border(horizontals, contentborders)
-    assert border.bottom >= 100, str(border)
-
-    textsize = document_textsize(
-        navigators=pagetextnavigators,
-        borders=sizeandborder,
-    )
-    smallest_headline_size = textsize * SMALLEST_HEADLINE_FACTOR
-
-    result = []
-    for index in chapter:
-        chaptercontent = []
-        (start, end) = content[index]
-        for page in range(start, end + 1):
-            pagecontent = PageTextContentNavigator(
-                utila.select_page(pagetextnavigators, pagenumber=page),
-                border,
-            )
-            xoff = pagecontent.offset[0]
-            xoff = xoff if xoff is not None else 0
-            bounds = navigator_to_bounds(pagecontent)
-            bounds = textbounds(pagecontent, border)
-            without_content = [item[0] for item in bounds]
-            # PageContentNavigator, the header and footer is ignored
-            distances = fontdistance_textbounds(without_content)
-            for containerid, (item, text) in enumerate(bounds, start=xoff):
-                distanceid = containerid - xoff
-                # font = fontstore.font(page, containerid, line=0, char=0)
-                splitted = text.splitlines()
-                if len(splitted) > 1:
-                    continue
-                fontsize = fontsize_from_textbounds(item)
-                if fontsize <= smallest_headline_size:
-                    # text is to small to be a headline
-                    continue
-                try:
-                    level = distances[distanceid] + distances[distanceid + 1]
-                except IndexError:
-                    level = distances[distanceid] * 2
-                headline = Headline(
-                    container=containerid,
-                    level=level,
-                    page=page,
-                    text=text,
-                )
-                chaptercontent.append(headline)
-        result.append(chaptercontent)
-
-    convert_level(result)
     return result
 
 

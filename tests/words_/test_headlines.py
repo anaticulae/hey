@@ -109,7 +109,7 @@ def test_headlines_extract_headlines(
         fontstore=restructured_fontstore,
         sizeandborder=sizeandborder,
         horizontals=restructured_horizontals,
-        chapter=[0, 1],
+        chapters=[0, 1],
     )
     assert len(extracted) == len(EXPECTED)
 
