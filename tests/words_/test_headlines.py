@@ -9,6 +9,7 @@
 import os
 
 import iamraw
+import pytest
 import serializeraw
 import utila
 
@@ -167,7 +168,7 @@ def extract_master72_headlines(root: str):
     return result
 
 
-def test_words_features_headlines_work_master72_pages(testdir):
+def test_words_features_headlines_work_master72pages(testdir):
     root = str(testdir)
     headlines_loaded = extract_master72_headlines(root)
 
@@ -184,3 +185,27 @@ def test_words_features_headlines_work_master72_pages(testdir):
     # headlines of first element in section
     headlines_text = [item[0].text for item in headlines_loaded]
     assert headlines_text == expected_headlines, str(headlines_text)
+
+
+@pytest.mark.xfail(reason='subsection detection is not implemented right now')
+def test_words_features_headlines_work_master72pages_subsections(testdir):
+    root = str(testdir)
+    headlines_loaded = extract_master72_headlines(root)
+
+    # TODO: CHANGE AFTER SUPPORTING LITERATURVERZEICH AND ERKLARUNG
+    expected_subsection_count = [
+        2,
+        8,
+        10,
+        5,
+        0,
+    ]
+
+    subsections = [item[1:] for item in headlines_loaded]
+    subsections_count = [len(item) for item in subsections]
+
+    for item in subsections:
+        for headline in item:
+            print(headline.text)
+        print()
+    assert subsections_count == expected_subsection_count
