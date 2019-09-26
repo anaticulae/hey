@@ -18,6 +18,8 @@ import hey.textnavigator.navigator
 import tests.fixtures.headlines
 import tests.resources
 import words.feature.headlines
+import words.headlines
+import words.headlines.nolevel
 # pylint:disable=ungrouped-imports
 # pylint:disable=unused-import
 from tests.fixtures.restruct import restructured
@@ -86,8 +88,7 @@ EXPECTED = [
 ]
 
 
-@pytest.mark.xfail(
-    reason='can not solve "RestructuredText Tutorial" and after no text')
+@pytest.mark.xfail(reason='improve nolevel headline extractor strategy')
 def test_headlines_extract_headlines(
         # pylint:disable=W0621
         restructured_sections_manual,
@@ -108,16 +109,15 @@ def test_headlines_extract_headlines(
         text_positions=position,
     )
 
-    extracted = words.feature.headlines.extract_headlines(
-        sections_=sections,
+    extractor = words.headlines.nolevel.NoLevelHeadlineExtractor(
+        sectionlist=sections,
         pagetextnavigators=navigator,
         fontstore=restructured_fontstore,
         sizeandborder=sizeandborder,
         horizontals=restructured_horizontals,
         chapters=[0, 1],
-        smallest_headline_distance=words.feature.headlines.
-        SMALLEST_HEADLINE_DISTANCE_NOLEVEL,
     )
+    extracted = extractor.result()
     assert len(extracted) == len(EXPECTED)
 
     assert [len(item) for item in extracted] == [len(item) for item in EXPECTED]
@@ -209,7 +209,9 @@ def test_words_features_headlines_work_master72pages_subsections(testdir):
 def test_words_features_headlines_filter_headlines():
     example = tests.fixtures.headlines.EXAMPLE
 
-    filtered = words.feature.headlines.filter_headlines(example)
+    filtered = words.headlines.standard.filter_headlines(example)
+
+    filtered = [item for item in filtered.values()]  # dict to list
 
     subsections = [item[1:] for item in filtered]
     subsections_count = [len(item) for item in subsections]

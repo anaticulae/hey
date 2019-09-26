@@ -77,6 +77,7 @@ if __name__ == "__main__":
             'sections.feature',
             'words',
             'words.feature',
+            'words.headlines',
         ],
         entry_points={
             'console_scripts': [

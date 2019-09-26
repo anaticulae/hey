@@ -57,7 +57,7 @@ from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from words.boxed import BoxedChecker
-from words.feature.headlines import content_border
+from words.headlines import content_border
 
 
 def work(

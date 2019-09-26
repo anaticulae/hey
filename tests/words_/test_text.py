@@ -32,11 +32,11 @@ from tests.resources import RESTRUCT_HORIZONTAL
 from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
-from words.feature.headlines import content_border
 from words.feature.text import analyze_page
 from words.feature.text import fill_headlines
 from words.feature.text import prepare_input
 from words.feature.text import work
+from words.headlines import content_border
 
 
 def test_words_text_work(
@@ -79,8 +79,7 @@ def test_words_text_extractor_titles(
         restructured_textexample,  # pylint:disable=W0621
 ):
     result = restructured_textexample
-    # [(6, [(Headline(text='CHAPTER 1', level=1, rawlevel=None, page=6,
-    #                 container=0), []), (Headline(text='RestructuredText Tutor
+
     # page6
     assert result[0][1][0][0].text == 'CHAPTER 1'
     assert result[0][1][1][0].text == 'RestructuredText Tutorial'

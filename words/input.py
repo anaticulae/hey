@@ -22,7 +22,7 @@ from utila import info
 from groupme.feature.numbers import load_textposition
 from hey.document import document_border
 from hey.undefined import extract_undefined
-from words.feature.headlines import content_border
+from words.headlines import content_border
 
 
 def prepare_input(

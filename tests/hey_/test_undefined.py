@@ -16,7 +16,7 @@ from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_text
 from tests.fixtures.restruct import restructured_text_positions
 from tests.fixtures.restruct import restructured_textexample
-from words.feature.headlines import content_border
+from words.headlines import content_border
 
 # collected by reading the pdf file
 RESTRUCTURED_NON_TEXTUAL_PAGE = 10

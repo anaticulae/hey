@@ -34,7 +34,7 @@ from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_text
 from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT_POSITION
-from words.feature.headlines import content_border
+from words.headlines import content_border
 
 FIRST_FONT = Font(
     name='NimbusSanL',

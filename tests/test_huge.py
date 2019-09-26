@@ -20,10 +20,11 @@ from tests import relative_path
 # TODO: Reduce list of unsupported documents
 # this documents does not passes the current implementation
 UNSUPPORTED_DOCUMENTS = {
-    'master/page_78_images_toc.pdf',
     'paper/page_10_double_column_with_tables.pdf',
     'paper/page_6_double_column.pdf',
     'paper/page_6_double_column_with_math.pdf',
+    'howto_argparse/howto_argparse.pdf',
+    'docu/porting_extension_modules_python3.pdf',
 }
 
 SKIP_DOCUMENTS = {
@@ -42,8 +43,7 @@ SKIP_DOCUMENTS = {
 def params():
     pdf = pdfs()
     # skip documents cause of to few computing power
-    skip = SKIP_DOCUMENTS | UNSUPPORTED_DOCUMENTS
-    pdf = [item for item in pdf if not relative_path(item) in skip]
+    pdf = [item for item in pdf if not relative_path(item) in SKIP_DOCUMENTS]
     # select 5 items to reduce required test power
     # random is not good when reproducing an error, may use it later.
     pdf = pdf[0:5]
@@ -58,7 +58,8 @@ def params():
             id=relative_path(item),
             marks=pytest.mark.xfail(
                 reason="unsupported font format with current impl") if
-            relative_path(item) in UNSUPPORTED_DOCUMENTS else pytest.mark.huge)
+            relative_path(item) in UNSUPPORTED_DOCUMENTS else pytest.mark.huge,
+        )
         result.append(double)
     return result
 

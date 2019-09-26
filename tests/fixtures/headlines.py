@@ -12,11 +12,7 @@ from iamraw import Headline
 EXAMPLE = [
     [
         Headline(
-            text='1.  Einleitung',
-            level=1,
-            rawlevel=None,
-            page=3,
-            container=0),
+            text='1.  Einleitung', level=1, rawlevel=None, page=3, container=0),
         Headline(
             text='1.1  Fragestellung und Zielsetzung',
             level=3,
@@ -50,16 +46,9 @@ EXAMPLE = [
             page=6,
             container=2),
         Headline(
-            text='Definitionen',
-            level=3,
-            rawlevel=None,
-            page=6,
-            container=13),
+            text='Definitionen', level=3, rawlevel=None, page=6, container=13),
         Headline(
-            text='kennzeichnen10:',
-            level=2,
-            rawlevel=None,
-            page=7,
+            text='kennzeichnen10:', level=2, rawlevel=None, page=7,
             container=2),
         Headline(
             text='2.1  Web 2.0, Social Web und Social Media: Abgrenzungen und ',
@@ -201,8 +190,7 @@ EXAMPLE = [
             page=33,
             container=28),
         Headline(
-            text=
-            '3.6  Identittsbildung nach der modernen Netzwerksoziologie',
+            text='3.6  Identittsbildung nach der modernen Netzwerksoziologie',
             level=3,
             rawlevel=None,
             page=36,
@@ -220,14 +208,12 @@ EXAMPLE = [
             page=40,
             container=8),
         Headline(
-            text=
-            '3.7  Abschlieende  Bemerkungen  zur  Vereinbarkeit  beider',
+            text='3.7  Abschlieende  Bemerkungen  zur  Vereinbarkeit  beider',
             level=2,
             rawlevel=None,
             page=43,
             container=0),
-        Headline(
-            text='Theorien', level=3, rawlevel=None, page=43, container=1)
+        Headline(text='Theorien', level=3, rawlevel=None, page=43, container=1)
     ],
     [
         Headline(
@@ -249,8 +235,7 @@ EXAMPLE = [
             page=45,
             container=19),
         Headline(
-            text=
-            '4.2  Kontextbildung und Empfngerdifferenzierung im Social Web',
+            text='4.2  Kontextbildung und Empfngerdifferenzierung im Social Web',
             level=3,
             rawlevel=None,
             page=49,
