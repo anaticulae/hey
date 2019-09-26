@@ -65,6 +65,8 @@ INDEX_ITEM_PATTERN = recompile(
           [0-9]+$            # a pagenumber at the end
      """, X)
 
+MINIMAL_DETECTED_PATTERN_PERCENT = 0.4  # TODO: HOLY VALUE
+
 
 def analyse_page(page: iamraw.Page) -> Tuple[int, int]:
     """Extract potential features of an index page
@@ -90,5 +92,11 @@ def analyse_page(page: iamraw.Page) -> Tuple[int, int]:
         line for line in content if match(INDEX_ITEM_PATTERN, line)
     ]
     single_char_or_index_with_page = len(single_char) + len(index_with_page)
+
+    percent = single_char_or_index_with_page / linecount if linecount else 0
+
+    if percent < MINIMAL_DETECTED_PATTERN_PERCENT:
+        linecount = 0
+        single_char_or_index_with_page = 0
 
     return linecount, single_char_or_index_with_page

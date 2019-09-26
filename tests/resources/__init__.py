@@ -88,10 +88,15 @@ PYPORTING_CHAPTER_COUNT = 6
 MASTER = os.path.join(RESOURCES, 'master')
 MASTER_72PAGES = os.path.join(GENERATED, 'page_72_noimages_toc')
 
+HOWTO_ARGPARSE = os.path.join(GENERATED, 'howto_argparse')
+HOWTO_ARGPARSE_PDF = os.path.join(RESOURCES, 'howto_argparse/howto_argparse.pdf') # yapf:disable
+
 MASTER_72PAGES_PDF = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
 MASTER_78PAGES_PDF = os.path.join(MASTER, 'page_78_images_toc.pdf')
 
 REQURIED_RESOURCES = [
+    HOWTO_ARGPARSE,
+    HOWTO_ARGPARSE_PDF,
     MASTER_72PAGES,
     MASTER_72PAGES_PDF,
     MASTER_78PAGES_PDF,

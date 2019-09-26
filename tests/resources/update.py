@@ -38,6 +38,9 @@ def extract_examples():
         'restruct/restructuredtext.pdf',
         tests.resources.RESTRUCT,
     ) + create_todo_rawmaker(
+        'howto_argparse/howto_argparse.pdf',
+        tests.resources.HOWTO_ARGPARSE,
+    ) + create_todo_rawmaker(
         'porting_module/porting_module_to_python3.pdf',
         tests.resources.PYPORTING,
     ) + create_todo_rawmaker(

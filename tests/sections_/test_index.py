@@ -6,20 +6,20 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import serializeraw
 
-from sections.feature.index import extract_index_likelihood
-from sections.feature.index import work
+import sections.feature.index
+import tests.resources
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_text
-from tests.resources import RESTRUCT_ONELINE_TEXT
 
-# manually set to secure index finder quality
+# manually set to secure index finder quality, TODO: investigate later
 LAST_PAGE_INDEX_LIKELYHOOD = 0.45
 
 
 #pylint:disable=W0621
 def test_extract_index_likelihood(restructured_text):
-    result = extract_index_likelihood(restructured_text)
+    result = sections.feature.index.extract_index_likelihood(restructured_text)
     result = [item.content.value for item in result]
     assert 0.95 <= sum(result) <= 1.05
 
@@ -29,5 +29,17 @@ def test_extract_index_likelihood(restructured_text):
 
 
 def test_index_work():
-    dumped = work(RESTRUCT_ONELINE_TEXT)
+    dumped = sections.feature.index.work(tests.resources.RESTRUCT_ONELINE_TEXT)
     assert len(dumped) > 100
+
+
+def test_hey_sections_feature_index_extract_index_likelihood():
+    """Reduce false detection of index-pages"""
+    path = tests.resources.text(tests.resources.HOWTO_ARGPARSE)
+    document = serializeraw.load_document(path)
+
+    result = sections.feature.index.extract_index_likelihood(document)
+
+    # lower than five percent
+    lower_than_five_percent = [item.content.value < 0.05 for item in result]
+    assert all(lower_than_five_percent), lower_than_five_percent
