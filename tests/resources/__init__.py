@@ -41,7 +41,7 @@ RESTRUCT_ONELINE_FONT_HEADER = os.path.join(RESTRUCT, ONELINE_FONTS_HEADER)
 RESTRUCT_ONELINE_POSITION = os.path.join(RESTRUCT, ONELINE_POSITION)
 RESTRUCT_ONELINE_TEXT = os.path.join(RESTRUCT, ONELINE_TEXT)
 RESTRUCT_PAGESIZE = os.path.join(RESTRUCT, PAGESIZE)
-RESTRUCT_PDF = os.path.join(RESOURCES, 'restruct/restructuredtext.pdf')
+RESTRUCT_PDF = os.path.join(RESOURCES, 'docu/restructuredtext.pdf')
 RESTRUCT_TEXT = os.path.join(RESTRUCT, TEXT)
 RESTRUCT_TEXT_POSITION = os.path.join(RESTRUCT, TEXT_POSITION)
 RESTRUCT_TOC = os.path.join(RESTRUCT, TOC)
@@ -89,7 +89,7 @@ MASTER = os.path.join(RESOURCES, 'master')
 MASTER_72PAGES = os.path.join(GENERATED, 'page_72_noimages_toc')
 
 HOWTO_ARGPARSE = os.path.join(GENERATED, 'howto_argparse')
-HOWTO_ARGPARSE_PDF = os.path.join(RESOURCES, 'howto_argparse/howto_argparse.pdf') # yapf:disable
+HOWTO_ARGPARSE_PDF = os.path.join(RESOURCES, 'docu/howto_argparse.pdf') # yapf:disable
 
 MASTER_72PAGES_PDF = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
 MASTER_78PAGES_PDF = os.path.join(MASTER, 'page_78_images_toc.pdf')

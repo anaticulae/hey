@@ -54,7 +54,7 @@ def extract_examples():
         cmd = f'{executable} -i {inpath} -o {outpath} {configuration}'
         utila.debug(f'run {cmd}')
         completed = utila.run(cmd, cwd=tests.resources.RESOURCES)
-        assert completed.returncode == utila.SUCCESS, str(completed)
+        utila.assert_success(completed)
         utila.debug('completed')
 
 

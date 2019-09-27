@@ -188,7 +188,7 @@ def area_likelihood(clusters, ymin, ymax):
     for cluster in clusters:
         _, item = cluster[0]
         bounding, _ = item
-        assert bounding.y0 == bounding.y1
+        assert abs(bounding.y0 - bounding.y1) < 2.0, str(bounding)
         yvalue = bounding.y0
         if not ymin <= yvalue <= ymax:
             result.append(EMPTY)
