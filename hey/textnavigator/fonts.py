@@ -195,4 +195,7 @@ def document_textdistance(navigators, borders: List[Border]) -> int:
         ):
             distance = ysecond - yfirst - firstheight
             result.append(distance)
+    # TODO: is that right to have negative distances? see: example
+    # howto_argparse.
+    result = [item for item in result if item > 0]
     return mode(result)
