@@ -7,13 +7,16 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import contextlib
 import os
 from os import makedirs
 from os.path import join
 
 import pytest
+import serializeraw
 import utila
 
+import words
 from tests import pdfs
 from tests import relative_path
 
@@ -24,6 +27,10 @@ UNSUPPORTED_DOCUMENTS = {
     'paper/page_6_double_column.pdf',
     'paper/page_6_double_column_with_math.pdf',
     'docu/porting_extension_modules_python3.pdf',
+}
+
+EXPECTED_FAILURE = {
+    'howto_argparse/howto_argparse.pdf': 'not every headlines can be detected',
 }
 
 SKIP_DOCUMENTS = {
@@ -38,6 +45,10 @@ SKIP_DOCUMENTS = {
     'master/page_89_noimages_toc.pdf',
 }
 
+HEADLINE_COUNT = {
+    'howto_argparse/howto_argparse.pdf': 7,  # 9 with subsections
+}
+
 
 def params():
     pdf = pdfs()
@@ -48,10 +59,13 @@ def params():
     pdf = pdf[0:5]
     result = []
 
-    def determine_mark(item):
-        if relative_path(item) in UNSUPPORTED_DOCUMENTS:
+    def determine_mark(pdf):
+        relative = relative_path(pdf)
+        if relative in UNSUPPORTED_DOCUMENTS:
             return pytest.mark.xfail(
                 reason="unsupported font format with current impl",)
+        with contextlib.suppress(KeyError):
+            return pytest.mark.xfail(reason=EXPECTED_FAILURE[relative])
         return pytest.mark.huge
 
     for item in pdf:
@@ -90,7 +104,7 @@ def rawresult(request, tmpdir):
 
 
 @pytest.fixture
-def sections(rawresult):  # pylint:disable=W0621
+def sections_result(rawresult):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath = rawresult
 
     sectionspath = join(tmpdir, 'sections')
@@ -109,8 +123,8 @@ def sections(rawresult):  # pylint:disable=W0621
 
 
 @pytest.fixture
-def words(sections):  # pylint:disable=W0621
-    tmpdir, tocpath, generalpath, sectionspath = sections
+def words_result(sections_result):  # pylint:disable=W0621
+    tmpdir, tocpath, generalpath, sectionspath = sections_result
 
     wordspath = join(tmpdir, 'words')
     makedirs(wordspath)
@@ -155,11 +169,24 @@ def test_huge_sections_extractor(testdir, sections):  # pylint:disable=W0621
 
 
 @utila.skip_longrun
-@pytest.mark.usefixtures('words')
 @pytest.mark.usefixtures('testdir')
-def test_huge_running_words():
+def test_huge_running_words(words_result, request):
     """Run rawmaker -> sections -> words. Ensure that this chain works for
     huge pdf example provided by power tool."""
+
+    testfile = request.node.name.split('[')[1].split(']')[0]
+    expected_headlines = HEADLINE_COUNT.get(testfile, 0)
+
+    headlines = serializeraw.load_headlines(
+        os.path.join(
+            words_result[4],
+            words.WORDS_HEADLINES,
+        ))
+    headlines = utila.flatten(headlines)
+
+    if expected_headlines:
+        assert len(headlines) == expected_headlines, headlines
+
 
 
 @utila.skip_longrun
