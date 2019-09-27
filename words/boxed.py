@@ -29,14 +29,14 @@ class BoxedChecker:
         return self.boxid(page, bounds) >= 0
 
     def boxid(self, page, bounds) -> int:
-        y0, x0, y1, x1 = bounds
+        x0, y0, x1, y1 = bounds
         try:
             pagedata = self.data[page]
         except KeyError:
             return NO_BOX
         else:
             for index, bound in enumerate(pagedata):
-                _y0, _x0, _y1, _x1 = bound
+                _x0, _y0, _x1, _y1 = bound
                 if _y0 <= y0 <= y1 <= _y1 and _x0 <= x0 <= x1 <= _x1:
                     return index
         return NO_BOX
