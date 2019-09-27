@@ -47,6 +47,13 @@ def params():
     # random is not good when reproducing an error, may use it later.
     pdf = pdf[0:5]
     result = []
+
+    def determine_mark(item):
+        if relative_path(item) in UNSUPPORTED_DOCUMENTS:
+            return pytest.mark.xfail(
+                reason="unsupported font format with current impl",)
+        return pytest.mark.huge
+
     for item in pdf:
         double = pytest.param(
             (
@@ -55,9 +62,7 @@ def params():
                 '--char_margin 5.0 --boxes_flow 1.0 --line_margin 0.3',
             ),
             id=relative_path(item),
-            marks=pytest.mark.xfail(
-                reason="unsupported font format with current impl") if
-            relative_path(item) in UNSUPPORTED_DOCUMENTS else pytest.mark.huge,
+            marks=determine_mark(item),
         )
         result.append(double)
     return result
