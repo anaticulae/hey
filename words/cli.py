@@ -11,6 +11,9 @@ from utila import ResultFile as RF
 from utila import create_step as step
 from utila import featurepack
 
+from words import HEADLINE_STEP
+from words import HEADLINE_STEP_RESULT
+from words import HEADLINES
 from words import PROCESS
 from words import ROOT
 from words import __version__
@@ -21,7 +24,7 @@ ResultFile = lambda producer, name: RF(producer=producer, name=name)
 
 WORKPLAN = [
     step(
-        'headlines',
+        HEADLINE_STEP,
         inputs=[
             ResultFile('sections', 'sections_result'),
             ResultFile('rawmaker', 'text_text'),
@@ -31,7 +34,7 @@ WORKPLAN = [
             ResultFile('rawmaker', 'border_pages'),
             ResultFile('rawmaker', 'boxes_horizontal'),
         ],
-        output=('headlines',),
+        output=(HEADLINE_STEP_RESULT,),
     ),
     step(
         'text',
@@ -40,7 +43,7 @@ WORKPLAN = [
             ResultFile('rawmaker', 'text_positions'),
             ResultFile('rawmaker', 'fonts_header'),
             ResultFile('rawmaker', 'fonts_content'),
-            ResultFile('words', 'headlines_headlines'),
+            ResultFile('words', HEADLINES),
             ResultFile('rawmaker', 'border_pages'),
             ResultFile('rawmaker', 'boxes_horizontal'),
             ResultFile('rawmaker', 'boxes_boxes'),
@@ -53,7 +56,7 @@ WORKPLAN = [
             ResultFile('words', 'text_text'),
             ResultFile('rawmaker', 'text_text'),
             ResultFile('rawmaker', 'text_positions'),
-            ResultFile('words', 'headlines_headlines'),
+            ResultFile('words', HEADLINES),
             ResultFile('rawmaker', 'border_pages'),
             ResultFile('rawmaker', 'boxes_horizontal'),
         ],
@@ -65,18 +68,19 @@ WORKPLAN = [
             ResultFile('words', 'text_text'),
             ResultFile('rawmaker', 'text_text'),
             ResultFile('rawmaker', 'text_positions'),
-            ResultFile('words', 'headlines_headlines'),
+            ResultFile('words', HEADLINES),
             ResultFile('rawmaker', 'border_pages'),
             ResultFile('rawmaker', 'boxes_horizontal'),
             ResultFile('rawmaker', 'boxes_boxes'),
         ],
         output=('boxed',),
     ),
+    # TODO: IS THAT RIGHT?
     step(
         'words',
         inputs=[
             ResultFile('words', 'text_text'),
-            ResultFile('words', 'headlines_headlines'),
+            ResultFile('words', HEADLINES),
             ResultFile('words', 'list_list'),
             ResultFile('words', 'boxed_boxed'),
         ],
