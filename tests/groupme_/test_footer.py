@@ -12,26 +12,20 @@ import os
 import pytest
 import serializeraw
 import utila
-from pytest import fixture
-from serializeraw import load_horizontals
 
+import groupme.feature.footer
+import groupme.footer
 import tests.resources
-from groupme.feature.footer import dump_headerfooter
-from groupme.feature.footer import extract_common_footer
-from groupme.feature.footer import extract_pages
-from groupme.feature.footer import load_headerfooter
-from groupme.feature.footer import work
-from tests.resources import RESTRUCT_HORIZONTAL as HORIZONTALS
 
 
-@fixture
+@pytest.fixture
 def horizontals():
-    result = load_horizontals(HORIZONTALS)
+    result = serializeraw.load_horizontals(tests.resources.RESTRUCT_HORIZONTAL)
     return result
 
 
-def test_footer_extract(horizontals):  #pylint:disable=W0621
-    top, bottom = extract_common_footer(horizontals)
+def test_groupme_footer_extract(horizontals):  #pylint:disable=W0621
+    top, bottom = groupme.footer.fixed.extract_common_footer(horizontals)
     assert top  # document has header
     assert bottom  # document has footer
     assert top < bottom
@@ -39,7 +33,7 @@ def test_footer_extract(horizontals):  #pylint:disable=W0621
 
 def test_groupme_footer_work(testdir):  #pylint:disable=W0621
     root = str(testdir)
-    dumped = work(HORIZONTALS)
+    dumped = groupme.feature.footer.work(tests.resources.RESTRUCT_HORIZONTAL)
     assert dumped
     assert len(dumped) > 100, str(dumped)  # there is some content
 
@@ -54,9 +48,16 @@ def test_groupme_footer_master72pages(testdir):
 
 
 def test_groupme_footer_dump_and_load(horizontals):  #pylint:disable=W0621
-    extracted = extract_pages(horizontals)
+    # TODO: use general strategy?
+    extracted = groupme.footer.fixed.FixedFooterStrategy(horizontals).result()
 
-    dumped = dump_headerfooter(extracted)
-    loaded = load_headerfooter(dumped)
+    dumped = groupme.footer.dump_headerfooter(extracted)
+    loaded = groupme.footer.load_headerfooter(dumped)
 
     assert loaded == extracted
+
+
+def test_groupme_footer_footerheader_detectionstategy(horizontals):  #pylint:disable=W0621
+    strategy = groupme.footer.FooterHeaderDetectionStrategy(
+        horizontals=horizontals,)
+    strategy.process()

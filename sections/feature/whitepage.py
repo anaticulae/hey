@@ -33,7 +33,7 @@ from yaml import FullLoader
 from yaml import dump
 from yaml import load
 
-from groupme.feature.footer import extract_pages
+from groupme.feature.footer import extract_footerheader
 from groupme.feature.numbers import load_textposition
 from hey import CACHE_SMALL
 from hey.textnavigator.navigator import END
@@ -59,8 +59,8 @@ def work(document: str, position: str, horizontals: str, pages=None) -> str:
     position = load_textposition(position, pages=pages)
     horizontals = load_horizontals(horizontals, pages=pages)
 
-    # TODO: Think about how to handle this, invocation order of features?
-    headerfooters = extract_pages(horizontals)
+    # TODO: why do we used fixed footer strategy?
+    headerfooters = extract_footerheader(horizontals)
     navigators = create_pagetextnavigators(
         text=document,
         text_positions=position,

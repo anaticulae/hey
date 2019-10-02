@@ -59,7 +59,7 @@ from words.feature.list import prepare_input as list_prepare_input
 from words.feature.list import process as list_process
 from words.feature.text import extract_texts as text_extract_texts
 from words.feature.text import prepare_input as text_prepare_input
-from words.headlines import content_border
+from words.headlines import contentborder
 
 
 @fixture
@@ -135,6 +135,7 @@ def restructured_headlines():
         font_content=RESTRUCT_FONT_CONTENT,
         sizeandborder=RESTRUCT_PAGESIZE,
         horizontals=RESTRUCT_HORIZONTAL,
+        boxes=RESTRUCT_BOXES,
     )
     return dumped
 
@@ -268,7 +269,6 @@ def restructured_textexample(
         horizontals=RESTRUCT_HORIZONTAL,
         boxes=RESTRUCT_BOXES,
     )
-
     extracted = text_extract_texts(
         border=border,
         fontstore=fontstore,
@@ -288,10 +288,9 @@ def restructured_textexample_dumped(
 
 
 @fixture
-def restructured_border():
+def restructured_sizeandborder():
     loaded = load_pageborders(RESTRUCT_PAGESIZE)
-    border = [item.border for item in loaded]
-    return border
+    return loaded
 
 
 @fixture
@@ -312,7 +311,6 @@ def restructured_boxed(
         horizontals=RESTRUCT_HORIZONTAL,
     )
     boxes = load_boxes(RESTRUCT_BOXES)
-
     result = boxed_process_content(extracted, boxes)
     return result
 
@@ -329,11 +327,11 @@ def restructured_boxed_dumped(
 def restructured_contentborder(
         # pylint:disable=W0621
         restructured_horizontals,
-        restructured_border,
+        restructured_sizeandborder,
 ):
     horizontals = restructured_horizontals
-    border = restructured_border
-    result = content_border(horizontals, border)
+    border = restructured_sizeandborder
+    result = contentborder(border, horizontals)
     return result
 
 

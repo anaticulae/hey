@@ -7,15 +7,19 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import functools
+import typing
 from statistics import mode
-from typing import List
 
 from iamraw import Border
 
-BorderList = List[Border]
+BorderList = typing.List[typing.Tuple[Border, int]]
 
 
-def document_border(contentborders: BorderList) -> Border:
+def document_border(
+        contentborders: BorderList,
+        selector=[mode, mode, mode, mode],
+) -> Border:
     """Extract all content border for every page and determine the most common
     border. Every direction is analyzed separatly.
 
@@ -36,6 +40,17 @@ def document_border(contentborders: BorderList) -> Border:
         right.append(item.right)
         top.append(item.top)
 
-    left, bottom, right, top = mode(left), mode(bottom), mode(right), mode(top)
+    left, bottom, right, top = [
+        operator(data)
+        for operator, data in zip(selector, [left, bottom, right, top])
+    ]
 
     return Border(left=left, bottom=bottom, right=right, top=top)
+
+
+def document_border_max(contentborders: BorderList):
+    selector = [min, max, max, min]
+    process = functools.partial(document_border, selector=selector)
+
+    result = process(contentborders)
+    return result

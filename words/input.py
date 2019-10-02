@@ -19,10 +19,10 @@ from serializeraw import load_pageborders
 from serializeraw import load_text
 from utila import info
 
+import words.headlines
 from groupme.feature.numbers import load_textposition
 from hey.document import document_border
 from hey.undefined import extract_undefined
-from words.headlines import content_border
 
 
 def prepare_input(
@@ -37,8 +37,7 @@ def prepare_input(
     extracted_text = load_text(extracted_text, headlines)
     horizontals = load_horizontals(horizontals)
     border = load_pageborders(border)
-    border = [item.border for item in border]
-    contentborder = content_border(horizontals, border)
+    contentborder = words.headlines.contentborder(border, horizontals)
     text = load_document(text)
     text_position = load_textposition(text_position)
     extracted = extract_undefined(
@@ -47,7 +46,6 @@ def prepare_input(
         text_position,
         contentborder=contentborder,
     )
-    contentborder = document_border(border)
     return extracted, contentborder
 
 

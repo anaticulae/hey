@@ -45,6 +45,7 @@ def work(
         font_content: str,
         sizeandborder: str,
         horizontals: str,
+        boxes: str,
 ) -> str:
     """Extract headlines out of data
 

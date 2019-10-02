@@ -33,6 +33,7 @@ WORKPLAN = [
             ResultFile('rawmaker', 'fonts_content'),
             ResultFile('rawmaker', 'border_pages'),
             ResultFile('rawmaker', 'boxes_horizontal'),
+            ResultFile('rawmaker', 'boxes_boxes'),
         ],
         output=(HEADLINE_STEP_RESULT,),
     ),

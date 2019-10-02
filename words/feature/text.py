@@ -48,6 +48,7 @@ from serializeraw import load_headlines
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 
+import words.headlines
 from groupme.feature.numbers import load_textposition
 from hey.fonts.store import FontContentStore
 from hey.fonts.store import FontStore
@@ -57,7 +58,6 @@ from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from words.boxed import BoxedChecker
-from words.headlines import content_border
 
 
 def work(
@@ -166,8 +166,8 @@ def prepare_input(
         text_positions=position,
     )
     contentborder = load_pageborders(pagesizes)
-    contentborder = [item.border for item in contentborder]
-    border = content_border(horizontals, contentborder)
+    # contentborder = [(item.border, item.page) for item in contentborder]
+    border = words.headlines.contentborder(contentborder, horizontals)
     boxes = BoxedChecker(boxes)
     return border, fontstore, headlines, textnavigators, boxes
 
@@ -210,7 +210,7 @@ def prepare_analyze_page(
         headlines,
         textnavigators,
         fontstore,
-        border,
+        borders,
 ):
     """Add dummy headline if required
 
@@ -224,7 +224,7 @@ def prepare_analyze_page(
     page = headlines[0].page
     pcn = PageTextContentNavigator(
         textnavigator=utila.select_page(textnavigators, pagenumber=page),
-        content=border,
+        content=utila.select_page(borders, pagenumber=page),
     )
     if pcn.offset == (None, None):
         # empty page

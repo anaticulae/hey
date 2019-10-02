@@ -17,7 +17,6 @@ from utila import NEWLINE
 
 from hey.undefined import extract_undefined
 # pylint:disable=W0611
-from tests.fixtures.restruct import restructured_border
 from tests.fixtures.restruct import restructured_contentborder
 from tests.fixtures.restruct import restructured_headlines
 from tests.fixtures.restruct import restructured_horizontals
@@ -36,7 +35,6 @@ from words.feature.text import analyze_page
 from words.feature.text import fill_headlines
 from words.feature.text import prepare_input
 from words.feature.text import work
-from words.headlines import content_border
 
 
 def test_words_text_work(

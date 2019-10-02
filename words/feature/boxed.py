@@ -68,6 +68,7 @@ def work(
 def process_content(extracted, boxes: BoxedChecker):
     boxes = BoxedChecker(boxes)
     worker = partial(extract_boxed_content, boxed=boxes)
+
     result = process_input(extracted, worker)
     return result
 

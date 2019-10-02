@@ -195,3 +195,7 @@ def horizontals(path: str, prefix: str = '') -> str:
 
 def sections(path: str, prefix: str = '') -> str:
     return pathconnector(path, 'sections', 'sections_result', prefix)
+
+
+def boxed(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'boxes_boxes', prefix)

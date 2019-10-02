@@ -14,22 +14,19 @@ import warnings
 
 import iamraw
 import utila
-from iamraw import Border
-from iamraw import Headline
-from iamraw import PagesHeadlineList
+from iamraw import PageSizeBorder
 from serializeraw import dump_headlines
 from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from serializeraw import load_sections
 
+import groupme.footer
 import groupme.toc.regex
 import hey.textnavigator.navigator
+import hey.utils
 import sections.feature.sections
 import words
-from groupme.feature.footer import document_footerheader
-from groupme.feature.footer import footerborder_to_border
-from groupme.feature.numbers import load_textposition
 from hey.document import BorderList
 from hey.document import document_border
 from hey.fonts.store import FontStore
@@ -40,6 +37,13 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.textnavigator.navigator import navigator_to_bounds
+
+
+"""
+TODO:
+    add more than one strategy to compute equal footer, header
+    and different footer with and without header
+"""
 
 
 class HeadlineExtractorStrategy(abc.ABC):
@@ -109,7 +113,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         for page in range(start, end + 1):
             pagecontent = PageTextContentNavigator(
                 utila.select_page(self.pagetextnavigators, pagenumber=page),
-                self.border,
+                utila.select_page(self.border, pagenumber=page),
             )
             pageheadlines = self.extract_page(
                 page,
@@ -127,7 +131,10 @@ class HeadlineExtractorStrategy(abc.ABC):
         xoff = pagecontent.offset[0]
         xoff = xoff if xoff is not None else 0
         bounds = navigator_to_bounds(pagecontent)
-        bounds = hey.textnavigator.fonts.textbounds(pagecontent, self.border)
+        bounds = hey.textnavigator.fonts.textbounds(
+            pagecontent,
+            utila.select_page(self.border, pagenumber=page),
+        )
         without_content = [item[0] for item in bounds]
         # PageContentNavigator, the header and footer is ignored
         textdistances = fontdistance_textbounds(without_content)
@@ -183,56 +190,24 @@ def prepare_chapter_and_content(sections_, chapter):
 
 
 def contentborder(sizeandborder, horizontals):
-    contentborders = [item.border for item in sizeandborder]
-    border = content_border(horizontals, contentborders)
-    assert border.bottom >= 100, str(border)
-    return border
+    assert all([isinstance(item, PageSizeBorder) for item in sizeandborder])
+    result = {}
+    border = groupme.feature.footer.extract_footerheader(horizontals)
+    pages = [item.page for item in sizeandborder]
+    for page in pages:
+        pageborder = hey.utils.select_page(sizeandborder, page).border
+        footerheader = hey.utils.select_page(border, page)
+        footerheader = hey.utils.select_content(footerheader, (None, None))
 
+        top = footerheader[0] if footerheader[0] else 0
+        bottom = footerheader[1] if footerheader[1] else pageborder.bottom
 
-def content_border(
-        horizontals: typing.List[iamraw.HorizontalLine],
-        contentborders: BorderList,
-) -> Border:
-    """Determine the content border as a result of left/right-side and detected
-    footer.
-
-    If no `horizontals` are provied, the `contentborders` is the only
-    source of detecting the border.
-
-    If `horizontals` are provided the horizontals determine top and
-    bottom border. The content defines the border left and right.
-
-    TODO: What should we do, if only top or only bottom horizontal line
-    are provided?
-
-    Args:
-        horizontals:
-        contentborders:
-    Return:
-        single `Border` which separates the textual content from footer
-        and header with text and pagecount.
-    """
-
-    leftright = document_border(contentborders)
-
-    if not horizontals:
-        return leftright
-
-    # Using one or two horizontals for determining the footer or header
-    # makes no sence. Therefore we need some elements.
-    if len(horizontals) < HORIZONTAL_MIN_COUNT:
-        return leftright
-
-    border = document_footerheader(horizontals)
-    border = footerborder_to_border(border)
-    assert border.bottom > 0, str(border)
-
-    result = Border(
-        bottom=border.bottom,
-        left=leftright.left,
-        right=leftright.right,
-        top=border.top,
-    )
+        result[page] = iamraw.Border(
+            left=pageborder.left,
+            right=pageborder.right,
+            top=top,
+            bottom=bottom,
+        )
     return result
 
 
@@ -241,7 +216,7 @@ FIRST_LEVEL = 0.9  # TODO: HOLY VALUE
 SECOND_LEVEL = 0.7
 
 
-def convert_level(result: PagesHeadlineList) -> int:
+def convert_level(result: iamraw.PagesHeadlineList) -> int:
     """Convert chapter level based on text distances to logical level
     (1,2,3,4,...).
 

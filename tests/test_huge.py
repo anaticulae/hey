@@ -26,7 +26,6 @@ UNSUPPORTED_DOCUMENTS = {
     'paper/page_10_double_column_with_tables.pdf',
     'paper/page_6_double_column.pdf',
     'paper/page_6_double_column_with_math.pdf',
-    'docu/porting_extension_modules_python3.pdf',
 }
 
 EXPECTED_FAILURE = {
@@ -53,7 +52,8 @@ HEADLINE_COUNT = {
 def params():
     pdf = pdfs()
     # skip documents cause of to few computing power
-    pdf = [item for item in pdf if not relative_path(item) in SKIP_DOCUMENTS]
+    ignore = SKIP_DOCUMENTS | UNSUPPORTED_DOCUMENTS
+    pdf = [item for item in pdf if not relative_path(item) in ignore]
     # select 5 items to reduce required test power
     # random is not good when reproducing an error, may use it later.
     pdf = pdf[0:5]
@@ -118,7 +118,6 @@ def sections_result(rawresult):  # pylint:disable=W0621
         utila.log(completed.stdout)
         utila.log(completed.stderr)
     assert completed.returncode == utila.SUCCESS
-
     return (tmpdir, tocpath, generalpath, sectionspath)
 
 
@@ -164,13 +163,13 @@ def groupme(rawresult):  # pylint:disable=W0621
 
 
 @utila.skip_longrun
-def test_huge_sections_extractor(testdir, sections):  # pylint:disable=W0621
-    assert sections
+def test_huge_sections_extractor(testdir, sections_result):  # pylint:disable=W0621
+    assert sections_result
 
 
 @utila.skip_longrun
 @pytest.mark.usefixtures('testdir')
-def test_huge_running_words(words_result, request):
+def test_huge_running_words(words_result, request):  # pylint:disable=W0621
     """Run rawmaker -> sections -> words. Ensure that this chain works for
     huge pdf example provided by power tool."""
 
@@ -186,7 +185,6 @@ def test_huge_running_words(words_result, request):
 
     if expected_headlines:
         assert len(headlines) == expected_headlines, headlines
-
 
 
 @utila.skip_longrun

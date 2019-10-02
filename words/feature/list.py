@@ -22,6 +22,7 @@ from re import VERBOSE
 from re import finditer
 from typing import List
 
+import utila
 from iamraw import Border
 from iamraw import PageList
 from serializeraw import dump_lists
@@ -99,7 +100,11 @@ def process_page(pagecontent, contentborder: Border):
         page, paragraphnumber, (content, uindexs) = paragraph
         zipped = enumerate(zip(content, uindexs))
         for mergednumber, ((_, item), uindex) in zipped:
-            potentiallist = extract_lists(item, contentborder, uindex)
+            potentiallist = extract_lists(
+                item,
+                utila.select_page(contentborder, pagenumber=page),
+                uindex,
+            )
             if not potentiallist:
                 # could not extract any list
                 continue

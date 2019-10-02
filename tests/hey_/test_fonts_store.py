@@ -27,14 +27,13 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 # pylint:disable=W0611
-from tests.fixtures.restruct import restructured_border
 from tests.fixtures.restruct import restructured_contentborder
 from tests.fixtures.restruct import restructured_fontstore
 from tests.fixtures.restruct import restructured_horizontals
+from tests.fixtures.restruct import restructured_sizeandborder
 from tests.fixtures.restruct import restructured_text
 from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT_POSITION
-from words.headlines import content_border
 
 FIRST_FONT = Font(
     name='NimbusSanL',
@@ -164,6 +163,7 @@ def restructured_pagetextcontentnavigator(
     contentborders = restructured_contentborder
     page = 4
     navigator = utila.select_page(restructured_textnavigators, page)
+    contentborders = utila.select_page(contentborders, page)
     pagecontent = PageTextContentNavigator(
         navigator,
         contentborders,

@@ -67,3 +67,36 @@ def page(item):
 
 # Unicode special minus sign
 SPECIAL_MINUS_SIGN = '–'
+
+
+def select_page(items, pagenumber: int):
+    # TODO: RENAME `pagenumber` to page:?
+    # TODO: REMOVE AFTER UPGRADING UTILA
+    """Select item depending on page-attribut of the item.
+
+    Args:
+        items(collection): content which contains the pages
+        pagenumber(int): page-attribute to select from `items`
+    Returns:
+        page with page-attribute matches with `pagenumber`
+    Raises:
+        ValuesError: if items contains duplicated page number
+        KeyError: if `pagenumber` is not present in collection
+    """
+
+    if not isinstance(items, dict):
+        before = len(items)
+        items = {item.page: item for item in items}
+        if len(items) != before:
+            raise ValueError('duplicated page attribute')
+    try:
+        return items[pagenumber]
+    except KeyError:
+        return None
+
+
+def select_content(item, default):
+    try:
+        return item.content
+    except AttributeError:
+        return default

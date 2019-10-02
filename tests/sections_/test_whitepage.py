@@ -10,7 +10,7 @@
 from serializeraw import load_document
 from serializeraw import load_horizontals
 
-from groupme.feature.footer import extract_pages
+import groupme.footer.fixed
 from groupme.feature.numbers import load_textposition
 from hey.textnavigator.navigator import create_pagetextnavigators
 from sections.feature.whitepage import PageContentWhitepages
@@ -60,7 +60,8 @@ def test_whitepages_extract():
     horizontals = load_horizontals(RESTRUCT_HORIZONTAL)
 
     # TODO: Think about how to handle this, invocation order of features?
-    headerfooters = extract_pages(horizontals)
+    headerfooters = groupme.footer.fixed.FixedFooterStrategy(horizontals)
+    headerfooters = headerfooters.result()
     navigators = create_pagetextnavigators(
         text=document,
         text_positions=position,

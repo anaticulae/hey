@@ -8,13 +8,12 @@
 # =============================================================================
 
 import utila
-from iamraw import Border
 
 from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import create_pagetextnavigators
 
 
-def extract_undefined(pages, text, text_position, contentborder: Border):
+def extract_undefined(pages, text, text_position, contentborder: dict):
     """Fill `undefined items` with TextContent and BoundingBox
 
     Args:
@@ -26,7 +25,7 @@ def extract_undefined(pages, text, text_position, contentborder: Border):
     Returns:
         replaced pages with grouped replaced undefined items
     """
-    assert isinstance(contentborder, Border), type(contentborder)
+    # assert isinstance(contentborder, Border), type(contentborder)
     pagetextnavigators = create_pagetextnavigators(
         text=text,
         text_positions=text_position,
@@ -36,7 +35,7 @@ def extract_undefined(pages, text, text_position, contentborder: Border):
         navigator = utila.select_page(pagetextnavigators, page)
         ptcn = PageTextContentNavigator(
             navigator,
-            contentborder,
+            utila.select_page(contentborder, pagenumber=page),
         )
         _pagecontent = []
         for index, (_, paragraph) in enumerate(pagecontent):
