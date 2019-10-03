@@ -9,16 +9,13 @@
 
 import contextlib
 import os
-from os import makedirs
-from os.path import join
 
 import pytest
 import serializeraw
 import utila
 
+import tests
 import words
-from tests import pdfs
-from tests import relative_path
 
 # TODO: Reduce list of unsupported documents
 # this documents does not passes the current implementation
@@ -50,17 +47,17 @@ HEADLINE_COUNT = {
 
 
 def params():
-    pdf = pdfs()
+    pdf = tests.pdfs()
     # skip documents cause of to few computing power
     ignore = SKIP_DOCUMENTS | UNSUPPORTED_DOCUMENTS
-    pdf = [item for item in pdf if not relative_path(item) in ignore]
+    pdf = [item for item in pdf if not tests.relative_path(item) in ignore]
     # select 5 items to reduce required test power
     # random is not good when reproducing an error, may use it later.
     pdf = pdf[0:5]
     result = []
 
     def determine_mark(pdf):
-        relative = relative_path(pdf)
+        relative = tests.relative_path(pdf)
         if relative in UNSUPPORTED_DOCUMENTS:
             return pytest.mark.xfail(
                 reason="unsupported font format with current impl",)
@@ -75,7 +72,7 @@ def params():
                 '--char_margin 100.0 --boxes_flow 1.0',
                 '--char_margin 5.0 --boxes_flow 1.0 --line_margin 0.3',
             ),
-            id=relative_path(item),
+            id=tests.relative_path(item),
             marks=determine_mark(item),
         )
         result.append(double)
@@ -85,10 +82,10 @@ def params():
 @pytest.fixture(params=params())
 def rawresult(request, tmpdir):
     tmpdir = str(tmpdir)
-    tocpath = join(tmpdir, 'toc')
-    generalpath = join(tmpdir, 'general')
+    tocpath = os.path.join(tmpdir, 'toc')
+    generalpath = os.path.join(tmpdir, 'general')
     for item in [tocpath, generalpath]:
-        makedirs(item)
+        os.makedirs(item)
 
     pdf, toccmd, generalcmd = request.param
     rawtoc = 'rawmaker -i %s -o %s --prefix=oneline %s' % (pdf, tocpath, toccmd)
@@ -107,8 +104,8 @@ def rawresult(request, tmpdir):
 def sections_result(rawresult):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath = rawresult
 
-    sectionspath = join(tmpdir, 'sections')
-    makedirs(sectionspath)
+    sectionspath = os.path.join(tmpdir, 'sections')
+    os.makedirs(sectionspath)
 
     runme = 'sections -i %s -i %s -o %s --all'
     runme = runme % (generalpath, tocpath, sectionspath)
@@ -125,8 +122,8 @@ def sections_result(rawresult):  # pylint:disable=W0621
 def words_result(sections_result):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath, sectionspath = sections_result
 
-    wordspath = join(tmpdir, 'words')
-    makedirs(wordspath)
+    wordspath = os.path.join(tmpdir, 'words')
+    os.makedirs(wordspath)
 
     runme = 'words -i %s -i %s -o %s --all'
     runme = runme % (generalpath, sectionspath, wordspath)
@@ -152,8 +149,8 @@ def words_result(sections_result):  # pylint:disable=W0621
 def groupme(rawresult):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath = rawresult
 
-    groupmepath = join(tmpdir, 'groupme')
-    makedirs(groupmepath)
+    groupmepath = os.path.join(tmpdir, 'groupme')
+    os.makedirs(groupmepath)
 
     runme = 'groupme -i %s -i %s -o %s --all'
     runme = runme % (generalpath, tocpath, groupmepath)
