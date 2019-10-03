@@ -25,30 +25,47 @@ def sync_resources():
     assert completed.returncode == utila.SUCCESS, str(completed)
 
 
+RAWMAKER = [
+    (
+        tests.resources.RESTRUCT_PDF,
+        tests.resources.RESTRUCT,
+    ),
+    (
+        tests.resources.HOWTO_ARGPARSE_PDF,
+        tests.resources.HOWTO_ARGPARSE,
+    ),
+    (
+        tests.resources.PYPORTING_PDF,
+        tests.resources.PYPORTING,
+    ),
+    (
+        tests.resources.SIMPLE_PDF,
+        tests.resources.SIMPLE,
+    ),
+    (
+        tests.resources.MASTER_72PAGES_PDF,
+        tests.resources.MASTER_72PAGES,
+    ),
+]
+
+SECTION = [
+    tests.resources.MASTER_72PAGES,
+    tests.resources.PYPORTING,
+    tests.resources.RESTRUCT,
+    tests.resources.SIMPLE,
+]
+
+
 def extract_examples():
     if os.path.exists(tests.resources.GENERATED):
         return
     os.makedirs(tests.resources.GENERATED)
 
-    todo = create_todo_rawmaker(
-        'master/page_72_noimages_toc.pdf',
-        tests.resources.MASTER_72PAGES,
-    ) + create_todo_sections(tests.resources.MASTER_72PAGES)\
-    + create_todo_rawmaker(
-        'restruct/restructuredtext.pdf',
-        tests.resources.RESTRUCT,
-    ) + create_todo_rawmaker(
-        'howto_argparse/howto_argparse.pdf',
-        tests.resources.HOWTO_ARGPARSE,
-    ) + create_todo_rawmaker(
-        'porting_module/porting_module_to_python3.pdf',
-        tests.resources.PYPORTING,
-    ) + create_todo_rawmaker(
-        'simple/howto_pyporting.pdf',
-        tests.resources.SIMPLE,
-    ) + create_todo_sections(tests.resources.RESTRUCT)\
-      + create_todo_sections(tests.resources.SIMPLE)\
-      + create_todo_sections(tests.resources.PYPORTING)
+    todo = []
+    for pdf, out in RAWMAKER:
+        todo.extend(create_todo_rawmaker(pdf, out))
+    for path in SECTION:
+        todo.extend(create_todo_sections(path))
 
     for (executable, inpath, outpath, configuration) in todo:
         cmd = f'{executable} -i {inpath} -o {outpath} {configuration}'

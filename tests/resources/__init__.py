@@ -11,8 +11,8 @@ import os
 import hey
 
 RESOURCES = os.path.join(hey.ROOT, 'tests/resources')
-
-assert os.path.exists(RESOURCES), RESOURCES
+DOCU = os.path.join(RESOURCES, 'docu')
+MASTER = os.path.join(RESOURCES, 'master')
 
 BOXES_BOXES = 'rawmaker__boxes_boxes.yaml'
 FONTS_CONTENT = 'rawmaker__fonts_content.yaml'
@@ -41,7 +41,7 @@ RESTRUCT_ONELINE_FONT_HEADER = os.path.join(RESTRUCT, ONELINE_FONTS_HEADER)
 RESTRUCT_ONELINE_POSITION = os.path.join(RESTRUCT, ONELINE_POSITION)
 RESTRUCT_ONELINE_TEXT = os.path.join(RESTRUCT, ONELINE_TEXT)
 RESTRUCT_PAGESIZE = os.path.join(RESTRUCT, PAGESIZE)
-RESTRUCT_PDF = os.path.join(RESOURCES, 'docu/restructuredtext.pdf')
+RESTRUCT_PDF = os.path.join(DOCU, 'restructuredtext.pdf')
 RESTRUCT_TEXT = os.path.join(RESTRUCT, TEXT)
 RESTRUCT_TEXT_POSITION = os.path.join(RESTRUCT, TEXT_POSITION)
 RESTRUCT_TOC = os.path.join(RESTRUCT, TOC)
@@ -60,6 +60,7 @@ SIMPLE_ONELINE_FONT_HEADER = os.path.join(SIMPLE, ONELINE_FONTS_HEADER)
 SIMPLE_ONELINE_POSITION = os.path.join(SIMPLE, ONELINE_POSITION)
 SIMPLE_ONELINE_TEXT = os.path.join(SIMPLE, ONELINE_TEXT)
 SIMPLE_PAGESIZE = os.path.join(SIMPLE, PAGESIZE)
+SIMPLE_PDF = os.path.join(RESOURCES, 'simple/howto_pyporting.pdf')
 SIMPLE_TEXT = os.path.join(SIMPLE, TEXT)
 SIMPLE_TEXT_POSITION = os.path.join(SIMPLE, TEXT_POSITION)
 SIMPLE_TOC = os.path.join(SIMPLE, TOC)
@@ -70,8 +71,8 @@ SIMPLE_TOC = os.path.join(SIMPLE, TOC)
 SIMPLE_CHAPTER_PAGE_COUNT = 1  # change to 2
 SIMPLE_HEADLINES_PAGE_3 = 4
 SIMPLE_TOC_LINES = 12
-# porting module
 
+# porting module
 PYPORTING = os.path.join(GENERATED, 'porting_module')
 PYPORTING_FONT_CONTENT = os.path.join(PYPORTING, FONTS_CONTENT)
 PYPORTING_FONT_HEADER = os.path.join(PYPORTING, FONTS_HEADER)
@@ -84,12 +85,12 @@ PYPORTING_TEXT = os.path.join(PYPORTING, TEXT)
 PYPORTING_TEXT_POSITION = os.path.join(PYPORTING, TEXT_POSITION)
 PYPORTING_TOC = os.path.join(PYPORTING, TOC)
 PYPORTING_CHAPTER_COUNT = 6
+PYPORTING_PDF = os.path.join(DOCU, 'porting_extension_modules.pdf')
 
-MASTER = os.path.join(RESOURCES, 'master')
 MASTER_72PAGES = os.path.join(GENERATED, 'page_72_noimages_toc')
 
 HOWTO_ARGPARSE = os.path.join(GENERATED, 'howto_argparse')
-HOWTO_ARGPARSE_PDF = os.path.join(RESOURCES, 'docu/howto_argparse.pdf') # yapf:disable
+HOWTO_ARGPARSE_PDF = os.path.join(DOCU, 'howto_argparse.pdf')
 
 MASTER_72PAGES_PDF = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
 MASTER_78PAGES_PDF = os.path.join(MASTER, 'page_78_images_toc.pdf')
@@ -108,9 +109,11 @@ REQURIED_RESOURCES = [
     PYPORTING_ONELINE_FONT_HEADER,
     PYPORTING_ONELINE_TEXT,
     PYPORTING_PAGESIZE,
+    PYPORTING_PDF,
     PYPORTING_TEXT,
     PYPORTING_TEXT_POSITION,
     PYPORTING_TOC,
+    RESOURCES,
     RESTRUCT,
     RESTRUCT_BOXES,
     RESTRUCT_FONT_CONTENT,
@@ -134,6 +137,7 @@ REQURIED_RESOURCES = [
     SIMPLE_ONELINE_POSITION,
     SIMPLE_ONELINE_TEXT,
     SIMPLE_PAGESIZE,
+    SIMPLE_PDF,
     SIMPLE_TEXT,
     SIMPLE_TEXT_POSITION,
     SIMPLE_TOC,
