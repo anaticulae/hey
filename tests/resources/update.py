@@ -55,6 +55,13 @@ SECTION = [
     tests.resources.SIMPLE,
 ]
 
+GROUPME = [
+    tests.resources.MASTER_72PAGES,
+    tests.resources.PYPORTING,
+    tests.resources.RESTRUCT,
+    tests.resources.SIMPLE,
+]
+
 
 def extract_examples():
     if os.path.exists(tests.resources.GENERATED):
@@ -64,6 +71,8 @@ def extract_examples():
     todo = []
     for pdf, out in RAWMAKER:
         todo.extend(create_todo_rawmaker(pdf, out))
+    for path in GROUPME:
+        todo.extend(create_todo_groupme(path))
     for path in SECTION:
         todo.extend(create_todo_sections(path))
 
@@ -101,6 +110,18 @@ def create_todo_sections(path):
             path,
             path,
             '--chapter --index --sections --title --toc --whitepage',
+        ),
+    ]
+    return result
+
+
+def create_todo_groupme(path):
+    result = [
+        (
+            'groupme',
+            path,
+            path,
+            '',
         ),
     ]
     return result
