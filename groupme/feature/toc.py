@@ -95,7 +95,7 @@ def decide_non_level_possible_headlines(items):
         if item.level is None:
             if not item.title in words.headlines.WHITELIST:
                 # remove items which are not part of the white list
-                utila.error(f'skip potential headline: {item.title}')
+                utila.info(f'skip potential headline: {item.title}')
                 continue
             item = groupme.toc.TocLine(
                 level='1',
