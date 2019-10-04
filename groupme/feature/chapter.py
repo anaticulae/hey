@@ -47,9 +47,7 @@ def chapters(document: Document):
     result = []
 
     def log_error(headline):
-        error('can not split chapter')
-        error(headline)
-        error('empty chapter')
+        error(f'can not split chapter: "{headline}"')
 
     for title in tableofcontent[1:]:  # skip the first one
         debug('process `%s`' % str(title))
