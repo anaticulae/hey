@@ -7,13 +7,13 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import pytest
 import serializeraw
 import utila
 from iamraw import Border
 from iamraw import Document
 from iamraw import Page
 from iamraw import TextContainer
-from pytest import fixture
 from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
@@ -45,7 +45,7 @@ from tests.resources import SIMPLE_TEXT_POSITION
 from tests.resources import SIMPLE_TOC
 
 
-@fixture
+@pytest.fixture
 def simple():
     pagesize = load_pageborders(SIMPLE_PAGESIZE)
     horizontals = load_horizontals(SIMPLE_HORIZONTAL)
@@ -63,7 +63,7 @@ def simple():
     return navigator, horizontals
 
 
-@fixture
+@pytest.fixture
 def simple_document() -> Document:
     loaded = load_document(SIMPLE_TEXT)
     return loaded
@@ -79,19 +79,19 @@ def simple_fontstore_fixture() -> FontStore:
     return lookup
 
 
-@fixture
+@pytest.fixture
 def simple_fontstore() -> FontStore:
     lookup = create_fontstore(SIMPLE_FONT_HEADER, SIMPLE_FONT_CONTENT)
     return lookup
 
 
-@fixture
+@pytest.fixture
 def simple_navigator(simple):  #pylint:disable=W0621
     navigator, _ = simple
     return navigator
 
 
-@fixture
+@pytest.fixture
 def simple_pagetextnavigators(
         simple_document: Document,  #pylint:disable=W0621
 ) -> PageTextNavigators:
@@ -103,33 +103,33 @@ def simple_pagetextnavigators(
     )
 
 
-@fixture
+@pytest.fixture
 def simple_pagesize():
     size = load_pageborders(SIMPLE_PAGESIZE)
     size = [item.size for item in size]
     return size
 
 
-@fixture
+@pytest.fixture
 def simple_contentborder():
     border = load_pageborders(SIMPLE_PAGESIZE)
     border = [item.border for item in border]
     return border
 
 
-@fixture
+@pytest.fixture
 def simple_page_0(simple_document: Document) -> Page:  # pylint: disable=W0621
     page: Page = simple_document[0]
     return page
 
 
-@fixture
+@pytest.fixture
 def simple_page_2(simple_document: Document) -> Page:  # pylint: disable=W0621
     page: Page = simple_document[2]
     return page
 
 
-@fixture
+@pytest.fixture
 def simple_page_2_text_only(simple_page_2: Page):  # pylint: disable=W0621
     lines = []
     for child in simple_page_2:
@@ -140,24 +140,24 @@ def simple_page_2_text_only(simple_page_2: Page):  # pylint: disable=W0621
 
 
 # TODO: Reduce amout of fixtures
-@fixture
+@pytest.fixture
 def simple_second_page_navigator(simple_pagetextnavigators,
                                 ) -> PageTextNavigator:
     return utila.select_page(simple_pagetextnavigators, pagenumber=1)
 
 
-@fixture
+@pytest.fixture
 def simple_second_page_size(simple_contentborder) -> Border:
     return simple_contentborder[1]
 
 
-@fixture
+@pytest.fixture
 def simple_toc():
     result = toc_work(SIMPLE_ONELINE_TEXT)
     return result
 
 
-@fixture
+@pytest.fixture
 def simple_whitepage():
     result = whitepage_work(
         SIMPLE_TEXT,
@@ -167,7 +167,7 @@ def simple_whitepage():
     return result
 
 
-@fixture
+@pytest.fixture
 def simple_title():
     result = title_work(
         SIMPLE_ONELINE_TEXT,
@@ -177,13 +177,13 @@ def simple_title():
     return result
 
 
-@fixture
+@pytest.fixture
 def simple_index():
     result = index_work(SIMPLE_ONELINE_TEXT)
     return result
 
 
-@fixture
+@pytest.fixture
 def simple_chapter():
     result = chapter_work(
         SIMPLE_TEXT,
@@ -199,7 +199,7 @@ def simple_chapter():
     return result
 
 
-@fixture
+@pytest.fixture
 def simple_sections():
     chapter = chapter_work(SIMPLE_TEXT, SIMPLE_TEXT_POSITION, SIMPLE_TOC)
 

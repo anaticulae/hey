@@ -7,11 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import pytest
 import serializeraw
 from iamraw import Document
 from iamraw.sections import PERCENT_100
 from iamraw.sections import Sections
-from pytest import fixture
 
 import tests.fixtures
 import tests.resources
@@ -58,7 +58,7 @@ from words.feature.text import prepare_input as text_prepare_input
 from words.headlines import contentborder
 
 
-@fixture
+@pytest.fixture
 def restructured():
     pagesize = serializeraw.load_pageborders(RESTRUCT_PAGESIZE)
     horizontals = serializeraw.load_horizontals(RESTRUCT_HORIZONTAL)
@@ -76,19 +76,19 @@ def restructured():
     return navigators, horizontals
 
 
-@fixture
+@pytest.fixture
 def restructured_chapter():
     result = chapter_work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION, RESTRUCT_TOC)
     return result
 
 
-@fixture
+@pytest.fixture
 def restructured_text() -> Document:
     loaded = serializeraw.load_document(RESTRUCT_TEXT)
     return loaded
 
 
-@fixture
+@pytest.fixture
 def restructured_fontstore() -> FontStore:
     lookup = create_fontstore(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
     return lookup
@@ -96,36 +96,36 @@ def restructured_fontstore() -> FontStore:
 
 def restructured_fontstore_fixture() -> FontStore:
     # TODO: Remove with new pytest - this is required, because pytest carn't
-    # use fixture in paramertized tests.
+    # use pytest.fixture in paramertized tests.
     lookup = create_fontstore(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
     return lookup
 
 
-@fixture
+@pytest.fixture
 def restructured_pagenumbers():
     loaded = serializeraw.load_pagenumbers(tests.resources.RESTRUCT_PAGENUMBERS)
     return loaded
 
 
-@fixture
+@pytest.fixture
 def restructured_horizontals():
     loaded = serializeraw.load_horizontals(RESTRUCT_HORIZONTAL)
     return loaded
 
 
-@fixture
+@pytest.fixture
 def restructured_index():
     result = index_work(RESTRUCT_ONELINE_TEXT)
     return result
 
 
-@fixture
+@pytest.fixture
 def restructured_navigator(restructured):  #pylint:disable=W0621
     navigators, _ = restructured
     return navigators
 
 
-@fixture
+@pytest.fixture
 def restructured_headlines():
     sections_ = restructured_sections()
 
@@ -143,7 +143,7 @@ def restructured_headlines():
     return dumped
 
 
-@fixture
+@pytest.fixture
 def restructured_sections_manual() -> Sections:
     result = Sections()
 
@@ -188,19 +188,19 @@ def restructured_sections_manual() -> Sections:
     return result
 
 
-@fixture
+@pytest.fixture
 def restructured_sizeandborder():
     loaded = serializeraw.load_pageborders(RESTRUCT_PAGESIZE)
     return loaded
 
 
-@fixture
+@pytest.fixture
 def restructured_text_positions():
     loaded = serializeraw.load_textpositions(RESTRUCT_TEXT_POSITION)
     return loaded
 
 
-@fixture
+@pytest.fixture
 def restructured_title():
     result = title_work(
         RESTRUCT_ONELINE_TEXT,
@@ -210,7 +210,7 @@ def restructured_title():
     return result
 
 
-@fixture
+@pytest.fixture
 def restructured_toc():
     result = toc_work(RESTRUCT_ONELINE_TEXT)
     return result
@@ -221,7 +221,7 @@ def restructured_text_fixture() -> Document:
     return loaded
 
 
-@fixture
+@pytest.fixture
 def restructured_whitepage():
     result = whitepage_work(
         RESTRUCT_TEXT,
@@ -257,7 +257,7 @@ def restructured_sections():
     return result
 
 
-@fixture
+@pytest.fixture
 def restructured_textexample(
         # pylint:disable=W0621
         restructured_headlines):
@@ -284,20 +284,20 @@ def restructured_textexample(
     return extracted
 
 
-@fixture
+@pytest.fixture
 def restructured_textexample_dumped(
         # pylint:disable=W0621
         restructured_textexample) -> str:
     return serializeraw.dump_text(restructured_textexample)
 
 
-@fixture
+@pytest.fixture
 def restructured_sizeandborder():
     loaded = serializeraw.load_pageborders(RESTRUCT_PAGESIZE)
     return loaded
 
 
-@fixture
+@pytest.fixture
 def restructured_boxed(
         # pylint:disable=W0621
         restructured_textexample_dumped,
@@ -320,7 +320,7 @@ def restructured_boxed(
     return result
 
 
-@fixture
+@pytest.fixture
 def restructured_boxed_dumped(
         # pylint:disable=W0621
         restructured_boxed) -> str:
@@ -328,7 +328,7 @@ def restructured_boxed_dumped(
     return dumped
 
 
-@fixture
+@pytest.fixture
 def restructured_contentborder(
         # pylint:disable=W0621
         restructured_horizontals,
@@ -342,7 +342,7 @@ def restructured_contentborder(
     return result
 
 
-@fixture
+@pytest.fixture
 def restructured_list_work(
         restructured_textexample_dumped,
         restructured_headlines,
@@ -364,7 +364,7 @@ def restructured_list_work(
     return result
 
 
-@fixture
+@pytest.fixture
 def restructured_list_dumped(
         # pylint:disable=W0611
         restructured_list_work) -> str:

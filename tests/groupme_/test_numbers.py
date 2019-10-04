@@ -1,14 +1,19 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2019 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
 """
 Extract footer out of document.
 """
+import typing
 
-from typing import Iterable
+import pytest
 
-from pytest import fixture
-
-from groupme.feature.numbers import footer
-from groupme.feature.numbers import header
-from groupme.feature.numbers import pagenumbers
+import groupme.feature.numbers
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured
 from tests.fixtures.restruct import restructured_navigator
@@ -24,7 +29,7 @@ def test_simple_example(simple):  #pylint:disable=W0621
 
 def test_footer_simple(simple):  #pylint:disable=W0621
     navigator, _ = simple
-    result = footer(navigator)
+    result = groupme.feature.numbers.footer(navigator)
 
     # cluster with page numbers
     assert len(result) == 1
@@ -32,12 +37,12 @@ def test_footer_simple(simple):  #pylint:disable=W0621
 
 def test_header_simple(simple):  #pylint:disable=W0621
     navigator, _ = simple
-    result = header(navigator)
+    result = groupme.feature.numbers.header(navigator)
     assert not result
 
 
 def test_footer_restructured(restructured_navigator):  #pylint:disable=W0621
-    result = footer(restructured_navigator)
+    result = groupme.feature.numbers.footer(restructured_navigator)
 
     # cluster with page numbers
     # 2 Pages and some header text lines
@@ -45,7 +50,7 @@ def test_footer_restructured(restructured_navigator):  #pylint:disable=W0621
 
 
 def test_header_restructured(restructured_navigator):  #pylint:disable=W0621
-    result = header(restructured_navigator)
+    result = groupme.feature.numbers.header(restructured_navigator)
     # Example:
     # (5,
     # (BoundingBox(x_bottom=72.00, y_bottom=746.33, x_top=336.99, y_top=758.84),
@@ -56,9 +61,9 @@ def test_header_restructured(restructured_navigator):  #pylint:disable=W0621
 
 
 def test_pagenumbers_restructured(restructured_navigator):  #pylint:disable=W0621
-    result = footer(restructured_navigator)
+    result = groupme.feature.numbers.footer(restructured_navigator)
 
-    numbers = pagenumbers(result)
+    numbers = groupme.feature.numbers.pagenumbers(result)
 
     # left and right page
     assert len(numbers) == 2
@@ -68,31 +73,31 @@ def test_pagenumbers_restructured(restructured_navigator):  #pylint:disable=W062
 
 
 def test_pagenumbers_simple(simple_navigator):  #pylint:disable=W0621
-    result = footer(simple_navigator)
+    result = groupme.feature.numbers.footer(simple_navigator)
 
     # single page
-    numbers = pagenumbers(result)
+    numbers = groupme.feature.numbers.pagenumbers(result)
 
-    assert isinstance(numbers, Iterable), numbers
+    assert isinstance(numbers, typing.Iterable), numbers
     assert numbers
 
 
-@fixture
+@pytest.fixture
 def pagenumbers_simple(simple_navigator):  #pylint:disable=W0621
-    result = footer(simple_navigator)
+    result = groupme.feature.numbers.footer(simple_navigator)
     # single page
-    numbers = pagenumbers(result)
+    numbers = groupme.feature.numbers.pagenumbers(result)
 
-    assert isinstance(numbers, Iterable), numbers
+    assert isinstance(numbers, typing.Iterable), numbers
     assert numbers
     return numbers
 
 
-@fixture
+@pytest.fixture
 def pagenumbers_restructured(restructured_navigator):  #pylint:disable=W0621
-    result = footer(restructured_navigator)
+    result = groupme.feature.numbers.footer(restructured_navigator)
     # double page
-    left, right = pagenumbers(result)
+    left, right = groupme.feature.numbers.pagenumbers(result)
     return left, right
 
 
