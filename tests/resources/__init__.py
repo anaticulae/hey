@@ -26,7 +26,8 @@ PAGESIZE = 'rawmaker__border_pages.yaml'
 TEXT = 'rawmaker__text_text.yaml'
 TEXT_POSITION = 'rawmaker__text_positions.yaml'
 TOC = 'rawmaker__toc_toc.yaml'
-
+PAGENUMBERS = 'groupme__pagenumbers_pagenumbers.yaml'
+FOOTERS = 'groupme__footer_footerheader.yaml'
 # restruct
 
 GENERATED = os.path.join(RESOURCES, 'generated')
@@ -41,10 +42,12 @@ RESTRUCT_ONELINE_FONT_HEADER = os.path.join(RESTRUCT, ONELINE_FONTS_HEADER)
 RESTRUCT_ONELINE_POSITION = os.path.join(RESTRUCT, ONELINE_POSITION)
 RESTRUCT_ONELINE_TEXT = os.path.join(RESTRUCT, ONELINE_TEXT)
 RESTRUCT_PAGESIZE = os.path.join(RESTRUCT, PAGESIZE)
+RESTRUCT_PAGENUMBERS = os.path.join(RESTRUCT, PAGENUMBERS)
 RESTRUCT_PDF = os.path.join(DOCU, 'restructuredtext.pdf')
 RESTRUCT_TEXT = os.path.join(RESTRUCT, TEXT)
 RESTRUCT_TEXT_POSITION = os.path.join(RESTRUCT, TEXT_POSITION)
 RESTRUCT_TOC = os.path.join(RESTRUCT, TOC)
+RESTRUCT_FOOTERS = os.path.join(RESTRUCT, FOOTERS)
 
 RESTRUCT_CHAPTER_COUNT = 8
 RESTRUCT_TOC_LINES = 13
@@ -63,6 +66,7 @@ SIMPLE_PAGESIZE = os.path.join(SIMPLE, PAGESIZE)
 SIMPLE_PDF = os.path.join(RESOURCES, 'simple/howto_pyporting.pdf')
 SIMPLE_TEXT = os.path.join(SIMPLE, TEXT)
 SIMPLE_TEXT_POSITION = os.path.join(SIMPLE, TEXT_POSITION)
+SIMPLE_FOOTERS = os.path.join(SIMPLE, FOOTERS)
 SIMPLE_TOC = os.path.join(SIMPLE, TOC)
 
 # the simple example has two 2 chapters, but there are on the same page,
@@ -126,6 +130,7 @@ REQURIED_RESOURCES = [
     RESTRUCT_PAGESIZE,
     RESTRUCT_PDF,
     RESTRUCT_TEXT,
+    RESTRUCT_PAGENUMBERS,
     RESTRUCT_TEXT_POSITION,
     RESTRUCT_TOC,
     SIMPLE,
@@ -203,3 +208,7 @@ def sections(path: str, prefix: str = '') -> str:
 
 def boxed(path: str, prefix: str = '') -> str:
     return pathconnector(path, 'rawmaker', 'boxes_boxes', prefix)
+
+
+def pagenumbers(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'groupme', 'pagenumbers_pagenumbers', prefix)
