@@ -30,12 +30,7 @@ def test_words_setup_py():
 @pytest.mark.parametrize('command', [
     ['--help'],
     ['--version'],
-    [
-        '-i',
-        RESTRUCT,
-        '-o',
-        '.',
-    ],
+    ['-i', RESTRUCT, '-o', '.'],
 ])
 def test_words_run(command, testdir, monkeypatch, capsys):  #pylint: disable=W0613
     """Run help and version command to reach basic test coverage"""

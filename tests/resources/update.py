@@ -48,14 +48,8 @@ RAWMAKER = [
     ),
 ]
 
-SECTION = [
-    tests.resources.MASTER_72PAGES,
-    tests.resources.PYPORTING,
-    tests.resources.RESTRUCT,
-    tests.resources.SIMPLE,
-]
-
-GROUPME = [
+GROUPME_AND_SECTION = [
+    tests.resources.HOWTO_ARGPARSE,
     tests.resources.MASTER_72PAGES,
     tests.resources.PYPORTING,
     tests.resources.RESTRUCT,
@@ -71,9 +65,9 @@ def extract_examples():
     todo = []
     for pdf, out in RAWMAKER:
         todo.extend(create_todo_rawmaker(pdf, out))
-    for path in GROUPME:
+
+    for path in GROUPME_AND_SECTION:
         todo.extend(create_todo_groupme(path))
-    for path in SECTION:
         todo.extend(create_todo_sections(path))
 
     for (executable, inpath, outpath, configuration) in todo:
