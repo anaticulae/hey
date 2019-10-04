@@ -7,15 +7,12 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import pytest
+import serializeraw
 import utila
-from pytest import fixture
-from serializeraw import load_document
-from serializeraw import load_font_content
-from serializeraw import load_font_header
 
-from groupme.feature.numbers import load_textposition
-from hey.fonts.store import create_fontstore
-from hey.textnavigator.navigator import create_pagetextnavigators
+import hey.fonts.store
+import hey.textnavigator.navigator
 
 TEXT = r"""
 dimension: 595.28 841.89
@@ -109,18 +106,18 @@ FONT_CONTENT = """
 
 
 def new_fontstore():
-    fontstore = create_fontstore(
-        load_font_header(FONT_HEADER),
-        load_font_content(FONT_CONTENT),
+    fontstore = hey.fonts.store.create_fontstore(
+        serializeraw.load_font_header(FONT_HEADER),
+        serializeraw.load_font_content(FONT_CONTENT),
     )
     return fontstore
 
 
-@fixture
+@pytest.fixture
 def new_textnavgiator():
-    navigators = create_pagetextnavigators(
-        load_document(TEXT, pages=0),  # just load the first page
-        load_textposition(TEXT_POSITION, pages=0),
+    navigators = hey.textnavigator.navigator.create_pagetextnavigators(
+        serializeraw.load_document(TEXT, pages=0),  # just load the first page
+        serializeraw.load_textpositions(TEXT_POSITION, pages=0),
     )
     first = utila.select_page(navigators, pagenumber=0)
     return first

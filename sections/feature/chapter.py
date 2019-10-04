@@ -47,7 +47,7 @@ def work(document: str, position: str, tocpath: str, pages=None) -> str:
     # load and setup
     pages = tuple(pages) if pages else None
     document = serializeraw.load_document(document, pages=pages)
-    position = groupme.feature.numbers.load_textposition(position, pages=pages)
+    position = serializeraw.load_textpositions(position, pages=pages)
     tocs = serializeraw.load_toc(tocpath)
 
     navigators = hey.textnavigator.navigator.create_pagetextnavigators(

@@ -21,7 +21,6 @@ from serializeraw import load_pageborders
 import tests
 import tests.fixtures
 import tests.resources
-from groupme.feature.numbers import load_textposition
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import PageTextNavigator
@@ -50,7 +49,7 @@ from tests.resources import SIMPLE_TOC
 def simple():
     pagesize = load_pageborders(SIMPLE_PAGESIZE)
     horizontals = load_horizontals(SIMPLE_HORIZONTAL)
-    position = load_textposition(SIMPLE_TEXT_POSITION)
+    position = serializeraw.load_textpositions(SIMPLE_TEXT_POSITION)
     document = load_document(SIMPLE_TEXT)
 
     assert pagesize
@@ -96,7 +95,7 @@ def simple_navigator(simple):  #pylint:disable=W0621
 def simple_pagetextnavigators(
         simple_document: Document,  #pylint:disable=W0621
 ) -> PageTextNavigators:
-    textpositions = load_textposition(SIMPLE_TEXT_POSITION)
+    textpositions = serializeraw.load_textpositions(SIMPLE_TEXT_POSITION)
 
     return create_pagetextnavigators(
         text=simple_document,

@@ -7,13 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from serializeraw import load_document
-from serializeraw import load_horizontals
-from serializeraw import load_pageborders
-from serializeraw import load_pagenumbers
+import serializeraw
 
 import groupme.footer.fixed
-from groupme.feature.numbers import load_textposition
 from hey.textnavigator.navigator import create_pagetextnavigators
 from sections.feature.whitepage import PageContentWhitepages
 from sections.feature.whitepage import WhitePage
@@ -59,11 +55,11 @@ RESTRUCT_EXPECTED = [
 
 def test_whitepages_extract():
     # load
-    document = load_document(RESTRUCT_TEXT)
-    position = load_textposition(RESTRUCT_TEXT_POSITION)
-    horizontals = load_horizontals(RESTRUCT_HORIZONTAL)
-    sizeandborders = load_pageborders(RESTRUCT_PAGESIZE)
-    pagenumbers = load_pagenumbers(RESTRUCT_PAGENUMBERS)
+    document = serializeraw.load_document(RESTRUCT_TEXT)
+    position = serializeraw.load_textpositions(RESTRUCT_TEXT_POSITION)
+    horizontals = serializeraw.load_horizontals(RESTRUCT_HORIZONTAL)
+    sizeandborders = serializeraw.load_pageborders(RESTRUCT_PAGESIZE)
+    pagenumbers = serializeraw.load_pagenumbers(RESTRUCT_PAGENUMBERS)
 
     # TODO: access headers and footers directly
     headerfooters = groupme.footer.fixed.FixedFooterStrategy(

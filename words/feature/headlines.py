@@ -60,7 +60,7 @@ def work(
     """
     # prepare
     document = serializeraw.load_document(text)
-    position = groupme.feature.numbers.load_textposition(text_position)
+    position = serializeraw.load_textpositions(text_position)
     sections = serializeraw.load_sections(sections)
     sizeandborder = serializeraw.load_pageborders(sizeandborder)
     horizontals = serializeraw.load_horizontals(horizontals)

@@ -20,21 +20,14 @@ Required API:
     # before/ after method to determine items
 """
 from collections import namedtuple
-from functools import lru_cache
 from typing import List
 from typing import Tuple
 
-from iamraw import BoundingBox
-from serializeraw import dump_pagenumbers
-from serializeraw import load_document
+import iamraw
+import serializeraw
 from utila import Flag
 from utila import call
-from utila import from_raw_or_path
-from utila import should_skip
-from yaml import FullLoader
-from yaml import load
 
-from hey import CACHE_SMALL
 from hey.cluster import common_items
 from hey.textnavigator.navigator import create_pagetextnavigators
 
@@ -43,8 +36,8 @@ PageContentTextPosition = namedtuple('PageContentTextPosition', 'content, page')
 
 def work(documentpath: str, positionpath: str) -> str:
     call('numbers')
-    document = load_document(documentpath)
-    position = load_textposition(positionpath)
+    document = serializeraw.load_document(documentpath)
+    position = serializeraw.load_textpositions(positionpath)
 
     navigator = create_pagetextnavigators(
         text=document,
@@ -52,7 +45,7 @@ def work(documentpath: str, positionpath: str) -> str:
     )
 
     footer_pagenumbers = determine_pagenumbers(navigator)
-    dumped = dump_pagenumbers(footer_pagenumbers)
+    dumped = serializeraw.dump_pagenumbers(footer_pagenumbers)
 
     return dumped
 
@@ -60,31 +53,6 @@ def work(documentpath: str, positionpath: str) -> str:
 def determine_pagenumbers(navigator):
     footer_ = footer(navigator)
     return pagenumbers(footer_)
-
-
-@lru_cache(CACHE_SMALL)
-def load_textposition(content: str, pages=None):
-    # TODO: This is from rawmaker->position.py,
-    # TODO: remove after moving to serialzeraw
-    content = from_raw_or_path(content, ftype='yaml')
-    loaded = load(content, Loader=FullLoader)
-
-    result = []
-    for page in loaded:
-        pagenumber = int(page['page'])
-        if should_skip(pagenumber, pages):
-            continue
-        pagedata = {}
-        for item in page['content']:
-            key, position = item.split(maxsplit=1)
-            pagedata[int(key)] = BoundingBox.from_str(position)
-
-        textposition = PageContentTextPosition(
-            content=pagedata,
-            page=pagenumber,
-        )
-        result.append(textposition)
-    return result
 
 
 TOP_BORDER = 0.1  # Header in the range of 0% till 10%
@@ -126,7 +94,7 @@ def is_rightpage(pdf_pagenumber: int) -> bool:
     return pdf_pagenumber % 2 == 0
 
 
-Cluster = List[Tuple[BoundingBox, str]]
+Cluster = List[Tuple[iamraw.BoundingBox, str]]
 
 
 def pagenumbers(clusters: List[Cluster]):

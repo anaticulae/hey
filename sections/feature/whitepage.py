@@ -25,15 +25,14 @@ from enum import Enum
 from functools import lru_cache
 from typing import List
 
+import serializeraw
 from iamraw import Document
-from serializeraw import load_document
 from utila import from_raw_or_path
 from yaml import FullLoader
 from yaml import dump
 from yaml import load
 
 import groupme.footer
-from groupme.feature.numbers import load_textposition
 from hey import CACHE_SMALL
 from hey.textnavigator.navigator import END
 from hey.textnavigator.navigator import START
@@ -59,8 +58,8 @@ def work(
 ) -> str:
     # load
     pages = tuple(pages) if pages else None
-    document = load_document(document, pages=pages)
-    position = load_textposition(position, pages=pages)
+    document = serializeraw.load_document(document, pages=pages)
+    position = serializeraw.load_textpositions(position, pages=pages)
 
     # TODO: why do we used fixed footer strategy?
     headerfooters = groupme.footer.load_headerfooter(footers)

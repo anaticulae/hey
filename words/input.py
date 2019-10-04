@@ -7,22 +7,15 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pprint import pformat
-from typing import List
-from typing import Tuple
+import pprint
+import typing
 
-from iamraw import Border
-from serializeraw import load_document
-from serializeraw import load_headlines
-from serializeraw import load_horizontals
-from serializeraw import load_pageborders
-from serializeraw import load_text
-from utila import info
+import iamraw
+import serializeraw
+import utila
 
+import hey.undefined
 import words.headlines
-from groupme.feature.numbers import load_textposition
-from hey.document import document_border
-from hey.undefined import extract_undefined
 
 
 def prepare_input(
@@ -33,19 +26,19 @@ def prepare_input(
         headlines,
         horizontals,
         pagenumbers,
-) -> Tuple[List, Border]:
-    headlines = load_headlines(headlines)
-    extracted_text = load_text(extracted_text, headlines)
-    horizontals = load_horizontals(horizontals)
-    border = load_pageborders(border)
+) -> typing.Tuple[typing.List, iamraw.Border]:
+    headlines = serializeraw.load_headlines(headlines)
+    extracted_text = serializeraw.load_text(extracted_text, headlines)
+    horizontals = serializeraw.load_horizontals(horizontals)
+    border = serializeraw.load_pageborders(border)
     contentborder = words.headlines.contentborder(
         border,
         horizontals,
         pagenumbers,
     )
-    text = load_document(text)
-    text_position = load_textposition(text_position)
-    extracted = extract_undefined(
+    text = serializeraw.load_document(text)
+    text_position = serializeraw.load_textpositions(text_position)
+    extracted = hey.undefined.extract_undefined(
         extracted_text,
         text,
         text_position,
@@ -61,8 +54,8 @@ def process_input(extracted, worker):
         if not extracted and pagecontent:
             # TODO: REMOVE LATER
             page = pagecontent[0][0]
-            info('skip on page: %d' % (page))
-            info(pformat(pagecontent))
+            utila.info('skip on page: %d' % (page))
+            utila.info(pprint.pformat(pagecontent))
             continue
         result.append(extracted)
     return result

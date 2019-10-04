@@ -12,16 +12,9 @@ from iamraw import Document
 from iamraw.sections import PERCENT_100
 from iamraw.sections import Sections
 from pytest import fixture
-from serializeraw import dump_text
-from serializeraw import load_boxes
-from serializeraw import load_document
-from serializeraw import load_horizontals
-from serializeraw import load_pageborders
-from serializeraw import load_pagenumbers
 
 import tests.fixtures
 import tests.resources
-from groupme.feature.numbers import load_textposition
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import create_pagetextnavigators
@@ -67,10 +60,10 @@ from words.headlines import contentborder
 
 @fixture
 def restructured():
-    pagesize = load_pageborders(RESTRUCT_PAGESIZE)
-    horizontals = load_horizontals(RESTRUCT_HORIZONTAL)
-    position = load_textposition(RESTRUCT_TEXT_POSITION)
-    document = load_document(RESTRUCT_TEXT)
+    pagesize = serializeraw.load_pageborders(RESTRUCT_PAGESIZE)
+    horizontals = serializeraw.load_horizontals(RESTRUCT_HORIZONTAL)
+    position = serializeraw.load_textpositions(RESTRUCT_TEXT_POSITION)
+    document = serializeraw.load_document(RESTRUCT_TEXT)
 
     assert pagesize
     assert horizontals
@@ -91,7 +84,7 @@ def restructured_chapter():
 
 @fixture
 def restructured_text() -> Document:
-    loaded = load_document(RESTRUCT_TEXT)
+    loaded = serializeraw.load_document(RESTRUCT_TEXT)
     return loaded
 
 
@@ -110,13 +103,13 @@ def restructured_fontstore_fixture() -> FontStore:
 
 @fixture
 def restructured_pagenumbers():
-    loaded = load_pagenumbers(tests.resources.RESTRUCT_PAGENUMBERS)
+    loaded = serializeraw.load_pagenumbers(tests.resources.RESTRUCT_PAGENUMBERS)
     return loaded
 
 
 @fixture
 def restructured_horizontals():
-    loaded = load_horizontals(RESTRUCT_HORIZONTAL)
+    loaded = serializeraw.load_horizontals(RESTRUCT_HORIZONTAL)
     return loaded
 
 
@@ -197,13 +190,13 @@ def restructured_sections_manual() -> Sections:
 
 @fixture
 def restructured_sizeandborder():
-    loaded = load_pageborders(RESTRUCT_PAGESIZE)
+    loaded = serializeraw.load_pageborders(RESTRUCT_PAGESIZE)
     return loaded
 
 
 @fixture
 def restructured_text_positions():
-    loaded = load_textposition(RESTRUCT_TEXT_POSITION)
+    loaded = serializeraw.load_textpositions(RESTRUCT_TEXT_POSITION)
     return loaded
 
 
@@ -224,7 +217,7 @@ def restructured_toc():
 
 
 def restructured_text_fixture() -> Document:
-    loaded = load_document(RESTRUCT_TEXT)
+    loaded = serializeraw.load_document(RESTRUCT_TEXT)
     return loaded
 
 
@@ -295,12 +288,12 @@ def restructured_textexample(
 def restructured_textexample_dumped(
         # pylint:disable=W0621
         restructured_textexample) -> str:
-    return dump_text(restructured_textexample)
+    return serializeraw.dump_text(restructured_textexample)
 
 
 @fixture
 def restructured_sizeandborder():
-    loaded = load_pageborders(RESTRUCT_PAGESIZE)
+    loaded = serializeraw.load_pageborders(RESTRUCT_PAGESIZE)
     return loaded
 
 
@@ -322,7 +315,7 @@ def restructured_boxed(
         horizontals=RESTRUCT_HORIZONTAL,
         pagenumbers=RESTRUCT_PAGENUMBERS,
     )
-    boxes = load_boxes(RESTRUCT_BOXES)
+    boxes = serializeraw.load_boxes(RESTRUCT_BOXES)
     result = boxed_process_content(extracted, boxes)
     return result
 

@@ -9,10 +9,7 @@
 
 import pytest
 import serializeraw
-from serializeraw import load_document
-from serializeraw import load_toc
 
-import groupme.feature.numbers
 import hey.textnavigator.navigator
 import sections.feature.chapter
 import tests.resources
@@ -61,9 +58,9 @@ def test_sections_chapter_dump_and_load_detection(document, position, toc):
 
 def extract_chapter(document, position, toc):
     # load
-    document = load_document(document)
-    position = groupme.feature.numbers.load_textposition(position)
-    tocs = load_toc(toc)
+    document = serializeraw.load_document(document)
+    position = serializeraw.load_textpositions(position)
+    tocs = serializeraw.load_toc(toc)
 
     navigators = hey.textnavigator.navigator.create_pagetextnavigators(
         text=document,

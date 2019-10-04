@@ -9,6 +9,7 @@
 
 # TODO: Move to iamraw
 
+import serializeraw
 import utila
 from iamraw import Document
 from iamraw import Font
@@ -19,7 +20,6 @@ from iamraw import Weight
 from pytest import fixture
 from pytest import mark
 
-from groupme.feature.numbers import load_textposition
 from hey.fonts.store import NO_FONT
 from hey.fonts.store import FontContentStore
 from hey.fonts.store import FontStore
@@ -148,7 +148,7 @@ def test_fontstore_from_str(
 def restructured_textnavigators(
         restructured_text: Document,  # pylint:disable=W0621
 ) -> PageTextNavigators:
-    textpositions = load_textposition(RESTRUCT_TEXT_POSITION)
+    textpositions = serializeraw.load_textpositions(RESTRUCT_TEXT_POSITION)
     navigators = create_pagetextnavigators(
         text=restructured_text,
         text_positions=textpositions,

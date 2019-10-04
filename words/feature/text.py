@@ -32,6 +32,7 @@ from itertools import zip_longest
 from re import finditer
 from typing import Tuple
 
+import serializeraw
 import utila
 from iamraw import DOT
 from iamraw import Border
@@ -41,16 +42,8 @@ from iamraw import PageNumber
 from iamraw import Paragraph
 from iamraw import Paragraphs
 from iamraw import Undefined
-from serializeraw import dump_text
-from serializeraw import load_boxes
-from serializeraw import load_document
-from serializeraw import load_headlines
-from serializeraw import load_horizontals
-from serializeraw import load_pageborders
-from serializeraw import load_pagenumbers
 
 import words.headlines
-from groupme.feature.numbers import load_textposition
 from hey.fonts.store import FontContentStore
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
@@ -105,7 +98,7 @@ def work(
         boxes=boxes,
     )
 
-    dumped = dump_text(extracted)
+    dumped = serializeraw.dump_text(extracted)
     return dumped
 
 
@@ -159,18 +152,18 @@ def prepare_input(
         boxes: str,
 ):
     """Load content from path and create required object"""
-    text = load_document(text)
-    position = load_textposition(text_position)
-    headlines = load_headlines(headlines)
-    horizontals = load_horizontals(horizontals)
-    boxes = load_boxes(boxes)
+    text = serializeraw.load_document(text)
+    position = serializeraw.load_textpositions(text_position)
+    headlines = serializeraw.load_headlines(headlines)
+    horizontals = serializeraw.load_horizontals(horizontals)
+    boxes = serializeraw.load_boxes(boxes)
     fontstore = create_fontstore(font_header, font_content)
     textnavigators = create_pagetextnavigators(
         text=text,
         text_positions=position,
     )
-    pagenumbers = load_pagenumbers(pagenumbers)
-    contentborder = load_pageborders(pagesizes)
+    pagenumbers = serializeraw.load_pagenumbers(pagenumbers)
+    contentborder = serializeraw.load_pageborders(pagesizes)
     # contentborder = [(item.border, item.page) for item in contentborder]
     border = words.headlines.contentborder(
         contentborder,
