@@ -28,8 +28,13 @@ def test_groupme_install_and_run():
 
 @pytest.mark.parametrize('cmd', [
     ['--help'],
-    ['-i', tests.resources.SIMPLE, '-o', 'output'],
+    pytest.param(
+        ['-i', tests.resources.MASTER_72PAGES, '-o', 'output'],
+        marks=pytest.mark.xfail,
+        reason='problem in toc extraction - no outlines',
+    ),
     ['-i', tests.resources.RESTRUCT, '-o', 'output'],
+    ['-i', tests.resources.SIMPLE, '-o', 'output'],
 ])
 @pytest.mark.usefixtures('testdir')
 def test_groupme_run_external(cmd, monkeypatch):
