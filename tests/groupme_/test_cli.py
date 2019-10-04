@@ -31,6 +31,7 @@ def test_groupme_install_and_run():
     ['-i', tests.resources.MASTER_72PAGES, '-o', 'output'],
     ['-i', tests.resources.RESTRUCT, '-o', 'output'],
     ['-i', tests.resources.SIMPLE, '-o', 'output'],
+    ['-i', tests.resources.PYPORTING, '-o', 'output'],
 ])
 @pytest.mark.usefixtures('testdir')
 def test_groupme_run_external(cmd, monkeypatch):
