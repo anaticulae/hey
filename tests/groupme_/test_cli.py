@@ -26,11 +26,6 @@ def test_groupme_install_and_run():
     )
 
 
-# TODO: Implement a new concept
-TODO_ERROR = ('concept of splitting with first headline does not work, when '
-              'first headline differ from table of content')
-
-
 @pytest.mark.parametrize('cmd', [
     ['--help'],
     ['-i', tests.resources.SIMPLE, '-o', 'output'],
