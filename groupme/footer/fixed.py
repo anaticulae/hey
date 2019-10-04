@@ -6,7 +6,15 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+"""
+Example:
+    docu/restructuredtext.pdf
 
+Master of the art:
+    docu/vimguide.pdf: This example contains a lot of tables, therefore
+                       we have a lot of horizontal lines which challenges
+                       the algorithm.
+"""
 import typing
 
 import iamraw
