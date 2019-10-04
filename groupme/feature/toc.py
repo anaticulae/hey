@@ -21,6 +21,7 @@ from serializeraw import load_document
 
 import groupme.toc
 import groupme.toc.regex
+import words.headlines
 from groupme.feature import RawSection
 from groupme.structure import sections_from_page
 
@@ -45,13 +46,17 @@ def toc(document: Document):
     # TODO: We need a more stable approach
     """
     utila.call('toc')
-
     result = []
     for index, page in enumerate(document.pages):
         utila.debug('page %d' % index)
         tocpage = groupme.toc.regex.parse_page(page)
         if tocpage is None:
             utila.log('empty page: %d' % index)
+            continue
+        tocpage = decide_non_level_possible_headlines(tocpage)
+
+        if not tocpage:
+            # after filtering no toc line is left
             continue
         result.extend(tocpage)
 
@@ -62,6 +67,28 @@ def toc(document: Document):
 
 Level = str
 Title = str
+
+
+def decide_non_level_possible_headlines(items):
+    """Decide level for toc lines without 1.2.3-pattern in table of content
+
+    Use a whitelist to detect which line could be a headline.
+    """
+    result = []
+    for item in items:
+        if item.level is None:
+            if not item.title in words.headlines.WHITELIST:
+                # remove items which are not part of the white list
+                utila.error(f'skip potential headline: {item.title}')
+                continue
+            item = groupme.toc.TocLine(
+                level='1',
+                title=item.title,
+                page=item.page,
+                raw=item.raw,
+            )
+        result.append(item)
+    return result
 
 
 def uniform_level(level: str) -> str:
@@ -138,12 +165,44 @@ def text_snippets(document: Document):
 
 def toc_to_yaml(tableofcontent: typing.List[groupme.toc.TocLine]) -> str:
     # TODO: MOVE TO SERIALIZERAW
+
+    def determine_level(level):
+        # 1. Einleitung
+        # 1.1 Aufbau der Arbeit
+        number = level.count('.')  # TODO: NOT VERY STABLE
+        if level.endswith('.') and len(level) > 1:
+            number = number - 1
+        return number
+
     outlines = []
     for line in tableofcontent:
-        level = 1 + line.level.count('.')  # TODO: NOT VERY STABLE
+        if not line:
+            utila.error(f'problem while processing lines: {line}')
+            continue
+        level = determine_level(line.level)
         section = Section(level=level, title=line.title)
         outlines.append(section)
-    dumped = dump_toc(create_toc(outlines))
+
+    def level_zero(items):
+        """Ensure that no toc has level zero
+
+        Problem:
+            1 Einleitung
+            1.1 Aufbau der Arbeit
+            update every level to ensure
+        """
+        zero_level = min([item.level for item in items]) == 0
+        if zero_level:
+            for item in items:
+                item.level = item.level + 1
+        return items
+
+    outlines = level_zero(outlines)
+
+    toc_ = create_toc(outlines)
+
+    dumped = dump_toc(toc_)
+
     return dumped
 
 

@@ -28,11 +28,7 @@ def test_groupme_install_and_run():
 
 @pytest.mark.parametrize('cmd', [
     ['--help'],
-    pytest.param(
-        ['-i', tests.resources.MASTER_72PAGES, '-o', 'output'],
-        marks=pytest.mark.xfail,
-        reason='problem in toc extraction - no outlines',
-    ),
+    ['-i', tests.resources.MASTER_72PAGES, '-o', 'output'],
     ['-i', tests.resources.RESTRUCT, '-o', 'output'],
     ['-i', tests.resources.SIMPLE, '-o', 'output'],
 ])
