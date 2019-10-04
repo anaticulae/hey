@@ -49,7 +49,7 @@ WORKPLAN = [
         inputs=[
             ResultFile('rawmaker', 'text_text'),
             ResultFile('rawmaker', 'text_positions'),
-            ResultFile('rawmaker', 'boxes_horizontal'),
+            ResultFile('groupme', 'footer_footerheader'),
         ],
         output=('likelihood',),
     ),

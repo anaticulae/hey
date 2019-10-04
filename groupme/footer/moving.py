@@ -17,7 +17,41 @@ Example:
 TODO: Think about header
 """
 import groupme.footer
+import hey.utils
 
 
 class MovingFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
-    pass
+
+    def result(self):
+        result = {}
+
+        for page in self.horizontals:
+            sizeandborder = hey.utils.select_page(
+                self.sizeandborders,
+                page.page,
+            )
+
+            processed = process_page(
+                page.page,
+                page.content,
+                sizeandborder,
+            )
+
+            if processed is not None:
+                result[page.page] = (None, processed)
+        return result
+
+
+BOTTOM_BORDER = 0.75  # TODO: HOLY VALUE
+
+
+def process_page(pagenumber, horizontals, sizeandborder):
+    pageheight = sizeandborder.size.height
+
+    bottom = pageheight * BOTTOM_BORDER
+    filtered = [item for item in horizontals if item.box.y1 >= bottom]
+    bottomed = max(
+        [item.box.y1 for item in filtered],
+        default=None,
+    )
+    return bottomed

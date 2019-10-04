@@ -12,6 +12,7 @@ from hey.undefined import extract_undefined
 from tests.fixtures.restruct import restructured_contentborder
 from tests.fixtures.restruct import restructured_headlines
 from tests.fixtures.restruct import restructured_horizontals
+from tests.fixtures.restruct import restructured_pagenumbers
 from tests.fixtures.restruct import restructured_sizeandborder
 from tests.fixtures.restruct import restructured_text
 from tests.fixtures.restruct import restructured_text_positions

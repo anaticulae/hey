@@ -47,9 +47,14 @@ class FooterHeaderDetectionStrategy:
     def __init__(
             self,
             horizontals: iamraw.PagesWithHorizontalList,
+            sizeandborders,
+            pagenumbers,
     ):
         assert isinstance(horizontals, typing.List), str(horizontals)
         self.horizontals = horizontals
+        self.sizeandborders = sizeandborders
+        self.pagenumbers = pagenumbers
+
         self.result__ = {}
 
         self.post_init()

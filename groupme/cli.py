@@ -39,6 +39,15 @@ WORKPLAN = [
             ResultFile(producer='rawmaker', name='text_positions'),
         ],
         output=('pagenumbers',),
+    ),
+    step(
+        'footer',
+        inputs=[
+            ResultFile(producer='rawmaker', name='boxes_horizontal'),
+            ResultFile(producer='rawmaker', name='border_pages'),
+            ResultFile(producer='groupme', name='pagenumbers_pagenumbers'),
+        ],
+        output=('footerheader',),
     )
 ]
 

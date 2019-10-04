@@ -6,9 +6,15 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+"""This strategy aims to detect footer which contains only a page number
+and distance to text before.
 
+Example:
+    docu/howto_argparse.pdf
+
+"""
 import groupme.footer
 
 
-class NoFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
+class PageNumberStrategy(groupme.footer.FooterHeaderDetectionStrategy):
     pass

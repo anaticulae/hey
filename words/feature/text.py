@@ -47,6 +47,7 @@ from serializeraw import load_document
 from serializeraw import load_headlines
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
+from serializeraw import load_pagenumbers
 
 import words.headlines
 from groupme.feature.numbers import load_textposition
@@ -68,6 +69,7 @@ def work(
         headlines: str,
         pagesizes: str,
         horizontals: str,
+        pagenumbers: str,
         boxes: str,
 ) -> str:
     """Extract text paragraphs from document
@@ -91,6 +93,7 @@ def work(
         headlines=headlines,
         pagesizes=pagesizes,
         horizontals=horizontals,
+        pagenumbers=pagenumbers,
         boxes=boxes,
     )
 
@@ -152,6 +155,7 @@ def prepare_input(
         headlines: str,
         pagesizes: str,
         horizontals: str,
+        pagenumbers: str,
         boxes: str,
 ):
     """Load content from path and create required object"""
@@ -165,9 +169,14 @@ def prepare_input(
         text=text,
         text_positions=position,
     )
+    pagenumbers = load_pagenumbers(pagenumbers)
     contentborder = load_pageborders(pagesizes)
     # contentborder = [(item.border, item.page) for item in contentborder]
-    border = words.headlines.contentborder(contentborder, horizontals)
+    border = words.headlines.contentborder(
+        contentborder,
+        horizontals,
+        pagenumbers,
+    )
     boxes = BoxedChecker(boxes)
     return border, fontstore, headlines, textnavigators, boxes
 

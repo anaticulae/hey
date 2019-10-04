@@ -21,6 +21,7 @@ from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from serializeraw import load_sections
 
+import groupme.feature.footer
 import groupme.footer
 import groupme.toc.regex
 import hey.textnavigator.navigator
@@ -37,8 +38,6 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.textnavigator.navigator import navigator_to_bounds
-
-
 """
 TODO:
     add more than one strategy to compute equal footer, header
@@ -55,6 +54,7 @@ class HeadlineExtractorStrategy(abc.ABC):
             fontstore: hey.fonts.store.FontStore,
             sizeandborder,
             horizontals,
+            pagenumbers,
             chapters,
     ):
         self.__result = {}
@@ -64,13 +64,18 @@ class HeadlineExtractorStrategy(abc.ABC):
         self.fontstore = fontstore
         self.sizeandborder = sizeandborder
         self.horizontals = horizontals
+        self.pagenumbers = pagenumbers
 
         self.chapters, self.content = prepare_chapter_and_content(
             sectionlist,
             chapters,
         )
         # bounding box of text content
-        self.border = contentborder(self.sizeandborder, self.horizontals)
+        self.border = contentborder(
+            self.sizeandborder,
+            self.horizontals,
+            self.pagenumbers,
+        )
 
         self.setup()
         self.ready = False
@@ -189,13 +194,17 @@ def prepare_chapter_and_content(sections_, chapter):
     return chapter, content
 
 
-def contentborder(sizeandborder, horizontals):
-    assert all([isinstance(item, PageSizeBorder) for item in sizeandborder])
+def contentborder(sizeandborders, horizontals, pagenumbers):
+    assert all([isinstance(item, PageSizeBorder) for item in sizeandborders])
     result = {}
-    border = groupme.feature.footer.extract_footerheader(horizontals)
-    pages = [item.page for item in sizeandborder]
+    border = groupme.feature.footer.extract_footerheader(
+        horizontals,
+        sizeandborders,
+        pagenumbers,
+    )
+    pages = [item.page for item in sizeandborders]
     for page in pages:
-        pageborder = hey.utils.select_page(sizeandborder, page).border
+        pageborder = hey.utils.select_page(sizeandborders, page).border
         footerheader = hey.utils.select_page(border, page)
         footerheader = hey.utils.select_content(footerheader, (None, None))
 

@@ -9,6 +9,8 @@
 
 from serializeraw import load_document
 from serializeraw import load_horizontals
+from serializeraw import load_pageborders
+from serializeraw import load_pagenumbers
 
 import groupme.footer.fixed
 from groupme.feature.numbers import load_textposition
@@ -19,6 +21,8 @@ from sections.feature.whitepage import dump_whitepages
 from sections.feature.whitepage import extract_whitepages
 from sections.feature.whitepage import load_whitepages
 from tests.resources import RESTRUCT_HORIZONTAL
+from tests.resources import RESTRUCT_PAGENUMBERS
+from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
 
@@ -58,9 +62,15 @@ def test_whitepages_extract():
     document = load_document(RESTRUCT_TEXT)
     position = load_textposition(RESTRUCT_TEXT_POSITION)
     horizontals = load_horizontals(RESTRUCT_HORIZONTAL)
+    sizeandborders = load_pageborders(RESTRUCT_PAGESIZE)
+    pagenumbers = load_pagenumbers(RESTRUCT_PAGENUMBERS)
 
-    # TODO: Think about how to handle this, invocation order of features?
-    headerfooters = groupme.footer.fixed.FixedFooterStrategy(horizontals)
+    # TODO: access headers and footers directly
+    headerfooters = groupme.footer.fixed.FixedFooterStrategy(
+        horizontals=horizontals,
+        sizeandborders=sizeandborders,
+        pagenumbers=pagenumbers,
+    )
     headerfooters = headerfooters.result()
     navigators = create_pagetextnavigators(
         text=document,

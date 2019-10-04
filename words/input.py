@@ -32,12 +32,17 @@ def prepare_input(
         border,
         headlines,
         horizontals,
+        pagenumbers,
 ) -> Tuple[List, Border]:
     headlines = load_headlines(headlines)
     extracted_text = load_text(extracted_text, headlines)
     horizontals = load_horizontals(horizontals)
     border = load_pageborders(border)
-    contentborder = words.headlines.contentborder(border, horizontals)
+    contentborder = words.headlines.contentborder(
+        border,
+        horizontals,
+        pagenumbers,
+    )
     text = load_document(text)
     text_position = load_textposition(text_position)
     extracted = extract_undefined(

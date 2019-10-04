@@ -17,6 +17,7 @@ from serializeraw import load_boxes
 from serializeraw import load_document
 from serializeraw import load_horizontals
 from serializeraw import load_pageborders
+from serializeraw import load_pagenumbers
 
 import tests.fixtures
 import tests.resources
@@ -42,10 +43,12 @@ from sections.feature.whitepage import work as whitepage_work
 from tests.resources import RESTRUCT_BOXES
 from tests.resources import RESTRUCT_FONT_CONTENT
 from tests.resources import RESTRUCT_FONT_HEADER
+from tests.resources import RESTRUCT_FOOTERS
 from tests.resources import RESTRUCT_HORIZONTAL
 from tests.resources import RESTRUCT_ONELINE_FONT_CONTENT
 from tests.resources import RESTRUCT_ONELINE_FONT_HEADER
 from tests.resources import RESTRUCT_ONELINE_TEXT
+from tests.resources import RESTRUCT_PAGENUMBERS
 from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
@@ -106,6 +109,12 @@ def restructured_fontstore_fixture() -> FontStore:
 
 
 @fixture
+def restructured_pagenumbers():
+    loaded = load_pagenumbers(tests.resources.RESTRUCT_PAGENUMBERS)
+    return loaded
+
+
+@fixture
 def restructured_horizontals():
     loaded = load_horizontals(RESTRUCT_HORIZONTAL)
     return loaded
@@ -135,6 +144,7 @@ def restructured_headlines():
         font_content=RESTRUCT_FONT_CONTENT,
         sizeandborder=RESTRUCT_PAGESIZE,
         horizontals=RESTRUCT_HORIZONTAL,
+        pagenumbers=tests.resources.RESTRUCT_PAGENUMBERS,
         boxes=RESTRUCT_BOXES,
     )
     return dumped
@@ -223,7 +233,7 @@ def restructured_whitepage():
     result = whitepage_work(
         RESTRUCT_TEXT,
         RESTRUCT_TEXT_POSITION,
-        RESTRUCT_HORIZONTAL,
+        footers=RESTRUCT_FOOTERS,
     )
     return result
 
@@ -247,7 +257,7 @@ def restructured_sections():
     whitepage = whitepage_work(
         RESTRUCT_TEXT,
         RESTRUCT_TEXT_POSITION,
-        RESTRUCT_HORIZONTAL,
+        footers=RESTRUCT_FOOTERS,
     )
     result = section_work(chapter, index, title, toc, whitepage)
 
@@ -267,6 +277,7 @@ def restructured_textexample(
         headlines=headlines,
         pagesizes=RESTRUCT_PAGESIZE,
         horizontals=RESTRUCT_HORIZONTAL,
+        pagenumbers=tests.resources.RESTRUCT_PAGENUMBERS,
         boxes=RESTRUCT_BOXES,
     )
     extracted = text_extract_texts(
@@ -309,6 +320,7 @@ def restructured_boxed(
         border=RESTRUCT_PAGESIZE,
         headlines=headlines,
         horizontals=RESTRUCT_HORIZONTAL,
+        pagenumbers=RESTRUCT_PAGENUMBERS,
     )
     boxes = load_boxes(RESTRUCT_BOXES)
     result = boxed_process_content(extracted, boxes)
@@ -328,10 +340,12 @@ def restructured_contentborder(
         # pylint:disable=W0621
         restructured_horizontals,
         restructured_sizeandborder,
+        restructured_pagenumbers,
 ):
     horizontals = restructured_horizontals
     border = restructured_sizeandborder
-    result = contentborder(border, horizontals)
+    pagenumbers = restructured_pagenumbers
+    result = contentborder(border, horizontals, pagenumbers)
     return result
 
 
@@ -342,6 +356,7 @@ def restructured_list_work(
 ):
     headlines = restructured_headlines
     undefined = restructured_textexample_dumped
+    pagenumbers = restructured_pagenumbers
 
     extracted, contentborder = list_prepare_input(
         undefined,
@@ -350,6 +365,7 @@ def restructured_list_work(
         headlines=headlines,
         border=RESTRUCT_PAGESIZE,
         horizontals=RESTRUCT_HORIZONTAL,
+        pagenumbers=RESTRUCT_PAGENUMBERS,
     )
     result = list_process(extracted, contentborder)
     return result

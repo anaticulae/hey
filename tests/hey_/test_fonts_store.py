@@ -30,6 +30,7 @@ from hey.textnavigator.navigator import create_pagetextnavigators
 from tests.fixtures.restruct import restructured_contentborder
 from tests.fixtures.restruct import restructured_fontstore
 from tests.fixtures.restruct import restructured_horizontals
+from tests.fixtures.restruct import restructured_pagenumbers
 from tests.fixtures.restruct import restructured_sizeandborder
 from tests.fixtures.restruct import restructured_text
 from tests.resources import RESTRUCT_PAGESIZE

@@ -35,6 +35,7 @@ from sections.feature.toc import work as toc_work
 from sections.feature.whitepage import work as whitepage_work
 from tests.resources import SIMPLE_FONT_CONTENT
 from tests.resources import SIMPLE_FONT_HEADER
+from tests.resources import SIMPLE_FOOTERS
 from tests.resources import SIMPLE_HORIZONTAL
 from tests.resources import SIMPLE_ONELINE_FONT_CONTENT
 from tests.resources import SIMPLE_ONELINE_FONT_HEADER
@@ -162,7 +163,7 @@ def simple_whitepage():
     result = whitepage_work(
         SIMPLE_TEXT,
         SIMPLE_TEXT_POSITION,
-        SIMPLE_HORIZONTAL,
+        SIMPLE_FOOTERS,
     )
     return result
 
@@ -213,7 +214,7 @@ def simple_sections():
     whitepage = whitepage_work(
         SIMPLE_TEXT,
         SIMPLE_TEXT_POSITION,
-        SIMPLE_HORIZONTAL,
+        SIMPLE_FOOTERS,
     )
     result = section_work(chapter, index, title, toc, whitepage)
     return result

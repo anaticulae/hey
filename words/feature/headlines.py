@@ -45,6 +45,7 @@ def work(
         font_content: str,
         sizeandborder: str,
         horizontals: str,
+        pagenumbers: str,
         boxes: str,
 ) -> str:
     """Extract headlines out of data
@@ -63,6 +64,7 @@ def work(
     sections = serializeraw.load_sections(sections)
     sizeandborder = serializeraw.load_pageborders(sizeandborder)
     horizontals = serializeraw.load_horizontals(horizontals)
+    pagenumbers = serializeraw.load_pagenumbers(pagenumbers)
 
     pagetextnavigators = hey.textnavigator.navigator.create_pagetextnavigators(
         text=document,
@@ -85,6 +87,7 @@ def work(
             fontstore=fontstore,
             sizeandborder=sizeandborder,
             horizontals=horizontals,
+            pagenumbers=pagenumbers,
             chapters=None,
         ).result() for strategy in strategies
     ]

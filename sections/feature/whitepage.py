@@ -27,13 +27,12 @@ from typing import List
 
 from iamraw import Document
 from serializeraw import load_document
-from serializeraw import load_horizontals
 from utila import from_raw_or_path
 from yaml import FullLoader
 from yaml import dump
 from yaml import load
 
-from groupme.feature.footer import extract_footerheader
+import groupme.footer
 from groupme.feature.numbers import load_textposition
 from hey import CACHE_SMALL
 from hey.textnavigator.navigator import END
@@ -52,15 +51,20 @@ class WhitePage(Enum):
     WHITE = 1  # page with footer and/or header
 
 
-def work(document: str, position: str, horizontals: str, pages=None) -> str:
+def work(
+        document: str,
+        position: str,
+        footers: str,
+        pages=None,
+) -> str:
     # load
     pages = tuple(pages) if pages else None
     document = load_document(document, pages=pages)
     position = load_textposition(position, pages=pages)
-    horizontals = load_horizontals(horizontals, pages=pages)
 
     # TODO: why do we used fixed footer strategy?
-    headerfooters = extract_footerheader(horizontals)
+    headerfooters = groupme.footer.load_headerfooter(footers)
+
     navigators = create_pagetextnavigators(
         text=document,
         text_positions=position,

@@ -17,10 +17,10 @@ import utila
 import groupme.footer
 import groupme.footer.fixed
 import groupme.footer.moving
-import groupme.footer.noheader
+import groupme.footer.pages
 
 
-def work(horizontals: str) -> str:
+def work(horizontals: str, sizeandborders: str, pagenumbers: str) -> str:
     """Extract footer and header area out of horizontal lines
 
     Args:
@@ -31,17 +31,26 @@ def work(horizontals: str) -> str:
     utila.call('footer')
     # load
     horizontals = serializeraw.load_horizontals(horizontals)
+    sizeandborders = serializeraw.load_pageborders(sizeandborders)
+    pagenumbers = serializeraw.load_pagenumbers(pagenumbers)
 
     # work
-    result = extract_footerheader(horizontals)
+    result = extract_footerheader(
+        horizontals,
+        sizeandborders,
+        pagenumbers,
+    )
 
     # dump
     dumped = groupme.footer.dump_headerfooter(result)
     return dumped
 
 
-def extract_footerheader(horizontals: iamraw.PagesWithHorizontalList,
-                        ) -> groupme.footer.FooterBorder:
+def extract_footerheader(
+        horizontals: iamraw.PagesWithHorizontalList,
+        sizeandborders,
+        pagenumbers,
+) -> groupme.footer.FooterBorder:
     """Extract most common header/footer of the document
 
     Args:
@@ -53,10 +62,14 @@ def extract_footerheader(horizontals: iamraw.PagesWithHorizontalList,
     strategies = [
         groupme.footer.fixed.FixedFooterStrategy,
         groupme.footer.moving.MovingFooterStrategy,
-        groupme.footer.noheader.NoFooterStrategy,
+        groupme.footer.pages.PageNumberStrategy,
     ]
     results = [
-        strategy(horizontals=horizontals,).result() for strategy in strategies
+        strategy(
+            horizontals=horizontals,
+            sizeandborders=sizeandborders,
+            pagenumbers=pagenumbers,
+        ).result() for strategy in strategies
     ]
 
     result = judge_stategy(results)

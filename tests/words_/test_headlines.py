@@ -134,6 +134,7 @@ def test_headlines_work():
         font_content=tests.resources.font_content(tests.resources.RESTRUCT),
         sizeandborder=tests.resources.sizeandborder(tests.resources.RESTRUCT),
         horizontals=tests.resources.horizontals(tests.resources.RESTRUCT),
+        pagenumbers=tests.resources.pagenumbers(tests.resources.RESTRUCT),
         boxes=tests.resources.boxed(tests.resources.RESTRUCT),
     )
     # dump some headlines
@@ -158,6 +159,7 @@ def extract_master72_headlines(root: str):
     sizeandborder = tests.resources.sizeandborder(master72)
     horizontals = tests.resources.horizontals(master72)
     boxed = tests.resources.boxed(master72)
+    pagenumbers = tests.resources.pagenumbers(master72)
 
     headlines = words.feature.headlines.work(
         sections,
@@ -167,7 +169,8 @@ def extract_master72_headlines(root: str):
         font_content,
         sizeandborder,
         horizontals,
-        boxed,
+        pagenumbers=pagenumbers,
+        boxes=boxed,
     )
     headlines_outpath = os.path.join(root, 'headlines_result.yaml')
     utila.file_create(headlines_outpath, headlines)

@@ -20,6 +20,7 @@ from hey.undefined import extract_undefined
 from tests.fixtures.restruct import restructured_contentborder
 from tests.fixtures.restruct import restructured_headlines
 from tests.fixtures.restruct import restructured_horizontals
+from tests.fixtures.restruct import restructured_pagenumbers
 from tests.fixtures.restruct import restructured_sizeandborder
 from tests.fixtures.restruct import restructured_text
 from tests.fixtures.restruct import restructured_text_positions
@@ -28,6 +29,7 @@ from tests.resources import RESTRUCT_BOXES
 from tests.resources import RESTRUCT_FONT_CONTENT
 from tests.resources import RESTRUCT_FONT_HEADER
 from tests.resources import RESTRUCT_HORIZONTAL
+from tests.resources import RESTRUCT_PAGENUMBERS
 from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
@@ -42,14 +44,15 @@ def test_words_text_work(
 ):
     headlines = restructured_headlines
     result = work(
-        text=RESTRUCT_TEXT,
-        text_position=RESTRUCT_TEXT_POSITION,
+        boxes=RESTRUCT_BOXES,
         font_content=RESTRUCT_FONT_CONTENT,
         font_header=RESTRUCT_FONT_HEADER,
         headlines=headlines,
-        pagesizes=RESTRUCT_PAGESIZE,
         horizontals=RESTRUCT_HORIZONTAL,
-        boxes=RESTRUCT_BOXES,
+        pagenumbers=RESTRUCT_PAGENUMBERS,
+        pagesizes=RESTRUCT_PAGESIZE,
+        text=RESTRUCT_TEXT,
+        text_position=RESTRUCT_TEXT_POSITION,
     )
     assert len(result) > 6000, str(result)
 
@@ -184,6 +187,7 @@ def test_words_extract_texts_page_x(
         headlines=headlines,
         pagesizes=RESTRUCT_PAGESIZE,
         horizontals=RESTRUCT_HORIZONTAL,
+        pagenumbers=RESTRUCT_PAGENUMBERS,
         boxes=RESTRUCT_BOXES,
     )
 
