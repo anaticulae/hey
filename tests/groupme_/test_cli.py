@@ -7,27 +7,22 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from pytest import hookimpl
-from pytest import mark
-from utila import install_and_run
-from utila.test import skip_nonvirtual
+import pytest
+import utila
 
-from groupme import PACKAGE
-from groupme import PROCESS
-from groupme import ROOT
-from tests.groupme_ import run_success
-from tests.resources import RESTRUCT
-from tests.resources import SIMPLE
+import groupme
+import tests.groupme_
+import tests.resources
 
 
-@skip_nonvirtual
-@hookimpl(tryfirst=True)
-def test_install_and_run_groupme():
+@utila.skip_nonvirtual
+@pytest.hookimpl(tryfirst=True)
+def test_groupme_install_and_run():
     """Install groupme and run groupme --help to ensure basic function"""
-    install_and_run(
-        ROOT,
-        PACKAGE,
-        PROCESS,
+    utila.install_and_run(
+        groupme.ROOT,
+        groupme.PACKAGE,
+        groupme.PROCESS,
     )
 
 
@@ -36,11 +31,12 @@ TODO_ERROR = ('concept of splitting with first headline does not work, when '
               'first headline differ from table of content')
 
 
-@mark.parametrize('command', [
+@pytest.mark.parametrize('cmd', [
     ['--help'],
-    ['-i', SIMPLE, '-o', 'output'],
-    ['-i', RESTRUCT, '-o', 'output'],
+    ['-i', tests.resources.SIMPLE, '-o', 'output'],
+    ['-i', tests.resources.RESTRUCT, '-o', 'output'],
 ])
-def test_run_groupme(command, testdir, monkeypatch):  #pylint: disable=W0613
+@pytest.mark.usefixtures('testdir')
+def test_groupme_run_external(cmd, monkeypatch):
     """Run help and version and format command to reach basic test coverage"""
-    run_success(command, monkeypatch=monkeypatch)
+    tests.groupme_.run_success(cmd, monkeypatch=monkeypatch)
