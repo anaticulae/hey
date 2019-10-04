@@ -147,6 +147,10 @@ def toc_to_yaml(tableofcontent: typing.List[groupme.toc.TocLine]) -> str:
     return dumped
 
 
+def is_dotted_line(line: str):
+    return line.count(' .') > 2 or line.count('...') > 2
+
+
 def toc_from_page(page: Page) -> List[RawSection]:
     """Extract headlines from page"""
     page_sections = sections_from_page(page)
@@ -163,7 +167,7 @@ def toc_from_page(page: Page) -> List[RawSection]:
         if item.title.count(utila.NEWLINE) > 1:
             continue
 
-        if item.title.count(' .') > 2 or item.title.count('...') > 2:
+        if is_dotted_line(item.title):
             result.append(index)
             continue
 

@@ -82,7 +82,7 @@ def filter_headlines(items: iamraw.PagesHeadlineList):
             if parsed:
                 chapter_headlines.append(headline)
                 continue
-            if headline.text in WHITELIST:
+            if headline.text in words.headlines.WHITELIST:
                 chapter_headlines.append(headline)
                 continue
         result[chapter].extend(chapter_headlines)
@@ -117,9 +117,3 @@ def isdotted(items):
     percent = len(dotted) / len(flat)
 
     return percent >= MIN_DOTTED_COUNT
-
-
-WHITELIST = set([
-    'Literaturverzeichnis',
-    'Eidesstattliche Erklärung',
-])
