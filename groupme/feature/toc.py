@@ -21,21 +21,24 @@ from serializeraw import load_document
 
 import groupme.toc
 import groupme.toc.regex
+import groupme.utils
 import words.headlines
 from groupme.feature import RawSection
 from groupme.structure import sections_from_page
-
-
 """
 Outdated approaches:
 
   - collect title and check if sequence exists again in the document
 """
 
+MIN_TOCS_PER_PAGE = 0.2  # TODO: HOLY VALUE
+
 
 def work(documentpath: str) -> str:
     document = load_document(documentpath)
+
     result = toc(document)
+
     dumped = toc_to_yaml(result)
     return dumped
 
@@ -44,11 +47,17 @@ def toc(document: Document):
     """
     # TODO: Include page distance!
     # TODO: We need a more stable approach
+
+    Appraoch:
+        1. Extract potential headlines due groupme.toc.regex.parse_page
+        2. Use words.headlines.WHITELIST to judge headlines without level
+        3. Skip pages with to few extracted headlines `MIN_TOCS_PER_PAGE`
     """
-    utila.call('toc')
+    utila.call('toc')  # TODO: replace with logging decorator
     result = []
     for index, page in enumerate(document.pages):
         utila.debug('page %d' % index)
+
         tocpage = groupme.toc.regex.parse_page(page)
         if tocpage is None:
             utila.log('empty page: %d' % index)
@@ -57,6 +66,13 @@ def toc(document: Document):
 
         if not tocpage:
             # after filtering no toc line is left
+            continue
+
+        pageslines = groupme.utils.count_textlines(page, remove_empty=True)
+        toc_percent = len(tocpage) / pageslines
+        if toc_percent < MIN_TOCS_PER_PAGE:
+            # avoid missdetection in random pages if only few lines are
+            # missdetected as toc line.
             continue
         result.extend(tocpage)
 
@@ -191,7 +207,7 @@ def toc_to_yaml(tableofcontent: typing.List[groupme.toc.TocLine]) -> str:
             1.1 Aufbau der Arbeit
             update every level to ensure
         """
-        zero_level = min([item.level for item in items]) == 0
+        zero_level = min([item.level for item in items], default=utila.INF) == 0
         if zero_level:
             for item in items:
                 item.level = item.level + 1
