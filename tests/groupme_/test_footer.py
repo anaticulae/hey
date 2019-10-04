@@ -87,3 +87,36 @@ def test_groupme_footer_footerheader_detectionstategy(
         pagenumbers=pagenumbers,
     )
     strategy.process()
+
+
+@pytest.mark.parametrize('document, pages', [
+    (tests.resources.MASTER_72PAGES, tuple(range(20))),
+])
+def test_groupme_footer_moving(document, pages):
+    horizontallines = serializeraw.load_horizontals(
+        tests.resources.horizontals(document),
+        pages,
+    )
+    sizeandborder = serializeraw.load_pageborders(
+        tests.resources.sizeandborder(document),
+        pages,
+    )
+
+    pagenumbers = serializeraw.load_pagenumbers(
+        tests.resources.pagenumbers(document),
+        pages,
+    )
+
+    strategy = groupme.footer.moving.MovingFooterStrategy(
+        horizontallines,
+        sizeandborder,
+        pagenumbers,
+    )
+    result = strategy.result()
+
+    expected = [3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    assert len(result) == len(expected), result
+
+    for footer in expected:
+        extracted_footer = hey.utils.select_page(result, footer)
+        assert extracted_footer[1], f'{footer}'
