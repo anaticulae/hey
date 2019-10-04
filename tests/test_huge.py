@@ -101,32 +101,47 @@ def rawresult(request, tmpdir):
 
 
 @pytest.fixture
-def sections_result(rawresult):  # pylint:disable=W0621
+def groupme(rawresult):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath = rawresult
+
+    groupmepath = os.path.join(tmpdir, 'groupme')
+    os.makedirs(groupmepath)
+
+    runme = 'groupme -i %s -i %s -o %s --all'
+    runme = runme % (generalpath, tocpath, groupmepath)
+
+    completed = utila.run(runme)
+    assert completed.returncode == utila.SUCCESS, str(completed)
+    return (tmpdir, tocpath, generalpath, groupmepath)
+
+
+@pytest.fixture
+def sections_result(groupme):  # pylint:disable=W0621
+    tmpdir, tocpath, generalpath, groupmepath = groupme
 
     sectionspath = os.path.join(tmpdir, 'sections')
     os.makedirs(sectionspath)
 
-    runme = 'sections -i %s -i %s -o %s --all'
-    runme = runme % (generalpath, tocpath, sectionspath)
+    runme = 'sections -i %s -i %s -i %s -o %s --all'
+    runme = runme % (generalpath, tocpath, groupmepath, sectionspath)
 
     completed = utila.run(runme)
     if completed.returncode != utila.SUCCESS:
         utila.log(completed.stdout)
         utila.log(completed.stderr)
     assert completed.returncode == utila.SUCCESS
-    return (tmpdir, tocpath, generalpath, sectionspath)
+    return (tmpdir, tocpath, generalpath, sectionspath, groupmepath)
 
 
 @pytest.fixture
 def words_result(sections_result):  # pylint:disable=W0621
-    tmpdir, tocpath, generalpath, sectionspath = sections_result
+    tmpdir, tocpath, generalpath, sectionspath, groupmepath = sections_result
 
     wordspath = os.path.join(tmpdir, 'words')
     os.makedirs(wordspath)
 
-    runme = 'words -i %s -i %s -o %s --all'
-    runme = runme % (generalpath, sectionspath, wordspath)
+    runme = 'words -i %s -i %s -i %s -o %s --all'
+    runme = runme % (generalpath, sectionspath, groupmepath, wordspath)
 
     completed = utila.run(runme)
     if completed.returncode:
@@ -143,20 +158,6 @@ def words_result(sections_result):  # pylint:disable=W0621
         assert len(content) > expected_length, content
 
     return (tmpdir, tocpath, generalpath, sectionspath, wordspath)
-
-
-@pytest.fixture
-def groupme(rawresult):  # pylint:disable=W0621
-    tmpdir, tocpath, generalpath = rawresult
-
-    groupmepath = os.path.join(tmpdir, 'groupme')
-    os.makedirs(groupmepath)
-
-    runme = 'groupme -i %s -i %s -o %s --all'
-    runme = runme % (generalpath, tocpath, groupmepath)
-
-    completed = utila.run(runme)
-    assert completed.returncode == utila.SUCCESS, str(completed)
 
 
 @utila.skip_longrun
