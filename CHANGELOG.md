@@ -2,6 +2,38 @@
 
 Every noteable change is logged here.
 
+## v1.8.0
+
+### Feature
+
+* improve chapter extractor (86c175517928)
+* reduce miss detection of toc lines (282ec3648d66)
+* add method to count textual lines on page (33323c9a0665)
+* add moving footer strategy (ed959d05aeee)
+* add --test=generate to generate test resources only (ccb3d58c8638)
+* add footer/header detection strategy management (b1a13e185f0c)
+* add `DocumentObjectType` to determine object type on page position (dfc69228f4e7)
+* expose result names of words processing to public API (b9868bd5e963)
+* split strategy into 2 different approaches (10c66afa6fd5)
+* extend headline parser (6e3b90c4fefa)
+* add minimal required headlines to determine footer (e5688301bced)
+* improve chapter detector (8993ba473018)
+* improve robustness of toc regex parser (2e955765c017)
+
+### Fix
+
+* reduce log level of error in toc extractor (051bd9f03a50)
+* handle non-level detection (da60c4367442)
+* fix bounding box names (509c219cb5b2)
+* ensure that text distance is positive (55506f7c9d0d)
+* improve index detector (582e2d9f46c1)
+* fix chapter extractor (0754c92919aa)
+
+### Documentation
+
+* add two proposal to describe gradient feature (92b889de0bba)
+* add description to footer extraction strategies (8c85badd671c)
+
 ## v1.7.0
 
 ### Feature
