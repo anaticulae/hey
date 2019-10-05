@@ -7,18 +7,21 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from re import match
-from typing import List
+import re
+import typing
 
 from iamraw import Document
 from iamraw import Page
-from utila import NEWLINE
 
+import groupme.feature
+import groupme.feature.toc
 from groupme.feature import HEADLINE
 from groupme.feature import create_raw
-from groupme.feature import format_title
 
 SMALL_HEADER = 300
+
+# TODO: WE NEED A STRATEGY APPROACH, split different types of
+# headlines/table of contents.
 
 
 def header(document: Document) -> str:
@@ -27,31 +30,63 @@ def header(document: Document) -> str:
     The header starts at the top of the document and ends with the start of the
     content. The start of the content is the first headline.
     """
-    from groupme.feature.toc import toc
-    tableofcontent = toc(document)
+    tableofcontent = groupme.feature.toc.toc(document)
     if not tableofcontent:
         # No toc in document
         return None
     # Split content from header due first headline
     # TODO: This is very dirty here
     level, title = tableofcontent[0][0], tableofcontent[0][1]
-    splitter = title + NEWLINE
-    first_headline = format_title(tableofcontent[0])
-    splitted = document.text.rsplit(splitter, 1)
+    text = document.text
 
-    # TODO: We need a better algorithmn
-    # Detect toc-page and split after
+    def split_header(text, title, level):
+        splitted = split_headline(text, title, level)
+
+        if len(splitted) == 3:
+            title_ = groupme.feature.format_title(tableofcontent[0])
+            splitted = [splitted[0] + title_ + splitted[1], splitted[2]]
+
+        assert len(splitted) == 2, 'wrong split'
+        return splitted
+
+    splitted = split_header(text, title, level)
+
+    # TODO: We need a better algorithm/ strategy approach
+    # Splitting with level splits sometimes in the table of content. This
+    # happens, if the headlines in the document have a different style
+    # than in the table of content. For example when using
+    # "Chapter\nHeadline" instead of "1.2.3 Headline". Therefore we trying
+    # to split header without level marker.
+    header_tosmall = len(splitted[0]) < SMALL_HEADER
+    if header_tosmall:
+        # try without `headline level` again
+        splitted = split_header(text, title, '')
+
     assert len(splitted[0]) > SMALL_HEADER, splitted[0]  # front page, toc etc.
     return splitted[0]
 
 
 def body(document: Document) -> str:
     header_ = header(document)
-    result = document.text.split(header_)[1]
+    text = document.text
+    result = text.split(header_)[1]
     return result
 
 
-def sections(document: Document) -> List[str]:
+def split_headline(text, title, level):
+    level = level.replace('.', r'\.')
+    headline = re.compile(
+        '^%s[ ]{0,3}%s[ ]{0,3}$' % (level, title),
+        re.MULTILINE,
+    )
+    splitted = re.split(
+        headline,
+        text,
+    )
+    return splitted
+
+
+def sections(document: Document) -> typing.List[str]:
     """Determine `sections` from `Document`"""
     result = []
     for page in document.pages:
@@ -59,7 +94,7 @@ def sections(document: Document) -> List[str]:
     return result
 
 
-def sections_from_page(page: Page) -> List[str]:
+def sections_from_page(page: Page) -> typing.List[str]:
     """Parse headline due regex `HEADLINE` from `Page
 
     Args:
@@ -99,7 +134,7 @@ def parse_headline(line: str):
         (level, title): return potential level/depth and title of headline
     """
     assert isinstance(line, str)
-    matched = match(HEADLINE, line)
+    matched = re.match(HEADLINE, line)
     if not matched:
         return None
     level = matched['level']

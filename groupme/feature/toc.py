@@ -19,12 +19,12 @@ from iamraw import create_toc
 from serializeraw import dump_toc
 from serializeraw import load_document
 
+import groupme.structure
 import groupme.toc
 import groupme.toc.regex
 import groupme.utils
 import words.headlines
 from groupme.feature import RawSection
-from groupme.structure import sections_from_page
 """
 Outdated approaches:
 
@@ -228,7 +228,7 @@ def is_dotted_line(line: str):
 
 def toc_from_page(page: Page) -> List[RawSection]:
     """Extract headlines from page"""
-    page_sections = sections_from_page(page)
+    page_sections = groupme.structure.sections_from_page(page)
     if not page_sections:
         # Empty page
         return None

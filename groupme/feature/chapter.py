@@ -22,9 +22,8 @@ from utila import call
 from utila import debug
 from utila import error
 
-from groupme.feature import format_title
-from groupme.feature.toc import toc
-from groupme.structure import body
+import groupme.feature.toc
+import groupme.structure
 
 
 def work(documentpath: str) -> str:
@@ -36,14 +35,18 @@ def work(documentpath: str) -> str:
 
 
 def chapters(document: Document):
-    """Extract chapter structure from document path"""
+    """Extract chapter structure from document path
+
+    TODO: Chapter content is one level splitted
+    """
     call('chapter')
-    tableofcontent = toc(document)
+    tableofcontent = groupme.feature.toc.toc(document)
     if not tableofcontent:
         # this appraoch does not work without headlines, we can not split by
         # headline if there are no headlines.
         return []
-    content = body(document)
+
+    content = groupme.structure.body(document)
     result = []
 
     def log_error(headline):
@@ -52,14 +55,20 @@ def chapters(document: Document):
     for title in tableofcontent[1:]:  # skip the first one
         debug('process `%s`' % str(title))
         _level, _title = title.level, title.title
-        headline = format_title(title)
-        current_chapter, headline, rest = content.partition(headline)
-        if not headline:
-            # split with chapter level was not successfull, try without level
-            simple_splitter = _title + NEWLINE
-            current_chapter, headline, rest = content.partition(simple_splitter)
 
-        content = headline + rest
+        splitted = groupme.structure.split_headline(content, _title, _level)
+        current_chapter = None
+        if len(splitted) == 2:
+            current_chapter, rest = splitted
+            current_chapter = _level + ' ' + _title + NEWLINE + current_chapter
+        else:
+            splitted = groupme.structure.split_headline(content, _title, '')
+            if len(splitted) == 2:
+                current_chapter, rest = splitted
+                current_chapter = _level + ' ' + _title + NEWLINE + current_chapter
+            else:
+                current_chapter = splitted[0]
+        content = rest
         # TODO, WORKAROUND: there is a problem to split some chapter by
         # headlines. Improve this later.
         if not current_chapter:
@@ -68,9 +77,11 @@ def chapters(document: Document):
                 'title': _title,
                 'content': '',
             })
-            log_error(headline)
+            log_error(_title)
             continue
-        _title, _content = current_chapter.split(NEWLINE, maxsplit=1)
+        if NEWLINE not in current_chapter.strip():
+            continue
+        _title, _content = current_chapter.strip().split(NEWLINE, maxsplit=1)
         result.append({
             'level': _level,
             'title': _title,
@@ -82,7 +93,7 @@ def chapters(document: Document):
         log_error('last headline')
         return result
     _title, _content = content.split(NEWLINE, maxsplit=1)
-    _level, _title = _title.split(maxsplit=1)
+    _level, _title = _title.split(maxsplit=1) if _title.strip() else '', ''
     result.append({
         'level': _level,
         'title': _title,
