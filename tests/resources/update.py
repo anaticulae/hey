@@ -60,15 +60,18 @@ GROUPME_AND_SECTION = [
 def extract_examples():
     if os.path.exists(tests.resources.GENERATED):
         return
-    os.makedirs(tests.resources.GENERATED)
 
     todo = []
     for pdf, out in RAWMAKER:
+        assert pdf.endswith('.pdf') and os.path.exists(pdf), pdf
         todo.extend(create_todo_rawmaker(pdf, out))
 
     for path in GROUPME_AND_SECTION:
         todo.extend(create_todo_groupme(path))
         todo.extend(create_todo_sections(path))
+
+    # ensure that generation directory exists
+    os.makedirs(tests.resources.GENERATED)
 
     for (executable, inpath, outpath, configuration) in todo:
         cmd = f'{executable} -i {inpath} -o {outpath} {configuration}'
