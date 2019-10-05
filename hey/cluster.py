@@ -6,24 +6,30 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import utila
 
-from itertools import chain
 
-
-def common_items(collected, max_difference: float):
+def common_items(collected, max_difference: float = 10.0, min_elements=2):
     """Cluster items due `same_area_cluster`
 
     Args:
         collected:
+        [
+            [(bounds,item), (bounds,item), (bounds,item)],
+            [(bounds,item), (bounds,item)]
+            [(bounds,item), (bounds,item), (bounds,item), (bounds,item)]
+        ]
         max_difference(float): upper bound of differences which is accepted
                                by classificator as same item.
     """
-    flat = list(chain.from_iterable(collected))
+    flat = utila.flatten(collected)
+    assert all([isinstance(item, tuple) for item in flat]), flat
+
     clusters = same_area_cluster(
         flat,
         max_difference=max_difference,
+        min_elements=min_elements,
     )
-
     result = [page_from_cluster(cluster, collected) for cluster in clusters]
     return result
 
@@ -54,10 +60,14 @@ def three_side_cluster_equal(todo):
 
         return matcher(candidat, clusteritem)
 
-    return determine_cluster(todo, classificator)
+    return determine_cluster(todo, classificator, min_elements=2)
 
 
-def same_area_cluster(todo, max_difference=10.0):
+def same_area_cluster(
+        todo,
+        max_difference: float = 10.0,
+        min_elements: int = 2,
+):
 
     def classificator(candidat, clusteritem, max_difference=max_difference):
         assert max_difference > 0.0
@@ -85,10 +95,10 @@ def same_area_cluster(todo, max_difference=10.0):
 
         return matcher(candidat, clusteritem)
 
-    return determine_cluster(todo, classificator)
+    return determine_cluster(todo, classificator, min_elements=min_elements)
 
 
-def determine_cluster(todo, classificator):
+def determine_cluster(todo, classificator, min_elements=2):
     import warnings
     warnings.warn('Remove after upgrading to utila 0.6.3', DeprecationWarning)
     if not todo:
@@ -127,11 +137,13 @@ def determine_cluster(todo, classificator):
     before = set()
     while True:
         result = clusterme(result)
+        if len(result) == 1:
+            # all elements are in the same group
+            break
         hashid = hash(str(result))
         if hashid in before:
             break
         before.add(hashid)
-
     # A cluster must have at least 2 items
-    clusters = [item for item in result if len(item) > 1]
+    clusters = [item for item in result if len(item) >= min_elements]
     return clusters
