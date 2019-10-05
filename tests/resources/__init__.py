@@ -13,6 +13,7 @@ import hey
 RESOURCES = os.path.join(hey.ROOT, 'tests/resources')
 DOCU = os.path.join(RESOURCES, 'docu')
 MASTER = os.path.join(RESOURCES, 'master')
+TECHNICAL = os.path.join(RESOURCES, 'technical')
 
 BOXES_BOXES = 'rawmaker__boxes_boxes.yaml'
 FONTS_CONTENT = 'rawmaker__fonts_content.yaml'
@@ -92,11 +93,16 @@ PYPORTING_CHAPTER_COUNT = 6
 PYPORTING_PDF = os.path.join(DOCU, 'porting_extension_modules.pdf')
 
 MASTER_72PAGES = os.path.join(GENERATED, 'page_72_noimages_toc')
+MASTER_72PAGES_PDF = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
+
+TECHNICAL_24PAGES = os.path.join(GENERATED, 'technical_24pages')
+TECHNICAL_24PAGES_PDF = os.path.join(TECHNICAL, 'page_24_color_figures_images.pdf') # yapf:disable
+TECHNICAL_24PAGES_PAGE_COUNT = 24
 
 HOWTO_ARGPARSE = os.path.join(GENERATED, 'howto_argparse')
 HOWTO_ARGPARSE_PDF = os.path.join(DOCU, 'howto_argparse.pdf')
+HOWTO_ARGPARSE_PAGE_COUNT = 14
 
-MASTER_72PAGES_PDF = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
 MASTER_78PAGES_PDF = os.path.join(MASTER, 'page_78_images_toc.pdf')
 
 REQURIED_RESOURCES = [
@@ -127,10 +133,10 @@ REQURIED_RESOURCES = [
     RESTRUCT_ONELINE_FONT_HEADER,
     RESTRUCT_ONELINE_POSITION,
     RESTRUCT_ONELINE_TEXT,
+    RESTRUCT_PAGENUMBERS,
     RESTRUCT_PAGESIZE,
     RESTRUCT_PDF,
     RESTRUCT_TEXT,
-    RESTRUCT_PAGENUMBERS,
     RESTRUCT_TEXT_POSITION,
     RESTRUCT_TOC,
     SIMPLE,
@@ -146,6 +152,8 @@ REQURIED_RESOURCES = [
     SIMPLE_TEXT,
     SIMPLE_TEXT_POSITION,
     SIMPLE_TOC,
+    TECHNICAL_24PAGES,
+    TECHNICAL_24PAGES_PDF,
 ]
 
 

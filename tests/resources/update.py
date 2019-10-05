@@ -46,6 +46,10 @@ RAWMAKER = [
         tests.resources.MASTER_72PAGES_PDF,
         tests.resources.MASTER_72PAGES,
     ),
+    (
+        tests.resources.TECHNICAL_24PAGES_PDF,
+        tests.resources.TECHNICAL_24PAGES,
+    ),
 ]
 
 GROUPME_AND_SECTION = [
@@ -54,6 +58,7 @@ GROUPME_AND_SECTION = [
     tests.resources.PYPORTING,
     tests.resources.RESTRUCT,
     tests.resources.SIMPLE,
+    tests.resources.TECHNICAL_24PAGES,
 ]
 
 

@@ -11,6 +11,7 @@ and distance to text before.
 
 Example:
     docu/howto_argparse.pdf
+    technical/page_24_color_figures_images.pdf
 
 """
 import groupme.footer
