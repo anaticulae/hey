@@ -12,8 +12,10 @@ Extract footer out of document.
 import typing
 
 import pytest
+import serializeraw
 
 import groupme.feature.numbers
+import tests.resources
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured
 from tests.fixtures.restruct import restructured_navigator
@@ -41,9 +43,11 @@ def test_header_simple(simple):  #pylint:disable=W0621
     assert not result
 
 
-@pytest.mark.fail(reason='new implementation removes non numeric numbers')
 def test_footer_restructured(restructured_navigator):  #pylint:disable=W0621
-    result = groupme.feature.numbers.footer(restructured_navigator)
+    result = groupme.feature.numbers.footer(
+        restructured_navigator,
+        numbers_only=False,
+    )
 
     # cluster with page numbers
     # 2 Pages and some header text lines
@@ -107,3 +111,27 @@ def print_cluster(clusters):
         print()
         for item in cluster:
             print(item)
+
+
+@pytest.mark.parametrize('resource', [
+    pytest.param(tests.resources.MASTER_72PAGES, id='master72pages'),
+])
+def test_groupme_numbers_work(resource):
+    text = tests.resources.text(resource)
+    text_positions = tests.resources.text_positions(resource)
+
+    result = groupme.feature.numbers.work(text, text_positions)
+    result = serializeraw.load_pagenumbers(result)
+
+    assert isinstance(result, list), f'wrong page detection type {type(result)}'
+    assert len(result) == 69
+
+
+@pytest.mark.parametrize('nopagenumber', ['', 'a'])
+def test_groumpe_numbers_is_pagenumber_negative(nopagenumber):
+    assert not groupme.feature.numbers.is_pagenumber(nopagenumber)
+
+
+@pytest.mark.parametrize('pagenumber', ['xxc', '10'])
+def test_groumpe_numbers_is_pagenumber(pagenumber):
+    assert groupme.feature.numbers.is_pagenumber(pagenumber)

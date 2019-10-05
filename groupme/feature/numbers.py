@@ -68,20 +68,57 @@ def header(navigators):
     return common
 
 
-def footer(navigators):
+def footer(
+        navigators,
+        *,
+        numbers_only=True,
+        remove_empty=True,
+):
+    """Detect similar elements in footer area which are duplicated on
+    different pages.
+
+    Args:
+        navigators:
+        numbers_only(bool): if True, remove all non numeric/romanic elements
+        remove_empty(bool): remove empty elements, e.g. whitespaces
+    """
     collected = [page.after(BOTTOM_BORDER) for page in navigators]
-    common = common_items(collected, max_difference=BOTTOM_MAX_DIFFERENCE)
+    filtered = []
+    for page in collected:
+        pagecontent = []
+        for item in page:
+            if remove_empty and not item[1].strip():
+                # filter empty items
+                continue
+            if numbers_only and not is_pagenumber(item[1]):
+                # remove non numeric items
+                continue
+            pagecontent.append(item)
+        filtered.append(pagecontent)
+
+    common = common_items(filtered, max_difference=BOTTOM_MAX_DIFFERENCE)
     return common
 
 
-def is_pagenumber(item: str) -> bool:
-    item = str(item).lower()
-    if item.isnumeric():
+def is_pagenumber(number: str) -> bool:
+    """Determine if passed `number` is a page number. Empty `number` is
+    not a page number.
+
+    Args:
+        number(str):
+    Returns:
+        True if roman or numeric number is given
+    """
+    number = str(number).strip()
+    if not number:
+        return False
+    if number.isnumeric():
         return True
+    number = number.lower()
     # TODO: improve this method, first try
     # 'i ii iii iv v vi vii viii ix xi'
     roman = {'i', 'v', 'x', 'c', 'l'}
-    isroman = all([test in roman for test in item])
+    isroman = all([test in roman for test in number])
     if isroman:
         return True
     return False
