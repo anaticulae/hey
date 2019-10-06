@@ -93,6 +93,10 @@ def footer(
             if numbers_only and not is_pagenumber(item[1]):
                 # remove non numeric items
                 continue
+            # support -1-, -2-, ....
+            clean_number = item[1].replace('-', '', 2).strip()
+            item = (item[0], clean_number)
+
             pagecontent.append(item)
         filtered.append(pagecontent)
 
@@ -104,23 +108,30 @@ def is_pagenumber(number: str) -> bool:
     """Determine if passed `number` is a page number. Empty `number` is
     not a page number.
 
+    Examples:
+        1, 2, 3, 4,
+        -1-, -2-, -3-
+        i, ii, iii, iiv, iv, v
+
     Args:
-        number(str):
+        number(str): string to check if it is a number
     Returns:
         True if roman or numeric number is given
     """
-    number = str(number).strip()
+    # - 1 -, -2-,
+    number = str(number).replace('-', '', 2)
+    number = number.strip()
     if not number:
         return False
     if number.isnumeric():
         return True
     number = number.lower()
-    # TODO: improve this method, first try
     # 'i ii iii iv v vi vii viii ix xi'
     roman = {'i', 'v', 'x', 'c', 'l'}
     isroman = all([test in roman for test in number])
     if isroman:
         return True
+
     return False
 
 

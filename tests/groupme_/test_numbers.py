@@ -115,6 +115,7 @@ def print_cluster(clusters):
 
 @pytest.mark.parametrize('resource, expected_numbers', [
     pytest.param(tests.resources.MASTER_72PAGES, 69, id='master72pages'),
+    pytest.param(tests.resources.TECHNICAL_24PAGES, 23, id='technical24pages'),
 ])
 def test_groupme_numbers_work(resource, expected_numbers):
     text = tests.resources.text(resource)
