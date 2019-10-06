@@ -9,6 +9,10 @@
 
 import iamraw
 import iamraw.sections
+import serializeraw
+
+import hey.textnavigator.navigator
+import tests.resources
 
 
 def count_chapter(items):
@@ -33,3 +37,25 @@ def assert_chapter_count(chapter, expected):
     msg = (f'{count} != {expected}\n'
            'check chapter detector and min feature value')
     assert count == expected, msg + str(chapter)
+
+
+def create_pagetextnavigators(path, pages=None):
+    text = tests.resources.text(path)
+    text = serializeraw.load_document(
+        text,
+        pages=pages,
+    )
+    assert text
+
+    text_positions = tests.resources.text_positions(path)
+    text_positions = serializeraw.load_textpositions(
+        text_positions,
+        pages=pages,
+    )
+    assert text_positions
+
+    navigators = hey.textnavigator.navigator.create_pagetextnavigators(
+        text=text,
+        text_positions=text_positions,
+    )
+    return navigators
