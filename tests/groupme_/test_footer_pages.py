@@ -20,13 +20,13 @@ import tests.resources
         tests.resources.HOWTO_ARGPARSE_PAGE_COUNT,
         tests.resources.HOWTO_ARGPARSE_PAGE_COUNT,
         id='howtoargparse',
-        marks=pytest.mark.xfail(reason='not implemented yet')),
+    ),
     pytest.param(
         tests.resources.TECHNICAL_24PAGES,
         tests.resources.TECHNICAL_24PAGES_PAGE_COUNT,
         tests.resources.TECHNICAL_24PAGES_PAGE_COUNT - 1,
         id='technical24pages',
-        marks=pytest.mark.xfail(reason='not implemented yet')),
+    ),
 ])
 def test_footer_pagenumber_strategy(
         document,
@@ -42,16 +42,16 @@ def test_footer_pagenumber_strategy(
         tests.resources.sizeandborder(document),
         pages,
     )
-
     pagenumbers = serializeraw.load_pagenumbers(
         tests.resources.pagenumbers(document),
         pages,
     )
+
     strategy = groupme.footer.pages.PageNumberStrategy(
         horizontallines,
         sizeandborder,
         pagenumbers,
     )
     result = strategy.result()
-    assert result, result
+    assert result is not None, result
     assert len(result) == expected_pagenumbers, result

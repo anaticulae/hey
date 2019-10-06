@@ -31,6 +31,7 @@ def prepare_input(
     extracted_text = serializeraw.load_text(extracted_text, headlines)
     horizontals = serializeraw.load_horizontals(horizontals)
     border = serializeraw.load_pageborders(border)
+    pagenumbers = serializeraw.load_pagenumbers(pagenumbers)
     contentborder = words.headlines.contentborder(
         border,
         horizontals,
