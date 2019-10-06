@@ -113,10 +113,10 @@ def print_cluster(clusters):
             print(item)
 
 
-@pytest.mark.parametrize('resource', [
-    pytest.param(tests.resources.MASTER_72PAGES, id='master72pages'),
+@pytest.mark.parametrize('resource, expected_numbers', [
+    pytest.param(tests.resources.MASTER_72PAGES, 69, id='master72pages'),
 ])
-def test_groupme_numbers_work(resource):
+def test_groupme_numbers_work(resource, expected_numbers):
     text = tests.resources.text(resource)
     text_positions = tests.resources.text_positions(resource)
 
@@ -124,7 +124,7 @@ def test_groupme_numbers_work(resource):
     result = serializeraw.load_pagenumbers(result)
 
     assert isinstance(result, list), f'wrong page detection type {type(result)}'
-    assert len(result) == 69
+    assert len(result) == expected_numbers
 
 
 @pytest.mark.parametrize('nopagenumber', ['', 'a'])
