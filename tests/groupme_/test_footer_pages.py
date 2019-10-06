@@ -47,10 +47,16 @@ def test_footer_pagenumber_strategy(
         pages,
     )
 
+    pagetextnavigators = tests.fixtures.create_pagetextnavigators(
+        document,
+        pages,
+    )
+
     strategy = groupme.footer.pages.PageNumberStrategy(
         horizontallines,
         sizeandborder,
         pagenumbers,
+        pagetextnavigators=pagetextnavigators,
     )
     result = strategy.result()
     assert result is not None, result

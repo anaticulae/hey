@@ -18,9 +18,17 @@ import groupme.footer
 import groupme.footer.fixed
 import groupme.footer.moving
 import groupme.footer.pages
+import hey.textnavigator
 
 
-def work(horizontals: str, sizeandborders: str, pagenumbers: str) -> str:
+def work(
+        text: str,
+        text_positions: str,
+        horizontals: str,
+        sizeandborders: str,
+        pagenumbers: str,
+        pages=None,
+) -> str:
     """Extract footer and header area out of horizontal lines
 
     Args:
@@ -30,15 +38,22 @@ def work(horizontals: str, sizeandborders: str, pagenumbers: str) -> str:
     """
     utila.call('footer')
     # load
-    horizontals = serializeraw.load_horizontals(horizontals)
-    sizeandborders = serializeraw.load_pageborders(sizeandborders)
-    pagenumbers = serializeraw.load_pagenumbers(pagenumbers)
+    text = serializeraw.load_document(text, pages=pages)
+    text_position = serializeraw.load_textpositions(text_positions, pages=pages)
+    horizontals = serializeraw.load_horizontals(horizontals, pages=pages)
+    sizeandborders = serializeraw.load_pageborders(sizeandborders, pages=pages)
+    pagenumbers = serializeraw.load_pagenumbers(pagenumbers, pages=pages)
 
+    pagetextnavigators = hey.textnavigator.navigator.create_pagetextnavigators(
+        text,
+        text_position,
+    )
     # work
     result = extract_footerheader(
-        horizontals,
-        sizeandborders,
-        pagenumbers,
+        horizontals=horizontals,
+        sizeandborders=sizeandborders,
+        pagenumbers=pagenumbers,
+        pagetextnavigators=pagetextnavigators,
     )
 
     # dump
@@ -50,6 +65,7 @@ def extract_footerheader(
         horizontals: iamraw.PagesWithHorizontalList,
         sizeandborders,
         pagenumbers,
+        pagetextnavigators,
 ) -> groupme.footer.FooterBorder:
     """Extract most common header/footer of the document
 
@@ -69,6 +85,7 @@ def extract_footerheader(
             horizontals=horizontals,
             sizeandborders=sizeandborders,
             pagenumbers=pagenumbers,
+            pagetextnavigators=pagetextnavigators,
         ).result() for strategy in strategies
     ]
 

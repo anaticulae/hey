@@ -42,18 +42,20 @@ class FooterType(enum.Enum):
     VARIABLE = enum.auto()
 
 
-class FooterHeaderDetectionStrategy:
+class FooterHeaderDetectionStrategy(abc.ABC):
 
     def __init__(
             self,
             horizontals: iamraw.PagesWithHorizontalList,
             sizeandborders,
             pagenumbers,
+            pagetextnavigators,
     ):
         assert isinstance(horizontals, typing.List), str(horizontals)
         self.horizontals = horizontals
         self.sizeandborders = sizeandborders
         self.pagenumbers = pagenumbers
+        self.pagetextnavigators = pagetextnavigators
 
         self.result__ = {}
 
