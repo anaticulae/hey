@@ -43,6 +43,7 @@ from iamraw import Paragraph
 from iamraw import Paragraphs
 from iamraw import Undefined
 
+import groupme.footer
 import words.headlines
 from hey.fonts.store import FontContentStore
 from hey.fonts.store import FontStore
@@ -61,9 +62,8 @@ def work(
         font_content: str,
         headlines: str,
         pagesizes: str,
-        horizontals: str,
-        pagenumbers: str,
         boxes: str,
+        headerfooters: str,
 ) -> str:
     """Extract text paragraphs from document
 
@@ -79,15 +79,14 @@ def work(
         dumped paragraphs
     """
     border, fontstore, headlines, textnavigators, boxes = prepare_input(
-        text=text,
-        text_position=text_position,
-        font_header=font_header,
+        boxes=boxes,
         font_content=font_content,
+        font_header=font_header,
+        headerfooters=headerfooters,
         headlines=headlines,
         pagesizes=pagesizes,
-        horizontals=horizontals,
-        pagenumbers=pagenumbers,
-        boxes=boxes,
+        text=text,
+        text_position=text_position,
     )
 
     extracted = extract_texts(
@@ -147,28 +146,25 @@ def prepare_input(
         font_content: str,
         headlines: str,
         pagesizes: str,
-        horizontals: str,
-        pagenumbers: str,
         boxes: str,
+        headerfooters: str,
 ):
     """Load content from path and create required object"""
     text = serializeraw.load_document(text)
     position = serializeraw.load_textpositions(text_position)
     headlines = serializeraw.load_headlines(headlines)
-    horizontals = serializeraw.load_horizontals(horizontals)
     boxes = serializeraw.load_boxes(boxes)
     fontstore = create_fontstore(font_header, font_content)
     textnavigators = create_pagetextnavigators(
         text=text,
         text_positions=position,
     )
-    pagenumbers = serializeraw.load_pagenumbers(pagenumbers)
     contentborder = serializeraw.load_pageborders(pagesizes)
+    headerfooters = groupme.footer.load_headerfooter(headerfooters)
     # contentborder = [(item.border, item.page) for item in contentborder]
     border = words.headlines.contentborder(
         contentborder,
-        horizontals,
-        pagenumbers,
+        headerfooters,
     )
     boxes = BoxedChecker(boxes)
     return border, fontstore, headlines, textnavigators, boxes

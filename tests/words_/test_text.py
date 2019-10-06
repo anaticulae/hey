@@ -15,9 +15,11 @@ from serializeraw import load_headlines
 from serializeraw import load_text
 from utila import NEWLINE
 
+import tests.resources
 from hey.undefined import extract_undefined
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_contentborder
+from tests.fixtures.restruct import restructured_headerfooter
 from tests.fixtures.restruct import restructured_headlines
 from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_pagenumbers
@@ -48,8 +50,7 @@ def test_words_text_work(
         font_content=RESTRUCT_FONT_CONTENT,
         font_header=RESTRUCT_FONT_HEADER,
         headlines=headlines,
-        horizontals=RESTRUCT_HORIZONTAL,
-        pagenumbers=RESTRUCT_PAGENUMBERS,
+        headerfooters=tests.resources.RESTRUCT_FOOTERS,
         pagesizes=RESTRUCT_PAGESIZE,
         text=RESTRUCT_TEXT,
         text_position=RESTRUCT_TEXT_POSITION,
@@ -186,8 +187,7 @@ def test_words_extract_texts_page_x(
         font_content=RESTRUCT_FONT_CONTENT,
         headlines=headlines,
         pagesizes=RESTRUCT_PAGESIZE,
-        horizontals=RESTRUCT_HORIZONTAL,
-        pagenumbers=RESTRUCT_PAGENUMBERS,
+        headerfooters=tests.resources.RESTRUCT_FOOTERS,
         boxes=RESTRUCT_BOXES,
     )
 

@@ -36,9 +36,8 @@ def work(
         text_position: str,
         headlines: str,
         border: str,
-        horizontals: str,
         boxes: str,
-        pagenumbers: str,
+        headerfooters: str,
 ) -> str:
     """Combine `extracted_text` and check the `undefined` fields for lists
 
@@ -55,9 +54,8 @@ def work(
         text,
         text_position,
         border,
-        headlines,
-        horizontals,
-        pagenumbers=pagenumbers,
+        headlines=headlines,
+        headerfooters=headerfooters,
     )
     boxes = load_boxes(boxes)
 

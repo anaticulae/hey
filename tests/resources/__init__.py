@@ -220,3 +220,7 @@ def boxed(path: str, prefix: str = '') -> str:
 
 def pagenumbers(path: str, prefix: str = '') -> str:
     return pathconnector(path, 'groupme', 'pagenumbers_pagenumbers', prefix)
+
+
+def headerfooters(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'groupme', 'footer_footerheader', prefix)

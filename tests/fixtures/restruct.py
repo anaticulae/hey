@@ -13,6 +13,7 @@ from iamraw import Document
 from iamraw.sections import PERCENT_100
 from iamraw.sections import Sections
 
+import groupme.footer
 import tests.fixtures
 import tests.resources
 from hey.fonts.store import FontStore
@@ -136,9 +137,8 @@ def restructured_headlines():
         font_header=RESTRUCT_FONT_HEADER,
         font_content=RESTRUCT_FONT_CONTENT,
         sizeandborder=RESTRUCT_PAGESIZE,
-        horizontals=RESTRUCT_HORIZONTAL,
-        pagenumbers=tests.resources.RESTRUCT_PAGENUMBERS,
         boxes=RESTRUCT_BOXES,
+        headerfooters=tests.resources.RESTRUCT_FOOTERS,
     )
     return dumped
 
@@ -269,8 +269,7 @@ def restructured_textexample(
         font_content=RESTRUCT_FONT_CONTENT,
         headlines=headlines,
         pagesizes=RESTRUCT_PAGESIZE,
-        horizontals=RESTRUCT_HORIZONTAL,
-        pagenumbers=tests.resources.RESTRUCT_PAGENUMBERS,
+        headerfooters=tests.resources.RESTRUCT_FOOTERS,
         boxes=RESTRUCT_BOXES,
     )
     extracted = text_extract_texts(
@@ -298,6 +297,12 @@ def restructured_sizeandborder():
 
 
 @pytest.fixture
+def restructured_headerfooter():
+    headerfooter = groupme.footer.load_headerfooter(RESTRUCT_FOOTERS)
+    return headerfooter
+
+
+@pytest.fixture
 def restructured_boxed(
         # pylint:disable=W0621
         restructured_textexample_dumped,
@@ -312,8 +317,7 @@ def restructured_boxed(
         RESTRUCT_TEXT_POSITION,
         border=RESTRUCT_PAGESIZE,
         headlines=headlines,
-        horizontals=RESTRUCT_HORIZONTAL,
-        pagenumbers=RESTRUCT_PAGENUMBERS,
+        headerfooters=RESTRUCT_FOOTERS,
     )
     boxes = serializeraw.load_boxes(RESTRUCT_BOXES)
     result = boxed_process_content(extracted, boxes)
@@ -331,14 +335,12 @@ def restructured_boxed_dumped(
 @pytest.fixture
 def restructured_contentborder(
         # pylint:disable=W0621
-        restructured_horizontals,
+        restructured_headerfooter,
         restructured_sizeandborder,
-        restructured_pagenumbers,
 ):
-    horizontals = restructured_horizontals
     border = restructured_sizeandborder
-    pagenumbers = restructured_pagenumbers
-    result = contentborder(border, horizontals, pagenumbers)
+    headerfooter = restructured_headerfooter
+    result = contentborder(border, headerfooter)
     return result
 
 
@@ -349,7 +351,6 @@ def restructured_list_work(
 ):
     headlines = restructured_headlines
     undefined = restructured_textexample_dumped
-    pagenumbers = restructured_pagenumbers
 
     extracted, contentborder = list_prepare_input(
         undefined,
@@ -357,8 +358,7 @@ def restructured_list_work(
         RESTRUCT_TEXT_POSITION,
         headlines=headlines,
         border=RESTRUCT_PAGESIZE,
-        horizontals=RESTRUCT_HORIZONTAL,
-        pagenumbers=RESTRUCT_PAGENUMBERS,
+        headerfooters=RESTRUCT_FOOTERS,
     )
     result = list_process(extracted, contentborder)
     return result

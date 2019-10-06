@@ -38,7 +38,6 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.textnavigator.navigator import navigator_to_bounds
-
 """
 TODO:
     add more than one strategy to compute equal footer, header
@@ -60,8 +59,7 @@ class HeadlineExtractorStrategy(abc.ABC):
             pagetextnavigators: PageTextNavigators,
             fontstore: hey.fonts.store.FontStore,
             sizeandborder,
-            horizontals,
-            pagenumbers,
+            headerfooters,
             chapters,
     ):
         self.__result = {}
@@ -70,9 +68,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         self.pagetextnavigators = pagetextnavigators
         self.fontstore = fontstore
         self.sizeandborder = sizeandborder
-        self.horizontals = horizontals
-        self.pagenumbers = pagenumbers
-
+        self.headerfooters = headerfooters
         self.chapters, self.content = prepare_chapter_and_content(
             sectionlist,
             chapters,
@@ -80,8 +76,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         # bounding box of text content
         self.border = contentborder(
             self.sizeandborder,
-            self.horizontals,
-            self.pagenumbers,
+            self.headerfooters,
         )
 
         self.setup()
@@ -201,18 +196,13 @@ def prepare_chapter_and_content(sections_, chapter):
     return chapter, content
 
 
-def contentborder(sizeandborders, horizontals, pagenumbers):
+def contentborder(sizeandborders, headerfooters):
     assert all([isinstance(item, PageSizeBorder) for item in sizeandborders])
     result = {}
-    border = groupme.feature.footer.extract_footerheader(
-        horizontals,
-        sizeandborders,
-        pagenumbers,
-    )
     pages = [item.page for item in sizeandborders]
     for page in pages:
         pageborder = hey.utils.select_page(sizeandborders, page).border
-        footerheader = hey.utils.select_page(border, page)
+        footerheader = hey.utils.select_page(headerfooters, page)
         footerheader = hey.utils.select_content(footerheader, (None, None))
 
         top = footerheader[0] if footerheader[0] else 0

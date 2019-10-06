@@ -24,6 +24,7 @@ import words.headlines.nolevel
 # pylint:disable=unused-import
 from tests.fixtures.restruct import restructured
 from tests.fixtures.restruct import restructured_fontstore
+from tests.fixtures.restruct import restructured_headerfooter
 from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_sections
 from tests.fixtures.restruct import restructured_sections_manual
@@ -96,13 +97,14 @@ def test_headlines_extract_headlines(
         restructured_text,
         restructured_fontstore,
         restructured_sizeandborder,
-        restructured_horizontals,
+        restructured_headerfooter,
 ):
     # TODO: Require new approach, may look into table of content
     sections = restructured_sections_manual
     position = restructured_text_positions
     document = restructured_text
     sizeandborder = restructured_sizeandborder
+    headerfooters = restructured_headerfooter
 
     navigator = hey.textnavigator.navigator.create_pagetextnavigators(
         text=document,
@@ -114,7 +116,7 @@ def test_headlines_extract_headlines(
         pagetextnavigators=navigator,
         fontstore=restructured_fontstore,
         sizeandborder=sizeandborder,
-        horizontals=restructured_horizontals,
+        headerfooters=headerfooters,
         chapters=[0, 1],
     )
     extracted = extractor.result()
@@ -127,15 +129,14 @@ def test_headlines_extract_headlines(
 def test_headlines_work():
     sections_ = restructured_sections()
     dumped = words.feature.headlines.work(
+        boxes=tests.resources.boxed(tests.resources.RESTRUCT),
+        font_content=tests.resources.font_content(tests.resources.RESTRUCT),
+        font_header=tests.resources.font_header(tests.resources.RESTRUCT),
+        headerfooters=tests.resources.headerfooters(tests.resources.RESTRUCT),
         sections=sections_,
+        sizeandborder=tests.resources.sizeandborder(tests.resources.RESTRUCT),
         text=tests.resources.text(tests.resources.RESTRUCT),
         text_position=tests.resources.text_positions(tests.resources.RESTRUCT),
-        font_header=tests.resources.font_header(tests.resources.RESTRUCT),
-        font_content=tests.resources.font_content(tests.resources.RESTRUCT),
-        sizeandborder=tests.resources.sizeandborder(tests.resources.RESTRUCT),
-        horizontals=tests.resources.horizontals(tests.resources.RESTRUCT),
-        pagenumbers=tests.resources.pagenumbers(tests.resources.RESTRUCT),
-        boxes=tests.resources.boxed(tests.resources.RESTRUCT),
     )
     # dump some headlines
     assert len(dumped) > 2100, str(dumped)
@@ -157,9 +158,8 @@ def extract_master72_headlines(root: str):
     font_header = tests.resources.font_header(master72)
     font_content = tests.resources.font_content(master72)
     sizeandborder = tests.resources.sizeandborder(master72)
-    horizontals = tests.resources.horizontals(master72)
     boxed = tests.resources.boxed(master72)
-    pagenumbers = tests.resources.pagenumbers(master72)
+    headerfooters = tests.resources.headerfooters(master72)
 
     headlines = words.feature.headlines.work(
         sections,
@@ -168,9 +168,8 @@ def extract_master72_headlines(root: str):
         font_header,
         font_content,
         sizeandborder,
-        horizontals,
-        pagenumbers=pagenumbers,
         boxes=boxed,
+        headerfooters=headerfooters,
     )
     headlines_outpath = os.path.join(root, 'headlines_result.yaml')
     utila.file_create(headlines_outpath, headlines)

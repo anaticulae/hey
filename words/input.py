@@ -14,6 +14,7 @@ import iamraw
 import serializeraw
 import utila
 
+import groupme.feature
 import hey.undefined
 import words.headlines
 
@@ -24,18 +25,15 @@ def prepare_input(
         text_position,
         border,
         headlines,
-        horizontals,
-        pagenumbers,
+        headerfooters,
 ) -> typing.Tuple[typing.List, iamraw.Border]:
     headlines = serializeraw.load_headlines(headlines)
     extracted_text = serializeraw.load_text(extracted_text, headlines)
-    horizontals = serializeraw.load_horizontals(horizontals)
     border = serializeraw.load_pageborders(border)
-    pagenumbers = serializeraw.load_pagenumbers(pagenumbers)
+    headerfooters = groupme.footer.load_headerfooter(headerfooters)
     contentborder = words.headlines.contentborder(
         border,
-        horizontals,
-        pagenumbers,
+        headerfooters,
     )
     text = serializeraw.load_document(text)
     text_position = serializeraw.load_textpositions(text_position)

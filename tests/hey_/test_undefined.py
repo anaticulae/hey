@@ -10,6 +10,7 @@
 from hey.undefined import extract_undefined
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_contentborder
+from tests.fixtures.restruct import restructured_headerfooter
 from tests.fixtures.restruct import restructured_headlines
 from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_pagenumbers

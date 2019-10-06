@@ -44,9 +44,8 @@ def work(
         font_header: str,
         font_content: str,
         sizeandborder: str,
-        horizontals: str,
-        pagenumbers: str,
         boxes: str,
+        headerfooters: str,
 ) -> str:
     """Extract headlines out of data
 
@@ -63,9 +62,7 @@ def work(
     position = serializeraw.load_textpositions(text_position)
     sections = serializeraw.load_sections(sections)
     sizeandborder = serializeraw.load_pageborders(sizeandborder)
-    horizontals = serializeraw.load_horizontals(horizontals)
-    pagenumbers = serializeraw.load_pagenumbers(pagenumbers)
-
+    headerfooters = groupme.footer.load_headerfooter(headerfooters)
     pagetextnavigators = hey.textnavigator.navigator.create_pagetextnavigators(
         text=document,
         text_positions=position,
@@ -86,8 +83,7 @@ def work(
             pagetextnavigators=pagetextnavigators,
             fontstore=fontstore,
             sizeandborder=sizeandborder,
-            horizontals=horizontals,
-            pagenumbers=pagenumbers,
+            headerfooters=headerfooters,
             chapters=None,
         ).result() for strategy in strategies
     ]
