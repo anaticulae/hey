@@ -26,9 +26,10 @@ END = 1.0
 
 
 class PageTextNavigator:
-    """The PageTextNavigator eases to navigate through the textutal content
-    of a Page. The footer and header is ignored. The text is processed from
-    top to down and left to right. """
+    """The PageTextNavigator eases to navigate through the textutal
+    content of a Page. The text is processed from top to down and left
+    to right.
+    """
 
     def __init__(self, size=None, page=-1):
         """Intialize PageTextNavigator with maximal `size`
@@ -151,6 +152,9 @@ class PageTextNavigator:
 
 
 class PageTextContentNavigator:
+    """Iterate over page content without footer and header.
+
+    See: PageTextNavigator"""
 
     def __init__(
             self,
