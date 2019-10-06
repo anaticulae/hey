@@ -16,6 +16,7 @@ from iamraw.sections import Sections
 import groupme.footer
 import tests.fixtures
 import tests.resources
+import words.headlines
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import create_pagetextnavigators
@@ -340,12 +341,13 @@ def restructured_contentborder(
 ):
     border = restructured_sizeandborder
     headerfooter = restructured_headerfooter
-    result = contentborder(border, headerfooter)
+    result = words.headlines.contentborder(border, headerfooter)
     return result
 
 
 @pytest.fixture
 def restructured_list_work(
+        # pylint:disable=W0621
         restructured_textexample_dumped,
         restructured_headlines,
 ):
@@ -366,8 +368,8 @@ def restructured_list_work(
 
 @pytest.fixture
 def restructured_list_dumped(
-        # pylint:disable=W0611
-        restructured_list_work) -> str:
+        restructured_list_work,  # pylint:disable=W0621
+) -> str:
     result = restructured_list_work
     dumped = dump_lists(result)
     return dumped
