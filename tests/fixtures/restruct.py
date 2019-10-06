@@ -57,25 +57,6 @@ from words.feature.list import prepare_input as list_prepare_input
 from words.feature.list import process as list_process
 from words.feature.text import extract_texts as text_extract_texts
 from words.feature.text import prepare_input as text_prepare_input
-from words.headlines import contentborder
-
-
-@pytest.fixture
-def restructured():
-    pagesize = serializeraw.load_pageborders(RESTRUCT_PAGESIZE)
-    horizontals = serializeraw.load_horizontals(RESTRUCT_HORIZONTAL)
-    position = serializeraw.load_textpositions(RESTRUCT_TEXT_POSITION)
-    document = serializeraw.load_document(RESTRUCT_TEXT)
-
-    assert pagesize
-    assert horizontals
-    assert position
-
-    navigators = create_pagetextnavigators(
-        text=document,
-        text_positions=position,
-    )
-    return navigators, horizontals
 
 
 @pytest.fixture
@@ -122,8 +103,8 @@ def restructured_index():
 
 
 @pytest.fixture
-def restructured_navigator(restructured):  #pylint:disable=W0621
-    navigators, _ = restructured
+def restructured_pagetextnavigators():
+    navigators = tests.fixtures.create_pagetextnavigators(tests.resources.RESTRUCT) # yapf:disable
     return navigators
 
 

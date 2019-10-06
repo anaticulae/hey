@@ -12,7 +12,6 @@ import iamraw
 import pytest
 import serializeraw
 import utila
-from iamraw import Headline
 
 import hey.textnavigator.navigator
 import tests.fixtures.headlines
@@ -22,7 +21,6 @@ import words.headlines
 import words.headlines.nolevel
 # pylint:disable=ungrouped-imports
 # pylint:disable=unused-import
-from tests.fixtures.restruct import restructured
 from tests.fixtures.restruct import restructured_fontstore
 from tests.fixtures.restruct import restructured_headerfooter
 from tests.fixtures.restruct import restructured_horizontals

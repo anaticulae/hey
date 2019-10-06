@@ -17,8 +17,7 @@ import serializeraw
 import groupme.feature.numbers
 import tests.resources
 # pylint:disable=W0611
-from tests.fixtures.restruct import restructured
-from tests.fixtures.restruct import restructured_navigator
+from tests.fixtures.restruct import restructured_pagetextnavigators
 from tests.fixtures.simple import simple
 from tests.fixtures.simple import simple_navigator
 
@@ -43,9 +42,9 @@ def test_header_simple(simple):  #pylint:disable=W0621
     assert not result
 
 
-def test_footer_restructured(restructured_navigator):  #pylint:disable=W0621
+def test_footer_restructured(restructured_pagetextnavigators):  #pylint:disable=W0621
     result = groupme.feature.numbers.footer(
-        restructured_navigator,
+        restructured_pagetextnavigators,
         numbers_only=False,
     )
 
@@ -54,8 +53,8 @@ def test_footer_restructured(restructured_navigator):  #pylint:disable=W0621
     assert len(result) == 5, print_cluster(result)
 
 
-def test_header_restructured(restructured_navigator):  #pylint:disable=W0621
-    result = groupme.feature.numbers.header(restructured_navigator)
+def test_header_restructured(restructured_pagetextnavigators):  #pylint:disable=W0621
+    result = groupme.feature.numbers.header(restructured_pagetextnavigators)
     # Example:
     # (5,
     # (BoundingBox(x_bottom=72.00, y_bottom=746.33, x_top=336.99, y_top=758.84),
@@ -65,8 +64,8 @@ def test_header_restructured(restructured_navigator):  #pylint:disable=W0621
     assert len(result) == 2, print_cluster(result)
 
 
-def test_pagenumbers_restructured(restructured_navigator):  #pylint:disable=W0621
-    result = groupme.feature.numbers.footer(restructured_navigator)
+def test_pagenumbers_restructured(restructured_pagetextnavigators):  #pylint:disable=W0621
+    result = groupme.feature.numbers.footer(restructured_pagetextnavigators)
 
     numbers = groupme.feature.numbers.pagenumbers(result)
 
@@ -99,8 +98,8 @@ def pagenumbers_simple(simple_navigator):  #pylint:disable=W0621
 
 
 @pytest.fixture
-def pagenumbers_restructured(restructured_navigator):  #pylint:disable=W0621
-    result = groupme.feature.numbers.footer(restructured_navigator)
+def pagenumbers_restructured(restructured_pagetextnavigators):  #pylint:disable=W0621
+    result = groupme.feature.numbers.footer(restructured_pagetextnavigators)
     # double page
     left, right = groupme.feature.numbers.pagenumbers(result)
     return left, right

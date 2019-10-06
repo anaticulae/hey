@@ -10,17 +10,15 @@
 import serializeraw
 
 import groupme.footer.fixed
-from hey.textnavigator.navigator import create_pagetextnavigators
+import tests.fixtures
+import tests.resources
 from sections.feature.whitepage import PageContentWhitepages
 from sections.feature.whitepage import WhitePage
 from sections.feature.whitepage import dump_whitepages
 from sections.feature.whitepage import extract_whitepages
 from sections.feature.whitepage import load_whitepages
-from tests.resources import RESTRUCT_HORIZONTAL
-from tests.resources import RESTRUCT_PAGENUMBERS
-from tests.resources import RESTRUCT_PAGESIZE
+from tests.fixtures.restruct import restructured_pagetextnavigators
 from tests.resources import RESTRUCT_TEXT
-from tests.resources import RESTRUCT_TEXT_POSITION
 
 RESTRUCT_EXPECTED = [
     PageContentWhitepages(content=WhitePage.CONTENT, page=0),
@@ -53,25 +51,13 @@ RESTRUCT_EXPECTED = [
 ]
 
 
-def test_whitepages_extract():
-    # load
-    document = serializeraw.load_document(RESTRUCT_TEXT)
-    position = serializeraw.load_textpositions(RESTRUCT_TEXT_POSITION)
-    horizontals = serializeraw.load_horizontals(RESTRUCT_HORIZONTAL)
-    sizeandborders = serializeraw.load_pageborders(RESTRUCT_PAGESIZE)
-    pagenumbers = serializeraw.load_pagenumbers(RESTRUCT_PAGENUMBERS)
+def test_whitepages_extract(restructured_pagetextnavigators):
+    navigators = restructured_pagetextnavigators
 
-    # TODO: access headers and footers directly
-    headerfooters = groupme.footer.fixed.FixedFooterStrategy(
-        horizontals=horizontals,
-        sizeandborders=sizeandborders,
-        pagenumbers=pagenumbers,
-    )
-    headerfooters = headerfooters.result()
-    navigators = create_pagetextnavigators(
-        text=document,
-        text_positions=position,
-    )
+    document = serializeraw.load_document(RESTRUCT_TEXT)
+
+    headerfooters = tests.resources.headerfooters(tests.resources.RESTRUCT)
+    headerfooters = groupme.footer.load_headerfooter(headerfooters)
 
     # work
     result = extract_whitepages(document, navigators, headerfooters)
