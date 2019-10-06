@@ -9,15 +9,11 @@
 
 import os
 
-import pytest
-import serializeraw
 import utila
 
 import groupme.feature.footer
 import groupme.footer
 import groupme.footer.moving
-import hey.textnavigator
-import hey.utils
 import tests.fixtures.restruct
 import tests.resources
 # pylint:disable=W0611
@@ -50,13 +46,6 @@ def test_groupme_footer_work(testdir):  #pylint:disable=W0621
     utila.file_create(os.path.join(root, 'result.yaml'), dumped)
 
 
-def test_groupme_footer_master72pages(testdir):
-    path = tests.resources.horizontals(tests.resources.MASTER_72PAGES)
-    result = serializeraw.load_horizontals(path)
-
-    assert len(result) > 10, str(result)
-
-
 def test_groupme_footer_dump_and_load(
         restructured_horizontals,  #pylint:disable=W0621
         restructured_sizeandborder,  #pylint:disable=W0621
@@ -73,7 +62,8 @@ def test_groupme_footer_dump_and_load(
         sizeandborders,
         pagenumbers,
         pagetextnavigators,
-    ).result()
+    )
+    extracted = extracted.result()
 
     dumped = groupme.footer.dump_headerfooter(extracted)
     loaded = groupme.footer.load_headerfooter(dumped)
@@ -98,42 +88,3 @@ def test_groupme_footer_footerheader_detectionstategy(
         pagetextnavigators=pagetextnavigators,
     )
     strategy.process()
-
-
-@pytest.mark.parametrize('document, pages', [
-    (tests.resources.MASTER_72PAGES, tuple(range(20))),
-])
-def test_groupme_footer_moving(document, pages):
-    horizontallines = serializeraw.load_horizontals(
-        tests.resources.horizontals(document),
-        pages,
-    )
-    sizeandborder = serializeraw.load_pageborders(
-        tests.resources.sizeandborder(document),
-        pages,
-    )
-
-    pagenumbers = serializeraw.load_pagenumbers(
-        tests.resources.pagenumbers(document),
-        pages,
-    )
-
-    pagetextnavigators = tests.fixtures.create_pagetextnavigators(
-        document,
-        pages,
-    )
-
-    strategy = groupme.footer.moving.MovingFooterStrategy(
-        horizontallines,
-        sizeandborder,
-        pagenumbers,
-        pagetextnavigators,
-    )
-    result = strategy.result()
-
-    expected = [3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
-    assert len(result) == len(expected), result
-
-    for footer in expected:
-        extracted_footer = hey.utils.select_page(result, footer)
-        assert extracted_footer[1], f'{footer}'
