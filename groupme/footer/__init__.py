@@ -9,6 +9,7 @@
 
 import abc
 import collections
+import dataclasses
 import enum
 import functools
 import statistics
@@ -34,6 +35,13 @@ PageContentFooterHeader = collections.namedtuple(
     'PageContentFooterHeader',
     'content, page',
 )
+
+
+@dataclasses.dataclass
+class FooterInformation:
+    page: int
+    begin: float
+    end: float
 
 
 class FooterType(enum.Enum):

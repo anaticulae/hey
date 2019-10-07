@@ -61,7 +61,7 @@ def process_page(page, rawpage, horizontals):
 
     distance_to_firsthorizontal = distance(pagenumber_bounding, horizontals)
     if distance_to_firsthorizontal >= MIN_DISTANCE_TO_HORIZONTAL:
-        return page
+        return (page, pagenumber_bounding)
     return None
 
 
@@ -72,4 +72,20 @@ def distance(bounding, items):
 
     result = min(ydistance, default=utila.INF)
     assert result >= 0, result
+    return result
+
+
+def pagenumber_location(
+        horizontals,
+        sizeandborders,
+        pagenumbers,
+        pagetextnavigators,
+):
+    strategy = PageNumberStrategy(
+        horizontals,
+        sizeandborders,
+        pagenumbers,
+        pagetextnavigators,
+    )
+    result = strategy.result()
     return result

@@ -16,8 +16,21 @@ Example:
 
 TODO: Think about header
 """
+import dataclasses
+import typing
+
+import utila
+
 import groupme.footer
+import groupme.footer.footnotes
+import groupme.footer.pages
 import hey.utils
+
+
+@dataclasses.dataclass
+class MovingFooterInformation(groupme.footer.FooterInformation):
+    notes: typing.List[groupme.footer.footnotes.FootNote] = dataclasses.field(
+        default_factory=list)
 
 
 class MovingFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
@@ -25,33 +38,104 @@ class MovingFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
     def result(self):
         result = {}
 
+        pagenumber_locations = groupme.footer.pages.pagenumber_location(
+            self.horizontals,
+            self.sizeandborders,
+            self.pagenumbers,
+            self.pagetextnavigators,
+        )
+
         for page in self.horizontals:
             sizeandborder = hey.utils.select_page(
                 self.sizeandborders,
                 page.page,
             )
+            pagetextnavigator = hey.utils.select_page(
+                self.pagetextnavigators,
+                page.page,
+            )
+            pagenumber_location = hey.utils.select_page(
+                pagenumber_locations,
+                page.page,
+            )
 
             processed = process_page(
-                page.page,
-                page.content,
-                sizeandborder,
+                pagenumber=page.page,
+                pagenumber_location=pagenumber_location,
+                horizontals=page.content,
+                sizeandborder=sizeandborder,
+                pagetextnavigator=pagetextnavigator,
             )
 
             if processed is not None:
                 result[page.page] = (None, processed)
+
         return result
 
 
 BOTTOM_BORDER = 0.75  # TODO: HOLY VALUE
 
 
-def process_page(pagenumber, horizontals, sizeandborder):
+def process_page(
+        pagenumber,
+        pagenumber_location,
+        horizontals,
+        sizeandborder,
+        pagetextnavigator,
+):
     pageheight = sizeandborder.size.height
 
-    bottom = pageheight * BOTTOM_BORDER
-    filtered = [item for item in horizontals if item.box.y1 >= bottom]
+    min_footer_start = pageheight * BOTTOM_BORDER
+    filtered = [item for item in horizontals if item.box.y1 >= min_footer_start]
     bottomed = max(
         [item.box.y1 for item in filtered],
         default=None,
     )
-    return bottomed
+    if bottomed is None:
+        return None
+
+    footer = extract_footer(
+        bottomed,
+        pageheight,
+        pagenumber,
+        pagenumber_location,
+        pagetextnavigator,
+    )
+    return footer
+
+
+def extract_footer(
+        footerstart: float,
+        pageheight: int,
+        pagenumber,
+        pagenumber_location,
+        pagetextnavigator,
+):
+    begin = footerstart / pageheight
+    # in the current parser state, the location of tiny distances between
+    # objects is not interpreted correctly. The distance is often to small.
+    # TODO: Remove after improving layout parser
+    begin = begin - 0.03
+
+    # TODO: HOW TO HANDLE NON DETECTED PAGENUMBER_LOCATION
+    end = pagenumber_location[1].y0 if pagenumber_location else pageheight
+    end = end / pageheight
+
+    content = pagetextnavigator.between(begin, end)
+    content = footercontent(content)
+
+    footnotes = groupme.footer.footnotes.parse(content)
+
+    footer = MovingFooterInformation(
+        page=pagenumber,
+        begin=begin,
+        end=end,
+        notes=footnotes,
+    )
+    return footer
+
+
+def footercontent(items):
+    content = [item[1] for item in items]
+    content = utila.NEWLINE.join(content)
+    return content
