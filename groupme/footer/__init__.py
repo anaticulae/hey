@@ -89,8 +89,12 @@ def area(
     bottom = area_likelihood(clusters, ymin, ymax)
     if not bottom:  # empty cluster
         return None
-    index = bottom.index(max(bottom))
 
+    if not any([item > 0.0 for item in bottom]):
+        # no cluster item match area classificator
+        return None
+
+    index = bottom.index(max(bottom))
     _, (bounding, __) = clusters[index][0]
 
     return [bounding.y1]
@@ -106,9 +110,10 @@ def area_likelihood(clusters, ymin, ymax):
     for cluster in clusters:
         _, item = cluster[0]
         bounding, _ = item
+        # assert that item is horizontal
         assert abs(bounding.y0 - bounding.y1) < 2.0, str(bounding)
         yvalue = bounding.y0
-        if not ymin <= yvalue <= ymax:
+        if not (ymin <= yvalue <= ymax):
             result.append(EMPTY)
             continue
 
