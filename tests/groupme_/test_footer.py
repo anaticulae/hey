@@ -23,14 +23,6 @@ from tests.fixtures.restruct import restructured_pagetextnavigators
 from tests.fixtures.restruct import restructured_sizeandborder
 
 
-def test_groupme_footer_extract(restructured_horizontals):  #pylint:disable=W0621
-    horizontals = restructured_horizontals
-    top, bottom = groupme.footer.fixed.extract_common_footer(horizontals)
-    assert top  # document has header
-    assert bottom  # document has footer
-    assert top < bottom
-
-
 def test_groupme_footer_work(testdir):  #pylint:disable=W0621
     root = str(testdir)
     dumped = groupme.feature.footer.work(

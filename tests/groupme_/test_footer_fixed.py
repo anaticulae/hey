@@ -1,0 +1,21 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2019 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+
+import groupme.footer.fixed
+# pylint:disable=W0611
+from tests.fixtures.restruct import restructured_horizontals
+
+
+def test_groupme_footer_fixed_extract(restructured_horizontals):  #pylint:disable=W0621
+    horizontals = restructured_horizontals
+    top, bottom = groupme.footer.fixed.extract_common_footer(horizontals)
+    assert top  # document has header
+    assert bottom  # document has footer
+
+    assert top < bottom
