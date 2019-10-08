@@ -74,8 +74,8 @@ def footer(clusters: typing.List) -> float:
 
 def header(clusters: typing.List) -> float:
     """Determine all elements in the potential header area"""
-    # TODO: Make dependent on page size
-    result = groupme.footer.area(clusters, 0, 100, max_groups=1)
+    # TODO: HOLY VALUE Make dependent on page size
+    result = groupme.footer.area(clusters, 0, 150, max_groups=1)
     if not result:
         return None
     return result[0]
