@@ -11,6 +11,8 @@ import os
 import hey
 
 RESOURCES = os.path.join(hey.ROOT, 'tests/resources')
+
+BACHELOR = os.path.join(RESOURCES, 'bachelor')
 DOCU = os.path.join(RESOURCES, 'docu')
 MASTER = os.path.join(RESOURCES, 'master')
 TECHNICAL = os.path.join(RESOURCES, 'technical')
@@ -95,6 +97,9 @@ PYPORTING_PDF = os.path.join(DOCU, 'porting_extension_modules.pdf')
 MASTER_72PAGES = os.path.join(GENERATED, 'page_72_noimages_toc')
 MASTER_72PAGES_PDF = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
 
+BACHELOR_111PAGES = os.path.join(GENERATED, 'page_111_images_toc')
+BACHELOR_111PAGES_PDF = os.path.join(BACHELOR, 'page_111_images_toc.pdf')
+
 TECHNICAL_24PAGES = os.path.join(GENERATED, 'technical_24pages')
 TECHNICAL_24PAGES_PDF = os.path.join(TECHNICAL, 'page_24_color_figures_images.pdf') # yapf:disable
 TECHNICAL_24PAGES_PAGE_COUNT = 24
@@ -106,6 +111,8 @@ HOWTO_ARGPARSE_PAGE_COUNT = 14
 MASTER_78PAGES_PDF = os.path.join(MASTER, 'page_78_images_toc.pdf')
 
 REQURIED_RESOURCES = [
+    BACHELOR_111PAGES,
+    BACHELOR_111PAGES_PDF,
     HOWTO_ARGPARSE,
     HOWTO_ARGPARSE_PDF,
     MASTER_72PAGES,

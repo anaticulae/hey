@@ -43,6 +43,10 @@ RAWMAKER = [
         tests.resources.SIMPLE,
     ),
     (
+        tests.resources.BACHELOR_111PAGES_PDF,
+        tests.resources.BACHELOR_111PAGES,
+    ),
+    (
         tests.resources.MASTER_72PAGES_PDF,
         tests.resources.MASTER_72PAGES,
     ),
@@ -53,6 +57,7 @@ RAWMAKER = [
 ]
 
 GROUPME_AND_SECTION = [
+    tests.resources.BACHELOR_111PAGES,
     tests.resources.HOWTO_ARGPARSE,
     tests.resources.MASTER_72PAGES,
     tests.resources.PYPORTING,
