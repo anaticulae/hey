@@ -9,12 +9,11 @@
 
 import pytest
 import serializeraw
+import utila
 
 import groupme.feature.footer
 import groupme.footer
 import groupme.footer.moving
-import hey.textnavigator
-import hey.utils
 import tests.fixtures.restruct
 import tests.resources
 
@@ -54,7 +53,7 @@ def test_groupme_footer_moving(document, pages):
     assert len(result) == len(expected), result
 
     for footer in expected:
-        extracted_footer = hey.utils.select_page(result, footer)
+        extracted_footer = utila.select_page(result, footer)
         assert extracted_footer[1], f'{footer}'
 
 

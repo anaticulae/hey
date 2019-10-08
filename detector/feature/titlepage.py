@@ -70,7 +70,7 @@ def work(text: str, text_positions: str) -> str:
         text,
         text_positions,
     )
-    navigator = utila.select_page(navigators, pagenumber=0)
+    navigator = utila.select_page(navigators, page=0)
     parsed = detector.parser.complete.parse(navigator)
 
     dumped = serializeraw.dump_titlepage(parsed)

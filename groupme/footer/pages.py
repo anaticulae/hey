@@ -20,7 +20,6 @@ next horizontal line is greater than `MIN_DISTANCE_TO_HORIZONTAL`.
 import utila
 
 import groupme.footer
-import hey.utils
 
 MIN_DISTANCE_TO_HORIZONTAL = 50  # TODO: HOLY VALUE
 
@@ -45,8 +44,8 @@ class PageNumberStrategy(groupme.footer.FooterHeaderDetectionStrategy):
         for page in self.sizeandborders:
             pdfpage = page.page
 
-            rawpage = hey.utils.select_page(pagenumbers, pdfpage)
-            horizontals = hey.utils.select_page(self.horizontals, pdfpage)
+            rawpage = utila.select_page(pagenumbers, pdfpage)
+            horizontals = utila.select_page(self.horizontals, pdfpage)
 
             processed = process_page(pdfpage, rawpage, horizontals)
             if processed is not None:

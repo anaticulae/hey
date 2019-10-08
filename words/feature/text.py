@@ -221,8 +221,8 @@ def prepare_analyze_page(
     """
     page = headlines[0].page
     pcn = PageTextContentNavigator(
-        textnavigator=utila.select_page(textnavigators, pagenumber=page),
-        content=utila.select_page(borders, pagenumber=page),
+        textnavigator=utila.select_page(textnavigators, page=page),
+        content=utila.select_page(borders, page=page),
     )
     if pcn.offset == (None, None):
         # empty page

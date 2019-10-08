@@ -35,7 +35,7 @@ def extract_undefined(pages, text, text_position, contentborder: dict):
         navigator = utila.select_page(pagetextnavigators, page)
         ptcn = PageTextContentNavigator(
             navigator,
-            utila.select_page(contentborder, pagenumber=page),
+            utila.select_page(contentborder, page=page),
         )
         _pagecontent = []
         for index, (_, paragraph) in enumerate(pagecontent):

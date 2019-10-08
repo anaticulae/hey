@@ -102,7 +102,7 @@ def process_page(pagecontent, contentborder: Border):
         for mergednumber, ((_, item), uindex) in zipped:
             potentiallist = extract_lists(
                 item,
-                utila.select_page(contentborder, pagenumber=page),
+                utila.select_page(contentborder, page=page),
                 uindex,
             )
             if not potentiallist:

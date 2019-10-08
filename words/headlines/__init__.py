@@ -119,8 +119,8 @@ class HeadlineExtractorStrategy(abc.ABC):
         start, end = self.content[chapter]
         for page in range(start, end + 1):
             pagecontent = PageTextContentNavigator(
-                utila.select_page(self.pagetextnavigators, pagenumber=page),
-                utila.select_page(self.border, pagenumber=page),
+                utila.select_page(self.pagetextnavigators, page=page),
+                utila.select_page(self.border, page=page),
             )
             pageheadlines = self.extract_page(
                 page,
@@ -140,7 +140,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         bounds = navigator_to_bounds(pagecontent)
         bounds = hey.textnavigator.fonts.textbounds(
             pagecontent,
-            utila.select_page(self.border, pagenumber=page),
+            utila.select_page(self.border, page=page),
         )
         without_content = [item[0] for item in bounds]
         # PageContentNavigator, the header and footer is ignored
@@ -201,8 +201,8 @@ def contentborder(sizeandborders, headerfooters):
     result = {}
     pages = [item.page for item in sizeandborders]
     for page in pages:
-        pageborder = hey.utils.select_page(sizeandborders, page).border
-        footerheader = hey.utils.select_page(headerfooters, page)
+        pageborder = utila.select_page(sizeandborders, page).border
+        footerheader = utila.select_page(headerfooters, page)
         footerheader = hey.utils.select_content(footerheader, (None, None))
 
         top = footerheader[0] if footerheader[0] else 0

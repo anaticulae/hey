@@ -143,7 +143,7 @@ def simple_page_2_text_only(simple_page_2: Page):  # pylint: disable=W0621
 @pytest.fixture
 def simple_second_page_navigator(simple_pagetextnavigators,
                                 ) -> PageTextNavigator:
-    return utila.select_page(simple_pagetextnavigators, pagenumber=1)
+    return utila.select_page(simple_pagetextnavigators, page=1)
 
 
 @pytest.fixture

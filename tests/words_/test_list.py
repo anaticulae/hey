@@ -50,7 +50,7 @@ def test_list_extract_page(
         simple_contentborder,
 ):
     page_1 = simple_document[1]
-    navigator_1 = utila.select_page(simple_pagetextnavigators, pagenumber=1)
+    navigator_1 = utila.select_page(simple_pagetextnavigators, page=1)
     contentborder_1 = simple_contentborder[1]
 
     return

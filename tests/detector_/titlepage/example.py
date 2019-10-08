@@ -119,5 +119,5 @@ def new_textnavgiator():
         serializeraw.load_document(TEXT, pages=0),  # just load the first page
         serializeraw.load_textpositions(TEXT_POSITION, pages=0),
     )
-    first = utila.select_page(navigators, pagenumber=0)
+    first = utila.select_page(navigators, page=0)
     return first

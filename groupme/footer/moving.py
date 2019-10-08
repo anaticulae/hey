@@ -24,7 +24,6 @@ import utila
 import groupme.footer
 import groupme.footer.footnotes
 import groupme.footer.pages
-import hey.utils
 
 
 @dataclasses.dataclass
@@ -46,15 +45,15 @@ class MovingFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
         )
 
         for page in self.horizontals:
-            sizeandborder = hey.utils.select_page(
+            sizeandborder = utila.select_page(
                 self.sizeandborders,
                 page.page,
             )
-            pagetextnavigator = hey.utils.select_page(
+            pagetextnavigator = utila.select_page(
                 self.pagetextnavigators,
                 page.page,
             )
-            pagenumber_location = hey.utils.select_page(
+            pagenumber_location = utila.select_page(
                 pagenumber_locations,
                 page.page,
             )
