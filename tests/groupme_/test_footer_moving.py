@@ -18,10 +18,11 @@ import tests.fixtures.restruct
 import tests.resources
 
 
-@pytest.mark.parametrize('document, pages', [
-    (tests.resources.MASTER_72PAGES, tuple(range(20))),
+@pytest.mark.parametrize('document, pages, expected_footer', [
+    (tests.resources.MASTER_72PAGES, tuple(range(20)),
+     [3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]),
 ])
-def test_groupme_footer_moving(document, pages):
+def test_groupme_footer_moving(document, pages, expected_footer):
     horizontallines = serializeraw.load_horizontals(
         tests.resources.horizontals(document),
         pages,
@@ -49,10 +50,9 @@ def test_groupme_footer_moving(document, pages):
     )
     result = strategy.result()
 
-    expected = [3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
-    assert len(result) == len(expected), result
+    assert len(result) == len(expected_footer), result
 
-    for footer in expected:
+    for footer in expected_footer:
         extracted_footer = utila.select_page(result, footer)
         assert extracted_footer[1], f'{footer}'
 
