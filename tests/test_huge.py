@@ -25,9 +25,10 @@ UNSUPPORTED_DOCUMENTS = {
     'paper/page_6_double_column_with_math.pdf',
 }
 
-EXPECTED_FAILURE = {# yapf:disable
+EXPECTED_FAILURE = {  # yapf:disable
     'howto_argparse/howto_argparse.pdf': 'not every headlines can be detected',
-    'order/howtowrite_pages9.pdf': 'headline detection does not works correctly',
+    # ambigous sections, groupme works, words does not work
+    # 'order/howtowrite_pages9.pdf': 'headline detection does not works correctly',
 }
 
 SKIP_DOCUMENTS = {
@@ -44,6 +45,7 @@ SKIP_DOCUMENTS = {
     'master/page_78_images_toc.pdf',
     'master/page_83_noimages_toc.pdf',
     'master/page_89_noimages_toc.pdf',
+    'order/howtowrite_pages9.pdf',
 }
 
 HEADLINE_COUNT = {

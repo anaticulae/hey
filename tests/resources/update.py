@@ -12,6 +12,7 @@ import os
 
 import utila
 
+import detector
 import detector.feature.titlepage
 import hey
 import tests.resources

@@ -14,7 +14,7 @@ import pytest
 import serializeraw
 import utila
 
-import detector
+import detector.cli
 import detector.feature.titlepage
 import tests
 

@@ -8,22 +8,9 @@
 # =============================================================================
 
 import pytest
-import utila
 
-import groupme
 import tests.groupme_
 import tests.resources
-
-
-@utila.skip_nonvirtual
-@pytest.hookimpl(tryfirst=True)
-def test_groupme_install_and_run():
-    """Install groupme and run groupme --help to ensure basic function"""
-    utila.install_and_run(
-        groupme.ROOT,
-        groupme.PACKAGE,
-        groupme.PROCESS,
-    )
 
 
 @pytest.mark.parametrize('cmd', [

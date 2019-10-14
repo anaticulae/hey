@@ -11,12 +11,7 @@ import os
 
 import pytest
 import utila
-from utila import install_and_run
-from utila.test import skip_nonvirtual
 
-from sections import PACKAGE
-from sections import PROCESS
-from sections import ROOT
 from tests.resources import MASTER_72PAGES
 from tests.resources import PYPORTING
 from tests.resources import RESTRUCT
@@ -24,14 +19,6 @@ from tests.resources import RESTRUCT_PDF
 from tests.resources import SIMPLE
 from tests.sections_ import run_sections_failure
 from tests.sections_ import run_sections_success
-
-
-@skip_nonvirtual
-@utila.skip_longrun
-@pytest.hookimpl(tryfirst=True)
-def test_sections_setup_py():
-    """Install sections and run setions --help to ensure basic functionality"""
-    install_and_run(ROOT, PACKAGE, PROCESS)
 
 
 @pytest.mark.parametrize('command', [
