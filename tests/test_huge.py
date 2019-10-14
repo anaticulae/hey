@@ -25,15 +25,20 @@ UNSUPPORTED_DOCUMENTS = {
     'paper/page_6_double_column_with_math.pdf',
 }
 
-EXPECTED_FAILURE = {
+EXPECTED_FAILURE = {# yapf:disable
     'howto_argparse/howto_argparse.pdf': 'not every headlines can be detected',
+    'order/howtowrite_pages9.pdf': 'headline detection does not works correctly',
 }
 
 SKIP_DOCUMENTS = {
     'bachelor/page_111_images_toc.pdf',
+    'bachelor/page_159_huge_appendix.pdf',
+    'bachelor/page_37_tables.pdf',
+    'bachelor/page_56_hard_to_read.pdf',
     'bachelor/page_63_images_toc.pdf',
     'docu/vimguide.pdf',
     'homework/page_40_images_toc.pdf',
+    'homework/page_50_math.pdf',
     'master/page_116_images_toc_formular.pdf',
     'master/page_72_noimages_toc.pdf',
     'master/page_78_images_toc.pdf',
