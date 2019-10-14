@@ -53,23 +53,22 @@ def test_run_sections_failed(command, testdir, monkeypatch):  #pylint: disable=W
     run_sections_failure(command, monkeypatch=monkeypatch)
 
 
-@pytest.mark.xfail(reson='problem in resource order - todo: fix resource order')
 def test_run_sections_multicore(testdir, monkeypatch):
     """Regression test to ensure the correct order of the different
     steps in multicore behavior.
 
-    There is a bug that steps which requires resources from previous
-    steps run before these steps are finished."""
-    # TODO: THERE IS A PROBLEM WITH MULTIPROCESSING
+    There was a bug in the order of steps that `sections` step was
+    runned to early and the required test data were not generated.
+    Solved by: upgrading utila lib.
+    """
     root = str(testdir)
 
     def setup_testresources():
         # this step is required, cause the test generator already
         # generates this required items.
         source = [
-            item.name
-            for item in os.scandir(MASTER_72PAGES)
-            if item.name.startswith('rawmaker')
+            item.name for item in os.scandir(MASTER_72PAGES) if
+            item.name.startswith('rawmaker') or item.name.startswith('groupme')
         ]
         for item in source:
             # TODO: extend copy_content with `search_pattern`
@@ -77,7 +76,7 @@ def test_run_sections_multicore(testdir, monkeypatch):
 
     setup_testresources()
 
-    jobs = 2
+    jobs = 5
     cmd = (f'-j{jobs} -i {root} -o {root}'
            ' --chapter --index --sections --title --toc --whitepage')
     run_sections_success(cmd, monkeypatch=monkeypatch)
