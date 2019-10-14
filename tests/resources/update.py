@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import concurrent.futures
 import os
 
 import utila
@@ -25,70 +26,58 @@ def sync_resources():
     assert completed.returncode == utila.SUCCESS, str(completed)
 
 
-RAWMAKER = [
-    (
-        tests.resources.RESTRUCT_PDF,
-        tests.resources.RESTRUCT,
-    ),
-    (
-        tests.resources.HOWTO_ARGPARSE_PDF,
-        tests.resources.HOWTO_ARGPARSE,
-    ),
-    (
-        tests.resources.PYPORTING_PDF,
-        tests.resources.PYPORTING,
-    ),
-    (
-        tests.resources.SIMPLE_PDF,
-        tests.resources.SIMPLE,
-    ),
-    (
-        tests.resources.BACHELOR_111PAGES_PDF,
-        tests.resources.BACHELOR_111PAGES,
-    ),
-    (
-        tests.resources.MASTER_72PAGES_PDF,
-        tests.resources.MASTER_72PAGES,
-    ),
-    (
-        tests.resources.TECHNICAL_24PAGES_PDF,
-        tests.resources.TECHNICAL_24PAGES,
-    ),
+PACKAGE = [
+    (tests.resources.BACHELOR_111PAGES_PDF, tests.resources.BACHELOR_111PAGES),
+    (tests.resources.HOWTO_ARGPARSE_PDF, tests.resources.HOWTO_ARGPARSE),
+    (tests.resources.MASTER_72PAGES_PDF, tests.resources.MASTER_72PAGES),
+    (tests.resources.PYPORTING_PDF, tests.resources.PYPORTING),
+    (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT),
+    (tests.resources.SIMPLE_PDF, tests.resources.SIMPLE),
+    (tests.resources.TECHNICAL_24PAGES_PDF, tests.resources.TECHNICAL_24PAGES),
 ]
 
-GROUPME_AND_SECTION = [
-    tests.resources.BACHELOR_111PAGES,
-    tests.resources.HOWTO_ARGPARSE,
-    tests.resources.MASTER_72PAGES,
-    tests.resources.PYPORTING,
-    tests.resources.RESTRUCT,
-    tests.resources.SIMPLE,
-    tests.resources.TECHNICAL_24PAGES,
-]
+
+def run_package(pdf, outpath):
+    utila.log(f'run {pdf}')
+    todo = []
+    todo.extend(create_todo_rawmaker(pdf, outpath))
+    todo.extend(create_todo_groupme(outpath))
+    todo.extend(create_todo_sections(outpath))
+
+    todo = [
+        f'{executable} -i {inpath} -o {outpath} {configuration}'
+        for (executable, inpath, outpath, configuration) in todo
+    ]
+    todo = ' && '.join(todo)
+    completed = utila.run(todo)
+    utila.assert_success(completed)
+    return todo
+
+
+WORKER = 5
 
 
 def extract_examples():
     if os.path.exists(tests.resources.GENERATED):
         return
 
-    todo = []
-    for pdf, out in RAWMAKER:
+    for pdf, _ in PACKAGE:
         assert pdf.endswith('.pdf') and os.path.exists(pdf), pdf
-        todo.extend(create_todo_rawmaker(pdf, out))
-
-    for path in GROUPME_AND_SECTION:
-        todo.extend(create_todo_groupme(path))
-        todo.extend(create_todo_sections(path))
 
     # ensure that generation directory exists
     os.makedirs(tests.resources.GENERATED)
 
-    for (executable, inpath, outpath, configuration) in todo:
-        cmd = f'{executable} -i {inpath} -o {outpath} {configuration}'
-        utila.debug(f'run {cmd}')
-        completed = utila.run(cmd, cwd=tests.resources.RESOURCES)
-        utila.assert_success(completed)
-        utila.debug('completed')
+    with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER) as executor:
+        futures = {
+            executor.submit(run_package, pdf, out): pdf for pdf, out in PACKAGE
+        }
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                comment = future.result()
+                utila.info(comment)
+            except Exception:
+                utila.info(f'{future} failed.')
+                raise
 
 
 def create_todo_rawmaker(inpath, outpath):
