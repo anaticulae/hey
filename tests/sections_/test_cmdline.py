@@ -64,6 +64,6 @@ def test_run_sections_multicore(testdir, monkeypatch):
     setup_testresources()
 
     jobs = 5
-    cmd = (f'-j{jobs} -i {root} -o {root}'
+    cmd = (f'-j{jobs} -i {root} -o {root} --pages=0:5'
            ' --chapter --index --sections --title --toc --whitepage')
     run_sections_success(cmd, monkeypatch=monkeypatch)
