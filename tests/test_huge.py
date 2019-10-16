@@ -26,7 +26,7 @@ UNSUPPORTED_DOCUMENTS = {
 }
 
 EXPECTED_FAILURE = {  # yapf:disable
-    'docu/twine.pdf': 'font extracting problem',
+    # 'docu/twine.pdf': 'font extracting problem',
     'howto_argparse/howto_argparse.pdf': 'not every headlines can be detected',
     # ambigous sections, groupme works, words does not work
     # 'order/howtowrite_pages9.pdf': 'headline detection does not works correctly',
@@ -39,6 +39,7 @@ SKIP_DOCUMENTS = {
     'bachelor/page_56_hard_to_read.pdf',
     'bachelor/page_63_images_toc.pdf',
     'docu/vimguide.pdf',
+    'docu/twine.pdf',
     'homework/page_40_images_toc.pdf',
     'homework/page_50_math.pdf',
     'master/page_116_images_toc_formular.pdf',

@@ -9,6 +9,7 @@
 
 import os
 
+import pytest
 import utila
 
 import groupme.feature.footer
@@ -48,7 +49,7 @@ def test_groupme_footer_dump_and_load(
     horizontals = restructured_horizontals
     pagenumbers = restructured_pagenumbers
     sizeandborders = restructured_sizeandborder
-    pagetextnavigators = restructured_pagetextnavigators,
+    pagetextnavigators = restructured_pagetextnavigators
     # TODO: use general strategy?
     extracted = groupme.footer.fixed.FixedFooterStrategy(
         horizontals,
@@ -63,20 +64,28 @@ def test_groupme_footer_dump_and_load(
     assert loaded == extracted
 
 
+@pytest.mark.parametrize('strategy', [
+    groupme.footer.moving.MovingFooterStrategy,
+    groupme.footer.fixed.FixedFooterStrategy,
+    groupme.footer.pages.PageNumberStrategy,
+])
 def test_groupme_footer_footerheader_detectionstategy(
+        strategy,
         restructured_horizontals,  #pylint:disable=W0621
         restructured_sizeandborder,  #pylint:disable=W0621
         restructured_pagenumbers,  #pylint:disable=W0621
         restructured_pagetextnavigators,  # pylint:disable=W0621
 ):
+    """Check that different strategies work proper with given resources"""
     horizontals = restructured_horizontals
     sizeandborders = restructured_sizeandborder
     pagenumbers = restructured_pagenumbers
     pagetextnavigators = restructured_pagetextnavigators
-    strategy = groupme.footer.FooterHeaderDetectionStrategy(
+
+    process = strategy(
         horizontals=horizontals,
         sizeandborders=sizeandborders,
         pagenumbers=pagenumbers,
         pagetextnavigators=pagetextnavigators,
     )
-    strategy.process()
+    process.result()

@@ -82,10 +82,7 @@ class FooterHeaderDetectionStrategy(abc.ABC):
         pass
 
     def result(self):
-        return []
-
-    def process(self):
-        pass
+        raise NotImplementedError()
 
     def pageheight(self, page):
         selected = utila.select_page(self.sizeandborders, page)
