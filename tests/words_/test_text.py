@@ -135,7 +135,7 @@ def test_words_text_extractor_titles(
             2,
             ([]),  # no content after headline
             ('u18'),
-            id='page 8',
+            id='page8',
         ),
         param(
             13,
@@ -144,7 +144,7 @@ def test_words_text_extractor_titles(
             ('make html is the main way you will '
              'build HTML documentation locally. It is simply a wrapper '
              'around a more complex call to Sphinx.'),
-            id='page 13',
+            id='page13',
         ),
         param(
             14,
@@ -153,7 +153,7 @@ def test_words_text_extractor_titles(
              'As you might have guessed from the name, we’ll be documenting a'
              ' basic web crawler.'),
             ('Include the following in your install.rst:'),
-            id='page 14',
+            id='page14',
             marks=pytest.mark.xfail(reason='require selective approach'),
         ),
         param(
@@ -161,7 +161,7 @@ def test_words_text_extractor_titles(
             9,
             ('u0'),
             (None),
-            id='page 15',
+            id='page15',
             marks=pytest.mark.xfail(reason='require selective approach'),
         ),
         param(
@@ -169,7 +169,7 @@ def test_words_text_extractor_titles(
             10,
             ('Make a manpage'),
             ('u21'),
-            id='page 16',
+            id='page16',
         ),
     ])
 def test_words_extract_texts_page_x(
