@@ -10,6 +10,8 @@
 TODO:
     what should we do with empty header/footer
 """
+import typing
+
 import iamraw
 import serializeraw
 import utila
@@ -18,6 +20,7 @@ import groupme.footer
 import groupme.footer.fixed
 import groupme.footer.moving
 import groupme.footer.pages
+import groupme.footer.serialize
 import hey.textnavigator
 
 
@@ -57,7 +60,7 @@ def work(
     )
 
     # dump
-    dumped = groupme.footer.dump_headerfooter(result)
+    dumped = groupme.footer.serialize.dump_headerfooter(result)
     return dumped
 
 
@@ -66,7 +69,7 @@ def extract_footerheader(
         sizeandborders,
         pagenumbers,
         pagetextnavigators,
-) -> groupme.footer.FooterBorder:
+) -> typing.List[groupme.footer.PageContentFooterHeader]:
     """Extract most common header/footer of the document
 
     Args:
@@ -94,4 +97,13 @@ def extract_footerheader(
 
 
 def judge_stategy(results):
-    return results[0]
+    count = [
+        len([
+            item.footer for item in result.values() if item.footer is not None
+        ]) for result in results
+    ]
+    best_result = count.index(max(count)) if max(count) > 0 else -1
+    if best_result >= 0:
+        best_result = results[best_result].values()
+        return best_result
+    return []

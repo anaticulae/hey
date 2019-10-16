@@ -104,7 +104,7 @@ class PageTextNavigator:
         Returns:
             List[(position, content)]
         """
-        assert START <= top <= bottom <= END
+        assert START <= top <= bottom <= END, f'{START}<={top}<={bottom}<={END}'
         before = top * self.height
         after = bottom * self.height
         result = []
@@ -227,7 +227,6 @@ def topbottom(size: PageSize, contentborder: Border):
     top, bottom = contentborder.top, contentborder.bottom
     top = percent_from_pagesize(height, top)
     bottom = percent_from_pagesize(height, bottom)
-
     return top, bottom
 
 

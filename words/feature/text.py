@@ -44,6 +44,7 @@ from iamraw import Paragraphs
 from iamraw import Undefined
 
 import groupme.footer
+import groupme.footer.serialize
 import words.headlines
 from hey.fonts.store import FontContentStore
 from hey.fonts.store import FontStore
@@ -160,7 +161,7 @@ def prepare_input(
         text_positions=position,
     )
     contentborder = serializeraw.load_pageborders(pagesizes)
-    headerfooters = groupme.footer.load_headerfooter(headerfooters)
+    headerfooters = groupme.footer.serialize.load_headerfooter(headerfooters)
     # contentborder = [(item.border, item.page) for item in contentborder]
     border = words.headlines.contentborder(
         contentborder,
@@ -294,7 +295,7 @@ def fill_headlines(headlines):
     ):
         heads.append(first)
         if second is None:
-            print('Implement fill last one till chapter ends')
+            utila.error('Implement fill last one till chapter ends')
             break
         for index in range(first.page + 1, second.page):
             heads.append(Headline(text=None, level=None, page=index))

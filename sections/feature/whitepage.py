@@ -33,6 +33,7 @@ from yaml import dump
 from yaml import load
 
 import groupme.footer
+import groupme.footer.serialize
 from hey import CACHE_SMALL
 from hey.textnavigator.navigator import END
 from hey.textnavigator.navigator import START
@@ -61,8 +62,7 @@ def work(
     document = serializeraw.load_document(document, pages=pages)
     position = serializeraw.load_textpositions(position, pages=pages)
 
-    # TODO: why do we used fixed footer strategy?
-    headerfooters = groupme.footer.load_headerfooter(footers)
+    headerfooters = groupme.footer.serialize.load_headerfooter(footers)
 
     navigators = create_pagetextnavigators(
         text=document,
@@ -95,7 +95,10 @@ def extract_whitepages(
             navigators,
             headerfooters,
     ]):
-        header, footer = headerfooter.content if headerfooter else (None, None)
+        header, footer = None, None
+        if headerfooter:
+            header, footer = headerfooter.header, headerfooter.footer
+
         if not navigator:
             result[pagenumber] = WhitePage.BLANK
             continue
@@ -108,8 +111,8 @@ def extract_whitepages(
                 result[pagenumber] = WhitePage.CONTENT
                 # result[pagenumber] = None
         else:
-            top = percent_from_pagesize(height, header) if header else START
-            bottom = percent_from_pagesize(height, footer) if footer else END
+            top = header.end if header else START
+            bottom = footer.begin if footer else END
             if not navigator.between(top, bottom):
                 result[pagenumber] = WhitePage.WHITE
             else:

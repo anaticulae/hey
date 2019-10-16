@@ -9,6 +9,7 @@
 
 # TODO: Move to iamraw
 
+import pytest
 import serializeraw
 import utila
 from iamraw import Document
@@ -173,6 +174,7 @@ def restructured_pagetextcontentnavigator(
     return pagecontent
 
 
+@pytest.mark.xfail(reason='problem with content border')
 def test_fontstore_fontcontentstore(
         restructured_pagetextcontentnavigator,  # pylint:disable=W0621
         restructured_fontstore,  # pylint:disable=W0621

@@ -14,6 +14,7 @@ from iamraw.sections import PERCENT_100
 from iamraw.sections import Sections
 
 import groupme.footer
+import groupme.footer.serialize
 import tests.fixtures
 import tests.resources
 import words.headlines
@@ -43,7 +44,6 @@ from tests.resources import RESTRUCT_HORIZONTAL
 from tests.resources import RESTRUCT_ONELINE_FONT_CONTENT
 from tests.resources import RESTRUCT_ONELINE_FONT_HEADER
 from tests.resources import RESTRUCT_ONELINE_TEXT
-from tests.resources import RESTRUCT_PAGENUMBERS
 from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
@@ -273,14 +273,8 @@ def restructured_textexample_dumped(
 
 
 @pytest.fixture
-def restructured_sizeandborder():
-    loaded = serializeraw.load_pageborders(RESTRUCT_PAGESIZE)
-    return loaded
-
-
-@pytest.fixture
 def restructured_headerfooter():
-    headerfooter = groupme.footer.load_headerfooter(RESTRUCT_FOOTERS)
+    headerfooter = groupme.footer.serialize.load_headerfooter(RESTRUCT_FOOTERS)
     return headerfooter
 
 

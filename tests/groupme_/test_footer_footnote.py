@@ -23,6 +23,4 @@ def test_groupme_footer_footenote_parse_notes(example):
     raw = utila.NEWLINE.join(raw)
 
     parsed = groupme.footer.footnotes.parse(raw)
-    for item in parsed:
-        print(item)
     assert len(parsed) == expected_footnotes

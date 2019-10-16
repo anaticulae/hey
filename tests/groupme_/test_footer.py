@@ -14,6 +14,7 @@ import utila
 import groupme.feature.footer
 import groupme.footer
 import groupme.footer.moving
+import groupme.footer.serialize
 import tests.fixtures.restruct
 import tests.resources
 # pylint:disable=W0611
@@ -55,10 +56,9 @@ def test_groupme_footer_dump_and_load(
         pagenumbers,
         pagetextnavigators,
     )
-    extracted = extracted.result()
-
-    dumped = groupme.footer.dump_headerfooter(extracted)
-    loaded = groupme.footer.load_headerfooter(dumped)
+    extracted = list(extracted.result().values())
+    dumped = groupme.footer.serialize.dump_headerfooter(extracted)
+    loaded = groupme.footer.serialize.load_headerfooter(dumped)
 
     assert loaded == extracted
 

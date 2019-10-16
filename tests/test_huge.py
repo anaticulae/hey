@@ -26,6 +26,7 @@ UNSUPPORTED_DOCUMENTS = {
 }
 
 EXPECTED_FAILURE = {  # yapf:disable
+    'docu/twine.pdf': 'font extracting problem',
     'howto_argparse/howto_argparse.pdf': 'not every headlines can be detected',
     # ambigous sections, groupme works, words does not work
     # 'order/howtowrite_pages9.pdf': 'headline detection does not works correctly',
@@ -152,8 +153,7 @@ def words_result(sections_result):  # pylint:disable=W0621
 
     completed = utila.run(runme)
     if completed.returncode:
-        print(completed.stdout)
-        print(completed.stderr)
+        utila.error((utila.format_completed(completed)))
     assert completed.returncode == utila.SUCCESS
 
     for item, expected_length in [

@@ -66,9 +66,7 @@ class MovingFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
                 sizeandborder=sizeandborder,
                 pagetextnavigator=pagetextnavigator,
             )
-
-            if processed is not None:
-                result[page.page] = (None, processed)
+            result[page.page] = processed
 
         return result
 
@@ -85,29 +83,35 @@ def process_page(
 ):
     pageheight = sizeandborder.size.height
 
-    min_footer_start = pageheight * BOTTOM_BORDER
-    filtered = [item for item in horizontals if item.box.y1 >= min_footer_start]
+    footer_start = pageheight * BOTTOM_BORDER
+    filtered = [item for item in horizontals if item.box.y1 >= footer_start]
     bottomed = max(
         [item.box.y1 for item in filtered],
         default=None,
     )
-    if bottomed is None:
-        return None
+    footer = None
+    header = None
 
-    footer = extract_footer(
-        bottomed,
-        pageheight,
-        pagenumber,
-        pagenumber_location,
-        pagetextnavigator,
+    if bottomed is not None:
+        footer = extract_footer(
+            bottomed,
+            pageheight,
+            pagenumber_location,
+            pagetextnavigator,
+        )
+
+    result = groupme.footer.PageContentFooterHeader(
+        header=header,
+        footer=footer,
+        page=pagenumber,
     )
-    return footer
+
+    return result
 
 
 def extract_footer(
         footerstart: float,
         pageheight: int,
-        pagenumber,
         pagenumber_location,
         pagetextnavigator,
 ):
@@ -116,10 +120,13 @@ def extract_footer(
     # objects is not interpreted correctly. The distance is often to small.
     # TODO: Remove after improving layout parser
     begin = begin - 0.03
+    begin = utila.roundme(begin)
 
     # TODO: HOW TO HANDLE NON DETECTED PAGENUMBER_LOCATION
-    end = pagenumber_location[1].y0 if pagenumber_location else pageheight
-    end = end / pageheight
+    end = pageheight
+    if pagenumber_location and pagenumber_location.footer:
+        end = pagenumber_location.footer.page_location.y0
+    end = utila.roundme(end / pageheight)
 
     content = pagetextnavigator.between(begin, end)
     content = footercontent(content)
@@ -127,7 +134,6 @@ def extract_footer(
     footnotes = groupme.footer.footnotes.parse(content)
 
     footer = MovingFooterInformation(
-        page=pagenumber,
         begin=begin,
         end=end,
         notes=footnotes,

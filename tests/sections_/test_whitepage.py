@@ -10,6 +10,7 @@
 import serializeraw
 
 import groupme.footer.fixed
+import groupme.footer.serialize
 import tests.fixtures
 import tests.resources
 from sections.feature.whitepage import PageContentWhitepages
@@ -57,7 +58,7 @@ def test_whitepages_extract(restructured_pagetextnavigators):
     document = serializeraw.load_document(RESTRUCT_TEXT)
 
     headerfooters = tests.resources.headerfooters(tests.resources.RESTRUCT)
-    headerfooters = groupme.footer.load_headerfooter(headerfooters)
+    headerfooters = groupme.footer.serialize.load_headerfooter(headerfooters)
 
     # work
     result = extract_whitepages(document, navigators, headerfooters)

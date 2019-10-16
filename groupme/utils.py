@@ -32,3 +32,8 @@ def count_textlines(page: iamraw.Page, remove_empty=False) -> int:
     if remove_empty:
         content = [item for item in content if item.strip()]
     return len(content)
+
+
+def percent(value):
+    assert value >= 0.0, str(value)
+    return value * 0.01

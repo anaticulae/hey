@@ -9,6 +9,7 @@
 
 import abc
 import collections
+import contextlib
 import dataclasses
 import enum
 import functools
@@ -20,6 +21,7 @@ import serializeraw
 import utila
 import yaml
 
+import groupme
 import hey
 import hey.cluster
 import hey.textnavigator.navigator
@@ -30,16 +32,20 @@ Footer = float
 Top = float
 Bottom = float
 
-FooterBorder = typing.Tuple[Top, Bottom]
 PageContentFooterHeader = collections.namedtuple(
     'PageContentFooterHeader',
-    'content, page',
+    'header, footer, page',
 )
 
 
 @dataclasses.dataclass
+class HeaderInformation:
+    begin: float
+    end: float
+
+
+@dataclasses.dataclass
 class FooterInformation:
-    page: int
     begin: float
     end: float
 
@@ -51,6 +57,9 @@ class FooterType(enum.Enum):
 
 
 class FooterHeaderDetectionStrategy(abc.ABC):
+    """
+    Relative or absolut result dimension?
+    """
 
     def __init__(
             self,
@@ -76,8 +85,14 @@ class FooterHeaderDetectionStrategy(abc.ABC):
         return []
 
     def process(self):
-        for content, page in self.horizontals:
-            print(content, page)
+        pass
+
+    def pageheight(self, page):
+        selected = utila.select_page(self.sizeandborders, page)
+        if selected is None:
+            return None
+        pageheight = selected.size.height
+        return pageheight
 
 
 def area(
@@ -136,7 +151,7 @@ def extract_own_footerheader(horizontals: iamraw.PagesWithHorizontalList):
 
 
 def match_horizontals(
-        todo: iamraw.PageContentHorizontals,
+        content: iamraw.PageContentHorizontals,
         vertical_position: float,
 ):
     """Check if any horizontal match the `vertical_position`
@@ -148,54 +163,5 @@ def match_horizontals(
         True if any horizontal line match the `vertical_position`
     """
     vertical = utila.roundme(vertical_position)
-    content = todo.content
     # TODO: Check y0/y1
     return any([utila.roundme(item.box.y0) == vertical for item in content])
-
-
-EMPTY = (0, 0.0)
-
-
-def footerborder_to_border(border: FooterBorder) -> iamraw.Border:
-    """Convert FooterBorder to Border"""
-    border = iamraw.Border(
-        bottom=border[1],
-        left=None,
-        right=None,
-        top=border[0],
-    )
-    return border
-
-
-def dump_headerfooter(pages) -> str:
-    # TODO: Move to iamraw
-    result = []
-    for page in pages:
-        (top, bottom) = page.content
-        top = utila.roundme(top) if top is not None else None
-        bottom = utila.roundme(bottom) if bottom is not None else None
-        result.append({
-            'page': page.page,
-            'headerfooter': f'{top} {bottom}',
-        })
-    return yaml.dump(result)
-
-
-@functools.lru_cache(maxsize=hey.CACHE_SMALL)
-def load_headerfooter(content: str) -> typing.List[FooterBorder]:
-    content = utila.from_raw_or_path(content, ftype='yaml')
-    loaded = yaml.load(content, Loader=yaml.FullLoader)
-
-    result = []
-    for item in loaded:
-        pagenumber = int(item['page'])
-        top, bottom = [
-            float(splitted) if splitted != 'None' else None
-            for splitted in item['headerfooter'].split()
-        ]
-        result.append(
-            PageContentFooterHeader(
-                content=(top, bottom),
-                page=pagenumber,
-            ))
-    return result

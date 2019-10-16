@@ -31,6 +31,7 @@ import serializeraw
 import utila
 
 import groupme.feature.numbers
+import groupme.footer.serialize
 import hey.textnavigator.navigator
 import words.headlines.nolevel
 import words.headlines.standard
@@ -62,7 +63,7 @@ def work(
     position = serializeraw.load_textpositions(text_position)
     sections = serializeraw.load_sections(sections)
     sizeandborder = serializeraw.load_pageborders(sizeandborder)
-    headerfooters = groupme.footer.load_headerfooter(headerfooters)
+    headerfooters = groupme.footer.serialize.load_headerfooter(headerfooters)
     pagetextnavigators = hey.textnavigator.navigator.create_pagetextnavigators(
         text=document,
         text_positions=position,

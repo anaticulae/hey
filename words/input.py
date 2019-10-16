@@ -15,6 +15,7 @@ import serializeraw
 import utila
 
 import groupme.feature
+import groupme.footer.serialize
 import hey.undefined
 import words.headlines
 
@@ -30,7 +31,7 @@ def prepare_input(
     headlines = serializeraw.load_headlines(headlines)
     extracted_text = serializeraw.load_text(extracted_text, headlines)
     border = serializeraw.load_pageborders(border)
-    headerfooters = groupme.footer.load_headerfooter(headerfooters)
+    headerfooters = groupme.footer.serialize.load_headerfooter(headerfooters)
     contentborder = words.headlines.contentborder(
         border,
         headerfooters,

@@ -13,6 +13,7 @@ import typing
 
 import pytest
 import serializeraw
+import utila
 
 import groupme.feature.numbers
 import tests.resources
@@ -50,7 +51,7 @@ def test_footer_restructured(restructured_pagetextnavigators):  #pylint:disable=
 
     # cluster with page numbers
     # 2 Pages and some header text lines
-    assert len(result) == 5, print_cluster(result)
+    assert len(result) == 5, utila.log_raw(result)
 
 
 def test_header_restructured(restructured_pagetextnavigators):  #pylint:disable=W0621
@@ -61,7 +62,7 @@ def test_header_restructured(restructured_pagetextnavigators):  #pylint:disable=
     # 'The RestructuredText Book Documentation, Release 0.1'))
 
     # 2 lines of header, one for the left and one for the right page/side
-    assert len(result) == 2, print_cluster(result)
+    assert len(result) == 2, utila.log_raw(result)
 
 
 def test_pagenumbers_restructured(restructured_pagetextnavigators):  #pylint:disable=W0621
@@ -103,13 +104,6 @@ def pagenumbers_restructured(restructured_pagetextnavigators):  #pylint:disable=
     # double page
     left, right = groupme.feature.numbers.pagenumbers(result)
     return left, right
-
-
-def print_cluster(clusters):
-    for cluster in clusters:
-        print()
-        for item in cluster:
-            print(item)
 
 
 @pytest.mark.parametrize('resource, expected_numbers', [
