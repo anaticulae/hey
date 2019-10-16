@@ -15,7 +15,7 @@ Welcome to a lot of features
 Modules
 --------------------
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 4
 
    .tmp/modules
 
