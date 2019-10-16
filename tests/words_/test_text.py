@@ -237,7 +237,7 @@ def test_words_text_convert_undefined_to_text(
         restructured_text,  # pylint:disable=W0621
         restructured_text_positions,  # pylint:disable=W0621
         restructured_sizeandborder,  # pylint:disable=W0621
-        restructured_contentborder, # pylint:disable=W0613
+        restructured_contentborder,  # pylint:disable=W0613
 ):
     headlines = restructured_headlines
     textexample = restructured_textexample

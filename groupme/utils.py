@@ -37,3 +37,9 @@ def count_textlines(page: iamraw.Page, remove_empty=False) -> int:
 def percent(value):
     assert value >= 0.0, str(value)
     return value * 0.01
+
+
+def between(bounding, ymin, ymax):
+    top = ymin <= bounding.y0 <= ymax
+    bottom = ymin <= bounding.y1 <= ymax
+    return top and bottom

@@ -22,6 +22,7 @@ import iamraw
 import utila
 
 import groupme.footer
+import groupme.horizontals
 import groupme.utils
 import hey.textnavigator.navigator
 
@@ -66,6 +67,8 @@ def extract_common_footer(
 
     # cluster horizontal lines
     clusters = hey.cluster.common_items(with_box, max_difference=2.0)
+    if not clusters:
+        return hey.textnavigator.navigator.START, hey.textnavigator.navigator.END
 
     top = extract_header(clusters, pageheight)
     bottom = extract_footer(clusters, pageheight)
@@ -103,10 +106,10 @@ def extract_footer(
     top_footer_border = pageheight * (1 - FOOTER_MAX_SIZE)
     bottom_footer_border = pageheight
 
-    result = groupme.footer.area(
+    result = groupme.horizontals.biggest_hlinecluster_in_area(
         clusters,
-        top_footer_border,
-        bottom_footer_border,
+        ymin=top_footer_border,
+        ymax=bottom_footer_border,
         max_groups=1,
     )
     if not result:
@@ -122,10 +125,10 @@ def extract_header(
     # TODO: HOLY VALUE Make dependent on page size
     assert 0 <= HEADER_MAX_SIZE <= 1, f'HEADER_MAX_SIZE: {HEADER_MAX_SIZE}'
     bottom_header_border = pageheight * HEADER_MAX_SIZE
-    result = groupme.footer.area(
+    result = groupme.horizontals.biggest_hlinecluster_in_area(
         clusters,
-        0,
-        bottom_header_border,
+        ymin=0,
+        ymax=bottom_header_border,
         max_groups=1,
     )
     if not result:
@@ -141,8 +144,8 @@ def extract_page_footerheader(
 ) -> typing.List[groupme.footer.PageContentFooterHeader]:
     result = {}
     for page in horizontals:
-        top_match = groupme.footer.match_horizontals(page.content, top)
-        bottom_match = groupme.footer.match_horizontals(page.content, bottom)
+        top_match = groupme.horizontals.match(page.content, top)
+        bottom_match = groupme.horizontals.match(page.content, bottom)
 
         header = None
         if top_match:
