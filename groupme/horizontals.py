@@ -44,8 +44,9 @@ def biggest_hlinecluster_in_area(
         clusters: typing.List,
         ymin: float,
         ymax: float,
-        max_groups: int = 1,  # pylint:disable=W0613
-) -> int:
+        max_group_count: int = 1,  # pylint:disable=W0613
+        min_group_size: int = 1,
+) -> typing.List[int]:
     """Determine cluster with maximal horizontal line count which fits
     in area between [ymin and ymax]. Return y-coordinate of cluster as a
     footer/header-border.
@@ -54,22 +55,28 @@ def biggest_hlinecluster_in_area(
         clusters: list of horizontal line cluster
         ymin: top y-bound of valid area
         ymax: bottom y-bound of valid area
-        max_groups: number of groups to detect(not supported yet)
+        max_group_count: number of groups to detect(not supported yet)
+        min_group_size: minimal amout of member in valid cluster
     Returns:
         `y-coordinate` of most matching cluster
         `None` if no cluster match [ymin,ymax] area
     """
     assert len(clusters) >= 1, 'no clusters provided'
-    inarea = cluster_in_area(clusters, ymin, ymax)
-    if not any([item for item in inarea]):
+    valid = cluster_in_area(clusters, ymin, ymax)
+    if not any([item for item in valid]):
         # no cluster is in range
         return None
 
-    maximized = groupme.likelihood.select_maxi(inarea)
-    assert len(maximized) == 1
+    # remove clusters with to few elements
+    valid = [item for item in valid if len(item) >= min_group_size]
 
-    _, (bounding, __) = maximized[0][0]
-    return [bounding.y1]
+    maximized = groupme.likelihood.select_maxi(valid, count=max_group_count)
+    result = []
+    for cluster in maximized:
+        first_cluster_item = cluster[0]
+        _, (bounding, __) = first_cluster_item  # select first item of cluster
+        result.append(bounding.y1)
+    return result
 
 
 def cluster_in_area(clusters, ymin, ymax):

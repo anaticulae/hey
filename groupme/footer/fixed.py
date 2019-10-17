@@ -17,7 +17,9 @@ Master of the art:
                          we have a lot of horizontal lines which challenges
                          the algorithm.
 """
+import collections
 import dataclasses
+import itertools
 import typing
 
 import configo.holyvalue
@@ -46,19 +48,22 @@ class FixedFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
         pageheight = self.pageheight(0)
 
         # determine most common border for all pages
-        top, bottom = extract_common_footer(
+        tops, bottoms = extract_common_footer(
             horizontals=self.horizontals,
             pageheight=pageheight,
+            max_group_count=MAX_FOOTERHEADER_AREA_COUNT,
         )
-
-        # look for every page if footer/header are present
-        extracted = extract_page_footerheader(
-            horizontals=self.horizontals,
-            top=top,
-            bottom=bottom,
-            pageheight=pageheight,
-        )
-        return extracted
+        footerheader = []
+        for top, bottom in itertools.zip_longest(tops, bottoms):
+            # look for every page if footer/header are present
+            extracted = extract_page_footerheader(
+                horizontals=self.horizontals,
+                top=top,
+                bottom=bottom,
+                pageheight=pageheight,
+            )
+            footerheader.extend(extracted)
+        return footerheader
 
 
 @dataclasses.dataclass  # pylint:disable=R0903
@@ -74,6 +79,7 @@ class FixedFooterInformation(groupme.footer.FooterInformation):
 def extract_common_footer(
         horizontals: iamraw.PagesWithHorizontalList,
         pageheight: int,
+        max_group_count: int = 1,
 ):
     """Extract common footer and header based on horizontal lines.
 
@@ -102,24 +108,26 @@ def extract_common_footer(
         pageheight=pageheight,
         upper_bound=hey.textnavigator.navigator.START,
         lower_bound=HEADER_MAX_SIZE,
+        max_group_count=max_group_count,
     )
     bottom = extract_inarea(
         clusters,
         pageheight=pageheight,
         upper_bound=hey.textnavigator.navigator.END - FOOTER_MAX_SIZE,
         lower_bound=hey.textnavigator.navigator.END,
+        max_group_count=max_group_count,
     )
 
     if top is None:
         # could not detect any header
-        top = hey.textnavigator.navigator.START
+        top = [hey.textnavigator.navigator.START]
 
     if bottom is None:
         # could not detect any footer
-        bottom = pageheight
+        bottom = [pageheight]
 
     # the header is on the top(0.0) and the footer is on the bottom(1.0)
-    assert top < bottom, '%.2f < %.2f' % (top, bottom)
+    assert max(top) < min(bottom), f'{top} < {bottom}'
     return top, bottom
 
 
@@ -142,9 +150,10 @@ def extract_page_footerheader(
     """
     result = []
     for page in horizontals:
+        content = page.content
+
         header = None
-        top_match = groupme.horizontals.match(page.content, top)
-        if top_match:
+        if top is not None and groupme.horizontals.match(content, top):
             top_ = utila.roundme(top / pageheight)
             header = FixedHeaderInformation(
                 begin=hey.textnavigator.navigator.START,
@@ -152,8 +161,7 @@ def extract_page_footerheader(
             )
 
         footer = None
-        bottom_match = groupme.horizontals.match(page.content, bottom)
-        if bottom_match:
+        if bottom is not None and groupme.horizontals.match(content, bottom):
             bottom_ = utila.roundme(bottom / pageheight)
             footer = FixedFooterInformation(
                 begin=bottom_,
@@ -169,6 +177,46 @@ def extract_page_footerheader(
     return result
 
 
+def remove_duplication(items):
+    """In some cases more than one potential header or footer are
+    detected for one page. This method judges the problem and select the
+    `best` result.
+    """
+    source = collections.defaultdict(list)
+    for item in items:
+        source[item.page].append(item)
+
+    result = []
+    for values in source.values():
+        if len(values) == 1:
+            result.append(values)
+            continue
+        result.append(multijudgement(values))
+
+    result = sorted(result, key=lambda x: x.page)
+    return result
+
+
+def multijudgement(judges):
+    # TODO: Stategy how to judge multiple matches
+    # BIGGER ONE, ITEM OF BIGGER CLUSTER?
+
+    def count_item(item):
+        return int(item.footer is not None) + int(item.header is not None)
+
+    current = judges[0]
+    count = count_item(current)
+    for item in judges[1:]:
+        cur_count = count_item(item)
+        if cur_count < count:
+            continue
+        current = item
+        current = item
+    return current
+
+
+NO_CLUSTER = [hey.textnavigator.navigator.START], [hey.textnavigator.navigator.END] # yapf:disable
+
 # TODO: REMOVE AFTER HAVING CONCEPT FOR DEFAULT CONFIGURATION
 configo.holyvalue.DATABASE = configo.holyvalue.DataBase(
     __file__,
@@ -180,7 +228,17 @@ COMMON_HORIZONTAL_CLASSIFICATOR_MAX_ERROR = configo.HV(
     datatype=configo.DataType.FLOAT_PLUS,
 )
 
-NO_CLUSTER = hey.textnavigator.navigator.START, hey.textnavigator.navigator.END
+# minimal horizontal line count in cluster to avoid low item cluster
+MIN_CLUSTER_SIZE = configo.HV(
+    default=10,
+    datatype=configo.DataType.INT_PLUS,
+)
+
+# maximal count of different header/footer areas
+MAX_FOOTERHEADER_AREA_COUNT = configo.HV(
+    default=5,
+    datatype=configo.DataType.INT_PLUS,
+)
 
 # maximal distance from page top in percent where header can be detected
 HEADER_MAX_SIZE = configo.HV(
@@ -202,6 +260,8 @@ def extract_inarea(
         pageheight: int,
         upper_bound: float = hey.textnavigator.navigator.START,
         lower_bound: float = hey.textnavigator.navigator.END,
+        max_group_count: int = 1,
+        min_group_size: int = MIN_CLUSTER_SIZE,
 ) -> float:
     """Determine all elements in the potential footer/header area"""
     ymin = pageheight * upper_bound
@@ -211,8 +271,9 @@ def extract_inarea(
         clusters,
         ymin=ymin,
         ymax=ymax,
-        max_groups=1,
+        max_group_count=max_group_count,
+        min_group_size=min_group_size,
     )
     if not result:
         return None
-    return result[0]
+    return result

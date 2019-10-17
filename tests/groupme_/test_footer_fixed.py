@@ -7,7 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import pytest
+import itertools
+
 import serializeraw
 import utila
 
@@ -40,7 +41,7 @@ def test_groupme_footer_fixed_restructed_extract_common_footer():
 
 def test_groupme_footer_fixed_restructed_extract_page_footerheader():
     horizontals, pageheight, top, bottom = _restructed()
-
+    top, bottom = top[0], bottom[0]
     extracted = groupme.footer.fixed.extract_page_footerheader(
         horizontals,
         top,
@@ -75,15 +76,28 @@ def test_groupme_footer_fixed_bachelor111page_extract_common_footer():
     assert top < bottom
 
 
-@pytest.mark.xfail(reason='header collector is not good enough')
 def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader():
+    """Use more than one group to detect all headers. There are orderd
+    from biggest to smallest"""
     horizontals, pageheight, top, bottom = _bachelor111()
 
-    extracted = groupme.footer.fixed.extract_page_footerheader(
-        horizontals,
-        top,
-        bottom,
-        pageheight,
-    )
-    header = [item.header for item in extracted if item.header]
+    footerheader = []
+    for top, bottom in itertools.zip_longest(top, bottom):
+        extracted = groupme.footer.fixed.extract_page_footerheader(
+            horizontals,
+            top,
+            bottom,
+            pageheight,
+        )
+        footerheader.extend(extracted)
+    footerheader = groupme.footer.fixed.remove_duplication(footerheader)
+
+    msg = 'more footer than pages, remove duplication'
+    assert len(footerheader) < tests.resources.BACHELOR_111PAGES_PAGE_COUNT, msg
+
+    header = [item.header for item in footerheader if item.header]
     assert len(header) == 94, utila.log_raw(header)
+
+    # assert that strategy detect no invalid fixed footer
+    footer = [item.footer for item in footerheader if item.footer]
+    assert not footer, utila.log_raw(footer)

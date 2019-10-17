@@ -47,25 +47,41 @@ def mini(items):
     return _max_mini(items, method=min)
 
 
-def select_maxi(items, caller=len):
-    selected = _select(items, decider=max, caller=caller)
+def select_maxi(items, caller=len, count=1):
+    selected = _select(items, decider=max, caller=caller, count=count)
     return selected
 
 
-def select_mini(items, caller=len):
-    selected = _select(items, decider=min, caller=caller)
+def select_mini(items, caller=len, count=1):
+    selected = _select(items, decider=min, caller=caller, count=count)
     return selected
 
 
-def _select(items, decider, caller):
-    called = [caller(item) for item in items]
-    maximized = _max_mini(called, method=decider)
-
-    result = [
-        item for item, selector in zip(items, called) if selector == maximized
-    ]
-    # TODO: MOVE TO UTILA
+def _select(items, decider, caller, count):
     # TODO: SUPPORT DICT
+    result = []
+    items = items[:]  # make a copy to avoid changing the source
+    for _ in range(count + 1):
+        called = [caller(item) for item in items]
+        maximized = _max_mini(called, method=decider)
+        # finding
+        # XXX: a little bit dirty here
+        collected = [
+            item for item, selector in zip(items, called)
+            if selector == maximized
+        ]
+        # cluster can contain more than one item, if maxi detect more than
+        # one max item. For example: if two cluster have 20 items.
+        # TODO: require second judger
+        result.extend(collected)
+
+        # remove finding of rest
+        for item in collected:
+            items.remove(item)
+
+        # stop if not items are left
+        if not items:
+            break
     return result
 
 

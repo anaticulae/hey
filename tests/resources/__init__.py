@@ -99,6 +99,7 @@ MASTER_72PAGES_PDF = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
 
 BACHELOR_111PAGES = os.path.join(GENERATED, 'page_111_images_toc')
 BACHELOR_111PAGES_PDF = os.path.join(BACHELOR, 'page_111_images_toc.pdf')
+BACHELOR_111PAGES_PAGE_COUNT = 111
 
 TECHNICAL_24PAGES = os.path.join(GENERATED, 'technical_24pages')
 TECHNICAL_24PAGES_PDF = os.path.join(TECHNICAL, 'page_24_color_figures_images.pdf') # yapf:disable
