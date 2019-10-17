@@ -23,15 +23,23 @@ PageContentFooterHeader = collections.namedtuple(
 
 
 @dataclasses.dataclass  # pylint:disable=R0903
+class PageInformation:
+    value: str = None
+    raw: str = None
+
+
+@dataclasses.dataclass  # pylint:disable=R0903
 class HeaderInformation:
     begin: float
     end: float
+    page: PageInformation = None
 
 
 @dataclasses.dataclass  # pylint:disable=R0903
 class FooterInformation:
     begin: float
     end: float
+    page: PageInformation = None
 
 
 class FooterHeaderDetectionStrategy(abc.ABC):

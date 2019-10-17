@@ -27,6 +27,7 @@ import iamraw
 import utila
 
 import groupme.footer
+import groupme.footer.headnotes
 import groupme.horizontals
 import groupme.utils
 import hey.textnavigator.navigator
@@ -61,14 +62,22 @@ class FixedFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
                 top=top,
                 bottom=bottom,
                 pageheight=pageheight,
+                pagetextnavigators=self.pagetextnavigators,
             )
             footerheader.extend(extracted)
         return footerheader
 
 
-@dataclasses.dataclass  # pylint:disable=R0903
+@dataclasses.dataclass
 class FixedHeaderInformation(groupme.footer.HeaderInformation):
-    pass
+
+    title: groupme.footer.headnotes.HeaderTitle = None
+
+    undefined: typing.List[groupme.footer.headnotes.RawText] =\
+                                         dataclasses.field(default_factory=list)
+
+    images: typing.List[groupme.footer.headnotes. HeaderImages] =\
+                                         dataclasses.field(default_factory=list)
 
 
 @dataclasses.dataclass  # pylint:disable=R0903
@@ -136,6 +145,7 @@ def extract_page_footerheader(
         top: float,
         bottom: float,
         pageheight: float,
+        pagetextnavigators,
 ) -> typing.List[groupme.footer.PageContentFooterHeader]:
     """Extract footer and header which matches `top` and `bottom`.
 
@@ -151,14 +161,11 @@ def extract_page_footerheader(
     result = []
     for page in horizontals:
         content = page.content
+        textnavigator = utila.select_page(pagetextnavigators, page.page)
 
         header = None
         if top is not None and groupme.horizontals.match(content, top):
-            top_ = utila.roundme(top / pageheight)
-            header = FixedHeaderInformation(
-                begin=hey.textnavigator.navigator.START,
-                end=top_,
-            )
+            header = create_header(top, pageheight, textnavigator)
 
         footer = None
         if bottom is not None and groupme.horizontals.match(content, bottom):
@@ -174,6 +181,34 @@ def extract_page_footerheader(
             page=page.page,
         )
         result.append(footer_header)
+    return result
+
+
+def create_header(top, pageheight, textnavigator):
+    """
+    Args:
+        top(pixel)
+    """
+    top_ = utila.roundme(top / pageheight)  # TODO: Replace with utila method
+    # XXX: 10% percent cause of bad font-bounding-boxing
+    top_ = utila.roundme(top_ * 1.1)
+    headercontent = textnavigator.between(
+        hey.textnavigator.navigator.START,
+        top_,
+    )
+    parsed = groupme.footer.headnotes.parse(headercontent)
+
+    result = FixedHeaderInformation(
+        begin=hey.textnavigator.navigator.START,
+        end=top_,
+    )
+    for item in parsed:
+        if isinstance(item, groupme.footer.headnotes.HeaderTitle):
+            result.title = item
+        if isinstance(item, groupme.footer.headnotes.RawText):
+            result.undefined.append(item)  # pylint:disable=E1101
+        if isinstance(item, groupme.footer.PageInformation):
+            result.page = item
     return result
 
 

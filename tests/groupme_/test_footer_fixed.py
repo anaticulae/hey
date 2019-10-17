@@ -13,6 +13,7 @@ import serializeraw
 import utila
 
 import groupme.footer.fixed
+import tests.fixtures
 import tests.resources
 
 
@@ -25,28 +26,31 @@ def _restructed():
 
     pageheight = utila.select_page(sizeandborder, 0).size.height
 
+    navigators = tests.fixtures.create_pagetextnavigators(tests.resources.RESTRUCT) # yapf:disable
+
     top, bottom = groupme.footer.fixed.extract_common_footer(
         horizontals=horizontals,
         pageheight=pageheight,
     )
-    return horizontals, pageheight, top, bottom
+    return horizontals, pageheight, top, bottom, navigators
 
 
 def test_groupme_footer_fixed_restructed_extract_common_footer():
-    _, __, top, bottom = _restructed()
+    _, __, top, bottom, ___ = _restructed()
     assert top  # document has header
     assert bottom  # document has footer
     assert top < bottom
 
 
 def test_groupme_footer_fixed_restructed_extract_page_footerheader():
-    horizontals, pageheight, top, bottom = _restructed()
+    horizontals, pageheight, top, bottom, pagetextnavigators = _restructed()
     top, bottom = top[0], bottom[0]
     extracted = groupme.footer.fixed.extract_page_footerheader(
         horizontals,
         top,
         bottom,
         pageheight,
+        pagetextnavigators,
     )
     allfooter = [
         item.footer is not None for item in extracted if item.page >= 2
@@ -62,24 +66,17 @@ def _bachelor111():
     sizeandborder = serializeraw.load_pageborders(sizeandborder)
     pageheight = utila.select_page(sizeandborder, 0).size.height
 
+    navigators = tests.fixtures.create_pagetextnavigators(tests.resources.BACHELOR_111PAGES) # yapf:disable
+
     top, bottom = groupme.footer.fixed.extract_common_footer(
         horizontals=horizontals,
         pageheight=pageheight,
     )
-    return horizontals, pageheight, top, bottom
+    return horizontals, pageheight, top, bottom, navigators
 
 
-def test_groupme_footer_fixed_bachelor111page_extract_common_footer():
-    _, __, top, bottom = _bachelor111()
-    assert top  # document has header
-    assert bottom  # document has footer
-    assert top < bottom
-
-
-def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader():
-    """Use more than one group to detect all headers. There are orderd
-    from biggest to smallest"""
-    horizontals, pageheight, top, bottom = _bachelor111()
+def _bachelor111_footerheader():
+    horizontals, pageheight, top, bottom, pagetextnavigators = _bachelor111()
 
     footerheader = []
     for top, bottom in itertools.zip_longest(top, bottom):
@@ -88,10 +85,25 @@ def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader():
             top,
             bottom,
             pageheight,
+            pagetextnavigators,
         )
         footerheader.extend(extracted)
     footerheader = groupme.footer.fixed.remove_duplication(footerheader)
+    return footerheader
 
+
+def test_groupme_footer_fixed_bachelor111page_extract_common_footer():
+    _, __, top, bottom, ___ = _bachelor111()
+    assert top  # document has header
+    assert bottom  # document has footer
+    assert top < bottom
+
+
+def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader():
+    """Use more than one group to detect all headers. There are ordered
+    from biggest to smallest"""
+
+    footerheader = _bachelor111_footerheader()
     msg = 'more footer than pages, remove duplication'
     assert len(footerheader) < tests.resources.BACHELOR_111PAGES_PAGE_COUNT, msg
 
@@ -101,3 +113,6 @@ def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader():
     # assert that strategy detect no invalid fixed footer
     footer = [item.footer for item in footerheader if item.footer]
     assert not footer, utila.log_raw(footer)
+
+
+# TODO: ADD TEST TO CHECK THE INTERNALS OF HEADER RESULT OF BACHELOR 111
