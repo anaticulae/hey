@@ -57,7 +57,7 @@ def test_groupme_footer_dump_and_load(
         pagenumbers,
         pagetextnavigators,
     )
-    extracted = list(extracted.result().values())
+    extracted = extracted.result()
     dumped = groupme.footer.serialize.dump_headerfooter(extracted)
     loaded = groupme.footer.serialize.load_headerfooter(dumped)
 

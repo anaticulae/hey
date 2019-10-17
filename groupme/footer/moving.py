@@ -36,7 +36,7 @@ class MovingFooterInformation(groupme.footer.FooterInformation):
 class MovingFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
 
     def result(self):
-        result = {}
+        result = []
 
         pagenumber_locations = groupme.footer.pages.pagenumber_location(
             self.horizontals,
@@ -66,7 +66,7 @@ class MovingFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
                 sizeandborder=sizeandborder,
                 pagetextnavigator=pagetextnavigator,
             )
-            result[page.page] = processed
+            result.append(processed)
 
         return result
 

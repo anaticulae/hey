@@ -137,10 +137,10 @@ def extract_page_footerheader(
         bottom(pixel): position of footer-border horizontal line
         pageheight(pixel): height of pages in pixel
     Returns:
-        dictonary of `groupme.footer.PageContentFooterHeader` for every
+        list of `groupme.footer.PageContentFooterHeader` for every
         page with header and footer information.
     """
-    result = {}
+    result = []
     for page in horizontals:
         header = None
         top_match = groupme.horizontals.match(page.content, top)
@@ -160,12 +160,12 @@ def extract_page_footerheader(
                 end=hey.textnavigator.navigator.END,
             )
 
-        footerandheader = groupme.footer.PageContentFooterHeader(
+        footer_header = groupme.footer.PageContentFooterHeader(
             header=header,
             footer=footer,
             page=page.page,
         )
-        result[page.page] = footerandheader
+        result.append(footer_header)
     return result
 
 

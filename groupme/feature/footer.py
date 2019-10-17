@@ -97,13 +97,15 @@ def extract_footerheader(
 
 
 def judge_stategy(results):
+    # TODO: IMPROVE THIS
     count = [
-        len([
-            item.footer for item in result.values() if item.footer is not None
-        ]) for result in results
+        len([item.footer
+             for item in result
+             if item.footer is not None])
+        for result in results
     ]
     best_result = count.index(max(count)) if max(count) > 0 else -1
     if best_result >= 0:
-        best_result = results[best_result].values()
-        return best_result
+        result = results[best_result]
+        return result
     return []

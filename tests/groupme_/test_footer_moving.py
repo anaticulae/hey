@@ -50,7 +50,7 @@ def test_groupme_footer_moving(document, pages, expected_footer):
     )
     result = strategy.result()
 
-    footer = [item for item in result.values() if item.footer]
+    footer = [item for item in result if item.footer]
     assert len(footer) == len(expected_footer), footer
 
     for footer in expected_footer:

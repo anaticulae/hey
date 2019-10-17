@@ -36,19 +36,19 @@ class PagesFooterInformation(groupme.footer.FooterInformation):
 class PageNumberStrategy(groupme.footer.FooterHeaderDetectionStrategy):
 
     def result(self):
-        result = {}
+        result = []
         if isinstance(self.pagenumbers, tuple):
             assert len(self.pagenumbers) == 2, 'require left and right pages'
             left = self.process_pageside(self.pagenumbers[0])
             right = self.process_pageside(self.pagenumbers[1])
-            result.update(left)
-            result.update(right)
+            result.extend(left)
+            result.extend(right)
         else:
             result = self.process_pageside(self.pagenumbers)
         return result
 
     def process_pageside(self, pagenumbers):
-        result = {}
+        result = []
         pagenumbers = {item[0]: (item[1], item[2]) for item in pagenumbers}
         for page in self.sizeandborders:
             pdfpage = page.page
@@ -69,12 +69,12 @@ class PageNumberStrategy(groupme.footer.FooterHeaderDetectionStrategy):
                     end=end,
                     page_location=processed[1],
                 )
-                footerheader = groupme.footer.PageContentFooterHeader(
+                footer_header = groupme.footer.PageContentFooterHeader(
                     header=header,
                     footer=footer,
                     page=pdfpage,
                 )
-                result[pdfpage] = footerheader
+                result.append(footer_header)
         return result
 
 
