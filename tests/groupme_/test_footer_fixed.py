@@ -12,14 +12,13 @@ import utila
 
 import groupme.footer.fixed
 import tests.resources
-# pylint:disable=W0611
-from tests.fixtures.restruct import restructured_horizontals
 
 
-def test_groupme_footer_fixed_extract(restructured_horizontals):  #pylint:disable=W0621
-    horizontals = restructured_horizontals
+def test_groupme_footer_fixed_restructed_extract():
+    horizontals = tests.resources.horizontals(tests.resources.RESTRUCT)
+    horizontals = serializeraw.load_horizontals(horizontals)
 
-    sizeandborder = tests.resources.sizeandborder(tests.resources.BACHELOR_111PAGES)  #yapf:disable
+    sizeandborder = tests.resources.sizeandborder(tests.resources.RESTRUCT)
     sizeandborder = serializeraw.load_pageborders(sizeandborder)
     pageheight = utila.select_page(sizeandborder, 0).size.height
 
