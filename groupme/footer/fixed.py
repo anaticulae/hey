@@ -49,12 +49,12 @@ class FixedFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
 
 
 @dataclasses.dataclass
-class FixedFooterInformation(groupme.footer.FooterInformation):
+class FixedHeaderInformation(groupme.footer.HeaderInformation):
     pass
 
 
 @dataclasses.dataclass
-class FixedHeaderInformation(groupme.footer.HeaderInformation):
+class FixedFooterInformation(groupme.footer.FooterInformation):
     pass
 
 
@@ -67,6 +67,9 @@ COMMON_HORIZONTAL_CLASSIFICATOR_MAX_ERROR = configo.HV(
     default=2.0,
     datatype=configo.DataType.FLOAT_PLUS,
 )
+
+NO_CLUSTER = hey.textnavigator.navigator.START, hey.textnavigator.navigator.END
+
 
 def extract_common_footer(
         horizontals: iamraw.PagesWithHorizontalList,
@@ -92,7 +95,7 @@ def extract_common_footer(
         max_difference=COMMON_HORIZONTAL_CLASSIFICATOR_MAX_ERROR,
     )
     if not clusters:
-        return hey.textnavigator.navigator.START, hey.textnavigator.navigator.END
+        return NO_CLUSTER
 
     top = extract_header(clusters, pageheight)
     bottom = extract_footer(clusters, pageheight)
