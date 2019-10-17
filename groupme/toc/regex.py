@@ -117,10 +117,10 @@ EXTENDED_PATTERN = re.compile(
 NO_DOTS = re.compile(
     (
         r'^'
-        r'(?P<level>(\d))'
+        r'(?P<level>(\d{1,2}\.?)+\d{0,2})'
         r'[ ]{1,5}'
         r'(?P<text>\w'  # ensure that text does not start with whitespace
-        r'[\w ]+)'
+        fr'[{USER_CONTENT}{WITH_NEWLINE}]+?\w+?)'
         r'$'),
     re.VERBOSE | re.MULTILINE | re.UNICODE,
 )
