@@ -22,13 +22,13 @@ PageContentFooterHeader = collections.namedtuple(
 )
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass  # pylint:disable=R0903
 class HeaderInformation:
     begin: float
     end: float
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass  # pylint:disable=R0903
 class FooterInformation:
     begin: float
     end: float
