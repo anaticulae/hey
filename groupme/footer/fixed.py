@@ -31,7 +31,6 @@ class FixedFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
 
     def result(self):
         # TODO: HOW TO HANDLE DIFFERENT PAGE HEIGHTS
-        # pageheight = utila.select_page(self.sizeandborders, 0)[0][1]
         pageheight = self.pageheight(0)
         # determine border for all pages
         top, bottom = extract_common_footer(self.horizontals, pageheight)
@@ -75,15 +74,11 @@ def extract_common_footer(
     if top is None:
         # could not detect any header
         top = hey.textnavigator.navigator.START
-    # else:
-    #     top = top / pageheight
+
     if bottom is None:
         # could not detect any footer
         bottom = pageheight
-        # bottom = hey.textnavigator.navigator.END
-    else:
-        pass
-        # bottom = bottom / pageheight
+
     # the header is on the top(0.0) and the footer is on the bottom(1.0)
     assert top < bottom, '%.2f < %.2f' % (top, bottom)
 
@@ -100,7 +95,6 @@ def extract_footer(
 ) -> float:
     """Determine all elements in the potential footer area"""
     # TODO: remove holy value
-    # TODO: Make dependent on page size
     assert 0 <= FOOTER_MAX_SIZE <= 1, f'FOOTER_MAX_SIZE: {FOOTER_MAX_SIZE}'
 
     top_footer_border = pageheight * (1 - FOOTER_MAX_SIZE)

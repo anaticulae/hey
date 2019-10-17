@@ -34,12 +34,6 @@ class FooterInformation:
     end: float
 
 
-class FooterType(enum.Enum):
-    NONE = enum.auto()
-    FIXED = enum.auto()
-    VARIABLE = enum.auto()
-
-
 class FooterHeaderDetectionStrategy(abc.ABC):
     """
     Relative or absolut result dimension?
