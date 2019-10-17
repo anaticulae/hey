@@ -31,44 +31,44 @@ import hey.textnavigator.navigator
 
 
 class FixedFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
+    """The `FixedFooterStrategy` detects footer and header depending on
+    horizontal line position. The strategy detects the most common
+    border for header and footer.
+
+    The header is located in [top, `HEADER_MAX_SIZE`]
+    The footer is located in [bottom-`FOOTER_MAX_SIZE`, bottom].
+
+    TODO: Run strategy with second common, third common header/footer again.
+    """
 
     def result(self):
         # TODO: HOW TO HANDLE DIFFERENT PAGE HEIGHTS
         pageheight = self.pageheight(0)
+
         # determine most common border for all pages
-        top, bottom = extract_common_footer(self.horizontals, pageheight)
+        top, bottom = extract_common_footer(
+            horizontals=self.horizontals,
+            pageheight=pageheight,
+        )
 
         # look for every page if footer/header are present
         extracted = extract_page_footerheader(
-            self.horizontals,
-            top,
-            bottom,
-            pageheight,
+            horizontals=self.horizontals,
+            top=top,
+            bottom=bottom,
+            pageheight=pageheight,
         )
         return extracted
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass  # pylint:disable=R0903
 class FixedHeaderInformation(groupme.footer.HeaderInformation):
     pass
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass  # pylint:disable=R0903
 class FixedFooterInformation(groupme.footer.FooterInformation):
     pass
-
-
-# TODO: REMOVE AFTER HAVING CONCEPT FOR DEFAULT CONFIGURATION
-configo.holyvalue.DATABASE = configo.holyvalue.DataBase(
-    __file__,
-    current=configo.holyvalue.DataSet(),
-)
-COMMON_HORIZONTAL_CLASSIFICATOR_MAX_ERROR = configo.HV(
-    default=2.0,
-    datatype=configo.DataType.FLOAT_PLUS,
-)
-
-NO_CLUSTER = hey.textnavigator.navigator.START, hey.textnavigator.navigator.END
 
 
 def extract_common_footer(
@@ -97,8 +97,19 @@ def extract_common_footer(
     if not clusters:
         return NO_CLUSTER
 
-    top = extract_header(clusters, pageheight)
-    bottom = extract_footer(clusters, pageheight)
+    top = extract_inarea(
+        clusters,
+        pageheight=pageheight,
+        upper_bound=hey.textnavigator.navigator.START,
+        lower_bound=HEADER_MAX_SIZE,
+    )
+    bottom = extract_inarea(
+        clusters,
+        pageheight=pageheight,
+        upper_bound=hey.textnavigator.navigator.END - FOOTER_MAX_SIZE,
+        lower_bound=hey.textnavigator.navigator.END,
+    )
+
     if top is None:
         # could not detect any header
         top = hey.textnavigator.navigator.START
@@ -109,53 +120,7 @@ def extract_common_footer(
 
     # the header is on the top(0.0) and the footer is on the bottom(1.0)
     assert top < bottom, '%.2f < %.2f' % (top, bottom)
-
     return top, bottom
-
-
-HEADER_MAX_SIZE = groupme.utils.percent(15)
-FOOTER_MAX_SIZE = groupme.utils.percent(20)  # percent # TODO: HOLY VALUE
-
-
-def extract_footer(
-        clusters: typing.List,
-        pageheight: int,
-) -> float:
-    """Determine all elements in the potential footer area"""
-    # TODO: remove holy value
-    assert 0 <= FOOTER_MAX_SIZE <= 1, f'FOOTER_MAX_SIZE: {FOOTER_MAX_SIZE}'
-
-    top_footer_border = pageheight * (1 - FOOTER_MAX_SIZE)
-    bottom_footer_border = pageheight
-
-    result = groupme.horizontals.biggest_hlinecluster_in_area(
-        clusters,
-        ymin=top_footer_border,
-        ymax=bottom_footer_border,
-        max_groups=1,
-    )
-    if not result:
-        return None
-    return result[0]
-
-
-def extract_header(
-        clusters: typing.List,
-        pageheight: int,
-) -> float:
-    """Determine all elements in the potential header area"""
-    # TODO: HOLY VALUE Make dependent on page size
-    assert 0 <= HEADER_MAX_SIZE <= 1, f'HEADER_MAX_SIZE: {HEADER_MAX_SIZE}'
-    bottom_header_border = pageheight * HEADER_MAX_SIZE
-    result = groupme.horizontals.biggest_hlinecluster_in_area(
-        clusters,
-        ymin=0,
-        ymax=bottom_header_border,
-        max_groups=1,
-    )
-    if not result:
-        return None
-    return result[0]
 
 
 def extract_page_footerheader(
@@ -164,12 +129,21 @@ def extract_page_footerheader(
         bottom: float,
         pageheight: float,
 ) -> typing.List[groupme.footer.PageContentFooterHeader]:
+    """Extract footer and header which matches `top` and `bottom`.
+
+    Args:
+        horizontals: pages with horizontal lines
+        top(pixel): position of header-border horizontal line
+        bottom(pixel): position of footer-border horizontal line
+        pageheight(pixel): height of pages in pixel
+    Returns:
+        dictonary of `groupme.footer.PageContentFooterHeader` for every
+        page with header and footer information.
+    """
     result = {}
     for page in horizontals:
-        top_match = groupme.horizontals.match(page.content, top)
-        bottom_match = groupme.horizontals.match(page.content, bottom)
-
         header = None
+        top_match = groupme.horizontals.match(page.content, top)
         if top_match:
             top_ = utila.roundme(top / pageheight)
             header = FixedHeaderInformation(
@@ -178,6 +152,7 @@ def extract_page_footerheader(
             )
 
         footer = None
+        bottom_match = groupme.horizontals.match(page.content, bottom)
         if bottom_match:
             bottom_ = utila.roundme(bottom / pageheight)
             footer = FixedFooterInformation(
@@ -192,3 +167,52 @@ def extract_page_footerheader(
         )
         result[page.page] = footerandheader
     return result
+
+
+# TODO: REMOVE AFTER HAVING CONCEPT FOR DEFAULT CONFIGURATION
+configo.holyvalue.DATABASE = configo.holyvalue.DataBase(
+    __file__,
+    current=configo.holyvalue.DataSet(),
+)
+# max difference between left and right y-coordinate
+COMMON_HORIZONTAL_CLASSIFICATOR_MAX_ERROR = configo.HV(
+    default=2.0,
+    datatype=configo.DataType.FLOAT_PLUS,
+)
+
+NO_CLUSTER = hey.textnavigator.navigator.START, hey.textnavigator.navigator.END
+
+# maximal distance from page top in percent where header can be detected
+HEADER_MAX_SIZE = configo.HV(
+    default=15,
+    limit=100,
+    datatype=configo.DataType.PERCENT_PLUS,
+)
+
+# maximal distance from page bottom in percent where footer can be detected
+FOOTER_MAX_SIZE = configo.HV(
+    default=20,
+    limit=100,
+    datatype=configo.DataType.PERCENT_PLUS,
+)
+
+
+def extract_inarea(
+        clusters: typing.List,
+        pageheight: int,
+        upper_bound: float = hey.textnavigator.navigator.START,
+        lower_bound: float = hey.textnavigator.navigator.END,
+) -> float:
+    """Determine all elements in the potential footer/header area"""
+    ymin = pageheight * upper_bound
+    ymax = pageheight * lower_bound
+
+    result = groupme.horizontals.biggest_hlinecluster_in_area(
+        clusters,
+        ymin=ymin,
+        ymax=ymax,
+        max_groups=1,
+    )
+    if not result:
+        return None
+    return result[0]
