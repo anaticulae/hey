@@ -8,6 +8,7 @@
 # =============================================================================
 
 import serializeraw
+import utila
 
 import groupme.footer.fixed
 import tests.resources
@@ -18,9 +19,13 @@ from tests.fixtures.restruct import restructured_horizontals
 def test_groupme_footer_fixed_extract(restructured_horizontals):  #pylint:disable=W0621
     horizontals = restructured_horizontals
 
+    sizeandborder = tests.resources.sizeandborder(tests.resources.BACHELOR_111PAGES)  #yapf:disable
+    sizeandborder = serializeraw.load_pageborders(sizeandborder)
+    pageheight = utila.select_page(sizeandborder, 0).size.height
+
     top, bottom = groupme.footer.fixed.extract_common_footer(
-        horizontals,
-        pageheight=1024,  # default one
+        horizontals=horizontals,
+        pageheight=pageheight,
     )
     assert top  # document has header
     assert bottom  # document has footer
@@ -32,9 +37,13 @@ def test_groupme_footer_fixed_bachelor111page():
     horizontals = tests.resources.horizontals(tests.resources.BACHELOR_111PAGES)
     horizontals = serializeraw.load_horizontals(horizontals)
 
+    sizeandborder = tests.resources.sizeandborder(tests.resources.BACHELOR_111PAGES)  #yapf:disable
+    sizeandborder = serializeraw.load_pageborders(sizeandborder)
+    pageheight = utila.select_page(sizeandborder, 0).size.height
+
     top, bottom = groupme.footer.fixed.extract_common_footer(
-        horizontals,
-        pageheight=1024,  # default one
+        horizontals=horizontals,
+        pageheight=pageheight,
     )
     assert top  # document has header
     assert bottom  # document has footer
