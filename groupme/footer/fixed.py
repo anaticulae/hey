@@ -20,6 +20,7 @@ Master of the art:
 import dataclasses
 import typing
 
+import configo.holyvalue
 import iamraw
 import utila
 
@@ -57,6 +58,16 @@ class FixedHeaderInformation(groupme.footer.HeaderInformation):
     pass
 
 
+# TODO: REMOVE AFTER HAVING CONCEPT FOR DEFAULT CONFIGURATION
+configo.holyvalue.DATABASE = configo.holyvalue.DataBase(
+    __file__,
+    current=configo.holyvalue.DataSet(),
+)
+COMMON_HORIZONTAL_CLASSIFICATOR_MAX_ERROR = configo.HV(
+    default=2.0,
+    datatype=configo.DataType.FLOAT_PLUS,
+)
+
 def extract_common_footer(
         horizontals: iamraw.PagesWithHorizontalList,
         pageheight: int,
@@ -76,7 +87,10 @@ def extract_common_footer(
     ) for horizontal in page.content] for page in horizontals]
 
     # cluster horizontal lines
-    clusters = hey.cluster.common_items(with_box, max_difference=2.0)
+    clusters = hey.cluster.common_items(
+        collected=with_box,
+        max_difference=COMMON_HORIZONTAL_CLASSIFICATOR_MAX_ERROR,
+    )
     if not clusters:
         return hey.textnavigator.navigator.START, hey.textnavigator.navigator.END
 
