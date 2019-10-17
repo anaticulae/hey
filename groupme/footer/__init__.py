@@ -57,12 +57,20 @@ class FooterHeaderDetectionStrategy(abc.ABC):
         self.post_init()
 
     def post_init(self):
-        pass
+        """Run after __init__"""
 
     def result(self):
         raise NotImplementedError()
 
     def pageheight(self, page):
+        """Determine `pageheight` of current `page`.
+
+        Args:
+            page(int): page of pdf document
+        Returns:
+            pageheight if pageheight exists
+            None if pageheight not exists
+        """
         selected = utila.select_page(self.sizeandborders, page)
         if selected is None:
             return None

@@ -8,12 +8,14 @@
 # =============================================================================
 """
 Example:
-    docu/restructuredtext.pdf
+
+    - docu/restructuredtext.pdf
 
 Master of the art:
-    docu/vimguide.pdf: This example contains a lot of tables, therefore
-                       we have a lot of horizontal lines which challenges
-                       the algorithm.
+
+    - docu/vimguide.pdf: This example contains a lot of tables, therefore
+                         we have a lot of horizontal lines which challenges
+                         the algorithm.
 """
 import dataclasses
 import typing
@@ -32,7 +34,7 @@ class FixedFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
     def result(self):
         # TODO: HOW TO HANDLE DIFFERENT PAGE HEIGHTS
         pageheight = self.pageheight(0)
-        # determine border for all pages
+        # determine most common border for all pages
         top, bottom = extract_common_footer(self.horizontals, pageheight)
 
         # look for every page if footer/header are present
@@ -59,6 +61,15 @@ def extract_common_footer(
         horizontals: iamraw.PagesWithHorizontalList,
         pageheight: int,
 ):
+    """Extract common footer and header based on horizontal lines.
+
+    Args:
+        horizontals: list of extract horizontals for every page
+        pageheight: height of the first page in the document
+    Returns:
+        a tuple with the `top` and `bottom` border of header and footer.
+        None - If no header or footer is detected.
+    """
     with_box = [[(
         horizontal.box,
         horizontal,
