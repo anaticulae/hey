@@ -14,20 +14,23 @@ import groupme.footer.pages
 import tests.resources
 
 
-@pytest.mark.parametrize('document, pages, expected_pagenumbers', [
-    pytest.param(
-        tests.resources.HOWTO_ARGPARSE,
-        tests.resources.HOWTO_ARGPARSE_PAGE_COUNT,
-        tests.resources.HOWTO_ARGPARSE_PAGE_COUNT,
-        id='howtoargparse',
-    ),
-    pytest.param(
-        tests.resources.TECHNICAL_24PAGES,
-        tests.resources.TECHNICAL_24PAGES_PAGE_COUNT,
-        tests.resources.TECHNICAL_24PAGES_PAGE_COUNT - 1,
-        id='technical24pages',
-    ),
-])
+@pytest.mark.parametrize(
+    'document, pages, expected_pagenumbers',
+    [
+        pytest.param(
+            tests.resources.HOWTO_ARGPARSE,
+            tests.resources.HOWTO_ARGPARSE_PAGE_COUNT,
+            tests.resources.HOWTO_ARGPARSE_PAGE_COUNT,
+            id='howtoargparse',
+        ),
+        pytest.param(
+            tests.resources.TECHNICAL_24PAGES,
+            tests.resources.TECHNICAL_24PAGES_PAGE_COUNT,
+            # header page has no page number
+            tests.resources.TECHNICAL_24PAGES_PAGE_COUNT - 1,
+            id='technical24pages',
+        ),
+    ])
 def test_footer_pagenumber_strategy(
         document,
         pages,
@@ -53,11 +56,13 @@ def test_footer_pagenumber_strategy(
     )
 
     strategy = groupme.footer.pages.PageNumberStrategy(
-        horizontallines,
-        sizeandborder,
-        pagenumbers,
+        horizontals=horizontallines,
+        sizeandborders=sizeandborder,
+        pagenumbers=pagenumbers,
         pagetextnavigators=pagetextnavigators,
     )
+
     result = strategy.result()
+
     assert result is not None, result
     assert len(result) == expected_pagenumbers, result
