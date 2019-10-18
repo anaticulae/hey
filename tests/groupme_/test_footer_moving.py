@@ -19,8 +19,20 @@ import tests.resources
 
 
 @pytest.mark.parametrize('document, pages, expected_footer', [
-    (tests.resources.MASTER_72PAGES, tuple(range(20)),
-     [3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]),
+    pytest.param(
+        tests.resources.MASTER_72PAGES,
+        tuple(range(20)),
+        [(3, 6), (6, 3), (7, 2), (8, 4), (9, 1), (10, 4), (11, 3), (12, 2),
+         (13, 6), (14, 7), (15, 8), (16, 10), (17, 8), (18, 7), (19, 8)],
+        id='master72pages',
+    ),
+    pytest.param(
+        tests.resources.BACHELOR_111PAGES,
+        tuple(range(20)),
+        [(9, 2), (10, 3), (11, 2), (12, 1), (13, 1), (15, 2), (16, 1), (17, 8),
+         (18, 3), (19, 1)],
+        id='bachelor111pages',
+    ),
 ])
 def test_groupme_footer_moving(document, pages, expected_footer):
     horizontallines = serializeraw.load_horizontals(
@@ -53,13 +65,14 @@ def test_groupme_footer_moving(document, pages, expected_footer):
     footer = [item for item in result if item.footer]
     assert len(footer) == len(expected_footer), footer
 
-    for footer in expected_footer:
-        extracted_footer = utila.select_page(result, footer)
-        assert extracted_footer[1], f'{footer}'
+    for page, length in expected_footer:
+        extracted_footer = utila.select_page(result, page)
+        notes = extracted_footer.footer.notes
+        assert len(notes) == length
+        assert extracted_footer[1], utila.log_raw(f'has no footer: {page}')
 
 
 def test_groupme_footer_master72pages(testdir):
     path = tests.resources.horizontals(tests.resources.MASTER_72PAGES)
     result = serializeraw.load_horizontals(path)
-
     assert len(result) > 10, str(result)
