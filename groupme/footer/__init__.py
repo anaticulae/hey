@@ -6,7 +6,23 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+"""The `footer` module extract the header and footer area out of
+pdf-pages.
+There are three different strategies:
 
+- FixedFooterStrategy
+- MovingFooterStrategy
+- PageNumberStrategy
+
+The strategy is to run these different strategies and use a
+jugement-unit to decide which result is the best. In some cases the best
+strategy changes from page to page.
+
+As a result we have the `HeaderInformation` and `FooterInformation` with
+additional data. As a further the **decider** program judges about
+header anf footer and gives adives to the user about failures and
+possible improvements.
+"""
 import abc
 import collections
 import dataclasses
@@ -71,7 +87,7 @@ class FooterHeaderDetectionStrategy(abc.ABC):
         raise NotImplementedError()
 
     def pageheight(self, page):
-        """Determine `pageheight` of current `page`.
+        """Determine `pageheight` of current `page` in `pixel`.
 
         Args:
             page(int): page of pdf document

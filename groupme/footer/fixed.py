@@ -9,6 +9,7 @@
 """
 Example:
 
+    - bachelor/page_111_images_toc.pdf
     - docu/restructuredtext.pdf
 
 Master of the art:
@@ -95,6 +96,7 @@ def extract_common_footer(
     Args:
         horizontals: list of extract horizontals for every page
         pageheight: height of the first page in the document
+        max_group_count: max count of different areas
     Returns:
         a tuple with the `top` and `bottom` border of header and footer.
         None - If no header or footer is detected.
