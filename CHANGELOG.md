@@ -2,6 +2,47 @@
 
 Every noteable change is logged here.
 
+## v1.9.0
+
+### Feature
+
+* extend potential footer area (3890b5ff98eb)
+* extend footnotes regex to support more text data (8aa3028ae75d)
+* extend footer load and dumper (fdd31976ae13)
+* extend nolevel toc parser (af0180ad167f)
+* support more than one header/footer area (74ad3f7b4238)
+* use configo holy values and refactor FixedFooterStrategy (775a4c9ab8e5)
+* use configo.holyvalue to describe holy values (725a4ebd3dc4)
+* remove process-method, use result() directly (f10e4de25bd0)
+* extend footer extract (c22c0bdf3ea9)
+* add information of moving footer result (23e5dc746ecc)
+* add footnotes extractor (09385eef21bf)
+* add pagetextnavigator to Footer interface (b346a6c4998e)
+* add page number strategy extractor (8457904e17ee)
+* add pattern -number- as valid number pattern (151374f1fa0d)
+* add options to control footer extraction (34bf991aaa44)
+* enable one element cluster (10d437de9564)
+
+### Fix
+
+* make chapter assertion weaker, cause algorithm is really bad (61434c90fec9)
+* fix fixed footer test (6498abd6c26e)
+* extend possible header area to extend page number (a6a68fbac6df)
+* only select result if one item matches (2232654451b8)
+
+### Documentation
+
+* fix spelling errors (0b49557ab28e)
+* extend footer strategy documentation (e82aa0fe2b6c)
+* document general and fixed footer strategy (6b4558154964)
+* extend release plan (7a3ea0035f8e)
+* move proposal and releases to better place (a660ad7de65e)
+* reduce toc level to increase readability (3f6552dfccda)
+* add first draft of release plan 1.10.0 (b454020a8b71)
+* add file path of second example to moving header (631855001ba9)
+* correct description of PageTextNavigator (dbff786bb629)
+* add release plan for next release (b8ec820b3b94)
+
 ## v1.8.0
 
 ### Feature
