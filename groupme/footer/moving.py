@@ -71,7 +71,7 @@ class MovingFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
         return result
 
 
-BOTTOM_BORDER = 0.75  # TODO: HOLY VALUE
+BOTTOM_BORDER = 0.60  # TODO: HOLY VALUE
 
 
 def process_page(
