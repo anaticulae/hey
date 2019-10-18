@@ -7,46 +7,49 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 """
-Concept:
-    use footer and header to detect white pages
+Concept
+=======
 
-    2 types of white pages:
-        - complete white: blank page
-        - white page with footer and or header
+use footer and header to detect white pages
 
-    Required resources:
-        text
-        position
-        footer
+3 types of white pages:
+
+    - complete white: blank page
+    - white page with footer and or header
+    - content: that's not a whitepage
+
+required resources:
+
+    - text
+    - position
+    - footer
+
 """
 
-from collections import namedtuple
-from enum import Enum
-from functools import lru_cache
-from typing import List
+import collections
+import enum
+import functools
+import typing
 
+import configo
+import iamraw
 import serializeraw
 import utila
-from iamraw import Document
-from utila import from_raw_or_path
-from yaml import FullLoader
-from yaml import dump
-from yaml import load
+import yaml
 
 import groupme.footer
 import groupme.footer.serialize
-from hey import CACHE_SMALL
-from hey.textnavigator.navigator import END
-from hey.textnavigator.navigator import START
-from hey.textnavigator.navigator import PageTextNavigator
-from hey.textnavigator.navigator import create_pagetextnavigators
-from hey.textnavigator.navigator import percent_from_pagesize
-from hey.utils import sync
+import hey
+import hey.textnavigator.navigator
+import hey.utils
 
-PageContentWhitepages = namedtuple('PageContentWhitepages', 'content, page')
+PageContentWhitepages = collections.namedtuple(
+    'PageContentWhitepages',
+    'content, page',
+)
 
 
-class WhitePage(Enum):
+class WhitePage(enum.Enum):
     CONTENT = -1
     BLANK = 0  # nothing on the page
     WHITE = 1  # page with footer and/or header
@@ -82,7 +85,7 @@ def work(
         pages=pages,
     )
 
-    navigators = create_pagetextnavigators(
+    navigators = hey.textnavigator.navigator.create_pagetextnavigators(
         text=document,
         text_positions=position,
     )
@@ -98,8 +101,8 @@ def work(
 
 
 def extract_whitepages(
-        document: Document,
-        navigators: List[PageTextNavigator],
+        document: iamraw.Document,
+        navigators: typing.List[hey.textnavigator.navigator.PageTextNavigator],
         headerfooters,
 ):
     """
@@ -108,7 +111,7 @@ def extract_whitepages(
             Position
     """
     result = {}
-    for pagenumber, (currentpage, navigator, headerfooter) in sync([
+    for pagenumber, (currentpage, navigator, headerfooter) in hey.utils.sync([
             document,
             navigators,
             headerfooters,
@@ -120,17 +123,16 @@ def extract_whitepages(
         if not navigator:
             result[pagenumber] = WhitePage.BLANK
             continue
-        height = navigator.height
+
         if not header and not footer:
             if not currentpage.children:
                 result[pagenumber] = WhitePage.BLANK
             else:
                 # Elements on the page, maybe title page, chapter page...
                 result[pagenumber] = WhitePage.CONTENT
-                # result[pagenumber] = None
         else:
-            top = header.end if header else START
-            bottom = footer.begin if footer else END
+            top = header.end if header else hey.textnavigator.navigator.START
+            bottom = footer.begin if footer else hey.textnavigator.navigator.END
             if not navigator.between(top, bottom):
                 result[pagenumber] = WhitePage.WHITE
             else:
@@ -161,14 +163,14 @@ def dump_whitepages(pages) -> str:
         pages = {item.page: item for item in pages}
     for page, value in pages.items():
         result[page] = value.content.name if value.content else None
-    return dump(result)
+    return yaml.dump(result)
 
 
-@lru_cache(CACHE_SMALL)
+@functools.lru_cache(configo.CACHE_SMALL)
 def load_whitepages(
         content: str,
         pages=None,
-) -> List[WhitePage]:
+) -> typing.List[WhitePage]:
     """Load whitepages from `content`. Content can be a path or loaded
     text data.
 
@@ -178,8 +180,8 @@ def load_whitepages(
     Returns:
         list of loaded `WhitePage` type
     """
-    content = from_raw_or_path(content, ftype='yaml')
-    loaded = load(content, Loader=FullLoader)
+    content = utila.from_raw_or_path(content, ftype='yaml')
+    loaded = yaml.load(content, Loader=yaml.FullLoader)
 
     result = []
     for pagenumber, whitepage in loaded.items():
