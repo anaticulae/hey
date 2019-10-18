@@ -88,7 +88,7 @@ def _bachelor111_footerheader():
             pagetextnavigators,
         )
         footerheader.extend(extracted)
-    footerheader = groupme.footer.fixed.remove_duplication(footerheader)
+    footerheader = groupme.footer.remove_duplication(footerheader)
     return footerheader
 
 

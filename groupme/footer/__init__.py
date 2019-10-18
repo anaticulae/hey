@@ -100,3 +100,46 @@ class FooterHeaderDetectionStrategy(abc.ABC):
             return None
         pageheight = selected.size.height
         return pageheight
+
+
+def remove_duplication(items):
+    """In some cases more than one potential header or footer are
+    detected for one page. This method judges the problem and select the
+    `best` result.
+
+    Args:
+        items: list of `PageContentFooterHeader`
+    Returns:
+        sorted list without page duplications
+    """
+    source = collections.defaultdict(list)
+    for item in items:
+        source[item.page].append(item)
+
+    result = []
+    for values in source.values():
+        if len(values) == 1:
+            result.append(values)
+            continue
+        result.append(multijudgement(values))
+
+    result = sorted(result, key=lambda x: x.page)
+    return result
+
+
+def multijudgement(judges):
+    # TODO: Stategy how to judge multiple matches
+    # BIGGER ONE, ITEM OF BIGGER CLUSTER?
+
+    def count_item(item):
+        return int(item.footer is not None) + int(item.header is not None)
+
+    current = judges[0]
+    count = count_item(current)
+    for item in judges[1:]:
+        cur_count = count_item(item)
+        if cur_count < count:
+            continue
+        current = item
+        current = item
+    return current
