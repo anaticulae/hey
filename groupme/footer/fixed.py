@@ -18,7 +18,6 @@ Master of the art:
                          we have a lot of horizontal lines which challenges
                          the algorithm.
 """
-import collections
 import dataclasses
 import itertools
 import typing
@@ -69,7 +68,7 @@ class FixedFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
         return footerheader
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass  # pylint:disable=R0903
 class FixedHeaderInformation(groupme.footer.HeaderInformation):
 
     title: groupme.footer.headnotes.HeaderTitle = None

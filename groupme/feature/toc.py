@@ -25,7 +25,6 @@ import groupme.toc.regex
 import groupme.utils
 import words.headlines
 from groupme.feature import RawSection
-
 """
 Outdated approaches:
 

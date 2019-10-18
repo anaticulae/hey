@@ -65,19 +65,19 @@ def parse_title(text: str, _):
     return HeaderTitle(title=parsed.title, raw=parsed.raw)
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass  # pylint:disable=R0903
 class HeaderTitle:
     # XXX: Store location and font?
     title: str = None
     raw: str = None
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass  # pylint:disable=R0903
 class HeaderImages:
     number: int = None
     location: iamraw.BoundingBox = None
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass  # pylint:disable=R0903
 class RawText:
     text: str = None
