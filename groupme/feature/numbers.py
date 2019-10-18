@@ -55,6 +55,7 @@ def determine_pagenumbers(navigator):
     return pagenumbers(footer_)
 
 
+# TODO: REPLACE HOLY VALUE
 TOP_BORDER = 0.1  # Header in the range of 0% till 10%
 TOP_MAX_DIFFERENCE = 20.0
 
