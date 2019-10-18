@@ -115,4 +115,14 @@ def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader():
     assert not footer, utila.log_raw(footer)
 
 
-# TODO: ADD TEST TO CHECK THE INTERNALS OF HEADER RESULT OF BACHELOR 111
+def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader_header(): # yapf:disable
+    footerheader = _bachelor111_footerheader()
+    pages = [item.page for item in footerheader]
+    assert all(pages)
+
+    title = [
+        item.header.title
+        for item in footerheader
+        if item.header and item.header.title
+    ]
+    assert len(title) >= 71, 'not enough title'
