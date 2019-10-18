@@ -15,12 +15,12 @@ There are three different strategies:
 - PageNumberStrategy
 
 The strategy is to run these different strategies and use a
-jugement-unit to decide which result is the best. In some cases the best
+judgement-unit to decide which result is the best. In some cases the best
 strategy changes from page to page.
 
 As a result we have the `HeaderInformation` and `FooterInformation` with
 additional data. As a further the **decider** program judges about
-header anf footer and gives adives to the user about failures and
+header and footer and gives advices to the user about failures and
 possible improvements.
 """
 import abc
@@ -60,7 +60,7 @@ class FooterInformation:
 
 class FooterHeaderDetectionStrategy(abc.ABC):
     """
-    Relative or absolut result dimension?
+    Relative or absolute result dimension?
     """
 
     def __init__(
@@ -128,7 +128,7 @@ def remove_duplication(items):
 
 
 def multijudgement(judges):
-    # TODO: Stategy how to judge multiple matches
+    # TODO: Strategy how to judge multiple matches
     # BIGGER ONE, ITEM OF BIGGER CLUSTER?
 
     def count_item(item):
