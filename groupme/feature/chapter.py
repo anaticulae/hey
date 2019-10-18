@@ -58,6 +58,7 @@ def chapters(document: Document):
 
         splitted = groupme.structure.split_headline(content, _title, _level)
         current_chapter = None
+        rest = ''
         if len(splitted) == 2:
             current_chapter, rest = splitted
             current_chapter = _level + ' ' + _title + NEWLINE + current_chapter
@@ -68,6 +69,7 @@ def chapters(document: Document):
                 current_chapter = _level + ' ' + _title + NEWLINE + current_chapter
             else:
                 current_chapter = splitted[0]
+
         content = rest
         # TODO, WORKAROUND: there is a problem to split some chapter by
         # headlines. Improve this later.

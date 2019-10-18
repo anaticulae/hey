@@ -10,6 +10,7 @@
 import re
 import typing
 
+import utila
 from iamraw import Document
 from iamraw import Page
 
@@ -46,7 +47,8 @@ def header(document: Document) -> str:
             title_ = groupme.feature.format_title(tableofcontent[0])
             splitted = [splitted[0] + title_ + splitted[1], splitted[2]]
 
-        assert len(splitted) == 2, 'wrong split'
+        # TODO: IMPROVE OR REMOVE
+        utila.error(f'wrong split: {title}')
         return splitted
 
     splitted = split_header(text, title, level)
