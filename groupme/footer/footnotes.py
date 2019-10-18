@@ -34,7 +34,8 @@ class FootNote():
     year: int = None
 
 
-PATTERN = r'^(?P<number>\d{1,3}) (?P<text>[\w\d:\.,;/\(\) ]+)$'
+# TODO: REPLACE WITH GENERAL TEXT PARSER
+PATTERN = r'^(?P<number>\d{1,3})[ ]?(?P<text>[\w\d:\.,;’/\(\) \-]+)$'
 PATTERN = re.compile(PATTERN, re.MULTILINE)
 
 
