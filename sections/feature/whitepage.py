@@ -26,6 +26,7 @@ from functools import lru_cache
 from typing import List
 
 import serializeraw
+import utila
 from iamraw import Document
 from utila import from_raw_or_path
 from yaml import FullLoader
@@ -57,12 +58,29 @@ def work(
         footers: str,
         pages=None,
 ) -> str:
-    # load
+    """Extract `WhitePage` out of document.
+
+    There are three types of `Whitepage`: BLANK, WHITE AND CONTENT
+
+    Args:
+        document(path): path to document text
+        position(path): path to document text positions
+        footers(path): path to extract footers
+        pages(list): select `pages` to load
+    Returns:
+        dumped `yaml` result of extracted whitepages
+    """
+    # convert to make pages serializeable
     pages = tuple(pages) if pages else None
+
+    # load
     document = serializeraw.load_document(document, pages=pages)
     position = serializeraw.load_textpositions(position, pages=pages)
 
-    headerfooters = groupme.footer.serialize.load_headerfooter(footers)
+    headerfooters = groupme.footer.serialize.load_headerfooter(
+        footers,
+        pages=pages,
+    )
 
     navigators = create_pagetextnavigators(
         text=document,
@@ -147,13 +165,29 @@ def dump_whitepages(pages) -> str:
 
 
 @lru_cache(CACHE_SMALL)
-def load_whitepages(content: str) -> List[WhitePage]:
+def load_whitepages(
+        content: str,
+        pages=None,
+) -> List[WhitePage]:
+    """Load whitepages from `content`. Content can be a path or loaded
+    text data.
+
+    Args:
+        content(str): path or content of path
+        pages(list): do not load `pages` which are not passed
+    Returns:
+        list of loaded `WhitePage` type
+    """
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)
-    result = [
-        PageContentWhitepages(
-            page=page,
+
+    result = []
+    for pagenumber, whitepage in loaded.items():
+        if utila.should_skip(pagenumber, pages):
+            continue
+        item = PageContentWhitepages(
+            page=pagenumber,
             content=WhitePage[whitepage] if whitepage else None,
-        ) for page, whitepage in loaded.items()
-    ]
+        )
+        result.append(item)
     return result

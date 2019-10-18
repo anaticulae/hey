@@ -70,6 +70,7 @@ def work(
         title,
         toc,
         whitepage,
+        pages=pages,
     )
     # work
     extracted = extract_sections(*potential_features)
@@ -166,14 +167,14 @@ def determine_document_section(current: DocumentSection, actual: AreaItem):
     return next_
 
 
-def load_features(chapter, index, title, toc, whitepage):
-    chapter = load_likelihood(chapter)
+def load_features(chapter, index, title, toc, whitepage, pages=None):
+    chapter = load_likelihood(chapter, pages=pages)
 
-    index = load_likelihood(index)
-    title = load_likelihood(title)
-    toc = load_likelihood(toc)
+    index = load_likelihood(index, pages=pages)
+    title = load_likelihood(title, pages=pages)
+    toc = load_likelihood(toc, pages=pages)
 
-    whitepage = load_whitepages(whitepage)
+    whitepage = load_whitepages(whitepage, pages=pages)
 
     return chapter, index, title, toc, whitepage
 

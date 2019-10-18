@@ -198,24 +198,28 @@ def _load_headerinfo_headertitle(item):
 
 
 @functools.lru_cache(maxsize=hey.CACHE_SMALL)
-def load_headerfooter(content: str,
-                     ) -> typing.List[groupme.footer.PageContentFooterHeader]:
+def load_headerfooter(
+        content: str,
+        pages=None,
+) -> typing.List[groupme.footer.PageContentFooterHeader]:
     content = utila.from_raw_or_path(content, ftype='yaml')
     loaded = yaml.load(content, Loader=yaml.FullLoader)
 
     result = []
     for item in loaded:
-
         pagenumber = item['page']
         assert isinstance(pagenumber, int)
+
+        if utila.should_skip(pagenumber, pages):
+            continue
 
         header = _load_header(item['header'])
         footer = _load_footer(item['footer'])
 
-        result.append(
-            groupme.footer.PageContentFooterHeader(
-                header=header,
-                footer=footer,
-                page=pagenumber,
-            ))
+        footerheader = groupme.footer.PageContentFooterHeader(
+            header=header,
+            footer=footer,
+            page=pagenumber,
+        )
+        result.append(footerheader)
     return result
