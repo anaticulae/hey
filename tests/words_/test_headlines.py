@@ -88,7 +88,7 @@ EXPECTED = [
 
 
 @pytest.mark.xfail(reason='improve nolevel headline extractor strategy')
-def test_headlines_extract_headlines(
+def test_words_headlines_extract_headlines(
         # pylint:disable=W0621
         restructured_sections_manual,
         restructured_text_positions,
@@ -124,7 +124,7 @@ def test_headlines_extract_headlines(
     assert extracted == EXPECTED
 
 
-def test_headlines_work():
+def test_words_headlines_work():
     sections_ = restructured_sections()
     dumped = words.feature.headlines.work(
         boxes=tests.resources.boxed(tests.resources.RESTRUCT),
@@ -140,7 +140,7 @@ def test_headlines_work():
     assert len(dumped) > 2100, str(dumped)
 
 
-def test_headlines_dump_and_load_headlines():
+def test_words_headlines_dump_and_load_headlines():
     """Dump and load the example above"""
     dumped = serializeraw.dump_headlines(EXPECTED)
     loaded = serializeraw.load_headlines(dumped)
