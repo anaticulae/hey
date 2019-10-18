@@ -58,6 +58,7 @@ def test_groupme_footer_dump_and_load(
         pagetextnavigators,
     )
     extracted = extracted.result()
+
     dumped = groupme.footer.serialize.dump_headerfooter(extracted)
     loaded = groupme.footer.serialize.load_headerfooter(dumped)
 
@@ -88,4 +89,5 @@ def test_groupme_footer_footerheader_detectionstategy(
         pagenumbers=pagenumbers,
         pagetextnavigators=pagetextnavigators,
     )
-    process.result()
+    result = process.result()
+    assert len(result) >= 1, 'not enough footer and header'
