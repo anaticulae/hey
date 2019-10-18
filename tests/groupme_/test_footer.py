@@ -40,7 +40,6 @@ def test_groupme_footer_work(testdir):  #pylint:disable=W0621
     utila.file_create(os.path.join(root, 'result.yaml'), dumped)
 
 
-@pytest.mark.xfail(reason='extend header dumper and loader to support new header')
 def test_groupme_footer_dump_and_load(
         restructured_horizontals,  #pylint:disable=W0621
         restructured_sizeandborder,  #pylint:disable=W0621

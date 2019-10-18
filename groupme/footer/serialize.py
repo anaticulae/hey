@@ -100,7 +100,16 @@ def _dump_header(header):
     raw = {
         'begin': header.begin,
         'end': header.end,
+        'page': _dump_pageinformation(header.page)
     }
+
+    with contextlib.suppress(KeyError):
+        raw['undefined'] = [
+            _dump_headerinfo_undefined(item) for item in header.undefined
+        ]
+    with contextlib.suppress(KeyError):
+        raw['title'] = _dump_headerinfo_headertitle(header.title)
+
     return raw
 
 
@@ -109,10 +118,81 @@ def _load_header(raw):
         return None
     begin = raw['begin']
     end = raw['end']
+    page = _load_pageinformation(raw['page'])
+
+    undefined = None
+    with contextlib.suppress(KeyError):
+        undefined = [
+            _load_headerinfo_undefined(item) for item in raw['undefined']
+        ]
+
+    title = None
+    with contextlib.suppress(KeyError):
+        title = _load_headerinfo_headertitle(raw['title'])
 
     result = groupme.footer.fixed.FixedHeaderInformation(
         begin=begin,
         end=end,
+        page=page,
+    )
+    if undefined:
+        result.undefined = undefined
+    if title:
+        result.title = title
+    return result
+
+
+def _dump_pageinformation(pageinfo):
+    if not pageinfo:
+        return None
+    raw = {
+        'value': pageinfo.value,
+        'raw': pageinfo.raw,
+    }
+    return raw
+
+
+def _load_pageinformation(raw):
+    if not raw:
+        return None
+    result = groupme.footer.PageInformation(
+        value=raw['value'],
+        raw=raw['raw'],
+    )
+    return result
+
+
+def _dump_headerinfo_undefined(item):
+    if item is None:
+        return None
+    raw = {
+        'text': item.text,
+    }
+    return raw
+
+
+def _load_headerinfo_undefined(item):
+    if item is None:
+        return None
+    return groupme.footer.headnotes.RawText(text=item['text'])
+
+
+def _dump_headerinfo_headertitle(item):
+    if item is None:
+        return None
+    raw = {
+        'title': item.title,
+        'raw': item.raw,
+    }
+    return raw
+
+
+def _load_headerinfo_headertitle(item):
+    if item is None:
+        return None
+    result = groupme.footer.headnotes.HeaderTitle(
+        title=item['title'],
+        raw=item['raw'],
     )
     return result
 
