@@ -26,31 +26,20 @@ word.font.size
 word.style = [i, b, u, strong? etc?]
 """
 
-from functools import partial
-from itertools import groupby
-from itertools import zip_longest
-from re import finditer
-from typing import Tuple
+import functools
+import itertools
+import re
+import typing
 
+import iamraw
 import serializeraw
 import utila
-from iamraw import DOT
-from iamraw import Border
-from iamraw import ContentType
-from iamraw import Headline
-from iamraw import PageNumber
-from iamraw import Paragraph
-from iamraw import Paragraphs
-from iamraw import Undefined
 
+import hey.fonts.store
+import hey.textnavigator.navigator
 import words.boxed
 import words.feature
 import words.headlines
-from hey.fonts.store import FontContentStore
-from hey.fonts.store import FontStore
-from hey.textnavigator.navigator import PageTextContentNavigator
-from hey.textnavigator.navigator import PageTextNavigator
-from hey.textnavigator.navigator import PageTextNavigators
 
 
 def work(
@@ -97,11 +86,11 @@ def work(
 
 def analyze_page(
         headlines,
-        fontstore: FontStore,
-        textnavigators: PageTextNavigator,
-        border: Border,
+        fontstore: hey.fonts.store.FontStore,
+        textnavigators: hey.textnavigator.navigator.PageTextNavigator,
+        border: iamraw.Border,
         boxes: words.boxed.BoxedChecker,
-) -> Tuple[PageNumber, Paragraphs]:
+) -> typing.Tuple[iamraw.PageNumber, iamraw.Paragraphs]:
     """ """
     assert headlines, 'empty `headlines`'
     # TODO: Remove try/except
@@ -118,8 +107,14 @@ def analyze_page(
 
     # prepare collection
     page, headlines, pcn, fcs = prepared
-    call = partial(collect_paragraph, page=page, pcn=pcn, fcs=fcs, boxes=boxes)
-    zipped = zip_longest(headlines, headlines[1:], fillvalue=None)
+    call = functools.partial(
+        collect_paragraph,
+        page=page,
+        pcn=pcn,
+        fcs=fcs,
+        boxes=boxes,
+    )
+    zipped = itertools.zip_longest(headlines, headlines[1:], fillvalue=None)
 
     # collect paragraphs
     result = [
@@ -134,11 +129,11 @@ def analyze_page(
 
 
 def collect_paragraph(
-        first: Headline,
-        second: Headline,
+        first: iamraw.Headline,
+        second: iamraw.Headline,
         page: int,
-        pcn: PageTextContentNavigator,
-        fcs: FontContentStore,
+        pcn: hey.textnavigator.navigator.PageTextContentNavigator,
+        fcs: hey.fonts.store.FontContentStore,
         boxes,
 ):
     """
@@ -160,10 +155,10 @@ def collect_paragraph(
         _bounding, _content = pcn[index]  # bounding, content
         fonts = fcs.fromstr(index, 0, _content)
         contenttype = content_type(boxes, page, _bounding, _content)
-        if contenttype == ContentType.PARAGRAPH:
-            collector.append(Paragraph(content=fonts))
+        if contenttype == iamraw.ContentType.PARAGRAPH:
+            collector.append(iamraw.Paragraph(content=fonts))
         else:
-            collector.append(Undefined(container=index))
+            collector.append(iamraw.Undefined(container=index))
     return collector
 
 
@@ -183,14 +178,14 @@ def prepare_analyze_page(
 
     """
     page = headlines[0].page
-    pcn = PageTextContentNavigator(
+    pcn = hey.textnavigator.navigator.PageTextContentNavigator(
         textnavigator=utila.select_page(textnavigators, page=page),
         content=utila.select_page(borders, page=page),
     )
     if pcn.offset == (None, None):
         # empty page
         raise EmptyPageError(page)
-    fontstore = FontContentStore(fontstore, pcn, page)
+    fontstore = hey.fonts.store.FontContentStore(fontstore, pcn, page)
     # pcn.offset[0] - 1: the "virtual" headline is one container element before
     # the first content.
     if headlines[0].container is None:
@@ -200,7 +195,7 @@ def prepare_analyze_page(
         # the page does not start with a headline, without inserting an empty
         # line the starting content of the page is ignored
         # -> add starting container
-        headline = Headline(
+        headline = iamraw.Headline(
             text=None,
             level=None,
             rawlevel=None,
@@ -215,11 +210,11 @@ def prepare_analyze_page(
 
 
 def extract_texts(
-        border: Border,
+        border: iamraw.Border,
         boxes: words.boxed.BoxedChecker,
-        fontstore: FontStore,
+        fontstore: hey.fonts.store.FontStore,
         headlines,
-        textnavigators: PageTextNavigators,
+        textnavigators: hey.textnavigator.navigator.PageTextNavigators,
 ):
     result = []
 
@@ -250,7 +245,7 @@ def fill_headlines(headlines):
     """
     # fill headlines
     heads = []
-    for first, second in zip_longest(
+    for first, second in itertools.zip_longest(
             utila.flatten(headlines),
             utila.flatten(headlines)[1:],
             fillvalue=None,
@@ -260,9 +255,11 @@ def fill_headlines(headlines):
             utila.error('Implement fill last one till chapter ends')
             break
         for index in range(first.page + 1, second.page):
-            heads.append(Headline(text=None, level=None, page=index))
+            heads.append(iamraw.Headline(text=None, level=None, page=index))
 
-    headlines = [list(group) for _, group in groupby(heads, lambda x: x.page)]
+    headlines = [
+        list(group) for _, group in itertools.groupby(heads, lambda x: x.page)
+    ]
     return headlines
 
 
@@ -300,13 +297,13 @@ def squeeze_text_page(page):
     for (headline, sequence) in page:
         lines = []
         for seq in sequence:
-            if not isinstance(seq, Paragraph):
+            if not isinstance(seq, iamraw.Paragraph):
                 lines.append('%du' % seq.container)
                 continue
             line = ''.join([item for (item, _) in seq.content])
             line = line.replace(utila.NEWLINE, SPACE)
             last = 0
-            for item in finditer(PATTERN, line):
+            for item in re.finditer(PATTERN, line):
                 _, end = item.start(), item.end()
                 lines.append(line[last:end])
                 last = end
@@ -325,11 +322,11 @@ def squeeze_text_page(page):
 
 
 def content_type(boxed: words.boxed.BoxedChecker, page: int, bounding, content):
-    if DOT in content:
-        return ContentType.LIST
+    if iamraw.DOT in content:
+        return iamraw.ContentType.LIST
     if boxed.contains(page, bounding):
-        return ContentType.BOXED
-    return ContentType.PARAGRAPH
+        return iamraw.ContentType.BOXED
+    return iamraw.ContentType.PARAGRAPH
 
 
 class EmptyPageError(ValueError):

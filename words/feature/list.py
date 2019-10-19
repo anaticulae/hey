@@ -16,30 +16,20 @@
      - check undefined area that area is list
 
 """
-from functools import partial
-from re import MULTILINE
-from re import VERBOSE
-from re import finditer
-from typing import List
+import functools
+import re
+import typing
 
+import iamraw
+import serializeraw
 import utila
-from iamraw import Border
-from iamraw import PageList
-from serializeraw import dump_lists
-from utila import NEWLINE
-from utila import Flag
-from utila import checkdatatype
 
-from hey.textnavigator.fonts import TextBoundsList
-from hey.textnavigator.fonts import textbounds
-from hey.textnavigator.fonts import textfeed
-from hey.textnavigator.navigator import merge_content
-from hey.textnavigator.navigator import merge_content_join
-from words.input import load_resources
-from words.input import process_input
+import hey.textnavigator.fonts
+import hey.textnavigator.navigator
+import words.input
 
 
-@checkdatatype
+@utila.checkdatatype
 def work(
         extracted_text: str,
         text: str,
@@ -59,7 +49,7 @@ def work(
         headlines(str): extracted chapter/paragraph headlines of `words` module
         border(str):
     """
-    extracted, contentborder = load_resources(
+    extracted, contentborder = words.input.load_resources(
         extracted_text,
         text,
         text_position,
@@ -71,19 +61,19 @@ def work(
 
     result = process(extracted, contentborder)
 
-    return dump_lists(result)
+    return serializeraw.dump_lists(result)
 
 
 def process(extracted, contentborder):
-    worker = partial(process_page, contentborder=contentborder)
-    result = process_input(
+    worker = functools.partial(process_page, contentborder=contentborder)
+    result = words.input.process_input(
         extracted,
         worker,
     )
     return result
 
 
-def process_page(pagecontent, contentborder: Border):
+def process_page(pagecontent, contentborder: iamraw.Border):
     """
     Args:
 
@@ -118,11 +108,11 @@ def process_page(pagecontent, contentborder: Border):
 
 
 def extract_lists(
-        page: TextBoundsList,
-        pagesize: Border,
+        page: hey.textnavigator.fonts.TextBoundsList,
+        pagesize: iamraw.Border,
         uindex=None,
         # textnavigator  #PageTextContentNavigator,
-) -> List[PageList]:
+) -> typing.List[iamraw.PageList]:
     """Extract lists out of document page. There are different types of Lists.
 
     Numbered... 1.2.3, I. II. III., + + +, - - -, * * *.
@@ -133,14 +123,14 @@ def extract_lists(
     """
     # TODO: MAX_Y_MERGE IS VERY INSTABLE
     unmerged = list(page)
-    page, merged = merge_content(
+    page, merged = hey.textnavigator.navigator.merge_content(
         page,
         # TODO: HOLY VALUE
         max_y_merge=15,
         uindex=uindex,
     )
-    page_str = merge_content_join(page)
-    text_bounds = textbounds(
+    page_str = hey.textnavigator.navigator.merge_content_join(page)
+    text_bounds = hey.textnavigator.fonts.textbounds(
         page_str,
         pagesize,
     )
@@ -155,7 +145,7 @@ def extract_lists(
         #     # Schriftgroesse, da der Zeilenabstand nicht beruecksichtigt wird
         #     # Collect lists only in text, avoid collecting in headlines
         #     continue
-        feed = textfeed(bounds)
+        feed = hey.textnavigator.fonts.textfeed(bounds)
         # if feed <= 0.0:
         #     # TODO: Improve this
         #     # no text feed
@@ -174,7 +164,7 @@ def extract_lists(
         # parsing was not succesfull
         if not detected:
             continue
-        pagelist = PageList(area=mergearea)
+        pagelist = iamraw.PageList(area=mergearea)
         # before, after = before_and_after(text, position[0], position[1])
         for index, item in enumerate(detected):
             # remove newline
@@ -189,15 +179,15 @@ def extract_lists(
     return result
 
 
-def parse_dotted_list(content: str) -> List[str]:
+def parse_dotted_list(content: str) -> typing.List[str]:
     return parse_general_list(content, '•')
 
 
-def parse_plus_list(content: str) -> List[str]:
+def parse_plus_list(content: str) -> typing.List[str]:
     return parse_general_list(content, r'\+')
 
 
-def parse_minus_list(content: str) -> List[str]:
+def parse_minus_list(content: str) -> typing.List[str]:
     return parse_general_list(content, '-')
 
 
@@ -213,13 +203,13 @@ def parse_numbered_list(content: str):
     content = str(content)
     assert content
     # TODO: WORKAROUND: Single line does not parse without NEWLINE
-    if not content.endswith(NEWLINE):
-        content += NEWLINE
+    if not content.endswith(utila.NEWLINE):
+        content += utila.NEWLINE
 
-    parsed = finditer(
+    parsed = re.finditer(
         NUMBERED_LIST_PATTERN,
         content,
-        flags=MULTILINE | VERBOSE,
+        flags=re.MULTILINE | re.VERBOSE,
     )
     if not parsed:
         return []
@@ -228,7 +218,7 @@ def parse_numbered_list(content: str):
         start, _ = item.span()
         if start > 0:
             before = content[start - 1]
-            if before != NEWLINE:
+            if before != utila.NEWLINE:
                 # item is not located at the start of the text
                 continue
         level, text = item[1], item[2]
@@ -261,17 +251,17 @@ def general_list_pattern(descriptor: str):
     return general % (descriptor, descriptor)
 
 
-def parse_general_list(content: str, selector: str) -> List[str]:
+def parse_general_list(content: str, selector: str) -> typing.List[str]:
     assert isinstance(content, str), type(content)
     pattern = general_list_pattern(selector)
 
     # Workaround: Adding newline to content. The regex does not work, if the
     # content ends with a newline. TODO: Improve regex
-    content = content + NEWLINE
-    parsed = finditer(
+    content = content + utila.NEWLINE
+    parsed = re.finditer(
         pattern,
         content,
-        flags=MULTILINE | VERBOSE,
+        flags=re.MULTILINE | re.VERBOSE,
     )
     result = []
     for item in parsed:
@@ -279,8 +269,8 @@ def parse_general_list(content: str, selector: str) -> List[str]:
     return result
 
 
-def commandline() -> Flag:
-    return Flag(
+def commandline() -> utila.Flag:
+    return utila.Flag(
         longcut='list',
         message='Export list of extracted ordered and unordered lists',
     )

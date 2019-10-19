@@ -20,6 +20,7 @@ import tests.resources
 import words.feature
 import words.feature.boxed
 import words.headlines
+import words.input
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import create_pagetextnavigators
@@ -53,8 +54,6 @@ from tests.resources import RESTRUCT_TOC
 from words.feature.boxed import dump_boxedcontent
 from words.feature.boxed import process_content as boxed_process_content
 from words.feature.headlines import work as headlines_work
-from words.feature.list import dump_lists
-from words.feature.list import load_resources as list_prepare_input
 from words.feature.list import process as list_process
 from words.feature.text import extract_texts as text_extract_texts
 
@@ -281,7 +280,7 @@ def restructured_boxed(
     headlines = restructured_headlines
     undefined = restructured_textexample_dumped
 
-    extracted, _ = words.feature.boxed.load_resources(
+    extracted, _ = words.input.load_resources(
         undefined,
         RESTRUCT_TEXT,
         RESTRUCT_TEXT_POSITION,
@@ -323,7 +322,7 @@ def restructured_list_work(
     headlines = restructured_headlines
     undefined = restructured_textexample_dumped
 
-    extracted, contentborder = list_prepare_input(
+    extracted, contentborder = words.input.load_resources(
         undefined,
         RESTRUCT_TEXT,
         RESTRUCT_TEXT_POSITION,
@@ -340,5 +339,5 @@ def restructured_list_dumped(
         restructured_list_work,  # pylint:disable=W0621
 ) -> str:
     result = restructured_list_work
-    dumped = dump_lists(result)
+    dumped = serializeraw.dump_lists(result)
     return dumped

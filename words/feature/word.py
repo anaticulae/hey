@@ -22,24 +22,19 @@ wie geht es ihnen?
 </document>
 
 """
+import contextlib
+import re
 
-from contextlib import suppress
-from re import compile as re_compile
+import serializeraw
+import utila
 
-from serializeraw import dump_text
-from serializeraw import load_headlines
-from serializeraw import load_lists
-from serializeraw import load_text
-from utila import checkdatatype
-from utila import flatten
+import hey.undefined
+import words.feature.boxed
 
-from hey.undefined import intindex
-from words.feature.boxed import load_boxedcontent
-
-PATTERN = re_compile(r'^[0-9]+u$')
+PATTERN = re.compile(r'^[0-9]+u$')
 
 
-@checkdatatype
+@utila.checkdatatype
 def work(
         text: str,
         headlines: str,
@@ -58,7 +53,7 @@ def work(
 
     text = process_words(text, listlookup, boxlookup)
 
-    dumped = dump_text(text)
+    dumped = serializeraw.dump_text(text)
     return dumped
 
 
@@ -70,7 +65,7 @@ def process_words(text, listlookup, boxlookup):
             for index, line in enumerate(headlinecontent):
                 if not PATTERN.match(line):
                     continue
-                undefined = intindex(line)
+                undefined = hey.undefined.intindex(line)
                 searched = listlookup.search(
                     page,
                     headline.container,
@@ -103,7 +98,7 @@ class ListLookUp:
                 index += 1
 
     def search(self, page, headline, undefined):
-        with suppress(KeyError):
+        with contextlib.suppress(KeyError):
             current = self.data[page]
             for ((_, _, content), index) in current:
                 if undefined in content.area:
@@ -122,7 +117,7 @@ class BoxLookUp:
             page, content = line
             for item in content:
                 boxid, _, items = item
-                chained = flatten(items)  # support verschachtelte boxes
+                chained = utila.flatten(items)  # support verschachtelte boxes
                 for real in chained:
                     bounding, (bindex, bcontent) = real
                     uindexs = [uindex for (_, uindex, _) in bcontent]
@@ -135,7 +130,7 @@ class BoxLookUp:
             self.data[page][item] = boxid
 
     def search(self, page, uindex):
-        with suppress(KeyError):
+        with contextlib.suppress(KeyError):
             return self.data[page][uindex]
         return None
 
@@ -147,10 +142,10 @@ def load_resources(
         lists: str,
         pages=None,
 ):
-    headlines = load_headlines(headlines, pages=pages)
-    text = load_text(text, headlines=headlines, pages=pages)
-    boxed = load_boxedcontent(boxed, pages=pages)
-    lists = load_lists(lists, pages=pages)
+    headlines = serializeraw.load_headlines(headlines, pages=pages)
+    text = serializeraw.load_text(text, headlines=headlines, pages=pages)
+    boxed = words.feature.boxed.load_boxedcontent(boxed, pages=pages)
+    lists = serializeraw.load_lists(lists, pages=pages)
     listlookup = ListLookUp(lists)
     boxlookup = BoxLookUp(boxed)
     return text, listlookup, boxlookup

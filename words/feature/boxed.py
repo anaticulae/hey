@@ -10,30 +10,21 @@
 TODO: Think about this complex data structure. Do we need this realy?
 """
 import collections
-from collections import defaultdict
-from functools import lru_cache
-from functools import partial
+import functools
 
+import iamraw
+import serializeraw
 import utila
-from iamraw import BoundingBox
-from serializeraw import load_boxes
-from utila import checkdatatype
-from utila import error
-from utila import from_raw_or_path
-from yaml import FullLoader
-from yaml import dump
-from yaml import load
+import yaml
 
-from hey import CACHE_SMALL
-from words.boxed import NO_BOX
-from words.boxed import BoxedChecker
-from words.input import load_resources
-from words.input import process_input
+import hey
+import words.boxed
+import words.input
 
 PageContentBoxed = collections.namedtuple('PageContentBoxed', 'page content')
 
 
-@checkdatatype
+@utila.checkdatatype
 def work(
         extracted_text: str,
         text: str,
@@ -54,7 +45,7 @@ def work(
         headlines(str): extracted chapter/paragraph headlines of `words` module
         border(str):
     """
-    extracted, _ = load_resources(
+    extracted, _ = words.input.load_resources(
         extracted_text,
         text,
         text_position,
@@ -63,7 +54,7 @@ def work(
         headerfooters=headerfooters,
         pages=pages,
     )
-    boxes = load_boxes(boxes)
+    boxes = serializeraw.load_boxes(boxes)
 
     result = process_content(extracted, boxes)
 
@@ -71,25 +62,25 @@ def work(
     return dumped
 
 
-def process_content(extracted, boxes: BoxedChecker):
-    boxes = BoxedChecker(boxes)
-    worker = partial(extract_boxed_content, boxed=boxes)
+def process_content(extracted, boxes: words.boxed.BoxedChecker):
+    boxes = words.boxed.BoxedChecker(boxes)
+    worker = functools.partial(extract_boxed_content, boxed=boxes)
 
-    result = process_input(extracted, worker)
+    result = words.input.process_input(extracted, worker)
     return result
 
 
-def extract_boxed_content(contentblock, boxed: BoxedChecker):
-    result = defaultdict(list)
+def extract_boxed_content(contentblock, boxed: words.boxed.BoxedChecker):
+    result = collections.defaultdict(list)
     for (page, headlinenumber, headlinecontent) in contentblock:
 
         zipped = zip(headlinecontent[0], headlinecontent[1])
         for _, ((headlineblockid, blocks), uindexs) in enumerate(zipped):
             collected = []
-            current = defaultdict(list)
+            current = collections.defaultdict(list)
             for ((bounding, line), uindex) in zip(blocks, uindexs):
                 boxid = boxed.boxid(page, bounding)
-                if boxid == NO_BOX:
+                if boxid == words.boxed.NO_BOX:
                     # splitted by non-box-element
                     if not current:
                         continue
@@ -97,7 +88,7 @@ def extract_boxed_content(contentblock, boxed: BoxedChecker):
                         boxed.boundingbox(page, boxid_),
                         (boxid_, uindex, content),
                     ) for boxid_, content in current.items()])
-                    current = defaultdict(list)
+                    current = collections.defaultdict(list)
                 # add line to box, defined by `boxid`
                 current[boxid].append((bounding, uindex, line))
             # item ends with box
@@ -143,7 +134,8 @@ def dump_boxedcontent(boxed) -> str:
                         bounding, (boxid, _content) = item
                     except ValueError:
                         # TODO: INVESTIGATE WHAT HAPPENS HERE
-                        error('could not convert, skip boxed: `%s`' % str(item))
+                        utila.error(
+                            'could not convert, skip boxed: `%s`' % str(item))
                         continue
                     items.append({
                         'boxed_id':
@@ -166,11 +158,11 @@ def dump_boxedcontent(boxed) -> str:
             'page': page,
             'content': pageresult,
         })
-    dumped = dump(raw)
+    dumped = yaml.dump(raw)
     return dumped
 
 
-@lru_cache(CACHE_SMALL)
+@functools.lru_cache(hey.CACHE_SMALL)
 def load_boxedcontent(content: str, pages=None):
 
     def _parse_box_content(line: str):
@@ -180,13 +172,13 @@ def load_boxedcontent(content: str, pages=None):
             content(str):
         """
         splitted = line.split(maxsplit=5)
-        bounding = BoundingBox.from_str(' '.join(splitted[0:4]))
+        bounding = iamraw.BoundingBox.from_str(' '.join(splitted[0:4]))
         return (bounding, int(splitted[4]), splitted[5])
 
-    content = from_raw_or_path(content, ftype='yaml')
-    loaded = load(content, Loader=FullLoader)
+    content = utila.from_raw_or_path(content, ftype='yaml')
+    loaded = yaml.load(content, Loader=yaml.FullLoader)
 
-    pagedict = defaultdict(list)
+    pagedict = collections.defaultdict(list)
     for line in loaded:
         pagenumber = int(line['page'])
         if utila.should_skip(pagenumber, pages):
@@ -198,7 +190,8 @@ def load_boxedcontent(content: str, pages=None):
             for single_collector in item['content']:
                 boxed = []
                 for multibox in single_collector:
-                    m_bounding = BoundingBox.from_str(multibox['bounding'])
+                    m_bounding = iamraw.BoundingBox.from_str(
+                        multibox['bounding'])
                     m_content = multibox['content']
                     boxid, _ = [  # boxid, index
                         int(item) for item in multibox['boxed_id'].split()
