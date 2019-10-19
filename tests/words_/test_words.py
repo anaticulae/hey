@@ -20,7 +20,7 @@ from tests.fixtures.restruct import restructured_list_dumped
 from tests.fixtures.restruct import restructured_list_work
 from tests.fixtures.restruct import restructured_textexample
 from tests.fixtures.restruct import restructured_textexample_dumped
-from words.feature.words import prepare_input
+from words.feature.words import load_resources
 from words.feature.words import process_words
 from words.feature.words import work
 
@@ -47,7 +47,7 @@ def restructured_words(
         assert isinstance(item, str), str(item)
 
     # compare text, headlines, lists and boxes to one output
-    text, listlookup, boxlookup = prepare_input(
+    text, listlookup, boxlookup = load_resources(
         boxed=boxed,
         headlines=headlines,
         lists=lists,
@@ -63,7 +63,7 @@ def test_words_dump_and_load_words_result(
         restructured_words,
         restructured_headlines,
 ):
-
+    # TODO: check completness of this test
     headlines = restructured_headlines
     dumped = dump_text(restructured_words)
     headlines = load_headlines(headlines)

@@ -7,9 +7,12 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import os
+
 import iamraw
 import iamraw.sections
 import serializeraw
+import utila
 
 import hey.textnavigator.navigator
 import tests.resources
@@ -59,3 +62,17 @@ def create_pagetextnavigators(path, pages=None):
         text_positions=text_positions,
     )
     return navigators
+
+
+def setup_testresources(source, dest, accept=None):
+    # TODO: REPLACE WITH UTILA CODE
+    # this step is required, cause the test generator already
+    # generates this required items.
+    sources = [
+        item.name
+        for item in os.scandir(tests.resources.RESTRUCT)
+        if accept is None or
+        any([item.name.startswith(pattern) for pattern in accept])
+    ]
+    for item in sources:
+        utila.copy_content(os.path.join(source, item), dest)

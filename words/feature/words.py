@@ -45,9 +45,16 @@ def work(
         headlines: str,
         lists: str,
         boxed: str,
+        pages=None,
 ) -> str:
 
-    text, listlookup, boxlookup = prepare_input(headlines, text, boxed, lists)
+    text, listlookup, boxlookup = load_resources(
+        headlines,
+        text,
+        boxed,
+        lists,
+        pages=pages,
+    )
 
     text = process_words(text, listlookup, boxlookup)
 
@@ -133,16 +140,17 @@ class BoxLookUp:
         return None
 
 
-def prepare_input(
+def load_resources(
         headlines: str,
         text: str,
         boxed: str,
         lists: str,
+        pages=None,
 ):
-    headlines = load_headlines(headlines)
-    text = load_text(text, headlines=headlines)
-    boxed = load_boxedcontent(boxed)
-    lists = load_lists(lists)
+    headlines = load_headlines(headlines, pages=pages)
+    text = load_text(text, headlines=headlines, pages=pages)
+    boxed = load_boxedcontent(boxed, pages=pages)
+    lists = load_lists(lists, pages=pages)
     listlookup = ListLookUp(lists)
     boxlookup = BoxLookUp(boxed)
     return text, listlookup, boxlookup

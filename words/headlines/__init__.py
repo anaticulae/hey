@@ -6,7 +6,6 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
 import abc
 import re
 import typing
@@ -28,6 +27,7 @@ import hey.textnavigator.navigator
 import hey.utils
 import sections.feature.sections
 import words
+import words.utils.skipper
 from hey.document import BorderList
 from hey.document import document_border
 from hey.fonts.store import FontStore
@@ -38,6 +38,7 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.textnavigator.navigator import navigator_to_bounds
+
 """
 TODO:
     add more than one strategy to compute equal footer, header
@@ -78,17 +79,19 @@ class HeadlineExtractorStrategy(abc.ABC):
             self.sizeandborder,
             self.headerfooters,
         )
-
         self.setup()
         self.ready = False
 
-    def result(self):
+    def result(self, pages=None):
         if self.ready:
             return self.__result
         self.ready = True
 
         # run extraction
         for chapter in self.chapters:
+            # TODO: replace with utila code
+            if words.utils.skipper.should_skip(self.content[chapter], pages):
+                continue
             self.extract_chapter(chapter)
 
         # filter result

@@ -27,6 +27,8 @@ headline level out of these information. Use further text information out of
 headline.
 """
 
+import collections
+
 import serializeraw
 import utila
 
@@ -35,6 +37,9 @@ import groupme.footer.serialize
 import hey.textnavigator.navigator
 import words.headlines.nolevel
 import words.headlines.standard
+import words.utils.sections
+
+PageContentBoxed = collections.namedtuple('PageContentBoxed', 'page content')
 
 
 @utila.checkdatatype
@@ -47,6 +52,7 @@ def work(
         sizeandborder: str,
         boxes: str,
         headerfooters: str,
+        pages=None,
 ) -> str:
     """Extract headlines out of data
 
@@ -59,11 +65,15 @@ def work(
         horizontals
     """
     # prepare
-    document = serializeraw.load_document(text)
-    position = serializeraw.load_textpositions(text_position)
-    sections = serializeraw.load_sections(sections)
-    sizeandborder = serializeraw.load_pageborders(sizeandborder)
-    headerfooters = groupme.footer.serialize.load_headerfooter(headerfooters)
+    # TODO: use prepare_input?
+    document = serializeraw.load_document(text, pages=pages)
+    position = serializeraw.load_textpositions(text_position, pages=pages)
+    sections = words.utils.sections.load_sections(sections, pages=pages)
+    sizeandborder = serializeraw.load_pageborders(sizeandborder, pages=pages)
+    headerfooters = groupme.footer.serialize.load_headerfooter(
+        headerfooters,
+        pages=pages,
+    )
     pagetextnavigators = hey.textnavigator.navigator.create_pagetextnavigators(
         text=document,
         text_positions=position,
@@ -86,7 +96,7 @@ def work(
             sizeandborder=sizeandborder,
             headerfooters=headerfooters,
             chapters=None,
-        ).result() for strategy in strategies
+        ).result(pages=pages) for strategy in strategies
     ]
     extracted = judge_result(results)
     # save

@@ -65,6 +65,7 @@ def work(
         pagesizes: str,
         boxes: str,
         headerfooters: str,
+        pages=None,
 ) -> str:
     """Extract text paragraphs from document
 
@@ -88,6 +89,7 @@ def work(
         pagesizes=pagesizes,
         text=text,
         text_position=text_position,
+        pages=pages,
     )
 
     extracted = extract_texts(
@@ -149,19 +151,23 @@ def prepare_input(
         pagesizes: str,
         boxes: str,
         headerfooters: str,
+        pages=None,
 ):
     """Load content from path and create required object"""
-    text = serializeraw.load_document(text)
-    position = serializeraw.load_textpositions(text_position)
-    headlines = serializeraw.load_headlines(headlines)
-    boxes = serializeraw.load_boxes(boxes)
+    text = serializeraw.load_document(text, pages=pages)
+    position = serializeraw.load_textpositions(text_position, pages=pages)
+    headlines = serializeraw.load_headlines(headlines, pages=pages)
+    boxes = serializeraw.load_boxes(boxes, pages=pages)
     fontstore = create_fontstore(font_header, font_content)
     textnavigators = create_pagetextnavigators(
         text=text,
         text_positions=position,
     )
-    contentborder = serializeraw.load_pageborders(pagesizes)
-    headerfooters = groupme.footer.serialize.load_headerfooter(headerfooters)
+    contentborder = serializeraw.load_pageborders(pagesizes, pages=pages)
+    headerfooters = groupme.footer.serialize.load_headerfooter(
+        headerfooters,
+        pages=pages,
+    )
     # contentborder = [(item.border, item.page) for item in contentborder]
     border = words.headlines.contentborder(
         contentborder,

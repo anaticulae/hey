@@ -9,10 +9,12 @@
 """
 TODO: Think about this complex data structure. Do we need this realy?
 """
+import collections
 from collections import defaultdict
 from functools import lru_cache
 from functools import partial
 
+import utila
 from iamraw import BoundingBox
 from serializeraw import load_boxes
 from utila import checkdatatype
@@ -28,6 +30,8 @@ from words.boxed import BoxedChecker
 from words.input import prepare_input
 from words.input import process_input
 
+PageContentBoxed = collections.namedtuple('PageContentBoxed', 'page content')
+
 
 @checkdatatype
 def work(
@@ -38,6 +42,7 @@ def work(
         border: str,
         boxes: str,
         headerfooters: str,
+        pages=None,
 ) -> str:
     """Combine `extracted_text` and check the `undefined` fields for lists
 
@@ -56,6 +61,7 @@ def work(
         border,
         headlines=headlines,
         headerfooters=headerfooters,
+        pages=pages,
     )
     boxes = load_boxes(boxes)
 
@@ -165,7 +171,7 @@ def dump_boxedcontent(boxed) -> str:
 
 
 @lru_cache(CACHE_SMALL)
-def load_boxedcontent(content: str):
+def load_boxedcontent(content: str, pages=None):
 
     def _parse_box_content(line: str):
         """Returns:
@@ -179,9 +185,12 @@ def load_boxedcontent(content: str):
 
     content = from_raw_or_path(content, ftype='yaml')
     loaded = load(content, Loader=FullLoader)
+
     pagedict = defaultdict(list)
     for line in loaded:
-        page = line['page']
+        pagenumber = int(line['page'])
+        if utila.should_skip(pagenumber, pages):
+            continue
         for item in line['content']:
             multiboxed = []
             headlinenumber = item['headlinenumber']
@@ -197,12 +206,12 @@ def load_boxedcontent(content: str):
                     m_content = [_parse_box_content(item) for item in m_content]
                     boxed.append((m_bounding, (boxid, m_content)))
                 multiboxed.append(boxed)
-            pagedict[page].append((
+            pagedict[pagenumber].append((
                 headlinenumber,
                 headlineblocknumber,
                 multiboxed,
             ))
     result = []
     for page, value in pagedict.items():
-        result.append((page, value))
+        result.append(PageContentBoxed(page=page, content=value))
     return result

@@ -27,17 +27,31 @@ def prepare_input(
         border,
         headlines,
         headerfooters,
+        pages=None,
 ) -> typing.Tuple[typing.List, iamraw.Border]:
-    headlines = serializeraw.load_headlines(headlines)
-    extracted_text = serializeraw.load_text(extracted_text, headlines)
-    border = serializeraw.load_pageborders(border)
-    headerfooters = groupme.footer.serialize.load_headerfooter(headerfooters)
+    headlines = serializeraw.load_headlines(headlines, pages=pages)
+    extracted_text = serializeraw.load_text(
+        extracted_text,
+        headlines,
+        pages=pages,
+    )
+    border = serializeraw.load_pageborders(border, pages=pages)
+    headerfooters = groupme.footer.serialize.load_headerfooter(
+        headerfooters,
+        pages=pages,
+    )
     contentborder = words.headlines.contentborder(
         border,
         headerfooters,
     )
-    text = serializeraw.load_document(text)
-    text_position = serializeraw.load_textpositions(text_position)
+    text = serializeraw.load_document(
+        text,
+        pages=pages,
+    )
+    text_position = serializeraw.load_textpositions(
+        text_position,
+        pages=pages,
+    )
     extracted = hey.undefined.extract_undefined(
         extracted_text,
         text,

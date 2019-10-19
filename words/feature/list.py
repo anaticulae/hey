@@ -47,6 +47,7 @@ def work(
         border: str,
         headlines: str,
         headerfooters: str,
+        pages=None,
 ) -> str:
     """Combine `extracted_text` and check the `undefined` fields for lists
 
@@ -65,6 +66,7 @@ def work(
         border,
         headlines,
         headerfooters,
+        pages=pages,
     )
 
     result = process(extracted, contentborder)

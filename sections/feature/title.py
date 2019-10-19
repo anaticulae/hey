@@ -42,8 +42,9 @@ def extract_title_likelihood(
 
     result = [
         iamraw.PageContentLikelihood(
-            page=page, content=iamraw.Likelihood(value, 'title'))
-        for page, value in uniformed.items()
+            page=page,
+            content=iamraw.Likelihood(value, 'title'),
+        ) for page, value in uniformed.items()
     ]
     return result
 
