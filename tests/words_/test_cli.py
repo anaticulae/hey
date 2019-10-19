@@ -9,24 +9,30 @@
 
 import pytest
 
+import tests
 import tests.fixtures
 import tests.resources
-from tests import write_capsys
-from tests.resources import RESTRUCT
-from tests.words_ import run_words_success
+import tests.words_
 
 
 @pytest.mark.parametrize('command', [
-    ['--help'],
-    ['--version'],
-    ['-i', RESTRUCT, '-o', '.'],
-    ['-i', RESTRUCT, '-o', '.', '--pages', '0:9'],
+    pytest.param(['--help'], id='help'),
+    pytest.param(['--version'], id='version'),
+    pytest.param(
+        ['-i', tests.resources.RESTRUCT, '-o', '.'],
+        id='restructured',
+    ),
+    pytest.param(
+        ['-i', tests.resources.RESTRUCT, '-o', '.', '--pages', '0:9'],
+        id='pages',
+    ),
 ])
-def test_words_run(command, testdir, monkeypatch, capsys):  #pylint: disable=W0613
+@pytest.mark.usefixtures('testdir')
+def test_words_run(command, monkeypatch, capsys):
     """Run help and version command to reach basic test coverage"""
-    run_words_success(command, monkeypatch=monkeypatch)
+    tests.words_.run_words_success(command, monkeypatch=monkeypatch)
 
-    write_capsys(capsys)
+    tests.write_capsys(capsys)
 
 
 def test_words_feature_words_work_pages0_10(testdir, monkeypatch):
@@ -39,4 +45,4 @@ def test_words_feature_words_work_pages0_10(testdir, monkeypatch):
         accept=['rawmaker', 'sections', 'groupme'],
     )
 
-    run_words_success(cmd, monkeypatch=monkeypatch)
+    tests.words_.run_words_success(cmd, monkeypatch=monkeypatch)
