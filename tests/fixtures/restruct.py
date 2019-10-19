@@ -17,6 +17,8 @@ import groupme.footer
 import groupme.footer.serialize
 import tests.fixtures
 import tests.resources
+import words.feature
+import words.feature.boxed
 import words.headlines
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
@@ -49,14 +51,12 @@ from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
 from tests.resources import RESTRUCT_TOC
 from words.feature.boxed import dump_boxedcontent
-from words.feature.boxed import prepare_input as boxed_prepare_input
 from words.feature.boxed import process_content as boxed_process_content
 from words.feature.headlines import work as headlines_work
 from words.feature.list import dump_lists
-from words.feature.list import prepare_input as list_prepare_input
+from words.feature.list import load_resources as list_prepare_input
 from words.feature.list import process as list_process
 from words.feature.text import extract_texts as text_extract_texts
-from words.feature.text import prepare_input as text_prepare_input
 
 
 @pytest.fixture
@@ -244,7 +244,7 @@ def restructured_textexample(
         # pylint:disable=W0621
         restructured_headlines):
     headlines = restructured_headlines
-    border, fontstore, headlines, textnavigators, boxes = text_prepare_input(
+    loaded = words.feature.load_resources(
         text=RESTRUCT_TEXT,
         text_position=RESTRUCT_TEXT_POSITION,
         font_header=RESTRUCT_FONT_HEADER,
@@ -254,13 +254,7 @@ def restructured_textexample(
         headerfooters=tests.resources.RESTRUCT_FOOTERS,
         boxes=RESTRUCT_BOXES,
     )
-    extracted = text_extract_texts(
-        border=border,
-        fontstore=fontstore,
-        headlines=headlines,
-        textnavigators=textnavigators,
-        boxes=boxes,
-    )
+    extracted = text_extract_texts(*loaded)
     assert extracted is not None
     return extracted
 
@@ -287,7 +281,7 @@ def restructured_boxed(
     headlines = restructured_headlines
     undefined = restructured_textexample_dumped
 
-    extracted, _ = boxed_prepare_input(
+    extracted, _ = words.feature.boxed.load_resources(
         undefined,
         RESTRUCT_TEXT,
         RESTRUCT_TEXT_POSITION,

@@ -17,7 +17,6 @@ import hey.fonts.store
 import hey.textnavigator.fonts
 import hey.textnavigator.navigator
 import hey.utils
-import words
 import words.headlines
 
 MIN_DOTTED_COUNT = 0.1  # TODO: HOLY VALUE

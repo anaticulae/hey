@@ -20,9 +20,9 @@ from tests.fixtures.restruct import restructured_list_dumped
 from tests.fixtures.restruct import restructured_list_work
 from tests.fixtures.restruct import restructured_textexample
 from tests.fixtures.restruct import restructured_textexample_dumped
-from words.feature.words import load_resources
-from words.feature.words import process_words
-from words.feature.words import work
+from words.feature.word import load_resources
+from words.feature.word import process_words
+from words.feature.word import work
 
 
 @fixture

@@ -32,9 +32,7 @@ import collections
 import serializeraw
 import utila
 
-import groupme.feature.numbers
-import groupme.footer.serialize
-import hey.textnavigator.navigator
+import words.feature
 import words.headlines.nolevel
 import words.headlines.standard
 import words.utils.sections
@@ -64,24 +62,16 @@ def work(
         sizeandborder
         horizontals
     """
-    # prepare
-    # TODO: use prepare_input?
-    document = serializeraw.load_document(text, pages=pages)
-    position = serializeraw.load_textpositions(text_position, pages=pages)
-    sections = words.utils.sections.load_sections(sections, pages=pages)
-    sizeandborder = serializeraw.load_pageborders(sizeandborder, pages=pages)
-    headerfooters = groupme.footer.serialize.load_headerfooter(
+    sizeandborder, fontstore, textnavigators, headerfooters = words.feature.load_basic(
+        text,
+        text_position,
+        font_header,
+        font_content,
+        sizeandborder,
         headerfooters,
         pages=pages,
     )
-    pagetextnavigators = hey.textnavigator.navigator.create_pagetextnavigators(
-        text=document,
-        text_positions=position,
-    )
-    fontstore = hey.fonts.store.create_fontstore(
-        font_header,
-        font_content,
-    )
+    sections = words.utils.sections.load_sections(sections, pages=pages)
 
     strategies = [
         words.headlines.standard.StandardHeadlineExtractor,
@@ -91,7 +81,7 @@ def work(
     results = [
         strategy(
             sectionlist=sections,
-            pagetextnavigators=pagetextnavigators,
+            pagetextnavigators=textnavigators,
             fontstore=fontstore,
             sizeandborder=sizeandborder,
             headerfooters=headerfooters,

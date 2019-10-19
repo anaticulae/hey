@@ -78,7 +78,7 @@ WORKPLAN = [
     ),
     # TODO: IS THAT RIGHT?
     step(
-        'words',
+        'word',
         inputs=[
             ResultFile('words', 'text_text'),
             ResultFile('words', HEADLINES),

@@ -35,7 +35,7 @@ from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.fonts import textfeed
 from hey.textnavigator.navigator import merge_content
 from hey.textnavigator.navigator import merge_content_join
-from words.input import prepare_input
+from words.input import load_resources
 from words.input import process_input
 
 
@@ -59,7 +59,7 @@ def work(
         headlines(str): extracted chapter/paragraph headlines of `words` module
         border(str):
     """
-    extracted, contentborder = prepare_input(
+    extracted, contentborder = load_resources(
         extracted_text,
         text,
         text_position,

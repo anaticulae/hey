@@ -35,9 +35,9 @@ from tests.resources import RESTRUCT_PAGENUMBERS
 from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT
 from tests.resources import RESTRUCT_TEXT_POSITION
+from words.feature import load_resources
 from words.feature.text import analyze_page
 from words.feature.text import fill_headlines
-from words.feature.text import prepare_input
 from words.feature.text import work
 
 
@@ -183,7 +183,7 @@ def test_words_extract_texts_page_x(
         restructured_headlines,  # pylint:disable=W0621
 ):
     headlines = restructured_headlines
-    border, fontstore, headlines, textnavigators, boxes = prepare_input(
+    border, fontstore, headlines, textnavigators, boxes = load_resources(
         text=RESTRUCT_TEXT,
         text_position=RESTRUCT_TEXT_POSITION,
         font_header=RESTRUCT_FONT_HEADER,

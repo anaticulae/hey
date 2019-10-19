@@ -26,7 +26,6 @@ import groupme.toc.regex
 import hey.textnavigator.navigator
 import hey.utils
 import sections.feature.sections
-import words
 import words.utils.skipper
 from hey.document import BorderList
 from hey.document import document_border
@@ -38,7 +37,6 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.textnavigator.navigator import navigator_to_bounds
-
 """
 TODO:
     add more than one strategy to compute equal footer, header

@@ -20,7 +20,7 @@ import hey.undefined
 import words.headlines
 
 
-def prepare_input(
+def load_resources(
         extracted_text,
         text,
         text_position,
@@ -52,13 +52,13 @@ def prepare_input(
         text_position,
         pages=pages,
     )
-    extracted = hey.undefined.extract_undefined(
+    undefined = hey.undefined.extract_undefined(
         extracted_text,
         text,
         text_position,
         contentborder=contentborder,
     )
-    return extracted, contentborder
+    return undefined, contentborder
 
 
 def process_input(extracted, worker):

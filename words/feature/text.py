@@ -43,17 +43,14 @@ from iamraw import Paragraph
 from iamraw import Paragraphs
 from iamraw import Undefined
 
-import groupme.footer
-import groupme.footer.serialize
+import words.boxed
+import words.feature
 import words.headlines
 from hey.fonts.store import FontContentStore
 from hey.fonts.store import FontStore
-from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import PageTextNavigators
-from hey.textnavigator.navigator import create_pagetextnavigators
-from words.boxed import BoxedChecker
 
 
 def work(
@@ -80,7 +77,7 @@ def work(
     Returns:
         dumped paragraphs
     """
-    border, fontstore, headlines, textnavigators, boxes = prepare_input(
+    resources = words.feature.load_resources(
         boxes=boxes,
         font_content=font_content,
         font_header=font_header,
@@ -92,13 +89,7 @@ def work(
         pages=pages,
     )
 
-    extracted = extract_texts(
-        border=border,
-        fontstore=fontstore,
-        headlines=headlines,
-        textnavigators=textnavigators,
-        boxes=boxes,
-    )
+    extracted = extract_texts(*resources)
 
     dumped = serializeraw.dump_text(extracted)
     return dumped
@@ -109,7 +100,7 @@ def analyze_page(
         fontstore: FontStore,
         textnavigators: PageTextNavigator,
         border: Border,
-        boxes: BoxedChecker,
+        boxes: words.boxed.BoxedChecker,
 ) -> Tuple[PageNumber, Paragraphs]:
     """ """
     assert headlines, 'empty `headlines`'
@@ -140,41 +131,6 @@ def analyze_page(
               for (headline, content) in result
               if (headline.container is not None and headline.container > -1)]
     return (page, result)
-
-
-def prepare_input(
-        text: str,
-        text_position: str,
-        font_header: str,
-        font_content: str,
-        headlines: str,
-        pagesizes: str,
-        boxes: str,
-        headerfooters: str,
-        pages=None,
-):
-    """Load content from path and create required object"""
-    text = serializeraw.load_document(text, pages=pages)
-    position = serializeraw.load_textpositions(text_position, pages=pages)
-    headlines = serializeraw.load_headlines(headlines, pages=pages)
-    boxes = serializeraw.load_boxes(boxes, pages=pages)
-    fontstore = create_fontstore(font_header, font_content)
-    textnavigators = create_pagetextnavigators(
-        text=text,
-        text_positions=position,
-    )
-    contentborder = serializeraw.load_pageborders(pagesizes, pages=pages)
-    headerfooters = groupme.footer.serialize.load_headerfooter(
-        headerfooters,
-        pages=pages,
-    )
-    # contentborder = [(item.border, item.page) for item in contentborder]
-    border = words.headlines.contentborder(
-        contentborder,
-        headerfooters,
-    )
-    boxes = BoxedChecker(boxes)
-    return border, fontstore, headlines, textnavigators, boxes
 
 
 def collect_paragraph(
@@ -259,11 +215,11 @@ def prepare_analyze_page(
 
 
 def extract_texts(
-        headlines,
-        fontstore: FontStore,
-        textnavigators: PageTextNavigators,
         border: Border,
-        boxes: BoxedChecker,
+        boxes: words.boxed.BoxedChecker,
+        fontstore: FontStore,
+        headlines,
+        textnavigators: PageTextNavigators,
 ):
     result = []
 
@@ -368,7 +324,7 @@ def squeeze_text_page(page):
     return result
 
 
-def content_type(boxed: BoxedChecker, page: int, bounding, content):
+def content_type(boxed: words.boxed.BoxedChecker, page: int, bounding, content):
     if DOT in content:
         return ContentType.LIST
     if boxed.contains(page, bounding):

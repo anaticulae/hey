@@ -158,7 +158,7 @@ def words_result(sections_result):  # pylint:disable=W0621
     assert completed.returncode == utila.SUCCESS
 
     for item, expected_length in [
-        ('words__words_result.yaml', 2000),
+        ('words__word_result.yaml', 2000),
         ('words__headlines_headlines.yaml', 1000),
     ]:
         path = os.path.join(wordspath, item)
@@ -178,7 +178,6 @@ def test_huge_sections_extractor(testdir, sections_result):  # pylint:disable=W0
 def test_huge_running_words(words_result, request):  # pylint:disable=W0621
     """Run rawmaker -> sections -> words. Ensure that this chain works for
     huge pdf example provided by power tool."""
-
     testfile = request.node.name.split('[')[1].split(']')[0]
     expected_headlines = HEADLINE_COUNT.get(testfile, 0)
 

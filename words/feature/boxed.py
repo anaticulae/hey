@@ -27,7 +27,7 @@ from yaml import load
 from hey import CACHE_SMALL
 from words.boxed import NO_BOX
 from words.boxed import BoxedChecker
-from words.input import prepare_input
+from words.input import load_resources
 from words.input import process_input
 
 PageContentBoxed = collections.namedtuple('PageContentBoxed', 'page content')
@@ -54,7 +54,7 @@ def work(
         headlines(str): extracted chapter/paragraph headlines of `words` module
         border(str):
     """
-    extracted, _ = prepare_input(
+    extracted, _ = load_resources(
         extracted_text,
         text,
         text_position,
