@@ -34,30 +34,10 @@ import tests.resources
     ),
 ])
 def test_groupme_footer_moving(document, pages, expected_footer):
-    horizontallines = serializeraw.load_horizontals(
-        tests.resources.horizontals(document),
-        pages,
-    )
-    sizeandborder = serializeraw.load_pageborders(
-        tests.resources.sizeandborder(document),
-        pages,
-    )
-
-    pagenumbers = serializeraw.load_pagenumbers(
-        tests.resources.pagenumbers(document),
-        pages,
-    )
-
-    pagetextnavigators = tests.fixtures.create_pagetextnavigators(
-        document,
-        pages,
-    )
-
-    strategy = groupme.footer.moving.MovingFooterStrategy(
-        horizontallines,
-        sizeandborder,
-        pagenumbers,
-        pagetextnavigators,
+    strategy = groupme.footer.create_strategy(
+        path=document,
+        strategy=groupme.footer.moving.MovingFooterStrategy,
+        pages=pages,
     )
     result = strategy.result()
 
