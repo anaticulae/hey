@@ -10,6 +10,7 @@
 TODO:
     what should we do with empty header/footer
 """
+import contextlib
 import typing
 
 import iamraw
@@ -104,7 +105,6 @@ def judge_strategy(results):
         for result in results
     ]
     best_result = count.index(max(count)) if max(count) > 0 else -1
-    if best_result >= 0:
-        result = results[best_result]
-        return result
-    return []
+    with contextlib.suppress(KeyError):
+        return results[best_result]
+    return None
