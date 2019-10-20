@@ -6,10 +6,11 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
+import os
 from typing import List
 from typing import Tuple
 
+import serializeraw
 from iamraw import Border
 from iamraw import BoundingBox
 from iamraw import Document
@@ -220,6 +221,17 @@ def create_pagetextnavigators(
                 navigator.insert(pos, textcontent)
                 textid += 1
     return result
+
+
+def create_pagetextnavigators_frompath(path: str, pages=None):
+    text = os.path.join(path, 'rawmaker__text_text.yaml')
+    text = serializeraw.load_document(text, pages=pages)
+
+    text_position = os.path.join(path, 'rawmaker__text_positions.yaml')
+    text_position = serializeraw.load_textpositions(text_position, pages=pages)
+
+    navigators = create_pagetextnavigators(text, text_position)
+    return navigators
 
 
 def topbottom(size: PageSize, contentborder: Border):
