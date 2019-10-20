@@ -10,8 +10,6 @@
 
 """
 
-import dataclasses
-
 import iamraw
 import utila
 
@@ -35,7 +33,7 @@ def parse(content: str):
             if parsed:
                 break
         if not parsed:
-            parsed = RawText(text=text)
+            parsed = iamraw.RawText(text=text)
         result.append(parsed)
 
     return result
@@ -44,14 +42,14 @@ def parse(content: str):
 def parse_rawtext(text: str, _):
     if text.count(utila.NEWLINE) <= 2:
         return None
-    return RawText(text=text)
+    return iamraw.RawText(text=text)
 
 
 def parse_pagenumber(text: str, _):
     text = text.strip()
     if not groupme.feature.numbers.is_pagenumber(text):
         return None
-    return groupme.footer.PageInformation(value=text, raw=text)
+    return iamraw.PageInformation(value=text, raw=text)
 
 
 def parse_title(text: str, _):
@@ -62,22 +60,4 @@ def parse_title(text: str, _):
     assert len(parsed) == 1, utila.log_raw(parsed)
 
     parsed = parsed[0]
-    return HeaderTitle(title=parsed.title, raw=parsed.raw)
-
-
-@dataclasses.dataclass  # pylint:disable=R0903
-class HeaderTitle:
-    # XXX: Store location and font?
-    title: str = None
-    raw: str = None
-
-
-@dataclasses.dataclass  # pylint:disable=R0903
-class HeaderImages:
-    number: int = None
-    location: iamraw.BoundingBox = None
-
-
-@dataclasses.dataclass  # pylint:disable=R0903
-class RawText:
-    text: str = None
+    return iamraw.HeaderTitle(title=parsed.title, raw=parsed.raw)

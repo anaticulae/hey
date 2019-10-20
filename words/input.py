@@ -14,8 +14,6 @@ import iamraw
 import serializeraw
 import utila
 
-import groupme.feature
-import groupme.footer.serialize
 import hey.undefined
 import words.headlines
 
@@ -36,7 +34,7 @@ def load_resources(
         pages=pages,
     )
     border = serializeraw.load_pageborders(border, pages=pages)
-    headerfooters = groupme.footer.serialize.load_headerfooter(
+    headerfooters = serializeraw.load_headerfooter(
         headerfooters,
         pages=pages,
     )

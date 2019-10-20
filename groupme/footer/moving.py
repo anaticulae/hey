@@ -17,20 +17,12 @@ Example:
 
 TODO: Think about header
 """
-import dataclasses
-import typing
-
+import iamraw
 import utila
 
 import groupme.footer
 import groupme.footer.footnotes
 import groupme.footer.pages
-
-
-@dataclasses.dataclass
-class MovingFooterInformation(groupme.footer.FooterInformation):
-    notes: typing.List[groupme.footer.footnotes.FootNote] = dataclasses.field(
-        default_factory=list)
 
 
 class MovingFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
@@ -100,7 +92,7 @@ def process_page(
             pagetextnavigator,
         )
 
-    result = groupme.footer.PageContentFooterHeader(
+    result = iamraw.PageContentFooterHeader(
         header=header,
         footer=footer,
         page=pagenumber,
@@ -133,7 +125,7 @@ def extract_footer(
 
     footnotes = groupme.footer.footnotes.parse(content)
 
-    footer = MovingFooterInformation(
+    footer = iamraw.MovingFooterInformation(
         begin=begin,
         end=end,
         notes=footnotes,

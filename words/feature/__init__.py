@@ -12,7 +12,6 @@ import typing
 import iamraw
 import serializeraw
 
-import groupme.footer.serialize
 import hey.fonts.store
 import hey.textnavigator.navigator
 import words.boxed
@@ -41,7 +40,7 @@ def load_resources(
         text_positions=position,
     )
     contentborder = serializeraw.load_pageborders(pagesizes, pages=pages)
-    headerfooters = groupme.footer.serialize.load_headerfooter(
+    headerfooters = serializeraw.load_headerfooter(
         headerfooters,
         pages=pages,
     )
@@ -73,7 +72,7 @@ def load_basic(
     fontstore = hey.fonts.store.create_fontstore(font_header, font_content)
     sizeandborder = serializeraw.load_pageborders(pagesizes, pages=pages)
 
-    headerfooters = groupme.footer.serialize.load_headerfooter(
+    headerfooters = serializeraw.load_headerfooter(
         headerfooters,
         pages=pages,
     )

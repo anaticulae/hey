@@ -14,7 +14,6 @@ from iamraw.sections import PERCENT_100
 from iamraw.sections import Sections
 
 import groupme.footer
-import groupme.footer.serialize
 import tests.fixtures
 import tests.resources
 import words.feature
@@ -267,7 +266,7 @@ def restructured_textexample_dumped(
 
 @pytest.fixture
 def restructured_headerfooter():
-    headerfooter = groupme.footer.serialize.load_headerfooter(RESTRUCT_FOOTERS)
+    headerfooter = serializeraw.load_headerfooter(RESTRUCT_FOOTERS)
     return headerfooter
 
 

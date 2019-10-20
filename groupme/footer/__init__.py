@@ -25,37 +25,10 @@ possible improvements.
 """
 import abc
 import collections
-import dataclasses
-import enum
 import typing
 
 import iamraw
 import utila
-
-PageContentFooterHeader = collections.namedtuple(
-    'PageContentFooterHeader',
-    'header, footer, page',
-)
-
-
-@dataclasses.dataclass  # pylint:disable=R0903
-class PageInformation:
-    value: str = None
-    raw: str = None
-
-
-@dataclasses.dataclass  # pylint:disable=R0903
-class HeaderInformation:
-    begin: float
-    end: float
-    page: PageInformation = None
-
-
-@dataclasses.dataclass  # pylint:disable=R0903
-class FooterInformation:
-    begin: float
-    end: float
-    page: PageInformation = None
 
 
 class FooterHeaderDetectionStrategy(abc.ABC):

@@ -20,7 +20,6 @@ import groupme.footer
 import groupme.footer.fixed
 import groupme.footer.moving
 import groupme.footer.pages
-import groupme.footer.serialize
 import hey.textnavigator
 
 
@@ -60,7 +59,7 @@ def work(
     )
 
     # dump
-    dumped = groupme.footer.serialize.dump_headerfooter(result)
+    dumped = serializeraw.dump_headerfooter(result)
     return dumped
 
 
@@ -69,7 +68,7 @@ def extract_footerheader(
         sizeandborders,
         pagenumbers,
         pagetextnavigators,
-) -> typing.List[groupme.footer.PageContentFooterHeader]:
+) -> typing.List[iamraw.PageContentFooterHeader]:
     """Extract most common header/footer of the document
 
     Args:

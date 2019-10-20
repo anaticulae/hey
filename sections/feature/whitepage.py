@@ -38,7 +38,6 @@ import utila
 import yaml
 
 import groupme.footer
-import groupme.footer.serialize
 import hey
 import hey.textnavigator.navigator
 import hey.utils
@@ -80,7 +79,7 @@ def work(
     document = serializeraw.load_document(document, pages=pages)
     position = serializeraw.load_textpositions(position, pages=pages)
 
-    headerfooters = groupme.footer.serialize.load_headerfooter(
+    headerfooters = serializeraw.load_headerfooter(
         footers,
         pages=pages,
     )

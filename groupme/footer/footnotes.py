@@ -18,21 +18,11 @@ There are 2 supported types of footnotes:
 TODO: FOR FURTHER ANALYSIS WE REQUIRE DIFFERENT FOOTER LINE ANALYZER
 TODO: SUPPORT MULTILINE FOOTNOTES
 """
-import dataclasses
 import re
 
+import iamraw
+
 import detector.parser
-
-
-@dataclasses.dataclass
-class FootNote():
-    number: int
-    text: str
-    raw: str
-    author: str = None
-    title: str = None
-    year: int = None
-
 
 # TODO: REPLACE WITH GENERAL TEXT PARSER
 PATTERN = r'^(?P<number>\d{1,3})[ ]?(?P<text>[\w\d:\.,;’/\(\) \-]+)$'
@@ -47,37 +37,10 @@ def parse(content: str):
         text = item['text']
         raw = detector.parser.extract_match(item)
 
-        footnote = FootNote(
+        footnote = iamraw.FootNote(
             number=number,
             text=text,
             raw=raw,
         )
         result.append(footnote)
-    return result
-
-
-def dump_footnote(note):
-    raw = {
-        'number': note.number,
-        'text': note.text,
-        'raw': note.raw,
-    }
-    if note.author:
-        raw['author'] = note.author
-    if note.title:
-        raw['title'] = note.title
-    if note.year:
-        raw['year'] = note.year
-    return raw
-
-
-def load_footnote(raw: dict) -> FootNote:
-    result = FootNote(
-        number=raw['number'],
-        text=raw['text'],
-        raw=raw['raw'],
-        author=raw.get('author', None),
-        title=raw.get('title', None),
-        year=raw.get('year', None),
-    )
     return result

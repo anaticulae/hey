@@ -12,7 +12,6 @@ import serializeraw
 import utila
 
 import groupme.feature.footer
-import groupme.footer
 import groupme.footer.moving
 import tests.fixtures.restruct
 import tests.resources

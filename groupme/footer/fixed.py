@@ -18,7 +18,6 @@ Master of the art:
                          we have a lot of horizontal lines which challenges
                          the algorithm.
 """
-import dataclasses
 import itertools
 import typing
 
@@ -66,23 +65,6 @@ class FixedFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
             )
             footerheader.extend(extracted)
         return footerheader
-
-
-@dataclasses.dataclass  # pylint:disable=R0903
-class FixedHeaderInformation(groupme.footer.HeaderInformation):
-
-    title: groupme.footer.headnotes.HeaderTitle = None
-
-    undefined: typing.List[groupme.footer.headnotes.RawText] =\
-                                         dataclasses.field(default_factory=list)
-
-    images: typing.List[groupme.footer.headnotes. HeaderImages] =\
-                                         dataclasses.field(default_factory=list)
-
-
-@dataclasses.dataclass  # pylint:disable=R0903
-class FixedFooterInformation(groupme.footer.FooterInformation):
-    pass
 
 
 def extract_common_footer(
@@ -147,7 +129,7 @@ def extract_page_footerheader(
         bottom: float,
         pageheight: float,
         pagetextnavigators,
-) -> typing.List[groupme.footer.PageContentFooterHeader]:
+) -> typing.List[iamraw.PageContentFooterHeader]:
     """Extract footer and header which matches `top` and `bottom`.
 
     Args:
@@ -156,7 +138,7 @@ def extract_page_footerheader(
         bottom(pixel): position of footer-border horizontal line
         pageheight(pixel): height of pages in pixel
     Returns:
-        list of `groupme.footer.PageContentFooterHeader` for every
+        list of `iamraw.PageContentFooterHeader` for every
         page with header and footer information.
     """
     result = []
@@ -171,12 +153,12 @@ def extract_page_footerheader(
         footer = None
         if bottom is not None and groupme.horizontals.match(content, bottom):
             bottom_ = utila.roundme(bottom / pageheight)
-            footer = FixedFooterInformation(
+            footer = iamraw.FixedFooterInformation(
                 begin=bottom_,
                 end=hey.textnavigator.navigator.END,
             )
 
-        footer_header = groupme.footer.PageContentFooterHeader(
+        footer_header = iamraw.PageContentFooterHeader(
             header=header,
             footer=footer,
             page=page.page,
@@ -199,16 +181,16 @@ def create_header(top, pageheight, textnavigator):
     )
     parsed = groupme.footer.headnotes.parse(headercontent)
 
-    result = FixedHeaderInformation(
+    result = iamraw.FixedHeaderInformation(
         begin=hey.textnavigator.navigator.START,
         end=top_,
     )
     for item in parsed:
-        if isinstance(item, groupme.footer.headnotes.HeaderTitle):
+        if isinstance(item, iamraw.HeaderTitle):
             result.title = item
-        if isinstance(item, groupme.footer.headnotes.RawText):
+        if isinstance(item, iamraw.RawText):
             result.undefined.append(item)  # pylint:disable=E1101
-        if isinstance(item, groupme.footer.PageInformation):
+        if isinstance(item, iamraw.PageInformation):
             result.page = item
     return result
 

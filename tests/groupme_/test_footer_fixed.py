@@ -131,7 +131,7 @@ def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader_header()
 def test_groupme_footer_dump_and_load_bachelor111():
     footerheader = _bachelor111_footerheader()
 
-    dumped = groupme.footer.serialize.dump_headerfooter(footerheader)
-    loaded = groupme.footer.serialize.load_headerfooter(dumped)
+    dumped = serializeraw.dump_headerfooter(footerheader)
+    loaded = serializeraw.load_headerfooter(dumped)
 
     assert loaded == footerheader

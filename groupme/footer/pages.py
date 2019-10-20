@@ -17,7 +17,6 @@ Extract page numbers as footer if the distance between page number and
 next horizontal line is greater than `MIN_DISTANCE_TO_HORIZONTAL`.
 
 """
-import dataclasses
 
 import iamraw
 import utila
@@ -26,11 +25,6 @@ import groupme.footer
 import hey.textnavigator.navigator
 
 MIN_DISTANCE_TO_HORIZONTAL = 50  # TODO: HOLY VALUE
-
-
-@dataclasses.dataclass
-class PagesFooterInformation(groupme.footer.FooterInformation):
-    page_location: iamraw.BoundingBox = None
 
 
 class PageNumberStrategy(groupme.footer.FooterHeaderDetectionStrategy):
@@ -64,12 +58,12 @@ class PageNumberStrategy(groupme.footer.FooterHeaderDetectionStrategy):
 
                 begin = utila.roundme(processed[1].y0 / pageheight)
                 end = hey.textnavigator.navigator.END
-                footer = PagesFooterInformation(
+                footer = iamraw.PagesFooterInformation(
                     begin=begin,
                     end=end,
                     page_location=processed[1],
                 )
-                footer_header = groupme.footer.PageContentFooterHeader(
+                footer_header = iamraw.PageContentFooterHeader(
                     header=header,
                     footer=footer,
                     page=pdfpage,

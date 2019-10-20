@@ -20,7 +20,6 @@ from serializeraw import load_horizontals
 from serializeraw import load_pageborders
 from serializeraw import load_sections
 
-import groupme.feature.footer
 import groupme.footer
 import groupme.toc.regex
 import hey.textnavigator.navigator
@@ -37,7 +36,6 @@ from hey.textnavigator.navigator import PageTextContentNavigator
 from hey.textnavigator.navigator import PageTextNavigators
 from hey.textnavigator.navigator import create_pagetextnavigators
 from hey.textnavigator.navigator import navigator_to_bounds
-
 """
 TODO:
     add more than one strategy to compute equal footer, header
