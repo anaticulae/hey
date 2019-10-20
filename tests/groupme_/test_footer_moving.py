@@ -32,6 +32,13 @@ import tests.resources
          (18, 3), (19, 1)],
         id='bachelor111pages',
     ),
+    pytest.param(
+        tests.resources.RESTRUCT,
+        tuple(range(20)),
+        [],
+        id='restructured',
+        marks=pytest.mark.xfail(reason='horizontal plus page number is threated as moving footer'),
+    ),
 ])
 def test_groupme_footer_moving(document, pages, expected_footer):
     strategy = groupme.footer.create_strategy(
