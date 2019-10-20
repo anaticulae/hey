@@ -25,10 +25,14 @@ possible improvements.
 """
 import abc
 import collections
+import os
 import typing
 
 import iamraw
+import serializeraw
 import utila
+
+import hey.textnavigator.navigator
 
 
 class FooterHeaderDetectionStrategy(abc.ABC):
@@ -73,6 +77,34 @@ class FooterHeaderDetectionStrategy(abc.ABC):
             return None
         pageheight = selected.size.height
         return pageheight
+
+
+def create_strategy(
+        path: str,
+        strategy: 'FooterHeaderDetectionStrategy-class',
+        pages=None,
+):
+    horizontals = os.path.join(path, 'rawmaker__boxes_horizontal.yaml')
+    horizontals = serializeraw.load_horizontals(horizontals, pages=pages)
+
+    sizeandborders = os.path.join(path, 'rawmaker__border_pages.yaml')
+    sizeandborders = serializeraw.load_pageborders(sizeandborders, pages=pages)
+
+    pagenumbers = os.path.join(path, 'groupme__pagenumbers_pagenumbers.yaml')
+    pagenumbers = serializeraw.load_pagenumbers(pagenumbers, pages=pages)
+
+    navigator = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
+        path,
+        pages=pages,
+    )
+
+    result = strategy(
+        horizontals=horizontals,
+        sizeandborders=sizeandborders,
+        pagenumbers=pagenumbers,
+        pagetextnavigators=navigator,
+    )
+    return result
 
 
 def remove_duplication(items):
