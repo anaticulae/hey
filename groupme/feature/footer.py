@@ -91,11 +91,11 @@ def extract_footerheader(
         ).result() for strategy in strategies
     ]
 
-    result = judge_stategy(results)
+    result = judge_strategy(results)
     return result
 
 
-def judge_stategy(results):
+def judge_strategy(results):
     # TODO: IMPROVE THIS
     count = [
         len([item.footer
