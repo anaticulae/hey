@@ -27,16 +27,16 @@ END = 1.0
 
 
 class PageTextNavigator:
-    """The PageTextNavigator eases to navigate through the textutal
+    """The PageTextNavigator eases to navigate through the textual
     content of a Page. The text is processed from top to down and left
     to right.
     """
 
     def __init__(self, size=None, page=-1):
-        """Intialize PageTextNavigator with maximal `size`
+        """Initialize PageTextNavigator with maximal `size`
 
         Args:
-            size(tuple): maximal width/height of PageTextNavgiator
+            size(tuple): maximal width/height of PageTextNavigator
             page(int): page number of PageTextNavigator-instance
 
         Sizes:
@@ -54,7 +54,7 @@ class PageTextNavigator:
 
         Args:
             box(BoundingBox): position and dimension of text area
-            item(str): content of text chunck
+            item(str): content of text chunk
         """
         x0, y0, x1, y1 = box
         msg = '0<=%d<=%d<=%d'
@@ -75,7 +75,7 @@ class PageTextNavigator:
         return self.data[index]
 
     def __len__(self) -> int:
-        """Count text chuncks"""
+        """Count text chunks"""
         return len(self.data)
 
     def __iter__(self):
@@ -203,7 +203,6 @@ def create_pagetextnavigators(
 ) -> PageTextNavigators:
     result = []
     dimension = (text.dimension.width, text.dimension.height)
-
     for textposition in text_positions:
         navigator = PageTextNavigator(size=dimension, page=textposition.page)
         result.append(navigator)
@@ -272,7 +271,7 @@ def percent_from_pagesize(size, current) -> float:
         return  0.8%
 
     Hint:
-        The maxsize start at the top of the page.
+        The max size start at the top of the page.
 
     Args:
         size(float): size of current page
@@ -290,7 +289,7 @@ def to_content(navigator: PageTextNavigator) -> TextBoundsList:
     return result
 
 
-# Merge lines with lower distance to one text chunck.
+# Merge lines with lower distance to one text chunk.
 MAX_MERGE_DISTANCE = 3.55  # TODO: Holy value
 MAX_MERGE_HORIZONTALY = 14.0  # TODO: HOLY VALUE
 
@@ -305,8 +304,8 @@ def merge_content(
     merge strategy.
 
     Args:
-        text: chunck with BoundingBox to merge
-        max_x_merge(float): feeddistance between the two left sides
+        text: chunk with BoundingBox to merge
+        max_x_merge(float): feed distance between the two left sides
         max_y_merge(float): vertical distance between 2 BoundingBoxes to
                             merge them into one
         uindex(list[int]): undefined index to link text(TextBoundsList) with
