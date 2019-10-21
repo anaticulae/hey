@@ -24,7 +24,6 @@ import tests.resources
         tests.resources.RESTRUCT,
         29,
         id='restruct',
-        marks=pytest.mark.xfail(reason='decider strategy is not good enough'),
     ),
 ])
 def test_footer_judgement_strategy_quality(path, expected_quality):

@@ -37,7 +37,6 @@ import tests.resources
         tuple(range(20)),
         [],
         id='restructured',
-        marks=pytest.mark.xfail(reason='horizontal plus page number is threated as moving footer'),
     ),
 ])
 def test_groupme_footer_moving(document, pages, expected_footer):

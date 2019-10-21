@@ -17,6 +17,9 @@ Example:
 
 TODO: Think about header
 """
+import dataclasses
+
+import configo
 import iamraw
 import utila
 
@@ -60,8 +63,29 @@ class MovingFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
             )
             result.append(processed)
 
+        result = judge_detection(result)
         return result
 
+    def report(self) -> groupme.footer.FooterStrategyResultReport:
+        # TODO: Avoid multiple computation, require  concept.
+        detected = self.result()
+        report = analyze(detected)
+        return report
+
+
+@dataclasses.dataclass
+class MovingFooterResultReport(groupme.footer.FooterStrategyResultReport):  # pylint:disable=R0903
+    footer: int = None
+    header: int = None
+    footer_empty: int = None
+    too_many_empty_footer: bool = False
+
+
+# relation between detected and empty detected footer to reduce miss detection
+WRONG_STRATEGY_EMPTY_FOOTER_FACTOR = configo.HV(
+    default=20,
+    datatype=configo.DataType.PERCENT_PLUS,
+)
 
 BOTTOM_BORDER = 0.60  # TODO: HOLY VALUE
 
@@ -133,7 +157,46 @@ def extract_footer(
     return footer
 
 
+def analyze(results) -> MovingFooterResultReport:
+    footer_count = groupme.footer.count_footer(results)
+    emptyfooter_count = groupme.footer.footnotes.count_empty(results)
+    empty_factor = emptyfooter_count / footer_count
+    too_many_empty_footer = empty_factor >= WRONG_STRATEGY_EMPTY_FOOTER_FACTOR
+
+    result = MovingFooterResultReport(
+        footer=footer_count,
+        footer_empty=emptyfooter_count,
+        too_many_empty_footer=too_many_empty_footer,
+    )
+    return result
+
+
+def judge_detection(items):
+    """Second analyzing step. Prove that `items` contain a good
+    detection result.
+
+    The following things will be checked:
+
+    - (x) selection of correct strategy
+    - ( ) quality of extracted footnotes
+    """
+    report = analyze(items)
+
+    # This can happen when using the wrong strategy. If we parse
+    # FixedFooter with MovingFooterStrategy, there are a lot of footer
+    # which are threated as MovingFooter with Footnote, but this detection
+    # is not correct.
+    if report.too_many_empty_footer:
+        return []
+
+    return items
+
+
 def footercontent(items):
+    """
+    Args:
+        items(list): list of (bounds, text)
+    """
     content = [item[1] for item in items]
     content = utila.NEWLINE.join(content)
     return content
