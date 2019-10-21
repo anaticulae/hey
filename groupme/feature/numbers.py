@@ -76,17 +76,18 @@ def header(navigators):
 def footer(
         navigators,
         *,
-        numbers_only=True,
-        remove_empty=True,
+        max_difference: float = BOTTOM_MAX_DIFFERENCE,
+        numbers_only: bool = True,
+        remove_empty: bool = True,
 ):
     """Detect similar elements in footer area which are duplicated on
     different pages.
 
     Args:
         navigators:
+        max_area: size of items which are grouped to a cluster
         numbers_only(bool): if True, remove all non numeric/romanic elements
         remove_empty(bool): remove empty elements, e.g. whitespaces
-
     """
     # TODO: MOVE THIS METHOD TO MORE GENERAL FOOTER FILE BECAUSE THIS CODE
     # HAS NOTHING TODO WITH NUMBERS
@@ -108,9 +109,10 @@ def footer(
 
             pagecontent.append(item)
         filtered.append(pagecontent)
+
     common = hey.cluster.common_items(
         filtered,
-        max_difference=BOTTOM_MAX_DIFFERENCE,
+        max_difference=max_difference,
     )
     return common
 
