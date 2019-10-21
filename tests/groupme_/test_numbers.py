@@ -107,14 +107,6 @@ def pagenumbers_simple(simple_navigator):  #pylint:disable=W0621
     return numbers
 
 
-@pytest.fixture
-def pagenumbers_restructured(restructured_pagetextnavigators):  #pylint:disable=W0621
-    result = groupme.feature.numbers.footer(restructured_pagetextnavigators)
-    # double page
-    left, right = groupme.feature.numbers.pagenumbers(result)
-    return left, right
-
-
 @pytest.mark.parametrize('resource, expected_numbers', [
     pytest.param(tests.resources.MASTER_72PAGES, 69, id='master72pages'),
     pytest.param(tests.resources.TECHNICAL_24PAGES, 23, id='technical24pages'),
