@@ -62,6 +62,7 @@ TOP_MAX_DIFFERENCE = 20.0
 # TODO: Think about scaling this value depending on result
 BOTTOM_BORDER = 0.8  # Footer is in range of 80% till 100%
 BOTTOM_MAX_DIFFERENCE = 20.0
+BOTTOM_MAX_AREA = 2500.0  # page number is not very big
 
 
 def header(navigators):
@@ -76,6 +77,7 @@ def header(navigators):
 def footer(
         navigators,
         *,
+        max_area: float = BOTTOM_MAX_AREA,
         max_difference: float = BOTTOM_MAX_DIFFERENCE,
         numbers_only: bool = True,
         remove_empty: bool = True,
@@ -85,6 +87,7 @@ def footer(
 
     Args:
         navigators:
+        max_difference: difference of BoundingBox-coordinates in same cluster
         max_area: size of items which are grouped to a cluster
         numbers_only(bool): if True, remove all non numeric/romanic elements
         remove_empty(bool): remove empty elements, e.g. whitespaces
@@ -97,6 +100,9 @@ def footer(
     for page in collected:
         pagecontent = []
         for item in page:
+            if area(item[0]) > max_area:
+                # ignore to big items
+                continue
             if remove_empty and not item[1].strip():
                 # filter empty items
                 continue
@@ -214,3 +220,21 @@ def commandline():
         longcut=name(),
         message='extract page numbers from footer and header',
     )
+
+
+def area(bounding) -> float:
+    """Determine area out of `BoundingBox` or `tuple(4)`
+
+    Args:
+        bounding(BoundingBox/tuple): area to determine size of
+    Returns:
+        size of bounds [ ]
+    """
+    import math
+    # TODO: REMOVE AFTER UPGRADING IAMRAW
+    height = math.fabs(bounding[2] - bounding[0])
+    width = math.fabs(bounding[1] - bounding[3])
+
+    result = height * width
+    result = utila.roundme(result)
+    return result

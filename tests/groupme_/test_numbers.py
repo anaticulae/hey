@@ -48,10 +48,9 @@ def test_footer_restructured(restructured_pagetextnavigators):  #pylint:disable=
         restructured_pagetextnavigators,
         numbers_only=False,
     )
-
     # cluster with page numbers
     # 2 Pages and some header text lines
-    assert len(result) == 6, utila.log_raw(result)
+    assert len(result) == 5, utila.log_raw(result)
 
 
 def test_header_restructured(restructured_pagetextnavigators):  #pylint:disable=W0621
