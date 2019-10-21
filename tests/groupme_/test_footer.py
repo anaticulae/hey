@@ -70,11 +70,7 @@ def test_groupme_footer_dump_and_load(
     [
         (groupme.footer.moving.MovingFooterStrategy, 0),
         (groupme.footer.fixed.FixedFooterStrategy, 26),  # TODO: CHECK 26
-        pytest.param(
-            groupme.footer.pages.PageNumberStrategy,
-            0,
-            marks=pytest.mark.xfail(reson='improve PageNumberStrategy'),
-        ),
+        (groupme.footer.pages.PageNumberStrategy, 0),
     ])
 def test_groupme_footer_footerheader_detectionstategy(
         strategy,

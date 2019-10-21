@@ -76,6 +76,15 @@ def test_pagenumbers_restructured(restructured_pagetextnavigators):  #pylint:dis
     # need number in left and/or right page
     assert sum([len(number) for number in numbers])
 
+    left = [item[2] for item in numbers[0]]
+    right = [item[2] for item in numbers[1]]
+
+    expected_left = ['ii', 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
+    expected_right = ['i', 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23]
+
+    assert left == expected_left
+    assert right == expected_right
+
 
 def test_pagenumbers_simple(simple_navigator):  #pylint:disable=W0621
     result = groupme.feature.numbers.footer(simple_navigator)

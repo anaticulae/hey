@@ -219,6 +219,34 @@ def create_pagetextnavigators(
                 pos = textposition.content[textid]
                 navigator.insert(pos, textcontent)
                 textid += 1
+
+    def fill_empty(items):
+        """Some documents contain white pages. White pages contain no text
+        and therefore no text_positions. The document [CONTENT,
+        WHITEPAGE, CONTENT, CONTENT] produces the pagetextnavigators
+        page =[0,2,3]. If we assume that some algorithm requires a
+        closed row of navigators this can lead to problems.Therefore we
+        insert an empty PageTextNavigator at position 1 to avoid these
+        problems.
+        """
+        if not items:
+            return []
+        # require ascending list for while loop below
+        items = sorted(items, key=lambda x: x.page)
+        filled = [items[0]]
+        for item in items[1:]:
+            # fill empty
+            while filled[-1].page + 1 < item.page:
+                navigator = PageTextNavigator(
+                    size=dimension,
+                    page=filled[-1].page + 1,
+                )
+                filled.append(navigator)
+            filled.append(item)
+
+        return filled
+
+    result = fill_empty(result)
     return result
 
 
