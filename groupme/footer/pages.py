@@ -53,22 +53,24 @@ class PageNumberStrategy(groupme.footer.FooterHeaderDetectionStrategy):
             horizontals = utila.select_page(self.horizontals, pdfpage)
 
             processed = process_page(pdfpage, rawpage, horizontals)
-            if processed is not None:
-                header = None
+            if processed is None:
+                continue
 
-                begin = utila.roundme(processed[1].y0 / pageheight)
-                end = hey.textnavigator.navigator.END
-                footer = iamraw.PagesFooterInformation(
-                    begin=begin,
-                    end=end,
-                    page_location=processed[1],
-                )
-                footer_header = iamraw.PageContentFooterHeader(
-                    header=header,
-                    footer=footer,
-                    page=pdfpage,
-                )
-                result.append(footer_header)
+            header = None
+
+            begin = utila.roundme(processed[1].y0 / pageheight)
+            end = hey.textnavigator.navigator.END
+            footer = iamraw.PagesFooterInformation(
+                begin=begin,
+                end=end,
+                page_location=processed[1],
+            )
+            footer_header = iamraw.PageContentFooterHeader(
+                header=header,
+                footer=footer,
+                page=pdfpage,
+            )
+            result.append(footer_header)
         return result
 
 
