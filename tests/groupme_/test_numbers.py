@@ -51,7 +51,7 @@ def test_footer_restructured(restructured_pagetextnavigators):  #pylint:disable=
 
     # cluster with page numbers
     # 2 Pages and some header text lines
-    assert len(result) == 5, utila.log_raw(result)
+    assert len(result) == 6, utila.log_raw(result)
 
 
 def test_header_restructured(restructured_pagetextnavigators):  #pylint:disable=W0621
@@ -108,10 +108,12 @@ def pagenumbers_simple(simple_navigator):  #pylint:disable=W0621
 
 
 @pytest.mark.parametrize('resource, expected_numbers', [
+    pytest.param(tests.resources.BACHELOR_111PAGES, 16, id='bachelor111'),
     pytest.param(tests.resources.MASTER_72PAGES, 69, id='master72pages'),
     pytest.param(tests.resources.TECHNICAL_24PAGES, 23, id='technical24pages'),
 ])
-def test_groupme_numbers_work(resource, expected_numbers):
+def test_groupme_numbers_work_single(resource, expected_numbers):
+    # TODO: bottom only, add header page extraction
     text = tests.resources.text(resource)
     text_positions = tests.resources.text_positions(resource)
 

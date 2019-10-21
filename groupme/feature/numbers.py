@@ -59,14 +59,17 @@ def determine_pagenumbers(navigator):
 TOP_BORDER = 0.1  # Header in the range of 0% till 10%
 TOP_MAX_DIFFERENCE = 20.0
 
-BOTTOM_BORDER = 0.9  # Footer is in range of 90% till 100%
-BOTTOM_MAX_DIFFERENCE = 10.0
+# TODO: Think about scaling this value depending on result
+BOTTOM_BORDER = 0.8  # Footer is in range of 80% till 100%
+BOTTOM_MAX_DIFFERENCE = 20.0
 
 
 def header(navigators):
     collected = [page.before(TOP_BORDER) for page in navigators]
     common = hey.cluster.common_items(
-        collected, max_difference=TOP_MAX_DIFFERENCE)
+        collected,
+        max_difference=TOP_MAX_DIFFERENCE,
+    )
     return common
 
 
@@ -83,7 +86,11 @@ def footer(
         navigators:
         numbers_only(bool): if True, remove all non numeric/romanic elements
         remove_empty(bool): remove empty elements, e.g. whitespaces
+
     """
+    # TODO: MOVE THIS METHOD TO MORE GENERAL FOOTER FILE BECAUSE THIS CODE
+    # HAS NOTHING TODO WITH NUMBERS
+    # TODO: Split method into numbers part and grouping part
     collected = [page.after(BOTTOM_BORDER) for page in navigators]
     filtered = []
     for page in collected:
@@ -101,7 +108,6 @@ def footer(
 
             pagecontent.append(item)
         filtered.append(pagecontent)
-
     common = hey.cluster.common_items(
         filtered,
         max_difference=BOTTOM_MAX_DIFFERENCE,
