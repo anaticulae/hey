@@ -19,31 +19,31 @@ Required API:
 
     # before/ after method to determine items
 """
-from collections import namedtuple
-from typing import List
-from typing import Tuple
+import collections
+import typing
 
 import iamraw
 import serializeraw
-from utila import Flag
-from utila import call
+import utila
 
-from hey.cluster import common_items
-from hey.textnavigator.navigator import create_pagetextnavigators
+import hey.cluster
+import hey.textnavigator.navigator
 
-PageContentTextPosition = namedtuple('PageContentTextPosition', 'content, page')
+PageContentTextPosition = collections.namedtuple(
+    'PageContentTextPosition',
+    'content, page',
+)
 
 
 def work(documentpath: str, positionpath: str) -> str:
-    call('numbers')
+    utila.call('numbers')
     document = serializeraw.load_document(documentpath)
     position = serializeraw.load_textpositions(positionpath)
 
-    navigator = create_pagetextnavigators(
+    navigator = hey.textnavigator.navigator.create_pagetextnavigators(
         text=document,
         text_positions=position,
     )
-
     footer_pagenumbers = determine_pagenumbers(navigator)
     dumped = serializeraw.dump_pagenumbers(footer_pagenumbers)
 
@@ -65,7 +65,8 @@ BOTTOM_MAX_DIFFERENCE = 10.0
 
 def header(navigators):
     collected = [page.before(TOP_BORDER) for page in navigators]
-    common = common_items(collected, max_difference=TOP_MAX_DIFFERENCE)
+    common = hey.cluster.common_items(
+        collected, max_difference=TOP_MAX_DIFFERENCE)
     return common
 
 
@@ -94,14 +95,17 @@ def footer(
             if numbers_only and not is_pagenumber(item[1]):
                 # remove non numeric items
                 continue
-            # support -1-, -2-, ....
+            # support -1-, -2-, ...
             clean_number = item[1].replace('-', '', 2).strip()
             item = (item[0], clean_number)
 
             pagecontent.append(item)
         filtered.append(pagecontent)
 
-    common = common_items(filtered, max_difference=BOTTOM_MAX_DIFFERENCE)
+    common = hey.cluster.common_items(
+        filtered,
+        max_difference=BOTTOM_MAX_DIFFERENCE,
+    )
     return common
 
 
@@ -143,10 +147,10 @@ def is_rightpage(pdf_pagenumber: int) -> bool:
     return pdf_pagenumber % 2 == 0
 
 
-Cluster = List[Tuple[iamraw.BoundingBox, str]]
+Cluster = typing.List[typing.Tuple[iamraw.BoundingBox, str]]
 
 
-def pagenumbers(clusters: List[Cluster]):
+def pagenumbers(clusters: typing.List[Cluster]):
     """Determine pagenumbers out of list of cluster
 
     2. Scenarios are possible, we have alternating left and right page numbers
@@ -198,7 +202,7 @@ def name():
 
 
 def commandline():
-    return Flag(
+    return utila.Flag(
         longcut=name(),
         message='extract page numbers from footer and header',
     )
