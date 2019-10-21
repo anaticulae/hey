@@ -25,6 +25,7 @@ possible improvements.
 """
 import abc
 import collections
+import dataclasses
 import os
 import typing
 
@@ -33,6 +34,11 @@ import serializeraw
 import utila
 
 import hey.textnavigator.navigator
+
+
+@dataclasses.dataclass  # pylint:disable=R0903
+class FooterStrategyResultReport:
+    pass
 
 
 class FooterHeaderDetectionStrategy(abc.ABC):
@@ -61,6 +67,12 @@ class FooterHeaderDetectionStrategy(abc.ABC):
         """Run after __init__"""
 
     def result(self):
+        raise NotImplementedError()
+
+    def report(self) -> FooterStrategyResultReport:
+        """Return meta data to determined `result`. The main propose of
+        this report is to have a better view why the algorithm produces
+        this given result."""
         raise NotImplementedError()
 
     def pageheight(self, page):
