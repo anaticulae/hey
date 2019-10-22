@@ -22,6 +22,7 @@ import groupme.footer.fixed
 import groupme.footer.moving
 import groupme.footer.pages
 import hey.textnavigator
+import hey.utils
 
 
 def work(
@@ -97,14 +98,39 @@ def extract_footerheader(
 
 
 def judge_strategy(results):
-    # TODO: IMPROVE THIS
-    count = [
-        len([item.footer
-             for item in result
-             if item.footer is not None])
-        for result in results
-    ]
-    best_result = count.index(max(count)) if max(count) > 0 else -1
-    with contextlib.suppress(KeyError):
-        return results[best_result]
-    return None
+    """Decide which results fits best.
+
+    Zip result of different strategies. Sometimes there are multiple
+    options, therefore we have to use the priorities below.
+
+    Sources/Concept:
+
+        - MovingFooter:                footer (first prio)
+        - Pages:                       footer (second prio)
+        - FixedFooter:      header and footer (third prio)
+
+    Args:
+        results: lists of `groupme.footer.FooterHeaderDetectionStrategy`.result
+    Returns:
+        best result
+        None if no result contain items
+    """
+    assert results is not None, 'require list of strategy results'
+    result = []
+    for pagenumber, (fixed, moving, pages) in hey.utils.sync(results):
+        header = fixed.header if fixed else None
+        footer = fixed.footer if fixed else None
+
+        if pages and pages.footer:
+            footer = pages.footer
+
+        if moving and moving.footer and moving.footer.notes:
+            footer = moving.footer
+
+        current = iamraw.PageContentFooterHeader(
+            header=header,
+            footer=footer,
+            page=pagenumber,
+        )
+        result.append(current)
+    return result

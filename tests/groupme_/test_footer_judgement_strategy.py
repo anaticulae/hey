@@ -18,7 +18,6 @@ import tests.resources
         tests.resources.BACHELOR_111PAGES,
         29,
         id='bachelor111',
-        marks=pytest.mark.xfail(reason='decider strategy is not good enough'),
     ),
     pytest.param(
         tests.resources.RESTRUCT,
@@ -26,7 +25,7 @@ import tests.resources
         id='restruct',
     ),
 ])
-def test_footer_judgement_strategy_quality(path, expected_quality):
+def test_footer_judge_strategy_quality(path, expected_quality):
     """Ensure that enough header and footer are detected"""
     pages = tuple(range(0, 20))
 
@@ -36,18 +35,31 @@ def test_footer_judgement_strategy_quality(path, expected_quality):
             strategy=strategy,
             pages=pages,
         ).result() for strategy in [
-            groupme.footer.moving.MovingFooterStrategy,
             groupme.footer.fixed.FixedFooterStrategy,
+            groupme.footer.moving.MovingFooterStrategy,
             groupme.footer.pages.PageNumberStrategy,
         ]
     ]
-    final = groupme.feature.footer.judge_strategy(results)
+    result = groupme.feature.footer.judge_strategy(results)
 
-    quality = sum([count(item.footer) + count(item.header) for item in final])
-    assert quality >= expected_quality, f'{quality} >= {expected_quality}'
+    quality = sum([count(item.footer) + count(item.header) for item in result])
+    assert quality == expected_quality, f'{quality} >= {expected_quality}'
 
 
 def count(item):
     if item is not None:
         return 1
     return 0
+
+
+def test_footer_judge_strategy_empty():
+    empty = [
+        [],
+        [],
+        [],
+    ]
+    result = groupme.feature.footer.judge_strategy(empty)
+    assert result == []
+
+    with pytest.raises(AssertionError):
+        groupme.feature.footer.judge_strategy(None)
