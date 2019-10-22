@@ -32,6 +32,13 @@ def choose_random(items, count: int = 5):
 
 
 def sync(iterators):
+    """Generator to synchronize a list of PageContentIterators.
+
+    Args:
+        iterator(list): list of `PageContent`-Iterators
+    Returns:
+        yield pagenumber, (content of curent pagenumber...)
+    """
     # TODO: NOT GOOD, BUT WORKS
     # reverse list to use as a stack with push and pop
     copy = [list(reversed(list(item))) for item in iterators]
@@ -47,12 +54,19 @@ def sync(iterators):
         if not any(popped):
             # nothing to do anymore
             return
-        minimum = min([page(item) for item in popped])
-        deliver = [item if page(item) == minimum else None for item in popped]
-        yield minimum, tuple(deliver)
+        # lowest page number of popped content
+        pagenumber = min([page(item) for item in popped])
+
+        deliver = [
+            item if page(item) == pagenumber else None for item in popped
+        ]
+        yield pagenumber, tuple(deliver)
 
         for index, item in enumerate(popped):
-            if page(item) != minimum:
+            # push back non-yielded items
+            if page(item) != pagenumber:
+                # use as a stack, therefore push(append) and pop(pop), not
+                # insert on pos 0.
                 copy[index].append(item)
 
 
