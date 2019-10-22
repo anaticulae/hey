@@ -93,7 +93,7 @@ class FooterHeaderDetectionStrategy(abc.ABC):
 
 def create_strategy(
         path: str,
-        strategy: 'FooterHeaderDetectionStrategy-class',
+        strategy: 'FooterHeaderDetectionStrategy',
         pages=None,
 ):
     horizontals = os.path.join(path, 'rawmaker__boxes_horizontal.yaml')

@@ -112,8 +112,7 @@ def judge_strategy(results):
     Args:
         results: lists of `groupme.footer.FooterHeaderDetectionStrategy`.result
     Returns:
-        best result
-        None if no result contain items
+        list of zipped result
     """
     assert results is not None, 'require list of strategy results'
     result = []
