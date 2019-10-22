@@ -39,20 +39,31 @@ def parse(content: str):
     return result
 
 
-def parse_rawtext(text: str, _):
+def parse_rawtext(text: str, _=None):  # pylint:disable=W0613
     if text.count(utila.NEWLINE) <= 2:
         return None
     return iamraw.RawText(text=text)
 
 
-def parse_pagenumber(text: str, _):
+def parse_pagenumber(text: str, _=None):  # pylint:disable=W0613
     text = text.strip()
     if not groupme.feature.numbers.is_pagenumber(text):
         return None
     return iamraw.PageInformation(value=text, raw=text)
 
 
-def parse_title(text: str, _):
+def parse_title(text: str, _=None) -> iamraw.HeaderTitle:  # pylint:disable=W0613
+    regex = parse_title_regex(text)
+    if regex:
+        return regex
+
+    contemporary = parse_title_contemporary(text)
+    if contemporary:
+        return contemporary
+    return None
+
+
+def parse_title_regex(text: str) -> iamraw.HeaderTitle:
     parsed = groupme.toc.regex.parse(text)
 
     if not parsed:
@@ -61,3 +72,22 @@ def parse_title(text: str, _):
 
     parsed = parsed[0]
     return iamraw.HeaderTitle(title=parsed.title, raw=parsed.raw)
+
+
+def parse_title_contemporary(text: str) -> iamraw.HeaderTitle:
+    """Analyze `text` based on a contemporary(`TITLES`) lookup"""
+    raw = text
+    text = text.strip()
+    text = text.title()
+    if text not in TITLES:
+        return None
+    return iamraw.HeaderTitle(title=text, raw=raw)
+
+
+TITLES = set([
+    'Aufbau und Gliederung',
+    'Aufbau',
+    'Inhaltsverzeichnis',
+    'Motivation und Zielsetzung',
+    'Zusammenfassung',
+])
