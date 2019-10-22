@@ -7,17 +7,23 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 import iamraw
+import utila
 
+import hey.textnavigator.fonts
 import words.headlines
 
-SMALLEST_HEADLINE_SIZE = 1.1  # TODO: HOLY VALUE
+SMALLEST_HEADLINE_DISTANCE = 1.2  # TODO: HOLY VALUE
+SMALLEST_HEADLINE_TEXTSIZE = 1.1
 
 
 class NoLevelHeadlineExtractor(words.headlines.HeadlineExtractorStrategy):
 
     def setup(self):
         super().setup()
-        self.smallest_headlinedistance = self.textdistance * SMALLEST_HEADLINE_SIZE
+        self.smallest_headlinedistance = utila.roundme(
+            self.textdistance * SMALLEST_HEADLINE_DISTANCE)
+        self.smallest_textsize = utila.roundme(
+            self.textsize * SMALLEST_HEADLINE_TEXTSIZE)
 
     def extract_headline(
             self,
@@ -26,20 +32,31 @@ class NoLevelHeadlineExtractor(words.headlines.HeadlineExtractorStrategy):
             textdistances,
             page,
             containerid,
-            contentstart,
+            content_area,
     ):
-        distanceid = containerid - contentstart + 1
+        contentstart, contentend = content_area
+        distanceid = containerid - contentstart
         fontdistance = textdistances[distanceid]
+        textsize = hey.textnavigator.fonts.fontsize_from_textbounds(textbounds)
 
-        # headline_tosmall = fontsize <= smallest_headlinesize
         distance_tosmall = fontdistance < self.smallest_headlinedistance
+        headline_tosmall = textsize < self.smallest_textsize
+        last_item = distanceid == (contentend - 1)
 
-        if distance_tosmall:
+        if distance_tosmall and headline_tosmall:
             return None
+        if headline_tosmall:
+            return None
+
         try:
             # TODO: IMPROVE LEVEL CALCULATION
             # Space after and before
-            level = textdistances[distanceid] + textdistances[distanceid + 1]
+            level = textdistances[distanceid]
+            if last_item:
+                # Headline is alone on the page end
+                level = level * 2
+            else:
+                level = level + textdistances[distanceid + 1]
         except IndexError:
             level = textdistances[distanceid] * 2
 

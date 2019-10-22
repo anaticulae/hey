@@ -37,17 +37,17 @@ class StandardHeadlineExtractor(words.headlines.HeadlineExtractorStrategy):
             textdistances,
             page,
             containerid,
-            contentstart,
+            content_area,
     ):
+        contentstart, contentend = content_area
         # fontsize = fontsize_from_textbounds(item)
-        distanceid = containerid - contentstart + 1
+        distanceid = containerid - contentstart  # TODO: -1
         fontdistance = textdistances[distanceid]
 
         # headline_tosmall = fontsize <= smallest_headlinesize
         distance_tosmall = fontdistance <= self.smallest_headlinedistance
         if distance_tosmall:
             return None
-
         try:
             # TODO: IMPROVE LEVEL CALCULATION
             # Space after and before

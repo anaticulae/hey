@@ -81,10 +81,3 @@ def page(item):
 
 # Unicode special minus sign
 SPECIAL_MINUS_SIGN = '–'
-
-
-def select_content(item, default):
-    try:
-        return item.content
-    except AttributeError:
-        return default

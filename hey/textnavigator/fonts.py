@@ -160,21 +160,35 @@ def textsize(occurrences: FontOccurrenceList) -> int:
     return size
 
 
-def textsize_from_textbounds(
+def textsizes_from_textbounds(
         navigator: 'PageTextNavigator',
         content: Border,
 ) -> int:
     text_bounds = textbounds(navigator, content.border)
     font_sizes = fontsizes(text_bounds)
-    return textsize(font_sizes)
+    return font_sizes
+
+
+def textsize_from_textbounds_common(
+        navigator: 'PageTextNavigator',
+        content: Border,
+) -> int:
+    result = textsizes_from_textbounds(navigator, content)
+    return textsize(result)
 
 
 def document_textsize(navigators, borders: List[Border]) -> int:
     """Determine the most common text size"""
     result = []
     for _, (navigator, contentborder) in sync([navigators, borders]):
-        size = textsize_from_textbounds(navigator, contentborder)
+        size = textsize_from_textbounds_common(navigator, contentborder)
         result.append(size)
+    return result
+
+
+def document_textsize_common(navigators, borders: List[Border]) -> int:
+    """Determine the most common text size"""
+    result = document_textsize(navigators, borders)
     return mode(result)
 
 

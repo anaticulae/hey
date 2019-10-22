@@ -76,7 +76,6 @@ def test_words_text_dump_and_load_text(
     assert loaded == textexample
 
 
-@pytest.mark.xfail(reason='require to implement 2 strategies')
 def test_words_text_extractor_titles(
         restructured_textexample,  # pylint:disable=W0621
 ):
@@ -230,7 +229,6 @@ def test_words_extract_texts_page_x(
     assert last_line == expected_end
 
 
-@pytest.mark.xfail(reason='rawmaker deliver wrong item order')
 def test_words_text_convert_undefined_to_text(
         restructured_headlines,  # pylint:disable=W0621
         restructured_textexample,  # pylint:disable=W0621

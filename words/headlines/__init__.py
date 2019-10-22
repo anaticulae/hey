@@ -7,35 +7,17 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 import abc
-import re
 import typing
-import warnings
 
 import iamraw
 import utila
-from iamraw import PageSizeBorder
-from serializeraw import dump_headlines
-from serializeraw import load_document
-from serializeraw import load_horizontals
-from serializeraw import load_pageborders
-from serializeraw import load_sections
 
-import groupme.footer
-import groupme.toc.regex
+import hey.fonts.store
+import hey.textnavigator.fonts
 import hey.textnavigator.navigator
 import hey.utils
 import sections.feature.sections
 import words.utils.skipper
-from hey.document import BorderList
-from hey.document import document_border
-from hey.fonts.store import FontStore
-from hey.fonts.store import create_fontstore
-from hey.textnavigator.fonts import fontdistance_textbounds
-from hey.textnavigator.fonts import fontsize_from_textbounds
-from hey.textnavigator.navigator import PageTextContentNavigator
-from hey.textnavigator.navigator import PageTextNavigators
-from hey.textnavigator.navigator import create_pagetextnavigators
-from hey.textnavigator.navigator import navigator_to_bounds
 """
 TODO:
     add more than one strategy to compute equal footer, header
@@ -54,7 +36,7 @@ class HeadlineExtractorStrategy(abc.ABC):
     def __init__(
             self,
             sectionlist: typing.List[sections.feature.sections.Sections],
-            pagetextnavigators: PageTextNavigators,
+            pagetextnavigators: hey.textnavigator.navigator.PageTextNavigators,
             fontstore: hey.fonts.store.FontStore,
             sizeandborder,
             headerfooters,
@@ -104,7 +86,7 @@ class HeadlineExtractorStrategy(abc.ABC):
 
     def setup(self):
         """Run before starting extraction."""
-        self.textsize = hey.textnavigator.fonts.document_textsize(
+        self.textsize = hey.textnavigator.fonts.document_textsize_common(
             navigators=self.pagetextnavigators,
             borders=self.sizeandborder,
         )
@@ -118,10 +100,16 @@ class HeadlineExtractorStrategy(abc.ABC):
         result = []
         start, end = self.content[chapter]
         for page in range(start, end + 1):
-            pagecontent = PageTextContentNavigator(
-                utila.select_page(self.pagetextnavigators, page=page),
-                utila.select_page(self.border, page=page),
+            textnavi = utila.select_page(self.pagetextnavigators, page=page)
+            border = utila.select_page(self.border, page=page)
+            if not border:
+                # empty page
+                continue
+            pagecontent = hey.textnavigator.navigator.PageTextContentNavigator(
+                textnavi,
+                border,
             )
+
             pageheadlines = self.extract_page(
                 page,
                 pagecontent,
@@ -135,16 +123,17 @@ class HeadlineExtractorStrategy(abc.ABC):
             pagecontent,
     ):
         result = []
-        xoff = pagecontent.offset[0]
+        xoff, xend = pagecontent.offset
         xoff = xoff if xoff is not None else 0
-        bounds = navigator_to_bounds(pagecontent)
+        bounds = hey.textnavigator.navigator.navigator_to_bounds(pagecontent)
         bounds = hey.textnavigator.fonts.textbounds(
             pagecontent,
             utila.select_page(self.border, page=page),
         )
         without_content = [item[0] for item in bounds]
         # PageContentNavigator, the header and footer is ignored
-        textdistances = fontdistance_textbounds(without_content)
+        textdistances = hey.textnavigator.fonts.fontdistance_textbounds(
+            without_content)
         for containerid, (textbounds, text) in enumerate(
                 bounds,
                 start=xoff,
@@ -158,7 +147,7 @@ class HeadlineExtractorStrategy(abc.ABC):
                 textdistances=textdistances,
                 page=page,
                 containerid=containerid,
-                contentstart=xoff,
+                content_area=(xoff, xend),
             )
             if not headline:
                 continue
@@ -173,8 +162,12 @@ class HeadlineExtractorStrategy(abc.ABC):
             textdistances,
             page,
             containerid,
-            contentstart,
+            content_area,
     ):
+        """
+        Args:
+            content_area: page offset at start and end
+        """
         return None
 
     @property
@@ -197,16 +190,27 @@ def prepare_chapter_and_content(sections_, chapter):
 
 
 def contentborder(sizeandborders, headerfooters):
-    assert all([isinstance(item, PageSizeBorder) for item in sizeandborders])
+    assert all([isinstance(it, iamraw.PageSizeBorder) for it in sizeandborders])
     result = {}
     pages = [item.page for item in sizeandborders]
     for page in pages:
-        pageborder = utila.select_page(sizeandborders, page).border
+        selected = utila.select_page(sizeandborders, page)
+        pageheight = selected.size.height
+        pageborder = selected.border
         footerheader = utila.select_page(headerfooters, page)
-        footerheader = hey.utils.select_content(footerheader, (None, None))
 
-        top = footerheader[0] if footerheader[0] else 0
-        bottom = footerheader[1] if footerheader[1] else pageborder.bottom
+        if footerheader is None:
+            continue
+
+        top = 0
+        if footerheader.header:
+            top = pageheight * footerheader.header.end
+
+        bottom = pageheight
+        if footerheader.footer:
+            bottom = pageheight * footerheader.footer.begin
+
+        top, bottom = utila.roundme(top), utila.roundme(bottom)
 
         result[page] = iamraw.Border(
             left=pageborder.left,
@@ -218,8 +222,8 @@ def contentborder(sizeandborders, headerfooters):
 
 
 HORIZONTAL_MIN_COUNT = 5  # TODO: HOLY VALUES
-FIRST_LEVEL = 0.9  # TODO: HOLY VALUE
-SECOND_LEVEL = 0.7
+FIRST_LEVEL = 0.8  # TODO: HOLY VALUE
+SECOND_LEVEL = 0.5
 
 
 def convert_level(result: iamraw.PagesHeadlineList) -> int:
@@ -232,11 +236,11 @@ def convert_level(result: iamraw.PagesHeadlineList) -> int:
 
     # pylint:disable=len-as-condition
     utila.call('convert_level')
-    utila.info('empty PageHeadlineList')
     if not result:
         return result
 
     if not any(result):
+        utila.info('empty PageHeadlineList')
         return {}
     assert isinstance(result, dict), type(result)
 
