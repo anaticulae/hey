@@ -170,14 +170,18 @@ def prepare_analyze_page(
 ):
     """Add dummy headline if required
 
-    Some pages does not contain a headline or the headline starts after the
-    first text content. Therefore add dummy headline is required to collect
-    this content under the dummy headline.
+    Some pages does not contain a headline or the headline starts after
+    the first text content. Therefore adding a dummy headline is
+    required to collect this content under the dummy headline.
 
     Args:
 
     """
     page = headlines[0].page
+    content = utila.select_page(borders, page=page)
+    if content is None:
+        # TODO: CHECK THIS, DO WE NEED THIS?
+        raise EmptyPageError(page)
     pcn = hey.textnavigator.navigator.PageTextContentNavigator(
         textnavigator=utila.select_page(textnavigators, page=page),
         content=utila.select_page(borders, page=page),
