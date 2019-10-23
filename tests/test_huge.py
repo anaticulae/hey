@@ -159,7 +159,7 @@ def words_result(sections_result):  # pylint:disable=W0621
 
     for item, expected_length in [
         ('words__word_result.yaml', 2000),
-        ('words__headlines_headlines.yaml', 1000),
+        ('words__headlines_headlines.yaml', 400),
     ]:
         path = os.path.join(wordspath, item)
         content = utila.file_read(path)
