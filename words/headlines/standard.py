@@ -21,47 +21,22 @@ import words.headlines
 
 MIN_DOTTED_COUNT = 0.1  # TODO: HOLY VALUE
 
-SMALLEST_HEADLINE_DISTANCE = 1.05  # TODO:HOLY VALUE
+SMALLEST_HEADLINE_DISTANCE = 1.05  # TODO: HOLY VALUE
+SMALLEST_HEADLINE_TEXTSIZE = 1.1
 
 
 class StandardHeadlineExtractor(words.headlines.HeadlineExtractorStrategy):
 
-    def setup(self):
-        super().setup()
-        self.smallest_headlinedistance = SMALLEST_HEADLINE_DISTANCE * self.textdistance
+    def smallest_headlinedistance(self):
+        return utila.roundme(self.textdistance * SMALLEST_HEADLINE_DISTANCE)
 
-    def extract_headline(
-            self,
-            text,
-            textbounds,
-            textdistances,
-            page,
-            containerid,
-            content_area,
-    ):
-        contentstart, contentend = content_area
-        # fontsize = fontsize_from_textbounds(item)
-        distanceid = containerid - contentstart  # TODO: -1
-        fontdistance = textdistances[distanceid]
+    def smallest_textsize(self):
+        return utila.roundme(self.textsize * SMALLEST_HEADLINE_TEXTSIZE)
 
-        # headline_tosmall = fontsize <= smallest_headlinesize
-        distance_tosmall = fontdistance <= self.smallest_headlinedistance
+    def should_skip(self, distance_tosmall, headline_tosmall, lastitem):
         if distance_tosmall:
-            return None
-        try:
-            # TODO: IMPROVE LEVEL CALCULATION
-            # Space after and before
-            level = textdistances[distanceid] + textdistances[distanceid + 1]
-        except IndexError:
-            level = textdistances[distanceid] * 2
-
-        headline = iamraw.Headline(
-            container=containerid,
-            level=level,
-            page=page,
-            text=text,
-        )
-        return headline
+            return True
+        return False
 
     def filter(self, items):
         items = super().filter(items)
@@ -72,7 +47,6 @@ class StandardHeadlineExtractor(words.headlines.HeadlineExtractorStrategy):
 def filter_headlines(items: iamraw.PagesHeadlineList):
     if isinstance(items, list):
         items = {index: value for index, value in enumerate(items)}
-
     result = collections.defaultdict(list)
     for chapter, content in items.items():
         chapter_headlines = []

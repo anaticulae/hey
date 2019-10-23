@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 import abc
+import contextlib
 import typing
 
 import iamraw
@@ -15,14 +16,8 @@ import utila
 import hey.fonts.store
 import hey.textnavigator.fonts
 import hey.textnavigator.navigator
-import hey.utils
 import sections.feature.sections
 import words.utils.skipper
-"""
-TODO:
-    add more than one strategy to compute equal footer, header
-    and different footer with and without header
-"""
 
 WHITELIST = set([
     'Anhang',
@@ -147,14 +142,13 @@ class HeadlineExtractorStrategy(abc.ABC):
                 textdistances=textdistances,
                 page=page,
                 containerid=containerid,
-                content_area=(xoff, xend),
+                content_range=(xoff, xend),
             )
             if not headline:
                 continue
             result.append(headline)
         return result
 
-    @abc.abstractmethod
     def extract_headline(
             self,
             text,
@@ -162,17 +156,66 @@ class HeadlineExtractorStrategy(abc.ABC):
             textdistances,
             page,
             containerid,
-            content_area,
+            content_range,
     ):
-        """
-        Args:
-            content_area: page offset at start and end
-        """
-        return None
+        contentstart, contentend = content_range
+        distanceid = containerid - contentstart
+        fontdistance = textdistances[distanceid]
+        textsize = hey.textnavigator.fonts.fontsize_from_textbounds(textbounds)
+
+        distance_tosmall = fontdistance < self.smallest_headlinedistance()
+        headline_tosmall = textsize < self.smallest_textsize()
+        lastitem = (distanceid + 1) == contentend
+
+        skip = self.should_skip(
+            distance_tosmall=distance_tosmall,
+            headline_tosmall=headline_tosmall,
+            lastitem=lastitem,
+        )
+
+        utila.debug(f'{self.__class__.__name__}: {skip} {text}')
+        if skip:
+            return None
+
+        dist_top = textdistances[distanceid]
+        dist_bottom = None if lastitem else textdistances[distanceid + 1]
+        level = self.levelme(textsize, dist_top, dist_bottom)
+
+        headline = iamraw.Headline(
+            container=containerid,
+            level=level,
+            page=page,
+            text=text,
+        )
+        return headline
+
+    @abc.abstractmethod
+    def should_skip(self, distance_tosmall, headline_tosmall, lastitem):
+        pass
+
+    def levelme(
+            self,
+            textsize: float,
+            dist_top: float,
+            dist_bottom: float,
+    ) -> float:
+        level = dist_top
+        if dist_bottom is None:
+            # Headline is alone on the page end
+            level = level * 2
+        else:
+            level = level + dist_bottom
+        return level
 
     @property
     def chaptercount(self):
         return len(self.chapters)
+
+    def smallest_headlinedistance(self):
+        return None
+
+    def smallest_textsize(self):
+        return None
 
 
 def prepare_chapter_and_content(sections_, chapter):
