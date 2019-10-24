@@ -2,6 +2,37 @@
 
 Every noteable change is logged here.
 
+## v1.10.0
+
+### Feature
+
+* skip empty pages with no ContentBorder (3fcdd09df807)
+* extend headlines parser (e342d8a9c79c)
+* improve footerheader judgement strategy (4a2e707cf64b)
+* add title parser based on contemporary (0032c1a13991)
+* limit max area of cluster to detecting equal numbers (ea18848fc4c8)
+* expose max difference to improve testing/more variance (8af216486d97)
+* extend footer page extraction area to match more examples (af4b3b11d00b)
+* add first strategy to reduce miss extraction (d86da2a85955)
+* add report to extraction strategy to determine quality of extraction (e107d6a630fc)
+* refactor decider strategy (084027318c17)
+* add method to create FooterHeaderDetectionStrategy from path (5894de58d20f)
+* add method to create pagetextnavigator from path (946f95985ce9)
+* replace with iamraw/serializeraw code (ad1bdaae212f)
+* add --pages support (516c30b2b237)
+* make section pages-able - move to serializeraw later (df7142749993)
+* add --pages support to select pages to process (37f48c0455a9)
+
+### Fix
+
+* improve headline extractor (b4bddf40a0d1)
+* fix docu to enable running Sphinx (f7f25cbad0a5)
+* fix pagetextnavgiator creator (66de1e80fbca)
+
+### Documentation
+
+* fix spelling errors (812c3f4d2894)
+
 ## v1.9.0
 
 ### Feature
