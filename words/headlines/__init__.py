@@ -7,7 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 import abc
-import contextlib
 import typing
 
 import iamraw
@@ -73,7 +72,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         extracted = [item for item in self.__result.values()]
         return extracted
 
-    def filter(self, items):
+    def filter(self, items):  # pylint:disable=R0201
         """Convert level etc."""
         # TODO: IMprove this
         convert_level(items)
@@ -195,7 +194,7 @@ class HeadlineExtractorStrategy(abc.ABC):
 
     def levelme(
             self,
-            textsize: float,
+            textsize: float,  # pylint:disable=W0613
             dist_top: float,
             dist_bottom: float,
     ) -> float:
@@ -211,11 +210,13 @@ class HeadlineExtractorStrategy(abc.ABC):
     def chaptercount(self):
         return len(self.chapters)
 
+    @abc.abstractmethod
     def smallest_headlinedistance(self):
-        return None
+        pass
 
+    @abc.abstractmethod
     def smallest_textsize(self):
-        return None
+        pass
 
 
 def prepare_chapter_and_content(sections_, chapter):
@@ -264,7 +265,6 @@ def contentborder(sizeandborders, headerfooters):
     return result
 
 
-HORIZONTAL_MIN_COUNT = 5  # TODO: HOLY VALUES
 FIRST_LEVEL = 0.8  # TODO: HOLY VALUE
 SECOND_LEVEL = 0.5
 

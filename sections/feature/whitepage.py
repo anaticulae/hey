@@ -37,8 +37,6 @@ import serializeraw
 import utila
 import yaml
 
-import groupme.footer
-import hey
 import hey.textnavigator.navigator
 import hey.utils
 

@@ -157,10 +157,11 @@ def words_result(sections_result):  # pylint:disable=W0621
         utila.error((utila.format_completed(completed)))
     assert completed.returncode == utila.SUCCESS
 
-    for item, expected_length in [
+    files = [
         ('words__word_result.yaml', 2000),
         ('words__headlines_headlines.yaml', 400),
-    ]:
+    ]
+    for item, expected_length in files:
         path = os.path.join(wordspath, item)
         content = utila.file_read(path)
         assert len(content) > expected_length, content
