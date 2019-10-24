@@ -9,7 +9,6 @@
 
 import serializeraw
 
-import groupme.footer.fixed
 import tests.fixtures
 import tests.resources
 from sections.feature.whitepage import PageContentWhitepages
@@ -17,6 +16,7 @@ from sections.feature.whitepage import WhitePage
 from sections.feature.whitepage import dump_whitepages
 from sections.feature.whitepage import extract_whitepages
 from sections.feature.whitepage import load_whitepages
+# pylint:disable=W0611
 from tests.fixtures.restruct import restructured_pagetextnavigators
 from tests.resources import RESTRUCT_TEXT
 
@@ -51,7 +51,7 @@ RESTRUCT_EXPECTED = [
 ]
 
 
-def test_whitepages_extract(restructured_pagetextnavigators):
+def test_whitepages_extract(restructured_pagetextnavigators):  # pylint:disable=W0621
     navigators = restructured_pagetextnavigators
 
     document = serializeraw.load_document(RESTRUCT_TEXT)

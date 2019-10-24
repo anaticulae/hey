@@ -7,56 +7,36 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw
 import pytest
 import serializeraw
 import utila
-from iamraw import Border
-from iamraw import Document
-from iamraw import Page
-from iamraw import TextContainer
-from serializeraw import load_document
-from serializeraw import load_horizontals
-from serializeraw import load_pageborders
 
+import hey.fonts.store
+import hey.textnavigator.navigator
+import sections.feature.chapter
+import sections.feature.index
+import sections.feature.sections
+import sections.feature.title
+import sections.feature.toc
+import sections.feature.whitepage
 import tests
 import tests.fixtures
 import tests.resources
-from hey.fonts.store import FontStore
-from hey.fonts.store import create_fontstore
-from hey.textnavigator.navigator import PageTextNavigator
-from hey.textnavigator.navigator import PageTextNavigators
-from hey.textnavigator.navigator import create_pagetextnavigators
-from sections.feature.chapter import work as chapter_work
-from sections.feature.index import work as index_work
-from sections.feature.sections import work as section_work
-from sections.feature.title import work as title_work
-from sections.feature.toc import work as toc_work
-from sections.feature.whitepage import work as whitepage_work
-from tests.resources import SIMPLE_FONT_CONTENT
-from tests.resources import SIMPLE_FONT_HEADER
-from tests.resources import SIMPLE_FOOTERS
-from tests.resources import SIMPLE_HORIZONTAL
-from tests.resources import SIMPLE_ONELINE_FONT_CONTENT
-from tests.resources import SIMPLE_ONELINE_FONT_HEADER
-from tests.resources import SIMPLE_ONELINE_TEXT
-from tests.resources import SIMPLE_PAGESIZE
-from tests.resources import SIMPLE_TEXT
-from tests.resources import SIMPLE_TEXT_POSITION
-from tests.resources import SIMPLE_TOC
 
 
 @pytest.fixture
 def simple():
-    pagesize = load_pageborders(SIMPLE_PAGESIZE)
-    horizontals = load_horizontals(SIMPLE_HORIZONTAL)
-    position = serializeraw.load_textpositions(SIMPLE_TEXT_POSITION)
-    document = load_document(SIMPLE_TEXT)
+    pagesize = serializeraw.load_pageborders(tests.resources.SIMPLE_PAGESIZE)
+    horizontals = serializeraw.load_horizontals(tests.resources.SIMPLE_HORIZONTAL) # yapf:disable
+    position = serializeraw.load_textpositions(tests.resources.SIMPLE_TEXT_POSITION) # yapf:disable
+    document = serializeraw.load_document(tests.resources.SIMPLE_TEXT)
 
     assert pagesize
     assert horizontals
     assert position
 
-    navigator = create_pagetextnavigators(
+    navigator = hey.textnavigator.navigator.create_pagetextnavigators(
         text=document,
         text_positions=position,
     )
@@ -64,24 +44,30 @@ def simple():
 
 
 @pytest.fixture
-def simple_document() -> Document:
-    loaded = load_document(SIMPLE_TEXT)
+def simple_document() -> iamraw.Document:
+    loaded = serializeraw.load_document(tests.resources.SIMPLE_TEXT)
     return loaded
 
 
-def simple_document_fixture() -> Document:
-    loaded = load_document(SIMPLE_TEXT)
+def simple_document_fixture() -> iamraw.Document:
+    loaded = serializeraw.load_document(tests.resources.SIMPLE_TEXT)
     return loaded
 
 
-def simple_fontstore_fixture() -> FontStore:
-    lookup = create_fontstore(SIMPLE_FONT_HEADER, SIMPLE_FONT_CONTENT)
+def simple_fontstore_fixture() -> hey.fonts.store.FontStore:
+    lookup = hey.fonts.store.create_fontstore(
+        tests.resources.SIMPLE_FONT_HEADER,
+        tests.resources.SIMPLE_FONT_CONTENT,
+    )
     return lookup
 
 
 @pytest.fixture
-def simple_fontstore() -> FontStore:
-    lookup = create_fontstore(SIMPLE_FONT_HEADER, SIMPLE_FONT_CONTENT)
+def simple_fontstore() -> hey.fonts.store.FontStore:
+    lookup = hey.fonts.store.create_fontstore(
+        tests.resources.SIMPLE_FONT_HEADER,
+        tests.resources.SIMPLE_FONT_CONTENT,
+    )
     return lookup
 
 
@@ -92,48 +78,43 @@ def simple_navigator(simple):  #pylint:disable=W0621
 
 
 @pytest.fixture
-def simple_pagetextnavigators(
-        simple_document: Document,  #pylint:disable=W0621
-) -> PageTextNavigators:
-    textpositions = serializeraw.load_textpositions(SIMPLE_TEXT_POSITION)
-
-    return create_pagetextnavigators(
-        text=simple_document,
-        text_positions=textpositions,
-    )
+def simple_pagetextnavigators() -> hey.textnavigator.navigator.PageTextNavigators:  # yapf:disable
+    navigator = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
+        tests.resources.SIMPLE)
+    return navigator
 
 
 @pytest.fixture
 def simple_pagesize():
-    size = load_pageborders(SIMPLE_PAGESIZE)
+    size = serializeraw.load_pageborders(tests.resources.SIMPLE_PAGESIZE)
     size = [item.size for item in size]
     return size
 
 
 @pytest.fixture
 def simple_contentborder():
-    border = load_pageborders(SIMPLE_PAGESIZE)
+    border = serializeraw.load_pageborders(tests.resources.SIMPLE_PAGESIZE)
     border = [item.border for item in border]
     return border
 
 
 @pytest.fixture
-def simple_page_0(simple_document: Document) -> Page:  # pylint: disable=W0621
-    page: Page = simple_document[0]
+def simple_page_0(simple_document: iamraw.Document) -> iamraw.Page:  # pylint: disable=W0621
+    page: iamraw.Page = simple_document[0]
     return page
 
 
 @pytest.fixture
-def simple_page_2(simple_document: Document) -> Page:  # pylint: disable=W0621
-    page: Page = simple_document[2]
+def simple_page_2(simple_document: iamraw.Document) -> iamraw.Page:  # pylint: disable=W0621
+    page: iamraw.Page = simple_document[2]
     return page
 
 
 @pytest.fixture
-def simple_page_2_text_only(simple_page_2: Page):  # pylint: disable=W0621
+def simple_page_2_text_only(simple_page_2: iamraw.Page):  # pylint: disable=W0621
     lines = []
     for child in simple_page_2:
-        if not isinstance(child, TextContainer):
+        if not isinstance(child, iamraw.TextContainer):
             continue
         lines.extend(child.text.splitlines())
     return lines
@@ -141,54 +122,55 @@ def simple_page_2_text_only(simple_page_2: Page):  # pylint: disable=W0621
 
 # TODO: Reduce amout of fixtures
 @pytest.fixture
-def simple_second_page_navigator(simple_pagetextnavigators,
-                                ) -> PageTextNavigator:
+def simple_second_page_navigator(
+        simple_pagetextnavigators,  # pylint:disable=W0621
+) -> hey.textnavigator.navigator.PageTextNavigator:
     return utila.select_page(simple_pagetextnavigators, page=1)
 
 
 @pytest.fixture
-def simple_second_page_size(simple_contentborder) -> Border:
+def simple_second_page_size(simple_contentborder) -> iamraw.Border:  # pylint:disable=W0621
     return simple_contentborder[1]
 
 
 @pytest.fixture
 def simple_toc():
-    result = toc_work(SIMPLE_ONELINE_TEXT)
+    result = sections.feature.toc.work(tests.resources.SIMPLE_ONELINE_TEXT)
     return result
 
 
 @pytest.fixture
 def simple_whitepage():
-    result = whitepage_work(
-        SIMPLE_TEXT,
-        SIMPLE_TEXT_POSITION,
-        SIMPLE_FOOTERS,
+    result = sections.feature.whitepage.work(
+        tests.resources.SIMPLE_TEXT,
+        tests.resources.SIMPLE_TEXT_POSITION,
+        tests.resources.SIMPLE_FOOTERS,
     )
     return result
 
 
 @pytest.fixture
 def simple_title():
-    result = title_work(
-        SIMPLE_ONELINE_TEXT,
-        SIMPLE_ONELINE_FONT_HEADER,
-        SIMPLE_ONELINE_FONT_CONTENT,
+    result = sections.feature.title.work(
+        tests.resources.SIMPLE_ONELINE_TEXT,
+        tests.resources.SIMPLE_ONELINE_FONT_HEADER,
+        tests.resources.SIMPLE_ONELINE_FONT_CONTENT,
     )
     return result
 
 
 @pytest.fixture
 def simple_index():
-    result = index_work(SIMPLE_ONELINE_TEXT)
+    result = sections.feature.index.work(tests.resources.SIMPLE_ONELINE_TEXT)
     return result
 
 
 @pytest.fixture
 def simple_chapter():
-    result = chapter_work(
-        SIMPLE_TEXT,
-        SIMPLE_TEXT_POSITION,
-        SIMPLE_TOC,
+    result = sections.feature.chapter.work(
+        tests.resources.SIMPLE_TEXT,
+        tests.resources.SIMPLE_TEXT_POSITION,
+        tests.resources.SIMPLE_TOC,
     )
 
     # ensure that all chapters are detected
@@ -201,19 +183,29 @@ def simple_chapter():
 
 @pytest.fixture
 def simple_sections():
-    chapter = chapter_work(SIMPLE_TEXT, SIMPLE_TEXT_POSITION, SIMPLE_TOC)
+    chapter = sections.feature.chapter.work(
+        tests.resources.SIMPLE_TEXT,
+        tests.resources.SIMPLE_TEXT_POSITION,
+        tests.resources.SIMPLE_TOC,
+    )
 
-    index = index_work(SIMPLE_TEXT)
-    title = title_work(
-        SIMPLE_TEXT,
-        SIMPLE_FONT_HEADER,
-        SIMPLE_FONT_CONTENT,
+    index = sections.feature.index.work(tests.resources.SIMPLE_TEXT)
+    title = sections.feature.title.work(
+        tests.resources.SIMPLE_TEXT,
+        tests.resources.SIMPLE_FONT_HEADER,
+        tests.resources.SIMPLE_FONT_CONTENT,
     )
-    toc = toc_work(SIMPLE_TEXT)
-    whitepage = whitepage_work(
-        SIMPLE_TEXT,
-        SIMPLE_TEXT_POSITION,
-        SIMPLE_FOOTERS,
+    toc = sections.feature.toc.work(tests.resources.SIMPLE_TEXT)
+    whitepage = sections.feature.whitepage.work(
+        tests.resources.SIMPLE_TEXT,
+        tests.resources.SIMPLE_TEXT_POSITION,
+        tests.resources.SIMPLE_FOOTERS,
     )
-    result = section_work(chapter, index, title, toc, whitepage)
+    result = sections.feature.sections.work(
+        chapter,
+        index,
+        title,
+        toc,
+        whitepage,
+    )
     return result
