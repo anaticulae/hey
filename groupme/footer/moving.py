@@ -82,10 +82,7 @@ class MovingFooterResultReport(groupme.footer.FooterStrategyResultReport):  # py
 
 
 # relation between detected and empty detected footer to reduce miss detection
-WRONG_STRATEGY_EMPTY_FOOTER_FACTOR = configo.HV(
-    default=20,
-    datatype=configo.DataType.PERCENT_PLUS,
-)
+WRONG_STRATEGY_EMPTY_FOOTER_FACTOR = configo.HV_PERCENT_PLUS(default=20,).value
 
 BOTTOM_BORDER = 0.60  # TODO: HOLY VALUE
 

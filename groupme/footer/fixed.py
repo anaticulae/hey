@@ -198,42 +198,20 @@ def create_header(top, pageheight, textnavigator):
 
 NO_CLUSTER = [hey.textnavigator.navigator.START], [hey.textnavigator.navigator.END] # yapf:disable
 
-# TODO: REMOVE AFTER HAVING CONCEPT FOR DEFAULT CONFIGURATION
-configo.holyvalue.DATABASE = configo.holyvalue.DataBase(
-    __file__,
-    current=configo.holyvalue.DataSet(),
-)
 # max difference between left and right y-coordinate
-COMMON_HORIZONTAL_CLASSIFICATOR_MAX_ERROR = configo.HV(
-    default=2.0,
-    datatype=configo.DataType.FLOAT_PLUS,
-)
+COMMON_HORIZONTAL_CLASSIFICATOR_MAX_ERROR = configo.HV_FLOAT_PLUS(default=2.0).value # yapf:disable
 
 # minimal horizontal line count in cluster to avoid low item cluster
-MIN_CLUSTER_SIZE = configo.HV(
-    default=10,
-    datatype=configo.DataType.INT_PLUS,
-)
+MIN_CLUSTER_SIZE = configo.HV_INT_PLUS(default=10).value
 
 # maximal count of different header/footer areas
-MAX_FOOTERHEADER_AREA_COUNT = configo.HV(
-    default=5,
-    datatype=configo.DataType.INT_PLUS,
-)
+MAX_FOOTERHEADER_AREA_COUNT = configo.HV_INT_PLUS(default=5).value
 
 # maximal distance from page top in percent where header can be detected
-HEADER_MAX_SIZE = configo.HV(
-    default=15,
-    limit=100,
-    datatype=configo.DataType.PERCENT_PLUS,
-)
+HEADER_MAX_SIZE = configo.HV_PERCENT_PLUS(default=15, limit=100).value
 
 # maximal distance from page bottom in percent where footer can be detected
-FOOTER_MAX_SIZE = configo.HV(
-    default=20,
-    limit=100,
-    datatype=configo.DataType.PERCENT_PLUS,
-)
+FOOTER_MAX_SIZE = configo.HV_PERCENT_PLUS(default=20, limit=100).value
 
 
 def extract_inarea(

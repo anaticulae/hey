@@ -1,7 +1,7 @@
-iamraw==1.9.0
-utila==1.9.2
+iamraw==1.10.4
+utila==1.10.0
 
 # ensure that test data is generated with the right version of rawmaker
-rawmaker==1.5.5
+rawmaker==1.6.1
 # reference to test data
-power==0.6.4
+power==0.6.5
