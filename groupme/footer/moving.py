@@ -157,7 +157,7 @@ def extract_footer(
 def analyze(results) -> MovingFooterResultReport:
     footer_count = groupme.footer.count_footer(results)
     emptyfooter_count = groupme.footer.footnotes.count_empty(results)
-    empty_factor = emptyfooter_count / footer_count
+    empty_factor = emptyfooter_count / footer_count if footer_count else 0
     too_many_empty_footer = empty_factor >= WRONG_STRATEGY_EMPTY_FOOTER_FACTOR
 
     result = MovingFooterResultReport(
