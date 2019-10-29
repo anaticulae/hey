@@ -27,4 +27,4 @@ def test_detector_parse_title_empty(new_textnavgiator):  # pylint:disable=W0621
 
     parsed = parse(empty_textnavigator)
 
-    assert parsed == TitleParserState.NOT_ENOUGH_LINES
+    assert parsed == TitleParserState.NOT_ENOUGH_LINES, parsed

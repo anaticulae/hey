@@ -40,31 +40,31 @@ from tests.resources import RESTRUCT_TEXT_POSITION
 
 FIRST_FONT = Font(
     name='NimbusSanL',
-    scale=31.1,
+    scale=18,
     weight=Weight.BOLD,
 )
 
 SECOND_FONT = Font(
     name='NimbusSanL',
-    scale=21.7,
+    scale=13,
     weight=Weight.BOLD,
     style=Style.ITALIC,
 )
 THIRD_FONT = Font(
     name='NimbusSanL',
-    scale=21.6,
+    scale=13,
     weight=Weight.BOLD,
 )
 
 FORTH_FONT = Font(
     name='NimbusSanL',
-    scale=15.0,
+    scale=9,
     weight=Weight.BOLD,
 )
 
 FIFTH_FONT = Font(
     name='NimbusSanL',
-    scale=17.8,
+    scale=11,
     weight=Weight.LIGHT,
     style=Style.NORMAL,
     stretch=Stretch.REGULAR,
@@ -108,14 +108,14 @@ def expected_result():
             ' two other markup languages, Setext and StructuredText.')
     first = Font(
         name='NimbusRomNo9L',
-        scale=12.0,
+        scale=7,
         weight=Weight.LIGHT,
         style=Style.NORMAL,
         stretch=Stretch.REGULAR,
     )
     bold = Font(
         name='NimbusRomNo9L',
-        scale=13.0,
+        scale=7,
         weight=Weight.MEDIUM,
         style=Style.NORMAL,
         stretch=Stretch.REGULAR,
