@@ -14,45 +14,58 @@ import utila
 import hey.fonts.store
 import hey.textnavigator.navigator
 
+# NOTE: POSITION AND SPACES ARE NOT UP TO DATE
+
 TEXT = r"""
 dimension: 595.28 841.89
 pages:
 - children:
   - - TextContainer
-    - - "Steuerung und \xDCberwachung intelligenter\n"
-      - "Geb\xE4udetechnik\n"
-  - - TextContainer
-    - - 'Masterarbeit
+    - - - "Steuerung und \xDCberwachung intelligenter\nGeb\xE4udetechnik"
+        - - 0 54 20.66 0.00
 
-        '
   - - TextContainer
-    - - 'zur Erlangung des akademischen Grades Bachelor of Science
+    - - - 'Masterarbeit
 
-        '
+          '
+        - - 0 12 14.35 0.00
   - - TextContainer
-    - - "an der Hochschule f\xFCr Technik und Wirtschaft Berlin,\n"
-  - - TextContainer
-    - - 'Fachbereich Wirtschaftswissenschaften II,
+    - - - 'zur Erlangung des akademischen Grades Master of Science
 
-        '
+          '
+        - - 0 56 14.35 0.00
   - - TextContainer
-    - - 'Studiengang Angewandte Kunst
-
-        '
+    - - - "an der Hochschule f\xFCr Technik und Wirtschaft Berlin,\n"
+        - - 0 53 14.35 0.00
   - - TextContainer
-    - - "vorgelegt von B.Sc. Thomas Helmer\n"
-      - 'Matrikelnummer: 161647
+    - - - 'Fachbereich Wirtschaftswissenschaften II,
 
-        '
+          '
+        - - 0 28 14.35 0.00
   - - TextContainer
-    - - "1. Betreuer: Prof. Dr. Carsten Semilon\n"
-      - '2. Betreuer: Dr.-Ing. Dirk Contemporary
+    - - - 'Studiengang Angewandte Kunst
 
-        '
+          '
+        - - 0 27 14.35 0.00
   - - TextContainer
-    - - 'Berlin, den 8. August 2015
+    - - - "vorgelegt von B.Sc. Thomas Helmer"
+        - - 0 28 11.96 0.00
+      - - 'Matrikelnummer: 161647
 
-        '
+          '
+        - - 0 23 11.96 0.00
+  - - TextContainer
+    - - - "1. Betreuer: Prof. Dr. Carsten Semilon"
+        - - 0 36 11.96 0.00
+      - - '2. Betreuer: Dr.-Ing. Dirk Contemporary
+
+          '
+        - - 0 37 11.96 0.00
+  - - TextContainer
+    - - - 'Berlin, den 8. August 2010
+
+          '
+        - - 0 25 11.96 0.00
   page: 0
 """
 
