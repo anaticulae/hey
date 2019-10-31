@@ -178,7 +178,6 @@ def extract_master72_headlines(root: str):
     return result
 
 
-@pytest.mark.xfail(reason='headline extractor is broken')
 def test_words_features_headlines_work_master72pages(testdir):
     root = str(testdir)
     headlines_loaded = extract_master72_headlines(root)
