@@ -13,7 +13,6 @@ from enum import auto
 import utila
 
 from hey.textnavigator.fonts import bounds_to_textbounds
-from hey.textnavigator.fonts import fontsize_from_textbounds
 from hey.textnavigator.navigator import PageTextNavigator
 
 # TODO: HOLY VALUE
@@ -47,7 +46,7 @@ def parse(textnavigator: PageTextNavigator) -> str:
             bounds,
             text,
         )
-        fontsize = fontsize_from_textbounds(textbounds)
+        fontsize = textbounds.fontsize
         sizes.append((fontsize, text))
 
     sizes = sorted(sizes, reverse=True)

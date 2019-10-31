@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import dataclasses
 from collections import defaultdict
 from statistics import mode
 from typing import List
@@ -21,8 +22,16 @@ from hey.utils import sync
 # TODO: rejoin with newer python
 # from hey.textnavigator.navigator import PageTextNavigator
 
-# (xdist, ydist, width, height, fontsize)
-TextBounds = Tuple[int, int, int, int, int]
+
+@dataclasses.dataclass
+class TextBounds:
+    xdist: int
+    ydist: int
+    width: int
+    height: int
+    fontsize: int
+
+
 TextBoundsList = List[Tuple[TextBounds, str]]
 
 FontSize = int
@@ -53,13 +62,13 @@ def feeddistance(bounds: List[BoundingBox]) -> List[float]:
 
 def fontdistance_textbounds(bounds: TextBoundsList) -> List[float]:
     distance = [
-        roundme(second[1] - (first[1] + first[3]))
+        roundme(second.ydist - (first.ydist + first.height))
         for (first), (second) in zip(bounds[0:], bounds[1:])
     ]
     if bounds:
         # add distance from first content to page start
         # xdist, ydist(1), width, height, fontsize
-        distance.insert(0, bounds[0][1])
+        distance.insert(0, bounds[0].ydist)
     distance.append(0)  # TODO: CHECK AGAIN
     return distance
 
@@ -94,7 +103,7 @@ def bounds_to_textbounds(
         int((y1 - y0) / lines) if lines else 0,
         # TODO: Improve font size calculation
     )
-    return (xdist, ydist, width, height, fontsize)
+    return TextBounds(xdist, ydist, width, height, fontsize)
 
 
 def textbounds(
@@ -111,33 +120,11 @@ def textbounds(
     return result
 
 
-def fontsize_from_textbounds(textbound: TextBounds) -> int:
-    # TODO: WE NEED THE TEXT DISTANCE OF EVERY LINE
-    # xdist
-    # ydist
-    # width
-    # height
-    # fontsize
-    return textbound[4]
-
-
-def textfeed(item: TextBounds) -> int:
-    """The textfeed describes the distances from left content border to start
-    of text.
-
-    Args:
-        textbounds(TextBounds):
-    Returns:
-        distance to content border
-    """
-    return item[0]
-
-
 def fontsizes(items: TextBoundsList) -> FontOccurrenceList:
     """Return a list of [fontsize, occurence] of the current page"""
     sizes = defaultdict(int)
     for bounds, text in items:
-        fontsize = fontsize_from_textbounds(bounds)
+        fontsize = bounds.fontsize
         chars = sum([len(item) for item in text])
         sizes[fontsize] += chars
 
@@ -199,8 +186,8 @@ def document_textdistance(navigators, borders: List[Border]) -> int:
         bounds = textbounds(navigator, contentborder.border)
         # ignore empty content
         bounds = [item[0] for item in bounds if len(item[1])]
-        ydist = [item[1] for item in bounds]
-        height = [item[3] for item in bounds]
+        ydist = [item.ydist for item in bounds]
+        height = [item.height for item in bounds]
 
         for yfirst, ysecond, firstheight in zip(
                 ydist[:-1],

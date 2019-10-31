@@ -160,7 +160,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         contentstart, contentend = content_range
         distanceid = containerid - contentstart
         fontdistance = textdistances[distanceid]
-        textsize = hey.textnavigator.fonts.fontsize_from_textbounds(textbounds)
+        textsize = textbounds.fontsize
 
         distance_tosmall = fontdistance < self.smallest_headlinedistance()
         headline_tosmall = textsize < self.smallest_textsize()

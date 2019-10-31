@@ -145,7 +145,7 @@ def extract_lists(
         #     # Schriftgroesse, da der Zeilenabstand nicht beruecksichtigt wird
         #     # Collect lists only in text, avoid collecting in headlines
         #     continue
-        feed = hey.textnavigator.fonts.textfeed(bounds)
+        feed = bounds.xdist
         # if feed <= 0.0:
         #     # TODO: Improve this
         #     # no text feed
