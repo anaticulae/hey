@@ -7,17 +7,15 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import collections
 import dataclasses
-from collections import defaultdict
-from statistics import mode
-from typing import List
-from typing import Tuple
+import statistics
+import typing
 
-from iamraw import Border
-from iamraw import BoundingBox
-from utila import roundme
+import iamraw
+import utila
 
-from hey.utils import sync
+import hey.utils
 
 # TODO: rejoin with newer python
 # from hey.textnavigator.navigator import PageTextNavigator
@@ -32,37 +30,37 @@ class TextBounds:
     fontsize: int
 
 
-TextBoundsList = List[Tuple[TextBounds, str]]
+TextBoundsList = typing.List[typing.Tuple[TextBounds, str]]
 
 FontSize = int
 Occurrence = float
-FontOccurrence = Tuple[FontSize, Occurrence]
-FontOccurrenceList = List[FontOccurrence]
+FontOccurrence = typing.Tuple[FontSize, Occurrence]
+FontOccurrenceList = typing.List[FontOccurrence]
 
 
-def fontdistance(bounds: List[BoundingBox]) -> List[float]:
+def fontdistance(bounds: typing.List[iamraw.BoundingBox]) -> typing.List[float]:
     """Describes the difference between two content lines"""
     distance = [
-        roundme(second.y0 - first.y1)
+        utila.roundme(second.y0 - first.y1)
         for (first), (second) in zip(bounds[0:], bounds[1:])
     ]
     return distance
 
 
-def feeddistance(bounds: List[BoundingBox]) -> List[float]:
+def feeddistance(bounds: typing.List[iamraw.BoundingBox]) -> typing.List[float]:
     """The text feed describes the distance from the left content border to
     the first content. The feeddistance describes the difference of two
     items"""
     distance = [
-        roundme(second.x0 - first.x0)
+        utila.roundme(second.x0 - first.x0)
         for (first), (second) in zip(bounds[0:], bounds[1:])
     ]
     return distance
 
 
-def fontdistance_textbounds(bounds: TextBoundsList) -> List[float]:
+def fontdistance_textbounds(bounds: TextBoundsList) -> typing.List[float]:
     distance = [
-        roundme(second.ydist - (first.ydist + first.height))
+        utila.roundme(second.ydist - (first.ydist + first.height))
         for (first), (second) in zip(bounds[0:], bounds[1:])
     ]
     if bounds:
@@ -73,18 +71,18 @@ def fontdistance_textbounds(bounds: TextBoundsList) -> List[float]:
     return distance
 
 
-NONE_BORDER = Border(None, None, None, None)
+NONE_BORDER = iamraw.Border(None, None, None, None)
 
 
 def bounds_to_textbounds(
-        bounds: BoundingBox,
+        bounds: iamraw.BoundingBox,
         item: str,
-        contentborder: Border = None,
+        contentborder: iamraw.Border = None,
 ) -> TextBounds:
     """Compute distance to page `contentborder` and determine font size
 
     Args:
-        bounds(BoundingBox): BoundingBox of item
+        bounds(iamraw.BoundingBox): BoundingBox of item
         item(str): content
         contenborder(Border): the border of page content if None (0,0) is used
     Returns:
@@ -92,7 +90,7 @@ def bounds_to_textbounds(
     """
     assert isinstance(item, str), type(item)
     if contentborder is None:
-        contentborder = Border(left=0, right=None, top=0, bottom=None)
+        contentborder = iamraw.Border(left=0, right=None, top=0, bottom=None)
     x0, y0, x1, y1 = bounds
     lines = len(item.splitlines())
     xdist, ydist, width, height, fontsize = (
@@ -108,7 +106,7 @@ def bounds_to_textbounds(
 
 def textbounds(
         navigator: 'PageTextNavigator',
-        contentborder: Border,
+        contentborder: iamraw.Border,
 ) -> TextBoundsList:
     # ensure that order of items has no effect
     cb = contentborder  # pylint:disable=C0103
@@ -122,7 +120,7 @@ def textbounds(
 
 def fontsizes(items: TextBoundsList) -> FontOccurrenceList:
     """Return a list of [fontsize, occurence] of the current page"""
-    sizes = defaultdict(int)
+    sizes = collections.defaultdict(int)
     for bounds, text in items:
         fontsize = bounds.fontsize
         chars = sum([len(item) for item in text])
@@ -132,7 +130,7 @@ def fontsizes(items: TextBoundsList) -> FontOccurrenceList:
     common = sum(sizes.values())
     result = [(
         size,
-        roundme(occurence / common),
+        utila.roundme(occurence / common),
     ) for size, occurence in sizes.items()]
     return result
 
@@ -149,7 +147,7 @@ def textsize(occurrences: FontOccurrenceList) -> int:
 
 def textsizes_from_textbounds(
         navigator: 'PageTextNavigator',
-        content: Border,
+        content: iamraw.Border,
 ) -> int:
     text_bounds = textbounds(navigator, content.border)
     font_sizes = fontsizes(text_bounds)
@@ -158,31 +156,33 @@ def textsizes_from_textbounds(
 
 def textsize_from_textbounds_common(
         navigator: 'PageTextNavigator',
-        content: Border,
+        content: iamraw.Border,
 ) -> int:
     result = textsizes_from_textbounds(navigator, content)
     return textsize(result)
 
 
-def document_textsize(navigators, borders: List[Border]) -> int:
+def document_textsize(navigators, borders: typing.List[iamraw.Border]) -> int:
     """Determine the most common text size"""
     result = []
-    for _, (navigator, contentborder) in sync([navigators, borders]):
+    for _, (navigator, contentborder) in hey.utils.sync([navigators, borders]):
         size = textsize_from_textbounds_common(navigator, contentborder)
         result.append(size)
     return result
 
 
-def document_textsize_common(navigators, borders: List[Border]) -> int:
+def document_textsize_common(navigators,
+                             borders: typing.List[iamraw.Border]) -> int:
     """Determine the most common text size"""
     result = document_textsize(navigators, borders)
-    return mode(result)
+    return statistics.mode(result)
 
 
-def document_textdistance(navigators, borders: List[Border]) -> int:
+def document_textdistance(navigators,
+                          borders: typing.List[iamraw.Border]) -> int:
     """Determine the most common text distance"""
     result = []
-    for _, (navigator, contentborder) in sync([navigators, borders]):
+    for _, (navigator, contentborder) in hey.utils.sync([navigators, borders]):
         bounds = textbounds(navigator, contentborder.border)
         # ignore empty content
         bounds = [item[0] for item in bounds if len(item[1])]
@@ -199,4 +199,4 @@ def document_textdistance(navigators, borders: List[Border]) -> int:
     # TODO: is that right to have negative distances? see: example
     # howto_argparse.
     result = [item for item in result if item > 0]
-    return mode(result)
+    return statistics.mode(result)
