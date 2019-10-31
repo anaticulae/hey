@@ -60,6 +60,9 @@ def parse(textnavigator: PageTextNavigator) -> str:
 
     # Title size must be 20% greater
     if detected_size * 0.8 <= next_size:
+        msg = ('title-detector: next following text font is to close: '
+               f'detected({detected_size}) next({next_size})')
+        utila.info(msg)
         return TitleParserState.NOT_ENOUGH_DISTANCE
 
     if detected_size < MIN_TITLE_FONT_SIZE:
