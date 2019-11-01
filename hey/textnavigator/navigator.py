@@ -19,6 +19,7 @@ from iamraw import common_box
 from utila import NEWLINE
 
 from hey.textnavigator.fonts import TextBoundsList
+from hey.textnavigator.fonts import TextInformation
 from hey.textnavigator.fonts import feeddistance
 from hey.textnavigator.fonts import fontdistance
 
@@ -313,7 +314,9 @@ def percent_from_pagesize(size, current) -> float:
 
 
 def to_content(navigator: PageTextNavigator) -> TextBoundsList:
-    result = list(navigator)
+    result = []
+    for item in navigator:
+        result.append(TextInformation(bounds=item[0], text=item[1]))
     return result
 
 
@@ -348,20 +351,19 @@ def merge_content(
         return []
 
     # ensure input
-    for (_, item) in text:
-        assert isinstance(item, str), str(item)
+    assert all([isinstance(item, TextInformation) for item in text]), str(text)
 
     uindex = list(range(len(text))) if uindex is None else uindex
-    bounds = navigator_to_bounds(text)
+    bounds = [item.bounds for item in text]
     font_distance = fontdistance(bounds)
     feed_distance = feeddistance(bounds)
 
     # copy element
-    result = [(text[0][0], [text[0][1]])]
+    result = [(text[0].bounds, [text[0].text])]
     merged = [[uindex[0]]]
     lines = zip(font_distance, feed_distance)
     for index, (fontdist, feeddist) in enumerate(lines, start=1):
-        current_bounds, current_text = text[index]
+        current_bounds, current_text = text[index].bounds, text[index].text
         if fontdist > max_y_merge:
             # new entree
             result.append((current_bounds, [current_text]))
@@ -375,7 +377,7 @@ def merge_content(
 
         # Merge me
         member_location, member_content = result[-1]
-        merger_location, merger_content = text[index]
+        merger_location, merger_content = text[index].bounds, text[index].text
         member_content.append(merger_content)
         merged[-1].append(uindex[index])
         # merged items together and save them as last item
@@ -384,14 +386,24 @@ def merge_content(
             member_content,
         )
 
+    result = [TextInformation(text=item[1], bounds=item[0]) for item in result]
     return result, merged
 
 
 def merge_content_join(result):
-    result = [(bounds, NEWLINE.join(item)) for (bounds, item) in result]
+    result = [
+        TextInformation(
+            text=NEWLINE.join(item.text),
+            bounds=item.bounds,
+        ) for item in result
+    ]
     return result
 
 
 def navigator_to_bounds(navigator: PageTextNavigator) -> List[BoundingBox]:
     """Extract list of `BoundingBox` from `PageTextNavigator`"""
-    return [item for item, _ in navigator]
+    assert isinstance(navigator, (
+        PageTextNavigator,
+        PageTextContentNavigator,
+    )), type(navigator)
+    return [item[0] for item in navigator]

@@ -15,10 +15,8 @@ import typing
 import iamraw
 import utila
 
+import hey.textnavigator
 import hey.utils
-
-# TODO: rejoin with newer python
-# from hey.textnavigator.navigator import PageTextNavigator
 
 
 @dataclasses.dataclass
@@ -30,7 +28,13 @@ class TextBounds:
     fontsize: int
 
 
-TextBoundsList = typing.List[typing.Tuple[TextBounds, str]]
+@dataclasses.dataclass
+class TextInformation:
+    text: str
+    bounds: TextBounds
+
+
+TextBoundsList = typing.List[TextInformation]
 
 FontSize = int
 Occurrence = float
@@ -58,7 +62,10 @@ def feeddistance(bounds: typing.List[iamraw.BoundingBox]) -> typing.List[float]:
     return distance
 
 
-def fontdistance_textbounds(bounds: TextBoundsList) -> typing.List[float]:
+def fontdistance_textbounds(bounds: typing.List[TextBounds],
+                           ) -> typing.List[float]:
+    assert isinstance(bounds, list)
+    assert all(isinstance(item, TextBounds) for item in bounds)
     distance = [
         utila.roundme(second.ydist - (first.ydist + first.height))
         for (first), (second) in zip(bounds[0:], bounds[1:])
@@ -108,22 +115,29 @@ def textbounds(
         navigator: 'PageTextNavigator',
         contentborder: iamraw.Border,
 ) -> TextBoundsList:
+    assert hey.textnavigator.is_navigator(navigator), type(navigator)
+
     # ensure that order of items has no effect
     cb = contentborder  # pylint:disable=C0103
     __x0, __y0, __x1, __y1 = cb.left, cb.top, cb.right, cb.bottom
     if not navigator:
         return []
-    result = [(bounds_to_textbounds(bounds, item, contentborder), item)
-              for (bounds, item) in navigator]
+
+    result = [
+        TextInformation(
+            text=item[1],
+            bounds=bounds_to_textbounds(item[0], item[1], contentborder),
+        ) for item in navigator
+    ]
     return result
 
 
 def fontsizes(items: TextBoundsList) -> FontOccurrenceList:
     """Return a list of [fontsize, occurence] of the current page"""
     sizes = collections.defaultdict(int)
-    for bounds, text in items:
-        fontsize = bounds.fontsize
-        chars = sum([len(item) for item in text])
+    for item in items:
+        fontsize = item.bounds.fontsize
+        chars = sum([len(item) for item in item.text])
         sizes[fontsize] += chars
 
     # TODO: move to general package
@@ -149,6 +163,7 @@ def textsizes_from_textbounds(
         navigator: 'PageTextNavigator',
         content: iamraw.Border,
 ) -> int:
+    assert hey.textnavigator.is_navigator(navigator), type(navigator)
     text_bounds = textbounds(navigator, content.border)
     font_sizes = fontsizes(text_bounds)
     return font_sizes
@@ -158,6 +173,7 @@ def textsize_from_textbounds_common(
         navigator: 'PageTextNavigator',
         content: iamraw.Border,
 ) -> int:
+    assert hey.textnavigator.is_navigator(navigator), type(navigator)
     result = textsizes_from_textbounds(navigator, content)
     return textsize(result)
 
@@ -185,7 +201,7 @@ def document_textdistance(navigators,
     for _, (navigator, contentborder) in hey.utils.sync([navigators, borders]):
         bounds = textbounds(navigator, contentborder.border)
         # ignore empty content
-        bounds = [item[0] for item in bounds if len(item[1])]
+        bounds = [item.bounds for item in bounds if len(item.text)]
         ydist = [item.ydist for item in bounds]
         height = [item.height for item in bounds]
 

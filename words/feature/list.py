@@ -91,9 +91,15 @@ def process_page(pagecontent, contentborder: iamraw.Border):
     for paragraph in pagecontent:
         page, paragraphnumber, (content, uindexs) = paragraph
         zipped = enumerate(zip(content, uindexs))
-        for mergednumber, ((_, item), uindex) in zipped:
+        for mergednumber, ((_, items), uindex) in zipped:
+            items = [
+                hey.textnavigator.fonts.TextInformation(
+                    bounds=item[0],
+                    text=item[1],
+                ) for item in items
+            ]
             potentiallist = extract_lists(
-                item,
+                items,
                 utila.select_page(contentborder, page=page),
                 uindex,
             )
@@ -122,23 +128,31 @@ def extract_lists(
         pagesize(Border): size of current page [left bottom right top]
     """
     # TODO: MAX_Y_MERGE IS VERY INSTABLE
-    unmerged = list(page)
+    assert all([
+        isinstance(item, hey.textnavigator.navigator.TextInformation)
+        for item in page
+    ]), str(page)
     page, merged = hey.textnavigator.navigator.merge_content(
         page,
-        # TODO: HOLY VALUE
-        max_y_merge=15,
+        max_y_merge=15,  # TODO: HOLY VALUE
         uindex=uindex,
     )
     page_str = hey.textnavigator.navigator.merge_content_join(page)
+
+    # TODO: REMOVE THIS CONVERTION
+    ptn = hey.textnavigator.navigator.PageTextNavigator()
+    for item in page_str:
+        ptn.insert(item.bounds, item.text)
+
     text_bounds = hey.textnavigator.fonts.textbounds(
-        page_str,
+        ptn,
         pagesize,
     )
     # textsize = textsize_from_textbounds(page, pagesize)
     result = []
     enumerated = enumerate(zip(text_bounds, merged))
     for paraindex, (paragraph, mergearea) in enumerated:
-        bounds, text = paragraph
+        bounds, text = paragraph.bounds, paragraph.text
         # ptextsize = fontsize_from_textbounds(bounds)
         # if ptextsize != textsize:
         #     # TODO: Hier gibt es noch ein Problem mit der Berechnung der

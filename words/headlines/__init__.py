@@ -119,25 +119,24 @@ class HeadlineExtractorStrategy(abc.ABC):
         result = []
         xoff, xend = pagecontent.offset
         xoff = xoff if xoff is not None else 0
-        bounds = hey.textnavigator.navigator.navigator_to_bounds(pagecontent)
         bounds = hey.textnavigator.fonts.textbounds(
             pagecontent,
             utila.select_page(self.border, page=page),
         )
-        without_content = [item[0] for item in bounds]
+        without_content = [item.bounds for item in bounds]
         # PageContentNavigator, the header and footer is ignored
         textdistances = hey.textnavigator.fonts.fontdistance_textbounds(
             without_content)
-        for containerid, (textbounds, text) in enumerate(
+        for containerid, item in enumerate(
                 bounds,
                 start=xoff,
         ):
-            splitted = text.splitlines()
+            splitted = item.text.splitlines()
             if len(splitted) > 1:
                 continue
             headline = self.extract_headline(
-                text=text,
-                textbounds=textbounds,
+                text=item.text,
+                textbounds=item.bounds,
                 textdistances=textdistances,
                 page=page,
                 containerid=containerid,

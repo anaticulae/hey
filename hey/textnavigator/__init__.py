@@ -6,3 +6,12 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import hey.textnavigator.navigator
+
+
+def is_navigator(item):
+    result = isinstance(item, (
+        hey.textnavigator.navigator.PageTextNavigator,
+        hey.textnavigator.navigator.PageTextContentNavigator,
+    ))
+    return result

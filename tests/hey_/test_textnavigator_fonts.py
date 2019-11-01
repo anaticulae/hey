@@ -21,7 +21,7 @@ from tests.fixtures.simple import simple_second_page_size
 
 
 def test_groupme_fonts_fondistance(simple_second_page_navigator):  #pylint:disable=W0621
-    content = list(simple_second_page_navigator)
+    content = simple_second_page_navigator
     # if you have 3 item, you have 2 distances A -> B, B-> C
     distance_count = len(content) - 1
     bounds = navigator_to_bounds(content)
