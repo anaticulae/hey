@@ -8,8 +8,7 @@
 # =============================================================================
 import iamraw
 import pytest
-
-import hey.cluster
+import utila
 
 
 @pytest.mark.parametrize('min_elements, expected_groups', [
@@ -27,5 +26,5 @@ def test_cluster_common_items_2groups(min_elements, expected_groups):
             (iamraw.BoundingBox.from_list((10, 2, 15, 4)), '2'),
         ],
     ]
-    collected = hey.cluster.common_items(example, min_elements=min_elements)
+    collected = utila.common_items(example, min_elements=min_elements)
     assert len(collected) == expected_groups, collected

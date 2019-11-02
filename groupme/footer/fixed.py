@@ -88,7 +88,7 @@ def extract_common_footer(
     ) for horizontal in page.content] for page in horizontals]
 
     # cluster horizontal lines
-    clusters = hey.cluster.common_items(
+    clusters = utila.common_items(
         collected=with_box,
         max_difference=COMMON_HORIZONTAL_CLASSIFICATOR_MAX_ERROR,
     )

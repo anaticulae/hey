@@ -26,7 +26,6 @@ import iamraw
 import serializeraw
 import utila
 
-import hey.cluster
 import hey.textnavigator.navigator
 
 PageContentTextPosition = collections.namedtuple(
@@ -67,7 +66,7 @@ BOTTOM_MAX_AREA = 2500.0  # page number is not very big
 
 def header(navigators):
     collected = [page.before(TOP_BORDER) for page in navigators]
-    common = hey.cluster.common_items(
+    common = utila.common_items(
         collected,
         max_difference=TOP_MAX_DIFFERENCE,
     )
@@ -116,7 +115,7 @@ def footer(
             pagecontent.append(item)
         filtered.append(pagecontent)
 
-    common = hey.cluster.common_items(
+    common = utila.common_items(
         filtered,
         max_difference=max_difference,
     )
