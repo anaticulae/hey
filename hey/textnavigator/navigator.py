@@ -18,8 +18,8 @@ from iamraw import PageSize
 from iamraw import common_box
 from utila import NEWLINE
 
+from hey.textnavigator.fonts import TextBoundsInfo
 from hey.textnavigator.fonts import TextBoundsList
-from hey.textnavigator.fonts import TextInformation
 from hey.textnavigator.fonts import feeddistance
 from hey.textnavigator.fonts import fontdistance
 
@@ -316,7 +316,7 @@ def percent_from_pagesize(size, current) -> float:
 def to_content(navigator: PageTextNavigator) -> TextBoundsList:
     result = []
     for item in navigator:
-        result.append(TextInformation(bounds=item[0], text=item[1]))
+        result.append(TextBoundsInfo(bounds=item[0], text=item[1]))
     return result
 
 
@@ -351,7 +351,7 @@ def merge_content(
         return []
 
     # ensure input
-    assert all([isinstance(item, TextInformation) for item in text]), str(text)
+    assert all([isinstance(item, TextBoundsInfo) for item in text]), str(text)
 
     uindex = list(range(len(text))) if uindex is None else uindex
     bounds = [item.bounds for item in text]
@@ -386,13 +386,13 @@ def merge_content(
             member_content,
         )
 
-    result = [TextInformation(text=item[1], bounds=item[0]) for item in result]
+    result = [TextBoundsInfo(text=item[1], bounds=item[0]) for item in result]
     return result, merged
 
 
 def merge_content_join(result):
     result = [
-        TextInformation(
+        TextBoundsInfo(
             text=NEWLINE.join(item.text),
             bounds=item.bounds,
         ) for item in result

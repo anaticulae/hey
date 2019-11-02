@@ -29,12 +29,12 @@ class TextBounds:
 
 
 @dataclasses.dataclass
-class TextInformation:
+class TextBoundsInfo:
     text: str
     bounds: TextBounds
 
 
-TextBoundsList = typing.List[TextInformation]
+TextBoundsList = typing.List[TextBoundsInfo]
 
 FontSize = int
 Occurrence = float
@@ -124,7 +124,7 @@ def textbounds(
         return []
 
     result = [
-        TextInformation(
+        TextBoundsInfo(
             text=item[1],
             bounds=bounds_to_textbounds(item[0], item[1], contentborder),
         ) for item in navigator
