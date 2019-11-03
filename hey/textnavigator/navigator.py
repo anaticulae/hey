@@ -20,6 +20,7 @@ from iamraw import common_box
 from utila import NEWLINE
 
 import hey.textnavigator.style
+import hey.utils
 from hey.textnavigator.fonts import TextBoundsInfo
 from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import feeddistance
@@ -233,14 +234,11 @@ def create_pagetextnavigators(
                 continue
             else:
                 pos = textposition.content[textid]
-                height = (pos.y1 - pos.y0) / len(item.lines)
-                # TODO: FIX BOUNDING CALCULATION
                 for index, line in enumerate(item.lines):
-                    bounding = iamraw.BoundingBox(
-                        pos.x0,
-                        pos.y0 + height * index,
-                        pos.x1,
-                        pos.y0 + height * (index + 1),
+                    bounding = hey.utils.split_bounding_y(
+                        pos,
+                        index,
+                        len(item.lines),
                     )
                     style = hey.textnavigator.style.create_textstyle(line.chars)
                     navigator.insert(
