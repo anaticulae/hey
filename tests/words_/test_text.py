@@ -80,7 +80,6 @@ def test_words_text_extractor_titles(
         restructured_textexample,  # pylint:disable=W0621
 ):
     result = restructured_textexample
-
     # page6
     assert result[0][1][0][0].text == 'CHAPTER 1'
     assert result[0][1][1][0].text == 'RestructuredText Tutorial'
@@ -229,6 +228,7 @@ def test_words_extract_texts_page_x(
     assert last_line == expected_end
 
 
+@pytest.mark.xfail
 def test_words_text_convert_undefined_to_text(
         restructured_headlines,  # pylint:disable=W0621
         restructured_textexample,  # pylint:disable=W0621

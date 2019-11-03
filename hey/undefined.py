@@ -40,6 +40,7 @@ def extract_undefined(pages, text, text_position, contentborder: dict):
         _pagecontent = []
         for index, (_, paragraph) in enumerate(pagecontent):
             # split the undefined groups
+            # TODO: CHECK HERE FOR BOXING
             splitted_paragraph = splitter(paragraph)
             # fill undefined groups with text content
             paragraph_items = [(uindex, [

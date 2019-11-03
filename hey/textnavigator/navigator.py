@@ -10,6 +10,7 @@ import os
 from typing import List
 from typing import Tuple
 
+import iamraw
 import serializeraw
 from iamraw import Border
 from iamraw import BoundingBox
@@ -18,6 +19,7 @@ from iamraw import PageSize
 from iamraw import common_box
 from utila import NEWLINE
 
+import hey.textnavigator.style
 from hey.textnavigator.fonts import TextBoundsInfo
 from hey.textnavigator.fonts import TextBoundsList
 from hey.textnavigator.fonts import feeddistance
@@ -50,29 +52,41 @@ class PageTextNavigator:
         self.data = []
         self.width, self.height = size
 
-    def insert(self, box: BoundingBox, item: str):
+    def insert(
+            self,
+            box: BoundingBox,
+            text: str,
+            style: hey.textnavigator.style.TextStyle = None,
+    ):
         """Insert text element top to bottom and left to right
 
         Args:
             box(BoundingBox): position and dimension of text area
-            item(str): content of text chunk
+            text(str): content of text chunk
+            style: style for every character of `text`
         """
         x0, y0, x1, y1 = box
         msg = '0<=%d<=%d<=%d'
         assert 0 <= x0 <= x1 <= self.width, msg % (x0, x1, self.width)
         assert 0 <= y0 <= y1 <= self.height, msg % (y0, y1, self.height)
 
-        insert_position = 0
-        for pos, _ in self.data:
+        position = 0
+        for item in self.data:
+            pos = item.bounding
             if int(pos.y0) == int(y0):
                 if int(x0) <= int(pos.x0):
                     break
             elif y0 <= pos.y0:
                 break
-            insert_position += 1
-        self.data.insert(insert_position, (box, item))
+            position += 1
+        datum = hey.textnavigator.style.TextInfo(
+            text=text,
+            bounding=box,
+            style=style,
+        )
+        self.data.insert(position, datum)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index) -> hey.textnavigator.style.TextInfo:
         return self.data[index]
 
     def __len__(self) -> int:
@@ -110,10 +124,11 @@ class PageTextNavigator:
         before = top * self.height
         after = bottom * self.height
         result = []
-        for box, item in self.data:
+        for item in self.data:
+            bounding = item.bounding
             # before and after are pixel coordinates
-            if before <= box.y0 <= box.y1 <= after:
-                result.append((box, item))
+            if before <= bounding.y0 <= bounding.y1 <= after:
+                result.append(hey.textnavigator.style.TextInfo.copy(item))
         return result
 
     def after(self, height, width=0.0):
@@ -128,9 +143,9 @@ class PageTextNavigator:
         before = top * self.height  # greater than
 
         result = []
-        for index, (box, _) in enumerate(self.data):
+        for index, item in enumerate(self.data):
             # before and after are pixel coordinates
-            if before <= box.y0 <= box.y1 <= after:
+            if before <= item.bounding.y0 <= item.bounding.y1 <= after:
                 result.append(index)
         if not result:
             return None, None
@@ -218,7 +233,21 @@ def create_pagetextnavigators(
                 continue
             else:
                 pos = textposition.content[textid]
-                navigator.insert(pos, textcontent)
+                height = (pos.y1 - pos.y0) / len(item.lines)
+                # TODO: FIX BOUNDING CALCULATION
+                for index, line in enumerate(item.lines):
+                    bounding = iamraw.BoundingBox(
+                        pos.x0,
+                        pos.y0 + height * index,
+                        pos.x1,
+                        pos.y0 + height * (index + 1),
+                    )
+                    style = hey.textnavigator.style.create_textstyle(line.chars)
+                    navigator.insert(
+                        bounding,
+                        line.text.strip(),
+                        style=style,
+                    )
                 textid += 1
 
     def fill_empty(items):
@@ -316,7 +345,7 @@ def percent_from_pagesize(size, current) -> float:
 def to_content(navigator: PageTextNavigator) -> TextBoundsList:
     result = []
     for item in navigator:
-        result.append(TextBoundsInfo(bounds=item[0], text=item[1]))
+        result.append(TextBoundsInfo(bounds=item.bounding, text=item.text))
     return result
 
 
@@ -406,4 +435,4 @@ def navigator_to_bounds(navigator: PageTextNavigator) -> List[BoundingBox]:
         PageTextNavigator,
         PageTextContentNavigator,
     )), type(navigator)
-    return [item[0] for item in navigator]
+    return [item.bounding for item in navigator]

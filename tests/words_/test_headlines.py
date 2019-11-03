@@ -81,7 +81,7 @@ EXPECTED = [
             text='Code: Block',
             level=3,
             rawlevel=None,
-            container=10,
+            container=17,
             page=9,
         ),
     ],

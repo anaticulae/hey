@@ -135,7 +135,7 @@ class HeadlineExtractorStrategy(abc.ABC):
             if len(splitted) > 1:
                 continue
             headline = self.extract_headline(
-                text=item.text,
+                textinfo=item,
                 textbounds=item.bounds,
                 textdistances=textdistances,
                 page=page,
@@ -149,13 +149,14 @@ class HeadlineExtractorStrategy(abc.ABC):
 
     def extract_headline(
             self,
-            text,
+            textinfo,
             textbounds,
             textdistances,
             page,
             containerid,
             content_range,
     ):
+        text = textinfo.text
         contentstart, contentend = content_range
         distanceid = containerid - contentstart
         fontdistance = textdistances[distanceid]
@@ -179,6 +180,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         dist_bottom = None if lastitem else textdistances[distanceid + 1]
         level = self.levelme(textsize, dist_top, dist_bottom)
 
+        text = text.strip()
         headline = iamraw.Headline(
             container=containerid,
             level=level,

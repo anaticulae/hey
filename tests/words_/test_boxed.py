@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import pytest
+
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_boxed
 from tests.fixtures.restruct import restructured_headlines
@@ -16,6 +18,7 @@ from words.feature.boxed import dump_boxedcontent
 from words.feature.boxed import load_boxedcontent
 
 
+@pytest.mark.xfail
 def test_words_boxed_work(
         # pylint:disable=W0621
         restructured_boxed):

@@ -78,7 +78,8 @@ def extract_boxed_content(contentblock, boxed: words.boxed.BoxedChecker):
         for _, ((headlineblockid, blocks), uindexs) in enumerate(zipped):
             collected = []
             current = collections.defaultdict(list)
-            for ((bounding, line), uindex) in zip(blocks, uindexs):
+            for block, uindex in zip(blocks, uindexs):
+                bounding, line = block.bounding, block.text
                 boxid = boxed.boxid(page, bounding)
                 if boxid == words.boxed.NO_BOX:
                     # splitted by non-box-element

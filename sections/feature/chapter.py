@@ -76,7 +76,6 @@ def space_between_header_and_first_line(
     result = []
     for page in navigators:
         first_content = page.before(FIRST_QUARTER)
-
         chapter_rate = contain_chapter(first_content)
         chapter_rate += contain_toc(first_content, tocs)
 
@@ -159,7 +158,7 @@ def contain_toc(content, toc):
     if not flat_toc:
         # no table of content was extracted
         return 0
-    flat_content = ' '.join([item for _, item in content])
+    flat_content = ' '.join([item.text for item in content])
 
     # is any toc title part of content
     toc_count = sum(item in flat_content for item in flat_toc)
@@ -188,7 +187,7 @@ def chaptervalue_to_percent(chaptervalue: float, hastoc: bool) -> float:
 
 
 def rawcontent(content) -> str:
-    raw = utila.NEWLINE.join([item for _, item in content])
+    raw = utila.NEWLINE.join([item.text for item in content])
     raw = raw.lower()
     return raw
 

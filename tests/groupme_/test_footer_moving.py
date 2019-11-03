@@ -53,7 +53,7 @@ def test_groupme_footer_moving(document, pages, expected_footer):
     for page, length in expected_footer:
         extracted_footer = utila.select_page(result, page)
         notes = extracted_footer.footer.notes
-        assert len(notes) == length
+        assert len(notes) == length, f'on page: {page}'
         assert extracted_footer[1], utila.log_raw(f'has no footer: {page}')
 
 

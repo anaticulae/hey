@@ -152,8 +152,12 @@ def collect_paragraph(
     # collect content after headline
     collector = []
     for index in range(start, end):
-        _bounding, _content = pcn[index]  # bounding, content
-        fonts = fcs.fromstr(index, 0, _content)
+        _bounding, _content = pcn[index].bounding, pcn[index].text
+        # TODO: INVESTIGATE WHATS WRONG HERE
+        try:
+            fonts = fcs.fromstr(index, 0, _content)
+        except KeyError:
+            fonts = None
         contenttype = content_type(boxes, page, _bounding, _content)
         if contenttype == iamraw.ContentType.PARAGRAPH:
             collector.append(iamraw.Paragraph(content=fonts))
@@ -301,6 +305,9 @@ def squeeze_text_page(page):
     for (headline, sequence) in page:
         lines = []
         for seq in sequence:
+            # TODO: CHGECK HERE FOR FIXING BOXING
+            if seq.content is None:
+                continue
             if not isinstance(seq, iamraw.Paragraph):
                 lines.append('%du' % seq.container)
                 continue

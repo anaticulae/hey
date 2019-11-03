@@ -25,7 +25,7 @@ import iamraw
 import detector.parser
 
 # TODO: REPLACE WITH GENERAL TEXT PARSER
-PATTERN = r'^(?P<number>\d{1,3})[ ]?(?P<text>[\w\d:\.,;’/\(\) \-]+)$'
+PATTERN = r'^(?P<number>\d{1,3})[ ]?(?P<text>[\w\d:\.,;’/\(\) \-]{3,})$'
 PATTERN = re.compile(PATTERN, re.MULTILINE)
 
 

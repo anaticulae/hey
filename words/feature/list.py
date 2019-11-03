@@ -93,9 +93,9 @@ def process_page(pagecontent, contentborder: iamraw.Border):
         zipped = enumerate(zip(content, uindexs))
         for mergednumber, ((_, items), uindex) in zipped:
             items = [
-                hey.textnavigator.fonts.TextFontInfo(
-                    bounds=item[0],
-                    text=item[1],
+                hey.textnavigator.fonts.TextBoundsInfo(
+                    bounds=item.bounding,
+                    text=item.text,
                 ) for item in items
             ]
             potentiallist = extract_lists(
@@ -129,7 +129,7 @@ def extract_lists(
     """
     # TODO: MAX_Y_MERGE IS VERY INSTABLE
     assert all([
-        isinstance(item, hey.textnavigator.navigator.TextFontInfo)
+        isinstance(item, hey.textnavigator.navigator.TextBoundsInfo)
         for item in page
     ]), str(page)
     page, merged = hey.textnavigator.navigator.merge_content(

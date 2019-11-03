@@ -238,9 +238,7 @@ def restructured_sections():
 
 
 @pytest.fixture
-def restructured_textexample(
-        # pylint:disable=W0621
-        restructured_headlines):
+def restructured_textexample(restructured_headlines):  # pylint:disable=W0621
     headlines = restructured_headlines
     loaded = words.feature.load_resources(
         text=RESTRUCT_TEXT,
@@ -278,7 +276,6 @@ def restructured_boxed(
 ):
     headlines = restructured_headlines
     undefined = restructured_textexample_dumped
-
     extracted, _ = words.input.load_resources(
         undefined,
         RESTRUCT_TEXT,
@@ -337,6 +334,7 @@ def restructured_list_work(
 def restructured_list_dumped(
         restructured_list_work,  # pylint:disable=W0621
 ) -> str:
+    assert restructured_list_work
     result = restructured_list_work
     dumped = serializeraw.dump_lists(result)
     return dumped

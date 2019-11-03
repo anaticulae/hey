@@ -6,6 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import utila
 from iamraw import BoundingBox
 from pytest import mark
 
@@ -23,12 +24,14 @@ from tests.groupme_ import navigator  # pylint:disable=W0611
 
 
 def test_insert_order(navigator: PageTextNavigator):  #pylint:disable=W0621
-    for (before, _), (after, _) in zip(navigator[:-1], navigator[1:]):
+    for before, after in zip(navigator[:-1], navigator[1:]):
+        before = before.bounding
+        after = after.bounding
         assert before.y0 <= after.y0
         if before.y0 == after.y0:
             assert before.x0 <= after.x0
 
-    current_order = [item for pos, item in navigator]
+    current_order = [item.text for item in navigator]
 
     # items are sorted in ascending
     assert current_order == list(range(len(navigator))), current_order
@@ -83,9 +86,13 @@ def test_groupme_navigator_merge_content(simple_second_page_navigator):
     merged, _ = merge_content(content)  # split content and merge_ids
     merged_content = merge_content_join(merged)
 
-    content_count = len(''.join([item.text for item in content]))
-    merged_count = len(''.join([item.text for item in merged_content]))
+    expectend_content = utila.NEWLINE.join([item.text for item in content])
+    merged_content = utila.NEWLINE.join([item.text for item in merged_content])
 
-    # ensure that no data is lost while merging
-    assert content_count == merged_count - 4  # 4 elements are merged together
     assert len(merged) == paragraph_after_merge
+
+    assert merged_content == expectend_content
+    content_count = len(expectend_content)
+    merged_count = len(merged_content)
+    # ensure that no data is lost while merging
+    assert content_count == merged_count

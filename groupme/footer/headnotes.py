@@ -26,14 +26,14 @@ def parse(content: str):
         parse_title,
         parse_pagenumber,
     ]
-    for bounds, text in content:
+    for item in content:
         parsed = None
         for strategy in strategies:
-            parsed = strategy(text, bounds)
+            parsed = strategy(item.text, item.bounding)
             if parsed:
                 break
         if not parsed:
-            parsed = iamraw.RawText(text=text)
+            parsed = iamraw.RawText(text=item.text)
         result.append(parsed)
 
     return result

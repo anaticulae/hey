@@ -1,0 +1,71 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2019 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+
+import dataclasses
+import typing
+
+import iamraw
+
+
+@dataclasses.dataclass
+class CharStyle:
+    start: int
+    end: int
+    size: float = None
+    rise: float = None
+
+
+@dataclasses.dataclass
+class TextStyle:
+    content: typing.List[CharStyle] = dataclasses.field(default_factory=list)
+
+    def __iter__(self):
+        for style in self.content:
+            yield style
+
+    def __len__(self):
+        return len(self.content)
+
+
+@dataclasses.dataclass
+class TextInfo:
+    text: str
+    bounding: iamraw.BoundingBox = None
+    style: TextStyle = None
+
+    @classmethod
+    def copy(cls, item):
+        return cls(text=item.text, bounding=item.bounding, style=item.style)
+
+
+def create_textstyle(chars: typing.List[iamraw.Char]):
+    if not chars:
+        return []
+    start, size, rise = 0, chars[0].size, chars[0].rise
+    result = []
+
+    for index, char in enumerate(chars[1:], start=1):
+        if char.size != size or char.rise != rise:
+            style = CharStyle(
+                start=start,
+                end=index,
+                size=size,
+                rise=rise,
+            )
+            result.append(style)
+            start, size, rise = index, char.size, char.rise
+    if start != len(chars):
+        style = CharStyle(
+            start=start,
+            end=len(chars),
+            size=size,
+            rise=rise,
+        )
+        result.append(style)
+    return result

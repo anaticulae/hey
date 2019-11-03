@@ -26,6 +26,7 @@ import iamraw
 import serializeraw
 import utila
 
+import hey.classificator
 import hey.textnavigator.navigator
 
 PageContentTextPosition = collections.namedtuple(
@@ -66,9 +67,10 @@ BOTTOM_MAX_AREA = 2500.0  # page number is not very big
 
 def header(navigators):
     collected = [page.before(TOP_BORDER) for page in navigators]
-    common = utila.common_items(
+    common = hey.classificator.common_items(
         collected,
         max_difference=TOP_MAX_DIFFERENCE,
+        selector=lambda x: x.bounding,
     )
     return common
 
@@ -99,23 +101,24 @@ def footer(
     for page in collected:
         pagecontent = []
         for item in page:
-            if area(item[0]) > max_area:
+            text = item.text.strip()
+            if area(item.bounding) > max_area:
                 # ignore to big items
                 continue
-            if remove_empty and not item[1].strip():
+            if remove_empty and not text:
                 # filter empty items
                 continue
-            if numbers_only and not is_pagenumber(item[1]):
+            if numbers_only and not is_pagenumber(text):
                 # remove non numeric items
                 continue
             # support -1-, -2-, ...
-            clean_number = item[1].replace('-', '', 2).strip()
-            item = (item[0], clean_number)
+            clean_number = text.replace('-', '', 2).strip()
+            item = (item.bounding, clean_number)
 
             pagecontent.append(item)
         filtered.append(pagecontent)
 
-    common = utila.common_items(
+    common = hey.classificator.common_items(
         filtered,
         max_difference=max_difference,
     )

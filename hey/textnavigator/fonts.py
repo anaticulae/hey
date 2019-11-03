@@ -125,8 +125,12 @@ def textbounds(
 
     result = [
         TextBoundsInfo(
-            text=item[1],
-            bounds=bounds_to_textbounds(item[0], item[1], contentborder),
+            text=item.text,
+            bounds=bounds_to_textbounds(
+                item.bounding,
+                item.text,
+                contentborder,
+            ),
         ) for item in navigator
     ]
     return result

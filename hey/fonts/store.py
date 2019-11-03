@@ -103,6 +103,7 @@ class FontStore:
         Returns:
             Font
         """
+        assert isinstance(text, str), type(text)
         result = []
         current = self.font(page, container, line, 0)
         collector = ''

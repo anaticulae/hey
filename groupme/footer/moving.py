@@ -194,6 +194,6 @@ def footercontent(items):
     Args:
         items(list): list of (bounds, text)
     """
-    content = [item[1] for item in items]
+    content = [item.text for item in items]
     content = utila.NEWLINE.join(content)
     return content

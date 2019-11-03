@@ -41,13 +41,13 @@ def parse(textnavigator: PageTextNavigator) -> str:
         If not, return `TitleParserState` to indicate the problem
     """
     sizes = []
-    for bounds, text in textnavigator:
+    for item in textnavigator:
         textbounds = bounds_to_textbounds(
-            bounds,
-            text,
+            item.bounding,
+            item.text,
         )
         fontsize = textbounds.fontsize
-        sizes.append((fontsize, text))
+        sizes.append((fontsize, item.text))
 
     sizes = sorted(sizes, reverse=True)
 

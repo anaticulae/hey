@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import pytest
 from pytest import fixture
 from serializeraw import dump_text
 from serializeraw import load_headlines
@@ -59,6 +60,7 @@ def restructured_words(
     return result
 
 
+@pytest.mark.xfail
 def test_words_dump_and_load_words_result(
         restructured_words,
         restructured_headlines,
