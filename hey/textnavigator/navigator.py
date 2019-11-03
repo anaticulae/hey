@@ -7,24 +7,15 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 import os
-from typing import List
-from typing import Tuple
+import typing
 
 import iamraw
 import serializeraw
-from iamraw import Border
-from iamraw import BoundingBox
-from iamraw import Document
-from iamraw import PageSize
-from iamraw import common_box
-from utila import NEWLINE
+import utila
 
+import hey.textnavigator.fonts
 import hey.textnavigator.style
 import hey.utils
-from hey.textnavigator.fonts import TextBoundsInfo
-from hey.textnavigator.fonts import TextBoundsList
-from hey.textnavigator.fonts import feeddistance
-from hey.textnavigator.fonts import fontdistance
 
 START = 0.0
 END = 1.0
@@ -55,14 +46,14 @@ class PageTextNavigator:
 
     def insert(
             self,
-            box: BoundingBox,
+            box: iamraw.BoundingBox,
             text: str,
             style: hey.textnavigator.style.TextStyle = None,
     ):
         """Insert text element top to bottom and left to right
 
         Args:
-            box(BoundingBox): position and dimension of text area
+            box(iamraw.BoundingBox): position and dimension of text area
             text(str): content of text chunk
             style: style for every character of `text`
         """
@@ -99,7 +90,7 @@ class PageTextNavigator:
 
     @property
     def dimension(self):
-        return PageSize(width=self.width, height=self.height)
+        return iamraw.PageSize(width=self.width, height=self.height)
 
     def before(self, height: float, width=0.0):
         """Determine elements on the top of the document
@@ -137,7 +128,7 @@ class PageTextNavigator:
         result = self.between(height, END)
         return result
 
-    def offset(self, top: float, bottom: float) -> Tuple[int, int]:
+    def offset(self, top: float, bottom: float) -> typing.Tuple[int, int]:
         # """Determine offset
         assert START <= top <= bottom <= END
         after = bottom * self.height
@@ -160,12 +151,12 @@ class PageTextNavigator:
         Hint:
             text position is not supported
         """
+        # TODO: REMOVE THIS METHOD?
         result = cls()
         for index, line in enumerate(text.splitlines()):
-            result.insert(
-                BoundingBox.from_list([0, index * 20, 300, (index + 1) * 20]),
-                line,
-            )
+            bounding = iamraw.BoundingBox.from_list(
+                [0, index * 20, 300, (index + 1) * 20])
+            result.insert(bounding, line)
         return result
 
 
@@ -177,7 +168,7 @@ class PageTextContentNavigator:
     def __init__(
             self,
             textnavigator: PageTextNavigator,
-            content: Border,
+            content: iamraw.Border,
     ):
         """Navigate throw text content, ignore footer and header
 
@@ -188,8 +179,8 @@ class PageTextContentNavigator:
         msg = 'require `PageTextNavigator` got: %s' % type(textnavigator)
         assert isinstance(textnavigator, PageTextNavigator), msg
         msg = 'require `Border` got: %s' % type(content)
-        assert isinstance(content, Border), msg
-        pagesize = PageSize(
+        assert isinstance(content, iamraw.Border), msg
+        pagesize = iamraw.PageSize(
             width=textnavigator.width,
             height=textnavigator.height,
         )
@@ -211,11 +202,11 @@ class PageTextContentNavigator:
         return len(self.data)
 
 
-PageTextNavigators = List[PageTextNavigator]
+PageTextNavigators = typing.List[PageTextNavigator]
 
 
 def create_pagetextnavigators(
-        text: Document,
+        text: iamraw.Document,
         text_positions,
 ) -> PageTextNavigators:
     result = []
@@ -289,7 +280,7 @@ def create_pagetextnavigators_frompath(path: str, pages=None):
     return navigators
 
 
-def topbottom(size: PageSize, contentborder: Border):
+def topbottom(size: iamraw.PageSize, contentborder: iamraw.Border):
     height = size.height
     top, bottom = contentborder.top, contentborder.bottom
     top = percent_from_pagesize(height, top)
@@ -340,10 +331,15 @@ def percent_from_pagesize(size, current) -> float:
     return current / size
 
 
-def to_content(navigator: PageTextNavigator) -> TextBoundsList:
+def to_content(navigator: PageTextNavigator,
+              ) -> hey.textnavigator.fonts.TextBoundsList:
     result = []
     for item in navigator:
-        result.append(TextBoundsInfo(bounds=item.bounding, text=item.text))
+        info = hey.textnavigator.fonts.TextBoundsInfo(
+            bounds=item.bounding,
+            text=item.text,
+        )
+        result.append(info)
     return result
 
 
@@ -353,16 +349,16 @@ MAX_MERGE_HORIZONTALY = 14.0  # TODO: HOLY VALUE
 
 
 def merge_content(
-        text: TextBoundsList,
+        text: hey.textnavigator.fonts.TextBoundsList,
         max_x_merge=MAX_MERGE_HORIZONTALY,
         max_y_merge=MAX_MERGE_DISTANCE,
         uindex=None,
-) -> TextBoundsList:
+) -> hey.textnavigator.fonts.TextBoundsList:
     """Merge content blocks to create greater content blocks depending on
     merge strategy.
 
     Args:
-        text: chunk with BoundingBox to merge
+        text: chunk with iamraw.BoundingBox to merge
         max_x_merge(float): feed distance between the two left sides
         max_y_merge(float): vertical distance between 2 BoundingBoxes to
                             merge them into one
@@ -378,12 +374,15 @@ def merge_content(
         return []
 
     # ensure input
-    assert all([isinstance(item, TextBoundsInfo) for item in text]), str(text)
+    assert all([
+        isinstance(item, hey.textnavigator.fonts.TextBoundsInfo)
+        for item in text
+    ]), str(text)
 
     uindex = list(range(len(text))) if uindex is None else uindex
     bounds = [item.bounds for item in text]
-    font_distance = fontdistance(bounds)
-    feed_distance = feeddistance(bounds)
+    font_distance = hey.textnavigator.fonts.fontdistance(bounds)
+    feed_distance = hey.textnavigator.fonts.feeddistance(bounds)
 
     # copy element
     result = [(text[0].bounds, [text[0].text])]
@@ -409,25 +408,29 @@ def merge_content(
         merged[-1].append(uindex[index])
         # merged items together and save them as last item
         result[-1] = (
-            common_box([member_location, merger_location]),
+            iamraw.common_box([member_location, merger_location]),
             member_content,
         )
 
-    result = [TextBoundsInfo(text=item[1], bounds=item[0]) for item in result]
+    result = [
+        hey.textnavigator.fonts.TextBoundsInfo(text=item[1], bounds=item[0])
+        for item in result
+    ]
     return result, merged
 
 
 def merge_content_join(result):
     result = [
-        TextBoundsInfo(
-            text=NEWLINE.join(item.text),
+        hey.textnavigator.fonts.TextBoundsInfo(
+            text=utila.NEWLINE.join(item.text),
             bounds=item.bounds,
         ) for item in result
     ]
     return result
 
 
-def navigator_to_bounds(navigator: PageTextNavigator) -> List[BoundingBox]:
+def navigator_to_bounds(navigator: PageTextNavigator,
+                       ) -> typing.List[iamraw.BoundingBox]:
     """Extract list of `BoundingBox` from `PageTextNavigator`"""
     assert isinstance(navigator, (
         PageTextNavigator,
