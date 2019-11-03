@@ -24,6 +24,7 @@ from tests.fixtures.restruct import restructured_textexample
 # collected by reading the pdf file
 RESTRUCTURED_NON_TEXTUAL_PAGE = 10
 
+
 # pylint:disable=W0621
 @pytest.mark.xfail
 def test_extract_undefined(
