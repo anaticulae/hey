@@ -32,13 +32,10 @@ def parse(text: PageTextNavigator) -> iamraw.TitlePage:
     Returns:
         extracted TitlePage
     """
+    assert isinstance(text, PageTextNavigator), type(text)
     result = iamraw.TitlePage()
-
-    if isinstance(text, str):
-        # support
-        text = PageTextNavigator.from_str(text)
-
     title = parse_title(text)
+
     text = utila.NEWLINE.join([item.text for item in text[:]])
     if isinstance(title, str):
         text.replace(title, '')

@@ -12,6 +12,7 @@ from enum import auto
 
 import utila
 
+import hey.textnavigator.style
 from hey.textnavigator.fonts import bounds_to_textbounds
 from hey.textnavigator.navigator import PageTextNavigator
 
@@ -29,30 +30,26 @@ class TitleParserState(Enum):
 def parse(textnavigator: PageTextNavigator) -> str:
     """Parse hugest text line as title.
 
+    Args:
+        textnavigator(PageTextNavigator): given page to analyze text content
+    Returns:
+        parsed title if properties matches to given rules
+        If not, return `TitleParserState` to indicate the problem
+
     Requirements for font parsing:
         - require at least 2 lines
         - size(headline) 120% of next line
         - title greater than `MIN_TITLE_FONT_SIZE`
-
-    Args:
-        textnavigator(PageTextNavigator):
-    Returns:
-        parsed title if properties matches to given rules
-        If not, return `TitleParserState` to indicate the problem
     """
     sizes = []
     for item in textnavigator:
-        textbounds = bounds_to_textbounds(
-            item.bounding,
-            item.text,
-        )
-        fontsize = textbounds.fontsize
+        fontsize = hey.textnavigator.style.TextStyle.textsizes(item.style)
         sizes.append((fontsize, item.text))
-
-    sizes = sorted(sizes, reverse=True)
 
     if len(sizes) <= 2:
         return TitleParserState.NOT_ENOUGH_LINES
+
+    sizes = sorted(sizes, reverse=True)
 
     detected_size = sizes[0][0]
     next_size = sizes[1][0]

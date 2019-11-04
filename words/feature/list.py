@@ -114,7 +114,7 @@ def process_page(pagecontent, contentborder: iamraw.Border):
 
 
 def extract_lists(
-        page: hey.textnavigator.fonts.TextBoundsList,
+        page: hey.textnavigator.navigator.PageTextNavigator,
         pagesize: iamraw.Border,
         uindex=None,
         # textnavigator  #PageTextContentNavigator,
@@ -128,10 +128,8 @@ def extract_lists(
         pagesize(Border): size of current page [left bottom right top]
     """
     # TODO: MAX_Y_MERGE IS VERY INSTABLE
-    assert all([
-        isinstance(item, hey.textnavigator.navigator.TextBoundsInfo)
-        for item in page
-    ]), str(page)
+    assert hey.textnavigator.is_navigator(page), type(page)
+
     page, merged = hey.textnavigator.navigator.merge_content(
         page,
         max_y_merge=15,  # TODO: HOLY VALUE

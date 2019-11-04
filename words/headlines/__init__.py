@@ -80,10 +80,9 @@ class HeadlineExtractorStrategy(abc.ABC):
 
     def setup(self):
         """Run before starting extraction."""
-        self.textsize = hey.textnavigator.fonts.document_textsize_common(
-            navigators=self.pagetextnavigators,
-            borders=self.sizeandborder,
-        )
+        self.textsize = hey.textnavigator.fonts.document_textsize(
+            navigators=self.pagetextnavigators,)
+
         self.textdistance = hey.textnavigator.fonts.document_textdistance(
             navigators=self.pagetextnavigators,
             borders=self.sizeandborder,
@@ -128,7 +127,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         textdistances = hey.textnavigator.fonts.fontdistance_textbounds(
             without_content)
         for containerid, item in enumerate(
-                bounds,
+                pagecontent,
                 start=xoff,
         ):
             splitted = item.text.splitlines()
@@ -136,7 +135,6 @@ class HeadlineExtractorStrategy(abc.ABC):
                 continue
             headline = self.extract_headline(
                 textinfo=item,
-                textbounds=item.bounds,
                 textdistances=textdistances,
                 page=page,
                 containerid=containerid,
@@ -150,7 +148,6 @@ class HeadlineExtractorStrategy(abc.ABC):
     def extract_headline(
             self,
             textinfo,
-            textbounds,
             textdistances,
             page,
             containerid,
@@ -160,7 +157,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         contentstart, contentend = content_range
         distanceid = containerid - contentstart
         fontdistance = textdistances[distanceid]
-        textsize = textbounds.fontsize
+        textsize = hey.textnavigator.style.TextStyle.textsizes(textinfo.style)
 
         distance_tosmall = fontdistance < self.smallest_headlinedistance()
         headline_tosmall = textsize < self.smallest_textsize()

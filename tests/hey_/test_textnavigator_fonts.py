@@ -8,10 +8,8 @@
 # =============================================================================
 
 from hey.textnavigator.fonts import fontdistance
-from hey.textnavigator.fonts import fontsizes
 from hey.textnavigator.fonts import textbounds
-from hey.textnavigator.fonts import textsize
-from hey.textnavigator.navigator import navigator_to_bounds
+from hey.textnavigator.fonts import textsize_from_page
 #pylint:disable=W0611
 from tests.fixtures.simple import simple_contentborder
 from tests.fixtures.simple import simple_document
@@ -24,7 +22,7 @@ def test_groupme_fonts_fontdistance(simple_second_page_navigator):  #pylint:disa
     content = simple_second_page_navigator
     # if you have 3 item, you have 2 distances A -> B, B-> C
     distance_count = len(content) - 1
-    bounds = navigator_to_bounds(content)
+    bounds = [item.bounding for item in content]
     distances = fontdistance(bounds)
 
     assert len(distances) == distance_count
@@ -52,11 +50,6 @@ def test_groupme_fonts_textbounds(
 
 def test_groupme_fonts_textsize(
         simple_second_page_navigator,  #pylint:disable=W0621
-        simple_second_page_size,  #pylint:disable=W0621
 ):
-    bounds = textbounds(simple_second_page_navigator, simple_second_page_size)
-
-    sizes = fontsizes(bounds)
-    common_size = textsize(sizes)
-
-    assert common_size == 13
+    common_size = textsize_from_page(simple_second_page_navigator)
+    assert common_size == 9.96

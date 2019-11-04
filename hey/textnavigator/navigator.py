@@ -144,21 +144,6 @@ class PageTextNavigator:
         top, bottom = result[0], result[-1] + 1
         return top, bottom
 
-    @classmethod
-    def from_str(cls, text: str):
-        """Create PageTextNavigator out of text area
-
-        Hint:
-            text position is not supported
-        """
-        # TODO: REMOVE THIS METHOD?
-        result = cls()
-        for index, line in enumerate(text.splitlines()):
-            bounding = iamraw.BoundingBox.from_list(
-                [0, index * 20, 300, (index + 1) * 20])
-            result.insert(bounding, line)
-        return result
-
 
 class PageTextContentNavigator:
     """Iterate over page content without footer and header.
@@ -280,6 +265,25 @@ def create_pagetextnavigators_frompath(path: str, pages=None):
     return navigators
 
 
+def create_pagetextnavigator_formstr(content: str, fontsize=12.0):
+    result = PageTextNavigator()
+    for index, line in enumerate(content.splitlines()):
+        bounding = iamraw.BoundingBox(
+            x0=50,
+            y0=100 + index * 20,
+            x1=200,
+            y1=100 + (index + 1) * 20,
+        )
+        content = [hey.textnavigator.style.CharStyle(0, len(line), fontsize, 0)]
+        style = hey.textnavigator.style.TextStyle(content=content)
+        result.insert(
+            text=line,
+            box=bounding,
+            style=style,
+        )
+    return result
+
+
 def topbottom(size: iamraw.PageSize, contentborder: iamraw.Border):
     height = size.height
     top, bottom = contentborder.top, contentborder.bottom
@@ -312,6 +316,12 @@ def percent_to_pagesize(
 def percent_from_pagesize(size, current) -> float:
     """Determine the percentage value of a pagesize
 
+    Args:
+        size(float): size of current page
+        current(float): position on page
+    Returns:
+        value in percent in range of [0.0, 1.0]
+
     Example:
         size    500
         current 100
@@ -319,12 +329,6 @@ def percent_from_pagesize(size, current) -> float:
 
     Hint:
         The max size start at the top of the page.
-
-    Args:
-        size(float): size of current page
-        current(float):
-    Returns:
-        value in percent in range of [0.0, 1.0]
     """
     assert size > 0
     assert size >= current

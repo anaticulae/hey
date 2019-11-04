@@ -7,7 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import collections
 import dataclasses
 import statistics
 import typing
@@ -16,6 +15,7 @@ import iamraw
 import utila
 
 import hey.textnavigator
+import hey.textnavigator.style
 import hey.utils
 
 
@@ -25,7 +25,6 @@ class TextBounds:
     ydist: int
     width: int
     height: int
-    fontsize: int
 
 
 @dataclasses.dataclass
@@ -99,16 +98,13 @@ def bounds_to_textbounds(
     if contentborder is None:
         contentborder = iamraw.Border(left=0, right=None, top=0, bottom=None)
     x0, y0, x1, y1 = bounds
-    lines = len(item.splitlines())
-    xdist, ydist, width, height, fontsize = (
+    xdist, ydist, width, height = (
         int(x0 - contentborder.left),
         int(y0 - contentborder.top),
         int(x1 - x0),
         int(y1 - y0),
-        int((y1 - y0) / lines) if lines else 0,
-        # TODO: Improve font size calculation
     )
-    return TextBounds(xdist, ydist, width, height, fontsize)
+    return TextBounds(xdist, ydist, width, height)
 
 
 def textbounds(
@@ -136,23 +132,6 @@ def textbounds(
     return result
 
 
-def fontsizes(items: TextBoundsList) -> FontOccurrenceList:
-    """Return a list of [fontsize, occurence] of the current page"""
-    sizes = collections.defaultdict(int)
-    for item in items:
-        fontsize = item.bounds.fontsize
-        chars = sum([len(item) for item in item.text])
-        sizes[fontsize] += chars
-
-    # TODO: move to general package
-    common = sum(sizes.values())
-    result = [(
-        size,
-        utila.roundme(occurence / common),
-    ) for size, occurence in sizes.items()]
-    return result
-
-
 def textsize(occurrences: FontOccurrenceList) -> int:
     """Compute size of text"""
     mostly = sorted(occurrences, key=lambda item: item[1], reverse=True)
@@ -163,39 +142,28 @@ def textsize(occurrences: FontOccurrenceList) -> int:
     return size
 
 
-def textsizes_from_textbounds(
-        navigator: 'PageTextNavigator',
-        content: iamraw.Border,
-) -> int:
-    assert hey.textnavigator.is_navigator(navigator), type(navigator)
-    text_bounds = textbounds(navigator, content.border)
-    font_sizes = fontsizes(text_bounds)
-    return font_sizes
+def textsize_from_page(navigator: 'PageTextNavigator') -> float:
+    collected = []
+    for line in navigator:
+        fontsizes = hey.textnavigator.style.TextStyle.textsizes(
+            line.style,
+            method=lambda x: x,  # do not filter anything
+        )
+        collected.extend(fontsizes)
+    return statistics.mode(collected)
 
 
-def textsize_from_textbounds_common(
-        navigator: 'PageTextNavigator',
-        content: iamraw.Border,
-) -> int:
-    assert hey.textnavigator.is_navigator(navigator), type(navigator)
-    result = textsizes_from_textbounds(navigator, content)
-    return textsize(result)
-
-
-def document_textsize(navigators, borders: typing.List[iamraw.Border]) -> int:
+def document_textsize(navigators) -> float:
     """Determine the most common text size"""
-    result = []
-    for _, (navigator, contentborder) in hey.utils.sync([navigators, borders]):
-        size = textsize_from_textbounds_common(navigator, contentborder)
-        result.append(size)
-    return result
-
-
-def document_textsize_common(navigators,
-                             borders: typing.List[iamraw.Border]) -> int:
-    """Determine the most common text size"""
-    result = document_textsize(navigators, borders)
-    return statistics.mode(result)
+    collected = []
+    for navigator in navigators:
+        for line in navigator:
+            fontsizes = hey.textnavigator.style.TextStyle.textsizes(
+                line.style,
+                method=lambda x: x,  # do not filter anything
+            )
+            collected.extend(fontsizes)
+    return statistics.mode(collected)
 
 
 def document_textdistance(navigators,

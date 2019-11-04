@@ -32,6 +32,12 @@ class TextStyle:
     def __len__(self):
         return len(self.content)
 
+    @classmethod
+    def textsizes(cls, item: 'TextStyle', method=max):
+        assert isinstance(item, cls), type(item)
+        result = [char.size for char in item.content]
+        return method(result)
+
 
 @dataclasses.dataclass
 class TextInfo:
@@ -44,7 +50,7 @@ class TextInfo:
         return cls(text=item.text, bounding=item.bounding, style=item.style)
 
 
-def create_textstyle(chars: typing.List[iamraw.Char]):
+def create_textstyle(chars: typing.List[iamraw.Char]) -> TextStyle:
     if not chars:
         return []
     start, size, rise = 0, chars[0].size, chars[0].rise
@@ -68,4 +74,4 @@ def create_textstyle(chars: typing.List[iamraw.Char]):
             rise=rise,
         )
         result.append(style)
-    return result
+    return TextStyle(content=result)
