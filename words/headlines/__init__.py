@@ -10,6 +10,7 @@ import abc
 import typing
 
 import iamraw
+import iamraw.sections
 import utila
 
 import hey.fonts.store
@@ -29,7 +30,7 @@ class HeadlineExtractorStrategy(abc.ABC):
 
     def __init__(
             self,
-            sectionlist: typing.List[sections.feature.sections.Sections],
+            sectionlist: 'typing.List[sections.feature.sections.Sections]',
             pagetextnavigators: hey.textnavigator.navigator.PageTextNavigators,
             fontstore: hey.fonts.store.FontStore,
             sizeandborder,
@@ -218,7 +219,7 @@ class HeadlineExtractorStrategy(abc.ABC):
 
 
 def prepare_chapter_and_content(sections_, chapter):
-    assert isinstance(sections_, sections.feature.sections.Sections)
+    assert isinstance(sections_, iamraw.Sections)
     assert sections_, 'no sections provided'
     if chapter is None:
         # process all chapter
@@ -312,8 +313,7 @@ def convert_level(result: iamraw.PagesHeadlineList) -> int:
 def determine_content_border(items):
     # analyze all chapter of the document
     contents = [
-        item for item in items
-        if isinstance(item, sections.feature.sections.Content)
+        item for item in items if isinstance(item, iamraw.sections.Content)
     ]
     # support more than one content element
     chapters = [[

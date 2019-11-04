@@ -9,41 +9,26 @@
 
 import dataclasses
 import typing
-from typing import List
 
 import iamraw
-from iamraw.sections import AreaItem
-from iamraw.sections import Chapter
-from iamraw.sections import Content
-from iamraw.sections import DocumentSection
-from iamraw.sections import Index
-from iamraw.sections import Introduction
-from iamraw.sections import Sections
-from iamraw.sections import Table
-from iamraw.sections import TableOfContent
-from iamraw.sections import Text
-from iamraw.sections import TitlePage
-from iamraw.sections import Unknown
-from iamraw.sections import WhitePage
-from serializeraw import dump_sections
-from serializeraw import load_likelihood
-from utila import Flag
-from utila import checkdatatype
+import iamraw.sections
+import serializeraw
+import utila
 
 import hey
-from sections.feature.whitepage import load_whitepages
+import sections.feature.whitepage
 
 MIN_FEATURE_TRUST = 0.4  # Holy value
 
 
-@checkdatatype
+@utila.checkdatatype
 def work(
         chapter: str,
         index: str,
         title: str,
         toc: str,
         whitepage: str,
-        pages=None,
+        pages: list = None,
 ) -> str:
     """Combine different featuretypes to determine the page type with more
     confidence.
@@ -54,10 +39,10 @@ def work(
         title(str): path to title extraction
         toc(str): path to toc extraction
         whitepage(str): path to whitepage extraction
-    Retruns:
+        pages: select pages for processing
+    Returns:
         dumped `Section`
     """
-
     # TODO: Add @checkfile decorator to utila, to ensure that files exists
     # TODO: Investigate add check if raw content or file path is used
     loaded = load_features(
@@ -72,7 +57,7 @@ def work(
     extracted = extract_sections(loaded)
 
     # save
-    dumped = dump_sections(extracted)
+    dumped = serializeraw.dump_sections(extracted)
     return dumped
 
 
@@ -82,10 +67,11 @@ class SectionsRequiredResources:
     index: iamraw.PageContentLikelihoods
     title: iamraw.PageContentLikelihoods
     toc: iamraw.PageContentLikelihoods
-    whitepage: typing.List[WhitePage]
+    whitepage: typing.List[iamraw.sections.WhitePage]
 
 
-def extract_sections(loaded: SectionsRequiredResources) -> Sections:
+
+def extract_sections(loaded: SectionsRequiredResources) -> iamraw.sections.Sections: # yapf:disable
     result = {}
     for number, content in hey.utils.sync([
             loaded.chapter,
@@ -101,7 +87,11 @@ def extract_sections(loaded: SectionsRequiredResources) -> Sections:
         if not max_item or max_item.content.value < MIN_FEATURE_TRUST:
             # if trust is to low, the feature is not charactaristical enough,
             # therefore the page is treated as a normal text page
-            result[number] = Text(start=number, end=number, trust=1.0)
+            result[number] = iamraw.sections.Text(
+                start=number,
+                end=number,
+                trust=1.0,
+            )
             continue
         ctor = BUILDER[content.index(max_item)]
         result[number] = ctor(
@@ -114,11 +104,11 @@ def extract_sections(loaded: SectionsRequiredResources) -> Sections:
 
 
 BUILDER = [
-    Chapter,
-    Index,
-    TitlePage,
-    TableOfContent,
-    WhitePage,
+    iamraw.sections.Chapter,
+    iamraw.sections.Index,
+    iamraw.sections.TitlePage,
+    iamraw.sections.TableOfContent,
+    iamraw.sections.WhitePage,
 ]
 
 
@@ -128,8 +118,11 @@ def is_new_area(current, next_):
     return current_class != next_class
 
 
-def group_sections(items: List[AreaItem]) -> Sections:
-    result = Sections()
+AreaItems = typing.List[iamraw.sections.AreaItem]
+
+
+def group_sections(items: AreaItems) -> iamraw.sections.Sections:
+    result = iamraw.sections.Sections()
     current = None
     chapter = 1
     for page, item in items.items():
@@ -140,40 +133,57 @@ def group_sections(items: List[AreaItem]) -> Sections:
         else:
             # increase section end
             current.end = page
-        if isinstance(item, Chapter):
+        if isinstance(item, iamraw.sections.Chapter):
             item.number = chapter
             chapter += 1
         current.content.append(item)
     return result
 
 
+# do not change DocumentSection
+# iamraw.sections.DocumentSection
+#       iamraw.sections.Text
+#       iamraw.sections.WhitePage:
 MATCHING = {
-    Chapter: Content,
-    Index: Table,
-    TableOfContent: Table,
-    Text: DocumentSection,  # do not change DocumentSection
-    TitlePage: Introduction,
-    WhitePage: DocumentSection  # do not change DocumentSection
+    iamraw.sections.Chapter: iamraw.sections.Content,
+    iamraw.sections.Index: iamraw.sections.Table,
+    iamraw.sections.TableOfContent: iamraw.sections.Table,
+    iamraw.sections.Text: iamraw.sections.DocumentSection,
+    iamraw.sections.TitlePage: iamraw.sections.Introduction,
+    iamraw.sections.WhitePage: iamraw.sections.DocumentSection
 }
 
 
-def determine_document_section(current: DocumentSection, actual: AreaItem):
+def determine_document_section(
+        current: iamraw.sections.DocumentSection,
+        actual: iamraw.sections.AreaItem,
+):
     next_ = MATCHING[type(actual)]
-    if next_ == DocumentSection:
+    if next_ == iamraw.sections.DocumentSection:
         if not current:
-            return Unknown
+            return iamraw.sections.Unknown
         return current
     return next_
 
 
-def load_features(chapter, index, title, toc, whitepage, pages=None):
-    chapter = load_likelihood(chapter, pages=pages)
+def load_features(
+        chapter,
+        index,
+        title,
+        toc,
+        whitepage,
+        pages=None,
+):
+    chapter = serializeraw.load_likelihood(chapter, pages=pages)
 
-    index = load_likelihood(index, pages=pages)
-    title = load_likelihood(title, pages=pages)
-    toc = load_likelihood(toc, pages=pages)
+    index = serializeraw.load_likelihood(index, pages=pages)
+    title = serializeraw.load_likelihood(title, pages=pages)
+    toc = serializeraw.load_likelihood(toc, pages=pages)
 
-    whitepage = load_whitepages(whitepage, pages=pages)
+    whitepage = sections.feature.whitepage.load_whitepages(
+        whitepage,
+        pages=pages,
+    )
 
     result = SectionsRequiredResources(
         chapter=chapter,
@@ -185,8 +195,10 @@ def load_features(chapter, index, title, toc, whitepage, pages=None):
     return result
 
 
-def chapters(sections: Sections):
-    content = [item for item in sections if isinstance(item, Content)]
+def chapters(sections: iamraw.sections.Sections):
+    content = [
+        item for item in sections if isinstance(item, iamraw.sections.Content)
+    ]
     if not content:
         # no content in document
         return []
@@ -200,7 +212,7 @@ def chapters(sections: Sections):
 
 
 def commandline():
-    return Flag(
+    return utila.Flag(
         longcut=name(),
         message='extract document structure from pdf file',
     )
