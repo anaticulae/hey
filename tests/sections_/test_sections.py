@@ -13,11 +13,11 @@ from serializeraw import dump_sections
 from serializeraw import load_likelihood
 from serializeraw import load_sections
 
-import sections.feature.sections
+import sections.feature.section
 # from sections.sections import extract_sections
 from sections.creator import validate
-from sections.feature.sections import chapters
-from sections.feature.sections import extract_sections
+from sections.feature.section import chapters
+from sections.feature.section import extract_sections
 from sections.feature.whitepage import load_whitepages
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_chapter
@@ -75,7 +75,7 @@ def test_sections_extract_sections_restructured(
     toc = load_likelihood(restructured_toc)
     whitepage = load_whitepages(restructured_whitepage)
 
-    loaded = sections.feature.sections.SectionsRequiredResources(
+    loaded = sections.feature.section.SectionsRequiredResources(
         chapter=chapter,
         index=index,
         title=title,
@@ -120,7 +120,7 @@ def test_sections_extract_sections_simple(
     toc = load_likelihood(simple_toc)
     whitepage = load_whitepages(simple_whitepage)
 
-    loaded = sections.feature.sections.SectionsRequiredResources(
+    loaded = sections.feature.section.SectionsRequiredResources(
         chapter=chapter,
         index=index,
         title=title,

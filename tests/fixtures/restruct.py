@@ -34,7 +34,7 @@ from sections.creator import add_toc
 from sections.creator import add_whitepage
 from sections.feature.chapter import work as chapter_work
 from sections.feature.index import work as index_work
-from sections.feature.sections import work as section_work
+from sections.feature.section import work as section_work
 from sections.feature.title import work as title_work
 from sections.feature.toc import work as toc_work
 from sections.feature.whitepage import work as whitepage_work

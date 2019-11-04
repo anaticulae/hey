@@ -26,7 +26,7 @@ WORKPLAN = [
     step(
         HEADLINE_STEP,
         inputs=[
-            ResultFile('sections', 'sections_result'),
+            ResultFile('sections', 'section_result'),
             ResultFile('rawmaker', 'text_text'),
             ResultFile('rawmaker', 'text_positions'),
             ResultFile('rawmaker', 'fonts_header'),

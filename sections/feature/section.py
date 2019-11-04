@@ -70,8 +70,7 @@ class SectionsRequiredResources:
     whitepage: typing.List[iamraw.sections.WhitePage]
 
 
-
-def extract_sections(loaded: SectionsRequiredResources) -> iamraw.sections.Sections: # yapf:disable
+def extract_sections(loaded: SectionsRequiredResources) -> iamraw.Sections:
     result = {}
     for number, content in hey.utils.sync([
             loaded.chapter,
@@ -121,8 +120,8 @@ def is_new_area(current, next_):
 AreaItems = typing.List[iamraw.sections.AreaItem]
 
 
-def group_sections(items: AreaItems) -> iamraw.sections.Sections:
-    result = iamraw.sections.Sections()
+def group_sections(items: AreaItems) -> iamraw.Sections:
+    result = iamraw.Sections()
     current = None
     chapter = 1
     for page, item in items.items():
@@ -195,7 +194,7 @@ def load_features(
     return result
 
 
-def chapters(sections: iamraw.sections.Sections):
+def chapters(sections: iamraw.Sections):
     content = [
         item for item in sections if isinstance(item, iamraw.sections.Content)
     ]
@@ -219,4 +218,4 @@ def commandline():
 
 
 def name():
-    return 'sections'
+    return 'section'

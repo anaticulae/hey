@@ -16,7 +16,7 @@ import utila
 import hey.fonts.store
 import hey.textnavigator.fonts
 import hey.textnavigator.navigator
-import sections.feature.sections
+import sections.feature.section
 import words.utils.skipper
 
 WHITELIST = set([
@@ -30,7 +30,7 @@ class HeadlineExtractorStrategy(abc.ABC):
 
     def __init__(
             self,
-            sectionlist: 'typing.List[sections.feature.sections.Sections]',
+            sectionlist: typing.List[iamraw.Sections],
             pagetextnavigators: hey.textnavigator.navigator.PageTextNavigators,
             fontstore: hey.fonts.store.FontStore,
             sizeandborder,
@@ -227,7 +227,7 @@ def prepare_chapter_and_content(sections_, chapter):
         content = determine_content_border(sections_)
         chapter = list(range(len(content)))
     else:
-        content = sections.feature.sections.chapters(sections_)
+        content = sections.feature.section.chapters(sections_)
         chapter = [chapter] if isinstance(chapter, int) else chapter
     return chapter, content
 

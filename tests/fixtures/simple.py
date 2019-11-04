@@ -16,7 +16,7 @@ import hey.fonts.store
 import hey.textnavigator.navigator
 import sections.feature.chapter
 import sections.feature.index
-import sections.feature.sections
+import sections.feature.section
 import sections.feature.title
 import sections.feature.toc
 import sections.feature.whitepage
@@ -201,7 +201,7 @@ def simple_sections():
         tests.resources.SIMPLE_TEXT_POSITION,
         tests.resources.SIMPLE_FOOTERS,
     )
-    result = sections.feature.sections.work(
+    result = sections.feature.section.work(
         chapter,
         index,
         title,

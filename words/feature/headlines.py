@@ -72,7 +72,6 @@ def work(
         pages=pages,
     )
     sections = words.utils.sections.load_sections(sections, pages=pages)
-
     strategies = [
         words.headlines.standard.StandardHeadlineExtractor,
         words.headlines.nolevel.NoLevelHeadlineExtractor,

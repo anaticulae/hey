@@ -63,7 +63,7 @@ WORKPLAN = [
         output=('likelihood',),
     ),
     step(
-        'sections',
+        'section',
         inputs=[
             ResultFile('sections', 'chapter_likelihood'),
             ResultFile('sections', 'index_likelihood'),
