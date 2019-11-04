@@ -53,17 +53,16 @@ class PageTextNavigator:
             style: hey.textnavigator.style.TextStyle,
             bounding: iamraw.BoundingBox,
     ):
-        """Insert text element top to bottom and left to right
+        """Insert text element top to bottom and left to right.
 
         Args:
             text(str): content of text chunk
             style: style for every character of `text`
             bounding(iamraw.BoundingBox): position and dimension of text area
         """
-        x0, y0, x1, y1 = box
-        msg = '0<=%d<=%d<=%d'
-        assert 0 <= x0 <= x1 <= self.width, msg % (x0, x1, self.width)
-        assert 0 <= y0 <= y1 <= self.height, msg % (y0, y1, self.height)
+        x0, y0, x1, y1 = bounding
+        assert 0 <= x0 <= x1 <= self.width, f'0<={x0}<={x1}<={self.width}'
+        assert 0 <= y0 <= y1 <= self.height, f'0<={y0}<={y1}<={self.height}'
 
         position = 0
         for item in self.data:
