@@ -32,6 +32,10 @@ class TextBoundsInfo:
     text: str
     bounds: TextBounds
 
+    # TODO: Activate me for hunting bugs
+    # def __post_init__(self):
+    #     assert isinstance(self.bounds, TextBounds)
+
 
 TextBoundsList = typing.List[TextBoundsInfo]
 
