@@ -51,7 +51,7 @@ def navigator() -> PageTextNavigator:
     dimension = document_size([item for _, item in SAMPLE])
     result = PageTextNavigator(dimension)
     for item, position in SAMPLE:
-        result.insert(position, item)
+        result.insert(bounding=position, text=item, style=None)
     assert len(result) == len(SAMPLE)
     return result
 

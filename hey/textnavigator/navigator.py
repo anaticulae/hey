@@ -49,16 +49,16 @@ class PageTextNavigator:
 
     def insert(
             self,
-            box: iamraw.BoundingBox,
             text: str,
-            style: hey.textnavigator.style.TextStyle = None,
+            style: hey.textnavigator.style.TextStyle,
+            bounding: iamraw.BoundingBox,
     ):
         """Insert text element top to bottom and left to right
 
         Args:
-            box(iamraw.BoundingBox): position and dimension of text area
             text(str): content of text chunk
             style: style for every character of `text`
+            bounding(iamraw.BoundingBox): position and dimension of text area
         """
         x0, y0, x1, y1 = box
         msg = '0<=%d<=%d<=%d'
@@ -76,7 +76,7 @@ class PageTextNavigator:
             position += 1
         datum = hey.textnavigator.style.TextInfo(
             text=text,
-            bounding=box,
+            bounding=bounding,
             style=style,
         )
         self.data.insert(position, datum)
@@ -237,9 +237,9 @@ def create_pagetextnavigators(
                 style = hey.textnavigator.style.create_textstyle(line.chars)
                 # TODO: Remove strip after container is fixed
                 navigator.insert(
-                    bounding,
                     text=line.text.strip(),
                     style=style,
+                    bounding=bounding,
                 )
             textid += 1
         result.append(navigator)
@@ -298,7 +298,7 @@ def create_pagetextnavigator_formstr(content: str, fontsize=12.0):
         style = hey.textnavigator.style.TextStyle(content=content)
         result.insert(
             text=line,
-            box=bounding,
+            bounding=bounding,
             style=style,
         )
     return result

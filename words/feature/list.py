@@ -140,7 +140,7 @@ def extract_lists(
     # TODO: REMOVE THIS CONVERTION
     ptn = hey.textnavigator.navigator.PageTextNavigator()
     for item in page_str:
-        ptn.insert(item.bounds, item.text)
+        ptn.insert(bounding=item.bounds, text=item.text)
 
     text_bounds = hey.textnavigator.fonts.textbounds(
         ptn,
