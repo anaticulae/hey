@@ -8,13 +8,13 @@
 # =============================================================================
 """Store experimental code here"""
 
-from random import shuffle
+import random
 
 import iamraw
-from utila import INF
+import utila
 
 
-def choose_random(items, count: int = 5):
+def choose_random(items, count: int = 5) -> list:
     """Chose `count` random items of a collection
 
     Hint:
@@ -28,7 +28,7 @@ def choose_random(items, count: int = 5):
       """
 
     items = list(items)  # create a copy
-    shuffle(items)
+    random.shuffle(items)
     return items[0:count]
 
 
@@ -73,7 +73,7 @@ def sync(iterators):
 
 def page(item):
     if item is None:
-        return INF
+        return utila.INF
     try:
         return item.page
     except AttributeError:
