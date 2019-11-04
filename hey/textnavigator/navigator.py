@@ -92,40 +92,57 @@ class PageTextNavigator:
     def dimension(self):
         return iamraw.PageSize(width=self.width, height=self.height)
 
-    def before(self, height: float, width=0.0):
+    def before(self, height: float, width: float = END) -> list:
         """Determine elements on the top of the document
 
         Args:
             height(float[0.0,1.0]): 0.0 is top, 1.0 is bottom
+            width: marker from left to right, return elements [0.0 width]
         Returns:
-            List[(position, PageObjects)]
+            list of `TextInfo`
         """
-        result = self.between(START, height)
+        result = self.between(START, height, left=START, right=width)
         return result
 
-    def between(self, top: float, bottom: float):
+    def between(
+            self,
+            top: float,
+            bottom: float,
+            left: float = START,
+            right: float = END,
+    ) -> list:
         """Return the content between top(0.0) and bottom(1.0) position.
 
         Args:
-            top(float):
-            bottom(float):
+            top(float): accepted content after top mark
+            bottom(float): accepted content before bottom mark
+            left(float): accepted content after left mark
+            right(float): accepted content before right mark
         Returns:
-            List[(position, content)]
+            list of `TextInfo`
         """
         assert START <= top <= bottom <= END, f'{START}<={top}<={bottom}<={END}'
+        assert START <= left <= right <= END, f'{START}<={left}<={right}<={END}'
+
         before = top * self.height
         after = bottom * self.height
+        beforeleft = left * self.width
+        afterright = right * self.width
+
         result = []
         for item in self.data:
             bounding = item.bounding
             # before and after are pixel coordinates
-            if before <= bounding.y0 <= bounding.y1 <= after:
-                result.append(hey.textnavigator.style.TextInfo.copy(item))
+            if not before <= bounding.y0 <= bounding.y1 <= after:
+                continue
+            if not beforeleft <= bounding.x0 <= bounding.x1 <= afterright:
+                continue
+            result.append(hey.textnavigator.style.TextInfo.copy(item))
         return result
 
-    def after(self, height, width=0.0):
+    def after(self, height, width=START):
         """Determine elements on the bottom of the page"""
-        result = self.between(height, END)
+        result = self.between(height, END, width, END)
         return result
 
     def offset(self, top: float, bottom: float) -> typing.Tuple[int, int]:
