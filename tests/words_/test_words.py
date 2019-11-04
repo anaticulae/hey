@@ -60,7 +60,6 @@ def restructured_words(
     return result
 
 
-@pytest.mark.xfail
 def test_words_dump_and_load_words_result(
         restructured_words,
         restructured_headlines,

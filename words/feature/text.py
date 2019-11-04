@@ -305,11 +305,12 @@ def squeeze_text_page(page):
     for (headline, sequence) in page:
         lines = []
         for seq in sequence:
-            # TODO: CHGECK HERE FOR FIXING BOXING
-            if seq.content is None:
-                continue
             if not isinstance(seq, iamraw.Paragraph):
                 lines.append('%du' % seq.container)
+                continue
+            # skip here to ensure that Undefined Container is added which
+            # does not have any content, see commit.
+            if seq.content is None:
                 continue
             line = ''.join([item for (item, _) in seq.content])
             line = line.replace(utila.NEWLINE, SPACE)

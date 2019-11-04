@@ -82,7 +82,6 @@ def simple_second_page_merged_content(simple_second_page_navigator,
     return merged
 
 
-@pytest.mark.xfail
 def test_words_list_navigator_extract_lists(
         simple_second_page_merged_content,
         simple_second_page_size,
@@ -257,7 +256,6 @@ def test_words_list_dotted_with_content_only():
     assert parsed == ['Index Page', 'Support', 'Changelog']
 
 
-@pytest.mark.xfail
 def test_words_list_work(restructured_list_dumped):
     dumped_list = restructured_list_dumped
     assert len(dumped_list) > 400, str(dumped_list)

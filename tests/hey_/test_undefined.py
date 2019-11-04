@@ -26,11 +26,10 @@ RESTRUCTURED_NON_TEXTUAL_PAGE = 10
 
 
 # pylint:disable=W0621
-@pytest.mark.xfail
 def test_extract_undefined(
+        restructured_textexample,
         restructured_text,
         restructured_text_positions,
-        restructured_textexample,
         restructured_contentborder,
 ):
     """Text replacing the undefined items with content"""

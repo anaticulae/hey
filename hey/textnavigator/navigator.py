@@ -438,8 +438,10 @@ def merge_content(
         )
 
     result = [
-        hey.textnavigator.fonts.TextBoundsInfo(text=item[1], bounds=item[0])
-        for item in result
+        hey.textnavigator.fonts.TextBoundsInfo(
+            text=item[1],
+            bounds=item[0],
+        ) for item in result
     ]
     return result, merged
 

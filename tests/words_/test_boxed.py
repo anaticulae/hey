@@ -18,7 +18,6 @@ from words.feature.boxed import dump_boxedcontent
 from words.feature.boxed import load_boxedcontent
 
 
-@pytest.mark.xfail
 def test_words_boxed_work(
         # pylint:disable=W0621
         restructured_boxed):

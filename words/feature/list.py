@@ -117,7 +117,6 @@ def extract_lists(
         page: hey.textnavigator.navigator.PageTextNavigator,
         pagesize: iamraw.Border,
         uindex=None,
-        # textnavigator  #PageTextContentNavigator,
 ) -> typing.List[iamraw.PageList]:
     """Extract lists out of document page. There are different types of Lists.
 
@@ -128,25 +127,15 @@ def extract_lists(
         pagesize(Border): size of current page [left bottom right top]
     """
     # TODO: MAX_Y_MERGE IS VERY INSTABLE
-    assert hey.textnavigator.is_navigator(page), type(page)
+    # assert hey.textnavigator.is_navigator(page), type(page)
 
     page, merged = hey.textnavigator.navigator.merge_content(
         page,
         max_y_merge=15,  # TODO: HOLY VALUE
         uindex=uindex,
     )
-    page_str = hey.textnavigator.navigator.merge_content_join(page)
+    text_bounds = hey.textnavigator.navigator.merge_content_join(page)
 
-    # TODO: REMOVE THIS CONVERTION
-    ptn = hey.textnavigator.navigator.PageTextNavigator()
-    for item in page_str:
-        ptn.insert(bounding=item.bounds, text=item.text)
-
-    text_bounds = hey.textnavigator.fonts.textbounds(
-        ptn,
-        pagesize,
-    )
-    # textsize = textsize_from_textbounds(page, pagesize)
     result = []
     enumerated = enumerate(zip(text_bounds, merged))
     for paraindex, (paragraph, mergearea) in enumerated:
@@ -157,7 +146,8 @@ def extract_lists(
         #     # Schriftgroesse, da der Zeilenabstand nicht beruecksichtigt wird
         #     # Collect lists only in text, avoid collecting in headlines
         #     continue
-        feed = bounds.xdist
+        # TODO: FIX FEED
+        # feed = paragraph.bounds.xdist
         # if feed <= 0.0:
         #     # TODO: Improve this
         #     # no text feed
