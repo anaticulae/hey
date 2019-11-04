@@ -8,6 +8,7 @@
 # =============================================================================
 
 import pytest
+import utila
 
 import tests.groupme_
 import tests.resources
@@ -21,6 +22,7 @@ import tests.resources
     ['-i', tests.resources.PYPORTING, '-o', 'output'],
 ])
 @pytest.mark.usefixtures('testdir')
+@utila.skip_longrun
 def test_groupme_run_external(cmd, monkeypatch):
     """Run help and version and format command to reach basic test coverage"""
     tests.groupme_.run_success(cmd, monkeypatch=monkeypatch)
