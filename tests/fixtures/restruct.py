@@ -250,7 +250,7 @@ def restructured_textexample(restructured_headlines):  # pylint:disable=W0621
         headerfooters=tests.resources.RESTRUCT_FOOTERS,
         boxes=RESTRUCT_BOXES,
     )
-    extracted = text_extract_texts(*loaded)
+    extracted = text_extract_texts(loaded)
     assert extracted is not None
     return extracted
 

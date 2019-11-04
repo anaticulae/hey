@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import dataclasses
 import typing
 
 import iamraw
@@ -16,6 +17,15 @@ import hey.fonts.store
 import hey.textnavigator.navigator
 import words.boxed
 import words.headlines
+
+
+@dataclasses.dataclass
+class TextRequiredResources:
+    border: iamraw.Border
+    boxes: words.boxed.BoxedChecker
+    fontstore: hey.fonts.store.FontStore
+    headlines: iamraw.PagesHeadlineList
+    textnavigators: hey.textnavigator.navigator.PageTextNavigators
 
 
 def load_resources(
@@ -28,29 +38,41 @@ def load_resources(
         boxes: str,
         headerfooters: str,
         pages=None,
-):
+) -> TextRequiredResources:
     """Load content from path and create required object"""
     text = serializeraw.load_document(text, pages=pages)
     position = serializeraw.load_textpositions(text_position, pages=pages)
     headlines = serializeraw.load_headlines(headlines, pages=pages)
     boxes = serializeraw.load_boxes(boxes, pages=pages)
+
     fontstore = hey.fonts.store.create_fontstore(font_header, font_content)
+
     textnavigators = hey.textnavigator.navigator.create_pagetextnavigators(
         text=text,
         text_positions=position,
     )
     contentborder = serializeraw.load_pageborders(pagesizes, pages=pages)
+
     headerfooters = serializeraw.load_headerfooter(
         headerfooters,
         pages=pages,
     )
-    # contentborder = [(item.border, item.page) for item in contentborder]
+
     border = words.headlines.contentborder(
         contentborder,
         headerfooters,
     )
-    boxes = words.boxed.BoxedChecker(boxes)
-    return border, boxes, fontstore, headlines, textnavigators
+
+    boxed = words.boxed.BoxedChecker(boxes)
+
+    result = TextRequiredResources(
+        border=border,
+        boxes=boxed,
+        fontstore=fontstore,
+        headlines=headlines,
+        textnavigators=textnavigators,
+    )
+    return result
 
 
 def load_basic(

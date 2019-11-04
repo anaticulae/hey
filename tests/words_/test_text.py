@@ -179,7 +179,7 @@ def test_words_extract_texts_page_x(
         restructured_headlines,  # pylint:disable=W0621
 ):
     headlines = restructured_headlines
-    border, boxes, fontstore, headlines, textnavigators = load_resources(
+    loaded = load_resources(
         text=RESTRUCT_TEXT,
         text_position=RESTRUCT_TEXT_POSITION,
         font_header=RESTRUCT_FONT_HEADER,
@@ -198,12 +198,18 @@ def test_words_extract_texts_page_x(
             return 'u%d' % paragraph.container
 
     # fill headlines
-    headlines = fill_headlines(headlines)
+    headlines = fill_headlines(loaded.headlines)
     # ensure that all collect headlines are from page `current_page`
     current = headlines[current_headline]
     assert all([item.page == current_page for item in current])
 
-    analyzed = analyze_page(current, fontstore, textnavigators, border, boxes)
+    analyzed = analyze_page(
+        current,
+        loaded.fontstore,
+        loaded.textnavigators,
+        loaded.border,
+        loaded.boxes,
+    )
     page, (content) = analyzed
     assert page == current_page, 'wrong extracted page: %d' % page
 

@@ -78,7 +78,7 @@ def work(
         pages=pages,
     )
 
-    extracted = extract_texts(*resources)
+    extracted = extract_texts(resources)
 
     dumped = serializeraw.dump_text(extracted)
     return dumped
@@ -217,25 +217,18 @@ def prepare_analyze_page(
     return page, headlines, pcn, fontstore
 
 
-def extract_texts(
-        border: iamraw.Border,
-        boxes: words.boxed.BoxedChecker,
-        fontstore: hey.fonts.store.FontStore,
-        headlines,
-        textnavigators: hey.textnavigator.navigator.PageTextNavigators,
-):
+def extract_texts(loaded: words.feature.TextRequiredResources):
     result = []
-
     # fill headlines
-    headlines = fill_headlines(headlines)
+    headlines = fill_headlines(loaded.headlines)
     # start analyzing
     for headline in headlines:
         analyzed = analyze_page(
             headline,
-            fontstore,
-            textnavigators,
-            border,
-            boxes,
+            loaded.fontstore,
+            loaded.textnavigators,
+            loaded.border,
+            loaded.boxes,
         )
         _, content = analyzed
         if not content:
