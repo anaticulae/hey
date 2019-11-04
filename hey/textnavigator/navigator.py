@@ -285,7 +285,7 @@ def create_pagetextnavigators_frompath(path: str, pages=None):
     return navigators
 
 
-def create_pagetextnavigator_formstr(content: str, fontsize=12.0):
+def create_pagetextnavigator_fromstr(content: str, fontsize=12.0):
     result = PageTextNavigator()
     for index, line in enumerate(content.splitlines()):
         bounding = iamraw.BoundingBox(
