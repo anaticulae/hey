@@ -7,20 +7,13 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import iamraw.sections
+import iamraw
 import pytest
-from iamraw import Sections
-from pytest import xfail
-from serializeraw import dump_sections
-from serializeraw import load_likelihood
-from serializeraw import load_sections
+import serializeraw
 
+import sections.creator
 import sections.feature.section
-# from sections.sections import extract_sections
-from sections.creator import validate
-from sections.feature.section import chapters
-from sections.feature.section import extract_sections
-from sections.feature.whitepage import load_whitepages
+import sections.feature.whitepage
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_chapter
 from tests.fixtures.restruct import restructured_index
@@ -36,34 +29,34 @@ from tests.fixtures.simple import simple_toc
 from tests.fixtures.simple import simple_whitepage
 
 
-def test_sections_iterable():
+def test_section_iterable():
     """Create empty `Sections` and iterate over `Sections` and `AreaItem`s"""
-    document = Sections()
+    document = iamraw.Sections()
     for section in document:
         len(section)
         for item in section:  #pylint:disable=unused-variable
             pass
 
 
-def test_sections_dump_and_load_sections(restructured_sections_manual):  #pylint:disable=W0621
+def test_section_dump_and_load_sections(restructured_sections_manual):  #pylint:disable=W0621
     data = restructured_sections_manual
 
-    dumped = dump_sections(data)
+    dumped = serializeraw.dump_sections(data)
     assert dumped
 
-    loaded = load_sections(dumped)
+    loaded = serializeraw.load_sections(dumped)
     assert loaded
 
     assert loaded == data
 
 
-def test_validate_restructured(restructured_sections_manual):  #pylint:disable=W0621
-    validated = validate(restructured_sections_manual)
+def test_section_validate_restructured(restructured_sections_manual):  #pylint:disable=W0621
+    validated = sections.creator.validate(restructured_sections_manual)
     assert validated
 
 
 #pylint:disable=W0621
-def test_sections_extract_sections_restructured(
+def test_section_extract_sections_restructured(
         restructured_chapter,
         restructured_index,
         restructured_sections_manual,
@@ -71,11 +64,11 @@ def test_sections_extract_sections_restructured(
         restructured_toc,
         restructured_whitepage,
 ):
-    chapter = load_likelihood(restructured_chapter)
-    index = load_likelihood(restructured_index)
-    title = load_likelihood(restructured_title)
-    toc = load_likelihood(restructured_toc)
-    whitepage = load_whitepages(restructured_whitepage)
+    chapter = serializeraw.load_likelihood(restructured_chapter)
+    index = serializeraw.load_likelihood(restructured_index)
+    title = serializeraw.load_likelihood(restructured_title)
+    toc = serializeraw.load_likelihood(restructured_toc)
+    whitepage = sections.feature.whitepage.load_whitepages(restructured_whitepage) # yapf:disable
 
     loaded = sections.feature.section.SectionsRequiredResources(
         chapter=chapter,
@@ -84,7 +77,7 @@ def test_sections_extract_sections_restructured(
         toc=toc,
         whitepage=whitepage,
     )
-    result = extract_sections(loaded)
+    result = sections.feature.section.extract_sections(loaded)
     assert result
     for index, (actual, expected) in enumerate(
             zip(result, restructured_sections_manual)):
@@ -96,8 +89,8 @@ def test_sections_extract_sections_restructured(
     # assert result == restructured_sections
 
 
-def test_sections_chapters(restructured_sections_manual):
-    result = chapters(restructured_sections_manual)
+def test_section_chapters(restructured_sections_manual):
+    result = sections.feature.section.chapters(restructured_sections_manual)
 
     # start is lower or equal than end page size
     # start = item[0]
@@ -110,18 +103,18 @@ def test_sections_chapters(restructured_sections_manual):
 
 @pytest.mark.xfail(reason='do not support multiple areas on single page')
 #pylint:disable=W0621
-def test_sections_extract_sections_simple(
+def test_section_extract_sections_simple(
         simple_chapter,
         simple_index,
         simple_title,
         simple_toc,
         simple_whitepage,
 ):
-    chapter = load_likelihood(simple_chapter)
-    index = load_likelihood(simple_index)
-    title = load_likelihood(simple_title)
-    toc = load_likelihood(simple_toc)
-    whitepage = load_whitepages(simple_whitepage)
+    chapter = serializeraw.load_likelihood(simple_chapter)
+    index = serializeraw.load_likelihood(simple_index)
+    title = serializeraw.load_likelihood(simple_title)
+    toc = serializeraw.load_likelihood(simple_toc)
+    whitepage = sections.feature.whitepage.load_whitepages(simple_whitepage)
 
     loaded = sections.feature.section.SectionsRequiredResources(
         chapter=chapter,
@@ -130,7 +123,7 @@ def test_sections_extract_sections_simple(
         toc=toc,
         whitepage=whitepage,
     )
-    result = extract_sections(loaded)
+    result = sections.feature.section.extract_sections(loaded)
 
     expected = [
         iamraw.sections.Introduction,
@@ -144,5 +137,5 @@ def test_sections_extract_sections_simple(
         assert isinstance(current, wanted), type(wanted)
 
 
-def test_sections_sections_simple(simple_sections):
-    xfail('multiple feature on one page is not solved')
+def test_section_sections_simple(simple_sections):
+    pytest.xfail('multiple feature on one page is not solved')
