@@ -7,8 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import dataclasses
+import typing
 from typing import List
 
+import iamraw
 from iamraw.sections import AreaItem
 from iamraw.sections import Chapter
 from iamraw.sections import Content
@@ -57,14 +60,7 @@ def work(
 
     # TODO: Add @checkfile decorator to utila, to ensure that files exists
     # TODO: Investigate add check if raw content or file path is used
-    # failure = False
-    # for item in [chapter, index, title, toc, whitepage]:
-    #     if not exists(item):
-    #         error('sections: missing input %s' % item)
-    #         failure = True
-    # if failure:
-    #     exit(FAILURE)
-    potential_features = load_features(
+    loaded = load_features(
         chapter,
         index,
         title,
@@ -73,27 +69,30 @@ def work(
         pages=pages,
     )
     # work
-    extracted = extract_sections(*potential_features)
+    extracted = extract_sections(loaded)
 
     # save
     dumped = dump_sections(extracted)
     return dumped
 
 
-def extract_sections(
-        chapter,
-        index,
-        title,
-        toc,
-        whitepage,
-) -> Sections:
+@dataclasses.dataclass
+class SectionsRequiredResources:
+    chapter: iamraw.PageContentLikelihoods
+    index: iamraw.PageContentLikelihoods
+    title: iamraw.PageContentLikelihoods
+    toc: iamraw.PageContentLikelihoods
+    whitepage: typing.List[WhitePage]
+
+
+def extract_sections(loaded: SectionsRequiredResources) -> Sections:
     result = {}
     for number, content in hey.utils.sync([
-            chapter,
-            index,
-            title,
-            toc,
-            whitepage,
+            loaded.chapter,
+            loaded.index,
+            loaded.title,
+            loaded.toc,
+            loaded.whitepage,
     ]):
         # for number, page in enumerate(zip(chapter, index, title, toc, whitepage)):
         # TODO:  What if more than one item is max? 1.0, 1.0?
@@ -137,7 +136,7 @@ def group_sections(items: List[AreaItem]) -> Sections:
         next_ = determine_document_section(current, item)
         if is_new_area(current, next_):
             current = next_(start=page, end=page, trust=1.0)
-            result.content.append(current)
+            result.content.append(current)  # pylint:disable=E1101
         else:
             # increase section end
             current.end = page
@@ -176,7 +175,14 @@ def load_features(chapter, index, title, toc, whitepage, pages=None):
 
     whitepage = load_whitepages(whitepage, pages=pages)
 
-    return chapter, index, title, toc, whitepage
+    result = SectionsRequiredResources(
+        chapter=chapter,
+        index=index,
+        title=title,
+        toc=toc,
+        whitepage=whitepage,
+    )
+    return result
 
 
 def chapters(sections: Sections):

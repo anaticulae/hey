@@ -13,6 +13,7 @@ from serializeraw import dump_sections
 from serializeraw import load_likelihood
 from serializeraw import load_sections
 
+import sections.feature.sections
 # from sections.sections import extract_sections
 from sections.creator import validate
 from sections.feature.sections import chapters
@@ -73,8 +74,15 @@ def test_sections_extract_sections_restructured(
     title = load_likelihood(restructured_title)
     toc = load_likelihood(restructured_toc)
     whitepage = load_whitepages(restructured_whitepage)
-    source = [chapter, index, title, toc, whitepage]
-    result = extract_sections(*source)
+
+    loaded = sections.feature.sections.SectionsRequiredResources(
+        chapter=chapter,
+        index=index,
+        title=title,
+        toc=toc,
+        whitepage=whitepage,
+    )
+    result = extract_sections(loaded)
     assert result
     for index, (actual, expected) in enumerate(
             zip(result, restructured_sections_manual)):
@@ -112,8 +120,14 @@ def test_sections_extract_sections_simple(
     toc = load_likelihood(simple_toc)
     whitepage = load_whitepages(simple_whitepage)
 
-    source = [chapter, index, title, toc, whitepage]
-    result = extract_sections(*source)
+    loaded = sections.feature.sections.SectionsRequiredResources(
+        chapter=chapter,
+        index=index,
+        title=title,
+        toc=toc,
+        whitepage=whitepage,
+    )
+    result = extract_sections(loaded)
 
     xfail('multiple feature on one page is not solved')
 
