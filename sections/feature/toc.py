@@ -21,8 +21,8 @@ from serializeraw import load_document
 import sections
 
 
-def work(text_linewise: str) -> str:
-    document = load_document(text_linewise)
+def work(text_linewise: str, pages=None) -> str:
+    document = load_document(text_linewise, pages=pages)
 
     extracted = extract_toc_likelihood(document)
     dumped = dump_likelihood(extracted)
