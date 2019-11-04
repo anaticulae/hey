@@ -26,7 +26,7 @@ class TextStyle:
     content: typing.List[CharStyle] = dataclasses.field(default_factory=list)
 
     def __iter__(self):
-        for style in self.content:
+        for style in self.content:  # pylint:disable=E1133
             yield style
 
     def __len__(self):
