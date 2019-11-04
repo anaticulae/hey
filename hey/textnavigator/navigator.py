@@ -25,6 +25,9 @@ class PageTextNavigator:
     """The PageTextNavigator eases to navigate through the textual
     content of a Page. The text is processed from top to down and left
     to right.
+
+    To fill navigator with content use `insert`. Acessing the data is
+    possible trough `between`, `before`, `after` or __getitem__.
     """
 
     def __init__(self, size=None, page=-1):
@@ -78,32 +81,6 @@ class PageTextNavigator:
         )
         self.data.insert(position, datum)
 
-    def __getitem__(self, index) -> hey.textnavigator.style.TextInfo:
-        return self.data[index]
-
-    def __len__(self) -> int:
-        """Count text chunks"""
-        return len(self.data)
-
-    def __iter__(self):
-        return iter(self.data)
-
-    @property
-    def dimension(self):
-        return iamraw.PageSize(width=self.width, height=self.height)
-
-    def before(self, height: float, width: float = END) -> list:
-        """Determine elements on the top of the document
-
-        Args:
-            height(float[0.0,1.0]): 0.0 is top, 1.0 is bottom
-            width: marker from left to right, return elements [0.0 width]
-        Returns:
-            list of `TextInfo`
-        """
-        result = self.between(START, height, left=START, right=width)
-        return result
-
     def between(
             self,
             top: float,
@@ -111,7 +88,8 @@ class PageTextNavigator:
             left: float = START,
             right: float = END,
     ) -> list:
-        """Return the content between top(0.0) and bottom(1.0) position.
+        """Return content between to and bottom and left to right in
+        range [top(0.0), bottom(1.0)] and [left(0.0), right(1.0)].
 
         Args:
             top(float): accepted content after top mark
@@ -140,13 +118,41 @@ class PageTextNavigator:
             result.append(hey.textnavigator.style.TextInfo.copy(item))
         return result
 
+    def __getitem__(self, index) -> hey.textnavigator.style.TextInfo:
+        return self.data[index]
+
+    def __len__(self) -> int:
+        """Count text chunks"""
+        return len(self.data)
+
+    def __iter__(self):
+        return iter(self.data)
+
+    @property
+    def dimension(self):
+        return iamraw.PageSize(width=self.width, height=self.height)
+
+    def before(self, height: float, width: float = END) -> list:
+        """Determine elements on the top of the document
+
+        Args:
+            height(float[0.0,1.0]): 0.0 is top, 1.0 is bottom
+            width: marker from left to right, return elements [0.0 width]
+        Returns:
+            list of `TextInfo`
+        """
+        result = self.between(START, height, left=START, right=width)
+        return result
+
     def after(self, height, width=START):
-        """Determine elements on the bottom of the page"""
+        """Determine elements after `height` till the bottom of the
+        page. Additonal shrink from left to right with `width`."""
         result = self.between(height, END, width, END)
         return result
 
     def offset(self, top: float, bottom: float) -> typing.Tuple[int, int]:
-        # """Determine offset
+        """Determine the range of content index which represents the
+        dataindex's of [top, bottom]."""
         assert START <= top <= bottom <= END
         after = bottom * self.height
         before = top * self.height  # greater than
