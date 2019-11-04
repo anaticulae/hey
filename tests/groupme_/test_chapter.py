@@ -73,11 +73,11 @@ def test_groupme_chapter_test_parse_headlines(simple_page_2_text_only):  # pylin
     assert len(headlines) == tests.resources.SIMPLE_HEADLINES_PAGE_3, headlines
 
 
-# TODO: add timeout to this unit test
-# TODO: add timeout to parse_headline
+@pytest.mark.timeout(20, "slow", method="thread")
 def test_groupme_chapter_parse_headline_problematic():
     """The old regex had a problem to parse the example below. Before this fix
     the time of parsing this string was enormous."""
     problem = '1.0011001100110011001100110011001100110011001100110011'
+    # TODO: add timeout to parse_headline
     parsed = groupme.structure.parse_headline(problem)
     assert parsed is None, str(parsed)
