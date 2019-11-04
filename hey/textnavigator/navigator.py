@@ -181,8 +181,9 @@ class PageTextContentNavigator:
         """Navigate throw text content, ignore footer and header
 
         Args:
-            textnavigator(PageTextNavigator):
-            content(Tuple[top,bottom]):
+            textnavigator: `textnavigator` with items are located
+                           outside of `content`.
+            content: distance from page border which defines start of content.
         """
         msg = 'require `PageTextNavigator` got: %s' % type(textnavigator)
         assert isinstance(textnavigator, PageTextNavigator), msg
