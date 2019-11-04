@@ -221,31 +221,28 @@ def create_pagetextnavigators(
     dimension = (text.dimension.width, text.dimension.height)
     for textposition in text_positions:
         navigator = PageTextNavigator(size=dimension, page=textposition.page)
-        result.append(navigator)
         textid = 0
         for item in text[textposition.page]:
-            # assert item.number == pagenumber, item.number
             try:
-                # TODO: Remove strip after container is fixed
-                textcontent = item.text.strip()
+                lines = item.lines
             except AttributeError:
-                # no text element
                 continue
-            else:
-                pos = textposition.content[textid]
-                for index, line in enumerate(item.lines):
-                    bounding = hey.utils.split_bounding_y(
-                        pos,
-                        index,
-                        len(item.lines),
-                    )
-                    style = hey.textnavigator.style.create_textstyle(line.chars)
-                    navigator.insert(
-                        bounding,
-                        line.text.strip(),
-                        style=style,
-                    )
-                textid += 1
+            pos = textposition.content[textid]
+            for index, line in enumerate(lines):
+                bounding = hey.utils.split_bounding_y(
+                    pos,
+                    index,
+                    len(lines),
+                )
+                style = hey.textnavigator.style.create_textstyle(line.chars)
+                # TODO: Remove strip after container is fixed
+                navigator.insert(
+                    bounding,
+                    text=line.text.strip(),
+                    style=style,
+                )
+            textid += 1
+        result.append(navigator)
 
     def fill_empty(items):
         """Some documents contain white pages. White pages contain no text
