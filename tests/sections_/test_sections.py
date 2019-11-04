@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw.sections
+import pytest
 from iamraw import Sections
 from pytest import xfail
 from serializeraw import dump_sections
@@ -106,6 +108,7 @@ def test_sections_chapters(restructured_sections_manual):
     assert len(result) == 8, str(result)
 
 
+@pytest.mark.xfail(reason='do not support multiple areas on single page')
 #pylint:disable=W0621
 def test_sections_extract_sections_simple(
         simple_chapter,
@@ -129,7 +132,16 @@ def test_sections_extract_sections_simple(
     )
     result = extract_sections(loaded)
 
-    xfail('multiple feature on one page is not solved')
+    expected = [
+        iamraw.sections.Introduction,
+        iamraw.sections.Table,
+        iamraw.sections.Content,
+    ]
+
+    assert len(result) == len(expected), 'wrong area split'
+
+    for current, wanted in zip(result, expected):
+        assert isinstance(current, wanted), type(wanted)
 
 
 def test_sections_sections_simple(simple_sections):
