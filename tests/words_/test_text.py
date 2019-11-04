@@ -132,9 +132,8 @@ def test_words_text_extractor_titles(
             8,
             2,
             ([]),  # no content after headline
-            ('u18'),
+            ('u19'),
             id='page8',
-            marks=pytest.mark.xfail(reason='dont know why'),
         ),
         param(
             13,
@@ -162,7 +161,6 @@ def test_words_text_extractor_titles(
             ('u0'),
             (None),
             id='page15',
-            marks=pytest.mark.xfail(reason='require selective approach'),
         ),
         param(
             16,
@@ -181,7 +179,7 @@ def test_words_extract_texts_page_x(
         restructured_headlines,  # pylint:disable=W0621
 ):
     headlines = restructured_headlines
-    border, fontstore, headlines, textnavigators, boxes = load_resources(
+    border, boxes, fontstore, headlines, textnavigators = load_resources(
         text=RESTRUCT_TEXT,
         text_position=RESTRUCT_TEXT_POSITION,
         font_header=RESTRUCT_FONT_HEADER,
@@ -223,7 +221,6 @@ def test_words_extract_texts_page_x(
         assert first_output, str(first_output)
         first_line = join_output(first_output[0])
         assert first_line == expected_start
-
     last_line = join_output(last_output[-1]) if last_output else None
     assert last_line == expected_end
 
