@@ -51,11 +51,9 @@ class TextInfo:
 
 
 def create_textstyle(chars: typing.List[iamraw.Char]) -> TextStyle:
-    if not chars:
-        return []
+    assert chars
     start, size, rise = 0, chars[0].size, chars[0].rise
     result = []
-
     for index, char in enumerate(chars[1:], start=1):
         if char.size != size or char.rise != rise:
             style = CharStyle(
