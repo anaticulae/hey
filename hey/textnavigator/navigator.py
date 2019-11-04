@@ -9,6 +9,7 @@
 import os
 import typing
 
+import configo
 import iamraw
 import serializeraw
 import utila
@@ -367,8 +368,8 @@ def to_content(navigator: PageTextNavigator,
 
 
 # Merge lines with lower distance to one text chunk.
-MAX_MERGE_DISTANCE = 3.55  # TODO: Holy value
-MAX_MERGE_HORIZONTALY = 14.0  # TODO: HOLY VALUE
+MAX_MERGE_DISTANCE = configo.HV_FLOAT_PLUS(default=3.55).value
+MAX_MERGE_HORIZONTALY = configo.HV_FLOAT_PLUS(default=14.0).value
 
 
 def merge_content(
