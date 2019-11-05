@@ -71,6 +71,15 @@ class SectionsRequiredResources:
 
 
 def extract_sections(loaded: SectionsRequiredResources) -> iamraw.Sections:
+    """Decide which `DocumentSection` is selected of the different
+    feature extractor. If more than one feature suits very well, split
+    page in different regions.
+
+    Args:
+        loaded: result of different `sections` steps
+    Returns:
+        `Sections` definition for given pages
+    """
     result = {}
     for pagenumber, content in hey.utils.sync([
             loaded.chapter,
@@ -120,6 +129,10 @@ AreaItems = typing.List[iamraw.sections.AreaItem]
 
 
 def group_sections(items: AreaItems) -> iamraw.Sections:
+    """Extend ranges of `AreaItems` to avoid empty regions between
+    `AreaItems`. A empty region can be created if you have the titlepage
+    and after this a blank page before continuing with table of content.
+    """
     result = iamraw.Sections()
     current = None
     chapter = 1
