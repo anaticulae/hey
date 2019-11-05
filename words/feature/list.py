@@ -26,7 +26,7 @@ import utila
 
 import hey.textnavigator.fonts
 import hey.textnavigator.navigator
-import words.input
+import words.loader.input
 
 
 @utila.checkdatatype
@@ -49,7 +49,7 @@ def work(
         headlines(str): extracted chapter/paragraph headlines of `words` module
         border(str):
     """
-    extracted, contentborder = words.input.load_resources(
+    extracted, contentborder = words.loader.input.load_resources(
         extracted_text,
         text,
         text_position,
@@ -66,7 +66,7 @@ def work(
 
 def process(extracted, contentborder):
     worker = functools.partial(process_page, contentborder=contentborder)
-    result = words.input.process_input(
+    result = words.loader.input.process_input(
         extracted,
         worker,
     )

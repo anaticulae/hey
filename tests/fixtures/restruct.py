@@ -19,7 +19,7 @@ import tests.resources
 import words.feature
 import words.feature.boxed
 import words.headlines
-import words.input
+import words.loader.input
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
 from hey.textnavigator.navigator import create_pagetextnavigators
@@ -276,7 +276,7 @@ def restructured_boxed(
 ):
     headlines = restructured_headlines
     undefined = restructured_textexample_dumped
-    extracted, _ = words.input.load_resources(
+    extracted, _ = words.loader.input.load_resources(
         undefined,
         RESTRUCT_TEXT,
         RESTRUCT_TEXT_POSITION,
@@ -318,7 +318,7 @@ def restructured_list_work(
     headlines = restructured_headlines
     undefined = restructured_textexample_dumped
 
-    extracted, contentborder = words.input.load_resources(
+    extracted, contentborder = words.loader.input.load_resources(
         undefined,
         RESTRUCT_TEXT,
         RESTRUCT_TEXT_POSITION,

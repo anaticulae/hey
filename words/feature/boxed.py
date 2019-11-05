@@ -19,7 +19,7 @@ import yaml
 
 import hey
 import words.boxed
-import words.input
+import words.loader.input
 
 PageContentBoxed = collections.namedtuple('PageContentBoxed', 'page content')
 
@@ -45,7 +45,7 @@ def work(
         headlines(str): extracted chapter/paragraph headlines of `words` module
         border(str):
     """
-    extracted, _ = words.input.load_resources(
+    extracted, _ = words.loader.input.load_resources(
         extracted_text,
         text,
         text_position,
@@ -66,7 +66,7 @@ def process_content(extracted, boxes: words.boxed.BoxedChecker):
     boxes = words.boxed.BoxedChecker(boxes)
     worker = functools.partial(extract_boxed_content, boxed=boxes)
 
-    result = words.input.process_input(extracted, worker)
+    result = words.loader.input.process_input(extracted, worker)
     return result
 
 
