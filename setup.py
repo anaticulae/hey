@@ -79,6 +79,7 @@ if __name__ == "__main__":
             'words',
             'words.feature',
             'words.headlines',
+            'words.loader',
             'words.utils',
         ],
         entry_points={

@@ -16,9 +16,11 @@ import utila
 import hey.textnavigator.navigator
 import tests.fixtures.headlines
 import tests.resources
+import words.feature
 import words.feature.headlines
 import words.headlines
 import words.headlines.nolevel
+import words.loader.basic
 # pylint:disable=ungrouped-imports
 # pylint:disable=unused-import
 from tests.fixtures.restruct import restructured_fontstore
@@ -109,12 +111,16 @@ def test_words_headlines_extract_headlines(
         text_positions=position,
     )
 
+    basic = words.loader.basic.BasicRequiredResources(
+        sizeandborder=sizeandborder,
+        fontstore=restructured_fontstore,
+        textnavigators=navigator,
+        headerfooters=headerfooters,
+    )
+
     extractor = words.headlines.nolevel.NoLevelHeadlineExtractor(
         sectionlist=sections,
-        pagetextnavigators=navigator,
-        fontstore=restructured_fontstore,
-        sizeandborder=sizeandborder,
-        headerfooters=headerfooters,
+        basic=basic,
         chapters=[0, 1],
     )
     extracted = extractor.result()

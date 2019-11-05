@@ -17,6 +17,8 @@ import hey.fonts.store
 import hey.textnavigator.fonts
 import hey.textnavigator.navigator
 import sections.feature.section
+import words.feature
+import words.loader.basic
 import words.utils.skipper
 
 WHITELIST = set([
@@ -31,19 +33,16 @@ class HeadlineExtractorStrategy(abc.ABC):
     def __init__(
             self,
             sectionlist: typing.List[iamraw.Sections],
-            pagetextnavigators: hey.textnavigator.navigator.PageTextNavigators,
-            fontstore: hey.fonts.store.FontStore,
-            sizeandborder,
-            headerfooters,
+            basic: words.loader.basic.BasicRequiredResources,
             chapters,
     ):
         self.__result = {}
 
         self.sectionlist = sectionlist
-        self.pagetextnavigators = pagetextnavigators
-        self.fontstore = fontstore
-        self.sizeandborder = sizeandborder
-        self.headerfooters = headerfooters
+        self.pagetextnavigators = basic.textnavigators
+        self.fontstore = basic.fontstore
+        self.sizeandborder = basic.sizeandborder
+        self.headerfooters = basic.headerfooters
         self.chapters, self.content = prepare_chapter_and_content(
             sectionlist,
             chapters,

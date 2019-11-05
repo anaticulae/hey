@@ -32,7 +32,6 @@ import collections
 import serializeraw
 import utila
 
-import words.feature
 import words.headlines.nolevel
 import words.headlines.standard
 import words.utils.sections
@@ -62,7 +61,7 @@ def work(
         sizeandborder
         horizontals
     """
-    sizeandborder, fontstore, textnavigators, headerfooters = words.feature.load_basic(
+    loaded = words.loader.basic.load_basic(
         text,
         text_position,
         font_header,
@@ -72,6 +71,7 @@ def work(
         pages=pages,
     )
     sections = words.utils.sections.load_sections(sections, pages=pages)
+
     strategies = [
         words.headlines.standard.StandardHeadlineExtractor,
         words.headlines.nolevel.NoLevelHeadlineExtractor,
@@ -80,10 +80,7 @@ def work(
     results = [
         strategy(
             sectionlist=sections,
-            pagetextnavigators=textnavigators,
-            fontstore=fontstore,
-            sizeandborder=sizeandborder,
-            headerfooters=headerfooters,
+            basic=loaded,
             chapters=None,
         ).result(pages=pages) for strategy in strategies
     ]

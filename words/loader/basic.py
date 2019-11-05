@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+# TODO: IMPROVE NAMING
+
 import dataclasses
 import typing
 
@@ -15,75 +17,45 @@ import serializeraw
 
 import hey.fonts.store
 import hey.textnavigator.navigator
-import words.boxed
-import words.headlines
 
 
 @dataclasses.dataclass
-class TextRequiredResources:
-    border: iamraw.Border
-    boxes: words.boxed.BoxedChecker
+class BasicRequiredResources:
+    sizeandborder: iamraw.PageSizeBorderList
     fontstore: hey.fonts.store.FontStore
-    headlines: iamraw.PagesHeadlineList
     textnavigators: hey.textnavigator.navigator.PageTextNavigators
+    # TODO: fix iamraw
+    headerfooters: typing.List[iamraw.PageContentFooterHeader]
 
 
-def load_resources(
+def load_basic(
         text: str,
         text_position: str,
         font_header: str,
         font_content: str,
-        headlines: str,
         pagesizes: str,
-        boxes: str,
         headerfooters: str,
         pages=None,
-) -> TextRequiredResources:
-    """Load content from path and create required object"""
+) -> BasicRequiredResources:
     text = serializeraw.load_document(text, pages=pages)
-    position = serializeraw.load_textpositions(text_position, pages=pages)
-    headlines = serializeraw.load_headlines(headlines, pages=pages)
-    boxes = serializeraw.load_boxes(boxes, pages=pages)
-
-    fontstore = hey.fonts.store.create_fontstore(font_header, font_content)
-
+    text_position = serializeraw.load_textpositions(text_position, pages=pages)
     textnavigators = hey.textnavigator.navigator.create_pagetextnavigators(
         text=text,
-        text_positions=position,
+        text_positions=text_position,
     )
-    contentborder = serializeraw.load_pageborders(pagesizes, pages=pages)
+
+    fontstore = hey.fonts.store.create_fontstore(font_header, font_content)
+    sizeandborder = serializeraw.load_pageborders(pagesizes, pages=pages)
 
     headerfooters = serializeraw.load_headerfooter(
         headerfooters,
         pages=pages,
     )
 
-    border = words.headlines.contentborder(
-        contentborder,
-        headerfooters,
-    )
-
-    boxed = words.boxed.BoxedChecker(boxes)
-
-    result = TextRequiredResources(
-        border=border,
-        boxes=boxed,
+    result = BasicRequiredResources(
+        sizeandborder=sizeandborder,
         fontstore=fontstore,
-        headlines=headlines,
         textnavigators=textnavigators,
+        headerfooters=headerfooters,
     )
     return result
-
-
-def load_extracted(
-        extracted_text,
-        headlines,
-        pages=None,
-) -> typing.Tuple[typing.List, iamraw.Border]:
-    headlines = serializeraw.load_headlines(headlines, pages=pages)
-    extracted_text = serializeraw.load_text(
-        extracted_text,
-        headlines,
-        pages=pages,
-    )
-    return extracted_text, headlines
