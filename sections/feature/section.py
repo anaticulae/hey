@@ -72,30 +72,29 @@ class SectionsRequiredResources:
 
 def extract_sections(loaded: SectionsRequiredResources) -> iamraw.Sections:
     result = {}
-    for number, content in hey.utils.sync([
+    for pagenumber, content in hey.utils.sync([
             loaded.chapter,
             loaded.index,
             loaded.title,
             loaded.toc,
             loaded.whitepage,
     ]):
-        # for number, page in enumerate(zip(chapter, index, title, toc, whitepage)):
         # TODO:  What if more than one item is max? 1.0, 1.0?
         max_item = max(
             content, key=lambda x: x.content.value if x and x.content else 0.0)
         if not max_item or max_item.content.value < MIN_FEATURE_TRUST:
             # if trust is to low, the feature is not charactaristical enough,
             # therefore the page is treated as a normal text page
-            result[number] = iamraw.sections.Text(
-                start=number,
-                end=number,
+            result[pagenumber] = iamraw.sections.Text(
+                start=pagenumber,
+                end=pagenumber,
                 trust=1.0,
             )
             continue
         ctor = BUILDER[content.index(max_item)]
-        result[number] = ctor(
-            start=number,
-            end=number,
+        result[pagenumber] = ctor(
+            start=pagenumber,
+            end=pagenumber,
             trust=max_item.content.value,
         )
     grouped = group_sections(result)
