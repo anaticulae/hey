@@ -56,6 +56,5 @@ def test_run_sections_multicore(testdir, monkeypatch):
     utila.copy_content(MASTER_72PAGES, root, pattern=pattern)
 
     jobs = 5
-    cmd = (f'-j{jobs} -i {root} -o {root} --pages=0:5'
-           ' --chapter --index --sections --title --toc --whitepage')
+    cmd = f'-j{jobs} -i {root} -o {root} --pages=0:5 --all'
     run_sections_success(cmd, monkeypatch=monkeypatch)

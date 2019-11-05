@@ -93,8 +93,7 @@ def create_todo_rawmaker(inpath, outpath):
             'rawmaker -j8',
             inpath,
             outpath,
-            ('--border --boxes --font --text --toc '
-             '--char_margin=5.0 --boxes_flow=1.0 --line_margin=0.3'),
+            '--all --char_margin=5.0 --boxes_flow=1.0 --line_margin=0.3',
         ),
     ]
     return result
@@ -102,23 +101,13 @@ def create_todo_rawmaker(inpath, outpath):
 
 def create_todo_sections(path):
     result = [
-        (
-            'sections',
-            path,
-            path,
-            '--chapter --index --sections --title --toc --whitepage',
-        ),
+        ('sections', path, path, '--all'),
     ]
     return result
 
 
 def create_todo_groupme(path):
     result = [
-        (
-            'groupme',
-            path,
-            path,
-            '',
-        ),
+        ('groupme', path, path, ''),
     ]
     return result
