@@ -153,6 +153,7 @@ def whitepage_value_to_percent(whitepage: WhitePage):
     return 1.0
 
 
+# TODO: MOVE TO SERIALIZERAW
 def dump_whitepages(pages) -> str:
     """Dump list of dict"""
     result = {}

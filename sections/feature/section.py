@@ -238,22 +238,17 @@ def load_features(
         pages=None,
 ):
     chapter = serializeraw.load_likelihood(chapter, pages=pages)
-
     index = serializeraw.load_likelihood(index, pages=pages)
     title = serializeraw.load_likelihood(title, pages=pages)
     toc = serializeraw.load_likelihood(toc, pages=pages)
-
-    whitepage = sections.feature.whitepage.load_whitepages(
-        whitepage,
-        pages=pages,
-    )
+    white = sections.feature.whitepage.load_whitepages(whitepage, pages=pages)
 
     result = SectionsRequiredResources(
         chapter=chapter,
         index=index,
         title=title,
         toc=toc,
-        whitepage=whitepage,
+        whitepage=white,
     )
     return result
 
