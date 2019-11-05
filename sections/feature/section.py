@@ -7,9 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import collections
 import dataclasses
 import typing
 
+import configo
 import iamraw
 import iamraw.sections
 import serializeraw
@@ -18,7 +20,11 @@ import utila
 import hey
 import sections.feature.whitepage
 
-MIN_FEATURE_TRUST = 0.4  # Holy value
+# features with lower trust are not excepted as detected feaute
+MIN_FEATURE_TRUST = configo.HV_PERCENT_PLUS(default=40).value
+
+# multiple than one feature have this trust, acceppt all of them
+MULTIPLE_FEATURE_TRUST = configo.HV_PERCENT_PLUS(default=90).value
 
 
 @utila.checkdatatype
@@ -80,7 +86,7 @@ def extract_sections(loaded: SectionsRequiredResources) -> iamraw.Sections:
     Returns:
         `Sections` definition for given pages
     """
-    result = {}
+    result = collections.defaultdict(list)
     for pagenumber, content in hey.utils.sync([
             loaded.chapter,
             loaded.index,
@@ -88,26 +94,69 @@ def extract_sections(loaded: SectionsRequiredResources) -> iamraw.Sections:
             loaded.toc,
             loaded.whitepage,
     ]):
-        # TODO:  What if more than one item is max? 1.0, 1.0?
-        max_item = max(
-            content, key=lambda x: x.content.value if x and x.content else 0.0)
-        if not max_item or max_item.content.value < MIN_FEATURE_TRUST:
+        trusted = most_trusted_items(content)
+
+        if not trusted:
             # if trust is to low, the feature is not charactaristical enough,
             # therefore the page is treated as a normal text page
-            result[pagenumber] = iamraw.sections.Text(
-                start=pagenumber,
-                end=pagenumber,
-                trust=1.0,
-            )
+            result[pagenumber].append(
+                iamraw.sections.Text(
+                    start=pagenumber,
+                    end=pagenumber,
+                    trust=1.0,
+                ))
             continue
-        ctor = BUILDER[content.index(max_item)]
-        result[pagenumber] = ctor(
-            start=pagenumber,
-            end=pagenumber,
-            trust=max_item.content.value,
-        )
+
+        for index, item in enumerate(trusted):
+            # TODO: Preseve order on page
+            start = pagenumber + index * 1 / len(trusted)
+            end = pagenumber + (index + 1) * 1 / len(trusted)
+
+            ctor = BUILDER[content.index(item)]
+            new = ctor(start=start, end=end, trust=item.content.value)
+
+            result[pagenumber].append(new)
     grouped = group_sections(result)
     return grouped
+
+
+def most_trusted_items(items: list) -> list:
+    """Extract most trusted items on a page. There are multiple items
+    possible.
+
+    Accepted features must have a higher trust than `MIN_FEATURE_TRUST`.
+    Multiple featues on a page require a much higher trust
+    `MULTIPLE_FEATURE_TRUST`.
+
+    Args:
+        items: detected items on a page
+    Returns:
+        sorted list of accepted features, max trust stands on the top
+    """
+    items = list(items)
+
+    items = sorted(
+        items,
+        key=lambda x: x.content.value if x and x.content else 0.0,
+        reverse=True,
+    )
+
+    # remove features with to low trust
+    items = [
+        item for item in items
+        if item and item.content and item.content.value >= MIN_FEATURE_TRUST
+    ]
+
+    # more than one feature on a page
+    if len(items) > 1:
+        multiple = [
+            item for item in items if item and item.content and
+            item.content.value >= MULTIPLE_FEATURE_TRUST
+        ]
+        assert len(multiple) >= 1
+        items = multiple
+
+    return items
 
 
 BUILDER = [
@@ -136,18 +185,21 @@ def group_sections(items: AreaItems) -> iamraw.Sections:
     result = iamraw.Sections()
     current = None
     chapter = 1
-    for page, item in items.items():
-        next_ = determine_document_section(current, item)
-        if is_new_area(current, next_):
-            current = next_(start=page, end=page, trust=1.0)
-            result.content.append(current)  # pylint:disable=E1101
-        else:
-            # increase section end
-            current.end = page
-        if isinstance(item, iamraw.sections.Chapter):
-            item.number = chapter
-            chapter += 1
-        current.content.append(item)
+    for page, content in items.items():
+        for item in content:
+            next_ = determine_document_section(current, item)
+            if is_new_area(current, next_):
+                current = next_(start=page, end=page, trust=1.0)
+                result.content.append(current)  # pylint:disable=E1101
+            else:
+                # increase section end
+                current.end = page
+
+            if isinstance(item, iamraw.sections.Chapter):
+                # set chapter level
+                item.number = chapter
+                chapter += 1
+            current.content.append(item)
     return result
 
 

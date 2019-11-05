@@ -29,5 +29,6 @@ def should_skip(page: int, pages: tuple):  # pylint:disable=W0621
     if isinstance(page, tuple):
         # ensure that all (page..) are in range
         start, end = page
+        start, end = int(start), int(end)
         return any([should_skip(pp, pages) for pp in range(start, end + 1)])
     return not page in pages

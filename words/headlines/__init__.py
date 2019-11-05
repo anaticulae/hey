@@ -93,6 +93,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         assert 0 <= chapter < self.chaptercount, chapter
         result = []
         start, end = self.content[chapter]
+        start, end = int(start), int(end)
         for page in range(start, end + 1):
             textnavi = utila.select_page(self.pagetextnavigators, page=page)
             border = utila.select_page(self.border, page=page)

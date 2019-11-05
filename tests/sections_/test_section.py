@@ -101,8 +101,8 @@ def test_section_chapters(restructured_sections_manual):
     assert len(result) == 8, str(result)
 
 
-@pytest.mark.xfail(reason='do not support multiple areas on single page')
 #pylint:disable=W0621
+@pytest.mark.xfail(reason='preserve order of multiple features on a page')
 def test_section_extract_sections_simple(
         simple_chapter,
         simple_index,
@@ -132,9 +132,11 @@ def test_section_extract_sections_simple(
     ]
 
     assert len(result) == len(expected), 'wrong area split'
-
     for current, wanted in zip(result, expected):
-        assert isinstance(current, wanted), type(wanted)
+        current = current.__class__.__name__
+        wanted = wanted.__name__
+
+        assert current == wanted, f'{current} != {wanted}'
 
 
 def test_section_sections_simple(simple_sections):
