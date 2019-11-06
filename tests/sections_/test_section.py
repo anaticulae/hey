@@ -14,6 +14,7 @@ import serializeraw
 import sections.creator
 import sections.feature.section
 import sections.feature.whitepage
+import sections.multiple
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_chapter
 from tests.fixtures.restruct import restructured_index
@@ -102,7 +103,6 @@ def test_section_chapters(restructured_sections_manual):
 
 
 #pylint:disable=W0621
-@pytest.mark.xfail(reason='preserve order of multiple features on a page')
 def test_section_extract_sections_simple(
         simple_chapter,
         simple_index,
@@ -126,8 +126,7 @@ def test_section_extract_sections_simple(
     result = sections.feature.section.extract_sections(loaded)
 
     expected = [
-        iamraw.sections.Introduction,
-        iamraw.sections.Table,
+        sections.multiple.MultipleSection,
         iamraw.sections.Content,
     ]
 
@@ -135,8 +134,10 @@ def test_section_extract_sections_simple(
     for current, wanted in zip(result, expected):
         current = current.__class__.__name__
         wanted = wanted.__name__
-
         assert current == wanted, f'{current} != {wanted}'
+
+    # Title and Table of MultipleSection
+    assert len(result[0].content) == 2
 
 
 def test_section_sections_simple(simple_sections):

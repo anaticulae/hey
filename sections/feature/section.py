@@ -7,7 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import collections
 import dataclasses
 import typing
 
@@ -19,6 +18,7 @@ import utila
 
 import hey
 import sections.feature.whitepage
+import sections.multiple
 
 # features with lower trust are not excepted as detected feaute
 MIN_FEATURE_TRUST = configo.HV_PERCENT_PLUS(default=40).value
@@ -86,7 +86,7 @@ def extract_sections(loaded: SectionsRequiredResources) -> iamraw.Sections:
     Returns:
         `Sections` definition for given pages
     """
-    result = collections.defaultdict(list)
+    result = {}
     for pagenumber, content in hey.utils.sync([
             loaded.chapter,
             loaded.index,
@@ -99,23 +99,46 @@ def extract_sections(loaded: SectionsRequiredResources) -> iamraw.Sections:
         if not trusted:
             # if trust is to low, the feature is not charactaristical enough,
             # therefore the page is treated as a normal text page
-            result[pagenumber].append(
-                iamraw.sections.Text(
-                    start=pagenumber,
-                    end=pagenumber,
-                    trust=1.0,
-                ))
+            result[pagenumber] = iamraw.sections.Text(
+                start=pagenumber,
+                end=pagenumber,
+                trust=1.0,
+            )
             continue
 
-        for index, item in enumerate(trusted):
-            # TODO: Preseve order on page
-            start = pagenumber + index * 1 / len(trusted)
-            end = pagenumber + (index + 1) * 1 / len(trusted)
+        def create(start, end, trust, typ):
+            ctor = BUILDER[typ]
+            new = ctor(start=start, end=end, trust=trust)
+            return new
 
-            ctor = BUILDER[content.index(item)]
-            new = ctor(start=start, end=end, trust=item.content.value)
+        if len(trusted) > 1:
+            multiple = sections.multiple.MultipleSection(
+                start=pagenumber,
+                end=pagenumber,
+                trust=1.0,
+            )
+            for index, item in enumerate(trusted):
+                # TODO: Preseve order on page
+                start = pagenumber + index * 1 / len(trusted)
+                end = pagenumber + (index + 1) * 1 / len(trusted)
+                new = create(
+                    start=start,
+                    end=end,
+                    trust=item.content.value,
+                    typ=content.index(item),
+                )
+                multiple.content.append(new)  # pylint:disable=E1101
+            result[pagenumber] = multiple
+        else:
+            item = trusted[0]
+            new = create(
+                start=pagenumber,
+                end=pagenumber,
+                trust=item.content.value,
+                typ=content.index(item),
+            )
+            result[pagenumber] = new
 
-            result[pagenumber].append(new)
     grouped = group_sections(result)
     return grouped
 
@@ -185,21 +208,26 @@ def group_sections(items: AreaItems) -> iamraw.Sections:
     result = iamraw.Sections()
     current = None
     chapter = 1
-    for page, content in items.items():
-        for item in content:
-            next_ = determine_document_section(current, item)
-            if is_new_area(current, next_):
-                current = next_(start=page, end=page, trust=1.0)
-                result.content.append(current)  # pylint:disable=E1101
-            else:
-                # increase section end
-                current.end = page
+    for page, item in items.items():
+        next_ = determine_document_section(current, item)
+        if not current and isinstance(item, sections.multiple.MultipleSection):
+            # Multiple section on the start of the document
+            # TODO: HOW TO HANDLE MULTIPLE SECTION IN THE MIDDLE OF THE DOCUMENT?
+            current = item
+            result.content.append(item)  # pylint:disable=E1101
+            continue
+        if is_new_area(current, next_):
+            current = next_(start=page, end=page, trust=1.0)
+            result.content.append(current)  # pylint:disable=E1101
+        else:
+            # increase section end
+            current.end = page
 
-            if isinstance(item, iamraw.sections.Chapter):
-                # set chapter level
-                item.number = chapter
-                chapter += 1
-            current.content.append(item)
+        if isinstance(item, iamraw.sections.Chapter):
+            # set chapter level
+            item.number = chapter
+            chapter += 1
+        current.content.append(item)
     return result
 
 
@@ -213,7 +241,8 @@ MATCHING = {
     iamraw.sections.TableOfContent: iamraw.sections.Table,
     iamraw.sections.Text: iamraw.sections.DocumentSection,
     iamraw.sections.TitlePage: iamraw.sections.Introduction,
-    iamraw.sections.WhitePage: iamraw.sections.DocumentSection
+    iamraw.sections.WhitePage: iamraw.sections.DocumentSection,
+    sections.multiple.MultipleSection: sections.multiple.MultipleSection,
 }
 
 
@@ -253,9 +282,9 @@ def load_features(
     return result
 
 
-def chapters(sections: iamraw.Sections):
+def chapters(root: iamraw.Sections):
     content = [
-        item for item in sections if isinstance(item, iamraw.sections.Content)
+        item for item in root if isinstance(item, iamraw.sections.Content)
     ]
     if not content:
         # no content in document
