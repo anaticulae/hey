@@ -18,7 +18,6 @@ import utila
 
 import hey
 import sections.feature.whitepage
-import sections.multiple
 
 # features with lower trust are not excepted as detected feaute
 MIN_FEATURE_TRUST = configo.HV_PERCENT_PLUS(default=40).value
@@ -112,7 +111,7 @@ def extract_sections(loaded: SectionsRequiredResources) -> iamraw.Sections:
             return new
 
         if len(trusted) > 1:
-            multiple = sections.multiple.MultipleSection(
+            multiple = iamraw.MultipleSection(
                 start=pagenumber,
                 end=pagenumber,
                 trust=1.0,
@@ -210,7 +209,7 @@ def group_sections(items: AreaItems) -> iamraw.Sections:
     chapter = 1
     for page, item in items.items():
         next_ = determine_document_section(current, item)
-        if not current and isinstance(item, sections.multiple.MultipleSection):
+        if not current and isinstance(item, iamraw.MultipleSection):
             # Multiple section on the start of the document
             # TODO: HOW TO HANDLE MULTIPLE SECTION IN THE MIDDLE OF THE DOCUMENT?
             current = item
@@ -236,13 +235,13 @@ def group_sections(items: AreaItems) -> iamraw.Sections:
 #       iamraw.sections.Text
 #       iamraw.sections.WhitePage:
 MATCHING = {
-    iamraw.sections.Chapter: iamraw.sections.Content,
+    iamraw.sections.Chapter: iamraw.MainPart,
     iamraw.sections.Index: iamraw.sections.Table,
     iamraw.sections.TableOfContent: iamraw.sections.Table,
     iamraw.sections.Text: iamraw.sections.DocumentSection,
     iamraw.sections.TitlePage: iamraw.sections.Introduction,
     iamraw.sections.WhitePage: iamraw.sections.DocumentSection,
-    sections.multiple.MultipleSection: sections.multiple.MultipleSection,
+    iamraw.MultipleSection: iamraw.MultipleSection,
 }
 
 
@@ -283,9 +282,7 @@ def load_features(
 
 
 def chapters(root: iamraw.Sections):
-    content = [
-        item for item in root if isinstance(item, iamraw.sections.Content)
-    ]
+    content = [item for item in root if isinstance(item, iamraw.MainPart)]
     if not content:
         # no content in document
         return []

@@ -8,13 +8,11 @@
 # =============================================================================
 
 import iamraw
-import pytest
 import serializeraw
 
 import sections.creator
 import sections.feature.section
 import sections.feature.whitepage
-import sections.multiple
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_chapter
 from tests.fixtures.restruct import restructured_index
@@ -126,8 +124,8 @@ def test_section_extract_sections_simple(
     result = sections.feature.section.extract_sections(loaded)
 
     expected = [
-        sections.multiple.MultipleSection,
-        iamraw.sections.Content,
+        iamraw.MultipleSection,
+        iamraw.MainPart,
     ]
 
     assert len(result) == len(expected), 'wrong area split'
@@ -139,6 +137,12 @@ def test_section_extract_sections_simple(
     # Title and Table of MultipleSection
     assert len(result[0].content) == 2
 
+    # TODO: Test order of multiple items
+
 
 def test_section_sections_simple(simple_sections):
-    pytest.xfail('multiple feature on one page is not solved')
+    """Check dumped result of section work method"""
+    assert len(simple_sections) > 100, simple_sections
+    loaded = serializeraw.load_sections(simple_sections)
+
+    assert len(loaded) == 2, len(loaded)

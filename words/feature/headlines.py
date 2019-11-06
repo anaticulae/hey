@@ -34,7 +34,6 @@ import utila
 
 import words.headlines.nolevel
 import words.headlines.standard
-import words.utils.sections
 
 PageContentBoxed = collections.namedtuple('PageContentBoxed', 'page content')
 
@@ -70,7 +69,7 @@ def work(
         headerfooters,
         pages=pages,
     )
-    sections = words.utils.sections.load_sections(sections, pages=pages)
+    sections = serializeraw.load_sections(sections, pages=pages)
 
     strategies = [
         words.headlines.standard.StandardHeadlineExtractor,

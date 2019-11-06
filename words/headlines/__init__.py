@@ -312,9 +312,7 @@ def convert_level(result: iamraw.PagesHeadlineList) -> int:
 
 def determine_content_border(items):
     # analyze all chapter of the document
-    contents = [
-        item for item in items if isinstance(item, iamraw.sections.Content)
-    ]
+    contents = [item for item in items if isinstance(item, iamraw.MainPart)]
     # support more than one content element
     chapters = [[
         chapter
