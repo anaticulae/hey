@@ -2,6 +2,32 @@
 
 Every noteable change is logged here.
 
+## v1.11.0
+
+### Feature
+
+* support multiple sections on a single page (e18bf3a2810f)
+* support multiple sections on page (12ea34e50687)
+* use configo to handle holy values (97d13423bd65)
+* add possible to shrink page left to right (0c8480feea82)
+* add --pages information to toc feature (6028a5c05507)
+
+### Fix
+
+* use --all to make robust against interface changes (9bfe8f95d30d)
+* correct loading order (0d30fb55a54a)
+* enable undefined extraction (d8f099568691)
+* fix empty style (9fcb7ed51ce3)
+* activate test after improving font calculation (440efd1a43b0)
+* use new font calculation (70e68c9d8d62)
+* fix document with zero moving footer (811658ac1bac)
+
+### Documentation
+
+* fix output formatting (e6d61d9986cc)
+* extend interface documentation (5be75966d391)
+* extend interface documentation (9e5d466d601a)
+
 ## v1.10.0
 
 ### Feature
