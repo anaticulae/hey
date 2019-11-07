@@ -6,18 +6,16 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import iamraw
 import pytest
-from iamraw import BoundingBox
-from pytest import mark
-from pytest import param
-from serializeraw import dump_text
-from serializeraw import load_headlines
-from serializeraw import load_text
-from utila import NEWLINE
+import serializeraw
+import utila
 
 import hey.textnavigator.style
+import hey.undefined
 import tests.resources
-from hey.undefined import extract_undefined
+import words.feature
+import words.feature.text
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_contentborder
 from tests.fixtures.restruct import restructured_headerfooter
@@ -28,33 +26,21 @@ from tests.fixtures.restruct import restructured_sizeandborder
 from tests.fixtures.restruct import restructured_text
 from tests.fixtures.restruct import restructured_text_positions
 from tests.fixtures.restruct import restructured_textexample
-from tests.resources import RESTRUCT_BOXES
-from tests.resources import RESTRUCT_FONT_CONTENT
-from tests.resources import RESTRUCT_FONT_HEADER
-from tests.resources import RESTRUCT_HORIZONTAL
-from tests.resources import RESTRUCT_PAGENUMBERS
-from tests.resources import RESTRUCT_PAGESIZE
-from tests.resources import RESTRUCT_TEXT
-from tests.resources import RESTRUCT_TEXT_POSITION
-from words.feature import load_resources
-from words.feature.text import analyze_page
-from words.feature.text import fill_headlines
-from words.feature.text import work
 
 
 def test_words_text_work(
         restructured_headlines,  # pylint:disable=W0621
 ):
     headlines = restructured_headlines
-    result = work(
-        boxes=RESTRUCT_BOXES,
-        font_content=RESTRUCT_FONT_CONTENT,
-        font_header=RESTRUCT_FONT_HEADER,
+    result = words.feature.text.work(
+        boxes=tests.resources.RESTRUCT_BOXES,
+        font_content=tests.resources.RESTRUCT_FONT_CONTENT,
+        font_header=tests.resources.RESTRUCT_FONT_HEADER,
         headlines=headlines,
         headerfooters=tests.resources.RESTRUCT_FOOTERS,
-        pagesizes=RESTRUCT_PAGESIZE,
-        text=RESTRUCT_TEXT,
-        text_position=RESTRUCT_TEXT_POSITION,
+        pagesizes=tests.resources.RESTRUCT_PAGESIZE,
+        text=tests.resources.RESTRUCT_TEXT,
+        text_position=tests.resources.RESTRUCT_TEXT_POSITION,
     )
     assert len(result) > 6000, str(result)
 
@@ -67,10 +53,10 @@ def test_words_text_dump_and_load_text(
     textexample = restructured_textexample
     assert textexample is not None
     assert headlines is not None
-    headlines = load_headlines(headlines)
+    headlines = serializeraw.load_headlines(headlines)
 
-    dumped = dump_text(restructured_textexample)
-    loaded = load_text(dumped, headlines)
+    dumped = serializeraw.dump_text(restructured_textexample)
+    loaded = serializeraw.load_text(dumped, headlines)
 
     for first, second in zip(loaded, textexample):
         assert first == second, '\n\n%s\n%s\n\n\n' % (first, second)
@@ -126,17 +112,17 @@ def test_words_text_extractor_titles(
     assert result[10][1][1][0].text == 'Sphinx Guide'
 
 
-@mark.parametrize(
+@pytest.mark.parametrize(
     'current_page,current_headline,expected_start,expected_end',
     [
-        param(
+        pytest.param(
             8,
             2,
             ([]),  # no content after headline
             ('u19'),
             id='page8',
         ),
-        param(
+        pytest.param(
             13,
             7,
             ('Getting Started'),
@@ -146,7 +132,7 @@ def test_words_text_extractor_titles(
             id='page13',
             marks=pytest.mark.xfail(reason='dont know why'),
         ),
-        param(
+        pytest.param(
             14,
             8,
             ('Now that we have our basic skeleton, let’s document the project. '
@@ -156,14 +142,14 @@ def test_words_text_extractor_titles(
             id='page14',
             marks=pytest.mark.xfail(reason='require selective approach'),
         ),
-        param(
+        pytest.param(
             15,
             9,
             ('u0'),
             (None),
             id='page15',
         ),
-        param(
+        pytest.param(
             16,
             10,
             ('Make a manpage'),
@@ -180,31 +166,31 @@ def test_words_extract_texts_page_x(
         restructured_headlines,  # pylint:disable=W0621
 ):
     headlines = restructured_headlines
-    loaded = load_resources(
-        text=RESTRUCT_TEXT,
-        text_position=RESTRUCT_TEXT_POSITION,
-        font_header=RESTRUCT_FONT_HEADER,
-        font_content=RESTRUCT_FONT_CONTENT,
+    loaded = words.feature.load_resources(
+        text=tests.resources.RESTRUCT_TEXT,
+        text_position=tests.resources.RESTRUCT_TEXT_POSITION,
+        font_header=tests.resources.RESTRUCT_FONT_HEADER,
+        font_content=tests.resources.RESTRUCT_FONT_CONTENT,
         headlines=headlines,
-        pagesizes=RESTRUCT_PAGESIZE,
+        pagesizes=tests.resources.RESTRUCT_PAGESIZE,
         headerfooters=tests.resources.RESTRUCT_FOOTERS,
-        boxes=RESTRUCT_BOXES,
+        boxes=tests.resources.RESTRUCT_BOXES,
     )
 
     def join_output(paragraph):
         try:
             joined = ''.join([item for (item, _) in paragraph.content])
-            return joined.replace(NEWLINE, ' ')
+            return joined.replace(utila.NEWLINE, ' ')
         except TypeError:
             return 'u%d' % paragraph.container
 
     # fill headlines
-    headlines = fill_headlines(loaded.headlines)
+    headlines = words.feature.text.fill_headlines(loaded.headlines)
     # ensure that all collect headlines are from page `current_page`
     current = headlines[current_headline]
     assert all([item.page == current_page for item in current])
 
-    analyzed = analyze_page(
+    analyzed = words.feature.text.analyze_page(
         current,
         loaded.fontstore,
         loaded.textnavigators,
@@ -247,12 +233,12 @@ def test_words_text_convert_undefined_to_text(
     contentborder = restructured_contentborder
     assert textexample is not None
     assert headlines is not None
-    headlines = load_headlines(headlines)
+    headlines = serializeraw.load_headlines(headlines)
 
-    dumped = dump_text(restructured_textexample)
-    loaded = load_text(dumped, headlines)
+    dumped = serializeraw.dump_text(restructured_textexample)
+    loaded = serializeraw.load_text(dumped, headlines)
 
-    undefined = extract_undefined(
+    undefined = hey.undefined.extract_undefined(
         loaded,
         text,
         text_positions,
@@ -261,19 +247,22 @@ def test_words_text_convert_undefined_to_text(
 
     expected_list = [
         hey.textnavigator.style.TextInfo(
-            bounding=BoundingBox(x0=88.44, y0=332.13, x1=133.28, y1=344.13),
+            bounding=iamraw.BoundingBox(
+                x0=88.44, y0=332.13, x1=133.28, y1=344.13),
             text='• genindex',
             style=hey.textnavigator.style.TextStyle.create(
                 start=0, end=11, size=9.96),
         ),
         hey.textnavigator.style.TextInfo(
-            bounding=BoundingBox(x0=88.44, y0=350.07, x1=136.61, y1=362.07),
+            bounding=iamraw.BoundingBox(
+                x0=88.44, y0=350.07, x1=136.61, y1=362.07),
             text='• modindex',
             style=hey.textnavigator.style.TextStyle.create(
                 start=0, end=11, size=9.96),
         ),
         hey.textnavigator.style.TextInfo(
-            bounding=BoundingBox(x0=88.44, y0=368.00, x1=122.35, y1=380.00),
+            bounding=iamraw.BoundingBox(
+                x0=88.44, y0=368.00, x1=122.35, y1=380.00),
             text='• search',
             style=hey.textnavigator.style.TextStyle.create(
                 start=0, end=9, size=9.96),
