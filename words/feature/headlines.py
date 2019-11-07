@@ -95,8 +95,3 @@ def judge_result(results):
     if any([len(item) for item in results[0]]):
         extracted = results[0]
     return extracted
-
-
-SMALLEST_HEADLINE_SIZE = 1.1  # TODO: HOLY VALUE
-SMALLEST_HEADLINE_DISTANCE = 1.05  # TODO:HOLY VALUE
-SMALLEST_HEADLINE_DISTANCE_NOLEVEL = 1.1  # TODO:HOLY VALUE
