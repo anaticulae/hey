@@ -94,7 +94,7 @@ def bounds_to_textbounds(
     Args:
         bounds(iamraw.BoundingBox): BoundingBox of item
         item(str): content
-        contenborder(Border): the border of page content if None (0,0) is used
+        contentborder(Border): the border of page content if None (0,0) is used
     Returns:
         computed `TextBounds`
     """
