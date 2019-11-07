@@ -7,16 +7,17 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 """
+.. code-block:: python
 
-for chapter in content:
-    p(chapter.title)
-    for paragraph in chapter:
-        p(paragraph.title)
-        p(paragraph.number)
-        for sentence in paragraph:
-            p('word cout: %d' % len(sentence))
-            for word in sentence:
-                p(word)
+    for chapter in content:
+        p(chapter.title)
+        for paragraph in chapter:
+            p(paragraph.title)
+            p(paragraph.number)
+            for sentence in paragraph:
+                p('word cout: %d' % len(sentence))
+                for word in sentence:
+                    p(word)
 
 word
 
