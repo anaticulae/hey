@@ -15,6 +15,7 @@ from serializeraw import load_headlines
 from serializeraw import load_text
 from utila import NEWLINE
 
+import hey.textnavigator.style
 import tests.resources
 from hey.undefined import extract_undefined
 # pylint:disable=W0611
@@ -231,7 +232,6 @@ def test_words_extract_texts_page_x(
     assert last_line == expected_end
 
 
-@pytest.mark.xfail
 def test_words_text_convert_undefined_to_text(
         restructured_headlines,  # pylint:disable=W0621
         restructured_textexample,  # pylint:disable=W0621
@@ -258,16 +258,30 @@ def test_words_text_convert_undefined_to_text(
         text_positions,
         contentborder=contentborder,
     )
+
+    expected_list = [
+        hey.textnavigator.style.TextInfo(
+            bounding=BoundingBox(x0=88.44, y0=332.13, x1=133.28, y1=344.13),
+            text='• genindex',
+            style=hey.textnavigator.style.TextStyle.create(
+                start=0, end=11, size=9.96),
+        ),
+        hey.textnavigator.style.TextInfo(
+            bounding=BoundingBox(x0=88.44, y0=350.07, x1=136.61, y1=362.07),
+            text='• modindex',
+            style=hey.textnavigator.style.TextStyle.create(
+                start=0, end=11, size=9.96),
+        ),
+        hey.textnavigator.style.TextInfo(
+            bounding=BoundingBox(x0=88.44, y0=368.00, x1=122.35, y1=380.00),
+            text='• search',
+            style=hey.textnavigator.style.TextStyle.create(
+                start=0, end=9, size=9.96),
+        ),
+    ]
     expected = [
         (24, 1, (
-            [(0, [
-                (BoundingBox(x0=88.44, y0=332.13, x1=133.28, y1=344.13),
-                 '• genindex'),
-                (BoundingBox(x0=88.44, y0=350.07, x1=136.61, y1=362.07),
-                 '• modindex'),
-                (BoundingBox(x0=88.44, y0=368.00, x1=122.35, y1=380.00),
-                 '• search'),
-            ])],
+            [(0, expected_list)],
             [[2, 3, 4]],
         )),
     ]

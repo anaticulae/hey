@@ -38,6 +38,10 @@ class TextStyle:
         result = [char.size for char in item.content]
         return method(result)
 
+    @classmethod
+    def create(cls, start, end, size, rise=0):
+        return cls(content=[CharStyle(start, end, size, rise)])
+
 
 @dataclasses.dataclass
 class TextInfo:
