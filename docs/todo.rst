@@ -1,9 +1,12 @@
-# TODO
+todo
+====
 
-## 1. Headline pattern
+1. Headline pattern
+~~~~~~~~~~~~~~~~~~~
 
 * Find a more general/automatic pattern to determine headlines in document
 
-### General cleanup
+General cleanup
+~~~~~~~~~~~~~~~
 
 * Rename feature in features

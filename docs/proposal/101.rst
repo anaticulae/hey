@@ -6,10 +6,12 @@ different "pixel". Use image ai/ learning algorithmn.
 
 How to detect page number:
 
-[ ] [ ] [ ] [ ]
-[ ] [ ] [ ] [ ]
-[ ] [ ] [ ] [ ]
-[ ] [ ] [ ] [N]
-[ ] [ ] [ ] [ ]
+.. code-block:: none
+
+    [ ] [ ] [ ] [ ]
+    [ ] [ ] [ ] [ ]
+    [ ] [ ] [ ] [ ]
+    [ ] [ ] [ ] [N]
+    [ ] [ ] [ ] [ ]
 
 N stands for number.

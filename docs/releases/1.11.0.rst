@@ -1,0 +1,34 @@
+.. _1_11_0:
+
+RP 1.11.0
+=========
+
+Fix
+---
+
+* [x] `XFAIL tests/hey_/test_undefined.py::test_extract_undefined`
+
+* [x] `XFAIL tests/sections_/test_sections.py::test_sections_sections_simple`
+
+* [x] `XFAIL tests/sections_/test_sections.py::test_sections_extract_sections_simple`
+
+* [x] `XFAIL tests/words_/test_boxed.py::test_words_boxed_work`
+
+* [x] `XFAIL tests/words_/test_text.py::test_words_extract_texts_page_x[page8]`
+
+* [x] `XFAIL tests/words_/test_list.py::test_words_list_work`
+
+* [x] `XFAIL tests/words_/test_text.py::test_words_extract_texts_page_x[page15]`
+
+* [x] `XFAIL tests/words_/test_text.py::test_words_text_convert_undefined_to_text`
+
+* [x] `XFAIL tests/words_/test_words.py::test_words_dump_and_load_words_result`
+
+Requirements for release
+------------------------
+
+* [x] 100 percent test coverage
+
+* [x] 100 percent doc coverage
+
+* [x] linter rating better than 9.59/10: 9.32/10 (activate more checker)

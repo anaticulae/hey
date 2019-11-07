@@ -7,20 +7,19 @@ level` data out of it.
 
 ### groupme
 
-  * chapter: split document text by chapter
-  * structure: divide document in head(toc) and tail(rest)
-  * toc: create table of content out of raw text data
+* chapter: split document text by chapter
+* structure: divide document in head(toc) and tail(rest)
+* toc: create table of content out of raw text data
 
 ### sections
 
 Split the document in different sections, based on probalstic values:
 
-  * Title
-  * Table of Content
-  * Chapters
-  * Index
-  * Appendix...
-
+* Title
+* Table of Content
+* Chapters
+* Index
+* Appendix...
 
 ## CHECK THIS
 

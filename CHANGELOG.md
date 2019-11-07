@@ -1,4 +1,4 @@
-# Changelog
+# changelog
 
 Every noteable change is logged here.
 
@@ -538,4 +538,3 @@ Every noteable change is logged here.
 * move groupme to hey mono repo (b643494192aa)
 
 ## v0.0.0 Initial release
-

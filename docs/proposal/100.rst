@@ -1,5 +1,5 @@
-Feature Proposal 100
-====================
+FP 100: Feature gradient
+========================
 
 The feature gradient describe the change of a feature belong to page
 position from top to down.
@@ -23,7 +23,7 @@ How to identify a table:
 * text gradient
 
 Footer
------
+------
 
 * Text gradient
 * Horizontal line gradient

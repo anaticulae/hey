@@ -4,13 +4,12 @@ Welcome to a lot of features
 .. toctree::
   :maxdepth: 1
 
-  pages/readme
-
   pages/changelog
-
-  pages/bugs
-
-  pages/todo
+  releases/releases
+  releases/backlog
+  proposal/proposal
+  bugs
+  todo
 
 Modules
 --------------------

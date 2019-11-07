@@ -1,0 +1,17 @@
+.. _1_12_0:
+
+RP 1.12.0
+=========
+
+This increment aims to improve the text-extraction behavior.
+
+Status
+------
+
+* Your code has been rated at 9.32/10
+* Total coverage: 89.12%
+
+Documentation
+-------------
+
+* [x] use rst to restructure release documentation

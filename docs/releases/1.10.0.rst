@@ -1,26 +1,34 @@
-# plannend release 1.10.0
+.. _1_10_0:
 
-## footer
+RP 1.10.0
+=========
+
+footer
+------
 
 * [x] improve global decider strategy
 
 * [x] move headnotes load/dump to serializeraw
 
-## sections
+sections
+--------
 
 * [x] add --pages support
 
-## words
+words
+-----
 
 * [x] add --pages support
 
 * [x] refactor - use prepare_input/load_resources
 
-## general
+general
+-------
 
 * [x] activate 5 xfailed tests
 
-## requirements for release
+requirements for release
+------------------------
 
 * [/] 100 percent test coverage
 
