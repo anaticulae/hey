@@ -27,6 +27,7 @@ word.font.size
 word.style = [i, b, u, strong? etc?]
 """
 
+import collections
 import dataclasses
 import functools
 import itertools
@@ -111,8 +112,8 @@ def extract_texts(loaded: words.feature.TextRequiredResources):
             loaded.border,
             loaded.boxes,
         )
-        _, content = analyzed
-        if not content:
+        if analyzed is None:
+            # empty page
             continue
         result.append(analyzed)
     result = squeeze_text(result)
@@ -129,16 +130,15 @@ def analyze_page(
     """ """
     assert headlines, 'empty `headlines`'
     # TODO: Remove try/except
-    try:
-        prepared = prepare_analyze_page(
-            headlines,
-            textnavigators,
-            fontstore,
-            border,
-        )
-    except EmptyPageError as emptypage:
+    prepared = prepare_analyze_page(
+        headlines,
+        textnavigators,
+        fontstore,
+        border,
+    )
+    if prepared is None:
         # Skip analyzing empty pages
-        return (emptypage.page, None)
+        return None
 
     # prepare collection
     page, headlines, pcn, fcs = prepared
@@ -230,15 +230,16 @@ def prepare_analyze_page(
     page = headlines[0].page
     content = utila.select_page(borders, page=page)
     if content is None:
-        # TODO: CHECK THIS, DO WE NEED THIS?
-        raise EmptyPageError(page)
+        return None
+
     pcn = hey.textnavigator.navigator.PageTextContentNavigator(
         textnavigator=utila.select_page(textnavigators, page=page),
         content=utila.select_page(borders, page=page),
     )
     if pcn.offset == (None, None):
         # empty page
-        raise EmptyPageError(page)
+        return None
+
     fontstore = hey.fonts.store.FontContentStore(fontstore, pcn, page)
     # pcn.offset[0] - 1: the "virtual" headline is one container element before
     # the first content.
@@ -347,9 +348,4 @@ def content_type(boxed: words.boxed.BoxedChecker, page: int, bounding, content):
     return iamraw.ContentType.PARAGRAPH
 
 
-class EmptyPageError(ValueError):
-    """Page contains no content but maybe header and/or footer"""
-
-    def __init__(self, page):
-        super().__init__()
-        self.page = page
+EmptyPage = collections.namedtuple('EmptyPage', 'page')
