@@ -130,7 +130,10 @@ def extract_texts(loaded: words.feature.TextRequiredResources):
             # empty page
             continue
         result.append(analyzed)
-    result = squeeze_text(result)
+
+    # sequeeze text
+    # TODO: REQUIRE NEW INTERFACE
+    result = [(page.page, find_sentences(page)) for page in result]
     return result
 
 
@@ -140,10 +143,10 @@ def analyze_page(
         textnavigators: hey.textnavigator.navigator.PageTextNavigator,
         border: iamraw.Border,
         boxes: words.boxed.BoxedChecker,
-) -> typing.Tuple[iamraw.PageNumber, iamraw.Paragraphs]:
-    """ """
+) -> PageTextWithHeadlines:
+    """"""
     assert headlines, 'empty `headlines`'
-    # TODO: Remove try/except
+    # Seek pagetextnavigator to correct positon
     prepared = prepare_analyze_page(
         headlines,
         textnavigators,
@@ -154,16 +157,18 @@ def analyze_page(
         # Skip analyzing empty pages
         return None
 
-    # prepare collection
-    page, headlines, pcn, fcs = prepared
     call = functools.partial(
         collect_paragraph,
-        page=page,
-        pcn=pcn,
-        fcs=fcs,
+        page=prepared.number,
+        pcn=prepared.pagetextcontentnavigator,
+        fcs=prepared.fontcontentstore,
         boxes=boxes,
     )
-    zipped = itertools.zip_longest(headlines, headlines[1:], fillvalue=None)
+    zipped = itertools.zip_longest(
+        prepared.headlines,
+        prepared.headlines[1:],
+        fillvalue=None,
+    )
 
     # collect paragraphs
     result = [
@@ -174,18 +179,8 @@ def analyze_page(
     result = [(headline, content)
               for (headline, content) in result
               if (headline.container is not None and headline.container > -1)]
-    return (page, result)
 
-
-def squeeze_text(containers: typing.List[PageTextWithHeadlines]):
-    """
-    `Containers` represents the chapter structure.
-    """
-    result = []
-    for number, pagecontent in containers:
-        pageresult = squeeze_text_page(pagecontent)
-        result.append((number, pageresult))
-    return result
+    return PageTextWithHeadlines(page=prepared.number, content=result)
 
 
 def collect_paragraph(
@@ -226,19 +221,23 @@ def collect_paragraph(
     return result
 
 
+PageAnalyzeResources = collections.namedtuple(
+    'PageAnalyzeResources',
+    'number, headlines, pagetextcontentnavigator, fontcontentstore',
+)
+
+
 def prepare_analyze_page(
         headlines,
         textnavigators,
         fontstore,
         borders,
-):
+) -> PageAnalyzeResources:
     """Add dummy headline if required
 
     Some pages does not contain a headline or the headline starts after
     the first text content. Therefore adding a dummy headline is
     required to collect this content under the dummy headline.
-
-    Args:
 
     """
     page = headlines[0].page
@@ -275,7 +274,13 @@ def prepare_analyze_page(
     else:
         # normal headline
         pass
-    return page, headlines, pcn, fontstore
+
+    return PageAnalyzeResources(
+        number=page,
+        headlines=headlines,
+        pagetextcontentnavigator=pcn,
+        fontcontentstore=fontstore,
+    )
 
 
 def insert_empty_pages(headlines):
@@ -321,9 +326,9 @@ NEW_SENTENCE = [
 PATTERN = '|'.join(NEW_SENTENCE)
 
 
-def squeeze_text_page(page):
+def find_sentences(page: PageTextWithHeadlines):
     result = []
-    for (headline, sequence) in page:
+    for (headline, sequence) in page.content:
         lines = []
         for seq in sequence:
             if not isinstance(seq, iamraw.Paragraph):

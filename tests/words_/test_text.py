@@ -197,7 +197,7 @@ def test_words_extract_texts_page_x(
         loaded.border,
         loaded.boxes,
     )
-    page, (content) = analyzed
+    page, content = analyzed.page, analyzed.content
     assert page == current_page, 'wrong extracted page: %d' % page
 
     first_headline, first_output = content[0][0], content[0][1]
