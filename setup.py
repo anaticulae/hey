@@ -8,26 +8,25 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from os import chdir
-from os.path import abspath
-from os.path import dirname
-from os.path import join
-from re import search
+import os
+import re
 
-from setuptools import setup
+import setuptools
 
-ROOT = abspath(dirname(__file__))
+ROOT = os.path.abspath(os.path.dirname(__file__))
 
-with open(join(ROOT, 'README.md'), mode='rt', encoding='utf8') as fp:
+README = os.path.join(ROOT, 'README.md')
+VERSION = os.path.join(ROOT, 'hey/__init__.py')
+REQUIREMENTS = os.path.join(ROOT, "requirements.txt")
+
+with open(README, mode='rt', encoding='utf8') as fp:
     README = fp.read()
 
-with open(join(ROOT, 'hey/__init__.py'), mode='rt', encoding='utf8') as fp:
-    VERSION = search(r'__version__ = \'(.*?)\'', fp.read()).group(1)
+with open(VERSION, mode='rt', encoding='utf8') as fp:
+    VERSION = re.search(r'__version__ = \'(.*?)\'', fp.read()).group(1)
 
-with open(join(ROOT, "requirements.txt"), mode='rt', encoding='utf-8') as fp:
-    INSTALL_REQUIRES = [
-        line for line in fp.readlines() if line and '#' not in line
-    ]
+with open(REQUIREMENTS, mode='rt', encoding='utf-8') as fp:
+    REQUIREMENTS = [line for line in fp.readlines() if line and '#' not in line]
 
 
 def datafiles():
@@ -40,25 +39,21 @@ def datafiles():
 
 if __name__ == "__main__":
     # allow setup.py to run from another directory
-    chdir(ROOT)
-    setup(
+    os.chdir(ROOT)
+    setuptools.setup(
         author='Helmut Konrad Fahrendholz',
         author_email='info@checkitweg.de',
         data_files=datafiles(),
         description='a lot of features',
         include_package_data=True,
-        install_requires=INSTALL_REQUIRES,
+        install_requires=REQUIREMENTS,
         long_description=README,
         name='hey',
         platforms='any',
-        setup_requires=[],
-        tests_require=[],
         url='https://dev.package.checkitweg.de/hey',
         version=VERSION,
         zip_safe=False,  # create 'zip'-file if True. Don't do it!
         classifiers=[
-            'Programming Language :: Python :: 3.6',
-            'Programming Language :: Python :: 3.7',
             'Programming Language :: Python :: 3.8',
         ],
         packages=[
