@@ -6,7 +6,9 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""
+"""This module provides an easy access the textual structure of an
+document. The access is described below:
+
 .. code-block:: python
 
     for chapter in content:
@@ -56,7 +58,8 @@ def work(
         headerfooters: str,
         pages: tuple = None,
 ) -> str:
-    """Extract text paragraphs from document
+    """Extract textual structure out of document. A text is structured
+    in chapter, sections, paragraphs, sentences and words.
 
     Args:
         text(str): path to text extraction from rawmaker
@@ -102,6 +105,15 @@ class PageTextWithHeadlines:
 
 
 def extract_texts(loaded: words.feature.TextRequiredResources):
+    """Iterate thrue document via headline and process the content
+    between the headlines. Split Chapter into paragraphs and paragraphs
+    into sentences and words.
+
+    Args:
+        loaded: resources provided by text module
+    Returns:
+        list of text pages with textutal content definition
+    """
     result = []
     # ensure to preserve correct page order when having pages without headline
     headlines = insert_empty_pages(loaded.headlines)
