@@ -27,6 +27,7 @@ word.font.size
 word.style = [i, b, u, strong? etc?]
 """
 
+import dataclasses
 import functools
 import itertools
 import re
@@ -83,6 +84,18 @@ def work(
 
     dumped = serializeraw.dump_text(extracted)
     return dumped
+
+
+@dataclasses.dataclass
+class HeadlineWithContent:
+    text: str = None
+    content: typing.List[str] = dataclasses.field(default_factory=list)
+
+
+@dataclasses.dataclass
+class PageTextWithHeadlines:
+    page: int = None
+    content: typing.List[HeadlineWithContent] = dataclasses.field(default_factory=list) # yapf:disable
 
 
 def extract_texts(loaded: words.feature.TextRequiredResources):
@@ -148,6 +161,17 @@ def analyze_page(
               for (headline, content) in result
               if (headline.container is not None and headline.container > -1)]
     return (page, result)
+
+
+def squeeze_text(containers: typing.List[PageTextWithHeadlines]):
+    """
+    `Containers` represents the chapter structure.
+    """
+    result = []
+    for number, pagecontent in containers:
+        pageresult = squeeze_text_page(pagecontent)
+        result.append((number, pageresult))
+    return result
 
 
 def collect_paragraph(
@@ -263,17 +287,6 @@ def fill_headlines(headlines):
         list(group) for _, group in itertools.groupby(heads, lambda x: x.page)
     ]
     return headlines
-
-
-def squeeze_text(containers):
-    """
-    `Containers` represents the chapter structure.
-    """
-    result = []
-    for number, pagecontent in containers:
-        pageresult = squeeze_text_page(pagecontent)
-        result.append((number, pageresult))
-    return result
 
 
 SPACE = ' '
