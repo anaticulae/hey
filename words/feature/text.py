@@ -47,37 +47,39 @@ import words.headlines
 
 def work(
         text: str,
-        text_position: str,
-        font_header: str,
-        font_content: str,
+        textposition: str,
+        fontheader: str,
+        fontcontent: str,
         headlines: str,
         pagesizes: str,
         boxes: str,
         headerfooters: str,
-        pages=None,
+        pages: tuple = None,
 ) -> str:
     """Extract text paragraphs from document
 
     Args:
         text(str): path to text extraction from rawmaker
-        text_position(str): path to text_position matching with text-extraction
-        font_header(str):
-        font_content(str):
+        textposition(str): path to textposition matching with text-extraction
+        fontheader(str): table with all fonts in document
+        fontcontent(str): font definition for every word
         headlines(str): path to extracted headlines from hey/words
-        pagesizes(str):
-        horizontals(str):
+        pagesizes(str): path to size and border
+        boxes(str): definition of boxed rectangles
+        headerfooters: path to extracted footer and header
+        pages: list of page numbers to process
     Returns:
         dumped paragraphs
     """
     resources = words.feature.load_resources(
         boxes=boxes,
-        font_content=font_content,
-        font_header=font_header,
+        fontcontent=fontcontent,
+        fontheader=fontheader,
         headerfooters=headerfooters,
         headlines=headlines,
         pagesizes=pagesizes,
         text=text,
-        text_position=text_position,
+        textposition=textposition,
         pages=pages,
     )
 

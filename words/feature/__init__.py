@@ -30,9 +30,9 @@ class TextRequiredResources:
 
 def load_resources(
         text: str,
-        text_position: str,
-        font_header: str,
-        font_content: str,
+        textposition: str,
+        fontheader: str,
+        fontcontent: str,
         headlines: str,
         pagesizes: str,
         boxes: str,
@@ -41,11 +41,11 @@ def load_resources(
 ) -> TextRequiredResources:
     """Load content from path and create required object"""
     text = serializeraw.load_document(text, pages=pages)
-    position = serializeraw.load_textpositions(text_position, pages=pages)
+    position = serializeraw.load_textpositions(textposition, pages=pages)
     headlines = serializeraw.load_headlines(headlines, pages=pages)
     boxes = serializeraw.load_boxes(boxes, pages=pages)
 
-    fontstore = hey.fonts.store.create_fontstore(font_header, font_content)
+    fontstore = hey.fonts.store.create_fontstore(fontheader, fontcontent)
 
     textnavigators = hey.textnavigator.navigator.create_pagetextnavigators(
         text=text,

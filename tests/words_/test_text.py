@@ -34,13 +34,13 @@ def test_words_text_work(
     headlines = restructured_headlines
     result = words.feature.text.work(
         boxes=tests.resources.RESTRUCT_BOXES,
-        font_content=tests.resources.RESTRUCT_FONT_CONTENT,
-        font_header=tests.resources.RESTRUCT_FONT_HEADER,
-        headlines=headlines,
+        fontcontent=tests.resources.RESTRUCT_FONT_CONTENT,
+        fontheader=tests.resources.RESTRUCT_FONT_HEADER,
         headerfooters=tests.resources.RESTRUCT_FOOTERS,
+        headlines=headlines,
         pagesizes=tests.resources.RESTRUCT_PAGESIZE,
         text=tests.resources.RESTRUCT_TEXT,
-        text_position=tests.resources.RESTRUCT_TEXT_POSITION,
+        textposition=tests.resources.RESTRUCT_TEXT_POSITION,
     )
     assert len(result) > 6000, str(result)
 
@@ -167,14 +167,14 @@ def test_words_extract_texts_page_x(
 ):
     headlines = restructured_headlines
     loaded = words.feature.load_resources(
-        text=tests.resources.RESTRUCT_TEXT,
-        text_position=tests.resources.RESTRUCT_TEXT_POSITION,
-        font_header=tests.resources.RESTRUCT_FONT_HEADER,
-        font_content=tests.resources.RESTRUCT_FONT_CONTENT,
+        boxes=tests.resources.RESTRUCT_BOXES,
+        fontcontent=tests.resources.RESTRUCT_FONT_CONTENT,
+        fontheader=tests.resources.RESTRUCT_FONT_HEADER,
+        headerfooters=tests.resources.RESTRUCT_FOOTERS,
         headlines=headlines,
         pagesizes=tests.resources.RESTRUCT_PAGESIZE,
-        headerfooters=tests.resources.RESTRUCT_FOOTERS,
-        boxes=tests.resources.RESTRUCT_BOXES,
+        text=tests.resources.RESTRUCT_TEXT,
+        textposition=tests.resources.RESTRUCT_TEXT_POSITION,
     )
 
     def join_output(paragraph):
@@ -185,7 +185,7 @@ def test_words_extract_texts_page_x(
             return 'u%d' % paragraph.container
 
     # fill headlines
-    headlines = words.feature.text.fill_headlines(loaded.headlines)
+    headlines = words.feature.text.insert_empty_pages(loaded.headlines)
     # ensure that all collect headlines are from page `current_page`
     current = headlines[current_headline]
     assert all([item.page == current_page for item in current])
