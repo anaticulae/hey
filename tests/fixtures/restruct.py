@@ -54,7 +54,7 @@ from words.feature.boxed import dump_boxedcontent
 from words.feature.boxed import process_content as boxed_process_content
 from words.feature.headlines import work as headlines_work
 from words.feature.list import process as list_process
-from words.feature.text import extract_texts as text_extract_texts
+from words.text.chapter import extract_texts as text_extract_texts
 
 
 @pytest.fixture

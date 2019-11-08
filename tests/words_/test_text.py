@@ -16,6 +16,7 @@ import hey.undefined
 import tests.resources
 import words.feature
 import words.feature.text
+import words.text.chapter
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_contentborder
 from tests.fixtures.restruct import restructured_headerfooter
@@ -185,12 +186,12 @@ def test_words_extract_texts_page_x(
             return 'u%d' % paragraph.container
 
     # fill headlines
-    headlines = words.feature.text.insert_empty_pages(loaded.headlines)
+    headlines = words.text.chapter.insert_empty_pages(loaded.headlines)
     # ensure that all collect headlines are from page `current_page`
     current = headlines[current_headline]
     assert all([item.page == current_page for item in current])
 
-    analyzed = words.feature.text.analyze_page(
+    analyzed = words.text.chapter.analyze_page(
         current,
         loaded.fontstore,
         loaded.textnavigators,

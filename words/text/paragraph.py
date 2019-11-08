@@ -1,0 +1,62 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2019 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+
+import iamraw
+
+import hey.fonts.store
+import hey.textnavigator.navigator
+import words.boxed
+import words.feature
+import words.headlines
+
+
+def collect_paragraph(
+        first: iamraw.Headline,
+        second: iamraw.Headline,
+        page: int,
+        pcn: hey.textnavigator.navigator.PageTextContentNavigator,
+        fcs: hey.fonts.store.FontContentStore,
+        boxes: words.boxed.BoxedChecker,
+):
+    """
+    Hint: The Headlines/Container are numbered in absolute indies. Accessing
+    the content requires to subtract the offset which is produced by the
+    header.
+    """
+    # convert to content coordiante, and step one element further cause of
+    # current element is the headline and we want to start with content
+    start = first.container + 1 - pcn.offset[0]
+    # determine end mark
+    if second and first.page == second.page:
+        end = second.container - 1
+    else:
+        end = len(pcn)
+    # collect content after headline
+    result = []
+    for index in range(start, end):
+        _bounding, _content = pcn[index].bounding, pcn[index].text
+        try:
+            # TODO: INVESTIGATE WHATS WRONG HERE
+            fonts = fcs.fromstr(index, 0, _content)
+        except KeyError:
+            fonts = None
+        contenttype = content_type(boxes, page, _bounding, _content)
+        if contenttype == iamraw.ContentType.PARAGRAPH:
+            result.append(iamraw.Paragraph(content=fonts))
+        else:
+            result.append(iamraw.Undefined(container=index))
+    return result
+
+
+def content_type(boxed: words.boxed.BoxedChecker, page: int, bounding, content):
+    if iamraw.DOT in content:
+        return iamraw.ContentType.LIST
+    if boxed.contains(page, bounding):
+        return iamraw.ContentType.BOXED
+    return iamraw.ContentType.PARAGRAPH
