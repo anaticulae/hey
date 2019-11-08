@@ -85,6 +85,27 @@ def work(
     return dumped
 
 
+def extract_texts(loaded: words.feature.TextRequiredResources):
+    result = []
+    # fill headlines
+    headlines = fill_headlines(loaded.headlines)
+    # start analyzing
+    for headline in headlines:
+        analyzed = analyze_page(
+            headline,
+            loaded.fontstore,
+            loaded.textnavigators,
+            loaded.border,
+            loaded.boxes,
+        )
+        _, content = analyzed
+        if not content:
+            continue
+        result.append(analyzed)
+    result = squeeze_text(result)
+    return result
+
+
 def analyze_page(
         headlines,
         fontstore: hey.fonts.store.FontStore,
@@ -216,27 +237,6 @@ def prepare_analyze_page(
         # normal headline
         pass
     return page, headlines, pcn, fontstore
-
-
-def extract_texts(loaded: words.feature.TextRequiredResources):
-    result = []
-    # fill headlines
-    headlines = fill_headlines(loaded.headlines)
-    # start analyzing
-    for headline in headlines:
-        analyzed = analyze_page(
-            headline,
-            loaded.fontstore,
-            loaded.textnavigators,
-            loaded.border,
-            loaded.boxes,
-        )
-        _, content = analyzed
-        if not content:
-            continue
-        result.append(analyzed)
-    result = squeeze_text(result)
-    return result
 
 
 def fill_headlines(headlines):
