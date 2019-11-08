@@ -342,7 +342,7 @@ def squeeze_text_page(page):
                 last = end
             no_match = line == line[last:]
             if no_match:
-                utila.error('No match, potential headline: %s' % line)
+                utila.error(f'No sentence, maybe a headline: "{line}"?')
             if line[last:]:
                 lines.append(line[last:])
         # remove `space` after text
