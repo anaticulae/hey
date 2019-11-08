@@ -100,8 +100,8 @@ class PageTextWithHeadlines:
 
 def extract_texts(loaded: words.feature.TextRequiredResources):
     result = []
-    # fill headlines
-    headlines = fill_headlines(loaded.headlines)
+    # ensure to preserve correct page order when having pages without headline
+    headlines = insert_empty_pages(loaded.headlines)
     # start analyzing
     for headline in headlines:
         analyzed = analyze_page(
@@ -263,7 +263,7 @@ def prepare_analyze_page(
     return page, headlines, pcn, fontstore
 
 
-def fill_headlines(headlines):
+def insert_empty_pages(headlines):
     """Add pages with content but without any headlines.
 
     What happens when we forget to fill the headlines? All pages without any
