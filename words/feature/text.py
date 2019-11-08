@@ -135,7 +135,7 @@ def collect_paragraph(
         page: int,
         pcn: hey.textnavigator.navigator.PageTextContentNavigator,
         fcs: hey.fonts.store.FontContentStore,
-        boxes,
+        boxes: words.boxed.BoxedChecker,
 ):
     """
     Hint: The Headlines/Container are numbered in absolute indies. Accessing
@@ -151,20 +151,20 @@ def collect_paragraph(
     else:
         end = len(pcn)
     # collect content after headline
-    collector = []
+    result = []
     for index in range(start, end):
         _bounding, _content = pcn[index].bounding, pcn[index].text
-        # TODO: INVESTIGATE WHATS WRONG HERE
         try:
+            # TODO: INVESTIGATE WHATS WRONG HERE
             fonts = fcs.fromstr(index, 0, _content)
         except KeyError:
             fonts = None
         contenttype = content_type(boxes, page, _bounding, _content)
         if contenttype == iamraw.ContentType.PARAGRAPH:
-            collector.append(iamraw.Paragraph(content=fonts))
+            result.append(iamraw.Paragraph(content=fonts))
         else:
-            collector.append(iamraw.Undefined(container=index))
-    return collector
+            result.append(iamraw.Undefined(container=index))
+    return result
 
 
 def prepare_analyze_page(
@@ -294,7 +294,6 @@ PATTERN = '|'.join(NEW_SENTENCE)
 
 
 def squeeze_text_page(page):
-
     result = []
     for (headline, sequence) in page:
         lines = []
