@@ -27,3 +27,41 @@ PageAnalyzeResources = collections.namedtuple(
     'PageAnalyzeResources',
     'number, headlines, pagetextcontentnavigator, fontcontentstore',
 )
+
+
+@dataclasses.dataclass
+class TextSection:
+    headline: str = None
+    content: typing.List = dataclasses.field(default_factory=list)
+
+    def __getitem__(self, index):
+        # TODO: support tuple unpacking, remove later
+        if index > 1:
+            raise IndexError
+        return self.headline if index == 0 else self.content
+
+    def __eq__(self, value):
+        # TODO: support tuple unpacking, remove later
+        return self[0] == value[0] and self[1] == value[1]
+
+
+TextSections = typing.List[TextSection]
+
+
+@dataclasses.dataclass
+class PageContentPageTextDetected:
+    page: int = None
+    content: list = None
+
+    def __getitem__(self, index):
+        # TODO: support tuple unpacking, remove later
+        if index > 1:
+            raise IndexError
+        return self.page if index == 0 else self.content
+
+    def __eq__(self, value):
+        # TODO: support tuple unpacking, remove later
+        return self[0] == value[0] and self[1] == value[1]
+
+
+PageContentPageTextDetecteds = typing.List[PageContentPageTextDetected]

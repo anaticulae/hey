@@ -23,7 +23,7 @@ def collect_paragraph(
         pcn: hey.textnavigator.navigator.PageTextContentNavigator,
         fcs: hey.fonts.store.FontContentStore,
         boxes: words.boxed.BoxedChecker,
-):
+) -> iamraw.ChapterText:
     """
     Hint: The Headlines/Container are numbered in absolute indies. Accessing
     the content requires to subtract the offset which is produced by the

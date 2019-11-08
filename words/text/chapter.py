@@ -23,7 +23,8 @@ import words.text.paragraph
 import words.text.sentence
 
 
-def extract_texts(loaded: words.feature.TextRequiredResources):
+def extract_texts(loaded: words.feature.TextRequiredResources,
+                 ) -> words.text.PageContentPageTextDetecteds:
     """Iterate thrue document via headline and process the content
     between the headlines. Split Chapter into paragraphs and paragraphs
     into sentences and words.
@@ -51,9 +52,11 @@ def extract_texts(loaded: words.feature.TextRequiredResources):
         result.append(analyzed)
 
     # sequeeze text
-    # TODO: REQUIRE NEW INTERFACE
     result = [
-        (page.page, words.text.sentence.find_sentences(page)) for page in result
+        words.text.PageContentPageTextDetected(
+            page=page.page,
+            content=words.text.sentence.find_sentences(page),
+        ) for page in result
     ]
     return result
 
@@ -92,14 +95,16 @@ def analyze_page(
 
     # collect paragraphs
     result = [
-        (first, call(first=first, second=second)) for (first, second) in zipped
+        words.text.TextSection(
+            headline=first, content=call(first=first, second=second))
+        for (first, second) in zipped
     ]
 
     # clear result, remove empty content
-    result = [(headline, content)
-              for (headline, content) in result
-              if (headline.container is not None and headline.container > -1)]
-
+    result = [
+        item for item in result
+        if item.headline.container is not None and item.headline.container > -1
+    ]
     return words.text.PageTextWithHeadlines(
         page=prepared.number,
         content=result,

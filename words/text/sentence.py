@@ -31,7 +31,7 @@ NEW_SENTENCE = [
 PATTERN = '|'.join(NEW_SENTENCE)
 
 
-def find_sentences(page: words.text.PageTextWithHeadlines):
+def find_sentences(page: words.text.PageTextWithHeadlines) -> words.text.TextSections: # yapf:disable
     result = []
     for (headline, sequence) in page.content:
         lines = []
@@ -57,8 +57,9 @@ def find_sentences(page: words.text.PageTextWithHeadlines):
                 lines.append(line[last:])
         # remove `space` after text
         lines = [item.strip() for item in lines]
-        result.append((
-            headline,
-            lines,
-        ))
+        result.append(
+            words.text.TextSection(
+                headline=headline,
+                content=lines,
+            ))
     return result
