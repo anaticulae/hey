@@ -191,4 +191,11 @@ def document_textdistance(navigators,
     # TODO: is that right to have negative distances? see: example
     # howto_argparse.
     result = [item for item in result if item > 0]
-    return statistics.mode(result)
+
+    try:
+        return statistics.mode(result)
+    except statistics.StatisticsError:
+        # TODO: Multiply add distances as often as characters are in line?
+        # TODO: Handle equal count, see StatisticsError [12, 11, 12, 11, 148,
+        # 17, 4, 51, 129, 58, 8, 41]
+        assert 0, 'not decided yet'

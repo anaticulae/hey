@@ -25,3 +25,10 @@ def seventytwo_textrequired(pages=None):
 def test_words_text_seventytwo_extract_texts():
     required = seventytwo_textrequired(pages=(0, 1))
     extracted = words.text.chapter.extract_texts(required)
+
+
+@pytest.mark.xfail(reason='multiple equal fontdistance, think about later')
+def test_words_text_doubleequal_fontdistance():
+    required = seventytwo_textrequired(pages=(0))
+    extracted = words.text.chapter.extract_texts(required)
+    assert extracted
