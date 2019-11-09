@@ -33,6 +33,8 @@ import iamraw
 import serializeraw
 import utila
 
+import groupme.path
+import hey.path
 import hey.textnavigator.navigator
 
 
@@ -96,13 +98,13 @@ def create_strategy(
         strategy: 'FooterHeaderDetectionStrategy',
         pages=None,
 ):
-    horizontals = os.path.join(path, 'rawmaker__boxes_horizontal.yaml')
+    horizontals = hey.path.horizontals(path)
     horizontals = serializeraw.load_horizontals(horizontals, pages=pages)
 
-    sizeandborders = os.path.join(path, 'rawmaker__border_pages.yaml')
+    sizeandborders = hey.path.sizeandborder(path)
     sizeandborders = serializeraw.load_pageborders(sizeandborders, pages=pages)
 
-    pagenumbers = os.path.join(path, 'groupme__pagenumbers_pagenumbers.yaml')
+    pagenumbers = groupme.path.pagenumbers(path)
     pagenumbers = serializeraw.load_pagenumbers(pagenumbers, pages=pages)
 
     navigator = hey.textnavigator.navigator.create_pagetextnavigators_frompath(

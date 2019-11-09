@@ -14,6 +14,7 @@ import iamraw
 import serializeraw
 import utila
 
+import hey.path
 import hey.textnavigator.fonts
 import hey.textnavigator.style
 import hey.utils
@@ -276,13 +277,13 @@ def create_pagetextnavigators(
 
 
 def create_pagetextnavigators_frompath(path: str, pages=None):
-    text = os.path.join(path, 'rawmaker__text_text.yaml')
+    text = hey.path.text(path)
     text = serializeraw.load_document(text, pages=pages)
 
-    text_position = os.path.join(path, 'rawmaker__text_positions.yaml')
-    text_position = serializeraw.load_textpositions(text_position, pages=pages)
+    textposition = hey.path.textposition(path)
+    textposition = serializeraw.load_textpositions(textposition, pages=pages)
 
-    navigators = create_pagetextnavigators(text, text_position)
+    navigators = create_pagetextnavigators(text, textposition)
     return navigators
 
 
