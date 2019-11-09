@@ -224,7 +224,7 @@ def create_pagetextnavigators(
     for textposition in text_positions:
         navigator = PageTextNavigator(size=dimension, page=textposition.page)
         textid = 0
-        for item in text[textposition.page]:
+        for item in utila.select_page(text, textposition.page):
             try:
                 lines = item.lines
             except AttributeError:

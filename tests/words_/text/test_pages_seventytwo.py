@@ -23,7 +23,7 @@ def seventytwo_textrequired(pages=None):
 
 
 def test_words_text_seventytwo_extract_texts():
-    required = seventytwo_textrequired(pages=(0, 1))
+    required = seventytwo_textrequired(pages=(3))
     extracted = words.text.chapter.extract_texts(required)
 
 
