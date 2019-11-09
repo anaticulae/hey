@@ -1,0 +1,68 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2019 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+
+import os
+
+
+# TODO: MOVE TO UTILS
+def pathconnector(
+        path: str,
+        runner: str,
+        filename: str,
+        prefix: str = '',
+) -> str:
+    assert os.path.isdir(path), str(path)
+    prefix = f'{prefix}_' if prefix else ''
+    filename = f'{runner}__{prefix}{filename}.yaml'
+    result = os.path.join(path, filename)
+    return result
+
+
+# TODO: MOVE TO RAWMAKER
+def text(path: str, prefix: str = '') -> str:
+    """Add text file name of `rawmaker` to given `path
+
+    Pattern:
+        {path}_rawmaker_{prefix}_text_text.yaml
+
+    Args:
+        path(str): path to extracted `rawmaker`-content
+        prefix(str): optional {prefix} to separate rawmaker-files
+    Returns:
+        comined path
+    """
+    return pathconnector(path, 'rawmaker', 'text_text', prefix)
+
+
+def textposition(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'text_positions', prefix)
+
+
+def toc(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'toc_toc', prefix)
+
+
+def fontheader(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'fonts_header', prefix)
+
+
+def fontcontent(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'fonts_content', prefix)
+
+
+def sizeandborder(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'border_pages', prefix)
+
+
+def horizontals(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'boxes_horizontal', prefix)
+
+
+def boxed(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'rawmaker', 'boxes_boxes', prefix)

@@ -13,8 +13,11 @@ import typing
 import iamraw
 import serializeraw
 
+import groupme.path
 import hey.fonts.store
+import hey.path
 import hey.textnavigator.navigator
+import sections.path
 import words.boxed
 import words.headlines
 
@@ -73,6 +76,45 @@ def load_resources(
         textnavigators=textnavigators,
     )
     return result
+
+
+def load_resources_frompath(
+        path: str,
+        pages: tuple = None,
+) -> TextRequiredResources:
+    text = hey.path.text(path)
+    textposition = hey.path.textposition(path)
+    fontheader = hey.path.fontheader(path)
+    fontcontent = hey.path.fontcontent(path)
+    section = sections.path.sections(path)
+    sizeandborder = hey.path.sizeandborder(path)
+    boxes = hey.path.boxed(path)
+    headerfooters = groupme.path.headerfooters(path)
+
+    headlines = words.feature.headlines.work(
+        sections=section,
+        text=text,
+        text_position=textposition,
+        font_header=fontheader,
+        font_content=fontcontent,
+        sizeandborder=sizeandborder,
+        boxes=boxes,
+        headerfooters=headerfooters,
+        pages=pages,
+    )
+
+    loaded = load_resources(
+        text=text,
+        textposition=textposition,
+        fontheader=fontheader,
+        fontcontent=fontcontent,
+        headlines=headlines,
+        pagesizes=sizeandborder,
+        boxes=boxes,
+        headerfooters=headerfooters,
+        pages=pages,
+    )
+    return loaded
 
 
 def load_extracted(
