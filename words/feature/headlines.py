@@ -75,7 +75,6 @@ def work(
         words.headlines.standard.StandardHeadlineExtractor,
         words.headlines.nolevel.NoLevelHeadlineExtractor,
     ]
-
     results = [
         strategy(
             sectionlist=sections,

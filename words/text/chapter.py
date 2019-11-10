@@ -96,8 +96,12 @@ def analyze_page(
     # collect paragraphs
     result = [
         words.text.TextSection(
-            headline=first, content=call(first=first, second=second))
-        for (first, second) in zipped
+            headline=first,
+            content=call(
+                first=first,
+                second=second,
+            ),
+        ) for (first, second) in zipped
     ]
 
     # clear result, remove empty content
@@ -125,8 +129,8 @@ def prepare_analyze_page(
 
     """
     page = headlines[0].page
-    content = utila.select_page(borders, page=page)
-    if content is None:
+    contentborder = utila.select_page(borders, page=page)
+    if contentborder is None:
         return None
 
     pcn = hey.textnavigator.navigator.PageTextContentNavigator(
