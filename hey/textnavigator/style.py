@@ -22,6 +22,13 @@ class CharStyle:
 
 
 @dataclasses.dataclass
+class HighNote:
+    start: int
+    end: int
+    value: int
+
+
+@dataclasses.dataclass
 class TextStyle:
     content: typing.List[CharStyle] = dataclasses.field(default_factory=list)
 
@@ -77,3 +84,37 @@ def create_textstyle(chars: typing.List[iamraw.Char]) -> TextStyle:
         )
         result.append(style)
     return TextStyle(content=result)
+
+
+HIGHNOTE_MIN_RISE = 5.0  # TODO: HOLY NOTE
+
+
+def highnotes(info: TextInfo) -> typing.List[int]:
+    """Extract `HighNote`s out of text line. A highnote is a number
+    which is a reference to an item defined in the footer.
+
+    A HighNote is a number which has a text rise higher than
+    `HIGHNOTE_MIN_RISE`.
+
+    Args:
+        info(TextInfo): text line which can contain HightNote's
+    Returns:
+        list of parsed `HighNote`s
+    """
+    text = info.text
+    result = []
+    for style in info.style:
+        if style.rise <= HIGHNOTE_MIN_RISE:
+            continue
+        value = text[style.start:style.end]
+        try:
+            value = int(value)
+        except ValueError:
+            continue
+        note = HighNote(
+            start=style.start,
+            end=style.end,
+            value=value,
+        )
+        result.append(note)
+    return result
