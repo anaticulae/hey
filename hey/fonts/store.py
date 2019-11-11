@@ -8,13 +8,12 @@
 # =============================================================================
 
 import dataclasses
+import functools
 import typing
-from functools import lru_cache
 
-from iamraw import Font
-from serializeraw import load_font_content
-from serializeraw import load_font_header
-from utila import NEWLINE
+import iamraw
+import serializeraw
+import utila
 
 from hey.textnavigator.navigator import PageTextContentNavigator
 
@@ -24,7 +23,7 @@ NO_FONT = -1
 @dataclasses.dataclass
 class FontChunk:
     content: str
-    font: Font = None
+    font: iamraw.Font = None
 
 
 FontChunks = typing.List[FontChunk]
@@ -88,8 +87,8 @@ class FontStore:
                 continue
         return NO_FONT
 
-    @lru_cache()
-    def font_to_fontid(self, font: Font) -> int:
+    @functools.lru_cache()
+    def font_to_fontid(self, font: iamraw.Font) -> int:
         hashed = hash(font)
         try:
             self[hashed]
@@ -130,7 +129,7 @@ class FontStore:
                     collector += item
             if linenumber + 1 < len(lines):
                 # last item needs no newline
-                collector += NEWLINE
+                collector += utila.NEWLINE
         # Final font
         if collector:
             result.append(FontChunk(content=collector, font=current))
@@ -142,7 +141,7 @@ class FontStore:
     def __len__(self) -> int:
         return len(self.pages)
 
-    def __getitem__(self, index: int) -> Font:
+    def __getitem__(self, index: int) -> iamraw.Font:
         return self.header[index]
 
 
@@ -156,7 +155,7 @@ class FontContentStore:
     ):
         assert store, navigator
         assert isinstance(navigator, PageTextContentNavigator)
-        assert page == navigator.page, '%d %d' % (page, navigator.page)
+        assert page == navigator.page, f'{page} {navigator.page}'
         self.store = store
         self.off_start = navigator.offset[0]
         self.off_end = navigator.offset[1]
@@ -168,22 +167,25 @@ class FontContentStore:
             line: int,
             char: int,
     ) -> int:
-        """Determine fontid based on location. The container index starts with
-        zero. The containerid is relative to the start of content.
+        """Determine fontid based on location. The container index
+        starts with zero. The containerid is relative to the start of
+        content.
 
         Args:
-            container(int): containerid relative to start of content. The
-                            internal containerid is determined as
+            container(int): containerid relative to start of content.
+                            The internal containerid is determined as
                             `content-start` + `container`.
             line(int): line in selected container
             char(int): char in goal line
         Returns:
             fontid - font number defined in font_header
+        Raises:
+            IndexError: if `container` is out of bounds
         """
         current_container = self.off_start + container
         if container >= len(self):
             # TODO: check the index
-            raise IndexError('Index %d out of bounds' % container)
+            raise IndexError(f'index {container} out of bounds')
         fontid = self.store.fontid(self.page, current_container, line, char)
         return fontid
 
@@ -205,7 +207,7 @@ class FontContentStore:
     def __len__(self):
         return self.off_end - 1
 
-    def __getitem__(self, index: int) -> Font:
+    def __getitem__(self, index: int) -> iamraw.Font:
         try:
             return self.store[index]
         except (KeyError, TypeError):
@@ -222,8 +224,8 @@ def create_fontstore(header: str, content: str) -> FontStore:
         created FontStore
     """
 
-    fonts = load_font_header(header)
-    pages = load_font_content(content)
+    fonts = serializeraw.load_font_header(header)
+    pages = serializeraw.load_font_content(content)
 
     result = FontStore(fonts, pages)
     return result
