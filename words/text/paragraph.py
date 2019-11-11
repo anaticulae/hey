@@ -50,7 +50,12 @@ def collect_paragraph(
     return result
 
 
-def content_type(boxed: words.boxed.BoxedChecker, page: int, bounding, content):
+def content_type(
+        boxed: words.boxed.BoxedChecker,
+        page: int,
+        bounding: iamraw.BoundingBox,
+        content: str,
+):
     if iamraw.DOT in content:
         return iamraw.ContentType.LIST
     if boxed.contains(page, bounding):
