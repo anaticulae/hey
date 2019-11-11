@@ -33,9 +33,9 @@ PATTERN = '|'.join(NEW_SENTENCE)
 
 def find_sentences(page: words.text.PageTextWithHeadlines) -> words.text.TextSections: # yapf:disable
     result = []
-    for (headline, sequence) in page.content:
+    for section in page.content:
         lines = []
-        for seq in sequence:
+        for seq in section.content:
             if not isinstance(seq, iamraw.Paragraph):
                 lines.append('%du' % seq.container)
                 continue
@@ -59,7 +59,7 @@ def find_sentences(page: words.text.PageTextWithHeadlines) -> words.text.TextSec
         lines = [item.strip() for item in lines]
         result.append(
             words.text.TextSection(
-                headline=headline,
+                headline=section.headline,
                 content=lines,
             ))
     return result
