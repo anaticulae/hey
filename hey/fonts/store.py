@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import dataclasses
+import typing
 from functools import lru_cache
 
 from iamraw import Font
@@ -17,6 +19,15 @@ from utila import NEWLINE
 from hey.textnavigator.navigator import PageTextContentNavigator
 
 NO_FONT = -1
+
+
+@dataclasses.dataclass
+class FontChunk:
+    content: str
+    font: Font = None
+
+
+FontChunks = typing.List[FontChunk]
 
 
 class FontStore:
@@ -92,7 +103,7 @@ class FontStore:
             container: int,
             line: int,
             text: str,
-    ) -> Font:
+    ) -> FontChunks:
         """
 
         Args:
@@ -112,10 +123,7 @@ class FontStore:
             for index, item in enumerate(textline, start=0):
                 font = self.font(page, container, linenumber, index)
                 if font != current:
-                    result.append((
-                        collector,
-                        current,
-                    ))
+                    result.append(FontChunk(content=collector, font=current))
                     collector = item
                     current = font
                 else:
@@ -125,11 +133,7 @@ class FontStore:
                 collector += NEWLINE
         # Final font
         if collector:
-            result.append((
-                collector,
-                current,
-            ))
-
+            result.append(FontChunk(content=collector, font=current))
         return result
 
     def page_iter(self, number):
@@ -188,7 +192,7 @@ class FontContentStore:
             container: int,
             line: int,
             text: str,
-    ) -> Font:
+    ) -> FontChunks:
         current_container = self.off_start + container
         result = self.store.fromstr(
             self.page,

@@ -21,6 +21,7 @@ from iamraw import Weight
 from pytest import fixture
 from pytest import mark
 
+import hey.fonts.store as fs
 from hey.fonts.store import NO_FONT
 from hey.fonts.store import FontContentStore
 from hey.fonts.store import FontStore
@@ -121,11 +122,11 @@ def expected_result():
         stretch=Stretch.REGULAR,
     )
     expected = [
-        (text[0:154], first),
-        (text[154:161], bold),
-        (text[161:165], first),
-        (text[165:179], bold),
-        (text[179:], first),
+        fs.FontChunk(content=text[0:154], font=first),
+        fs.FontChunk(content=text[154:161], font=bold),
+        fs.FontChunk(content=text[161:165], font=first),
+        fs.FontChunk(content=text[165:179], font=bold),
+        fs.FontChunk(content=text[179:], font=first),
     ]
     page = 4
 
