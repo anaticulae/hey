@@ -43,7 +43,7 @@ def find_sentences(page: words.text.PageTextWithHeadlines) -> words.text.TextSec
             # does not have any content, see commit.
             if seq.content is None:
                 continue
-            line = ''.join([item.content for item in seq.content])
+            line = seq.content.text
             line = line.replace(utila.NEWLINE, SPACE)
             last = 0
             for item in re.finditer(PATTERN, line):

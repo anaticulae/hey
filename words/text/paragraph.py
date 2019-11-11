@@ -29,6 +29,7 @@ def collect_paragraph(
     the content requires to subtract the offset which is produced by the
     header.
     """
+    # TODO: fcs is not required anymore?
     # convert to content coordiante, and step one element further cause of
     # current element is the headline and we want to start with content
     start = first.container + 1 - pcn.offset[0]
@@ -40,15 +41,10 @@ def collect_paragraph(
     # collect content after headline
     result = []
     for index in range(start, end):
-        _bounding, _content = pcn[index].bounding, pcn[index].text
-        try:
-            # TODO: INVESTIGATE WHATS WRONG HERE
-            fonts = fcs.fromstr(index, 0, _content)
-        except KeyError:
-            fonts = None
-        contenttype = content_type(boxes, page, _bounding, _content)
+        item = pcn[index]
+        contenttype = content_type(boxes, page, item.bounding, item.text)
         if contenttype == iamraw.ContentType.PARAGRAPH:
-            result.append(iamraw.Paragraph(content=fonts))
+            result.append(iamraw.Paragraph(content=item))
         else:
             result.append(iamraw.Undefined(container=index))
     return result
