@@ -72,6 +72,7 @@ if __name__ == "__main__":
             'words',
             'words.feature',
             'words.headlines',
+            'words.links',
             'words.loader',
             'words.text',
             'words.utils',
