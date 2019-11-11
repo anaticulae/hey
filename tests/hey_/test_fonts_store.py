@@ -7,27 +7,14 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-# TODO: Move to iamraw
-
+import iamraw
 import pytest
 import serializeraw
 import utila
-from iamraw import Document
-from iamraw import Font
-from iamraw import PageFontContent
-from iamraw import Stretch
-from iamraw import Style
-from iamraw import Weight
-from pytest import fixture
-from pytest import mark
 
 import hey.fonts.store as fs
-from hey.fonts.store import NO_FONT
-from hey.fonts.store import FontContentStore
-from hey.fonts.store import FontStore
-from hey.textnavigator.navigator import PageTextContentNavigator
-from hey.textnavigator.navigator import PageTextNavigators
-from hey.textnavigator.navigator import create_pagetextnavigators
+import hey.textnavigator.navigator as tn
+import tests.resources as tr
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_contentborder
 from tests.fixtures.restruct import restructured_fontstore
@@ -39,40 +26,40 @@ from tests.fixtures.restruct import restructured_text
 from tests.resources import RESTRUCT_PAGESIZE
 from tests.resources import RESTRUCT_TEXT_POSITION
 
-FIRST_FONT = Font(
+FIRST_FONT = iamraw.Font(
     name='NimbusSanL',
     scale=18,
-    weight=Weight.BOLD,
+    weight=iamraw.Weight.BOLD,
 )
 
-SECOND_FONT = Font(
+SECOND_FONT = iamraw.Font(
     name='NimbusSanL',
     scale=13,
-    weight=Weight.BOLD,
-    style=Style.ITALIC,
+    weight=iamraw.Weight.BOLD,
+    style=iamraw.Style.ITALIC,
 )
-THIRD_FONT = Font(
+THIRD_FONT = iamraw.Font(
     name='NimbusSanL',
     scale=13,
-    weight=Weight.BOLD,
+    weight=iamraw.Weight.BOLD,
 )
 
-FORTH_FONT = Font(
+FORTH_FONT = iamraw.Font(
     name='NimbusSanL',
     scale=9,
-    weight=Weight.BOLD,
+    weight=iamraw.Weight.BOLD,
 )
 
-FIFTH_FONT = Font(
+FIFTH_FONT = iamraw.Font(
     name='NimbusSanL',
     scale=11,
-    weight=Weight.LIGHT,
-    style=Style.NORMAL,
-    stretch=Stretch.REGULAR,
+    weight=iamraw.Weight.LIGHT,
+    style=iamraw.Style.NORMAL,
+    stretch=iamraw.Stretch.REGULAR,
 )
 
 
-@mark.parametrize(
+@pytest.mark.parametrize(
     'page,container,line,char,expected',
     [
         (0, 0, 1, 5, FIRST_FONT),
@@ -80,15 +67,15 @@ FIFTH_FONT = Font(
         (0, 1, 0, 10, SECOND_FONT),
         (0, 2, 0, 11, THIRD_FONT),
         (0, 3, 0, 0, FORTH_FONT),
-        (0, 4, 0, 0, NO_FONT),
-        (0, 3, 0, 13, NO_FONT),
-        (0, 3, 1, 0, NO_FONT),
-        (1, 0, 0, 0, NO_FONT),  # Empty page
+        (0, 4, 0, 0, fs.NO_FONT),
+        (0, 3, 0, 13, fs.NO_FONT),
+        (0, 3, 1, 0, fs.NO_FONT),
+        (1, 0, 0, 0, fs.NO_FONT),  # Empty page
         (2, 0, 0, 0, FIFTH_FONT),
         (2, 0, 0, 7, FIFTH_FONT),
     ])  #TODO: THINK ABOUT BETTER APPRAOCH THAN SAVING HASH KEY
 def test_fontstore_access_font_id(
-        restructured_fontstore: FontStore,  # pylint:disable=W0621
+        restructured_fontstore: fs.FontStore,  # pylint:disable=W0621
         page,
         container,
         line,
@@ -98,8 +85,8 @@ def test_fontstore_access_font_id(
     expected_fontid = hash(expected)
     fontstore = restructured_fontstore
     fontid = fontstore.fontid(page, container, line, char)
-    if expected == NO_FONT:
-        expected_fontid = NO_FONT
+    if expected == fs.NO_FONT:
+        expected_fontid = fs.NO_FONT
     assert fontid == expected_fontid
 
 
@@ -107,19 +94,19 @@ def expected_result():
     text = ('RestructuredText (reST) is a markup language, it’s name coming '
             'from that it’s considered a revision and reinterpreta-\ntion of'
             ' two other markup languages, Setext and StructuredText.')
-    first = Font(
+    first = iamraw.Font(
         name='NimbusRomNo9L',
         scale=7,
-        weight=Weight.LIGHT,
-        style=Style.NORMAL,
-        stretch=Stretch.REGULAR,
+        weight=iamraw.Weight.LIGHT,
+        style=iamraw.Style.NORMAL,
+        stretch=iamraw.Stretch.REGULAR,
     )
-    bold = Font(
+    bold = iamraw.Font(
         name='NimbusRomNo9L',
         scale=7,
-        weight=Weight.MEDIUM,
-        style=Style.NORMAL,
-        stretch=Stretch.REGULAR,
+        weight=iamraw.Weight.MEDIUM,
+        style=iamraw.Style.NORMAL,
+        stretch=iamraw.Stretch.REGULAR,
     )
     expected = [
         fs.FontChunk(content=text[0:154], font=first),
@@ -134,7 +121,7 @@ def expected_result():
 
 
 def test_fontstore_from_str(
-        restructured_fontstore: FontStore,  # pylint:disable=W0621
+        restructured_fontstore: fs.FontStore,  # pylint:disable=W0621
 ):
     """Determine fonts via text input and start of text sequence"""
     fontstore = restructured_fontstore
@@ -147,28 +134,28 @@ def test_fontstore_from_str(
     assert result == expected, str(result)
 
 
-@fixture
+@pytest.fixture
 def restructured_textnavigators(
-        restructured_text: Document,  # pylint:disable=W0621
-) -> PageTextNavigators:
-    textpositions = serializeraw.load_textpositions(RESTRUCT_TEXT_POSITION)
-    navigators = create_pagetextnavigators(
+        restructured_text: iamraw.Document,  # pylint:disable=W0621
+) -> tn.PageTextNavigators:
+    textpositions = serializeraw.load_textpositions(tr.RESTRUCT_TEXT_POSITION)
+    navigators = tn.create_pagetextnavigators(
         text=restructured_text,
         text_positions=textpositions,
     )
     return navigators
 
 
-@fixture
+@pytest.fixture
 def restructured_pagetextcontentnavigator(
         restructured_textnavigators,  # pylint:disable=W0621
         restructured_contentborder,  # pylint:disable=W0621
-) -> PageTextContentNavigator:
+) -> tn.PageTextContentNavigator:
     contentborders = restructured_contentborder
     page = 4
     navigator = utila.select_page(restructured_textnavigators, page)
     contentborders = utila.select_page(contentborders, page)
-    pagecontent = PageTextContentNavigator(
+    pagecontent = tn.PageTextContentNavigator(
         navigator,
         contentborders,
     )
@@ -181,7 +168,7 @@ def test_fontstore_fontcontentstore(
 ):
     navigator = restructured_pagetextcontentnavigator
     fontstore = restructured_fontstore
-    content = FontContentStore(
+    content = fs.FontContentStore(
         store=fontstore,
         navigator=navigator,
         page=4,
@@ -198,16 +185,16 @@ def test_fontstore_fontcontentstore(
 def test_fontstore_font_to_fontid():
     # prepare sample font store
     # pylint:disable=C0103
-    f0 = Font(name='SuperFont', scale=12.5)
-    f1 = Font(name='Arial', scale=12.5)
-    f2 = Font(name='Verdana', scale=17.5)
-    f3 = Font(name='Times', scale=5)
-    f4 = Font(name='Arial', scale=20)
-    f5 = Font(name='Arial', scale=5)
+    f0 = iamraw.Font(name='SuperFont', scale=12.5)
+    f1 = iamraw.Font(name='Arial', scale=12.5)
+    f2 = iamraw.Font(name='Verdana', scale=17.5)
+    f3 = iamraw.Font(name='Times', scale=5)
+    f4 = iamraw.Font(name='Arial', scale=20)
+    f5 = iamraw.Font(name='Arial', scale=5)
     header = [f0, f1, f2, f3, f4, f5]
-    content = [PageFontContent(content=[], page=0)]
+    content = [iamraw.PageFontContent(content=[], page=0)]
 
-    store = FontStore(header, content)
+    store = fs.FontStore(header, content)
     assert store.font_to_fontid(f4) == hash(f4)
     assert store.font_to_fontid(f3) == hash(f3)
     assert store.font_to_fontid(f3) == hash(f3)
