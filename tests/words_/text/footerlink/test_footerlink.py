@@ -14,5 +14,6 @@ def test_footerlink_extract_highnotes():
     required = fseventytwo.textrequired(pages=(3))
     extracted = words.feature.footerlink.extract_highnotes(required)
 
+    extracted = extracted[0].content
     values = [item.value for item in extracted]
     assert values == list(range(1, 7)), values

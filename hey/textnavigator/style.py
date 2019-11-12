@@ -11,6 +11,8 @@ import dataclasses
 import typing
 
 import iamraw
+import utila
+import yaml
 
 
 @dataclasses.dataclass
@@ -127,3 +129,45 @@ def highnotes(info: TextInfo) -> typing.List[int]:
         )
         result.append(note)
     return result
+
+
+@dataclasses.dataclass
+class PageContentTextItems:
+    page: int
+    content: list = dataclasses.field(default_factory=list)
+
+
+def load_highnotes(content: str, pages: tuple = None):
+    content = utila.from_raw_or_path(content, ftype='yaml')
+    loaded = yaml.load(content, Loader=yaml.FullLoader)
+    result = []
+    for pagecontent in loaded:
+        pagenumber = int(pagecontent['page'])
+        if utila.should_skip(pagenumber, pages):
+            continue
+        page = PageContentTextItems(page=pagenumber)
+        page.content = [
+            HighNote(
+                start=item['start'],
+                end=item['end'],
+                value=item['value'],
+            ) for item in pagecontent['content']
+        ]
+        result.append(page)
+    return result
+
+
+def dump_highnotes(pages) -> str:
+    assert all([isinstance(item, PageContentTextItems) for item in pages])
+    result = []
+    for page in pages:
+        raw = {'page': page.page}
+        items = [{
+            'start': item.start,
+            'end': item.end,
+            'value': item.value
+        } for item in page.content]
+        raw['content'] = items
+        result.append(raw)
+    dumped = yaml.dump(result)
+    return dumped

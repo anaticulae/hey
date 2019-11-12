@@ -29,3 +29,27 @@ def test_textnavigator_style_highnotes():
     parsed = ts.highnotes(EXAMPLE)
     expected = [ts.HighNote(start=20, end=21, value=1)]
     assert parsed == expected, parsed
+
+
+def test_textnavigator_style_dump_and_load_highnotes():
+    highnotes = [
+        ts.PageContentTextItems(
+            page=2,
+            content=[
+                ts.HighNote(start=20, end=21, value=1),
+                ts.HighNote(start=80, end=81, value=3),
+                ts.HighNote(start=120, end=121, value=5),
+            ],
+        ),
+        ts.PageContentTextItems(
+            page=5,
+            content=[
+                ts.HighNote(start=80, end=81, value=3),
+                ts.HighNote(start=120, end=121, value=5),
+            ],
+        )
+    ]
+    dumped = ts.dump_highnotes(highnotes)
+    loaded = ts.load_highnotes(dumped)
+
+    assert loaded == highnotes
