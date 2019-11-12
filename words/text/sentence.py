@@ -75,6 +75,7 @@ def split_sentences(text: str) -> typing.List[str]:
         if not token:
             continue
         current.append(token)
+        token = token.lower()  # make approach more robust
         lastchar = token[-1]
         if lastchar == '.':
             if len(token) == 2:
@@ -130,6 +131,7 @@ WHITELIST = {
     'vgl.',
     'z.B.',
 }
+WHITELIST = {item.lower() for item in WHITELIST}
 
 # a.a.O. = am angeführten Ort
 # Jg. = Jahrgang
