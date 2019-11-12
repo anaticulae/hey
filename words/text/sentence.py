@@ -7,57 +7,37 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import re
 import typing
 
 import iamraw
 import utila
 
+import hey.textnavigator.style as ts
 import words.text
-
-SPACE = ' '
-
-# TODO: add more special chars
-SPECIAL_CHARS = ['>', '<', r'\)', r'\(']
-SPECIAL_CHARS = '|'.join(SPECIAL_CHARS)
-
-NEW_SENTENCE = [
-    r'[\w' + SPECIAL_CHARS + r']\. ',
-    r'[\w' + SPECIAL_CHARS + r']\.$',
-    r'\? ',
-    r'\?$',
-    r'\w: ',
-    r'\w:$',
-]
-PATTERN = '|'.join(NEW_SENTENCE)
 
 
 def find_sentences(page: words.text.PageTextWithHeadlines) -> words.text.TextSections: # yapf:disable
     result = []
     for section in page.content:
         lines = []
+        current = []
         for seq in section.content:
             if not isinstance(seq, iamraw.Paragraph):
+                if current:
+                    lines.extend(split_sentences(' '.join(current)))
+                    current = []
                 lines.append('%du' % seq.container)
                 continue
             # skip here to ensure that Undefined Container is added which
             # does not have any content, see commit.
             if seq.content is None:
                 continue
-            line = seq.content.text
-            line = line.replace(utila.NEWLINE, SPACE)
-            last = 0
-            for item in re.finditer(PATTERN, line):
-                _, end = item.start(), item.end()
-                lines.append(line[last:end])
-                last = end
-            no_match = line == line[last:]
-            if no_match:
-                utila.error(f'No sentence, maybe a headline: "{line}"?')
-            if line[last:]:
-                lines.append(line[last:])
-        # remove `space` after text
-        lines = [item.strip() for item in lines]
+            text = ts.remove_highnotes(seq.content)
+            text = text.replace(utila.NEWLINE, ' ').strip()
+            current.append(text)
+        if current:
+            lines.extend(split_sentences(' '.join(current)))
+            current = []
         result.append(
             words.text.TextSection(
                 headline=section.headline,

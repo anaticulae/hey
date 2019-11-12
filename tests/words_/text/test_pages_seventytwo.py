@@ -8,6 +8,7 @@
 # =============================================================================
 
 import pytest
+import utila
 
 import tests.words_.fixtures.seventytwo as fseventytwo
 import words.text.chapter
@@ -18,6 +19,12 @@ def test_words_text_seventytwo_extract_texts():
     required = fseventytwo.textrequired(pages=(3))
     extracted = words.text.chapter.extract_texts(required)
     assert extracted
+
+    firstpage = utila.select_page(extracted, 3)
+    firstsection = firstpage.content[0]
+    sectioncontent = firstsection.content
+
+    assert len(sectioncontent) == 17
 
 
 def test_words_text_seventytwo_extract_sentences():
