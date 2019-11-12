@@ -7,8 +7,18 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import os
+
+import utila
+
 import tests.resources
+import words
 import words.feature
+
+SEVENTYTWO_FIRSTPAGE = os.path.join(
+    words.ROOT,
+    'tests/words_/fixtures/seventytwo_firstpage.txt',
+)
 
 
 def textrequired(pages=None):
@@ -16,3 +26,16 @@ def textrequired(pages=None):
         tests.resources.MASTER_72PAGES,
         pages=pages,
     )
+
+
+def firstpage_sentences():
+    assert os.path.exists(SEVENTYTWO_FIRSTPAGE), SEVENTYTWO_FIRSTPAGE
+
+    content = utila.file_read(SEVENTYTWO_FIRSTPAGE)
+    splitted = content.split(utila.NEWLINE * 2)
+
+    sentences = [item.replace(utila.NEWLINE, ' ').strip() for item in splitted]
+    return sentences
+
+
+FIRST_PAGE_SENTENCES = []

@@ -11,12 +11,22 @@ import pytest
 
 import tests.words_.fixtures.seventytwo as fseventytwo
 import words.text.chapter
+import words.text.sentence
 
 
 def test_words_text_seventytwo_extract_texts():
     required = fseventytwo.textrequired(pages=(3))
     extracted = words.text.chapter.extract_texts(required)
     assert extracted
+
+
+def test_words_text_seventytwo_extract_sentences():
+    expected = fseventytwo.firstpage_sentences()
+    raw = ' '.join(expected)
+    splitted = words.text.sentence.split_sentences(raw)
+
+    assert len(splitted) == len(expected)
+    assert splitted == expected
 
 
 @pytest.mark.xfail(reason='multiple equal fontdistance, think about later')
