@@ -238,6 +238,9 @@ def create_pagetextnavigators(
                 )
                 style = hey.textnavigator.style.create_textstyle(line.chars)
                 # TODO: Remove strip after container is fixed
+                if not line.text.strip():
+                    # skip bad removed rawmaker extraction
+                    continue
                 navigator.insert(
                     text=line.text.strip(),
                     style=style,

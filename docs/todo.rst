@@ -10,3 +10,9 @@ General cleanup
 ~~~~~~~~~~~~~~~
 
 * Rename feature in features
+
+Textiterator
+~~~~~~~~~~~~
+
+* check iterator position, check removed empty lines and prove that list/
+  undefined extraction works correctly.
