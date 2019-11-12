@@ -32,6 +32,15 @@ class HighNote:
 class TextStyle:
     content: typing.List[CharStyle] = dataclasses.field(default_factory=list)
 
+    def __post_init__(self):
+        if not self.content:
+            return
+        last = self.content[0]  # pylint:disable=E1136
+        for current in self.content[1:]:  # pylint:disable=E1136
+            assert current.start < current.end, current
+            assert current.start == last.end, f'{current.start} == {last.end}'
+            last = current
+
     def __iter__(self):
         for style in self.content:  # pylint:disable=E1133
             yield style
