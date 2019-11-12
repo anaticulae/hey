@@ -131,6 +131,26 @@ def highnotes(info: TextInfo) -> typing.List[int]:
     return result
 
 
+def remove_highnotes(info: TextInfo) -> str:
+    """Replace hight notes with empty character. Therefore the text
+    width is shrinked.
+
+    Args:
+        info(TextInfo): text data with rise information
+    Returns:
+        text without any hightnotes
+    """
+    notes = highnotes(info)
+    result = []
+    current = 0
+    for item in notes:
+        result.append(info.text[current:item.start])
+        current = item.end
+    if current != len(info.text):
+        result.append(info.text[current:])
+    return ''.join(result)
+
+
 @dataclasses.dataclass
 class PageContentTextItems:
     page: int

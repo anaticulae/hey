@@ -31,6 +31,12 @@ def test_textnavigator_style_highnotes():
     assert parsed == expected, parsed
 
 
+def test_textnavigator_style_highnotes_remove_highnotes():
+    removed = ts.remove_highnotes(EXAMPLE)
+    expected = EXAMPLE.text[0:20] + EXAMPLE.text[21:]
+    assert removed == expected
+
+
 def test_textnavigator_style_dump_and_load_highnotes():
     highnotes = [
         ts.PageContentTextItems(
