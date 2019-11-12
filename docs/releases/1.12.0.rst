@@ -19,7 +19,7 @@ Text
 Footlink
 --------
 
-* [ ] iterate thru text and extract **rised** high numbers
+* [x] iterate thru text and extract **rised** high numbers
 
 Status
 ------

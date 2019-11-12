@@ -63,3 +63,16 @@ def find_sentences(page: words.text.PageTextWithHeadlines) -> words.text.TextSec
                 content=lines,
             ))
     return result
+
+
+def visit_sections(page: words.text.PageTextWithHeadlines):
+    for section in page.content:
+        for seq in section.content:
+            if not isinstance(seq, iamraw.Paragraph):
+                continue
+            # skip here to ensure that Undefined Container is added which
+            # does not have any content, see commit.
+            # TODO: DO WE NEED THIS HERE?
+            if seq.content is None:
+                continue
+            yield section.headline, seq.content

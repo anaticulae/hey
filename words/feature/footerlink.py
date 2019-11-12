@@ -13,6 +13,33 @@ Example:
 
 """
 
+import hey.textnavigator.style
+import words.feature
+import words.text
+import words.text.chapter
+import words.text.sentence
+
 
 def work() -> str:
     pass
+
+
+def extract_highnotes(loaded: words.feature.TextRequiredResources,
+                     ) -> words.text.PageContentPageTextDetecteds:
+    """Iterate thrue document via headline and process the content
+    between the headlines. Split Chapter into paragraphs and paragraphs
+    into sentences and words.
+
+    Args:
+        loaded: resources provided by text module
+    Returns:
+        list of text pages with textutal content definition
+    """
+    loaded = words.text.chapter.split(loaded)
+
+    result = []
+    for page in loaded:
+        for headline, content in words.text.sentence.visit_sections(page):
+            highnotes = hey.textnavigator.style.highnotes(content)
+            result.extend(highnotes)
+    return result
