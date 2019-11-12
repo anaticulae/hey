@@ -34,6 +34,20 @@ def extract_texts(loaded: words.feature.TextRequiredResources,
     Returns:
         list of text pages with textutal content definition
     """
+    result = split(loaded)
+
+    # extract sentence out of paragraphs
+    result = [
+        words.text.PageContentPageTextDetected(
+            page=page.page,
+            content=words.text.sentence.find_sentences(page),
+        ) for page in result
+    ]
+    return result
+
+
+def split(loaded: words.feature.TextRequiredResources
+         ) -> words.text.PageTextWithHeadlines:
     result = []
     # ensure to preserve correct page order when having pages without headline
     headlines = insert_empty_pages(loaded.headlines)
@@ -50,14 +64,6 @@ def extract_texts(loaded: words.feature.TextRequiredResources,
             # empty page
             continue
         result.append(analyzed)
-
-    # sequeeze text
-    result = [
-        words.text.PageContentPageTextDetected(
-            page=page.page,
-            content=words.text.sentence.find_sentences(page),
-        ) for page in result
-    ]
     return result
 
 
