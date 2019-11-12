@@ -7,20 +7,12 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import pytest
-
-import tests.words_.fixtures.seventytwo as fseventytwo
-import words.text.chapter
+import tests.resources
+import words.feature
 
 
-def test_words_text_seventytwo_extract_texts():
-    required = fseventytwo.textrequired(pages=(3))
-    extracted = words.text.chapter.extract_texts(required)
-    assert extracted
-
-
-@pytest.mark.xfail(reason='multiple equal fontdistance, think about later')
-def test_words_text_doubleequal_fontdistance():
-    required = fseventytwo.textrequired(pages=(0))
-    extracted = words.text.chapter.extract_texts(required)
-    assert extracted
+def textrequired(pages=None):
+    return words.feature.load_resources_frompath(
+        tests.resources.MASTER_72PAGES,
+        pages=pages,
+    )
