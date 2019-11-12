@@ -22,6 +22,17 @@ DESCRIPTION = 'TODO'
 
 ResultFile = lambda producer, name: RF(producer=producer, name=name)
 
+TEXTINPUT = [
+    ResultFile('rawmaker', 'text_text'),
+    ResultFile('rawmaker', 'text_positions'),
+    ResultFile('rawmaker', 'fonts_header'),
+    ResultFile('rawmaker', 'fonts_content'),
+    ResultFile('words', HEADLINES),
+    ResultFile('rawmaker', 'border_pages'),
+    ResultFile('rawmaker', 'boxes_boxes'),
+    ResultFile('groupme', 'footer_footerheader'),
+]
+
 WORKPLAN = [
     step(
         HEADLINE_STEP,
@@ -39,17 +50,13 @@ WORKPLAN = [
     ),
     step(
         'text',
-        inputs=[
-            ResultFile('rawmaker', 'text_text'),
-            ResultFile('rawmaker', 'text_positions'),
-            ResultFile('rawmaker', 'fonts_header'),
-            ResultFile('rawmaker', 'fonts_content'),
-            ResultFile('words', HEADLINES),
-            ResultFile('rawmaker', 'border_pages'),
-            ResultFile('rawmaker', 'boxes_boxes'),
-            ResultFile('groupme', 'footer_footerheader'),
-        ],
+        inputs=TEXTINPUT,
         output=('text',),
+    ),
+    step(
+        'footerlink',
+        inputs=TEXTINPUT,
+        output=('footerlink',),
     ),
     step(
         'list',

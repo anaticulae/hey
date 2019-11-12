@@ -20,15 +20,54 @@ import words.text.chapter
 import words.text.sentence
 
 
-def work() -> str:
-    pass
+def work(
+        text: str,
+        textposition: str,
+        fontheader: str,
+        fontcontent: str,
+        headlines: str,
+        pagesizes: str,
+        boxes: str,
+        headerfooters: str,
+        pages: tuple = None,
+) -> str:
+    """Extract highnotes out of words.
+
+    Args:
+        text(str): path to text extraction from rawmaker
+        textposition(str): path to textposition matching with text-extraction
+        fontheader(str): table with all fonts in document
+        fontcontent(str): font definition for every word
+        headlines(str): path to extracted headlines from hey/words
+        pagesizes(str): path to size and border
+        boxes(str): definition of boxed rectangles
+        headerfooters: path to extracted footer and header
+        pages: list of page numbers to process
+    Returns:
+        dumped highnotes
+    """
+    resources = words.feature.load_resources(
+        boxes=boxes,
+        fontcontent=fontcontent,
+        fontheader=fontheader,
+        headerfooters=headerfooters,
+        headlines=headlines,
+        pagesizes=pagesizes,
+        text=text,
+        textposition=textposition,
+        pages=pages,
+    )
+
+    extracted = extract_highnotes(resources)
+
+    dumped = hey.textnavigator.style.dump_highnotes(extracted)
+    return dumped
 
 
 def extract_highnotes(loaded: words.feature.TextRequiredResources,
                      ) -> words.text.PageContentPageTextDetecteds:
     """Iterate thrue document via headline and process the content
-    between the headlines. Split Chapter into paragraphs and paragraphs
-    into sentences and words.
+    between the headlines. Extract highnotes to find links to footer.
 
     Args:
         loaded: resources provided by text module
@@ -39,7 +78,15 @@ def extract_highnotes(loaded: words.feature.TextRequiredResources,
 
     result = []
     for page in loaded:
+        parsed = []
         for headline, content in words.text.sentence.visit_sections(page):
             highnotes = hey.textnavigator.style.highnotes(content)
-            result.extend(highnotes)
+            parsed.extend(highnotes)
+        if not parsed:
+            continue
+        result.append(
+            hey.textnavigator.style.PageContentTextItems(
+                page=page.page,
+                content=parsed,
+            ))
     return result
