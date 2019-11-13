@@ -7,8 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import pytest
-
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_boxed
 from tests.fixtures.restruct import restructured_headlines

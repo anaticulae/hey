@@ -9,7 +9,6 @@
 import os
 
 import iamraw
-import pytest
 import serializeraw
 import utila
 

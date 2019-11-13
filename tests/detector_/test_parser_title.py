@@ -7,8 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import pytest
-
 from detector.parser.title import TitleParserState
 from detector.parser.title import parse
 # pylint:disable=W0611

@@ -10,7 +10,6 @@
 TODO:
     what should we do with empty header/footer
 """
-import contextlib
 import typing
 
 import iamraw

@@ -11,7 +11,6 @@ import pytest
 import utila
 from iamraw import ListType
 from iamraw import PageList
-from pytest import fixture
 from serializeraw import dump_lists
 from serializeraw import load_lists
 
@@ -73,7 +72,7 @@ def test_list_extract_page(
         assert level == '%d.' % index, index
 
 
-@fixture
+@pytest.fixture
 def simple_second_page_merged_content(simple_second_page_navigator,
                                      ) -> TextBoundsList:
     content = to_content(simple_second_page_navigator)

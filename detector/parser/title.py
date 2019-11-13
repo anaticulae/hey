@@ -7,27 +7,25 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from enum import Enum
-from enum import auto
+import enum
 
 import utila
 
+import hey.textnavigator.navigator
 import hey.textnavigator.style
-from hey.textnavigator.fonts import bounds_to_textbounds
-from hey.textnavigator.navigator import PageTextNavigator
 
 # TODO: HOLY VALUE
 MIN_TITLE_FONT_SIZE = 20
 
 
-class TitleParserState(Enum):
-    DETECTED_SIZE = auto()
-    NOT_ENOUGH_LINES = auto()
-    NOT_ENOUGH_DISTANCE = auto()
-    TITLE_TO_SMALL = auto()
+class TitleParserState(enum.Enum):
+    DETECTED_SIZE = enum.auto()
+    NOT_ENOUGH_LINES = enum.auto()
+    NOT_ENOUGH_DISTANCE = enum.auto()
+    TITLE_TO_SMALL = enum.auto()
 
 
-def parse(textnavigator: PageTextNavigator) -> str:
+def parse(textnavigator: hey.textnavigator.navigator.PageTextNavigator) -> str:
     """Parse hugest text line as title.
 
     Args:

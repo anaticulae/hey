@@ -13,7 +13,6 @@ from iamraw import Document
 from iamraw.sections import PERCENT_100
 from iamraw.sections import Sections
 
-import groupme.footer
 import tests.fixtures
 import tests.resources
 import words.feature
@@ -22,7 +21,6 @@ import words.headlines
 import words.loader.input
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
-from hey.textnavigator.navigator import create_pagetextnavigators
 from sections.creator import add_chapter
 from sections.creator import add_content
 from sections.creator import add_index
