@@ -22,7 +22,7 @@ import words.headlines
 MIN_DOTTED_COUNT = 0.1  # TODO: HOLY VALUE
 
 SMALLEST_HEADLINE_DISTANCE = 1.05  # TODO: HOLY VALUE
-SMALLEST_HEADLINE_TEXTSIZE = 1.1
+SMALLEST_HEADLINE_TEXTSIZE = 1.0
 
 MAX_HEADLINE_TEXTFEED = 0.0  # TODO: HOLY VALUE
 
@@ -47,6 +47,9 @@ class StandardHeadlineExtractor(words.headlines.HeadlineExtractorStrategy):
             return True
 
         if distance_tosmall:
+            return True
+
+        if headline_tosmall:
             return True
         return False
 
