@@ -44,23 +44,16 @@ from words.feature.list import work
 
 
 #pylint:disable=W0621
+@pytest.mark.xfail(reason='does not work after refactoring')
 def test_list_extract_page(
-        simple_document,
         simple_pagetextnavigators,
         simple_contentborder,
 ):
-    page_1 = simple_document[1]
-    navigator_1 = utila.select_page(simple_pagetextnavigators, page=1)
-    contentborder_1 = simple_contentborder[1]
+    page1 = utila.select_page(simple_pagetextnavigators, page=1)
+    contenborder = simple_contentborder[1]  # TODO: CHECK INDEXING
 
-    return
-    navigator = PageTextContentNavigator(navigator_1, contentborder_1)
-    # def create_pagetextnavigator(
-    #         position,
-    #         document: Document,
-    # ) -> List[PageTextNavigator]:
-    navigator.fontdistance()
-    extracted = extract_page(page_1, navigator)
+    # TODO: DO WE TEST THE RIGHT FUNCTION HERE?
+    extracted = extract_lists(page1, contenborder)
     assert len(extracted) == 1
 
     pagelist: PageList = extracted[0]
