@@ -22,7 +22,13 @@ class NoLevelHeadlineExtractor(words.headlines.HeadlineExtractorStrategy):
     def smallest_textsize(self):
         return utila.roundme(self.textsize * SMALLEST_HEADLINE_TEXTSIZE)
 
-    def should_skip(self, distance_tosmall, headline_tosmall, lastitem):
+    def should_skip(
+            self,
+            distance_tosmall,
+            headline_tosmall,
+            textfeed,
+            lastitem,
+    ):
         if distance_tosmall and headline_tosmall:
             return True
         if headline_tosmall:

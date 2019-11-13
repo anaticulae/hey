@@ -126,6 +126,9 @@ class HeadlineExtractorStrategy(abc.ABC):
         # PageContentNavigator, the header and footer is ignored
         textdistances = hey.textnavigator.fonts.fontdistance_textbounds(
             without_content)
+
+        textfeeds = [item.bounds.xdist for item in bounds]
+
         for containerid, item in enumerate(
                 pagecontent,
                 start=xoff,
@@ -136,6 +139,7 @@ class HeadlineExtractorStrategy(abc.ABC):
             headline = self.extract_headline(
                 textinfo=item,
                 textdistances=textdistances,
+                textfeeds=textfeeds,
                 page=page,
                 containerid=containerid,
                 content_range=(xoff, xend),
@@ -149,6 +153,7 @@ class HeadlineExtractorStrategy(abc.ABC):
             self,
             textinfo,
             textdistances,
+            textfeeds,
             page,
             containerid,
             content_range,
@@ -157,6 +162,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         contentstart, contentend = content_range
         distanceid = containerid - contentstart
         fontdistance = textdistances[distanceid]
+        textfeed = textfeeds[distanceid]
         textsize = hey.textnavigator.style.TextStyle.textsizes(textinfo.style)
 
         distance_tosmall = fontdistance < self.smallest_headlinedistance()
@@ -166,6 +172,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         skip = self.should_skip(
             distance_tosmall=distance_tosmall,
             headline_tosmall=headline_tosmall,
+            textfeed=textfeed,
             lastitem=lastitem,
         )
 
@@ -187,7 +194,13 @@ class HeadlineExtractorStrategy(abc.ABC):
         return headline
 
     @abc.abstractmethod
-    def should_skip(self, distance_tosmall, headline_tosmall, lastitem):
+    def should_skip(
+            self,
+            distance_tosmall,
+            headline_tosmall,
+            textfeed,
+            lastitem,
+    ):
         pass
 
     def levelme(

@@ -24,6 +24,8 @@ MIN_DOTTED_COUNT = 0.1  # TODO: HOLY VALUE
 SMALLEST_HEADLINE_DISTANCE = 1.05  # TODO: HOLY VALUE
 SMALLEST_HEADLINE_TEXTSIZE = 1.1
 
+MAX_HEADLINE_TEXTFEED = 0.0  # TODO: HOLY VALUE
+
 
 class StandardHeadlineExtractor(words.headlines.HeadlineExtractorStrategy):
 
@@ -33,7 +35,17 @@ class StandardHeadlineExtractor(words.headlines.HeadlineExtractorStrategy):
     def smallest_textsize(self):
         return utila.roundme(self.textsize * SMALLEST_HEADLINE_TEXTSIZE)
 
-    def should_skip(self, distance_tosmall, headline_tosmall, lastitem):
+    def should_skip(
+            self,
+            distance_tosmall,
+            headline_tosmall,
+            textfeed,
+            lastitem,
+    ):
+        if textfeed > MAX_HEADLINE_TEXTFEED:
+            # skip numbered lists
+            return True
+
         if distance_tosmall:
             return True
         return False
