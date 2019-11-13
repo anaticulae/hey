@@ -27,6 +27,36 @@ def test_words_text_seventytwo_extract_texts():
     assert len(sectioncontent) == 17
 
 
+def test_words_text_seventytwo_visit_sentences():
+    required = fseventytwo.textrequired(pages=(3))
+    firstpage = words.text.chapter.split(required)[0]
+
+    sentences = list(words.text.sentence.visit_sentences(firstpage))
+    assert len(sentences) == 17
+
+
+def test_words_text_seventytwo_visit_chapters():
+    required = fseventytwo.textrequired(pages=tuple(range(0, 14)))
+    pages = words.text.chapter.split(required)
+
+    chapters = list(words.text.sentence.visit_chapters(pages))
+    # for headline, content in chapters:
+    #     print(headline)
+    #     for item in content:
+    #         print(item)
+    #     print()
+
+    # '1.  Einleitung'
+    # '1.1  Fragestellung und Zielsetzung'
+    # '1.2  Aufbau der Arbeit'
+    # '2.  Das Social Web und die Privatsphre '
+    # '2.1  Web  2.0,  Social  Web  und  Social  Media:  Abgrenzungen  und'
+    # '2.2  Merkmale von Social Network Sites'
+    # '2.3  Eigenschaften netzbasierter Kommunikation'
+    # '2.4  Einfhrung in das Konzept der Privatheit'
+    assert len(chapters) == 8
+
+
 def test_words_text_seventytwo_extract_sentences():
     expected = fseventytwo.firstpage_sentences()
     raw = ' '.join(expected)

@@ -59,6 +59,46 @@ def visit_sections(page: words.text.PageTextWithHeadlines):
             yield section.headline, seq.content
 
 
+def visit_sentences(
+        page: words.text.PageTextWithHeadlines,
+        skip_undefined: bool = False,
+):
+    for section in page.content:
+        current = []
+        for seq in section.content:
+            if not isinstance(seq, iamraw.Paragraph):
+                if current:
+                    for sentence in split_sentences(' '.join(current)):
+                        yield section.headline, sentence
+                if not skip_undefined:
+                    yield section.headline, f'{seq.container}u'
+                continue
+            text = ts.remove_highnotes(seq.content)
+            text = text.replace(utila.NEWLINE, ' ').strip()
+            current.append(text)
+        if current:
+            for sentence in split_sentences(' '.join(current)):
+                yield section.headline, sentence
+
+
+def visit_chapters(pages):
+    current = None
+    collected = []
+    for page in pages:
+        for headline, sentence in visit_sentences(page):
+            # TODO: UNITE SENTENCE AT PAGECHANGE
+            if current is None:
+                # start
+                current = headline
+            if headline != current:
+                yield current, collected
+                collected = []
+            collected.append(sentence)
+            current = headline
+    if collected:
+        yield current, collected
+
+
 def split_sentences(text: str) -> typing.List[str]:
     """Split a regular `text` into sentence chunks.
 
