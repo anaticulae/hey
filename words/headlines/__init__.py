@@ -17,7 +17,6 @@ import hey.fonts.store
 import hey.textnavigator.fonts
 import hey.textnavigator.navigator
 import sections.feature.section
-import words.feature
 import words.loader.basic
 import words.utils.skipper
 
