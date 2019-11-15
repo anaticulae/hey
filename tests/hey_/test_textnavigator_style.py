@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 import iamraw
+import pytest
 
 import hey.textnavigator.style as ts
 
@@ -35,6 +36,28 @@ def test_textnavigator_style_highnotes_remove_highnotes():
     removed = ts.remove_highnotes(EXAMPLE)
     expected = EXAMPLE.text[0:20] + EXAMPLE.text[21:]
     assert removed == expected
+
+
+@pytest.mark.parametrize('expected, merge', [
+    (
+        ts.TextStyle(content=[
+            ts.CharStyle(start=0, end=20, size=12.0, rise=0.0),
+            ts.CharStyle(start=20, end=81, size=12.0, rise=0.0),
+            ts.CharStyle(start=81, end=82, size=12.0, rise=6.0),
+        ]),
+        False,
+    ),
+    (
+        ts.TextStyle(content=[
+            ts.CharStyle(start=0, end=81, size=12.0, rise=0.0),
+            ts.CharStyle(start=81, end=82, size=12.0, rise=6.0),
+        ]),
+        True,
+    ),
+])
+def test_textnavigator_style_remove_hightnotes(expected, merge):
+    clean = ts.style_without_highnotes(EXAMPLE, merge=merge)
+    assert clean == expected
 
 
 def test_textnavigator_style_dump_and_load_highnotes():

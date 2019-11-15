@@ -44,8 +44,6 @@ FOOTER = """
 """
 
 
-
-
 @pytest.mark.parametrize(
     'line, expected',
     [
@@ -130,7 +128,6 @@ def test_words_text_literaturelink_parse_links(line, expected):
         expected = [expected]
     parsed = ll.parse(line)
     assert parsed == expected
-
 
 
 def test_words_text_literaturelink_parse_links_in_text():

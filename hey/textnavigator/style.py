@@ -168,6 +168,36 @@ def remove_highnotes(info: TextInfo) -> str:
     return ''.join(result)
 
 
+def style_without_highnotes(
+        info: TextInfo,
+        merge: bool = False,
+) -> TextStyle:
+    notes = highnotes(info)
+    tuplenotes = {(note.start, note.end) for note in notes}
+    result = []
+    for item in info.style:
+        if (item.start, item.end) in tuplenotes:
+            continue
+        result.append(item.copy())
+    last = 0
+    for item in result:
+        diff = item.start - last
+        item.start = item.start - diff
+        item.end = item.end - diff
+        last = item.end
+
+    if merge and result:
+        merged = [result[0]]
+        for item in result[1:]:
+            if merged[-1].size == item.size and merged[-1].rise == item.rise:
+                merged[-1].end = item.end
+            else:
+                merged.append(item)
+        result = merged
+
+    return TextStyle(content=result)
+
+
 @dataclasses.dataclass
 class PageContentTextItems:
     page: int
