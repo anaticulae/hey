@@ -22,6 +22,14 @@ class CharStyle:
     size: float = None
     rise: float = None
 
+    def copy(self):
+        return CharStyle(
+            start=self.start,
+            end=self.end,
+            size=self.size,
+            rise=self.rise,
+        )
+
 
 @dataclasses.dataclass
 class HighNote:
@@ -63,6 +71,9 @@ class TextStyle:
     def create(cls, start, end, size, rise=0):
         return cls(content=[CharStyle(start, end, size, rise)])
 
+    def copy(self):
+        return TextStyle(content=[item.copy() for item in self.content])  # pylint:disable=E1133
+
 
 @dataclasses.dataclass
 class TextInfo:
@@ -70,9 +81,12 @@ class TextInfo:
     bounding: iamraw.BoundingBox = None
     style: TextStyle = None
 
-    @classmethod
-    def copy(cls, item):
-        return cls(text=item.text, bounding=item.bounding, style=item.style)
+    def copy(self):
+        return TextInfo(
+            text=self.text,
+            bounding=self.bounding,  # TODO: add item.bounding.copy()
+            style=self.style.copy() if self.style else None,
+        )
 
 
 def create_textstyle(chars: typing.List[iamraw.Char]) -> TextStyle:

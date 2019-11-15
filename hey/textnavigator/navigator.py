@@ -115,7 +115,7 @@ class PageTextNavigator:
                 continue
             if not beforeleft <= bounding.x0 <= bounding.x1 <= afterright:
                 continue
-            result.append(hey.textnavigator.style.TextInfo.copy(item))
+            result.append(item.copy())
         return result
 
     def __getitem__(self, index) -> hey.textnavigator.style.TextInfo:
