@@ -24,5 +24,4 @@ def test_words_text_chapter_split_page2():
 
     # 2 headline sections on page
     # first empty none-section, than second `1.1 Fragestellung und Zielsetzung`
-    # TODO: Activate after fixing header parser
-    # assert len(secondpage.content) == 2
+    assert len(secondpage.content) == 2, secondpage.content

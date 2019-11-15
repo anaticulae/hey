@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 import abc
+import collections
 import typing
 
 import iamraw
@@ -58,7 +59,6 @@ class HeadlineExtractorStrategy(abc.ABC):
         if self.ready:
             return self.__result
         self.ready = True
-
         # run extraction
         for chapter in self.chapters:
             # TODO: replace with utila code
@@ -101,7 +101,6 @@ class HeadlineExtractorStrategy(abc.ABC):
                 textnavi,
                 border,
             )
-
             pageheadlines = self.extract_page(
                 page,
                 pagecontent,
@@ -235,7 +234,7 @@ def prepare_chapter_and_content(sections_, chapter):
     if chapter is None:
         # process all chapter
         # TODO: clearify code
-        content = determine_content_border(sections_)
+        content = determine_contentrange(sections_)
         chapter = list(range(len(content)))
     else:
         content = sections.feature.section.chapters(sections_)
@@ -321,7 +320,21 @@ def convert_level(result: iamraw.PagesHeadlineList) -> int:
     return result
 
 
-def determine_content_border(items):
+ChapterRange = collections.namedtuple('ChapterRange', 'start end')
+ChapterRanges = typing.List[ChapterRange]
+
+
+def determine_contentrange(items) -> ChapterRanges:
+    """Iterate thrue `sections` and search for `Chapter` to determine
+    section start and end.
+
+    In some cases no `Chapter` is present. This
+    can happen if you analyse only a few pages or a single one. In this
+    case the start and end is defined by normal items.
+
+    Returns:
+        list of `ChapterRange` (start, end)
+    """
     # analyze all chapter of the document
     contents = [item for item in items if isinstance(item, iamraw.MainPart)]
     # support more than one content element
@@ -332,6 +345,11 @@ def determine_content_border(items):
     ]
                 for content in contents]
     chapters = utila.flatten(chapters)
+
+    if not chapters and contents:
+        # no chapter is present - create `virtual chapter`
+        chapters = [[item for item in content.content] for content in contents]
+        chapters = utila.flatten(chapters)
 
     if not chapters:
         # TODO: INVESTIGATE HERE
