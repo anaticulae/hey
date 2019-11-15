@@ -120,17 +120,15 @@ def merge_sentences(
 def visit_chapters(pages):
     current = None
     collected = []
-    for page in pages:
-        for headline, sentence in visit_sentences(page):
-            # TODO: UNITE SENTENCE AT PAGECHANGE
-            if current is None:
-                # start
-                current = headline
-            if headline != current:
-                yield current, collected
-                collected = []
-            collected.append(sentence)
+    for headline, sentence in merge_sentences(pages):
+        if current is None:
+            # start
             current = headline
+        if headline != current and headline.text is not None:
+            yield current, collected
+            collected = []
+            current = headline
+        collected.append(sentence)
     if collected:
         yield current, collected
 

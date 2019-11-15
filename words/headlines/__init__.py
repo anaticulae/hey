@@ -166,7 +166,6 @@ class HeadlineExtractorStrategy(abc.ABC):
         distance_tosmall = fontdistance < self.smallest_headlinedistance()
         headline_tosmall = textsize < self.smallest_textsize()
         lastitem = (distanceid + 1) == contentend
-
         skip = self.should_skip(
             distance_tosmall=distance_tosmall,
             headline_tosmall=headline_tosmall,
@@ -355,7 +354,7 @@ def determine_contentrange(items) -> ChapterRanges:
         # TODO: INVESTIGATE HERE
         return []
 
-    result = []
+    result = items_before_firstchapter(chapters, contents)
     for current, after in zip(chapters[:-1], chapters[1:]):
         # TODO: check after.start - 1 later
         result.append((current.start, after.start - 1))
@@ -364,3 +363,23 @@ def determine_contentrange(items) -> ChapterRanges:
     # ensure ascending page numbers
     assert all([start <= end for start, end in result]), str(result)
     return result
+
+
+def items_before_firstchapter(chapters, contents):
+    """Determine items before the first **loaded** chapter starts.
+
+    This is required, when loading a part in the middle of a document.
+    To extract headlines, it is required to have `Chapter` separators to
+    determine the range of the different chapter. Parts of chapter are
+    not loaded if start of chapter is not selected.
+    """
+    assert chapters
+    # check if content exists before the first chapter starts
+    firstchapter_start = chapters[0].start
+    before = [[
+        item for item in content.content if item.start < firstchapter_start
+    ] for content in contents]
+    before = utila.flatten(before)
+    if not before:
+        return []
+    return [(before[0].start, before[-1].end)]
