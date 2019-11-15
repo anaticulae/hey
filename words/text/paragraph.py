@@ -38,6 +38,11 @@ def collect_paragraph(
         end = second.container - 1
     else:
         end = len(pcn)
+
+    if first.container == -1 and second and second.container != -1:
+        # start with None-Container followed by Headline container
+        # TODO: Check theses indexes
+        end = second.container
     # collect content after headline
     result = []
     for index in range(start, end):

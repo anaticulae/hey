@@ -19,6 +19,7 @@ import hey.path
 import hey.textnavigator.navigator
 import sections.path
 import words.boxed
+import words.feature.headlines
 import words.headlines
 
 

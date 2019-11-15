@@ -32,6 +32,7 @@ import collections
 import serializeraw
 import utila
 
+import words.headlines
 import words.headlines.nolevel
 import words.headlines.standard
 

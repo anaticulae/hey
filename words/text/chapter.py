@@ -48,9 +48,19 @@ def extract_texts(loaded: words.feature.TextRequiredResources,
 
 def split(loaded: words.feature.TextRequiredResources
          ) -> words.text.PageTextWithHeadlines:
+    headlines = loaded.headlines
+    if not headlines:
+        pages = [item.page for item in loaded.textnavigators]
+        # TODO: HOW TO DEAL WITH HEADER?
+        # TODO: HOW TO DEAL WITH ENDING?
+        start, end = min(pages), max(pages)
+        headlines = [[
+            iamraw.Headline(text=None, level=None, page=page),
+        ] for page in range(start, end + 1)]
+
     result = []
     # ensure to preserve correct page order when having pages without headline
-    headlines = insert_empty_pages(loaded.headlines)
+    headlines = insert_empty_pages(headlines)
     # start analyzing
     for headline in headlines:
         analyzed = analyze_page(
@@ -98,9 +108,8 @@ def analyze_page(
         prepared.headlines[1:],
         fillvalue=None,
     )
-
     # collect paragraphs
-    result = [
+    sections = [
         words.text.TextSection(
             headline=first,
             content=call(
@@ -111,10 +120,11 @@ def analyze_page(
     ]
 
     # clear result, remove empty content
-    result = [
-        item for item in result
-        if item.headline.container is not None and item.headline.container > -1
-    ]
+    result = []
+    for item in sections:
+        if item.headline.container == -1 and not item.content:
+            continue
+        result.append(item)
     return words.text.PageTextWithHeadlines(
         page=prepared.number,
         content=result,
@@ -182,14 +192,17 @@ def insert_empty_pages(headlines):
 
     What happens when we forget to fill the headlines? All pages without any
     headlines are ignored in content analyzis.
+
+    Args:
+        headlines:
+    Returns:
+        filled headline list
     """
+    assert headlines, 'require at least one headline'
+    flat = utila.flatten(headlines)
     # fill headlines
     heads = []
-    for first, second in itertools.zip_longest(
-            utila.flatten(headlines),
-            utila.flatten(headlines)[1:],
-            fillvalue=None,
-    ):
+    for first, second in itertools.zip_longest(flat, flat[1:], fillvalue=None):
         heads.append(first)
         if second is None:
             utila.error('Implement fill last one till chapter ends')

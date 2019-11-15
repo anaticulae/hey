@@ -81,6 +81,42 @@ def visit_sentences(
                 yield section.headline, sentence
 
 
+def merge_sentences(
+        pages: words.text.PageTextWithHeadlines,
+        skip_undefined: bool = False,
+):
+    assert len(pages) >= 2, 'require at least two `pages`'
+    result = []
+    for current, after in zip(pages[0:-1], pages[1:]):
+        current = list(visit_sentences(current, skip_undefined=skip_undefined))
+        after = list(visit_sentences(after, skip_undefined=skip_undefined))
+
+        for headline, sentence in current[0:-1]:
+            yield headline, sentence
+
+        # TODO: DIRTY
+        last = current[-1]
+        first = after[0]
+        current_headline = last[0]
+        if not is_sentence_closed(current[-1]):
+            # merge sentence
+            assert last
+            assert first
+            yield current_headline, last[1] + ' ' + first[1]
+        else:
+            yield last
+            if current_headline != last[0]:
+                current_headline = last[0]
+            yield current_headline, first[1]
+
+        # use headline of the page before to first headline of after page
+        for headline, sentence in after[1:]:
+            if headline != current_headline:
+                current_headline = headline
+            yield current_headline, sentence
+    return result
+
+
 def visit_chapters(pages):
     current = None
     collected = []
@@ -132,6 +168,15 @@ def split_sentences(text: str) -> typing.List[str]:
     if current:
         result.append(' '.join(current))
     return result
+
+
+def is_sentence_closed(token: list) -> bool:
+    """Check that the last character of the last token of a sentences contains
+    a sentence close sign."""
+    assert token, 'empty sentence'
+    last = token[-1].strip()
+    last_char = last[-1]
+    return last_char in SIGN
 
 
 SIGN = {
