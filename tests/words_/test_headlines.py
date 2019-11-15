@@ -9,6 +9,7 @@
 import os
 
 import iamraw
+import pytest
 import serializeraw
 import utila
 
@@ -183,6 +184,7 @@ def extract_master72_headlines(root: str):
     return result
 
 
+@pytest.mark.xfail(reason='preparing parsing multiline headlines')
 def test_words_features_headlines_work_master72pages(testdir):
     root = str(testdir)
     headlines_loaded = extract_master72_headlines(root)
@@ -192,9 +194,14 @@ def test_words_features_headlines_work_master72pages(testdir):
 
     expected_headlines = [
         '1.  Einleitung',
-        '2.  Das Social Web und die Privatsphäre –',
-        '3.  Systemtheorie und moderne Netzwerksoziologie –',
-        '4.  Privatheit  und  Identitätsbildung  im  Social  Web  –',
+        ('2.  Das Social Web und die Privatsphäre – '
+         'Selbstdarstellungsverhalten der Nutzer aus Sicht von '
+         'Massenmedien und Literatur'),
+        ('3.  Systemtheorie und moderne Netzwerksoziologie – '
+         'zentrale Ansätze und Begriffe für den Themen- '
+         'komplex Social Media'),
+        ('4.  Privatheit  und  Identitätsbildung  im  Social  Web  – '
+         'funktional betrachtet'),
         '5.  Schlussbetrachtung und Fazit',
     ]
     # headlines of first element in section
