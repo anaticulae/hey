@@ -30,6 +30,9 @@ class HighNote:
     value: int
 
 
+HighNotes = typing.List[HighNote]
+
+
 @dataclasses.dataclass
 class TextStyle:
     content: typing.List[CharStyle] = dataclasses.field(default_factory=list)
@@ -100,7 +103,7 @@ def create_textstyle(chars: typing.List[iamraw.Char]) -> TextStyle:
 HIGHNOTE_MIN_RISE = 5.0  # TODO: HOLY NOTE
 
 
-def highnotes(info: TextInfo) -> typing.List[int]:
+def highnotes(info: TextInfo) -> HighNotes:
     """Extract `HighNote`s out of text line. A highnote is a number
     which is a reference to an item defined in the footer.
 
