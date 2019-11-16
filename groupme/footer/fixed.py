@@ -21,7 +21,7 @@ Master of the art:
 import itertools
 import typing
 
-import configo.holyvalue
+import configo
 import iamraw
 import utila
 
