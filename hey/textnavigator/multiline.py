@@ -61,18 +61,19 @@ class MultilineGroup():
         return len(self.text)
 
 
-def group_pages(
+def group_pages_by_fontsize(
         pagetextnavigators: htn.PageTextNavigators,
         sizediff: float = 0.0,
 ) -> PageContentMultiLines:
     assert sizediff >= 0.0
     result = [
-        group_page(page, sizediff=sizediff) for page in pagetextnavigators
+        group_page_by_fontsize(page, sizediff=sizediff)
+        for page in pagetextnavigators
     ]
     return result
 
 
-def group_page(
+def group_page_by_fontsize(
         pagetextnavigator: htn.PageTextNavigator,
         sizediff: float = 0.0,
 ) -> PageContentMultiLine:

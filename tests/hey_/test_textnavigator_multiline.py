@@ -28,14 +28,14 @@ def example():
 @pytest.mark.xfail(reason='grouping is to soft')
 def test_hey_textnavigator_multiline_group_page_no_group():
     navigators = example()
-    grouped = htm.group_pages(navigators)
+    grouped = htm.group_pages_by_fontsize(navigators)
     count = [[len(item) for item in items] for items in grouped]
     assert count == NO_GROUP
 
 
-def test_hey_textnavigator_multiline_group_page():
+def test_hey_textnavigator_multiline_group_page_by_fontsize():
     navigators = example()
-    grouped = htm.group_pages(navigators)
+    grouped = htm.group_pages_by_fontsize(navigators)
     count = [[len(item) for item in items] for items in grouped]
     expected = [
         [1, 16, 1],  # page 5, 3 MultilineGroups with `text` content
@@ -48,7 +48,7 @@ def test_hey_textnavigator_multiline_group_page():
 
 def test_hey_textnavigator_multiline_group_page_by_maxdistance():
     navigators = example()
-    grouped = htm.group_pages(navigators)
+    grouped = htm.group_pages_by_fontsize(navigators)
     count = [[len(item) for item in items] for items in grouped]
     expected = [
         [1, 16, 1],  # page 5, 3 MultilineGroups with `text` content
