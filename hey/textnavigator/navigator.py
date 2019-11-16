@@ -196,13 +196,17 @@ class PageTextContentNavigator:
         assert content.bottom >= 100, str(content)  # ensure that are pixel
         top, bottom = topbottom(pagesize, content)
         assert 0 <= top <= bottom <= 1.0, str(top) + str(bottom)
-        self.page = textnavigator.page
+        self._page = textnavigator.page
         self.data = textnavigator.between(top, bottom)
         self._offset = textnavigator.offset(top, bottom)
 
     @property
     def offset(self):
         return self._offset
+
+    @property
+    def page(self):
+        return self._page
 
     def __getitem__(self, index):
         return self.data[index]
