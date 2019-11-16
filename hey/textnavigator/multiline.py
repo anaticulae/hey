@@ -25,6 +25,8 @@ import dataclasses
 import math
 import typing
 
+import utila
+
 import hey.textnavigator.navigator as htn
 import hey.textnavigator.style as hts
 
@@ -107,3 +109,112 @@ def group_page(
         page=pagetextnavigator.page,
         content=current,
     )
+
+
+def linedistance(index, pagetextnavigator) -> float:
+    current = pagetextnavigator[index]
+    try:
+        after = pagetextnavigator[index + 1]
+    except IndexError:
+        return None
+    else:
+        return utila.roundme(after.bounding.y1 - current.bounding.y1)
+
+
+def linedistances(pagetextnavigator):
+    return [
+        linedistance(index, pagetextnavigator)
+        for index in range(0, len(pagetextnavigator))
+    ]
+
+
+def group_linedistances(
+        items: typing.List[float],
+        maxdiff: float = 0.0,
+) -> typing.List[int]:
+    """Group items and return for every group with at least 2 members at
+    list of indexes.
+
+    Args:
+        items: list of linedistances
+        maxdiff(float): limit for gradient to be in same group
+    Returns:
+        list of list with indexs of grouped lines
+
+    Content               linedistance
+    Hallo - Headline      50
+
+    Text                  10
+    Text                  10
+    Text                  30
+
+    Pagenumber            None
+
+    Prepare computing gradient: Duplicate first element and replace
+    `None`-distance with distance before
+
+                                    Gradient
+                          50        0
+    Hallo - Headline      50        -40
+
+    Text                  10        0
+    Text                  10        0
+    Text                  30        20
+
+    Pagenumber            30        0
+
+    TODO: Extend documentation
+
+    """
+    assert items
+    items = items[:]
+    items = [items[0]] + items[:-1] + [items[-2]]
+    # remove last None distance
+    # items = items + [0]
+    grad = [(after - current) for current, after in zip(items[0:-1], items[1:])]
+
+    result = []
+    current = []
+    for index, diff in enumerate(grad, start=0):
+        diff = diff if math.fabs(diff) > maxdiff else 0
+        if diff == 0:
+            current.append(index)
+        # TODO: THINK ABOUT DIFF<0 and DIFF>0
+        if diff < 0.0:
+            if current:
+                result.append(current)
+            current = [index]
+        if diff > 0.0:
+            current.append(index)
+            result.append(current)
+            current = []
+    if current:
+        result.append(current)
+
+    return result
+
+
+# NOTE: Statistical approach for group_linedistances, think about later
+# grouped = []
+# current = [(0, items[0])]
+# for index, item in enumerate(items[1:-1], start=1):
+#     mean = statistics.mean([var[1] for var in current])
+#     if item is not None:
+#         diff = math.fabs(item - mean)
+#     else:
+#         # last item has no text distance
+#         diff = 0.0
+#     if diff > maxdiff:
+#         grouped.append(current)
+#         current = []
+#     current.append((index, item))
+# if current:
+#     grouped.append(current)
+# print(grouped)
+# # cluster requires at least two items
+# grouped = [item for item in grouped if len(item) >= 1]
+# print(grouped)
+# # filter index
+# grouped = [[index for index, _ in group] for group in grouped]
+# print(grouped)
+# return grouped

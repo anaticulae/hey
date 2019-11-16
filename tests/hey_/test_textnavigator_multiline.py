@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import pytest
+
 import hey.textnavigator.multiline as htm
 import hey.textnavigator.navigator as htn
 import tests.resources
@@ -55,3 +57,46 @@ def test_hey_textnavigator_multiline_group_page_by_maxdistance():
         [30, 4, 1],  # page 8
     ]
     assert count == expected
+
+
+@pytest.mark.parametrize('page, expected', [
+    (0, [
+        [0],
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+        [17],
+    ]),
+    (1, [
+        [0, 1, 2],
+        [3, 4, 5, 6, 7, 8, 9],
+        [10, 11],
+        [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+        [25, 26, 27, 28, 29],
+        [30],
+    ]),
+    (2, [
+        [0, 1],
+        [2, 3, 4, 5],
+        [6, 7, 8],
+        [9, 10],
+        [11, 12, 13],
+        [14, 15, 16],
+        [17, 18],
+        [19, 20, 21],
+        [22, 23, 24, 25],
+        [26, 27],
+        [28],
+    ]),
+    (
+        3,
+        [[
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+            19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29
+        ], [30, 31, 32, 33], [34]],
+    ),
+])
+def test_hey_textnavigator_multiline_group_linedistances_page(page, expected):
+    navigators = example()
+    content = navigators[page]
+    distances = htm.linedistances(content)
+    grouped = htm.group_linedistances(distances, maxdiff=1.0)
+    assert grouped == expected
