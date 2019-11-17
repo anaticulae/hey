@@ -48,6 +48,12 @@ PageContentMultiLines = typing.List[PageContentMultiLine]
 
 @dataclasses.dataclass
 class MultilineGroup():
+    """Group of following text lines with equal properties.
+
+    Public Attributes:
+        text: content as a list of following hey.textnavigator.style.TextInfo.
+        size: font size of common content.
+    """
     text: list = dataclasses.field(default_factory=list)
     size: float = None
 
@@ -65,6 +71,15 @@ def group_pages_by_fontsize(
         pagetextnavigators: htn.PageTextNavigators,
         sizediff: float = 0.0,
 ) -> PageContentMultiLines:
+    """Iterate thru different pages of `pagetextnavigators` and extract
+    `MultilineGroups`s of the same font size.
+
+    Args:
+        pagetextnavigators: list of page content
+        sizediff(float): maximum difference of 2 elements of extracted group.
+    Returns:
+        List of extracted `PageContentMultiLine`
+    """
     assert sizediff >= 0.0
     result = [
         group_page_by_fontsize(page, sizediff=sizediff)
