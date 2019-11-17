@@ -185,12 +185,12 @@ def group_linedistances(
     assert items
     items = items[:]
     items = [items[0]] + items[:-1] + [items[-2]]
-    # remove last None distance
-    # items = items + [0]
-    grad = [(after - current) for current, after in zip(items[0:-1], items[1:])]
+
+    grad = gradient(items)
 
     result = []
     current = []
+    # TODO: THIS APPROACH DOES NOT WORK RIGHT NOW
     for index, diff in enumerate(grad, start=0):
         diff = diff if math.fabs(diff) > maxdiff else 0
         if diff == 0:
@@ -207,6 +207,15 @@ def group_linedistances(
     if current:
         result.append(current)
 
+    return result
+
+
+def gradient(items):
+    # TODO: MOVE TO MORE GENERAL PLACE
+    result = [
+        (after - current) for current, after in zip(items[0:-1], items[1:])
+    ]
+    result = [utila.roundme(item) for item in result]
     return result
 
 
