@@ -25,7 +25,7 @@ def example():
     return navigators
 
 
-@pytest.mark.xfail(reason='grouping is to soft')
+@pytest.mark.xfail(reason='grouping is too soft')
 def test_hey_textnavigator_multiline_group_page_no_group():
     navigators = example()
     grouped = htm.group_pages_by_fontsize(navigators)
@@ -100,3 +100,43 @@ def test_hey_textnavigator_multiline_group_linedistances_page(page, expected):
     distances = htm.linedistances(content)
     grouped = htm.group_linedistances(distances, maxdiff=1.0)
     assert grouped == expected
+
+@pytest.mark.xfail(reason='not working right now')
+def test_hey_textnavigator_multiline_group_linedistances_page_zero_tolerance():
+    navigators = example()
+    content = navigators[0]
+    distances = htm.linedistances(content)
+    grouped = htm.group_linedistances(distances, maxdiff=0.0)
+    assert len(grouped) == 16
+
+def test_hey_textnavigator_multiline_unite_groups():
+    content = [['A'], ['W'] * 16, ['C'], ['D'], ['E'], ['G']]
+    index = [
+        [0],
+        [1, 2],
+        [3, 4],
+        [5, 6],
+        [7, 8],
+        [9, 10],
+        [11, 12, 13],
+        [14, 15],
+        [16],
+        [17],
+        [18, 19],
+        [20],
+    ]
+    expected = [
+        ['A'],
+        ['W', 'W'],
+        ['W', 'W'],
+        ['W', 'W'],
+        ['W', 'W'],
+        ['W', 'W'],
+        ['W', 'W', 'W'],
+        ['W', 'W'],
+        ['W'],
+        ['C'],
+        ['G'],
+    ]
+    united = htm.unite_groups(content, index)
+    assert united == expected

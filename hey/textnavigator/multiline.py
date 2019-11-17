@@ -219,3 +219,33 @@ def group_linedistances(
 # grouped = [[index for index, _ in group] for group in grouped]
 # print(grouped)
 # return grouped
+
+
+def unite_groups(content, indexs):
+    # TODO: MOVE TO MORE GENERAL PLACE
+    # TODO: DIRTY CODE :|
+    result = []
+    for items in indexs:
+        current = content[0]
+        if len(current) == len(items):
+            result.append(current)
+            content = content[1:]
+        elif len(current) > len(items):
+            result.append(current[:len(items)])
+            content[0] = current[len(items):]
+            if not content[0]:
+                content = content[1:]
+        else:
+            removecount = len(items)
+            removecount = removecount - len(current)
+            content = content[1:]
+            while removecount:
+                current = content[0]
+                removecount = removecount - len(current)
+                if removecount:
+                    content = content[1:]
+                else:
+                    content[0] = current[len(current):]
+                    if not content[0]:
+                        content = content[1:]
+    return result
