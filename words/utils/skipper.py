@@ -8,7 +8,7 @@
 # =============================================================================
 
 
-def should_skip(page: int, pages: tuple):  # pylint:disable=W0621
+def should_skip(page: int, pages: tuple) -> bool:  # pylint:disable=W0621
     """Determine if `page` is invalid.
 
     If `pages` is None, every page is accepted.

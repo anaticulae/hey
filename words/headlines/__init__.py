@@ -29,13 +29,35 @@ WHITELIST = set([
 
 
 class HeadlineExtractorStrategy(abc.ABC):
+    """Strategy approach to determine the `Headlines` of a given set of
+    pages.
+
+    Invoke `result` to determine result of current stategy.
+
+    Progress:
+
+    .. code-block :: none
+
+        for chapter in chapters:
+            extract_chapter
+                for page in chapter:
+                    extract_page
+                        for line in page:
+                            extract_headlines
+                                if not should_skip:
+                                    add Headline
+    """
 
     def __init__(
             self,
-            sectionlist: typing.List[iamraw.Sections],
+            sectionlist: typing.List[iamraw.Sections],  # TODO: FLIP WITH BASIC
             basic: words.loader.basic.BasicRequiredResources,
             chapters,
     ):
+        """
+        Args:
+            basic: extracted pages with font and size information.
+        """
         self.__result = {}
 
         self.sectionlist = sectionlist
@@ -113,9 +135,14 @@ class HeadlineExtractorStrategy(abc.ABC):
 
     def extract_page(
             self,
-            page,
+            page: int,
             pagecontent,
     ):
+        """
+        Args:
+            page(int): page number
+            pagecontent: content of page to extract headlines
+        """
         result = []
         xoff, xend = pagecontent.offset
         xoff = xoff if xoff is not None else 0
@@ -329,9 +356,9 @@ def determine_contentrange(items) -> ChapterRanges:
     """Iterate thrue `sections` and search for `Chapter` to determine
     section start and end.
 
-    In some cases no `Chapter` is present. This
-    can happen if you analyse only a few pages or a single one. In this
-    case the start and end is defined by normal items.
+    In some cases no `Chapter` is present. This can happen if you
+    analyse only a few pages or a single one. In this case the start and
+    end is defined by normal items.
 
     Returns:
         list of `ChapterRange` (start, end)
