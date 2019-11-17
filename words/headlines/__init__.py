@@ -14,9 +14,9 @@ import iamraw
 import iamraw.sections
 import utila
 
-import hey.fonts.store
-import hey.textnavigator.fonts
-import hey.textnavigator.navigator
+import hey.textnavigator.fonts as htf
+import hey.textnavigator.navigator as htn
+import hey.textnavigator.style as hts
 import sections.feature.section
 import words.loader.basic
 import words.utils.skipper
@@ -79,10 +79,10 @@ class HeadlineExtractorStrategy(abc.ABC):
 
     def setup(self):
         """Run before starting extraction."""
-        self.textsize = hey.textnavigator.fonts.document_textsize(
+        self.textsize = htf.document_textsize(
             navigators=self.pagetextnavigators,)
 
-        self.textdistance = hey.textnavigator.fonts.document_textdistance(
+        self.textdistance = htf.document_textdistance(
             navigators=self.pagetextnavigators,
             borders=self.sizeandborder,
         )
@@ -92,13 +92,16 @@ class HeadlineExtractorStrategy(abc.ABC):
         result = []
         start, end = self.content[chapter]
         for page in range(start, end + 1):
-            textnavi = utila.select_page(self.pagetextnavigators, page=page)
             border = utila.select_page(self.border, page=page)
             if not border:
                 # empty page
                 continue
-            pagecontent = hey.textnavigator.navigator.PageTextContentNavigator(
-                textnavi,
+            textnavigator = utila.select_page(
+                self.pagetextnavigators,
+                page=page,
+            )
+            pagecontent = htn.PageTextContentNavigator(
+                textnavigator,
                 border,
             )
             pageheadlines = self.extract_page(
@@ -116,14 +119,13 @@ class HeadlineExtractorStrategy(abc.ABC):
         result = []
         xoff, xend = pagecontent.offset
         xoff = xoff if xoff is not None else 0
-        bounds = hey.textnavigator.fonts.textbounds(
+        bounds = htf.textbounds(
             pagecontent,
             utila.select_page(self.border, page=page),
         )
         without_content = [item.bounds for item in bounds]
         # PageContentNavigator, the header and footer is ignored
-        textdistances = hey.textnavigator.fonts.fontdistance_textbounds(
-            without_content)
+        textdistances = htf.fontdistance_textbounds(without_content)
 
         textfeeds = [item.bounds.xdist for item in bounds]
 
@@ -161,7 +163,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         distanceid = containerid - contentstart
         fontdistance = textdistances[distanceid]
         textfeed = textfeeds[distanceid]
-        textsize = hey.textnavigator.style.TextStyle.textsizes(textinfo.style)
+        textsize = hts.TextStyle.textsizes(textinfo.style)
 
         distance_tosmall = fontdistance < self.smallest_headlinedistance()
         headline_tosmall = textsize < self.smallest_textsize()
