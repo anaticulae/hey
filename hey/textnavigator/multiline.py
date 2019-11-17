@@ -127,6 +127,15 @@ def group_page_by_fontsize(
     )
 
 
+def group_by_linedistance(page: PageContentMultiLine) -> PageContentMultiLine:
+    flatten = utila.flatten(page)
+    distances = linedistances(flatten)
+    grouped = group_linedistances(distances)
+    content = unite_groups(page, grouped)
+    result = PageContentMultiLine(page=page.page, content=content)
+    return result
+
+
 def linedistance(index, pagetextnavigator) -> float:
     current = pagetextnavigator[index]
     try:

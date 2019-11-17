@@ -29,6 +29,8 @@ def example():
 def test_hey_textnavigator_multiline_group_page_no_group():
     navigators = example()
     grouped = htm.group_pages_by_fontsize(navigators)
+    grouped = [htm.group_by_linedistance(item) for item in grouped]
+
     count = [[len(item) for item in items] for items in grouped]
     assert count == NO_GROUP
 
