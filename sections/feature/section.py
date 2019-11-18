@@ -18,6 +18,7 @@ import utila
 
 import hey
 import sections.feature.whitepage
+import sections.path
 
 # features with lower trust are not excepted as detected feaute
 MIN_FEATURE_TRUST = configo.HV_PERCENT_PLUS(default=40).value
@@ -264,7 +265,7 @@ def load_features(
         toc,
         whitepage,
         pages=None,
-):
+) -> SectionsRequiredResources:
     chapter = serializeraw.load_likelihood(chapter, pages=pages)
     index = serializeraw.load_likelihood(index, pages=pages)
     title = serializeraw.load_likelihood(title, pages=pages)
@@ -304,3 +305,15 @@ def commandline():
 
 def name():
     return 'section'
+
+
+def sections_frompath(path: str, pages: tuple = None):
+    chapter = sections.path.chapter(path)
+    index = sections.path.index(path)
+    title = sections.path.title(path)
+    toc = sections.path.toc(path)
+    whitepage = sections.path.whitepage(path)
+
+    loaded = load_features(chapter, index, title, toc, whitepage, pages=pages)
+    result = extract_sections(loaded)
+    return result

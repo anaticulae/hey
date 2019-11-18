@@ -14,6 +14,7 @@ import serializeraw
 import utila
 
 import hey.textnavigator.navigator
+import sections.path
 import tests.fixtures.headlines
 import tests.resources
 import words.feature
@@ -156,7 +157,7 @@ def test_words_headlines_dump_and_load_headlines():
 
 def extract_master72_headlines(root: str):
     master72 = tests.resources.MASTER_72PAGES
-    sections = tests.resources.sections(master72)
+    sections_ = sections.path.sections_(master72)
     text = tests.resources.text(master72)
     text_positions = tests.resources.text_positions(master72)
     font_header = tests.resources.font_header(master72)
@@ -166,7 +167,7 @@ def extract_master72_headlines(root: str):
     headerfooters = tests.resources.headerfooters(master72)
 
     headlines = words.feature.headlines.work(
-        sections,
+        sections_,
         text,
         text_positions,
         font_header,

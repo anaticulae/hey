@@ -87,7 +87,7 @@ def load_resources_frompath(
     textposition = hey.path.textposition(path)
     fontheader = hey.path.fontheader(path)
     fontcontent = hey.path.fontcontent(path)
-    section = sections.path.sections(path)
+    section = sections.path.sections_(path)
     sizeandborder = hey.path.sizeandborder(path)
     boxes = hey.path.boxed(path)
     headerfooters = groupme.path.headerfooters(path)

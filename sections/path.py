@@ -8,12 +8,58 @@
 # =============================================================================
 
 import hey.path
+import sections
 
 
-def sections(path: str, prefix: str = '') -> str:
+def sections_(path: str, prefix: str = '') -> str:
     return hey.path.pathconnector(
         path,
-        'sections',
+        sections.PROCESS,
         'section_result',
+        prefix,
+    )
+
+
+def index(path: str, prefix: str = '') -> str:
+    return hey.path.pathconnector(
+        path,
+        sections.PROCESS,
+        'index_likelihood',
+        prefix,
+    )
+
+
+def toc(path: str, prefix: str = '') -> str:
+    return hey.path.pathconnector(
+        path,
+        sections.PROCESS,
+        'toc_likelihood',
+        prefix,
+    )
+
+
+def title(path: str, prefix: str = '') -> str:
+    return hey.path.pathconnector(
+        path,
+        sections.PROCESS,
+        'title_likelihood',
+        prefix,
+    )
+
+
+def whitepage(path: str, prefix: str = '') -> str:
+    return hey.path.pathconnector(
+        path,
+        sections.PROCESS,
+        'whitepage_likelihood',
+        prefix,
+    )
+
+
+def chapter(path: str, prefix: str = '') -> str:
+    return hey.path.pathconnector(
+        path,
+        sections.PROCESS,
+        'chapter_likelihood',
         prefix,
     )
