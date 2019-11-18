@@ -103,6 +103,7 @@ def test_hey_textnavigator_multiline_group_linedistances_page(page, expected):
     grouped = htm.group_linedistances(distances, maxdiff=1.0)
     assert grouped == expected
 
+
 @pytest.mark.xfail(reason='not working right now')
 def test_hey_textnavigator_multiline_group_linedistances_page_zero_tolerance():
     navigators = example()
@@ -110,6 +111,7 @@ def test_hey_textnavigator_multiline_group_linedistances_page_zero_tolerance():
     distances = htm.linedistances(content)
     grouped = htm.group_linedistances(distances, maxdiff=0.0)
     assert len(grouped) == 16
+
 
 def test_hey_textnavigator_multiline_unite_groups():
     content = [['A'], ['W'] * 16, ['C'], ['D'], ['E'], ['G']]

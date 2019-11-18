@@ -15,7 +15,9 @@ import typing
 import iamraw
 import serializeraw
 
+import groupme.path
 import hey.fonts.store
+import hey.path
 import hey.textnavigator.navigator
 
 
@@ -59,3 +61,23 @@ def load_basic(
         headerfooters=headerfooters,
     )
     return result
+
+
+def load_basic_frompath(path: str, pages: tuple = None):
+    text = hey.path.text(path)
+    textposition = hey.path.textposition(path)
+    fontheader = hey.path.fontheader(path)
+    fontcontent = hey.path.fontcontent(path)
+    pagesizes = hey.path.sizeandborder(path)
+    headerfooters = groupme.path.headerfooters(path)
+
+    loaded = load_basic(
+        text=text,
+        text_position=textposition,
+        font_header=fontheader,
+        font_content=fontcontent,
+        pagesizes=pagesizes,
+        headerfooters=headerfooters,
+        pages=pages,
+    )
+    return loaded
