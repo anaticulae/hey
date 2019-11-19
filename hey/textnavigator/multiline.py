@@ -56,15 +56,21 @@ class MultilineGroup():
     """
     text: list = dataclasses.field(default_factory=list)
     size: float = None
+    firstid: int = None
 
     def append(self, item):
-        self.text.append(item)
+        self.text.append(item)  # pylint:disable=E1101
 
     def __getitem__(self, index):
         return self.text[index]  # pylint:disable=E1136
 
     def __len__(self):
         return len(self.text)
+
+    def content_and_index(self):
+        assert self.firstid is not None, 'create MultilineGroup with firstid'
+        for index, item in enumerate(self, start=self.firstid):
+            yield index, item
 
 
 def group_pages_by_fontsize(
@@ -103,23 +109,28 @@ def group_page_by_fontsize(
     assert sizediff >= 0.0
     current = []
     style, size = None, None
-    for item in pagetextnavigator:
+    for containerid, item in enumerate(pagetextnavigator):
         line = hts.style_without_highnotes(item, merge=True)
         style = line.content[0]  # pylint:disable=E1136
         currentsize = style.size
         if size is None:
+            # TODO: FIRST ITEM - MOVE BEFORE LOOP?
             size = currentsize
-            current.append(MultilineGroup(
-                text=[item],
-                size=size,
-            ))
+            current.append(
+                MultilineGroup(
+                    text=[item],
+                    size=size,
+                    firstid=containerid,
+                ))
             continue
         if math.fabs(size - currentsize) > sizediff:
             size = currentsize
-            current.append(MultilineGroup(
-                text=[],
-                size=size,
-            ))
+            current.append(
+                MultilineGroup(
+                    text=[],
+                    size=size,
+                    firstid=containerid,
+                ))
         current[-1].append(item)
     return PageContentMultiLine(
         page=pagetextnavigator.page,
