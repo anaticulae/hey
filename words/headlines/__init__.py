@@ -133,16 +133,12 @@ class HeadlineExtractorStrategy(abc.ABC):
                 textnavigator,
                 border,
             )
-            pageheadlines = self.extract_page(
-                page,
-                pagecontent,
-            )
+            pageheadlines = self.extract_page(pagecontent)
             result.extend(pageheadlines)
         self.__result[chapter] = result
 
     def extract_page(
             self,
-            page: int,
             pagecontent,
     ):
         """
@@ -155,7 +151,7 @@ class HeadlineExtractorStrategy(abc.ABC):
         xoff = xoff if xoff is not None else 0
         bounds = htf.textbounds(
             pagecontent,
-            utila.select_page(self.border, page=page),
+            utila.select_page(self.border, page=pagecontent.page),
         )
         without_content = [item.bounds for item in bounds]
         # PageContentNavigator, the header and footer is ignored
@@ -174,7 +170,7 @@ class HeadlineExtractorStrategy(abc.ABC):
                 textinfo=item,
                 textdistances=textdistances,
                 textfeeds=textfeeds,
-                page=page,
+                page=pagecontent.page,
                 containerid=containerid,
                 content_range=(xoff, xend),
             )
