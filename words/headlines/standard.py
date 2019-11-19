@@ -66,7 +66,7 @@ def filter_headlines(items: iamraw.PagesHeadlineList):
     for chapter, content in items.items():
         chapter_headlines = []
         for headline in content:
-            parsed = parse_headline(headline.text)
+            parsed = is_headline(headline.text)
             if parsed:
                 chapter_headlines.append(headline)
                 continue
@@ -78,9 +78,13 @@ def filter_headlines(items: iamraw.PagesHeadlineList):
     return result
 
 
+def is_headline(line):
+    return parse_headline(line) is not None
+
+
 def parse_headline(line):
     line = line.strip()
-    return re.match(HEADLINE, line) is not None
+    return re.match(HEADLINE, line)
 
 
 # TODO: CODE DUPLICATION, COLLECT DIFFERENT HEADLINE PARSING APPROACHES AND
@@ -103,7 +107,7 @@ def isdotted(items):
     assert items
     flat = utila.flatten(items)
 
-    dotted = [item for item in flat if parse_headline(item.text)]
+    dotted = [item for item in flat if is_headline(item.text)]
     percent = len(dotted) / len(flat)
 
     return percent >= MIN_DOTTED_COUNT
