@@ -78,8 +78,8 @@ def work(
     ]
     results = [
         strategy(
-            sectionlist=sections,
             basic=loaded,
+            sectionlist=sections,
             chapters=None,
         ).result(pages=pages) for strategy in strategies
     ]

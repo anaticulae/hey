@@ -27,6 +27,9 @@ WHITELIST = set([
     'Literaturverzeichnis',
 ])
 
+ChapterRange = collections.namedtuple('ChapterRange', 'start end')
+ChapterRanges = typing.List[ChapterRange]
+
 
 class HeadlineExtractorStrategy(abc.ABC):
     """Strategy approach to determine the `Headlines` of a given set of
@@ -50,13 +53,17 @@ class HeadlineExtractorStrategy(abc.ABC):
 
     def __init__(
             self,
-            sectionlist: typing.List[iamraw.Sections],  # TODO: FLIP WITH BASIC
             basic: words.loader.basic.BasicRequiredResources,
-            chapters,
+            sectionlist: typing.List[iamraw.Sections],
+            chapters: ChapterRanges = None,
     ):
-        """
+        """Extract Headlines out of document.
+
         Args:
             basic: extracted pages with font and size information.
+            sectionlist: list that devides pages into introduction, main-
+                         content, appendix
+            chapters: list with tuple of (start, end) of defined chapter
         """
         self.__result = {}
 
@@ -346,10 +353,6 @@ def convert_level(result: iamraw.PagesHeadlineList) -> int:
         for item in items:
             item.level = get_level(item.level)
     return result
-
-
-ChapterRange = collections.namedtuple('ChapterRange', 'start end')
-ChapterRanges = typing.List[ChapterRange]
 
 
 def determine_contentrange(items) -> ChapterRanges:
