@@ -325,11 +325,11 @@ def convert_level(result: iamraw.PagesHeadlineList) -> int:
     if not result:
         return result
 
-    if not any(result):
+    if not any(result) or not any([item for item in result.values()]):
+        # check that result pages are empty
         utila.info('empty PageHeadlineList')
         return {}
     assert isinstance(result, dict), type(result)
-
     maxsize = max([
         max([item.level
              for item in chapter])
