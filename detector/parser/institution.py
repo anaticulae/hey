@@ -6,16 +6,6 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""
-# TODO: MOVE DESCRIPTION TO IAMRAW
-Institution - Institut
-Department - Fakultaet
-Institute - Institut
-Field - Fachgebiet
-Course of studies - Studiengang
-Academic year - Studienjahr/Semester
-"""
-
 import iamraw
 import utila
 
