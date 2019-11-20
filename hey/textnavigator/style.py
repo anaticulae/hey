@@ -21,13 +21,15 @@ class CharStyle:
     end: int
     size: float = None
     rise: float = None
+    font: int = None
 
     def copy(self):
         return CharStyle(
             start=self.start,
             end=self.end,
-            size=self.size,
+            font=self.font,
             rise=self.rise,
+            size=self.size,
         )
 
 
@@ -91,24 +93,26 @@ class TextInfo:
 
 def create_textstyle(chars: typing.List[iamraw.Char]) -> TextStyle:
     assert chars
-    start, size, rise = 0, chars[0].size, chars[0].rise
+    start, size, rise, font = 0, chars[0].size, chars[0].rise, chars[0].font
     result = []
     for index, char in enumerate(chars[1:], start=1):
-        if char.size != size or char.rise != rise:
+        if char.size != size or char.rise != rise or char.font != font:
             style = CharStyle(
                 start=start,
                 end=index,
                 size=size,
                 rise=rise,
+                font=font,
             )
             result.append(style)
-            start, size, rise = index, char.size, char.rise
+            start, size, rise, font = index, char.size, char.rise, char.font
     if start != len(chars):
         style = CharStyle(
             start=start,
             end=len(chars),
             size=size,
             rise=rise,
+            font=font,
         )
         result.append(style)
     return TextStyle(content=result)

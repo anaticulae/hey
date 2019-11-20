@@ -6,6 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import pytest
 import utila
 
 import sections.feature.section
@@ -41,4 +42,29 @@ def test_headlines_multiple_master72_extract_pages_5_7():
          'Definitionen')
     ]
 
+    assert headlines == expected
+
+
+@pytest.mark.xfail(reason='require more specific headline parser')
+def test_headlines_multiple_master72_extract_pages_13_14():
+    path = tests.resources.MASTER_72PAGES
+    pages = tuple(range(13, 15))
+    chapters = None
+
+    sections_ = sections.feature.section.sections_frompath(path, pages=pages)
+    loaded = words.loader.basic.load_basic_frompath(path, pages=pages)
+
+    strategy = words.headlines.multiline.MultiLine(
+        sectionlist=sections_,
+        basic=loaded,
+        chapters=chapters,
+    )
+    result = strategy.result(pages=pages)
+    result = utila.flatten(result)
+    headlines = [item.text for item in result]
+    for item in headlines:
+        print(item)
+    assert len(result) == 3
+    # TODO: add specific headline test
+    expected = []
     assert headlines == expected

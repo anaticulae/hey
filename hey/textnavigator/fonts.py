@@ -170,8 +170,10 @@ def document_textsize(navigators) -> float:
     return statistics.mode(collected)
 
 
-def document_textdistance(navigators,
-                          borders: typing.List[iamraw.Border]) -> int:
+def document_textdistance(
+        navigators,
+        borders: typing.List[iamraw.Border],
+) -> int:
     """Determine the most common text distance"""
     result = []
     for _, (navigator, contentborder) in hey.utils.sync([navigators, borders]):
