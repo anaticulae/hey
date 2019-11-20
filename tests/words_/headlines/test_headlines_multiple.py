@@ -33,11 +33,11 @@ def test_headlines_multiple_master72_extract_pages_5_7():
     headlines = [item.text for item in result]
 
     expected = [
-        '1.2  Aufbau der Arbeit',
-        ('2.  Das Social Web und die Privatsphäre – '
-         'Selbstdarstellungsverhalten  der  Nutzer  aus  Sicht  von '
+        '1.2 Aufbau der Arbeit',
+        ('2. Das Social Web und die Privatsphäre – '
+         'Selbstdarstellungsverhalten der Nutzer aus Sicht von '
          'Massenmedien und Literatur'),
-        ('2.1  Web  2.0,  Social  Web  und  Social  Media:  Abgrenzungen  und '
+        ('2.1 Web 2.0, Social Web und Social Media: Abgrenzungen und '
          'Definitionen')
     ]
 

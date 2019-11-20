@@ -194,16 +194,16 @@ def test_words_features_headlines_work_master72pages(testdir):
     assert len(headlines_loaded) == 5, str(headlines_loaded)
 
     expected_headlines = [
-        '1.  Einleitung',
-        ('2.  Das Social Web und die Privatsphäre – '
+        '1. Einleitung',
+        ('2. Das Social Web und die Privatsphäre – '
          'Selbstdarstellungsverhalten der Nutzer aus Sicht von '
          'Massenmedien und Literatur'),
-        ('3.  Systemtheorie und moderne Netzwerksoziologie – '
+        ('3. Systemtheorie und moderne Netzwerksoziologie – '
          'zentrale Ansätze und Begriffe für den Themen- '
          'komplex Social Media'),
-        ('4.  Privatheit  und  Identitätsbildung  im  Social  Web  – '
+        ('4. Privatheit und Identitätsbildung im Social Web – '
          'funktional betrachtet'),
-        '5.  Schlussbetrachtung und Fazit',
+        '5. Schlussbetrachtung und Fazit',
     ]
     # headlines of first element in section
     headlines_text = [item[0].text for item in headlines_loaded]

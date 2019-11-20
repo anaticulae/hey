@@ -56,6 +56,7 @@ class MultiLine(words.headlines.HeadlineExtractorStrategy):
             parsed = whs.parse_headline(text)
             if not parsed:
                 continue
+            text = normalize_whitespaces(text)
             # TODO: REPLACE WITH LEVEL DETERMINER
             rawlevel = parsed['level'].strip()
             level = rawlevel.count('.') + 1
@@ -74,3 +75,8 @@ class MultiLine(words.headlines.HeadlineExtractorStrategy):
             )
             result.append(headline)
         return result
+
+
+def normalize_whitespaces(line):
+    token = [item for item in line.split(' ') if item]
+    return ' '.join(token)
