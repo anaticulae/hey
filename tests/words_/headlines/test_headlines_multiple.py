@@ -6,15 +6,17 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import utila
+
 import sections.feature.section
 import tests.resources
 import words.headlines.multiline
 import words.loader.basic
 
 
-def test_headlines_multiple_master72_extract():
+def test_headlines_multiple_master72_extract_pages_3_7():
     path = tests.resources.MASTER_72PAGES
-    pages = tuple(range(0, 10))
+    pages = tuple(range(3, 7))
     chapters = None
 
     sections_ = sections.feature.section.sections_frompath(path, pages=pages)
@@ -26,4 +28,5 @@ def test_headlines_multiple_master72_extract():
         chapters=chapters,
     )
     result = strategy.result(pages=pages)
-    assert result
+    result = utila.flatten(result)
+    assert len(result) == 5
