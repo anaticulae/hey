@@ -32,17 +32,17 @@ def collect_paragraph(
     # TODO: fcs is not required anymore?
     # convert to content coordiante, and step one element further cause of
     # current element is the headline and we want to start with content
-    start = first.container + 1 - pcn.offset[0]
+    start = first.start + 1 - pcn.offset[0]
     # determine end mark
     if second and first.page == second.page:
-        end = second.container - 1
+        end = second.end - 1
     else:
         end = len(pcn)
 
-    if first.container == -1 and second and second.container != -1:
+    if first.start == -1 and second and second.start != -1:
         # start with None-Container followed by Headline container
         # TODO: Check theses indexes
-        end = second.container
+        end = second.start
     # collect content after headline
     result = []
     for index in range(start, end):

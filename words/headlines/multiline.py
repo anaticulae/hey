@@ -36,7 +36,7 @@ class MultiLine(words.headlines.HeadlineExtractorStrategy):
         return 0
 
     def smallest_textsize(self):
-        return 0
+        return utila.roundme(self.textsize)
 
     def extract_page(
             self,
@@ -55,10 +55,20 @@ class MultiLine(words.headlines.HeadlineExtractorStrategy):
             text = ' '.join([item.text for item in items])
             parsed = whs.parse_headline(text)
             if not parsed:
-                continue
+                text = text.strip()
+                if text not in words.headlines.WHITELIST:
+                    continue
+
+            # if items.size < self.smallest_textsize():
+            #     utila.info(f'headline parsed, but headline is to small: {text}')
+            #     continue
+
             text = normalize_whitespaces(text)
             # TODO: REPLACE WITH LEVEL DETERMINER
-            rawlevel = parsed['level'].strip()
+            try:
+                rawlevel = parsed['level'].strip()
+            except TypeError:
+                rawlevel = text
             level = rawlevel.count('.') + 1
             if rawlevel.endswith('.'):
                 level = 1

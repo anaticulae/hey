@@ -163,7 +163,7 @@ def prepare_analyze_page(
     if headlines[0].container is None:
         # start with None-Container
         headlines[0].container = pcn.offset[0] - 1  # absolute coordinate
-    elif headlines[0].container > pcn.offset[0]:
+    elif headlines[0].end > pcn.offset[0]:
         # the page does not start with a headline, without inserting an empty
         # line the starting content of the page is ignored
         # -> add starting container

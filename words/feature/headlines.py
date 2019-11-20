@@ -33,6 +33,7 @@ import serializeraw
 import utila
 
 import words.headlines
+import words.headlines.multiline
 import words.headlines.nolevel
 import words.headlines.standard
 
@@ -73,8 +74,9 @@ def work(
     sections = serializeraw.load_sections(sections, pages=pages)
 
     strategies = [
-        words.headlines.standard.StandardHeadlineExtractor,
+        words.headlines.multiline.MultiLine,
         words.headlines.nolevel.NoLevelHeadlineExtractor,
+        words.headlines.standard.StandardHeadlineExtractor,
     ]
     results = [
         strategy(

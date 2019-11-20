@@ -185,7 +185,6 @@ def extract_master72_headlines(root: str):
     return result
 
 
-@pytest.mark.xfail(reason='preparing parsing multiline headlines')
 def test_words_features_headlines_work_master72pages(testdir):
     root = str(testdir)
     headlines_loaded = extract_master72_headlines(root)
@@ -210,6 +209,7 @@ def test_words_features_headlines_work_master72pages(testdir):
     assert headlines_text == expected_headlines, str(headlines_text)
 
 
+@pytest.mark.xfail(reason='require selective text distance approach')
 def test_words_features_headlines_work_master72pages_subsections(testdir):
     root = str(testdir)
     headlines_loaded = extract_master72_headlines(root)
