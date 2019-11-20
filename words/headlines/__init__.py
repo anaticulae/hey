@@ -366,7 +366,12 @@ def determine_contentrange(items) -> ChapterRanges:
         list of `ChapterRange` (start, end)
     """
     # analyze all chapter of the document
-    contents = [item for item in items if isinstance(item, iamraw.MainPart)]
+    contents = [
+        item for item in items if isinstance(
+            item,
+            (iamraw.MainPart, iamraw.sections.Unknown),
+        )
+    ]
     # support more than one content element
     chapters = [[
         chapter
@@ -380,7 +385,6 @@ def determine_contentrange(items) -> ChapterRanges:
         # no chapter is present - create `virtual chapter`
         chapters = [[item for item in content.content] for content in contents]
         chapters = utila.flatten(chapters)
-
     if not chapters:
         # TODO: INVESTIGATE HERE
         return []
@@ -410,6 +414,8 @@ def items_before_firstchapter(chapters, contents):
     before = [[
         item for item in content.content if item.start < firstchapter_start
     ] for content in contents]
+    # remove empty pages
+    before = [item for item in before if item]
     before = utila.flatten(before)
     if not before:
         return []
