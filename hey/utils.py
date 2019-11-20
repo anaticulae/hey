@@ -82,32 +82,3 @@ def page(item):
 
 # Unicode special minus sign
 SPECIAL_MINUS_SIGN = '–'
-
-
-def split_bounding_y(
-        bounding: iamraw.BoundingBox,
-        part: int,
-        parts: int,
-) -> iamraw.BoundingBox:
-    """Split `bounding` in `parts`.
-
-    Args:
-        bounding: parent BoundingBox to split into `part`
-        part: number of sub-bounding from top to bottom
-        parts: number of chunks to split parent box
-    Returns:
-        sub-BoundingBox
-    """
-    # TODO: MOVE TO IAMRAW
-    assert parts >= 1, 'non positive parts'
-    assert part < parts, f'part:{part} < parts:{parts}'
-
-    step = (bounding.y1 - bounding.y0) / parts
-
-    result = iamraw.BoundingBox(
-        bounding.x0,
-        bounding.y0 + step * part,
-        bounding.x1,
-        bounding.y0 + step * (part + 1),
-    )
-    return result

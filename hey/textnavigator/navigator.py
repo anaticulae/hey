@@ -234,11 +234,7 @@ def create_pagetextnavigators(
                 continue
             pos = textposition.content[textid]
             for index, line in enumerate(lines):
-                bounding = hey.utils.split_bounding_y(
-                    pos,
-                    index,
-                    len(lines),
-                )
+                bounding = iamraw.split_y(pos, index, len(lines))
                 style = hey.textnavigator.style.create_textstyle(line.chars)
                 # TODO: Remove strip after container is fixed
                 if not line.text.strip():
