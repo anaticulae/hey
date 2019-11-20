@@ -14,9 +14,9 @@ import words.headlines.multiline
 import words.loader.basic
 
 
-def test_headlines_multiple_master72_extract_pages_3_7():
+def test_headlines_multiple_master72_extract_pages_5_7():
     path = tests.resources.MASTER_72PAGES
-    pages = tuple(range(3, 7))
+    pages = tuple(range(5, 7))
     chapters = None
 
     sections_ = sections.feature.section.sections_frompath(path, pages=pages)
@@ -29,4 +29,16 @@ def test_headlines_multiple_master72_extract_pages_3_7():
     )
     result = strategy.result(pages=pages)
     result = utila.flatten(result)
-    assert len(result) == 5
+    assert len(result) == 3
+    headlines = [item.text for item in result]
+
+    expected = [
+        '1.2  Aufbau der Arbeit',
+        ('2.  Das Social Web und die Privatsphäre – '
+         'Selbstdarstellungsverhalten  der  Nutzer  aus  Sicht  von '
+         'Massenmedien und Literatur'),
+        ('2.1  Web  2.0,  Social  Web  und  Social  Media:  Abgrenzungen  und '
+         'Definitionen')
+    ]
+
+    assert headlines == expected
