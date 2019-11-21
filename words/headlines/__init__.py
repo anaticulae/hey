@@ -30,9 +30,6 @@ WHITELIST = set([
 ChapterRange = collections.namedtuple('ChapterRange', 'start end')
 ChapterRanges = typing.List[ChapterRange]
 
-# TODO: REPLACE WITH IAMRAW CODE
-Headlines = typing.List[iamraw.Headline]
-
 
 class HeadlineExtractorStrategy(abc.ABC):
     """Strategy approach to determine the `Headlines` of a given set of

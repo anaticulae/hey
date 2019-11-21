@@ -40,7 +40,7 @@ class MultiLine(words.headlines.HeadlineExtractorStrategy):
     def extract_page(
             self,
             pagecontent: htn.PageTextNavigator,
-    ) -> words.headlines.Headlines:
+    ) -> iamraw.Headlines:
         """Extract headlines on selected page
 
         Args:
