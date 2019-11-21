@@ -10,7 +10,6 @@
 import iamraw
 import utila
 
-import hey.textnavigator.fonts as htf
 import hey.textnavigator.multiline as htm
 import hey.textnavigator.navigator as htn
 import words.headlines
@@ -50,7 +49,7 @@ class MultiLine(words.headlines.HeadlineExtractorStrategy):
             Extracted list of iamraw.Headline.
         """
         result = []
-        grouped = htm.group_page_by_fontsize(pagecontent)
+        grouped = htm.group_page_by_size_distance(pagecontent)
         for items in grouped:
             text = ' '.join([item.text for item in items])
             parsed = whs.parse_headline(text)
@@ -58,11 +57,9 @@ class MultiLine(words.headlines.HeadlineExtractorStrategy):
                 text = text.strip()
                 if text not in words.headlines.WHITELIST:
                     continue
-
-            # if items.size < self.smallest_textsize():
-            #     utila.info(f'headline parsed, but headline is to small: {text}')
-            #     continue
-
+            if issentence(text):
+                # ignore extracted lists which are interpreted as headlines
+                continue
             text = normalize_whitespaces(text)
             # TODO: REPLACE WITH LEVEL DETERMINER
             try:
@@ -90,3 +87,9 @@ class MultiLine(words.headlines.HeadlineExtractorStrategy):
 def normalize_whitespaces(line):
     token = [item for item in line.split(' ') if item]
     return ' '.join(token)
+
+
+def issentence(line: str):
+    # TODO: IMPROVE THIS
+    # TODO: USE BIG FIVE FEATURES
+    return line.strip().endswith('.')

@@ -61,8 +61,6 @@ def test_headlines_multiple_master72_extract_pages_13_14():
     result = strategy.result(pages=pages)
     result = utila.flatten(result)
     headlines = [item.text for item in result]
-    for item in headlines:
-        print(item)
     assert len(result) == 3
     expected = [
         '2.4 Einführung in das Konzept der Privatheit',

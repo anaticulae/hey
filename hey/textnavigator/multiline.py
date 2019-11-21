@@ -230,6 +230,91 @@ def group_linedistances(
     return result
 
 
+MAX_SIZEDIFF = 1.0  # TODO:HOLY VALUE
+
+
+def maxdistance(size: float):
+    # TODO: HOLY VALUE. Support table as holy value
+    if size <= 12.0:
+        return 22.0
+    if size <= 14.5:
+        return 30
+    if size <= 15.96:
+        return 35
+    return 50.0
+
+
+def group_linedistances_complex(
+        content: htn.PageTextNavigator,
+        max_sizediff: float = MAX_SIZEDIFF,
+        max_distance: callable = maxdistance,
+) -> typing.List[int]:
+    """Group lines by sizes and distances of text chunks.
+
+    Args:
+        content: content to group
+        max_sizediff: absolute difference of 2 font size in one group
+        max_distance: function to determine limit maxmimal distance
+                      between 2 lines in a group.
+    Returns:
+        List of grouped indexes
+    """
+    assert htn.isnavigator(content), type(content)
+    distances = linedistances(content)
+    sizes = [max([item.size for item in items.style]) for items in content]
+    assert len(distances) == len(sizes)
+    if len(distances) < 2:
+        return []
+    distances = distances[:]
+    # remove None at end of distances
+    distances[-1] = distances[-2]
+    result = []
+    current = []
+    cursize = None
+    for index, (size, distance) in enumerate(zip(sizes, distances)):
+        if cursize is None:
+            if distance > max_distance(size):
+                result.append([index])
+            else:
+                current.append(index)
+                cursize = size
+            continue
+        sizediff = utila.roundme(math.fabs(cursize - size))
+        if sizediff < max_sizediff:
+            if distance < max_distance(size):
+                current.append(index)
+            else:
+                current.append(index)
+                result.append(current)
+                current = []
+                cursize = None
+        else:
+            result.append(current)
+            current = [index]
+            cursize = None
+    if current:
+        result.append(current)
+    return result
+
+
+def group_page_by_size_distance(content: htn.PageTextNavigator):
+    assert htn.isnavigator(content), type(content)
+    grouped = group_linedistances_complex(content)
+    result = []
+    for group in grouped:
+        groupcontent = [content[index] for index in group]
+        # TODO: make container more pythonic
+        size = groupcontent[0].style.content[0].size
+        firstid = group[0]
+        result.append(
+            MultilineGroup(
+                text=groupcontent,
+                size=size,
+                firstid=firstid,
+            ))
+    return result
+
+
 def gradient(items):
     # TODO: MOVE TO MORE GENERAL PLACE
     result = [

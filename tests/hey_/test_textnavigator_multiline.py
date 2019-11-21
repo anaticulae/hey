@@ -99,18 +99,19 @@ def test_hey_textnavigator_multiline_group_page_by_maxdistance():
 def test_hey_textnavigator_multiline_group_linedistances_page(page, expected):
     navigators = example()
     content = navigators[page]
-    distances = htm.linedistances(content)
-    grouped = htm.group_linedistances(distances, maxdiff=1.0)
+    grouped = htm.group_linedistances_complex(content)
     assert grouped == expected
 
 
-@pytest.mark.xfail(reason='not working right now')
 def test_hey_textnavigator_multiline_group_linedistances_page_zero_tolerance():
     navigators = example()
     content = navigators[0]
-    distances = htm.linedistances(content)
-    grouped = htm.group_linedistances(distances, maxdiff=0.0)
-    assert len(grouped) == 16
+    grouped = htm.group_linedistances_complex(
+        content,
+        max_sizediff=0.0,
+        max_distance=lambda x: 0.0,
+    )
+    assert len(grouped) == 18
 
 
 def test_hey_textnavigator_multiline_unite_groups():

@@ -473,3 +473,10 @@ def navigator_to_bounds(navigator: PageTextNavigator,
         PageTextContentNavigator,
     )), type(navigator)
     return [item.bounding for item in navigator]
+
+
+def isnavigator(item):
+    return isinstance(item, (
+        PageTextNavigator,
+        PageTextContentNavigator,
+    ))
