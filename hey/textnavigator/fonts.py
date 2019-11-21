@@ -200,4 +200,5 @@ def document_textdistance(
         # TODO: Multiply add distances as often as characters are in line?
         # TODO: Handle equal count, see StatisticsError [12, 11, 12, 11, 148,
         # 17, 4, 51, 129, 58, 8, 41]
+        # Raise StategyError and try again with different strategy
         assert 0, 'not decided yet'
