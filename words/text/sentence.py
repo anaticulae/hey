@@ -86,14 +86,11 @@ def merge_sentences(
         skip_undefined: bool = False,
 ):
     assert len(pages) >= 2, 'require at least two `pages`'
-    result = []
     for current, after in zip(pages[0:-1], pages[1:]):
         current = list(visit_sentences(current, skip_undefined=skip_undefined))
         after = list(visit_sentences(after, skip_undefined=skip_undefined))
-
         for headline, sentence in current[0:-1]:
             yield headline, sentence
-
         # TODO: DIRTY
         last = current[-1]
         first = after[0]
@@ -104,17 +101,19 @@ def merge_sentences(
             assert first
             yield current_headline, last[1] + ' ' + first[1]
         else:
+            # new page with headline start
             yield last
-            if current_headline != last[0]:
-                current_headline = last[0]
+            if current_headline != first[0]:
+                current_headline = first[0]
             yield current_headline, first[1]
-
         # use headline of the page before to first headline of after page
-        for headline, sentence in after[1:]:
+        for headline, sentence in after[current_headline.end + 1:]:
             if headline != current_headline:
-                current_headline = headline
+                if headline.text is not None:
+                    # do not replace headlines from page before with
+                    # virtual none-headlines after page break.
+                    current_headline = headline
             yield current_headline, sentence
-    return result
 
 
 def visit_chapters(pages):

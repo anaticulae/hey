@@ -65,17 +65,32 @@ def test_words_text_seventytwo_visit_sentences_merge_page_endstart():
         'Kritisch beurteilt wird das '
         'Nutzerverhalten vor allem in Bezug auf die Privatheitsthematik.')
 
+    # ensure that every sentence has a headline
+    assert all([item is not None for item, _ in merged])
 
-@pytest.mark.xfail(reason='require to fix headline parser')
+    # ensure that every sentence has content
+    assert all([item is not None for _, item in merged])
+
+
+# @pytest.mark.xfail(reason='require to fix headline parser')
 def test_words_text_seventytwo_visit_sentences_merge_page5_7():
     required = fseventytwo.textrequired(pages=(5, 6, 7))
     pages = words.text.chapter.split(required)
     merged = list(words.text.sentence.merge_sentences(pages))
 
-    assert merged[10][0].text == '2.  Das Social Web und die Privatsphäre –'
+    for item in merged:
+        print(item)
+    assert merged[10][0].text == (
+        '2. Das Social Web und die Privatsphäre – '
+        'Selbstdarstellungsverhalten der Nutzer aus Sicht von Massenmedien und '
+        'Literatur')
+    assert merged[10][1] == (
+        'Im Folgenden geht es zunächst um eine definitorische Einführung in '
+        'den Bereich der Social Media sowie um die Eigenschaften netzbasierter '
+        'Kommunikation, die für das Social Web von Bedeutung sind.')
     lastsentence = (
-        'Durch Kundenbeteiligung und computergesteuertes'
-        'Datenmanagement können Nischenmärkte und unscheinbare Webangebote im'
+        'Durch Kundenbeteiligung und computergesteuertes '
+        'Datenmanagement können Nischenmärkte und unscheinbare Webangebote im '
         'Long Tail zu kollektiver Stärke heranwachsen.')
     assert merged[-1][1] == lastsentence
 
