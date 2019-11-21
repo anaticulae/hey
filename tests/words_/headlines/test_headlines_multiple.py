@@ -45,7 +45,6 @@ def test_headlines_multiple_master72_extract_pages_5_7():
     assert headlines == expected
 
 
-@pytest.mark.xfail(reason='require more specific headline parser')
 def test_headlines_multiple_master72_extract_pages_13_14():
     path = tests.resources.MASTER_72PAGES
     pages = tuple(range(13, 15))
@@ -65,6 +64,9 @@ def test_headlines_multiple_master72_extract_pages_13_14():
     for item in headlines:
         print(item)
     assert len(result) == 3
-    # TODO: add specific headline test
-    expected = []
+    expected = [
+        '2.4 Einführung in das Konzept der Privatheit',
+        '2.5 Darstellungen in Massenmedien und Literatur',
+        '2.5.1 Selbstdarstellung und Privatheit als Problemfelder',
+    ]
     assert headlines == expected
