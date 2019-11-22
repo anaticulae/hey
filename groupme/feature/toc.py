@@ -8,23 +8,17 @@
 # =============================================================================
 
 import typing
-from typing import List
-from typing import Tuple
 
+import iamraw
+import serializeraw
 import utila
-from iamraw import Document
-from iamraw import Page
-from iamraw import Section
-from iamraw import create_toc
-from serializeraw import dump_toc
-from serializeraw import load_document
 
+import groupme.feature
 import groupme.structure
 import groupme.toc
 import groupme.toc.regex
 import groupme.utils
 import words.headlines
-from groupme.feature import RawSection
 
 """
 Outdated approaches:
@@ -36,7 +30,7 @@ MIN_TOCS_PER_PAGE = 0.2  # TODO: HOLY VALUE
 
 
 def work(documentpath: str) -> str:
-    document = load_document(documentpath)
+    document = serializeraw.load_document(documentpath)
 
     result = toc(document)
 
@@ -44,7 +38,14 @@ def work(documentpath: str) -> str:
     return dumped
 
 
-def toc(document: Document):
+Level = str
+Title = str
+
+LeveledTitle = typing.Tuple[Level, Title]
+LeveledTitles = typing.List[LeveledTitle]
+
+
+def toc(document: iamraw.Document):
     """
     # TODO: Include page distance!
     # TODO: We need a more stable approach
@@ -80,10 +81,6 @@ def toc(document: Document):
     # if headline occurs on table of content and on page it occurs twive
     result = groupme.toc.remove_duplication(result)
     return result
-
-
-Level = str
-Title = str
 
 
 def decide_non_level_possible_headlines(items):
@@ -128,7 +125,7 @@ def uniform_level(level: str) -> str:
     return level
 
 
-def filter_common_headlines(potential_titles: List[Tuple[Level, Title]]):
+def filter_common_headlines(potential_titles: LeveledTitles) -> LeveledTitles:
     """
 
     In some cases it is possible that mostly equal titles are extracted. That
@@ -168,7 +165,7 @@ def filter_common_headlines(potential_titles: List[Tuple[Level, Title]]):
     return result
 
 
-def text_snippets(document: Document):
+def text_snippets(document: iamraw.Document):
     result = []
     for page in document:
         for item in page:
@@ -197,7 +194,7 @@ def toc_to_yaml(tableofcontent: typing.List[groupme.toc.TocLine]) -> str:
             utila.error(f'problem while processing lines: {line}')
             continue
         level = determine_level(line.level)
-        section = Section(level=level, title=line.title)
+        section = iamraw.Section(level=level, title=line.title)
         outlines.append(section)
 
     def level_zero(items):
@@ -216,9 +213,9 @@ def toc_to_yaml(tableofcontent: typing.List[groupme.toc.TocLine]) -> str:
 
     outlines = level_zero(outlines)
 
-    toc_ = create_toc(outlines)
+    toc_ = iamraw.create_toc(outlines)
 
-    dumped = dump_toc(toc_)
+    dumped = serializeraw.dump_toc(toc_)
 
     return dumped
 
@@ -227,7 +224,7 @@ def is_dotted_line(line: str):
     return line.count(' .') > 2 or line.count('...') > 2
 
 
-def toc_from_page(page: Page) -> List[RawSection]:
+def toc_from_page(page: iamraw.Page) -> typing.List[groupme.feature.RawSection]:
     """Extract headlines from page"""
     page_sections = groupme.structure.sections_from_page(page)
     if not page_sections:
