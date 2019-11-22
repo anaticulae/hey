@@ -120,12 +120,9 @@ def merge_sentences(
 def visit_chapters(pages):
     current = None
     collected = []
+    done = AlreadyDone()
     for headline, sentence in merge_sentences(pages):
-        if not wuh.is_higherequal(headline, current):
-            # Avoid to add headlines twice. This can happen when merge
-            # page 1->2 and 2->3, therefore some lines of page 2 are added
-            # twice. This is avoidable when adding headlines strict
-            # ascending.
+        if done.done((headline, sentence)):
             continue
         if current is None:
             # start
@@ -137,6 +134,19 @@ def visit_chapters(pages):
         collected.append(sentence)
     if collected:
         yield current, collected
+
+
+class AlreadyDone:
+
+    def __init__(self):
+        self.saved = set()
+
+    def done(self, item):
+        hashed = str(item)
+        if hashed in self.saved:
+            return True
+        self.saved.add(hashed)
+        return False
 
 
 def split_sentences(text: str) -> typing.List[str]:
