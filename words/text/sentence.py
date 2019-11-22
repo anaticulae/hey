@@ -14,6 +14,7 @@ import utila
 
 import hey.textnavigator.style as ts
 import words.text
+import words.utils.headline as wuh
 
 
 def find_sentences(page: words.text.PageTextWithHeadlines) -> words.text.TextSections: # yapf:disable

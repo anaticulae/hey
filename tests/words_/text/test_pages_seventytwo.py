@@ -12,7 +12,7 @@ import utila
 
 import tests.words_.fixtures.seventytwo as fseventytwo
 import words.text.chapter
-import words.text.sentence
+import words.text.sentence as wts
 
 
 def test_words_text_seventytwo_extract_texts():
@@ -33,10 +33,10 @@ def test_words_text_seventytwo_visit_sentences():
     required = fseventytwo.textrequired(pages=(4))
     secondpage = words.text.chapter.split(required)[0]
 
-    sentences = list(words.text.sentence.visit_sentences(firstpage))
+    sentences = list(wts.visit_sentences(firstpage))
     assert len(sentences) == 17
 
-    sentences = list(words.text.sentence.visit_sentences(secondpage))
+    sentences = list(wts.visit_sentences(secondpage))
     assert len(sentences) == 14
 
     # second page first sentence
@@ -57,7 +57,7 @@ def test_words_text_seventytwo_visit_sentences_merge_page_endstart():
     required = fseventytwo.textrequired(pages=(3, 4))
     pages = words.text.chapter.split(required)
 
-    merged = list(words.text.sentence.merge_sentences(pages))
+    merged = list(wts.merge_sentences(pages))
     assert len(merged) == 30
 
     merged_middle_sentence = merged[16][1]
@@ -76,7 +76,7 @@ def test_words_text_seventytwo_visit_sentences_merge_page_endstart():
 def test_words_text_seventytwo_visit_sentences_merge_page5_7():
     required = fseventytwo.textrequired(pages=(5, 6, 7))
     pages = words.text.chapter.split(required)
-    merged = list(words.text.sentence.merge_sentences(pages))
+    merged = list(wts.merge_sentences(pages))
 
     for item in merged:
         print(item)
@@ -99,7 +99,7 @@ def test_words_text_seventytwo_visit_chapters():
     required = fseventytwo.textrequired(pages=tuple(range(0, 14)))
     pages = words.text.chapter.split(required)
 
-    chapters = list(words.text.sentence.visit_chapters(pages))
+    chapters = list(wts.visit_chapters(pages))
     minpage = min([headline.page for headline, _ in chapters])
     assert minpage == 3, minpage
     # '1.  Einleitung'
@@ -123,7 +123,7 @@ def test_words_text_seventytwo_visit_chapters():
 def test_words_text_seventytwo_extract_sentences():
     expected = fseventytwo.firstpage_sentences()
     raw = ' '.join(expected)
-    splitted = words.text.sentence.split_sentences(raw)
+    splitted = wts.split_sentences(raw)
 
     assert len(splitted) == len(expected)
     assert splitted == expected

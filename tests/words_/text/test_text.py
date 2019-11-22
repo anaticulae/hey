@@ -16,7 +16,7 @@ import hey.undefined
 import tests.resources
 import words.feature
 import words.feature.text
-import words.text.chapter
+import words.text.chapter as wtc
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_contentborder
 from tests.fixtures.restruct import restructured_headerfooter
@@ -191,7 +191,7 @@ def test_words_extract_texts_page_x(
     current = headlines[current_headline]
     assert all([item.page == current_page for item in current])
 
-    analyzed = words.text.chapter.analyze_page(
+    analyzed = wtc.analyze_page(
         current,
         loaded.fontstore,
         loaded.textnavigators,
