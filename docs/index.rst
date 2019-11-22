@@ -1,14 +1,32 @@
 Welcome to a lot of features
 =================================
 
+General
+-------
+
 .. toctree::
   :maxdepth: 1
 
-  pages/changelog
-  releases/releases
-  releases/backlog
+  technique/index
   proposal/proposal
   bugs
+
+Progress
+--------
+
+.. toctree::
+  :maxdepth: 1
+
+  releases/releases
+  releases/backlog
+  pages/changelog
+
+Developer
+---------
+
+.. toctree::
+  :maxdepth: 1
+
   todo
 
 Modules
