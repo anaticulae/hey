@@ -2,6 +2,68 @@
 
 Every noteable change is logged here.
 
+## v1.12.0
+
+### Feature
+
+* extend sentence parser (327ad5f068ad)
+* analyse content till content ends (4a07467333da)
+* add method to compare order of iamraw.Headline (361a2baeb459)
+* add more complex multiline headline extractor (cadb567264c9)
+* integrate multiline headline extractor (7303718265d4)
+* normalize headlines to concentrate on content (7ed053708a1f)
+* use font size strategy to determine headlines (c3b03e558a45)
+* add first containerid to MultilineGroup (dace4b5f01e7)
+* add prototype for MuliLine-Headline-Extractor (42709006dc2f)
+* add method to determine sections from path (aa6873a9a04d)
+* add method group multilines by line distance (ee7c899e92ef)
+* add method to merge 2 groups (982901ce56a5)
+* add method to group lines by gradient of line distance (ef11f9a2d144)
+* add method to group text lines by font size (2e2b56a31b42)
+* add method to create style without HighNotes (d6d7d88efd44)
+* add method to copy TextStyle (009d0727bccc)
+* extend sentence parser to parse content before loaded chapter (38b9f773b91e)
+* merge sentences with headlines of to pages (7ae1190ba345)
+* add methods to extract sentences and chapter content (0218406af1b5)
+* reduce smallest headline size (49e32d20539a)
+* add text feed to improve headline extractor strategy (3a1c0622733d)
+* make sentence more robust against capitalisation (3b84685b9553)
+* use new sentence splitter to split text (3ac0b96f5021)
+* add method to remove high notes (82e5e8560434)
+* add method to split text into sentences (b7730240651b)
+* add footerlink to public interface (2f477c142aeb)
+* add method to dump and load high notes (c3fa5f910bca)
+* add footerlink extractor to parse text annotation from text (bdf2e38499a8)
+* validate TextStyle after init to ensure correct definition (87f327b61016)
+* use TextInfo information instead of FontStore definition (7f809ef33f7f)
+* add method to extract HighNotes out of TextInfo (2f1469283dae)
+* literature and footer reference (25ab355d8b6f)
+* load required data for text processing from path (c05f2be52653)
+
+### Fix
+
+* fix chapter extractor (4b367d727081)
+* merge sentences and headlines over pages correctly (a4c553c42599)
+* fix parsing headlines before chapter starts (6480b95ad4c2)
+* skip empty pages to avoid error in max calculation (26825879218c)
+* correct import (3e19e804a8e7)
+* fix return type of high notes extractor (9f28631fdd1c)
+* extracting headlines on single page/few pages (bcc50dc497ba)
+* fix unused imports (281037da4b1a)
+* skip useless empty lines (1302e9cf346d)
+* reduce layout offset to avoid missing last content line (3dec60786650)
+* select correct page when creating PageTextNavigator selectively (8f540d6ddaf5)
+* improve no-sentence message (2b37184fc62b)
+
+### Documentation
+
+* add design decision to introduce StrategyError (d6eb4f74d9c0)
+* remove after moved to iamraw (7498c10a2cfa)
+* extend interface documentation (c2b5388a31c6)
+* extend interface documentation (9aea87dc9982)
+* extend interface documentation (76580d18ec8c)
+* use rst to document planned releases (28d1aefaa7eb)
+
 ## v1.11.0
 
 ### Feature
