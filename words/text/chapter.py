@@ -49,10 +49,8 @@ def extract_texts(loaded: words.feature.TextRequiredResources,
 def split(loaded: words.feature.TextRequiredResources
          ) -> words.text.PageTextWithHeadlines:
     headlines = loaded.headlines
+    pages = [item.page for item in loaded.textnavigators]
     if not headlines:
-        pages = [item.page for item in loaded.textnavigators]
-        # TODO: HOW TO DEAL WITH HEADER?
-        # TODO: HOW TO DEAL WITH ENDING?
         start, end = min(pages), max(pages)
         headlines = [[
             iamraw.Headline(text=None, level=None, page=page),
@@ -60,7 +58,7 @@ def split(loaded: words.feature.TextRequiredResources
 
     result = []
     # ensure to preserve correct page order when having pages without headline
-    headlines = insert_empty_pages(headlines)
+    headlines = insert_empty_pages(headlines, max(pages))
     # start analyzing
     for headline in headlines:
         analyzed = analyze_page(
@@ -187,14 +185,18 @@ def prepare_analyze_page(
     )
 
 
-def insert_empty_pages(headlines):
+def insert_empty_pages(
+        headlines: iamraw.Headlines,
+        maxpage: int,
+) -> iamraw.Headlines:
     """Add pages with content but without any headlines.
 
     What happens when we forget to fill the headlines? All pages without any
     headlines are ignored in content analyzis.
 
     Args:
-        headlines:
+        headlines: loaded headlines, without virtual headlines
+        maxpage: last loaded content page
     Returns:
         filled headline list
     """
@@ -204,10 +206,10 @@ def insert_empty_pages(headlines):
     heads = []
     for first, second in itertools.zip_longest(flat, flat[1:], fillvalue=None):
         heads.append(first)
-        if second is None:
-            utila.error('Implement fill last one till chapter ends')
-            break
-        for index in range(first.page + 1, second.page):
+        secondpage = second.page if second is not None else maxpage + 1
+        # add virtual headlines to analyse content which does not ends
+        # with headline.
+        for index in range(first.page + 1, secondpage):
             heads.append(iamraw.Headline(text=None, level=None, page=index))
 
     headlines = [

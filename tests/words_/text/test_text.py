@@ -186,7 +186,8 @@ def test_words_extract_texts_page_x(
             return 'u%d' % paragraph.container
 
     # fill headlines
-    headlines = words.text.chapter.insert_empty_pages(loaded.headlines)
+    pages = [item.page for item in loaded.textnavigators]
+    headlines = wtc.insert_empty_pages(loaded.headlines, maxpage=max(pages))
     # ensure that all collect headlines are from page `current_page`
     current = headlines[current_headline]
     assert all([item.page == current_page for item in current])

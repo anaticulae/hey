@@ -78,8 +78,6 @@ def test_words_text_seventytwo_visit_sentences_merge_page5_7():
     pages = words.text.chapter.split(required)
     merged = list(wts.merge_sentences(pages))
 
-    for item in merged:
-        print(item)
     assert merged[10][0].text == (
         '2. Das Social Web und die Privatsphäre – '
         'Selbstdarstellungsverhalten der Nutzer aus Sicht von Massenmedien und '
@@ -88,10 +86,8 @@ def test_words_text_seventytwo_visit_sentences_merge_page5_7():
         'Im Folgenden geht es zunächst um eine definitorische Einführung in '
         'den Bereich der Social Media sowie um die Eigenschaften netzbasierter '
         'Kommunikation, die für das Social Web von Bedeutung sind.')
-    lastsentence = (
-        'Durch Kundenbeteiligung und computergesteuertes '
-        'Datenmanagement können Nischenmärkte und unscheinbare Webangebote im '
-        'Long Tail zu kollektiver Stärke heranwachsen.')
+    lastsentence = ('Es sind Anwendungen entstanden, welche die '
+                    'soziale Komponente in den Vordergrund')
     assert merged[-1][1] == lastsentence
 
 
@@ -117,7 +113,38 @@ def test_words_text_seventytwo_visit_chapters():
     # '2.3  Eigenschaften netzbasierter Kommunikation'
     # '2.4  Einfhrung in das Konzept der Privatheit'
     sectionpages = [headline.page for headline, _ in chapters]
-    assert sectionpages == [3, 4, 5, 6, 6, 6, 6, 10, 12, 13]
+    assert sectionpages == [3, 4, 5, 6, 6, 10, 12, 13]
+
+
+def test_words_text_seventytwo_visit_chapters_page5_6_7():
+    required = fseventytwo.textrequired(pages=(5, 6, 7))
+    pages = words.text.chapter.split(required)
+
+    chapters = list(wts.visit_chapters(pages))
+    assert len(chapters) == 3
+
+    headlines = [headline for headline, _ in chapters]
+    assert all([item.text is not None for item in headlines])
+
+    for head, items in chapters:
+        print()
+        print(head)
+        print()
+        for item in items:
+            print(item)
+        print()
+    lastsentence = chapters[-1][1][-1]
+    assert lastsentence == ('Es sind Anwendungen entstanden, welche die '
+                            'soziale Komponente in den Vordergrund')
+
+
+def test_words_text_seventytwo_visit_chapters_complete():
+    required = fseventytwo.textrequired()
+    pages = words.text.chapter.split(required)
+
+    chapters = list(wts.visit_chapters(pages))
+
+    assert len(chapters) == 32
 
 
 def test_words_text_seventytwo_extract_sentences():

@@ -121,6 +121,12 @@ def visit_chapters(pages):
     current = None
     collected = []
     for headline, sentence in merge_sentences(pages):
+        if not wuh.is_higherequal(headline, current):
+            # Avoid to add headlines twice. This can happen when merge
+            # page 1->2 and 2->3, therefore some lines of page 2 are added
+            # twice. This is avoidable when adding headlines strict
+            # ascending.
+            continue
         if current is None:
             # start
             current = headline
