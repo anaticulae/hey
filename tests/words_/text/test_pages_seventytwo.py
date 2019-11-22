@@ -126,13 +126,11 @@ def test_words_text_seventytwo_visit_chapters_page5_6_7():
     headlines = [headline for headline, _ in chapters]
     assert all([item.text is not None for item in headlines])
 
-    for head, items in chapters:
-        print()
-        print(head)
-        print()
-        for item in items:
-            print(item)
-        print()
+    sentences = [sentence for _, sentence in chapters]
+    count = [len(item) for item in sentences]
+    # check sentence count for different sections
+    assert count == [10, 2, 26], str(count)
+
     lastsentence = chapters[-1][1][-1]
     assert lastsentence == ('Es sind Anwendungen entstanden, welche die '
                             'soziale Komponente in den Vordergrund')

@@ -106,9 +106,15 @@ def merge_sentences(
             yield last
             if current_headline != first[0]:
                 current_headline = first[0]
-            yield current_headline, first[1]
+            if first[0].text is not None:
+                # after page does not starts with virtual headline
+                yield current_headline, first[1]
         # use headline of the page before to first headline of after page
-        for headline, sentence in after[current_headline.end + 1:]:
+        afterstart = 1  # normal headline
+        if current_headline.text is None:
+            # virtual headline
+            afterstart = 0
+        for headline, sentence in after[afterstart:]:
             if headline != current_headline:
                 if headline.text is not None:
                     # do not replace headlines from page before with

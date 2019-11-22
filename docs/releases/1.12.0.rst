@@ -13,7 +13,7 @@ Documentation
 Text
 ----
 
-* [ ] enable iterating text/chapter/section/paragraph/sentence/word/char
+* [x] enable iterating text/chapter/section/paragraph/sentence/word/char
   to extract `literature links` and `footlinks`.
 
 Footlink
