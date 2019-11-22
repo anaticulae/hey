@@ -166,6 +166,9 @@ def split_sentences(text: str) -> typing.List[str]:
             if token[:-1].isnumeric():
                 # 1.; 13.
                 continue
+            if token.startswith('('):
+                # (z.B.)
+                continue
         if lastchar in SIGN:
             result.append(' '.join(current))
             current = []
