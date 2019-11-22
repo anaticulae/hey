@@ -1,0 +1,49 @@
+.. _1_13_0:
+
+RP 1.13.0
+=========
+
+This increment aims to improve table of content extraction and validation.
+
+General
+-------
+
+* [ ] Parse page number which the toc line links to
+
+* [ ] Improve table of content likelihood detection
+
+* [ ] Create rst documentation page for toc extraction concept
+
+* [ ] Move serialization to serializeraw
+
+Structure
+---------
+
+Dotted
+~~~~~~~
+
+Without dots
+~~~~~~~~~~~~
+
+* [ ] No dots between title and page number
+
+Multiline
+~~~~~~~~~
+
+* [ ] Accept headlines which consume more than one line
+
+Validation
+----------
+
+* [ ] Validate the structure of table of content. Detect numbering problems.
+
+* [ ] Validate three different examples
+
+Before
+~~~~~~
+
+* Your code has been rated at 9.39/10
+* Total coverage: 90.64%
+
+After
+~~~~~
