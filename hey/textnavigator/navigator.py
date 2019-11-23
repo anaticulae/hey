@@ -62,8 +62,13 @@ class PageTextNavigator:
             bounding(iamraw.BoundingBox): position and dimension of text area
         """
         x0, y0, x1, y1 = bounding
-        assert 0 <= x0 <= x1 <= self.width, f'0<={x0}<={x1}<={self.width}'
-        assert 0 <= y0 <= y1 <= self.height, f'0<={y0}<={y1}<={self.height}'
+
+        assert 0 <= x0 <= x1, f'0<={x0}<={x1}'
+        assert 0 <= y0 <= y1, f'0<={y0}<={y1}'
+        # TODO: Substract border to move starting text to (0,0)?. If not,
+        # x1 is sometimes higher than self.width.
+        assert (x1 - x0) < self.width, f'{x1-x0} < {self.width}'
+        assert (y1 - y0) < self.height, f'{y1-y0} < {self.height}'
 
         position = 0
         for item in self.data:
