@@ -91,3 +91,9 @@ def test_extract_toc_line_whitespace_decission():
     text = '       2. We do not want whitespaces at the end ......... 4   '
     parsed = gtr.parse(text)
     assert not parsed, 'we do not want to support whitespaces'
+
+
+def test_groupme_toc_regex_parse_line():
+    line = '2.2.3 Drahtlostechnologien fuer Nahbereichsnetzwerke (WPAN) 15'
+    parsed = gtr.parse_line(line)
+    assert parsed

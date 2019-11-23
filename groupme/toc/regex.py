@@ -106,7 +106,9 @@ def parse_page(page: iamraw.Page) -> typing.List[groupme.toc.TocLine]:
     return result
 
 
-USER_CONTENT = r'\w\d\.&:, \-' + hey.utils.SPECIAL_MINUS_SIGN
+USER_CONTENT = r'\w\d\.&:, \-\(\)/' + hey.utils.SPECIAL_MINUS_SIGN
+# user content without whitespace
+UCWW = USER_CONTENT.replace(' ', '')
 WITH_NEWLINE = r'\s'
 
 # \W to ensure non-unicode character, like special - chars
@@ -116,8 +118,8 @@ EXTENDED_PATTERN = re.compile(
         r'(?P<level>(\d{1,2}\.)+\d{0,2})'
         r'[ ]{1,5}'
         r'(?P<text>\w'  # ensure that text does not start with whitespace
-        fr'[{USER_CONTENT}{WITH_NEWLINE}]+?\w+?)'
-        r'([ \.]{3,})'
+        fr'[{USER_CONTENT}{WITH_NEWLINE}]+?[{UCWW}]+?)'
+        r'([ \.]{1,})'
         r'(?P<page>\d+)'
         r'$'),
     re.VERBOSE | re.MULTILINE | re.UNICODE,
@@ -130,6 +132,8 @@ NO_DOTS = re.compile(
         r'[ ]{1,5}'
         r'(?P<text>\w'  # ensure that text does not start with whitespace
         fr'[{USER_CONTENT}{WITH_NEWLINE}]+?\w+?)'
+        r'[ ]{1,5}'
+        r'(?P<page>\d+)'
         r'$'),
     re.VERBOSE | re.MULTILINE | re.UNICODE,
 )
