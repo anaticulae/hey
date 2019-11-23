@@ -284,11 +284,31 @@ def fill_empty_navigators(
     return filled
 
 
-def create_pagetextnavigators_frompath(path: str, pages=None):
-    text = hey.path.text(path)
+def create_pagetextnavigators_frompath(
+        path: str,
+        prefix='',
+        pages=None,
+) -> PageTextNavigators:
+    """Load all resources from one `path` to create PageTextNavigator
+    for the selected list of `pages` with an optional `prefix` in loaded
+    items.
+
+    Args:
+        path(str): Path to folder which contains all data to construct.
+        prefix(str): Optional prefix to difference items in folder.
+        pages(tuple): Tuple of pages to load.
+    Returns:
+        A list of selected PageTextNavigators.
+
+    Example:
+        rawmaker__oneline_text_text.yaml with `oneline` as prefix to
+        separate instances.
+    """
+
+    text = hey.path.text(path, prefix=prefix)
     text = serializeraw.load_document(text, pages=pages)
 
-    textposition = hey.path.textposition(path)
+    textposition = hey.path.textposition(path, prefix=prefix)
     textposition = serializeraw.load_textpositions(textposition, pages=pages)
 
     navigators = create_pagetextnavigators(text, textposition)
