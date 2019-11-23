@@ -71,6 +71,15 @@ def parse(content: str) -> typing.List[groupme.toc.TocLine]:
     return result
 
 
+def parse_line(line):
+    assert isinstance(line, str), type(line)
+    for pattern in [EXTENDED_PATTERN, NO_DOTS, DICTONARY]:
+        matched = re.match(pattern, line)
+        if matched:
+            return extract_match(matched)
+    return None
+
+
 def parse_page(page: iamraw.Page) -> typing.List[groupme.toc.TocLine]:
     """Merge `page` to raw string and extract the lines of table of content.
 
@@ -130,8 +139,33 @@ NO_LEVEL = re.compile(
         r'^'
         r'(?P<text>\w'  # ensure that text does not start with whitespace
         fr'[{USER_CONTENT}]+?\w+?)'
-        r'([ \.]{3,})'
-        r'(?P<page>\d+)'),
+        r'([ \.]{2,})'
+        r'(?P<page>\d+)'
+        r'$'),
+    re.VERBOSE | re.UNICODE,
+)
+
+LIST = [
+    'A',
+    'Abbildungsverzeichnis',
+    'Anhang',
+    'Bildquellen',
+    'Glossar',
+    'Internetquellen',
+    'Listings',
+    'Literatur',
+    'Literaturverzeichnis',
+    'Tabellenverzeichnis',
+    r'Eidesstattliche\ Erklärung',
+]
+
+JOINED_LIST = '|'.join(LIST)
+
+DICTONARY = re.compile(
+    (r'^'
+     r'(?P<text>(' + JOINED_LIST + '))'
+     r'([ \.]{0,})'
+     r'(?P<page>\d+)'),
     re.VERBOSE | re.UNICODE,
 )
 
