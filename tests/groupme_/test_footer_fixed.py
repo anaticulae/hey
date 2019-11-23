@@ -13,6 +13,7 @@ import serializeraw
 import utila
 
 import groupme.footer.fixed
+import hey.textnavigator.navigator as htn
 import tests.fixtures
 import tests.resources
 
@@ -66,7 +67,10 @@ def _bachelor111():
     sizeandborder = serializeraw.load_pageborders(sizeandborder)
     pageheight = utila.select_page(sizeandborder, 0).size.height
 
-    navigators = tests.fixtures.create_pagetextnavigators(tests.resources.BACHELOR_111PAGES) # yapf:disable
+    navigators = htn.create_pagetextnavigators_frompath(
+        tests.resources.BACHELOR_111PAGES,
+        prefix='oneline',
+    )
 
     top, bottom = groupme.footer.fixed.extract_common_footer(
         horizontals=horizontals,
@@ -125,7 +129,7 @@ def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader_header()
         for item in footerheader
         if item.header and item.header.title
     ]
-    assert len(title) >= 71, 'not enough title'
+    assert len(title) >= 68, 'not enough title'
 
 
 def test_groupme_footer_dump_and_load_bachelor111():

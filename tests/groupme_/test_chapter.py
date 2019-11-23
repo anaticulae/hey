@@ -26,7 +26,7 @@ from tests.fixtures.simple import simple_page_2_text_only
 
 def test_groupme_chapter_dump_and_load_chapter():
     """Ensure that every section have an textbody"""
-    doc = utila.file_read(tests.resources.SIMPLE_TEXT)
+    doc = utila.file_read(tests.resources.SIMPLE_ONELINE_TEXT)
     doc = serializeraw.load_document(doc)
 
     content = groupme.feature.chapter.chapters(doc)

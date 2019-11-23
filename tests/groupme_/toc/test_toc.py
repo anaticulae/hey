@@ -11,6 +11,7 @@ from iamraw import Document
 from iamraw import Page
 from serializeraw import load_document
 
+import tests.resources
 from groupme.feature.toc import toc
 from groupme.feature.toc import toc_from_page
 from groupme.feature.toc import toc_to_yaml
@@ -43,6 +44,6 @@ def test_extract_toc_from_document(simple_document: Document):  # pylint: disabl
 
 
 def test_extract_toc_from_restructured():
-    document = load_document(RESTRUCT_TEXT)
+    document = load_document(tests.resources.RESTRUCT_ONELINE_TEXT, pages=(2))
     tocs = toc(document)
     assert len(tocs) == RESTRUCT_TOC_LINES, str(tocs)

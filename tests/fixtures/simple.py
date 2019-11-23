@@ -45,7 +45,7 @@ def simple():
 
 @pytest.fixture
 def simple_document() -> iamraw.Document:
-    loaded = serializeraw.load_document(tests.resources.SIMPLE_TEXT)
+    loaded = serializeraw.load_document(tests.resources.SIMPLE_ONELINE_TEXT)
     return loaded
 
 
