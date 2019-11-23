@@ -198,6 +198,7 @@ class PageTextContentNavigator:
             width=textnavigator.width,
             height=textnavigator.height,
         )
+        self.content = content
         assert content.bottom >= 100, str(content)  # ensure that are pixel
         top, bottom = topbottom(pagesize, content)
         assert 0 <= top <= bottom <= 1.0, str(top) + str(bottom)
@@ -213,6 +214,16 @@ class PageTextContentNavigator:
     def page(self):
         return self._page
 
+    @property
+    def width(self):
+        # TODO: adjust dimension to content border
+        return self.content.right
+
+    @property
+    def height(self):
+        # TODO: adjust dimension to content border
+        return self.content.bottom - self.content.top
+
     def __getitem__(self, index):
         return self.data[index]
 
@@ -221,6 +232,7 @@ class PageTextContentNavigator:
 
 
 PageTextNavigators = typing.List[PageTextNavigator]
+PageTextContentNavigators = typing.List[PageTextContentNavigator]
 
 
 def create_pagetextnavigators(
@@ -318,6 +330,26 @@ def create_pagetextnavigators_frompath(
 
     navigators = create_pagetextnavigators(text, textposition)
     return navigators
+
+
+def create_pagetextcontentnavigators_frompath(
+        path: str,
+        prefix='',
+        pages=None,
+) -> PageTextContentNavigators:
+    navigators = create_pagetextnavigators_frompath(
+        path=path,
+        prefix=prefix,
+        pages=pages,
+    )
+    sizeandborderpath = hey.path.sizeandborder(path, prefix=prefix)
+    contentborder = serializeraw.load_pageborders(sizeandborderpath)
+
+    result = []
+    for navigator in navigators:
+        border = utila.select_page(contentborder, navigator.page)
+        result.append(PageTextContentNavigator(navigator, border.border))
+    return result
 
 
 def create_pagetextnavigator_fromstr(content: str, fontsize=12.0):
