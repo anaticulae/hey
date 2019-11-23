@@ -157,10 +157,12 @@ def linedistance(index, pagetextnavigator) -> float:
         return utila.roundme(after.bounding.y1 - current.bounding.y1)
 
 
-def linedistances(pagetextnavigator):
+def linedistances(pagetextnavigator, noneatend=True):
+    ending = len(pagetextnavigator)
+    if not noneatend:
+        ending = ending - 1
     return [
-        linedistance(index, pagetextnavigator)
-        for index in range(0, len(pagetextnavigator))
+        linedistance(index, pagetextnavigator) for index in range(0, ending)
     ]
 
 
