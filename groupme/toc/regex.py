@@ -136,7 +136,8 @@ NO_LEVEL = re.compile(
 )
 
 
-def extract_match(match) -> groupme.toc.TocLine:
+def extract_match(match: re.Match) -> groupme.toc.TocLine:
+    assert isinstance(match, re.Match), type(match)
     level, title, page = None, match['text'], None
     with contextlib.suppress(IndexError):
         page = match['page']
