@@ -71,11 +71,10 @@ def test_textnavigator_percent_to_page(size, percent, expected):
 #pylint:disable=W0621
 def test_fonts_navigator_to_bounds(navigator: PageTextNavigator):
     result = navigator_to_bounds(navigator)
-
     assert all([isinstance(item, BoundingBox) for item in result])
 
 
-def test_groupme_navigator_merge_content(simple_second_page_navigator):
+def test_hey_navigator_merge_content(simple_second_page_navigator):
     content = to_content(simple_second_page_navigator)
     merged, _ = merge_content(content)
     merged = merge_content_join(merged)
