@@ -21,6 +21,8 @@ Strategies
 Regex
 ~~~~~
 
+See :class:`groupme.toc.regex`.
+
 Geometry
 ~~~~~~~~
 
@@ -32,6 +34,8 @@ Geometry plus Regex
 ~~~~~~~~~~~~~~~~~~~
 
 Combine Geometry and Regex approach.
+
+See :class:`groupme.toc.geometry`.
 
 Example
 -------

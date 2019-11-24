@@ -6,7 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""
+"""table of content - regex extractor
 
 Design decissions:
 
@@ -63,7 +63,8 @@ def parse(content: str) -> groupme.toc.TocLines:
         matched = extract_match(matched)
         result.append(matched)
 
-    # remove duplications, which can occur when table of content is on the same page
+    # remove duplications, which can occur when table of content is on the
+    # same page.
     result = groupme.toc.remove_duplication(result)
 
     # Ensure that toc list os orderd by position on pdf page
