@@ -6,15 +6,22 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""table of content - regex extractor
+"""toc - regex extractor
+=====================
 
-Design decissions:
+Extract headlines based on regex pattern.
 
-    Should we support following whitespaces?
-        It is not required to support lines with ending whitespaces.
-        Following whitespace puts water into the wine and leads to more
-        missmatchings. The better approach is to improve the pdf-parser
-        to avoid following whitespaces.
+design decision
+---------------
+
+Should we support following whitespaces?
+
+    It is not required to support lines with ending whitespaces. Following
+    whitespace puts water into the wine and leads to more missmatchings. The
+    better approach is to improve the pdf-parser to avoid following
+    whitespaces.
+
+    See: :class:`tests.groupme_.toc.test_regex.test_extract_toc_line_whitespace_decission`.
 """
 
 import contextlib

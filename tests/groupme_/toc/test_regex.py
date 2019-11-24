@@ -77,7 +77,7 @@ def test_extract_toc_line(content, expected):
     assert parsed == expected, str(parsed)
 
 
-def test_extract_toc_line_whitespace_decission():
+def test_extract_toc_line_whitespace_decision():
     """See design decission: We do not want to support following whitespaces."""
 
     text = '2. We do not want whitespaces at the end ......... 4     '
