@@ -6,7 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-import groupme.toc.geometry as gtg
+import groupme.toc.strategy.geometry as gtsg
 import hey.textnavigator.navigator as htn
 import tests.resources
 
@@ -33,11 +33,11 @@ def test_groupme_toc_geometry_analyse_page_master72():
     data = master72()
 
     firstpage = data[0]
-    parsed = gtg.analyse_page(firstpage)
+    parsed = gtsg.analyse_page(firstpage)
     assert len(parsed) == 3
 
     secondpage = data[1]
-    parsed = gtg.analyse_page(secondpage)
+    parsed = gtsg.analyse_page(secondpage)
     assert len(parsed) == 4
 
 
@@ -46,7 +46,7 @@ def test_groupme_toc_geometry_analyse_page_bachelor111():
 
     result = []
     for datum in data:
-        parsed = gtg.analyse_page(datum)
+        parsed = gtsg.analyse_page(datum)
         result.append(parsed)
 
     first = result[0]

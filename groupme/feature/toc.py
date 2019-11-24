@@ -16,10 +16,9 @@ import utila
 import groupme.feature
 import groupme.structure
 import groupme.toc
-import groupme.toc.regex
+import groupme.toc.strategy.regex as gtsr
 import groupme.utils
 import words.headlines
-
 """
 Outdated approaches:
 
@@ -51,7 +50,7 @@ def toc(document: iamraw.Document):
     # TODO: We need a more stable approach
 
     Appraoch:
-        1. Extract potential headlines due groupme.toc.regex.parse_page
+        1. Extract potential headlines due groupme.toc.strategy.regex.parse_page
         2. Use words.headlines.WHITELIST to judge headlines without level
         3. Skip pages with to few extracted headlines `MIN_TOCS_PER_PAGE`
     """
@@ -60,7 +59,7 @@ def toc(document: iamraw.Document):
     for index, page in enumerate(document.pages):
         utila.debug('page %d' % index)
 
-        tocpage = groupme.toc.regex.parse_page(page)
+        tocpage = gtsr.parse_page(page)
         if tocpage is None:
             utila.log('empty page: %d' % index)
             continue

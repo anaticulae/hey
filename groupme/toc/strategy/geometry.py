@@ -28,7 +28,7 @@ import iamraw
 import utila
 
 import groupme.toc
-import groupme.toc.regex as gtr
+import groupme.toc.strategy.regex as gtsr
 import hey.textnavigator.multiline as htm
 import hey.textnavigator.navigator as htn
 
@@ -62,7 +62,7 @@ def group_areas(content: htn.PageTextNavigator):
 
 
 def parse_group(items) -> groupme.toc.TocLines:
-    parsed = [gtr.parse_line(item.text) for item in items]
+    parsed = [gtsr.parse_line(item.text) for item in items]
     matched = [item is not None for item in parsed]
 
     if all(matched):
@@ -92,7 +92,7 @@ def parse_group(items) -> groupme.toc.TocLines:
 
 def group_collection_and_parse(items):
     line = ' '.join([item.text for item in items])
-    parsed = gtr.parse_line(line)
+    parsed = gtsr.parse_line(line)
     return parsed
 
 

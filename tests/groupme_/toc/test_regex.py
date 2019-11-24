@@ -11,7 +11,7 @@ import pytest
 import serializeraw
 
 import groupme.feature.toc
-import groupme.toc.regex as gtr
+import groupme.toc.strategy.regex as gtsr
 import tests
 
 MASTER_72PAGES_TEXT = tests.resources.text(
@@ -25,11 +25,11 @@ def test_extract_toc_from_master_pages72_page_1and2():
 
     page1, page2 = document[1:3]
 
-    result_page1 = gtr.parse_page(page1)
+    result_page1 = gtsr.parse_page(page1)
     assert len(result_page1) == 23
     assert all([not '...' in item.title for item in result_page1])
 
-    result_page2 = gtr.parse_page(page2)
+    result_page2 = gtsr.parse_page(page2)
     assert len(result_page2) == 9
     assert all([not '...' in item.title for item in result_page2])
 
@@ -37,7 +37,7 @@ def test_extract_toc_from_master_pages72_page_1and2():
 def test_extract_toc_from_master_pages72_page_withouttoc():
     document = serializeraw.load_document(MASTER_72PAGES_TEXT)
 
-    result = gtr.parse_page(document[4:])
+    result = gtsr.parse_page(document[4:])
 
     assert not result, str(result)
 
@@ -73,7 +73,7 @@ SECOND_LINE = (
     ])
 ])
 def test_extract_toc_line(content, expected):
-    parsed = gtr.parse(content)
+    parsed = gtsr.parse(content)
     assert parsed == expected, str(parsed)
 
 
@@ -81,19 +81,19 @@ def test_extract_toc_line_whitespace_decission():
     """See design decission: We do not want to support following whitespaces."""
 
     text = '2. We do not want whitespaces at the end ......... 4     '
-    parsed = gtr.parse(text)
+    parsed = gtsr.parse(text)
     assert not parsed, 'we do not want to support whitespaces'
 
     text = '       2. We do not want whitespaces at the end ......... 4'
-    parsed = gtr.parse(text)
+    parsed = gtsr.parse(text)
     assert not parsed, 'we do not want to support whitespaces'
 
     text = '       2. We do not want whitespaces at the end ......... 4   '
-    parsed = gtr.parse(text)
+    parsed = gtsr.parse(text)
     assert not parsed, 'we do not want to support whitespaces'
 
 
 def test_groupme_toc_regex_parse_line():
     line = '2.2.3 Drahtlostechnologien fuer Nahbereichsnetzwerke (WPAN) 15'
-    parsed = gtr.parse_line(line)
+    parsed = gtsr.parse_line(line)
     assert parsed
