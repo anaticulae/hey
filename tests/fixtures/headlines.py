@@ -9,6 +9,10 @@
 
 from iamraw import Headline
 
+import groupme.toc.strategy.geometry as gtsg
+import hey.textnavigator.navigator as htn
+import tests.resources
+
 EXAMPLE = [
     [
         Headline(
@@ -280,3 +284,22 @@ EXAMPLE = [
             container=1)
     ]
 ]
+
+
+def master72_headlines():
+    loaded = htn.create_pagetextnavigators_frompath(
+        tests.resources.MASTER_72PAGES,
+        pages=(1, 2),
+        prefix='oneline',
+    )
+    result = [gtsg.analyse_page(item) for item in loaded]
+    return result
+
+def bachelor111_headlines():
+    loaded = htn.create_pagetextnavigators_frompath(
+        tests.resources.BACHELOR_111PAGES,
+        pages=(1, 2, 3,4),
+        prefix='oneline',
+    )
+    result = [gtsg.analyse_page(item) for item in loaded]
+    return result
