@@ -29,7 +29,7 @@ import groupme.toc
 import hey
 
 
-def parse(content: str) -> typing.List[groupme.toc.TocLine]:
+def parse(content: str) -> groupme.toc.TocLines:
     """Parse table of content via regex.
 
     Args

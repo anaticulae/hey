@@ -11,9 +11,10 @@ import collections
 import typing
 
 TocLine = collections.namedtuple('TocLine', 'level, title, page, raw')
+TocLines = typing.List[TocLine]
 
 
-def remove_duplication(headlines: typing.List[TocLine]):
+def remove_duplication(headlines: TocLines) -> TocLines:
     """Remove duplications out of list of headlines."""
     result = []
     inserted = set()
@@ -25,7 +26,7 @@ def remove_duplication(headlines: typing.List[TocLine]):
     return result
 
 
-def sort_byposition(lines: typing.List[TocLine], content: str):
+def sort_byposition(lines: TocLines, content: str) -> TocLines:
     position = {}
     for item in lines:
         pos = content.find(item.title)
