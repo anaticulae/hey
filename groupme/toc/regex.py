@@ -26,7 +26,7 @@ import utila
 
 import detector.parser
 import groupme.toc
-import hey
+import hey.text.regex as htr
 
 
 def parse(content: str) -> groupme.toc.TocLines:
@@ -37,10 +37,18 @@ def parse(content: str) -> groupme.toc.TocLines:
     Returns:
         ordered list form top to down of parse table of content
     Pattern:
-        X.      Chapter ........... 1
-        X.X     Section . . . . . . 3
 
-        no_level:
+        with level:
+
+        .. code-block :: none
+
+            X.      Chapter ........... 1
+            X.X     Section . . . . . . 3
+
+        or no level:
+
+        .. code-block :: none
+
             Eidesstattliche Erklärung ........... 69
     """
     duplicated = content
@@ -107,49 +115,52 @@ def parse_page(page: iamraw.Page) -> typing.List[groupme.toc.TocLine]:
     return result
 
 
-USER_CONTENT = r'\w\d\.&:, \-\(\)/' + hey.utils.SPECIAL_MINUS_SIGN
-# user content without whitespace
-UCWW = USER_CONTENT.replace(' ', '')
-WITH_NEWLINE = r'\s'
+LEVEL = r'(?P<level>(\d{1,2}\.)+\d{0,2})'
+LEVEL_DOTTED_OPTIONAL = r'(?P<level>(\d{1,2}\.?)+\d{0,2})'
 
-# \W to ensure non-unicode character, like special - chars
+TEXT = (
+    '(?P<text>'
+    fr'{htr.UC_NWS}'  # ensure that text does not start with whitespace
+    fr'{htr.UC_WS_NL}+?'
+    fr'{htr.UC_NWS}+?'  # ensure that text does not end with whitespace
+    ')')
+
+WHITESPACES = r'[ ]{1,5}'
+DOTTED = r'([ \.]{1,})'
+PAGE = r'(?P<page>\d+)'
+
 EXTENDED_PATTERN = re.compile(
-    (
-        r'^'
-        r'(?P<level>(\d{1,2}\.)+\d{0,2})'
-        r'[ ]{1,5}'
-        r'(?P<text>\w'  # ensure that text does not start with whitespace
-        fr'[{USER_CONTENT}{WITH_NEWLINE}]+?[{UCWW}]+?)'
-        r'([ \.]{1,})'
-        r'(?P<page>\d+)'
-        r'$'),
+    ('^'
+     f'{LEVEL}'
+     f'{WHITESPACES}'
+     f'{TEXT}'
+     f'{DOTTED}'
+     f'{PAGE}'
+     '$'),
     re.VERBOSE | re.MULTILINE | re.UNICODE,
 )
 
 NO_DOTS = re.compile(
-    (
-        r'^'
-        r'(?P<level>(\d{1,2}\.?)+\d{0,2})'
-        r'[ ]{1,5}'
-        r'(?P<text>\w'  # ensure that text does not start with whitespace
-        fr'[{USER_CONTENT}{WITH_NEWLINE}]+?\w+?)'
-        r'[ ]{1,5}'
-        r'(?P<page>\d+)'
-        r'$'),
+    ('^'
+     f'{LEVEL_DOTTED_OPTIONAL}'
+     f'{WHITESPACES}'
+     f'{TEXT}'
+     f'{WHITESPACES}'
+     f'{PAGE}'
+     '$'),
     re.VERBOSE | re.MULTILINE | re.UNICODE,
 )
 
 NO_LEVEL = re.compile(
-    (
-        r'^'
-        r'(?P<text>\w'  # ensure that text does not start with whitespace
-        fr'[{USER_CONTENT}]+?\w+?)'
-        r'([ \.]{2,})'
-        r'(?P<page>\d+)'
-        r'$'),
+    ('^'
+     f'{TEXT}'
+     f'{DOTTED}'
+     f'{PAGE}'
+     '$'),
     re.VERBOSE | re.UNICODE,
 )
 
+#  r'([ \.]{2,})'
 LIST = [
     'A',
     'Abbildungsverzeichnis',
@@ -167,10 +178,10 @@ LIST = [
 JOINED_LIST = '|'.join(LIST)
 
 DICTONARY = re.compile(
-    (r'^'
-     r'(?P<text>(' + JOINED_LIST + '))'
+    ('^'
+     f'(?P<text>({JOINED_LIST}))'
      r'([ \.]{0,})'
-     r'(?P<page>\d+)'),
+     f'{PAGE}'),
     re.VERBOSE | re.UNICODE,
 )
 

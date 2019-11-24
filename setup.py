@@ -66,6 +66,7 @@ if __name__ == "__main__":
             'groupme.toc',
             'hey',
             'hey.fonts',
+            'hey.text',
             'hey.textnavigator',
             'sections',
             'sections.feature',
