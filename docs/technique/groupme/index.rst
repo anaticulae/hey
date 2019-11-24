@@ -8,6 +8,11 @@ transform them to higher knowledge.
 
 TODO: what's the difference to hey, words etc.?
 
+.. toctree::
+  :maxdepth: 2
+
+  toc
+
 features
 --------
 

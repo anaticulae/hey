@@ -6,17 +6,24 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""This module parses `FootNotes` out of raw data.
+"""This module parses :class:`iamraw.FootNote` out of raw text data.
 
 There are 2 supported types of footnotes:
 
-    raw-text:    "Aus Gründen der besseren Lesbarkeit wird hier und im "
-    literature: "s. Berg 2013: 2"
-                "Gero von Randow, zeit.de, 19.1.2007"
+- raw text:
+
+  - "Aus Gründen der besseren Lesbarkeit wird hier und im "
+
+- literature:
+
+  - "s. Berg 2013: 2"
+  - "Gero von Randow, zeit.de, 19.1.2007"
 
 
-TODO: FOR FURTHER ANALYSIS WE REQUIRE DIFFERENT FOOTER LINE ANALYZER
-TODO: SUPPORT MULTILINE FOOTNOTES
+.. todo::
+
+  - TODO: FOR FURTHER ANALYSIS WE REQUIRE DIFFERENT FOOTER LINE ANALYZER
+  - TODO: SUPPORT MULTILINE FOOTNOTES
 """
 import re
 

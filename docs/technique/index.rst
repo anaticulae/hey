@@ -3,4 +3,7 @@
 technique
 =========
 
-* :ref:`groupme`
+.. toctree::
+  :maxdepth: 3
+
+  groupme/index
