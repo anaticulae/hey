@@ -20,7 +20,6 @@ def group(items):
     flat = utila.flatten(items)
     while not isinstance(flat[0], groupme.toc.TocLine):
         flat = utila.flatten(flat)
-
     pages = [item.page for item in flat]
     # ensure correct page order
     assert isascending(pages), pages
@@ -65,6 +64,18 @@ class RomanLevel(Level):
     pass
 
 
+@dataclasses.dataclass
+class AppendixLevel(Level):
+    character: str = None
+    """
+    Example::
+        A.1.1
+    """
+
+    def __int__(self):
+        return 100  # HOLY VALUE
+
+
 def level(item: str) -> Level:
     """
 
@@ -88,6 +99,13 @@ def level(item: str) -> Level:
     with contextlib.suppress(KeyError):
         value = ROMAN[item.upper()]
         return RomanLevel(value=value, raw=item)
+
+    letter, rest = item.split('.', maxsplit=1)
+    letter = letter.upper()
+
+    if letter in ('A', 'B', 'C', 'D'):
+        return AppendixLevel(value=rest, character=letter, raw=item)
+
     assert 0, str(item)
 
 
