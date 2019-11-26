@@ -42,24 +42,18 @@ def test_groupme_toc_geometry_analyse_page_master72():
 
 
 def test_groupme_toc_geometry_analyse_page_bachelor111():
+    """Check that geometry approach parses and group toc lines correctly."""
+
+    expected = [
+        [3, 14],  # first toc page
+        [2, 8, 5, 6],
+        [1, 8, 3, 1, 4, 1, 1, 1],
+        [9],  # last toc page with appendix group
+    ]
     data = bachelor111()
 
-    result = []
-    for datum in data:
-        parsed = gtsg.analyse_page(datum)
-        result.append(parsed)
+    result = [gtsg.analyse_page(item) for item in data]
 
-    first = result[0]
-    assert len(first) == 2
-    assert len(first[0]) == 3
-    assert len(first[1]) == 14
+    current = [[len(item) for item in group] for group in result]
 
-    # second = result[1]
-    # print(second)
-    # assert len(second) == 4
-    # assert len(second[0]) == 2
-    # assert len(second[1]) == 8
-
-    # assert len(parsed) == 3
-    # for items, expect in zip(result, expected):
-    #     assert len(items) == expect
+    assert current == expected

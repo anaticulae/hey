@@ -112,7 +112,7 @@ def parse(content: str) -> groupme.toc.TocLines:
 
 def parse_line(line):
     assert isinstance(line, str), type(line)
-    for pattern in [EXTENDED_PATTERN, NO_DOTS, DICTONARY]:
+    for pattern in [EXTENDED_PATTERN, NO_DOTS, DICTONARY, NO_LEVEL]:
         matched = re.match(pattern, line)
         if matched:
             return extract_match(matched)

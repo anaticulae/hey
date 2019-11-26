@@ -39,7 +39,6 @@ class GeometyTocExtractor(gts.ExtractorStrategy):
 
     def result(self) -> gts.ExtractionResult:
         extracted = [analyse_page(item) for item in self.loaded.content]
-        print(extracted)
         grouped = gtg.group(extracted)
 
         result = gts.ExtractionResult(content=grouped)
@@ -78,7 +77,6 @@ def group_areas(content: htn.PageTextNavigator):
 def parse_group(items) -> groupme.toc.TocLines:
     parsed = [gtsr.parse_line(item.text) for item in items]
     matched = [item is not None for item in parsed]
-
     if all(matched):
         return parsed
     result = []
