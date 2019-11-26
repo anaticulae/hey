@@ -65,7 +65,30 @@ class FixedFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
                 pagetextnavigators=self.pagetextnavigators,
             )
             footerheader.extend(extracted)
+        footerheader = decide_multiple(footerheader)
         return footerheader
+
+
+def decide_multiple(items):
+    """Decide for a single page which extracted header/footer is correct.
+
+    In some cases there are more than one possible horizontal headlines
+    or footlines. This can happen when having different FixedHeader or
+    MovingFooter. This strategy decides on the count of extracted
+    header. The main propose is to have a single header/footer per page.
+    """
+    selected = {}
+    for item in items:
+        try:
+            cur = selected[item.page]
+            itemcount = len([it for it in [item.header, item.footer] if it])
+            currentcount = len([it for it in [cur.header, cur.footer] if it])
+            if itemcount > currentcount:
+                # replace current result with better result
+                selected[item.page] = item
+        except KeyError:
+            selected[item.page] = item
+    return [item for item in selected.values()]
 
 
 def extract_common_footer(
