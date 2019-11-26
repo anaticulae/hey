@@ -346,15 +346,34 @@ def create_pagetextcontentnavigators_frompath(
         pages=pages,
     )
     headerfooterpath = hey.path.headerfooters(path)
+    headerfooter = serializeraw.load_headerfooter(headerfooterpath)
 
     sizeandborderpath = hey.path.sizeandborder(path)
-    contentborder = serializeraw.load_pageborders(sizeandborderpath)
+    sizeandborder = serializeraw.load_pageborders(sizeandborderpath)
 
     result = []
     for navigator in navigators:
-        border = utila.select_page(contentborder, navigator.page)
-        result.append(PageTextContentNavigator(navigator, border.border))
+        border = determine_border(headerfooter, sizeandborder, navigator.page)
+        result.append(PageTextContentNavigator(navigator, border))
     return result
+
+
+def determine_border(headerfooter, sizeandborder, page: int):
+    """Determine contentborder out of footer and header information."""
+    pagesize = utila.select_page(sizeandborder, page).size
+    headerfooter = utila.select_page(headerfooter, page)
+    top, bottom = 0, pagesize.height
+    if headerfooter.header:
+        top = pagesize.height * headerfooter.header.end
+    if headerfooter.footer:
+        bottom = bottom * headerfooter.footer.begin
+    border = iamraw.Border(
+        left=0,
+        right=pagesize.width,  # TODO: INVESTIGATE HERE
+        top=top,
+        bottom=bottom,
+    )
+    return border
 
 
 def create_pagetextnavigator_fromstr(content: str, fontsize=12.0):

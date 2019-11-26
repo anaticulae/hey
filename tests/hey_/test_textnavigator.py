@@ -101,7 +101,6 @@ def test_hey_navigator_merge_content(simple_second_page_navigator):
     assert content_count == merged_count
 
 
-@pytest.mark.xfail(reason='border detection does not work correctly')
 def test_hey_navigator_create_pagetextcontent_navigator_frompath():
     loaded = htn.create_pagetextcontentnavigators_frompath(
         tests.resources.BACHELOR_111PAGES,
