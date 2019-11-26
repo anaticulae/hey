@@ -78,7 +78,12 @@ def parse(content: str) -> groupme.toc.TocLines:
     """
     duplicated = content
     result = []
-    for pattern in [EXTENDED_PATTERN, NO_DOTS]:
+    for pattern in [
+            EXTENDED_PATTERN,
+            EXTENDED_PATTERN_LETTER,
+            DICTONARY,
+            NO_DOTS,
+    ]:
         for line in re.finditer(pattern, content):
             item = extract_match(line)
             result.append(item)
@@ -143,6 +148,8 @@ def parse_page(page: iamraw.Page) -> typing.List[groupme.toc.TocLine]:
 LEVEL = r'(?P<level>(\d{1,2}\.)+\d{0,2})'
 LEVEL_DOTTED_OPTIONAL = r'(?P<level>(\d{1,2}\.?)+\d{0,2})'
 
+LEVEL_LETTER = r'(?P<level>(A|B|C|D)\.(\d{1,2}\.?)+\d{0,2})'
+
 TEXT = (
     '(?P<text>'
     fr'{htr.UC_NWS}'  # ensure that text does not start with whitespace
@@ -157,6 +164,17 @@ PAGE = r'(?P<page>\d+)'
 EXTENDED_PATTERN = re.compile(
     ('^'
      f'{LEVEL}'
+     f'{WHITESPACES}'
+     f'{TEXT}'
+     f'{DOTTED}'
+     f'{PAGE}'
+     '$'),
+    re.VERBOSE | re.MULTILINE | re.UNICODE,
+)
+
+EXTENDED_PATTERN_LETTER = re.compile(
+    ('^'
+     f'{LEVEL_LETTER}'
      f'{WHITESPACES}'
      f'{TEXT}'
      f'{DOTTED}'

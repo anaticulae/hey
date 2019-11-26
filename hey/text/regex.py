@@ -18,6 +18,7 @@ USER_CHARACTER = [
     ';',
     '?',
     '–',  # special minus sign
+    '’',
     r'\(',
     r'\)',
     r'\-',
