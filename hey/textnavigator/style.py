@@ -90,6 +90,9 @@ class TextInfo:
             style=self.style.copy() if self.style else None,
         )
 
+    def __repr__(self):
+        return self.text + utila.NEWLINE
+
 
 def create_textstyle(chars: typing.List[iamraw.Char]) -> TextStyle:
     assert chars
