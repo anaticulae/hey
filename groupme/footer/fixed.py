@@ -9,14 +9,13 @@
 """
 Example:
 
-    - bachelor/page_111_images_toc.pdf
-    - docu/restructuredtext.pdf
+- bachelor/page_111_images_toc.pdf
+- docu/restructuredtext.pdf
 
 Master of the art:
 
-    - docu/vimguide.pdf: This example contains a lot of tables, therefore
-                         we have a lot of horizontal lines which challenges
-                         the algorithm.
+- docu/vimguide.pdf: This example contains a lot of tables, therefore we
+  have a lot of horizontal lines which challenges the algorithm.
 """
 import itertools
 import typing
@@ -95,7 +94,7 @@ def extract_common_footer(
         horizontals: iamraw.PagesWithHorizontalList,
         pageheight: int,
         max_group_count: int = 1,
-):
+) -> typing.Tuple[int, int]:
     """Extract common footer and header based on horizontal lines.
 
     Args:
