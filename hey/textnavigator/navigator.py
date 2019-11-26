@@ -118,6 +118,9 @@ class PageTextNavigator:
             # before and after are pixel coordinates
             if not before <= bounding.y0 <= bounding.y1 <= after:
                 continue
+            # TODO: ACTIVATE AFTER FIXING CONTENT BORDER OF MASTER_72
+            # THERE ARE SOME SPACES WHICH MOVES CONTENT OVER THE PAGES,
+            # THEREFORE 3.1. is ignored
             if not beforeleft <= bounding.x0 <= bounding.x1 <= afterright:
                 continue
             result.append(item.copy())
