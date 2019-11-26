@@ -66,3 +66,7 @@ def horizontals(path: str, prefix: str = '') -> str:
 
 def boxed(path: str, prefix: str = '') -> str:
     return pathconnector(path, 'rawmaker', 'boxes_boxes', prefix)
+
+
+def headerfooters(path: str, prefix: str = '') -> str:
+    return pathconnector(path, 'groupme', 'footer_footerheader', prefix)

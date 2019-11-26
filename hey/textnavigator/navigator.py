@@ -345,7 +345,9 @@ def create_pagetextcontentnavigators_frompath(
         prefix=prefix,
         pages=pages,
     )
-    sizeandborderpath = hey.path.sizeandborder(path, prefix=prefix)
+    headerfooterpath = hey.path.headerfooters(path)
+
+    sizeandborderpath = hey.path.sizeandborder(path)
     contentborder = serializeraw.load_pageborders(sizeandborderpath)
 
     result = []

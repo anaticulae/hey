@@ -6,10 +6,14 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import pytest
 import utila
 from iamraw import BoundingBox
 from pytest import mark
 
+import hey.textnavigator.navigator as htn
+import tests.fixtures.headlines
+import tests.resources
 from hey.textnavigator.navigator import PageTextNavigator
 from hey.textnavigator.navigator import merge_content
 from hey.textnavigator.navigator import merge_content_join
@@ -95,3 +99,15 @@ def test_hey_navigator_merge_content(simple_second_page_navigator):
     merged_count = len(merged_content)
     # ensure that no data is lost while merging
     assert content_count == merged_count
+
+
+@pytest.mark.xfail(reason='border detection does not work correctly')
+def test_hey_navigator_create_pagetextcontent_navigator_frompath():
+    loaded = htn.create_pagetextcontentnavigators_frompath(
+        tests.resources.BACHELOR_111PAGES,
+        pages=(1, 2, 3, 4),
+        prefix='oneline',
+    )
+    first = loaded[0]
+    lasttext = first[-1].text
+    assert lasttext != 'i', lasttext
