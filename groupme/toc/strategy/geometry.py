@@ -28,12 +28,26 @@ import iamraw
 import utila
 
 import groupme.toc
+import groupme.toc.group as gtg
+import groupme.toc.strategy as gts
 import groupme.toc.strategy.regex as gtsr
 import hey.textnavigator.multiline as htm
 import hey.textnavigator.navigator as htn
 
 
+class GeometyTocExtractor(gts.ExtractorStrategy):
+
+    def result(self) -> gts.ExtractionResult:
+        extracted = [analyse_page(item) for item in self.loaded.content]
+        print(extracted)
+        grouped = gtg.group(extracted)
+
+        result = gts.ExtractionResult(content=grouped)
+        return result
+
+
 def analyse_page(content: htn.PageTextNavigator):
+    assert htn.isnavigator(content), type(content)
     content = remove_headline(content)
     grouped = group_areas(content)
     result = [parse_group(items) for items in grouped]

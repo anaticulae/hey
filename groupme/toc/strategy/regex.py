@@ -33,7 +33,25 @@ import utila
 
 import detector.parser
 import groupme.toc
+import groupme.toc.group as gtg
+import groupme.toc.strategy as gts
 import hey.text.regex as htr
+
+
+class RegexTocExtractor(gts.ExtractorStrategy):
+
+    def result(self) -> gts.ExtractionResult:
+        content = [
+            utila.NEWLINE.join([item.text
+                                for item in page])
+            for page in self.loaded.content
+        ]
+        parsed = [parse(item) for item in content]
+
+        grouped = gtg.group(parsed)
+
+        result = gts.ExtractionResult(content=grouped)
+        return result
 
 
 def parse(content: str) -> groupme.toc.TocLines:

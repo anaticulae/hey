@@ -6,3 +6,48 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+
+import abc
+import dataclasses
+import typing
+
+import groupme.toc as gt
+import hey.textnavigator.navigator as htn
+
+
+@dataclasses.dataclass
+class ExtractionResult:
+    content: typing.List[gt.TocLines] = dataclasses.field(default_factory=list)
+
+    def __len__(self):
+        return len(self.content)
+
+    def __getitem__(self, index):
+        return self.content[index]  # pylint:disable=E1136
+
+
+@dataclasses.dataclass
+class ExtractionData:
+    content: htn.PageTextContentNavigators = None
+
+
+ExtractionResults = typing.List[ExtractionResult]
+
+
+class ExtractorStrategy(abc.ABC):
+
+    def __init__(self, loaded: ExtractionData):
+        self.loaded = loaded
+
+    @abc.abstractmethod
+    def result(self) -> ExtractionResult:
+        pass
+
+
+def load(content: htn.PageTextContentNavigators) -> ExtractionData:
+    data = ExtractionData(content=content)
+    return data
+
+
+def load_frompath(path: str):
+    pass
