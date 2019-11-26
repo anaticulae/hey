@@ -37,13 +37,12 @@ def sync(iterators):
 
     Args:
         iterator(list): list of `PageContent`-Iterators
-    Returns:
-        yield pagenumber, (content of curent pagenumber...)
+    Yields:
+        pagenumber, (content of curent pagenumber...)
     """
     # TODO: NOT GOOD, BUT WORKS
     # reverse list to use as a stack with push and pop
     copy = [list(reversed(list(item))) for item in iterators]
-
     while copy:
         popped = []
         # iterate over all iterators and pop the first element

@@ -21,6 +21,7 @@ import groupme.footer.fixed
 import groupme.footer.moving
 import groupme.footer.pages
 import hey.textnavigator
+import hey.textnavigator.navigator
 import hey.utils
 
 
@@ -66,10 +67,10 @@ def work(
 
 def extract_footerheader(
         horizontals: iamraw.PagesWithHorizontalList,
-        sizeandborders,
+        sizeandborders: iamraw.PageSizeBorderList,
         pagenumbers,
-        pagetextnavigators,
-) -> typing.List[iamraw.PageContentFooterHeader]:
+        pagetextnavigators: hey.textnavigator.navigator.PageTextNavigators,
+) -> groupme.footer.PageContentFooterHeaders:
     """Extract most common header/footer of the document
 
     Args:
@@ -96,7 +97,9 @@ def extract_footerheader(
     return result
 
 
-def judge_strategy(results):
+def judge_strategy(
+        results: typing.List[groupme.footer.PageContentFooterHeaders],
+) -> groupme.footer.PageContentFooterHeaders:
     """Decide which results fits best.
 
     Zip result of different strategies. Sometimes there are multiple
@@ -132,3 +135,9 @@ def judge_strategy(results):
         )
         result.append(current)
     return result
+
+
+def judge_strategy_selective(
+        results: typing.List[groupme.footer.PageContentFooterHeaders],
+) -> groupme.footer.PageContentFooterHeaders:
+    return None

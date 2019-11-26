@@ -43,6 +43,10 @@ class FooterStrategyResultReport:
     pass
 
 
+# TODO: MOVE TO IAMRAW
+PageContentFooterHeaders = typing.List[iamraw.PageContentFooterHeader]
+
+
 class FooterHeaderDetectionStrategy(abc.ABC):
     """
     Relative or absolute result dimension?
@@ -51,9 +55,9 @@ class FooterHeaderDetectionStrategy(abc.ABC):
     def __init__(
             self,
             horizontals: iamraw.PagesWithHorizontalList,
-            sizeandborders,
+            sizeandborders: iamraw.PageSizeBorderList,
             pagenumbers,
-            pagetextnavigators,
+            pagetextnavigators: hey.textnavigator.navigator.PageTextNavigators,
     ):
         assert isinstance(horizontals, typing.List), str(horizontals)
         self.horizontals = horizontals
@@ -68,7 +72,7 @@ class FooterHeaderDetectionStrategy(abc.ABC):
     def post_init(self):
         """Run after __init__"""
 
-    def result(self):
+    def result(self) -> PageContentFooterHeaders:
         raise NotImplementedError()
 
     def report(self) -> FooterStrategyResultReport:
@@ -77,7 +81,7 @@ class FooterHeaderDetectionStrategy(abc.ABC):
         this given result."""
         raise NotImplementedError()
 
-    def pageheight(self, page):
+    def pageheight(self, page) -> int:
         """Determine `pageheight` of current `page` in `pixel`.
 
         Args:
