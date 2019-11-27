@@ -41,13 +41,11 @@ import hey.text.regex as htr
 class RegexTocExtractor(gts.ExtractorStrategy):
 
     def result(self) -> gts.ExtractionResult:
-        content = [
-            utila.NEWLINE.join([item.text
-                                for item in page])
-            for page in self.loaded.content
-        ]
-        parsed = [parse(item) for item in content]
+        pages = []
+        for page in self.loaded.content:
+            pages.append(utila.NEWLINE.join([item.text for item in page]))
 
+        parsed = [parse(item) for item in pages]
         grouped = gtg.group(parsed)
 
         result = gts.ExtractionResult(content=grouped)
