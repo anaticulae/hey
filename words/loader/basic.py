@@ -10,8 +10,10 @@
 # TODO: IMPROVE NAMING
 
 import dataclasses
+import functools
 import typing
 
+import configo
 import iamraw
 import serializeraw
 
@@ -30,6 +32,7 @@ class BasicRequiredResources:
     headerfooters: typing.List[iamraw.PageContentFooterHeader]
 
 
+@functools.lru_cache(configo.CACHE_SMALL)
 def load_basic(
         text: str,
         text_position: str,
@@ -63,6 +66,7 @@ def load_basic(
     return result
 
 
+@functools.lru_cache(configo.CACHE_SMALL)
 def load_basic_frompath(path: str, pages: tuple = None):
     text = hey.path.text(path)
     textposition = hey.path.textposition(path)

@@ -8,6 +8,7 @@
 # =============================================================================
 
 import dataclasses
+import functools
 import typing
 
 import configo
@@ -258,6 +259,7 @@ def determine_document_section(
     return next_
 
 
+@functools.lru_cache(configo.CACHE_SMALL)
 def load_features(
         chapter,
         index,

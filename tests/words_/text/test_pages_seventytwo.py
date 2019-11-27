@@ -27,6 +27,7 @@ def test_words_text_seventytwo_extract_texts():
     assert len(sectioncontent) == 17
 
 
+@utila.skip_longrun
 def test_words_text_seventytwo_visit_sentences():
     required = fseventytwo.textrequired(pages=(3))
     firstpage = words.text.chapter.split(required)[0]
@@ -136,6 +137,7 @@ def test_words_text_seventytwo_visit_chapters_page5_6_7():
                             'soziale Komponente in den Vordergrund')
 
 
+@utila.skip_longrun
 def test_words_text_seventytwo_visit_chapters_complete():
     required = fseventytwo.textrequired()
     pages = words.text.chapter.split(required)

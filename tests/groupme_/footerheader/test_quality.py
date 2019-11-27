@@ -14,6 +14,7 @@ import groupme.feature.footer
 import tests.resources
 
 
+@utila.skip_longrun
 def test_groupme_footerheader_quality_bachelor111():
     dumped = groupme.feature.footer.work(
         tests.resources.text(tests.resources.BACHELOR_111PAGES),

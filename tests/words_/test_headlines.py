@@ -185,6 +185,7 @@ def extract_master72_headlines(root: str):
     return result
 
 
+@utila.skip_longrun
 def test_words_features_headlines_work_master72pages(testdir):
     root = str(testdir)
     headlines_loaded = extract_master72_headlines(root)
@@ -210,6 +211,7 @@ def test_words_features_headlines_work_master72pages(testdir):
 
 
 @pytest.mark.xfail(reason='require selective text distance approach')
+@utila.skip_longrun
 def test_words_features_headlines_work_master72pages_subsections(testdir):
     root = str(testdir)
     headlines_loaded = extract_master72_headlines(root)

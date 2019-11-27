@@ -8,8 +8,10 @@
 # =============================================================================
 
 import dataclasses
+import functools
 import typing
 
+import configo
 import iamraw
 import utila
 import yaml
@@ -211,6 +213,7 @@ class PageContentTextItems:
     content: list = dataclasses.field(default_factory=list)
 
 
+@functools.lru_cache(configo.CACHE_SMALL)
 def load_highnotes(content: str, pages: tuple = None):
     content = utila.from_raw_or_path(content, ftype='yaml')
     loaded = yaml.load(content, Loader=yaml.FullLoader)

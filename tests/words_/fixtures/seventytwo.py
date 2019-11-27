@@ -7,8 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import functools
 import os
 
+import configo
 import utila
 
 import tests.resources
@@ -21,6 +23,7 @@ SEVENTYTWO_FIRSTPAGE = os.path.join(
 )
 
 
+@functools.lru_cache(configo.CACHE_SMALL)
 def textrequired(pages=None):
     return words.feature.load_resources_frompath(
         tests.resources.MASTER_72PAGES,

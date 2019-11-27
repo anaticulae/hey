@@ -23,8 +23,10 @@ wie geht es ihnen?
 
 """
 import contextlib
+import functools
 import re
 
+import configo
 import serializeraw
 import utila
 
@@ -135,6 +137,7 @@ class BoxLookUp:
         return None
 
 
+@functools.lru_cache(configo.CACHE_SMALL)
 def load_resources(
         headlines: str,
         text: str,

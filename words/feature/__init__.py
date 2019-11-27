@@ -8,8 +8,10 @@
 # =============================================================================
 
 import dataclasses
+import functools
 import typing
 
+import configo
 import iamraw
 import serializeraw
 
@@ -32,6 +34,7 @@ class TextRequiredResources:
     textnavigators: hey.textnavigator.navigator.PageTextNavigators
 
 
+@functools.lru_cache(configo.CACHE_SMALL)
 def load_resources(
         text: str,
         textposition: str,
@@ -79,6 +82,7 @@ def load_resources(
     return result
 
 
+@functools.lru_cache(configo.CACHE_SMALL)
 def load_resources_frompath(
         path: str,
         pages: tuple = None,
@@ -118,6 +122,7 @@ def load_resources_frompath(
     return loaded
 
 
+@functools.lru_cache(configo.CACHE_SMALL)
 def load_extracted(
         extracted_text,
         headlines,
