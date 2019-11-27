@@ -6,9 +6,10 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
 import collections
 import typing
+
+import utila
 
 TocLine = collections.namedtuple('TocLine', 'level, title, page, raw')
 TocLines = typing.List[TocLine]
@@ -29,9 +30,19 @@ def remove_duplication(headlines: TocLines) -> TocLines:
 def sort_byposition(lines: TocLines, content: str) -> TocLines:
     position = {}
     for item in lines:
-        pos = content.find(item.title)
+        # search by raw to avoid finding subpattern
+        pos = content.find(item.raw)
+        # ensure to avoid finding duplicated items twice
+        content = whitespace(content, item.raw)
         position[pos] = item
-    result = []
-    for item in sorted(position):
-        result.append(position[item])
+    result = [position[item] for item in sorted(position.keys())]
+    return result
+
+
+def whitespace(content, pattern):
+    """Replace `replace` with whitespace and avoid removing newlines."""
+    replacement = ''.join([
+        ' ' if item is not utila.NEWLINE else utila.NEWLINE for item in pattern
+    ])
+    result = content.replace(pattern, replacement)
     return result
