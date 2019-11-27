@@ -34,7 +34,6 @@ def test_groupme_toc_strategy_bachelor111():
     assert len(grouped) == len(expected)
 
 
-@pytest.mark.xfail(reason='headline parsing does not work correctly')
 def test_groupme_toc_strategy_technial24():
     headlines = tft.technical24_toc()
 

@@ -8,11 +8,12 @@
 # =============================================================================
 """The `footer` module extract the header and footer area out of
 pdf-pages.
-There are three different strategies:
+There are four different strategies:
 
 - FixedFooterStrategy
 - MovingFooterStrategy
 - PageNumberStrategy
+- CommonTextStrategy
 
 The strategy is to run these different strategies and use a
 judgement-unit to decide which result is the best. In some cases the best
@@ -97,9 +98,24 @@ class FooterHeaderDetectionStrategy(abc.ABC):
         return pageheight
 
 
+def strategies():
+    # TODO: Automate collection
+    import groupme.footer.commontext
+    import groupme.footer.fixed
+    import groupme.footer.moving
+    import groupme.footer.pages
+    result = [
+        groupme.footer.commontext.CommonTextStrategy,
+        groupme.footer.fixed.FixedFooterStrategy,
+        groupme.footer.moving.MovingFooterStrategy,
+        groupme.footer.pages.PageNumberStrategy,
+    ]
+    return result
+
+
 def create_strategy(
         path: str,
-        strategy: 'FooterHeaderDetectionStrategy',
+        strategy: FooterHeaderDetectionStrategy,
         pages=None,
 ):
     horizontals = hey.path.horizontals(path)

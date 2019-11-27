@@ -16,6 +16,9 @@ import utila
 import groupme.feature.footer
 import groupme.footer
 import groupme.footer.moving
+import groupme.path
+import hey.path
+import hey.textnavigator.navigator as htn
 import tests.fixtures.restruct
 import tests.resources
 # pylint:disable=W0611
@@ -96,3 +99,35 @@ def test_groupme_footer_footerheader_detectionstategy(
     )
     result = process.result()
     assert len(result) == expected_results, 'not enough footer and header'
+
+
+def test_groupme_footer_extract_footerheader_technical24():
+    expected_header = list(range(1, 24))
+    technical24 = tests.resources.TECHNICAL_24PAGES
+    pages = None
+    pagetextnavigators = htn.create_pagetextnavigators_frompath(
+        tests.resources.TECHNICAL_24PAGES,
+        pages=pages,
+    )
+
+    horizontalspath = hey.path.horizontals(technical24)
+    horizontals = serializeraw.load_horizontals(horizontalspath, pages=pages)
+
+    sizeandborderspath = hey.path.sizeandborder(technical24)
+    sizeandborders = serializeraw.load_pageborders(
+        sizeandborderspath,
+        pages=pages,
+    )
+
+    pagenumberspath = groupme.path.pagenumbers(technical24)
+    pagenumbers = serializeraw.load_pagenumbers(pagenumberspath, pages=pages)
+
+    result = groupme.feature.footer.extract_footerheader(
+        horizontals=horizontals,
+        sizeandborders=sizeandborders,
+        pagenumbers=pagenumbers,
+        pagetextnavigators=pagetextnavigators,
+    )
+
+    header = [item.page for item in result if item.header is not None]
+    assert header == expected_header

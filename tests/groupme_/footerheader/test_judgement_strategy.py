@@ -29,16 +29,13 @@ def test_footer_judge_strategy_quality(path, expected_quality):
     """Ensure that enough header and footer are detected"""
     pages = tuple(range(0, 20))
 
+    strategies = groupme.footer.strategies()
     results = [
         groupme.footer.create_strategy(
             path=path,
             strategy=strategy,
             pages=pages,
-        ).result() for strategy in [
-            groupme.footer.fixed.FixedFooterStrategy,
-            groupme.footer.moving.MovingFooterStrategy,
-            groupme.footer.pages.PageNumberStrategy,
-        ]
+        ).result() for strategy in strategies
     ]
     result = groupme.feature.footer.judge_strategy(results)
 

@@ -17,6 +17,7 @@ import serializeraw
 import utila
 
 import groupme.footer
+import groupme.footer.commontext
 import groupme.footer.fixed
 import groupme.footer.moving
 import groupme.footer.pages
@@ -78,12 +79,7 @@ def extract_footerheader(
     Return:
         the most common header/foooter combination for the document
     """
-
-    strategies = [
-        groupme.footer.fixed.FixedFooterStrategy,
-        groupme.footer.moving.MovingFooterStrategy,
-        groupme.footer.pages.PageNumberStrategy,
-    ]
+    strategies = groupme.footer.strategies()
     results = [
         strategy(
             horizontals=horizontals,
@@ -118,7 +114,12 @@ def judge_strategy(
     """
     assert results is not None, 'require list of strategy results'
     result = []
-    for pagenumber, (fixed, moving, pages) in hey.utils.sync(results):
+    for pagenumber, (
+            commontext,
+            fixed,
+            moving,
+            pages,
+    ) in hey.utils.sync(results):
         header = fixed.header if fixed else None
         footer = fixed.footer if fixed else None
 
@@ -127,6 +128,9 @@ def judge_strategy(
 
         if moving and moving.footer and moving.footer.notes:
             footer = moving.footer
+
+        if not header and commontext and commontext.header:
+            header = commontext.header
 
         current = iamraw.PageContentFooterHeader(
             header=header,
