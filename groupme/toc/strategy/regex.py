@@ -103,14 +103,20 @@ def parse(content: str) -> groupme.toc.TocLines:
     # same page.
     result = groupme.toc.remove_duplication(result)
 
-    # Ensure that toc list os orderd by position on pdf page
+    # Ensure that toc list is ordered by position on pdf page
     result = groupme.toc.sort_byposition(result, duplicated)
     return result
 
 
 def parse_line(line):
     assert isinstance(line, str), type(line)
-    for pattern in [EXTENDED_PATTERN, NO_DOTS, DICTONARY, NO_LEVEL]:
+    for pattern in [
+            EXTENDED_PATTERN,
+            EXTENDED_PATTERN_LETTER,
+            NO_DOTS,
+            NO_LEVEL,
+            DICTONARY,
+    ]:
         matched = re.match(pattern, line)
         if matched:
             return extract_match(matched)

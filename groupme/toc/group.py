@@ -100,11 +100,12 @@ def level(item: str) -> Level:
         value = ROMAN[item.upper()]
         return RomanLevel(value=value, raw=item)
 
-    letter, rest = item.split('.', maxsplit=1)
+    letter, _ = item.split('.', maxsplit=1)
     letter = letter.upper()
 
     if letter in ('A', 'B', 'C', 'D'):
-        return AppendixLevel(value=rest, character=letter, raw=item)
+        result = AppendixLevel(value=letter, character=letter, raw=item)
+        return result
 
     assert 0, str(item)
 
