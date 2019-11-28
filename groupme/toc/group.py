@@ -18,7 +18,7 @@ import groupme.toc
 def group(items):
     # resolve groups to flat list
     flat = utila.flatten(items)
-    while not isinstance(flat[0], groupme.toc.TocLine):
+    while flat and not isinstance(flat[0], groupme.toc.TocLine):
         flat = utila.flatten(flat)
     pages = [item.page for item in flat]
     # ensure correct page order
