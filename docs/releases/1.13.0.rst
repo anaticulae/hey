@@ -3,7 +3,12 @@
 RP 1.13.0
 =========
 
-This increment aims to improve table of content extraction and validation.
+This increment aims to improve table of content extraction and
+validation. The current increment focuses on the examples:
+
+* bachelor111
+* master72
+* technial24
 
 General
 -------
@@ -12,7 +17,7 @@ General
 
 * [ ] Improve table of content likelihood detection
 
-* [ ] Create rst documentation page for toc extraction concept
+* [x] Create rst documentation page for toc extraction concept
 
 * [ ] Move serialization to serializeraw
 
