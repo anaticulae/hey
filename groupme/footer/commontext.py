@@ -21,6 +21,7 @@ import utila
 import groupme.footer
 import hey.classificator
 import hey.textnavigator
+import hey.textnavigator.fonts as htf
 import hey.textnavigator.navigator
 
 COMMON_HEADER_MAX_ERROR = 1.0  # TODO: HOLY VALUE
@@ -54,10 +55,8 @@ def cluster_pages(pagenavigators, pageheight: int):
     assert pageheight > 0
     pagenumbers = len(pagenavigators)
     min_cluster_count = int(pagenumbers * MIN_OCCURRENCE)
-    with_box = [[(
-        item.bounding,
-        item,
-    ) for item in page.before(TOP_AREA)] for page in pagenavigators]
+
+    with_box = prepare_clustering(pagenavigators)
 
     # TODO REPLACE WITH COMMON POSITION CLUSTER
     clusters = hey.classificator.common_items(
@@ -86,4 +85,18 @@ def cluster_pages(pagenavigators, pageheight: int):
                 )
                 result[page] = header
     result = [(item, result[item]) for item in sorted(result.keys())]
+    return result
+
+
+def prepare_clustering(pagetextnavigators):
+    textsize = htf.document_textsize(pagetextnavigators)
+    result = []
+    for page in pagetextnavigators:
+        content = []
+        for item in page.before(TOP_AREA):
+            if item.style.textsize() == textsize:
+                # TODO: FIND A BETTER FILTER
+                continue
+            content.append((item.bounding, item))
+        result.append(content)
     return result

@@ -101,26 +101,39 @@ def test_groupme_footer_footerheader_detectionstategy(
     assert len(result) == expected_results, 'not enough footer and header'
 
 
-def test_groupme_footer_extract_footerheader_technical24():
-    expected_header = list(range(1, 24))
-    technical24 = tests.resources.TECHNICAL_24PAGES
+@pytest.mark.parametrize('root, expected', [
+    pytest.param(
+        tests.resources.TECHNICAL_24PAGES,
+        list(range(1, 24)),
+        id='technical24',
+    ),
+    pytest.param(
+        tests.resources.MASTER_72PAGES,
+        [],
+        id='master72',
+    ),
+])
+def test_groupme_footer_extract_footerheader_technical(root, expected):
     pages = None
     pagetextnavigators = htn.create_pagetextnavigators_frompath(
-        tests.resources.TECHNICAL_24PAGES,
+        root,
         pages=pages,
     )
 
-    horizontalspath = hey.path.horizontals(technical24)
-    horizontals = serializeraw.load_horizontals(horizontalspath, pages=pages)
+    horizontals = serializeraw.load_horizontals(
+        hey.path.horizontals(root),
+        pages=pages,
+    )
 
-    sizeandborderspath = hey.path.sizeandborder(technical24)
     sizeandborders = serializeraw.load_pageborders(
-        sizeandborderspath,
+        hey.path.sizeandborder(root),
         pages=pages,
     )
 
-    pagenumberspath = groupme.path.pagenumbers(technical24)
-    pagenumbers = serializeraw.load_pagenumbers(pagenumberspath, pages=pages)
+    pagenumbers = serializeraw.load_pagenumbers(
+        groupme.path.pagenumbers(root),
+        pages=pages,
+    )
 
     result = groupme.feature.footer.extract_footerheader(
         horizontals=horizontals,
@@ -130,4 +143,4 @@ def test_groupme_footer_extract_footerheader_technical24():
     )
 
     header = [item.page for item in result if item.header is not None]
-    assert header == expected_header
+    assert header == expected

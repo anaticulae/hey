@@ -65,6 +65,9 @@ class TextStyle:
     def __len__(self):
         return len(self.content)
 
+    def textsize(self):
+        return TextStyle.textsizes(self)
+
     @classmethod
     def textsizes(cls, item: 'TextStyle', method=max):
         assert isinstance(item, cls), type(item)

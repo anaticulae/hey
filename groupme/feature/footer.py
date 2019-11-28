@@ -106,6 +106,7 @@ def judge_strategy(
         - MovingFooter:                footer (first prio)
         - Pages:                       footer (second prio)
         - FixedFooter:      header and footer (third prio)
+        - Common:           header            (last prio)
 
     Args:
         results: lists of `groupme.footer.FooterHeaderDetectionStrategy`.result
@@ -115,7 +116,7 @@ def judge_strategy(
     assert results is not None, 'require list of strategy results'
     result = []
     for pagenumber, (
-            commontext,
+            common,
             fixed,
             moving,
             pages,
@@ -129,8 +130,8 @@ def judge_strategy(
         if moving and moving.footer and moving.footer.notes:
             footer = moving.footer
 
-        if not header and commontext and commontext.header:
-            header = commontext.header
+        if not header and common and common.header:
+            header = common.header
 
         current = iamraw.PageContentFooterHeader(
             header=header,
