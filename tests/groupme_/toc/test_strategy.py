@@ -13,8 +13,11 @@ import groupme.toc.extractor as gte
 import tests.fixtures.tableofcontent as tft
 
 
-@pytest.mark.xfail(reason='headline parsing does not work correctly')
 def test_groupme_toc_strategy_master72():
+    """Headline 3.1. is writen over content border, therefore we have to
+    disable checking content border in PageTextContentNavigator
+    creation. If we do not, the third position `11` detects only `10`
+    headlines."""
     headlines = tft.master72_toc()
     expected = [3, 9, 11, 6, 1, 1, 1]
     grouped = gte.extract(headlines)

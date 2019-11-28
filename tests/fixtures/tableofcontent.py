@@ -17,8 +17,8 @@ def headlines_frompath(path: str, pages=None):
         path,
         pages=pages,
         prefix='oneline',
+        validate_leftright=False,  # do not check writing text over border
     )
-    # result = [gtsg.analyse_page(item) for item in loaded]
     result = groupme.toc.strategy.load(content=loaded)
     return result
 

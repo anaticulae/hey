@@ -21,6 +21,8 @@ import hey.utils
 START = 0.0
 END = 1.0
 
+DISABLE_VALIDATION = END * 2
+
 
 class PageTextNavigator:
     """The PageTextNavigator eases to navigate through the textual
@@ -104,8 +106,10 @@ class PageTextNavigator:
         Returns:
             list of `TextInfo`
         """
-        assert START <= top <= bottom <= END, f'{START}<={top}<={bottom}<={END}'
-        assert START <= left <= right <= END, f'{START}<={left}<={right}<={END}'
+        assert START <= top <= bottom <= END, (
+            f'{START}<={top}<={bottom}<={END}')
+        assert START <= left <= right <= DISABLE_VALIDATION, (
+            f'{START}<={left}<={right}<={DISABLE_VALIDATION}')
 
         before = top * self.height
         after = bottom * self.height
@@ -185,6 +189,8 @@ class PageTextContentNavigator:
             self,
             textnavigator: PageTextNavigator,
             content: iamraw.Border,
+            *,
+            validate_leftright: bool = True,
     ):
         """Navigate throw text content, ignore footer and header
 
@@ -192,6 +198,7 @@ class PageTextContentNavigator:
             textnavigator: `textnavigator` with items are located
                            outside of `content`.
             content: distance from page border which defines start of content.
+            validate_leftright(bool): do not check left right coordinate.
         """
         msg = 'require `PageTextNavigator` got: %s' % type(textnavigator)
         assert isinstance(textnavigator, PageTextNavigator), msg
@@ -206,7 +213,11 @@ class PageTextContentNavigator:
         top, bottom = topbottom(pagesize, content)
         assert 0 <= top <= bottom <= 1.0, str(top) + str(bottom)
         self._page = textnavigator.page
-        self.data = textnavigator.between(top, bottom)
+
+        # disable validation if required
+        right = END if validate_leftright else DISABLE_VALIDATION
+
+        self.data = textnavigator.between(top, bottom, right=right)
         self._offset = textnavigator.offset(top, bottom)
 
     @property
@@ -337,9 +348,20 @@ def create_pagetextnavigators_frompath(
 
 def create_pagetextcontentnavigators_frompath(
         path: str,
-        prefix='',
-        pages=None,
+        prefix: str = '',
+        pages: tuple = None,
+        validate_leftright: bool = True,
 ) -> PageTextContentNavigators:
+    """Load `PageTextContentNavigators` from `path`.
+
+    Args:
+        path(str): `path` where loaded data is located in
+        prefix(str): prefix loaded resources
+        pages(tuple): selected pages
+        validate_leftright(bool): do not check writing over ``content border``.
+    Returns:
+        List of loaded PageTextContentNavigators depending on `pages`.
+    """
     navigators = create_pagetextnavigators_frompath(
         path=path,
         prefix=prefix,
@@ -354,7 +376,12 @@ def create_pagetextcontentnavigators_frompath(
     result = []
     for navigator in navigators:
         border = determine_border(headerfooter, sizeandborder, navigator.page)
-        result.append(PageTextContentNavigator(navigator, border))
+        result.append(
+            PageTextContentNavigator(
+                navigator,
+                border,
+                validate_leftright=validate_leftright,
+            ))
     return result
 
 
