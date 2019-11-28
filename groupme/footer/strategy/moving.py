@@ -12,8 +12,9 @@ Requirements:
     is fixed.
 
 Example:
-    master/page_72_noimages_toc.pdf
-    bachelor/page_111_images_toc.pdf
+
+- master/page_72_noimages_toc.pdf
+- bachelor/page_111_images_toc.pdf
 
 TODO: Think about header
 """

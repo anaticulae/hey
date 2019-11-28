@@ -12,6 +12,7 @@ TODO: what's the difference to hey, words etc.?
   :maxdepth: 2
 
   toc
+  footerheader
 
 features
 --------

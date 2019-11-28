@@ -10,8 +10,9 @@
 and distance to text before.
 
 Example:
-    docu/howto_argparse.pdf
-    technical/page_24_color_figures_images.pdf
+
+- docu/howto_argparse.pdf
+- technical/page_24_color_figures_images.pdf
 
 Extract page numbers as footer if the distance between page number and
 next horizontal line is greater than `MIN_DISTANCE_TO_HORIZONTAL`.
