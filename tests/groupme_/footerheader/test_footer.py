@@ -14,8 +14,8 @@ import serializeraw
 import utila
 
 import groupme.feature.footer
-import groupme.footer
-import groupme.footer.moving
+import groupme.footer.strategy as gfs
+import groupme.footer.strategy.moving
 import groupme.path
 import hey.path
 import hey.textnavigator.navigator as htn
@@ -54,7 +54,7 @@ def test_groupme_footer_dump_and_load(
     sizeandborders = restructured_sizeandborder
     pagetextnavigators = restructured_pagetextnavigators
     # TODO: use general strategy?
-    extracted = groupme.footer.fixed.FixedFooterStrategy(
+    extracted = gfs.fixed.FixedFooterStrategy(
         horizontals,
         sizeandborders,
         pagenumbers,
@@ -71,9 +71,9 @@ def test_groupme_footer_dump_and_load(
 @pytest.mark.parametrize(
     'strategy, expected_results',
     [
-        (groupme.footer.moving.MovingFooterStrategy, 0),
-        (groupme.footer.fixed.FixedFooterStrategy, 26),  # TODO: CHECK 26
-        (groupme.footer.pages.PageNumberStrategy, 0),
+        (gfs.moving.MovingFooterStrategy, 0),
+        (gfs.fixed.FixedFooterStrategy, 26),  # TODO: CHECK 26 yapf:disable
+        (gfs.pages.PageNumberStrategy, 0),
     ])
 def test_groupme_footer_footerheader_detectionstategy(
         strategy,

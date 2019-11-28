@@ -31,7 +31,7 @@ def test_footer_judge_strategy_quality(path, expected_quality):
 
     strategies = groupme.footer.strategies()
     results = [
-        groupme.footer.create_strategy(
+        groupme.footer.strategy.create_strategy(
             path=path,
             strategy=strategy,
             pages=pages,

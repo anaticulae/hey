@@ -26,13 +26,14 @@ import utila
 
 import groupme.footer
 import groupme.footer.headnotes
+import groupme.footer.strategy as gfs
 import groupme.horizontals
 import groupme.utils
 import hey.classificator
 import hey.textnavigator.navigator
 
 
-class FixedFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
+class FixedFooterStrategy(gfs.FooterHeaderDetectionStrategy):
     """The `FixedFooterStrategy` detects footer and header depending on
     horizontal line position. The strategy detects the most common
     border for header and footer.

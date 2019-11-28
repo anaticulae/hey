@@ -10,7 +10,7 @@
 import pytest
 import serializeraw
 
-import groupme.footer.pages
+import groupme.footer.strategy.pages
 import tests.resources
 
 
@@ -55,7 +55,7 @@ def test_footer_pagenumber_strategy(
         pages,
     )
 
-    strategy = groupme.footer.pages.PageNumberStrategy(
+    strategy = groupme.footer.strategy.pages.PageNumberStrategy(
         horizontals=horizontallines,
         sizeandborders=sizeandborder,
         pagenumbers=pagenumbers,

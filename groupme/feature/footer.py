@@ -17,10 +17,11 @@ import serializeraw
 import utila
 
 import groupme.footer
-import groupme.footer.commontext
-import groupme.footer.fixed
-import groupme.footer.moving
-import groupme.footer.pages
+import groupme.footer.strategy
+import groupme.footer.strategy.common
+import groupme.footer.strategy.fixed
+import groupme.footer.strategy.moving
+import groupme.footer.strategy.pages
 import hey.textnavigator
 import hey.textnavigator.navigator
 import hey.utils
@@ -71,7 +72,7 @@ def extract_footerheader(
         sizeandborders: iamraw.PageSizeBorderList,
         pagenumbers,
         pagetextnavigators: hey.textnavigator.navigator.PageTextNavigators,
-) -> groupme.footer.PageContentFooterHeaders:
+) -> groupme.footer.strategy.PageContentFooterHeaders:
     """Extract most common header/footer of the document
 
     Args:
@@ -94,8 +95,8 @@ def extract_footerheader(
 
 
 def judge_strategy(
-        results: typing.List[groupme.footer.PageContentFooterHeaders],
-) -> groupme.footer.PageContentFooterHeaders:
+        results: typing.List[groupme.footer.strategy.PageContentFooterHeaders],
+) -> groupme.footer.strategy.PageContentFooterHeaders:
     """Decide which results fits best.
 
     Zip result of different strategies. Sometimes there are multiple
@@ -143,6 +144,6 @@ def judge_strategy(
 
 
 def judge_strategy_selective(
-        results: typing.List[groupme.footer.PageContentFooterHeaders],
-) -> groupme.footer.PageContentFooterHeaders:
+        results: typing.List[groupme.footer.strategy.PageContentFooterHeaders],
+) -> groupme.footer.strategy.PageContentFooterHeaders:
     return None

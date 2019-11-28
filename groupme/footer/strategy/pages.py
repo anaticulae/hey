@@ -21,13 +21,13 @@ next horizontal line is greater than `MIN_DISTANCE_TO_HORIZONTAL`.
 import iamraw
 import utila
 
-import groupme.footer
+import groupme.footer.strategy as gfs
 import hey.textnavigator.navigator
 
 MIN_DISTANCE_TO_HORIZONTAL = 50  # TODO: HOLY VALUE
 
 
-class PageNumberStrategy(groupme.footer.FooterHeaderDetectionStrategy):
+class PageNumberStrategy(gfs.FooterHeaderDetectionStrategy):
 
     def result(self):
         result = []

@@ -12,7 +12,8 @@ import itertools
 import serializeraw
 import utila
 
-import groupme.footer.fixed
+import groupme.footer.strategy as gfs
+import groupme.footer.strategy.fixed as gfsf
 import hey.textnavigator.navigator as htn
 import tests.fixtures
 import tests.resources
@@ -29,7 +30,7 @@ def _restructed():
 
     navigators = tests.fixtures.create_pagetextnavigators(tests.resources.RESTRUCT) # yapf:disable
 
-    top, bottom = groupme.footer.fixed.extract_common_footer(
+    top, bottom = gfsf.extract_common_footer(
         horizontals=horizontals,
         pageheight=pageheight,
     )
@@ -46,7 +47,7 @@ def test_groupme_footer_fixed_restructed_extract_common_footer():
 def test_groupme_footer_fixed_restructed_extract_page_footerheader():
     horizontals, pageheight, top, bottom, pagetextnavigators = _restructed()
     top, bottom = top[0], bottom[0]
-    extracted = groupme.footer.fixed.extract_page_footerheader(
+    extracted = gfsf.extract_page_footerheader(
         horizontals,
         top,
         bottom,
@@ -72,7 +73,7 @@ def _bachelor111():
         prefix='oneline',
     )
 
-    top, bottom = groupme.footer.fixed.extract_common_footer(
+    top, bottom = gfsf.extract_common_footer(
         horizontals=horizontals,
         pageheight=pageheight,
     )
@@ -84,7 +85,7 @@ def _bachelor111_footerheader():
 
     footerheader = []
     for top, bottom in itertools.zip_longest(top, bottom):
-        extracted = groupme.footer.fixed.extract_page_footerheader(
+        extracted = gfsf.extract_page_footerheader(
             horizontals,
             top,
             bottom,
@@ -92,7 +93,7 @@ def _bachelor111_footerheader():
             pagetextnavigators,
         )
         footerheader.extend(extracted)
-    footerheader = groupme.footer.remove_duplication(footerheader)
+    footerheader = gfs.remove_duplication(footerheader)
     return footerheader
 
 

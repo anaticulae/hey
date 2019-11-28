@@ -12,7 +12,7 @@ import serializeraw
 import utila
 
 import groupme.feature.footer
-import groupme.footer.moving
+import groupme.footer.strategy.moving
 import tests.fixtures.restruct
 import tests.resources
 
@@ -40,9 +40,9 @@ import tests.resources
     ),
 ])
 def test_groupme_footer_moving(document, pages, expected_footer):
-    strategy = groupme.footer.create_strategy(
+    strategy = groupme.footer.strategy.create_strategy(
         path=document,
-        strategy=groupme.footer.moving.MovingFooterStrategy,
+        strategy=groupme.footer.strategy.moving.MovingFooterStrategy,
         pages=pages,
     )
     result = strategy.result()

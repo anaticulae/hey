@@ -18,7 +18,7 @@ text and images. There is no horizontal line required.
 import iamraw
 import utila
 
-import groupme.footer
+import groupme.footer.strategy as gfs
 import hey.classificator
 import hey.textnavigator
 import hey.textnavigator.fonts as htf
@@ -30,7 +30,7 @@ MIN_OCCURRENCE = 0.5
 TOP_AREA = 0.15  # TODO: HOLY VALUE
 
 
-class CommonTextStrategy(groupme.footer.FooterHeaderDetectionStrategy):
+class CommonTextStrategy(gfs.FooterHeaderDetectionStrategy):
 
     def result(self):
         # TODO: HOW TO HANDLE DIFFERENT PAGE HEIGHTS

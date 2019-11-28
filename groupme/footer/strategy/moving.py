@@ -25,15 +25,16 @@ import utila
 
 import groupme.footer
 import groupme.footer.footnotes
-import groupme.footer.pages
+import groupme.footer.strategy as gfs
+import groupme.footer.strategy.pages as gfsp
 
 
-class MovingFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
+class MovingFooterStrategy(gfs.FooterHeaderDetectionStrategy):
 
     def result(self):
         result = []
 
-        pagenumber_locations = groupme.footer.pages.pagenumber_location(
+        pagenumber_locations = gfsp.pagenumber_location(
             self.horizontals,
             self.sizeandborders,
             self.pagenumbers,
@@ -66,7 +67,7 @@ class MovingFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
         result = judge_detection(result)
         return result
 
-    def report(self) -> groupme.footer.FooterStrategyResultReport:
+    def report(self) -> gfs.FooterStrategyResultReport:
         # TODO: Avoid multiple computation, require  concept.
         detected = self.result()
         report = analyze(detected)
@@ -74,7 +75,7 @@ class MovingFooterStrategy(groupme.footer.FooterHeaderDetectionStrategy):
 
 
 @dataclasses.dataclass
-class MovingFooterResultReport(groupme.footer.FooterStrategyResultReport):  # pylint:disable=R0903
+class MovingFooterResultReport(gfs.FooterStrategyResultReport):  # pylint:disable=R0903
     footer: int = None
     header: int = None
     footer_empty: int = None
@@ -155,7 +156,7 @@ def extract_footer(
 
 
 def analyze(results) -> MovingFooterResultReport:
-    footer_count = groupme.footer.count_footer(results)
+    footer_count = gfs.count_footer(results)
     emptyfooter_count = groupme.footer.footnotes.count_empty(results)
     empty_factor = emptyfooter_count / footer_count if footer_count else 0
     too_many_empty_footer = empty_factor >= WRONG_STRATEGY_EMPTY_FOOTER_FACTOR

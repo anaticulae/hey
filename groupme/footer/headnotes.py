@@ -14,7 +14,6 @@ import iamraw
 import utila
 
 import groupme.feature.numbers
-import groupme.footer
 import groupme.toc.strategy.regex as gtsr
 
 
