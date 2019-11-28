@@ -15,13 +15,13 @@ import groupme.toc.strategy.regex
 
 def extract(
         data: gts.ExtractionData,
-        active_strategy: list = None,
+        active: list = None,
 ) -> gts.ExtractionResult:
     """Run various strategies to extract ``toc-lines`` out of given ``data``.
 
     Args:
         data: loaded data
-        active_strategy: List of executed stratgies. Use ``None`` to run
+        active: List of executed stratgies. Use ``None`` to run
                          all strategies.
     Returns:
         List of ``ExtractionResult`` with extracted data.
@@ -35,7 +35,7 @@ def extract(
         strategy(data).result()
         for strategy in strategies
         # decide if strategy is active
-        if active_strategy is None or strategy in active_strategy
+        if active is None or strategy in active
     ]
     decision = groupme.toc.decider.decide(results)
     return decision
