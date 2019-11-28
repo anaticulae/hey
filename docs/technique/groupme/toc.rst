@@ -35,7 +35,7 @@ Geometry plus Regex
 
 Combine Geometry and Regex approach.
 
-See :class:`groupme.toc.strategy.geometry`.
+See :class:`groupme.toc.strategy.georegex`.
 
 Example
 -------

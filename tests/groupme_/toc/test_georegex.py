@@ -6,7 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-import groupme.toc.strategy.geometry as gtsg
+import groupme.toc.strategy.georegex as gtsg
 import hey.textnavigator.navigator as htn
 import tests.resources
 

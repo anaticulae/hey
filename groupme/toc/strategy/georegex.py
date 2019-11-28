@@ -6,8 +6,8 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""table of content - geometry strategy
-====================================
+"""table of content - geometry regex strategy
+==========================================
 
 Use the geometry of the page to extract the table of content.
 
@@ -35,7 +35,7 @@ import hey.textnavigator.multiline as htm
 import hey.textnavigator.navigator as htn
 
 
-class GeometyTocExtractor(gts.ExtractorStrategy):
+class GeometyRegexTocExtractor(gts.ExtractorStrategy):
 
     def result(self) -> gts.ExtractionResult:
         extracted = [analyse_page(item) for item in self.loaded.content]
