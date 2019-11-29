@@ -24,7 +24,7 @@ import iamraw
 import serializeraw
 import utila
 
-import hey.textnavigator.fonts
+import hey.textnavigator
 import hey.textnavigator.navigator
 import words.loader.input
 
@@ -93,7 +93,7 @@ def process_page(pagecontent, contentborder: iamraw.Border):
         zipped = enumerate(zip(content, uindexs))
         for mergednumber, ((_, items), uindex) in zipped:
             items = [
-                hey.textnavigator.fonts.TextBoundsInfo(
+                hey.textnavigator.TextBoundsInfo(
                     bounds=item.bounding,
                     text=item.text,
                 ) for item in items

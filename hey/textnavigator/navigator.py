@@ -14,6 +14,7 @@ import serializeraw
 import utila
 
 import hey.path
+import hey.textnavigator
 import hey.textnavigator.fonts
 import hey.textnavigator.style
 import hey.utils
@@ -474,10 +475,10 @@ def percent_from_pagesize(size, current) -> float:
 
 
 def to_content(navigator: PageTextNavigator,
-              ) -> hey.textnavigator.fonts.TextBoundsList:
+              ) -> hey.textnavigator.TextBoundsList:
     result = []
     for item in navigator:
-        info = hey.textnavigator.fonts.TextBoundsInfo(
+        info = hey.textnavigator.TextBoundsInfo(
             bounds=item.bounding,
             text=item.text,
         )
@@ -491,11 +492,11 @@ MAX_MERGE_HORIZONTALY = configo.HV_FLOAT_PLUS(default=14.0).value
 
 
 def merge_content(
-        text: hey.textnavigator.fonts.TextBoundsList,
+        text: hey.textnavigator.TextBoundsList,
         max_x_merge=MAX_MERGE_HORIZONTALY,
         max_y_merge=MAX_MERGE_DISTANCE,
         uindex=None,
-) -> hey.textnavigator.fonts.TextBoundsList:
+) -> hey.textnavigator.TextBoundsList:
     """Merge content blocks to create greater content blocks depending on
     merge strategy.
 
@@ -517,8 +518,7 @@ def merge_content(
 
     # ensure input
     assert all([
-        isinstance(item, hey.textnavigator.fonts.TextBoundsInfo)
-        for item in text
+        isinstance(item, hey.textnavigator.TextBoundsInfo) for item in text
     ]), str(text)
 
     uindex = list(range(len(text))) if uindex is None else uindex
@@ -555,7 +555,7 @@ def merge_content(
         )
 
     result = [
-        hey.textnavigator.fonts.TextBoundsInfo(
+        hey.textnavigator.TextBoundsInfo(
             text=item[1],
             bounds=item[0],
         ) for item in result
@@ -565,7 +565,7 @@ def merge_content(
 
 def merge_content_join(result):
     result = [
-        hey.textnavigator.fonts.TextBoundsInfo(
+        hey.textnavigator.TextBoundsInfo(
             text=utila.NEWLINE.join(item.text),
             bounds=item.bounds,
         ) for item in result

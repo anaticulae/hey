@@ -14,7 +14,7 @@ from iamraw import PageList
 from serializeraw import dump_lists
 from serializeraw import load_lists
 
-from hey.textnavigator.fonts import TextBoundsList
+from hey.textnavigator import TextBoundsList
 from hey.textnavigator.navigator import merge_content
 from hey.textnavigator.navigator import merge_content_join
 from hey.textnavigator.navigator import to_content

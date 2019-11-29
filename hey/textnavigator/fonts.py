@@ -7,7 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import dataclasses
 import statistics
 import typing
 
@@ -17,32 +16,6 @@ import utila
 import hey.textnavigator
 import hey.textnavigator.style
 import hey.utils
-
-
-@dataclasses.dataclass
-class TextBounds:
-    xdist: int
-    ydist: int
-    width: int
-    height: int
-
-
-@dataclasses.dataclass
-class TextBoundsInfo:
-    text: str
-    bounds: TextBounds
-
-    # TODO: Activate me for hunting bugs
-    # def __post_init__(self):
-    #     assert isinstance(self.bounds, TextBounds)
-
-
-TextBoundsList = typing.List[TextBoundsInfo]
-
-FontSize = int
-Occurrence = float
-FontOccurrence = typing.Tuple[FontSize, Occurrence]
-FontOccurrenceList = typing.List[FontOccurrence]
 
 
 def fontdistance(bounds: typing.List[iamraw.BoundingBox]) -> typing.List[float]:
@@ -65,10 +38,14 @@ def feeddistance(bounds: typing.List[iamraw.BoundingBox]) -> typing.List[float]:
     return distance
 
 
-def fontdistance_textbounds(bounds: typing.List[TextBounds],
+def fontdistance_textbounds(bounds: typing.List[hey.textnavigator.TextBounds],
                            ) -> typing.List[float]:
     assert isinstance(bounds, list)
-    assert all(isinstance(item, TextBounds) for item in bounds)
+    assert all(
+        isinstance(
+            item,
+            hey.textnavigator.TextBounds,
+        ) for item in bounds)
     distance = [
         utila.roundme(second.ydist - (first.ydist + first.height))
         for (first), (second) in zip(bounds[0:], bounds[1:])
@@ -86,19 +63,16 @@ NONE_BORDER = iamraw.Border(None, None, None, None)
 
 def bounds_to_textbounds(
         bounds: iamraw.BoundingBox,
-        item: str,
         contentborder: iamraw.Border = None,
-) -> TextBounds:
+) -> hey.textnavigator.TextBounds:
     """Compute distance to page `contentborder` and determine font size
 
     Args:
         bounds(iamraw.BoundingBox): BoundingBox of item
-        item(str): content
         contentborder(Border): the border of page content if None (0,0) is used
     Returns:
         computed `TextBounds`
     """
-    assert isinstance(item, str), type(item)
     if contentborder is None:
         contentborder = iamraw.Border(left=0, right=None, top=0, bottom=None)
     x0, y0, x1, y1 = bounds
@@ -108,13 +82,13 @@ def bounds_to_textbounds(
         int(x1 - x0),
         int(y1 - y0),
     )
-    return TextBounds(xdist, ydist, width, height)
+    return hey.textnavigator.TextBounds(xdist, ydist, width, height)
 
 
 def textbounds(
         navigator: 'PageTextNavigator',
         contentborder: iamraw.Border,
-) -> TextBoundsList:
+) -> hey.textnavigator.TextBoundsList:
     assert hey.textnavigator.is_navigator(navigator), type(navigator)
 
     # ensure that order of items has no effect
@@ -124,11 +98,10 @@ def textbounds(
         return []
 
     result = [
-        TextBoundsInfo(
+        hey.textnavigator.TextBoundsInfo(
             text=item.text,
             bounds=bounds_to_textbounds(
                 item.bounding,
-                item.text,
                 contentborder,
             ),
         ) for item in navigator
@@ -136,7 +109,7 @@ def textbounds(
     return result
 
 
-def textsize(occurrences: FontOccurrenceList) -> int:
+def textsize(occurrences: hey.textnavigator.FontOccurrences) -> int:
     """Compute size of text"""
     mostly = sorted(occurrences, key=lambda item: item[1], reverse=True)
     if not mostly:

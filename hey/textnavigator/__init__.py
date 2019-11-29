@@ -7,6 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import dataclasses
+import typing
+
 
 def is_navigator(item):
     import hey.textnavigator.navigator
@@ -15,3 +18,29 @@ def is_navigator(item):
         hey.textnavigator.navigator.PageTextContentNavigator,
     ))
     return result
+
+
+@dataclasses.dataclass
+class TextBounds:
+    xdist: int
+    ydist: int
+    width: int
+    height: int
+
+
+@dataclasses.dataclass
+class TextBoundsInfo:
+    text: str
+    bounds: TextBounds
+
+    # TODO: Activate me for hunting bugs
+    # def __post_init__(self):
+    #     assert isinstance(self.bounds, TextBounds)
+
+
+TextBoundsList = typing.List[TextBoundsInfo]
+
+FontSize = int
+Occurrence = float
+FontOccurrence = typing.Tuple[FontSize, Occurrence]
+FontOccurrences = typing.List[FontOccurrence]
