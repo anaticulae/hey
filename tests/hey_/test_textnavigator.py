@@ -9,14 +9,13 @@
 import pytest
 import utila
 from iamraw import BoundingBox
-from pytest import mark
 
 import hey.textnavigator.navigator as htn
 import tests.fixtures.headlines
 import tests.resources
+from hey.textnavigator.merger import merge_content
+from hey.textnavigator.merger import merge_content_join
 from hey.textnavigator.navigator import PageTextNavigator
-from hey.textnavigator.navigator import merge_content
-from hey.textnavigator.navigator import merge_content_join
 from hey.textnavigator.navigator import navigator_to_bounds
 from hey.textnavigator.navigator import percent_to_pagesize
 from hey.textnavigator.navigator import to_content
@@ -59,7 +58,7 @@ def test_before(navigator: PageTextNavigator):  #pylint:disable=W0621
     assert len(result) == 1, before
 
 
-@mark.parametrize('size,percent,expected', [
+@pytest.mark.parametrize('size,percent,expected', [
     (100.0, 1.0, 0),
     (100.0, 0.0, 100),
     (100.0, 0.75, 25),

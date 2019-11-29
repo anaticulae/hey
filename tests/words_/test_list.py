@@ -15,8 +15,8 @@ from serializeraw import dump_lists
 from serializeraw import load_lists
 
 from hey.textnavigator import TextBoundsList
-from hey.textnavigator.navigator import merge_content
-from hey.textnavigator.navigator import merge_content_join
+from hey.textnavigator.merger import merge_content
+from hey.textnavigator.merger import merge_content_join
 from hey.textnavigator.navigator import to_content
 #pylint:disable=W0611
 from tests.fixtures.restruct import RESTRUCT_HORIZONTAL
