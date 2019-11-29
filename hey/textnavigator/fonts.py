@@ -14,6 +14,7 @@ import iamraw
 import utila
 
 import hey.textnavigator
+import hey.textnavigator.navigator as htn
 import hey.textnavigator.style
 import hey.utils
 
@@ -86,7 +87,7 @@ def bounds_to_textbounds(
 
 
 def textbounds(
-        navigator: 'PageTextNavigator',
+        navigator: htn.PageTextNavigator,
         contentborder: iamraw.Border,
 ) -> hey.textnavigator.TextBoundsList:
     assert hey.textnavigator.is_navigator(navigator), type(navigator)
@@ -119,7 +120,7 @@ def textsize(occurrences: hey.textnavigator.FontOccurrences) -> int:
     return size
 
 
-def textsize_from_page(navigator: 'PageTextNavigator') -> float:
+def textsize_from_page(navigator: htn.PageTextNavigator) -> float:
     collected = []
     for line in navigator:
         fontsizes = hey.textnavigator.style.TextStyle.textsizes(
