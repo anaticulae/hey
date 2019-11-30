@@ -144,7 +144,7 @@ def reduce_word(word, count):
 def simple_alpha_date(
         raw,
         reduce: int = 0,
-        month=MONTH,
+        month=None,
         pattern=SIMPLE_ALPHA_DATE,
 ):
     """
@@ -153,6 +153,8 @@ def simple_alpha_date(
     Returns:
 
     """
+    if not month:
+        month = MONTH
     month_match = {reduce_word(item, reduce): item for item in month}
     changed_pattern = str(pattern)
     for key, value in month_match.items():
