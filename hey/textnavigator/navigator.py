@@ -182,7 +182,8 @@ class PageTextNavigator:
 class PageTextContentNavigator:
     """Iterate over page content without footer and header.
 
-    See: PageTextNavigator"""
+    See: :class:`hey.textnavigator.navigator.PageTextNavigator`.
+    """
 
     def __init__(
             self,
