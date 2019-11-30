@@ -33,7 +33,9 @@ def work(documentpath: str) -> str:
 
     result = toc(document)
 
-    dumped = toc_to_yaml(result)
+    leveled = groupby_level(result)
+
+    dumped = serializeraw.dump_toc(leveled)
     return dumped
 
 
@@ -176,7 +178,7 @@ def text_snippets(document: iamraw.Document):
     return result
 
 
-def toc_to_yaml(tableofcontent: typing.List[groupme.toc.TocLine]) -> str:
+def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
     # TODO: MOVE TO SERIALIZERAW
 
     def determine_level(level):
@@ -212,11 +214,8 @@ def toc_to_yaml(tableofcontent: typing.List[groupme.toc.TocLine]) -> str:
 
     outlines = level_zero(outlines)
 
-    toc_ = iamraw.create_toc(outlines)
-
-    dumped = serializeraw.dump_toc(toc_)
-
-    return dumped
+    result = iamraw.create_toc(outlines)
+    return result
 
 
 def is_dotted_line(line: str):
