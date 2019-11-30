@@ -28,7 +28,8 @@ def extract(
     """
 
     strategies = [
-        groupme.toc.strategy.georegex.GeometyRegexTocExtractor,
+        groupme.toc.strategy.geometry.GeometryTocExtractor,
+        groupme.toc.strategy.georegex.GeometryRegexTocExtractor,
         groupme.toc.strategy.regex.RegexTocExtractor,
     ]
     results = [

@@ -35,7 +35,7 @@ import hey.textnavigator.multiline as htm
 import hey.textnavigator.navigator as htn
 
 
-class GeometyRegexTocExtractor(gts.ExtractorStrategy):
+class GeometryRegexTocExtractor(gts.ExtractorStrategy):
 
     def result(self) -> gts.ExtractionResult:
         extracted = [analyse_page(item) for item in self.loaded.content]
