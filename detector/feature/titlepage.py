@@ -57,9 +57,13 @@ import utila
 import detector.parser.complete
 import hey.textnavigator.navigator
 
+# TODO: MOVE TO MORE GENERAL POSITION
+# TODO: check 0.1, use a higher number?
 RAWMAKER_CONFIGURATION = ('--prefix=oneline '
                           '--font --text --toc '
-                          '--char_margin=100.0 --boxes_flow=1.0')
+                          '--boxes_flow=1.0 '
+                          '--char_margin=100.0 '
+                          '--line_margin=0.1')
 
 
 def work(text: str, text_positions: str) -> str:
