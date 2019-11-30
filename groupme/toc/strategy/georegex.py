@@ -47,7 +47,7 @@ class GeometyRegexTocExtractor(gts.ExtractorStrategy):
 
 def analyse_page(content: htn.PageTextNavigator):
     assert htn.isnavigator(content), type(content)
-    content = remove_headline(content)
+    content = gts.remove_headline(content)
     grouped = group_areas(content)
     result = [parse_group(items) for items in grouped]
     return result
@@ -136,17 +136,4 @@ def group_items(items, diff=10.0):
         (utila.roundme(key * diff), value) for key, value in counter.items()
     ]
     result = sorted(result, key=lambda x: x[1], reverse=True)
-    return result
-
-
-def remove_headline(content: htn.PageTextNavigator) -> htn.PageTextNavigator:
-    """Remove table of content headline to improve extraction result."""
-    result = htn.PageTextNavigator(
-        size=(content.width, content.height),
-        page=content.page,
-    )
-    for item in content:
-        if item.text == 'Inhaltsverzeichnis':
-            continue
-        result.insert(item.text, item.style, item.bounding)
     return result

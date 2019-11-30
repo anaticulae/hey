@@ -51,3 +51,16 @@ def load(content: htn.PageTextContentNavigators) -> ExtractionData:
 
 def load_frompath(path: str):
     pass
+
+
+def remove_headline(content: htn.PageTextNavigator) -> htn.PageTextNavigator:
+    """Remove table of content headline to improve extraction result."""
+    result = htn.PageTextNavigator(
+        size=(content.width, content.height),
+        page=content.page,
+    )
+    for item in content:
+        if item.text == 'Inhaltsverzeichnis':
+            continue
+        result.insert(item.text, item.style, item.bounding)
+    return result
