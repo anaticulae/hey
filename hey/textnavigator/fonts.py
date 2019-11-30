@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import collections
 import statistics
 import typing
 
@@ -129,6 +130,23 @@ def textsize_from_page(navigator: htn.PageTextNavigator) -> float:
         )
         collected.extend(fontsizes)
     return statistics.mode(collected)
+
+
+def document_textfeed(
+        navigators: hey.textnavigator.navigator.PageTextNavigators,
+        count: int = 1,
+) -> typing.List[int]:
+    assert count >= 1, 'require none negative count'
+    counter = collections.Counter()
+    for navigator in navigators:
+        bounds = textbounds(navigator, navigator.content)
+        for item in bounds:
+            counter[item.bounds.xdist] += 1
+    result = counter.most_common(count)
+    result = [item for item, _ in result]
+    if count == 1:
+        return result[0]
+    return result
 
 
 def document_textsize(navigators) -> float:
