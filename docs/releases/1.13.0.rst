@@ -13,9 +13,7 @@ validation. The current increment focuses on the examples:
 General
 -------
 
-* [ ] Parse page number which the toc line links to
-
-* [ ] Improve table of content likelihood detection
+* [x] Parse page number which the toc line links to
 
 * [x] Create rst documentation page for toc extraction concept
 
@@ -30,19 +28,23 @@ Dotted
 Without dots
 ~~~~~~~~~~~~
 
-* [ ] No dots between title and page number
+* [x] No dots between title and page number
 
 Multiline
 ~~~~~~~~~
 
-* [ ] Accept headlines which consume more than one line
+* [x] Accept headlines which consume more than one line
 
 Validation
 ----------
 
-* [ ] Validate the structure of table of content. Detect numbering problems.
+* [/] Validate the structure of table of content. Detect numbering problems.
 
-* [ ] Validate three different examples
+* [/] Validate three different examples
+
+.. note ::
+
+    Validation will be executed in **decider**
 
 Before
 ~~~~~~
