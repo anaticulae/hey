@@ -368,13 +368,37 @@ def create_pagetextcontentnavigators_frompath(
         pages=pages,
     )
     headerfooterpath = hey.path.headerfooters(path)
-    headerfooter = serializeraw.load_headerfooter(headerfooterpath)
-
+    headerfooter = serializeraw.load_headerfooter(
+        headerfooterpath,
+        pages=pages,
+    )
     sizeandborderpath = hey.path.sizeandborder(path)
-    sizeandborder = serializeraw.load_pageborders(sizeandborderpath)
+    sizeandborder = serializeraw.load_pageborders(
+        sizeandborderpath,
+        pages=pages,
+    )
 
+    result = create_pagetextcontentnavigators(
+        navigators=navigators,
+        headerfooter=headerfooter,
+        sizeandborder=sizeandborder,
+        validate_leftright=validate_leftright,
+        pages=pages,
+    )
+    return result
+
+
+def create_pagetextcontentnavigators(
+        navigators,
+        headerfooter,
+        sizeandborder,
+        validate_leftright: bool = True,
+        pages: tuple = None,
+) -> PageTextContentNavigators:
     result = []
     for navigator in navigators:
+        if utila.should_skip(navigator.page, pages):
+            continue
         border = determine_border(headerfooter, sizeandborder, navigator.page)
         result.append(
             PageTextContentNavigator(
