@@ -24,10 +24,5 @@ def test_groupme_toc_strategy_geometry():
         headlines,
         active=active,
     )
-    print(grouped)
-    for items in grouped:
-        for item in items:
-            print(item)
-        print()
     current = [len(item) for item in grouped]
     assert current == expected
