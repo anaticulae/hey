@@ -34,6 +34,8 @@ import groupme.toc.strategy.regex as gtsr
 import hey.textnavigator.multiline as htm
 import hey.textnavigator.navigator as htn
 
+MIN_GROUP_GAP = 30.0  # TODO HOLY VALUE
+
 
 class GeometryRegexTocExtractor(gts.ExtractorStrategy):
 
@@ -53,12 +55,7 @@ def analyse_page(content: htn.PageTextNavigator):
     return result
 
 
-MIN_GROUP_GAP = 30.0  # TODO HOLY VALUE
-
-
 def group_areas(content: htn.PageTextNavigator):
-    # TODO: REMOVE AFTER FIXING PAGETEXTCONTENTNAVIGATOR
-    content = [item for item in content if len(item.text.split(' ')) >= 2]
     linedistances = htm.linedistances(content, noneatend=False)
     result = []
     grouped = []
