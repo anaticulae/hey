@@ -41,6 +41,5 @@ def test_groupme_toc_strategy_technial24():
     headlines = tft.technical24_toc()
 
     expected = [1, 1, 2, 7, 5, 1, 16, 1]
-
     grouped = gte.extract(headlines)
     assert len(grouped) == len(expected)

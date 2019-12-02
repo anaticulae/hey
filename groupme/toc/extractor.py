@@ -9,6 +9,7 @@
 
 import groupme.toc.decider
 import groupme.toc.strategy as gts
+import groupme.toc.strategy.geometry
 import groupme.toc.strategy.georegex
 import groupme.toc.strategy.regex
 

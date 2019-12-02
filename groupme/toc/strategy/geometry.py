@@ -10,10 +10,9 @@
 ====================================
 """
 
-import utila
-
-import groupme.toc.group as gtg
+import groupme.toc
 import groupme.toc.strategy as gts
+import groupme.utils
 import hey.textnavigator.fonts as htf
 import hey.textnavigator.navigator as htn
 
@@ -34,12 +33,11 @@ class GeometryTocExtractor(gts.ExtractorStrategy):
         for page in self.loaded.content:
             analyzed = analyse_page(page, feed)
             extracted.extend(analyzed)
-
         grouped = group_areas(extracted)
         import groupme.toc.strategy.georegex as gtsg
         content = [gtsg.parse_group(group) for group in grouped]
 
-        result = gts.ExtractionResult(content=content)
+        result = gts.ExtractionResult(content=content, invalid=[])
         return result
 
 

@@ -12,12 +12,15 @@ import dataclasses
 import typing
 
 import groupme.toc as gt
+import groupme.toc.group as gtg
+import groupme.utils
 import hey.textnavigator.navigator as htn
 
 
 @dataclasses.dataclass
 class ExtractionResult:
     content: typing.List[gt.TocLines] = dataclasses.field(default_factory=list)
+    invalid: typing.List[typing.Any] = dataclasses.field(default_factory=list)
 
     def __len__(self):
         return len(self.content)
@@ -44,7 +47,19 @@ class ExtractorStrategy(abc.ABC):
         pass
 
 
+def group(extracted: groupme.toc.TocLines) -> ExtractionResult:
+    right, invalid = groupme.utils.split(
+        extracted,
+        key=lambda x: isinstance(x, groupme.toc.TocLine),
+    )
+    content = gtg.group(right)
+
+    result = ExtractionResult(content=content, invalid=invalid)
+    return result
+
+
 def load(content: htn.PageTextContentNavigators) -> ExtractionData:
+    # TODO: RENAME TO CREATE?
     data = ExtractionData(content=content)
     return data
 

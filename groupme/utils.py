@@ -11,6 +11,8 @@ import contextlib
 
 import iamraw
 
+import hey.textnavigator.navigator as htn
+
 
 def count_textlines(page: iamraw.Page, remove_empty=False) -> int:
     """Iterate over `page`-content and extract textlines. If
@@ -25,6 +27,9 @@ def count_textlines(page: iamraw.Page, remove_empty=False) -> int:
     """
     # TODO: MOVE TO IAMRAW PACKAGE
     content = []
+    if htn.isnavigator(page):
+        return len([item for item in page if item.text.strip()])
+
     for item in page:
         with contextlib.suppress(AttributeError):
             content.extend([item.text for item in item.lines])

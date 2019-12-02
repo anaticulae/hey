@@ -10,24 +10,20 @@
 import contextlib
 import dataclasses
 
-import utila
-
 import groupme.toc
 
 
-def group(items):
-    # resolve groups to flat list
-    flat = utila.flatten(items)
-    while flat and not isinstance(flat[0], groupme.toc.TocLine):
-        flat = utila.flatten(flat)
-    pages = [item.page for item in flat]
-    # ensure correct page order
-    assert isascending(pages), pages
+def group(items: groupme.toc.TocLines):
+    # TODO: RENAME GROUPBY_LEVEL
+    assert isinstance(items, list), type(items)
+    for item in items:
+        assert isinstance(item, groupme.toc.TocLine), type(item)
+
     result = []
 
     current = None
     collected = []
-    for item in flat:
+    for item in items:
         level_ = level(item.level)
         if level_ is None or level_ != current:
             if collected:

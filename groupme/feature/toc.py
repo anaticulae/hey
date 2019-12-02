@@ -6,7 +6,15 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+"""Table of content extractor
+==========================
 
+Outdated approaches
+-------------------
+
+- collect title and check if sequence exists again in the document
+
+"""
 import typing
 
 import iamraw
@@ -16,24 +24,58 @@ import utila
 import groupme.feature
 import groupme.structure
 import groupme.toc
+import groupme.toc.extractor
+import groupme.toc.loader
+import groupme.toc.strategy
 import groupme.toc.strategy.regex as gtsr
 import groupme.utils
+import hey.textnavigator.navigator as htn
 import words.headlines
-"""
-Outdated approaches:
-
-  - collect title and check if sequence exists again in the document
-"""
 
 MIN_TOCS_PER_PAGE = 0.2  # TODO: HOLY VALUE
 
 
-def work(documentpath: str) -> str:
-    document = serializeraw.load_document(documentpath)
+def work(
+        text: str,
+        textpositions: str,
+        headerfooter: str,
+        sizeandborder: str,
+        pages: tuple = None,
+) -> str:
+    """Extract table of content out of `document`.
 
-    result = toc(document)
+    Args:
+        text(str): path to load document
+        textpositions(str): path to load document textpositions
+        headerfooter(str): path with header and footer to determine
+                           content border.
+        sizeandborder(str): path with page sizes and content border
+        pages(tuple): tuple of selected pages
+    Returns:
+        dump of extracted table of content
+    """
+    navigators = groupme.toc.loader.load(
+        text,
+        textpositions,
+        headerfooter,
+        sizeandborder,
+        pages=pages,
+    )
 
-    leveled = groupby_level(result)
+    selected = select_tocpages(navigators)
+    # select toc pages only
+    navigators = [item for item in navigators if item.page in selected]
+    # TODO: REPLACE WITH UTILA CODE
+    # navigators = utila.select_page(
+    #     navigators,
+    #     page=selected,
+    # )
+
+    loaded = groupme.toc.strategy.load(navigators)
+    extracted = groupme.toc.extractor.extract(loaded)
+
+    flat = utila.flatten(extracted.content)
+    leveled = groupby_level(flat)
 
     dumped = serializeraw.dump_toc(leveled)
     return dumped
@@ -46,29 +88,19 @@ LeveledTitle = typing.Tuple[Level, Title]
 LeveledTitles = typing.List[LeveledTitle]
 
 
-def toc(document: iamraw.Document):
-    """
-    # TODO: Include page distance!
-    # TODO: We need a more stable approach
-
-    Appraoch:
-        1. Extract potential headlines due groupme.toc.strategy.regex.parse_page
-        2. Use words.headlines.WHITELIST to judge headlines without level
-        3. Skip pages with to few extracted headlines `MIN_TOCS_PER_PAGE`
-    """
-    utila.call('toc')  # TODO: replace with logging decorator
-    result = []
-    for index, page in enumerate(document.pages):
-        utila.debug('page %d' % index)
-
+def select_tocpages(textnavigators: htn.PageTextNavigators) -> typing.List[int]:
+    """Use simple approach to decide which page is a toc page."""
+    selected = []
+    for page in textnavigators:
+        utila.debug('page: {page.page}')
         tocpage = gtsr.parse_page(page)
         if tocpage is None:
-            utila.log('empty page: %d' % index)
+            utila.log(f'empty page: {page.page}')
             continue
         tocpage = decide_non_level_possible_headlines(tocpage)
 
         if not tocpage:
-            # after filtering no toc line is left
+            # after filtering, no toc line is left
             continue
 
         pageslines = groupme.utils.count_textlines(page, remove_empty=True)
@@ -77,11 +109,8 @@ def toc(document: iamraw.Document):
             # avoid missdetection in random pages if only few lines are
             # missdetected as toc line.
             continue
-        result.extend(tocpage)
-
-    # if headline occurs on table of content and on page it occurs twive
-    result = groupme.toc.remove_duplication(result)
-    return result
+        selected.append(page.page)
+    return set(selected)
 
 
 def decide_non_level_possible_headlines(items):
@@ -179,9 +208,13 @@ def text_snippets(document: iamraw.Document):
 
 
 def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
+    assert isinstance(tableofcontent, list), type(tableofcontent)
+
     # TODO: MOVE TO SERIALIZERAW
 
     def determine_level(level):
+        if level is None:
+            return 0
         # 1. Einleitung
         # 1.1 Aufbau der Arbeit
         number = level.count('.')  # TODO: NOT VERY STABLE
@@ -193,6 +226,8 @@ def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
     for line in tableofcontent:
         if not line:
             utila.error(f'problem while processing lines: {line}')
+            continue
+        if not isinstance(line, groupme.toc.TocLine):
             continue
         level = determine_level(line.level)
         section = iamraw.Section(level=level, title=line.title)
