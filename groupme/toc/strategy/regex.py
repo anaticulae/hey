@@ -129,11 +129,15 @@ def parse_page(page: iamraw.Page) -> typing.List[groupme.toc.TocLine]:
     Hint:
         see `parse`
     """
-    lines = utila.flatten([
-        container for container in page
-        if isinstance(container, iamraw.TextContainer)
-    ])
-    lines = [item.text for item in lines]
+    if isinstance(page, iamraw.Page):
+        lines = utila.flatten([
+            container for container in page
+            if isinstance(container, iamraw.TextContainer)
+        ])
+        lines = [item.text for item in lines]
+    else:
+        # PageTextNavigator
+        lines = [item.text for item in page]
 
     # collect lines with dots
     # lines = [item for item in lines if item.count('.') > 4]
