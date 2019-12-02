@@ -95,7 +95,8 @@ def parse_group(items) -> groupme.toc.TocLines:
             continue
         result.append(parsed_item)
     if collected:
-        result.append(collected)
+        extracted = group_collection_and_parse(collected)
+        result.append(extracted)
     return result
 
 
