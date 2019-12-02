@@ -43,3 +43,18 @@ def between(bounding, ymin, ymax):
     top = ymin <= bounding.y0 <= ymax
     bottom = ymin <= bounding.y1 <= ymax
     return top and bottom
+
+
+def split(items, key=None):
+    # assert isinstance(key, callable), 'require callable'
+    matched = []
+    not_matched = []
+    if key is None:
+        return items[:]
+    for item in items:
+        if key(item):
+            matched.append(item)
+        else:
+            not_matched.append(item)
+
+    return matched, not_matched
