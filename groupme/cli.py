@@ -19,13 +19,6 @@ DESCRIPTION = 'TODO'
 
 WORKPLAN = [
     step(
-        'chapter',
-        inputs=[
-            ResultFile(producer='rawmaker', name='text_text'),
-        ],
-        output=('chapter',),
-    ),
-    step(
         'toc',
         inputs=[
             ResultFile(producer='rawmaker', name='text_text'),

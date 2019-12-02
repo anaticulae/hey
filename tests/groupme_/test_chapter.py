@@ -15,28 +15,12 @@ import pytest
 import serializeraw
 import utila
 
-import groupme.feature.chapter
 import groupme.structure
 import tests.resources
 # pylint: disable=unused-import
 from tests.fixtures.simple import simple_document
 from tests.fixtures.simple import simple_page_2
 from tests.fixtures.simple import simple_page_2_text_only
-
-
-def test_groupme_chapter_dump_and_load_chapter():
-    """Ensure that every section have an textbody"""
-    doc = utila.file_read(tests.resources.SIMPLE_ONELINE_TEXT)
-    doc = serializeraw.load_document(doc)
-
-    content = groupme.feature.chapter.chapters(doc)
-    assert len(content) == tests.resources.SIMPLE_TOC_LINES
-
-    dumped = serializeraw.dump_chapter(content)
-    assert dumped
-
-    loaded = serializeraw.load_chapter(dumped)
-    assert loaded == content
 
 
 def test_groupme_chapter_extract_page2(simple_page_2: iamraw.Page):  # pylint: disable=W0621
