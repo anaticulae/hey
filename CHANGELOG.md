@@ -2,6 +2,60 @@
 
 Every noteable change is logged here.
 
+## v1.13.0
+
+### Feature
+
+* add new table of content extraction approach (cbac8eedf3b7)
+* add method to create PageTextContentNavigators (8dbd1959a88b)
+* support parsing PageTextNavigator (57fba93d27e4)
+* add method to split container by key function (96ed405c2a6b)
+* add method to load data required by toc extractor (889ad053c49b)
+* remove outdated chapter extraction approach (58652631f616)
+* add geometric strategy to extract table of content (a81c1669ad04)
+* add method to determine text feed of document (0ac997b3a7b4)
+* add toc extraction decider strategy (03c21b5b5e8e)
+* return empty list if group empty list (12e33cfc20d3)
+* extend toc regex parser (fa2ac86e14c6)
+* disable checking content border to parse headlines correctly (c41e741c2ad5)
+* do not detect normal text as common-text-header (90918c8009a6)
+* add new header extraction strategy (887046fbb784)
+* use text as __repr__ for TextInfo to ease print debugging (07b02d85b48e)
+* extend line parser to parse bachelor111 toc correctly (5166b213c111)
+* extend toc-regex-strategy to support more pattern (afda1be76415)
+* add basic toc extractor strategy (25d1c065bcf3)
+* add AppendixLevel to support more toc lines (68d065abd652)
+* add method to group headlines depending on chapter (eae872622d31)
+* introduce regex text package to unify regex (8c4d9ba29b92)
+* add toc geometry strategy (47feea746c55)
+* extend regex headline parser (af0339c2f784)
+* add method to parse single headline (b5e8075826fa)
+* extend interface documentation (0f4052b246a9)
+* add parameter to control none-ending (4d83418fa288)
+* add method to create textcontentnavigator from path (ca81a8ae1fb6)
+* make textnavigator creation prefix-able (0f9be2129c50)
+
+### Fix
+
+* parse collect content at end of loop (6c318e0092cb)
+* do not shrink pages without header and footer (e106a93aa771)
+* ensure that sort_byposition sorts correctly (5778c535c04c)
+* fix PageTextContentNavigator to use header/footer to determine content (a3fabb733f2e)
+* fix FixedFooterStrategy (0b4e6da6d654)
+* do not use prefixed navigator data (69e5e57b57fc)
+* fix inserting check of text bounds (96f35c24c87e)
+
+### Documentation
+
+* extend interface documentation (868f6746bc91)
+* update doc string (36876ab907d3)
+* add link to concrete class (266b481d8f21)
+* add section for footer and header strategy (d7ea7a800965)
+* format structure and link unit test to design decision (75bda061b073)
+* improve navigation structure (8f6ec5f3c007)
+* link strategy classes to documentation (75c3e778f59c)
+* add basic groupme documentation structure (9ade279b8e13)
+
 ## v1.12.0
 
 ### Feature
