@@ -95,6 +95,7 @@ def create_todo_rawmaker(inpath, outpath):
             outpath,
             '--all --char_margin=5.0 --boxes_flow=1.0 --line_margin=0.3',
         ),
+        # TODO: move configuration to global var
     ]
     return result
 
