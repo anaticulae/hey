@@ -17,8 +17,7 @@ import iamraw.sections
 import serializeraw
 import utila
 
-import hey
-import sections.feature.whitepage
+import hey.utils
 import sections.path
 
 # features with lower trust are not excepted as detected feaute
@@ -272,7 +271,7 @@ def load_features(
     index = serializeraw.load_likelihood(index, pages=pages)
     title = serializeraw.load_likelihood(title, pages=pages)
     toc = serializeraw.load_likelihood(toc, pages=pages)
-    white = sections.feature.whitepage.load_whitepages(whitepage, pages=pages)
+    white = serializeraw.load_whitepages(whitepage, pages=pages)
 
     result = SectionsRequiredResources(
         chapter=chapter,

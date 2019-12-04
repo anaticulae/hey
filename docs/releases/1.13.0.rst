@@ -17,7 +17,7 @@ General
 
 * [x] Create rst documentation page for toc extraction concept
 
-* [ ] Move serialization to serializeraw
+* [x] Move serialization to serializeraw
 
 Structure
 ---------

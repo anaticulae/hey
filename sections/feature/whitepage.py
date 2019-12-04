@@ -28,14 +28,10 @@ required resources:
 
 import collections
 import enum
-import functools
 import typing
 
-import configo
 import iamraw
 import serializeraw
-import utila
-import yaml
 
 import hey.textnavigator.navigator
 import hey.utils
@@ -93,7 +89,7 @@ def work(
         navigators,
         headerfooters,
     )
-    dumped = dump_whitepages(extracted)
+    dumped = serializeraw.dump_whitepages(extracted)
     return dumped
 
 
@@ -146,43 +142,3 @@ def whitepage_value_to_percent(whitepage: WhitePage):
         # TODO: str comparison is not very consequent, but ok in the moment
         return 0.0
     return 1.0
-
-
-# TODO: MOVE TO SERIALIZERAW
-def dump_whitepages(pages) -> str:
-    """Dump list of dict"""
-    result = {}
-    if isinstance(pages, list):
-        pages = {item.page: item for item in pages}
-    for page, value in pages.items():
-        result[page] = value.content.name if value.content else None
-    return yaml.dump(result)
-
-
-@functools.lru_cache(configo.CACHE_SMALL)
-def load_whitepages(
-        content: str,
-        pages=None,
-) -> typing.List[WhitePage]:
-    """Load whitepages from `content`. Content can be a path or loaded
-    text data.
-
-    Args:
-        content(str): path or content of path
-        pages(list): do not load `pages` which are not passed
-    Returns:
-        list of loaded `WhitePage` type
-    """
-    content = utila.from_raw_or_path(content, ftype='yaml')
-    loaded = yaml.load(content, Loader=yaml.FullLoader)
-
-    result = []
-    for pagenumber, whitepage in loaded.items():
-        if utila.should_skip(pagenumber, pages):
-            continue
-        item = PageContentWhitepages(
-            page=pagenumber,
-            content=WhitePage[whitepage] if whitepage else None,
-        )
-        result.append(item)
-    return result

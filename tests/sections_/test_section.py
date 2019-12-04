@@ -67,7 +67,7 @@ def test_section_extract_sections_restructured(
     index = serializeraw.load_likelihood(restructured_index)
     title = serializeraw.load_likelihood(restructured_title)
     toc = serializeraw.load_likelihood(restructured_toc)
-    whitepage = sections.feature.whitepage.load_whitepages(restructured_whitepage) # yapf:disable
+    whitepage = serializeraw.load_whitepages(restructured_whitepage)
 
     loaded = sections.feature.section.SectionsRequiredResources(
         chapter=chapter,
@@ -112,7 +112,7 @@ def test_section_extract_sections_simple(
     index = serializeraw.load_likelihood(simple_index)
     title = serializeraw.load_likelihood(simple_title)
     toc = serializeraw.load_likelihood(simple_toc)
-    whitepage = sections.feature.whitepage.load_whitepages(simple_whitepage)
+    whitepage = serializeraw.load_whitepages(simple_whitepage)
 
     loaded = sections.feature.section.SectionsRequiredResources(
         chapter=chapter,

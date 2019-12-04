@@ -13,12 +13,9 @@ import tests.fixtures
 import tests.resources
 from sections.feature.whitepage import PageContentWhitepages
 from sections.feature.whitepage import WhitePage
-from sections.feature.whitepage import dump_whitepages
 from sections.feature.whitepage import extract_whitepages
-from sections.feature.whitepage import load_whitepages
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_pagetextnavigators
-from tests.resources import RESTRUCT_TEXT
 
 RESTRUCT_EXPECTED = [
     PageContentWhitepages(content=WhitePage.CONTENT, page=0),
@@ -54,7 +51,7 @@ RESTRUCT_EXPECTED = [
 def test_whitepages_extract(restructured_pagetextnavigators):  # pylint:disable=W0621
     navigators = restructured_pagetextnavigators
 
-    document = serializeraw.load_document(RESTRUCT_TEXT)
+    document = serializeraw.load_document(tests.resources.RESTRUCT_TEXT)
 
     headerfooters = tests.resources.headerfooters(tests.resources.RESTRUCT)
     headerfooters = serializeraw.load_headerfooter(headerfooters)
@@ -64,10 +61,3 @@ def test_whitepages_extract(restructured_pagetextnavigators):  # pylint:disable=
 
     # convert dict to list
     assert result == RESTRUCT_EXPECTED
-
-
-def test_whitepages_dump_and_load():
-    dumped = dump_whitepages(RESTRUCT_EXPECTED)
-    assert len(dumped) > 100, str(dumped)
-    loaded = load_whitepages(dumped)
-    assert loaded == RESTRUCT_EXPECTED
