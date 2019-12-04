@@ -46,6 +46,9 @@ Validation
 
     Validation will be executed in **decider**
 
+Code quality
+------------
+
 Before
 ~~~~~~
 
