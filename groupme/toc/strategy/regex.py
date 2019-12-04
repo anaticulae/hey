@@ -33,8 +33,8 @@ import utila
 
 import detector.parser
 import groupme.toc
+import groupme.toc.lineregex as gtl
 import groupme.toc.strategy as gts
-import hey.text.regex as htr
 
 
 class RegexTocExtractor(gts.ExtractorStrategy):
@@ -75,13 +75,13 @@ def parse(content: str) -> groupme.toc.TocLines:
     duplicated = content
     result = []
     for pattern in [
-            EXTENDED_PATTERN,
-            EXTENDED_PATTERN_LETTER,
-            DICTONARY,
-            NO_DOTS,
+            gtl.EXTENDED_PATTERN,
+            gtl.EXTENDED_PATTERN_LETTER,
+            gtl.DICTONARY,
+            gtl.NO_DOTS,
     ]:
         for line in re.finditer(pattern, content):
-            item = extract_match(line)
+            item = gtl.extract_match(line)
             result.append(item)
             # remove already match content to do not confuse lower strict
             # pattern
@@ -91,34 +91,19 @@ def parse(content: str) -> groupme.toc.TocLines:
     for line in [item for item in content.splitlines() if item.strip()]:
         if re.match(r'^\d', line):
             continue
-        matched = re.match(NO_LEVEL, line)
+        matched = re.match(gtl.NO_LEVEL, line)
         if not matched:
             continue
-        matched = extract_match(matched)
+        matched = gtl.extract_match(matched)
         result.append(matched)
 
     # remove duplications, which can occur when table of content is on the
-    # same page.
+    # same page as first headline.
     result = groupme.toc.remove_duplication(result)
 
     # Ensure that toc list is ordered by position on pdf page
     result = groupme.toc.sort_byposition(result, duplicated)
     return result
-
-
-def parse_line(line):
-    assert isinstance(line, str), type(line)
-    for pattern in [
-            EXTENDED_PATTERN,
-            EXTENDED_PATTERN_LETTER,
-            NO_DOTS,
-            NO_LEVEL,
-            DICTONARY,
-    ]:
-        matched = re.match(pattern, line)
-        if matched:
-            return extract_match(matched)
-    return None
 
 
 def parse_page(page: iamraw.Page) -> typing.List[groupme.toc.TocLine]:
@@ -148,105 +133,4 @@ def parse_page(page: iamraw.Page) -> typing.List[groupme.toc.TocLine]:
     # work
     result = parse(text)
 
-    return result
-
-
-LEVEL = r'(?P<level>(\d{1,2}\.)+\d{0,2})'
-LEVEL_DOTTED_OPTIONAL = r'(?P<level>(\d{1,2}\.?)+\d{0,2})'
-
-LEVEL_LETTER = r'(?P<level>(A|B|C|D)\.(\d{1,2}\.?)+\d{0,2})'
-
-TEXT = (
-    '(?P<text>'
-    fr'{htr.UC_NWS}'  # ensure that text does not start with whitespace
-    fr'{htr.UC_WS_NL}+?'
-    fr'{htr.UC_NWS}+?'  # ensure that text does not end with whitespace
-    ')')
-
-WHITESPACES = r'[ ]{1,5}'
-DOTTED = r'([ \.]{1,})'
-PAGE = r'(?P<page>\d+)'
-
-EXTENDED_PATTERN = re.compile(
-    ('^'
-     f'{LEVEL}'
-     f'{WHITESPACES}'
-     f'{TEXT}'
-     f'{DOTTED}'
-     f'{PAGE}'
-     '$'),
-    re.VERBOSE | re.MULTILINE | re.UNICODE,
-)
-
-EXTENDED_PATTERN_LETTER = re.compile(
-    ('^'
-     f'{LEVEL_LETTER}'
-     f'{WHITESPACES}'
-     f'{TEXT}'
-     f'{DOTTED}'
-     f'{PAGE}'
-     '$'),
-    re.VERBOSE | re.MULTILINE | re.UNICODE,
-)
-
-NO_DOTS = re.compile(
-    ('^'
-     f'{LEVEL_DOTTED_OPTIONAL}'
-     f'{WHITESPACES}'
-     f'{TEXT}'
-     f'{WHITESPACES}'
-     f'{PAGE}'
-     '$'),
-    re.VERBOSE | re.MULTILINE | re.UNICODE,
-)
-
-NO_LEVEL = re.compile(
-    ('^'
-     f'{TEXT}'
-     f'{DOTTED}'
-     f'{PAGE}'
-     '$'),
-    re.VERBOSE | re.UNICODE,
-)
-
-#  r'([ \.]{2,})'
-LIST = [
-    'A',
-    'Abbildungsverzeichnis',
-    'Anhang',
-    'Bildquellen',
-    'Glossar',
-    'Internetquellen',
-    'Listings',
-    'Literatur',
-    'Literaturverzeichnis',
-    'Tabellenverzeichnis',
-    r'Eidesstattliche\ Erklärung',
-]
-
-JOINED_LIST = '|'.join(LIST)
-
-DICTONARY = re.compile(
-    ('^'
-     f'(?P<text>({JOINED_LIST}))'
-     r'([ \.]{0,})'
-     f'{PAGE}'),
-    re.VERBOSE | re.UNICODE,
-)
-
-
-def extract_match(match: re.Match) -> groupme.toc.TocLine:
-    assert isinstance(match, re.Match), type(match)
-    level, title, page = None, match['text'], None
-    with contextlib.suppress(IndexError):
-        page = match['page']
-    with contextlib.suppress(IndexError):
-        level = match['level']
-
-    result = groupme.toc.TocLine(
-        level=level,
-        title=title,
-        page=page,
-        raw=detector.parser.extract_match(match),
-    )
     return result

@@ -1,0 +1,131 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2019 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+
+import contextlib
+import re
+
+import detector.parser
+import groupme.toc
+import hey.text.regex as htr
+
+
+def parse(line: str) -> groupme.toc.TocLine:
+    assert isinstance(line, str), type(line)
+    for pattern in [
+            EXTENDED_PATTERN,
+            EXTENDED_PATTERN_LETTER,
+            NO_DOTS,
+            NO_LEVEL,
+            DICTONARY,
+    ]:
+        matched = re.match(pattern, line)
+        if matched:
+            return extract_match(matched)
+    return None
+
+
+LEVEL = r'(?P<level>(\d{1,2}\.)+\d{0,2})'
+LEVEL_DOTTED_OPTIONAL = r'(?P<level>(\d{1,2}\.?)+\d{0,2})'
+
+LEVEL_LETTER = r'(?P<level>(A|B|C|D)\.(\d{1,2}\.?)+\d{0,2})'
+
+TEXT = (
+    '(?P<text>'
+    fr'{htr.UC_NWS}'  # ensure that text does not start with whitespace
+    fr'{htr.UC_WS_NL}+?'
+    fr'{htr.UC_NWS}+?'  # ensure that text does not end with whitespace
+    ')')
+
+WHITESPACES = r'[ ]{1,5}'
+DOTTED = r'([ \.]{1,})'
+PAGE = r'(?P<page>\d+)'
+
+EXTENDED_PATTERN = re.compile(
+    ('^'
+     f'{LEVEL}'
+     f'{WHITESPACES}'
+     f'{TEXT}'
+     f'{DOTTED}'
+     f'{PAGE}'
+     '$'),
+    re.VERBOSE | re.MULTILINE | re.UNICODE,
+)
+
+EXTENDED_PATTERN_LETTER = re.compile(
+    ('^'
+     f'{LEVEL_LETTER}'
+     f'{WHITESPACES}'
+     f'{TEXT}'
+     f'{DOTTED}'
+     f'{PAGE}'
+     '$'),
+    re.VERBOSE | re.MULTILINE | re.UNICODE,
+)
+
+NO_DOTS = re.compile(
+    ('^'
+     f'{LEVEL_DOTTED_OPTIONAL}'
+     f'{WHITESPACES}'
+     f'{TEXT}'
+     f'{WHITESPACES}'
+     f'{PAGE}'
+     '$'),
+    re.VERBOSE | re.MULTILINE | re.UNICODE,
+)
+
+NO_LEVEL = re.compile(
+    ('^'
+     f'{TEXT}'
+     f'{DOTTED}'
+     f'{PAGE}'
+     '$'),
+    re.VERBOSE | re.UNICODE,
+)
+
+#  r'([ \.]{2,})'
+LIST = [
+    'A',
+    'Abbildungsverzeichnis',
+    'Anhang',
+    'Bildquellen',
+    'Glossar',
+    'Internetquellen',
+    'Listings',
+    'Literatur',
+    'Literaturverzeichnis',
+    'Tabellenverzeichnis',
+    r'Eidesstattliche\ Erklärung',
+]
+
+JOINED_LIST = '|'.join(LIST)
+
+DICTONARY = re.compile(
+    ('^'
+     f'(?P<text>({JOINED_LIST}))'
+     r'([ \.]{0,})'
+     f'{PAGE}'),
+    re.VERBOSE | re.UNICODE,
+)
+
+
+def extract_match(match: re.Match) -> groupme.toc.TocLine:
+    assert isinstance(match, re.Match), type(match)
+    level, title, page = None, match['text'], None
+    with contextlib.suppress(IndexError):
+        page = match['page']
+    with contextlib.suppress(IndexError):
+        level = match['level']
+
+    result = groupme.toc.TocLine(
+        level=level,
+        title=title,
+        page=page,
+        raw=detector.parser.extract_match(match),
+    )
+    return result

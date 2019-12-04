@@ -11,6 +11,7 @@ import pytest
 import serializeraw
 
 import groupme.feature.toc
+import groupme.toc.lineregex
 import groupme.toc.strategy.regex as gtsr
 import tests
 
@@ -93,7 +94,7 @@ def test_extract_toc_line_whitespace_decision():
     assert not parsed, 'we do not want to support whitespaces'
 
 
-def test_groupme_toc_regex_parse_line():
+def test_groupme_toc_lineregex_parse():
     line = '2.2.3 Drahtlostechnologien fuer Nahbereichsnetzwerke (WPAN) 15'
-    parsed = gtsr.parse_line(line)
+    parsed = groupme.toc.lineregex.parse(line)
     assert parsed
