@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.13.2
+
+### Fix
+
+* enable to process all pages (e9cd3ee8c0e3)
+
 ## v1.13.1
 
 ### Feature
