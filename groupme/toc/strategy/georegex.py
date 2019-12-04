@@ -88,8 +88,7 @@ def parse_group(items) -> groupme.toc.TocLines:
                 result.append(extracted)
             else:
                 # log not parsed
-                utila.log('could not group and parse %s' % collected)
-                assert 0
+                utila.error('could not group and parse %s' % collected)
             collected = []
             continue
         result.append(parsed_item)
