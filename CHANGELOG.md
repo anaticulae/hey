@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v1.13.1
+
+### Feature
+
+* add example data generator for following data unit (4ab8f384305b)
+
+### Documentation
+
+* add missing headline to last release page (8c217b11dd59)
+
 ## v1.13.0
 
 ### Feature
