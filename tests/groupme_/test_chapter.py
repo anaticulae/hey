@@ -12,8 +12,6 @@ Test to group chapter out of text and and headlines.
 
 import iamraw
 import pytest
-import serializeraw
-import utila
 
 import groupme.structure
 import tests.resources

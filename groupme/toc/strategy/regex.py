@@ -23,15 +23,12 @@ Should we support following whitespaces?
 
     See: :class:`tests.groupme_.toc.test_regex.test_extract_toc_line_whitespace_decission`.
 """
-
-import contextlib
 import re
 import typing
 
 import iamraw
 import utila
 
-import detector.parser
 import groupme.toc
 import groupme.toc.lineregex as gtl
 import groupme.toc.strategy as gts

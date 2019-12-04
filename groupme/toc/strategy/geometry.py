@@ -10,9 +10,7 @@
 ====================================
 """
 
-import groupme.toc
 import groupme.toc.strategy as gts
-import groupme.utils
 import hey.textnavigator.fonts as htf
 import hey.textnavigator.navigator as htn
 

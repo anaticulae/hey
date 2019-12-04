@@ -7,8 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import pytest
-
 import groupme.toc.extractor as gte
 import tests.fixtures.tableofcontent as tft
 

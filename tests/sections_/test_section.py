@@ -12,7 +12,6 @@ import serializeraw
 
 import sections.creator
 import sections.feature.section
-import sections.feature.whitepage
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_chapter
 from tests.fixtures.restruct import restructured_index
