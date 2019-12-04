@@ -102,11 +102,6 @@ def extract_whitepages(
         navigators: typing.List[hey.textnavigator.navigator.PageTextNavigator],
         headerfooters,
 ):
-    """
-    Args:
-        headerfooters:
-            Position
-    """
     result = {}
     for pagenumber, (currentpage, navigator, headerfooter) in hey.utils.sync([
             document,

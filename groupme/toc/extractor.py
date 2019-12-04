@@ -8,16 +8,16 @@
 # =============================================================================
 
 import groupme.toc.decider
-import groupme.toc.strategy as gts
+import groupme.toc.strategy
 import groupme.toc.strategy.geometry
 import groupme.toc.strategy.georegex
 import groupme.toc.strategy.regex
 
 
 def extract(
-        data: gts.ExtractionData,
+        data: groupme.toc.strategy.ExtractionData,
         active: list = None,
-) -> gts.ExtractionResult:
+) -> groupme.toc.strategy.ExtractionResult:
     """Run various strategies to extract ``toc-lines`` out of given ``data``.
 
     Args:

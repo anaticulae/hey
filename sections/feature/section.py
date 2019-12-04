@@ -24,7 +24,7 @@ import sections.path
 # features with lower trust are not excepted as detected feaute
 MIN_FEATURE_TRUST = configo.HV_PERCENT_PLUS(default=40).value
 
-# multiple than one feature have this trust, acceppt all of them
+# more than one feature have this trust, acceppt all of them
 MULTIPLE_FEATURE_TRUST = configo.HV_PERCENT_PLUS(default=90).value
 
 

@@ -9,8 +9,8 @@
 """Store experimental code here"""
 
 import random
+import typing
 
-import iamraw
 import utila
 
 
@@ -32,13 +32,13 @@ def choose_random(items, count: int = 5) -> list:
     return items[0:count]
 
 
-def sync(iterators):
+def sync(iterators) -> typing.Tuple[int, typing.List]:
     """Generator to synchronize a list of PageContentIterators.
 
     Args:
-        iterator(list): list of `PageContent`-Iterators
+        iterators(list): list of `PageContent`-Iterators
     Yields:
-        pagenumber, (content of curent pagenumber...)
+        pagenumber: (content of current pagenumber...)
     """
     # TODO: NOT GOOD, BUT WORKS
     # reverse list to use as a stack with push and pop

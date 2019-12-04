@@ -208,9 +208,16 @@ def text_snippets(document: iamraw.Document):
 
 
 def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
-    assert isinstance(tableofcontent, list), type(tableofcontent)
+    """Create `iamraw.Toc` out of list of `groupme.toc.TocLine
 
-    # TODO: MOVE TO SERIALIZERAW
+    Determine level of toc line and replace it with determined int-level.
+
+    Args:
+        tableofcontent: extracted table of content.
+    Returns:
+        Table of content with replaced levels.`
+    """
+    assert isinstance(tableofcontent, list), type(tableofcontent)
 
     def determine_level(level):
         if level is None:
