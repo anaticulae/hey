@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.13.3
+
+### Fix
+
+* report toc extraction problem instead of failing with error (05d37409fbbf)
+
 ## v1.13.2
 
 ### Fix
