@@ -55,15 +55,26 @@ def generate(files: list, outpath: str, pages: str) -> list:
     return todo
 
 
-def create_job(src, dest, pages) -> str:
+def create_job(src: str, dest: str, pages: tuple = None) -> str:
+    """Create job to run required steps for next processing unit.
+
+    Args:
+        src: pdf file for processing
+        dest: output path to output folder
+        pages: shrink processing if given - if None process all pages
+    Returns:
+        Created process todo description.
+    """
     assert os.path.exists(src), str(src)
 
     oneline = dft.RAWMAKER_CONFIGURATION
     # TODO: USE A MORE GENERAL PLACE
     config = '--all --char_margin=5.0 --boxes_flow=1.0 --line_margin=0.3'
+
+    pages = f'--pages={pages}' if pages is not None else ''
     task = [
-        f'rawmaker -j 8 -i {src} -o {dest} {config} --pages={pages}',
-        f'rawmaker -j 8 -i {src} -o {dest} {oneline} --pages={pages}',
+        f'rawmaker -j 8 -i {src} -o {dest} {config} {pages}',
+        f'rawmaker -j 8 -i {src} -o {dest} {oneline} {pages}',
         f'groupme -i {dest} -o {dest}',
         f'sections -i {dest} -o {dest}',
         f'words -i {dest} -o {dest}',
