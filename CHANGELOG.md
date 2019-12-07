@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.13.4
+
+### Feature
+
+* add `raw` and `page` to have more data for decider/validator (a7fae9bde03e)
+
 ## v1.13.3
 
 ### Fix
