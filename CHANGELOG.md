@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.13.5
+
+### Feature
+
+* check if directory exists externally (1951cf5e46a1)
+
 ## v1.13.4
 
 ### Feature
