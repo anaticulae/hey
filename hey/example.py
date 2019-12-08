@@ -15,15 +15,28 @@ import utila
 import detector.feature.titlepage as dft
 
 
-def extract(files: list, destination: str, pages='0:10', worker=5):
-    if os.path.exists(destination):
-        return
+def extract(
+        files: list,
+        destination: str,
+        pages: str = '0:10',
+        worker: int = 5,
+):
+    """Run rawmaker, groupme, sections and words for given `files` and write
+    result to `destination`.
 
+    Args:
+        files(list): list of files to work on
+        destination(path): create folder for every file and save result
+        pages(str): range of selected pages
+        worker(int): number of threads to extract examples
+    Raises:
+        Exception: if Exception occurs while extracting file
+    """
     for pdf in files:
         assert pdf.endswith('.pdf') and os.path.exists(pdf), str(pdf)
 
     # ensure that generation directory exists
-    os.makedirs(destination)
+    os.makedirs(destination, exist_ok=True)
 
     def run_job(job: str):
         completed = utila.run(job)
