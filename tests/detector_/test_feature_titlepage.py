@@ -94,7 +94,11 @@ def test_detector_feature_titlepage_select_best():
     assert best == parsed[0], str(best)
 
 
-def test_detector_feature_titlepage_select_best_no_titlepage():
-    parsed = parse_titlepages(tr.TWINE_NO_TILE)
+@pytest.mark.parametrize('source', [
+    pytest.param(item, id=os.path.split(item)[1])
+    for item in tr.NO_TITLE_GENERATED
+])
+def test_detector_feature_titlepage_select_best_no_titlepage(source):
+    parsed = parse_titlepages(source)
     best = detector.titlepage.select_best(parsed)
     assert best is None, str(best)

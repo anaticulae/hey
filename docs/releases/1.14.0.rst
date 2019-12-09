@@ -10,7 +10,7 @@ Title page extractor
 
 * [x] add strategy to analyze first pages and decide which is the title page
 
-* [ ] extend juding unit to reduce miss detections
+* [x] extend juding unit to reduce miss detections
 
 Code quality
 ------------

@@ -72,6 +72,16 @@ def parse(text: PageTextNavigator) -> iamraw.TitlePage:
     return result
 
 
+def valid_titlepage(titlepage: iamraw.TitlePage) -> bool:
+    if titlepage is None:
+        return False
+    assert titlepage.title is None or titlepage.title.strip(
+    ) == titlepage.title, f'invalid parsing result "{titlepage.title}"'
+    if titlepage.title in ('Inhaltsverzeichnis', 'Inhalt', 'Content'):
+        return False
+    return True
+
+
 STRATEGY = [
     ('date', parse_date),
     ('thesis', parse_thesis),
