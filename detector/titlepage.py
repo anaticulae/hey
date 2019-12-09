@@ -20,6 +20,9 @@ def select_best(pages: typing.List[iamraw.TitlePage]) -> iamraw.TitlePage:
     pages = [
         item for item in pages if detector.parser.complete.valid_titlepage(item)
     ]
+    if not pages:
+        # no valid page
+        return None
     result = pages[0]
     current = rate(result)
     for item in pages[1:]:
