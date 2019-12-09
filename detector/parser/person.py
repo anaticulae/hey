@@ -171,7 +171,7 @@ MATCHES = {
     'Dr.-Ing.': Title.DR,
     'Dr.': Title.DR,
     'Prof.': Title.PROF,
-    r'\w+. ': Title.DR,
+    r'[a-zA-Z\-]+. ': Title.DR,
     # see general pattern above
     # 'Dr. rer. biol. hum.': Title.DR,
     # 'Dr. med.': Title.DR,
