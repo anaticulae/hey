@@ -35,6 +35,9 @@ def parse(raw: str) -> iamraw.Institution:
         institute=institute,
         university=university,
     )
+    if not any(results) and not university:
+        # No iamraw.Institution was parsed
+        return None, raw
     return result, raw
 
 
