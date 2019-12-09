@@ -15,6 +15,7 @@ import utila
 import detector
 import detector.feature.titlepage
 import hey
+import hey.example
 import tests.resources
 
 
@@ -35,6 +36,7 @@ PACKAGE = [
     (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT),
     (tests.resources.SIMPLE_PDF, tests.resources.SIMPLE),
     (tests.resources.TECHNICAL_24PAGES_PDF, tests.resources.TECHNICAL_24PAGES),
+    (tests.resources.TWINE_PDF, tests.resources.TWINE),
 ]
 
 
@@ -49,7 +51,7 @@ def run_package(pdf, outpath):
         f'{executable} -i {inpath} -o {outpath} {configuration}'
         for (executable, inpath, outpath, configuration) in todo
     ]
-    todo = ' && '.join(todo)
+    todo = ' && '.join(todo)  # pylint:disable=R0204
     completed = utila.run(todo)
     utila.assert_success(completed)
     return todo
@@ -62,6 +64,11 @@ def extract_examples():
     if os.path.exists(tests.resources.GENERATED):
         return
 
+    extract_standard()
+    extract_without_titlepage()
+
+
+def extract_standard():
     for pdf, _ in PACKAGE:
         assert pdf.endswith('.pdf') and os.path.exists(pdf), pdf
 
@@ -112,3 +119,20 @@ def create_todo_groupme(path):
         ('groupme', path, path, ''),
     ]
     return result
+
+
+def extract_without_titlepage():
+    destination = tests.resources.NO_TITLE
+    files = [
+        tests.resources.TWINE_PDF,
+        tests.resources.MASTER_72PAGES_PDF,
+    ]
+    without_titlepage = [
+        os.path.join(destination, f'{item}.pdf')
+        for item in hey.example.output_names(files)
+    ]
+    for inpath, outpath in zip(files, without_titlepage):
+        completed = utila.run(f'jam -i {inpath} -o {outpath} --remove=0')
+        assert completed.returncode == utila.SUCCESS, str(completed)
+
+    hey.example.extract(without_titlepage, destination, pages='0:20')

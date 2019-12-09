@@ -34,6 +34,7 @@ FOOTERS = 'groupme__footer_footerheader.yaml'
 # restruct
 
 GENERATED = os.path.join(RESOURCES, 'generated')
+NO_TITLE = os.path.join(GENERATED, 'notitle')
 
 RESTRUCT = os.path.join(GENERATED, 'restruct')
 RESTRUCT_BOXES = os.path.join(RESTRUCT, BOXES_BOXES)
@@ -105,6 +106,11 @@ TECHNICAL_24PAGES = os.path.join(GENERATED, 'technical_24pages')
 TECHNICAL_24PAGES_PDF = os.path.join(TECHNICAL, 'page_24_color_figures_images.pdf') # yapf:disable
 TECHNICAL_24PAGES_PAGE_COUNT = 24
 
+TWINE = os.path.join(GENERATED, 'twine')
+TWINE_PDF = os.path.join(DOCU, 'twine.pdf')
+
+TWINE_NO_TILE = os.path.join(NO_TITLE, 'docu_twine')
+
 HOWTO_ARGPARSE = os.path.join(GENERATED, 'howto_argparse')
 HOWTO_ARGPARSE_PDF = os.path.join(DOCU, 'howto_argparse.pdf')
 HOWTO_ARGPARSE_PAGE_COUNT = 14
@@ -162,6 +168,9 @@ REQURIED_RESOURCES = [
     SIMPLE_TOC,
     TECHNICAL_24PAGES,
     TECHNICAL_24PAGES_PDF,
+    TWINE,
+    TWINE_NO_TILE,
+    TWINE_PDF,
 ]
 
 
