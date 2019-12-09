@@ -7,3 +7,6 @@ configo==0.4.0
 rawmaker==1.6.11
 # reference to test data
 power==0.6.5
+
+# test data generator
+jam==0.1.0
