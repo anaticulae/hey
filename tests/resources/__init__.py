@@ -9,6 +9,7 @@
 import os
 
 import hey
+import hey.example
 
 RESOURCES = os.path.join(hey.ROOT, 'tests/resources')
 
@@ -116,6 +117,20 @@ HOWTO_ARGPARSE_PDF = os.path.join(DOCU, 'howto_argparse.pdf')
 HOWTO_ARGPARSE_PAGE_COUNT = 14
 
 MASTER_78PAGES_PDF = os.path.join(MASTER, 'page_78_images_toc.pdf')
+
+NO_TITLE_EXAMPLE = [
+    BACHELOR_111PAGES_PDF,
+    MASTER_72PAGES_PDF,
+    MASTER_78PAGES_PDF,
+    PYPORTING_PDF,
+    RESTRUCT_PDF,
+    SIMPLE_PDF,
+    TWINE_PDF,
+]
+NO_TITLE_GENERATED = [
+    os.path.join(NO_TITLE, item)
+    for item in hey.example.output_names(NO_TITLE_EXAMPLE)
+]
 
 REQURIED_RESOURCES = [
     BACHELOR_111PAGES,

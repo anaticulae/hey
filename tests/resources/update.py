@@ -123,15 +123,14 @@ def create_todo_groupme(path):
 
 def extract_without_titlepage():
     destination = tests.resources.NO_TITLE
-    files = [
-        tests.resources.TWINE_PDF,
-        tests.resources.MASTER_72PAGES_PDF,
-    ]
     without_titlepage = [
         os.path.join(destination, f'{item}.pdf')
-        for item in hey.example.output_names(files)
+        for item in hey.example.output_names(tests.resources.NO_TITLE_EXAMPLE)
     ]
-    for inpath, outpath in zip(files, without_titlepage):
+    for inpath, outpath in zip(
+            tests.resources.NO_TITLE_EXAMPLE,
+            without_titlepage,
+    ):
         completed = utila.run(f'jam -i {inpath} -o {outpath} --remove=0')
         assert completed.returncode == utila.SUCCESS, str(completed)
 

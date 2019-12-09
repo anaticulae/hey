@@ -11,6 +11,7 @@ import os
 
 import utila
 
+from tests.resources import NO_TITLE_GENERATED
 from tests.resources import REQURIED_RESOURCES
 from tests.resources.update import extract_examples
 from tests.resources.update import install_requirements
@@ -36,7 +37,9 @@ if not 'PYTEST_XDIST_WORKER' in os.environ:
         utila.log('extract resources')
         extract_examples()
 
-for item in REQURIED_RESOURCES:
+CHECK = REQURIED_RESOURCES + NO_TITLE_GENERATED
+
+for item in CHECK:
     advice = 'run `baw --test=generate` to generate test data'
     msg = f'required test path does not exists: {item}, {advice}'
     assert os.path.exists(item), msg
