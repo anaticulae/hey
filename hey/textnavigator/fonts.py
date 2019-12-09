@@ -169,6 +169,9 @@ def document_textdistance(
     """Determine the most common text distance"""
     result = []
     for _, (navigator, contentborder) in hey.utils.sync([navigators, borders]):
+        if not navigator:
+            # empty page
+            continue
         bounds = textbounds(navigator, contentborder.border)
         # ignore empty content
         bounds = [item.bounds for item in bounds if len(item.text)]

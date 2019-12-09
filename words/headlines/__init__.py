@@ -122,13 +122,10 @@ class HeadlineExtractorStrategy(abc.ABC):
         start, end = self.content[chapter]
         for page in range(start, end + 1):
             border = utila.select_page(self.border, page=page)
-            if not border:
+            textnavigator = utila.select_page(self.pagetextnavigators, page=page) # yapf:disable
+            if not border or not textnavigator:
                 # empty page
                 continue
-            textnavigator = utila.select_page(
-                self.pagetextnavigators,
-                page=page,
-            )
             pagecontent = htn.PageTextContentNavigator(
                 textnavigator,
                 border,
