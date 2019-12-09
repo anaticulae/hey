@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.13.6
+
+### Fix
+
+* fix problem with starting white page (2b2ab90677e6)
+
 ## v1.13.5
 
 ### Feature
