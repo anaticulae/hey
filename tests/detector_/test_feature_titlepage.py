@@ -16,7 +16,10 @@ import utila
 
 import detector.cli
 import detector.feature.titlepage
+import detector.titlepage
+import hey.textnavigator.navigator as htn
 import tests
+import tests.resources as tr
 
 
 def test_titlepage_parser():
@@ -77,3 +80,21 @@ def test_detector_feature_titlepage_complete(
     assert titlepage
 
     checker(titlepage)
+
+
+def parse_titlepages(path: str):
+    navigators = htn.create_pagetextnavigators_frompath(path)
+    parsed = detector.feature.titlepage.parse_titlepages(navigators)
+    return parsed
+
+
+def test_detector_feature_titlepage_select_best():
+    parsed = parse_titlepages(tr.MASTER_72PAGES)
+    best = detector.titlepage.select_best(parsed)
+    assert best == parsed[0], str(best)
+
+
+def test_detector_feature_titlepage_select_best_no_titlepage():
+    parsed = parse_titlepages(tr.TWINE_NO_TILE)
+    best = detector.titlepage.select_best(parsed)
+    assert best is None, str(best)

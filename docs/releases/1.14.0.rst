@@ -6,9 +6,9 @@ RP 1.14.0
 Title page extractor
 --------------------
 
-* [ ] don't let extractor fail if document starts with white page
+* [x] don't let extractor fail if document starts with white page
 
-* [ ] add strategy to analyze first pages and decide which is the title page
+* [x] add strategy to analyze first pages and decide which is the title page
 
 Code quality
 ------------

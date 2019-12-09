@@ -55,7 +55,7 @@ import serializeraw
 import utila
 
 import detector.parser.complete
-import hey.textnavigator.navigator
+import hey.textnavigator.navigator as htn
 
 # TODO: MOVE TO MORE GENERAL POSITION
 # TODO: check 0.1, use a higher number?
@@ -65,20 +65,41 @@ RAWMAKER_CONFIGURATION = ('--prefix=oneline '
                           '--char_margin=100.0 '
                           '--line_margin=0.1')
 
+# Include first 5 pages into TitlePage detection
+SELECTED_PAGES = tuple(range(5))  # TODO: HOLY VALUE
+
 
 def work(text: str, text_positions: str) -> str:
-    text = serializeraw.load_document(text, pages=0)
-    text_positions = serializeraw.load_textpositions(text_positions, pages=0)
+    text = serializeraw.load_document(text, pages=SELECTED_PAGES)
+    text_positions = serializeraw.load_textpositions(
+        text_positions,
+        pages=SELECTED_PAGES,
+    )
 
-    navigators = hey.textnavigator.navigator.create_pagetextnavigators(
+    navigators = htn.create_pagetextnavigators(
         text,
         text_positions,
     )
-    navigator = utila.select_page(navigators, page=0)
-    parsed = detector.parser.complete.parse(navigator)
 
-    dumped = serializeraw.dump_titlepage(parsed)
+    parsed = parse_titlepages(navigators)
+    import detector.titlepage  # TODO: MOVE TO PACKAGE LATER
+    best = detector.titlepage.select_best(parsed)
+
+    dumped = serializeraw.dump_titlepage(best)
     return dumped
+
+
+def parse_titlepages(navigators: htn.PageTextNavigators):
+    result = []
+    for index in SELECTED_PAGES:
+        navigator = utila.select_page(navigators, page=index)
+        if navigator is None:
+            # white page
+            parsed = None
+        else:
+            parsed = detector.parser.complete.parse(navigator)
+        result.append(parsed)
+    return result
 
 
 def name():
