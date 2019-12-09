@@ -89,9 +89,12 @@ def work(text: str, text_positions: str) -> str:
     return dumped
 
 
-def parse_titlepages(navigators: htn.PageTextNavigators):
+def parse_titlepages(
+        navigators: htn.PageTextNavigators,
+        selected=SELECTED_PAGES,
+):
     result = []
-    for index in SELECTED_PAGES:
+    for index in selected:
         navigator = utila.select_page(navigators, page=index)
         if navigator is None:
             # white page
