@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.14.1
+
+### Feature
+
+* reduce miss detection of title pages (ea5d24c098e5)
+
 ## v1.14.0
 
 ### Feature
