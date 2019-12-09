@@ -88,9 +88,9 @@ def create_job(src: str, dest: str, pages: tuple = None) -> str:
     task = [
         f'rawmaker -j 8 -i {src} -o {dest} {config} {pages}',
         f'rawmaker -j 8 -i {src} -o {dest} {oneline} {pages}',
-        f'groupme -i {dest} -o {dest}',
-        f'sections -i {dest} -o {dest}',
-        f'words -i {dest} -o {dest}',
+        f'groupme -j 8 -i {dest} -o {dest}',
+        f'sections -j 8 -i {dest} -o {dest}',
+        f'words -j 8 -i {dest} -o {dest}',
     ]
     todo = ' && '.join(task)
     return todo
