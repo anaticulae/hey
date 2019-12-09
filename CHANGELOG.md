@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v1.14.0
+
+### Feature
+
+* extend title page parser (ded7aff53250)
+
+### Fix
+
+* parse none existing institution as None (622f20f8113d)
+
 ## v1.13.6
 
 ### Fix
