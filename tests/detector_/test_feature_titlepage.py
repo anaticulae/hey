@@ -16,6 +16,7 @@ import utila
 
 import detector.cli
 import detector.feature.titlepage
+import detector.parser.complete
 import detector.titlepage
 import hey.textnavigator.navigator as htn
 import tests
@@ -102,3 +103,15 @@ def test_detector_feature_titlepage_select_best_no_titlepage(source):
     parsed = parse_titlepages(source)
     best = detector.titlepage.select_best(parsed)
     assert best is None, str(best)
+
+
+def test_detector_feature_titlepage_parse_titlepage_negative():
+    navigators = htn.create_pagetextnavigators_frompath(tr.MASTER_72PAGES)
+    max_pages = 50  # TODO: extend after improving parser
+    for index, navigator in enumerate(navigators[1:max_pages], start=1):
+        parsed = detector.feature.titlepage.parse_titlepages(
+            navigators=[navigator],
+            selected=[index],
+        )
+        selected = detector.titlepage.select_best(parsed)
+        assert not selected, str(f'page: {index}\n{selected}')
