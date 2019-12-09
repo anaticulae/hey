@@ -2,6 +2,17 @@
 
 Every noteable change is logged here.
 
+## v1.14.2
+
+### Feature
+
+* reduce example generation time due multi processing (25fb9aee9af6)
+
+### Fix
+
+* return None if no valid TitlePage can be selected (931d19ee3dc6)
+* ignore numbered invalid dr. title (1ad4fec582c9)
+
 ## v1.14.1
 
 ### Feature
