@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.14.3
+
+### Feature
+
+* add method to determine toc output path (16e7c42cfca4)
+
 ## v1.14.2
 
 ### Feature
