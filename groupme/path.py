@@ -26,3 +26,12 @@ def headerfooters(path: str, prefix: str = '') -> str:
         'footer_footerheader',
         prefix,
     )
+
+
+def toc(path: str, prefix: str = '') -> str:
+    return hey.path.pathconnector(
+        path,
+        'groupme',
+        'toc_toc',
+        prefix,
+    )
