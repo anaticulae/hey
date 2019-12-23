@@ -17,16 +17,19 @@ from groupme import __version__
 
 DESCRIPTION = 'TODO'
 
+TOC_STEP = 'toc'
+TOC_OUTPUT = 'toc'
+
 WORKPLAN = [
     step(
-        'toc',
+        TOC_STEP,
         inputs=[
             ResultFile(producer='rawmaker', name='text_text'),
             ResultFile(producer='rawmaker', name='text_positions'),
             ResultFile(producer='groupme', name='footer_footerheader'),
             ResultFile(producer='rawmaker', name='border_pages'),
         ],
-        output=('toc',),
+        output=(TOC_OUTPUT,),
     ),
     step(
         'pagenumbers',
