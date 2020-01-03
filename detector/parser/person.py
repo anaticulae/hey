@@ -62,10 +62,13 @@ def parse_person_without_title(raw: str) -> iamraw.Person:
     """
     raw = raw.strip()
 
+    # TODO: Keep attention to the list below. Refactor later
     preamble = [
-        r'vorgelegt von',
         r'Erstprüfer',  # TODO: Remove this later
+        r'Verfasserin',
+        r'Verfasser',
         r'Zweitprüfer',
+        r'vorgelegt von',
     ]
     preamble = '(' + '|'.join(
         fr'(?P<t{index}>{item})' for index, item in enumerate(preamble)) + ')'
@@ -223,7 +226,8 @@ def extract_title(result):
 def author_or_examiner(raw: str) -> Title:
     raw = raw.lower()
 
-    author = ['vorgelegt']
+    # Hint: add items as lower case
+    author = ['vorgelegt', 'verfasser']
     if any([item in raw for item in author]):
         return Title.STUDENT
 

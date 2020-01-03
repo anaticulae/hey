@@ -107,6 +107,15 @@ KAHN = iamraw.Person(
         ),
     ),
     (
+        '   Verfasserin: Tina Tomate  ',
+        iamraw.Person(
+            Title.STUDENT,
+            'Tomate',
+            'Tina',
+            'Verfasserin: Tina Tomate',
+        ),
+    ),
+    (
         'Zweitgutachter: Dipl.-Medienberater Stephan Frühwirt',
         iamraw.Person(
             Title.MASTER,
