@@ -72,7 +72,7 @@ def test_groupme_footer_dump_and_load(
     'strategy, expected_results',
     [
         (gfs.moving.MovingFooterStrategy, 0),
-        (gfs.fixed.FixedFooterStrategy, 26),  # TODO: CHECK 26 yapf:disable
+        (gfs.fixed.FixedFooterStrategy, 25),  # TODO: CHECK 25 yapf:disable
         (gfs.pages.PageNumberStrategy, 0),
     ])
 def test_groupme_footer_footerheader_detectionstategy(
