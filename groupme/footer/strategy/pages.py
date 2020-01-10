@@ -38,6 +38,9 @@ class PageNumberStrategy(gfs.FooterHeaderDetectionStrategy):
             right = self.process_pageside(self.pagenumbers[1])
             result.extend(left)
             result.extend(right)
+            # order pages by pdf raw page, this is required of merging
+            # left and right side
+            result = sorted(result, key=lambda item: item.page)
         else:
             result = self.process_pageside(self.pagenumbers)
         return result
