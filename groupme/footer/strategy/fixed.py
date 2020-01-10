@@ -182,6 +182,10 @@ def extract_page_footerheader(
                 end=hey.textnavigator.navigator.END,
             )
 
+        if header is None and footer is None:
+            # no matching horizontals
+            continue
+
         footer_header = iamraw.PageContentFooterHeader(
             header=header,
             footer=footer,

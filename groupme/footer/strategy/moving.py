@@ -63,6 +63,8 @@ class MovingFooterStrategy(gfs.FooterHeaderDetectionStrategy):
                 sizeandborder=sizeandborder,
                 pagetextnavigator=pagetextnavigator,
             )
+            if processed.footer is None and processed.header is None:
+                continue
             result.append(processed)
 
         result = judge_detection(result)
