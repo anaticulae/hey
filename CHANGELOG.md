@@ -2,6 +2,8 @@
 
 Every noteable change is logged here.
 
+## v1.14.8
+
 ## v1.14.7
 
 ### Feature
