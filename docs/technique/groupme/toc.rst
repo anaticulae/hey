@@ -9,7 +9,7 @@ Tyes
 Dotted
 ~~~~~~
 
-The are two types of dotted tocs. One with and one without dots between
+They are two types of dotted tocs. One with and one without dots between
 the section title and the section page.
 
 Level
