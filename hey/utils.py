@@ -40,6 +40,11 @@ def sync(iterators) -> typing.Tuple[int, typing.List]:
     Yields:
         pagenumber: (content of current pagenumber...)
     """
+    # ensure to have sorted iterators
+    for index, iterator in enumerate(iterators):
+        pages = [page(item) for item in iterator]
+        assert sorted([page(item) for item in iterator]) == pages,\
+                                      f'iter: {index} is not sorted: {iterator}'
     # TODO: NOT GOOD, BUT WORKS
     # reverse list to use as a stack with push and pop
     copy = [list(reversed(list(item))) for item in iterators]
