@@ -2,6 +2,24 @@
 
 Every noteable change is logged here.
 
+## v1.14.7
+
+### Feature
+
+* add method to ensure unique pages (e4441d39b3b1)
+* do not process item without and header and footer (14686d862514)
+* ensure that extract gets sorted pages and produces sorted results (2c1f66572a78)
+* ensure that sync gets sorted iterators (a187810d7384)
+* extend person parser (f11716ac2816)
+
+### Fix
+
+* create correct pytest test names with forward slashs (bbdd916e41eb)
+* sort results by page (79ddbffd1a9b)
+* fix test after removing duplicates (b0b886828f28)
+* fix pages extract to ensure sorted pages (64d12ce3c693)
+* fix strategy selector (98dcf430015e)
+
 ## v1.14.6
 
 ### Documentation
