@@ -66,6 +66,21 @@ def extract_examples():
 
     extract_standard()
     extract_without_titlepage()
+    extract_single()
+
+
+def extract_single():
+    todo = create_todo_rawmaker(
+        tests.resources.BACHELOR_56PAGES_PDF,
+        tests.resources.BACHELOR_56PAGES,
+    )
+    todo = [
+        f'{executable} -i {inpath} -o {outpath} {configuration}'
+        for (executable, inpath, outpath, configuration) in todo
+    ]
+    todo = ' && '.join(todo)  # pylint:disable=R0204
+    completed = utila.run(todo)
+    utila.assert_success(completed)
 
 
 def extract_standard():

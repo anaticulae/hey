@@ -96,6 +96,12 @@ PYPORTING_TOC = os.path.join(PYPORTING, TOC)
 PYPORTING_CHAPTER_COUNT = 6
 PYPORTING_PDF = os.path.join(DOCU, 'porting_extension_modules.pdf')
 
+BACHELOR_56PAGES = os.path.join(GENERATED, 'page_56_hard_to_read')
+BACHELOR_56PAGES_PDF = os.path.join(BACHELOR, 'page_56_hard_to_read.pdf')
+
+BACHELOR_63PAGES = os.path.join(GENERATED, 'page_63_images_toc')
+BACHELOR_63PAGES_PDF = os.path.join(BACHELOR, 'page_63_images_toc.pdf')
+
 MASTER_72PAGES = os.path.join(GENERATED, 'page_72_noimages_toc')
 MASTER_72PAGES_PDF = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
 
@@ -135,6 +141,10 @@ NO_TITLE_GENERATED = [
 REQURIED_RESOURCES = [
     BACHELOR_111PAGES,
     BACHELOR_111PAGES_PDF,
+    BACHELOR_56PAGES,
+    BACHELOR_56PAGES_PDF,
+    # BACHELOR_63PAGES, TODO: ENABLE LATER
+    BACHELOR_63PAGES_PDF,
     HOWTO_ARGPARSE,
     HOWTO_ARGPARSE_PDF,
     MASTER_72PAGES,
