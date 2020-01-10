@@ -22,6 +22,7 @@ import groupme.footer.strategy.common
 import groupme.footer.strategy.fixed
 import groupme.footer.strategy.moving
 import groupme.footer.strategy.pages
+import groupme.utils
 import hey.textnavigator
 import hey.textnavigator.navigator
 import hey.utils
@@ -62,6 +63,7 @@ def work(
         pagetextnavigators=pagetextnavigators,
     )
 
+    groupme.utils.validate(result)
     # dump
     dumped = serializeraw.dump_headerfooter(result)
     return dumped
@@ -89,7 +91,6 @@ def extract_footerheader(
             pagetextnavigators=pagetextnavigators,
         ).result() for strategy in strategies
     ]
-
     result = judge_strategy(results)
     return result
 
@@ -140,6 +141,11 @@ def judge_strategy(
             page=pagenumber,
         )
         result.append(current)
+
+    page_order = [item.page for item in result]
+    assert sorted(
+        page_order
+    ) == page_order, f'require ascending pages order, got: {page_order}'
     return result
 
 
