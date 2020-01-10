@@ -160,7 +160,7 @@ def words_result(sections_result):  # pylint:disable=W0621
 
     files = [
         ('words__word_result.yaml', 2000),
-        ('words__headlines_headlines.yaml', 400),
+        ('words__headlines_headlines.yaml', 380),
     ]
     for item, expected_length in files:
         path = os.path.join(wordspath, item)

@@ -88,7 +88,9 @@ def decide_multiple(items):
                 selected[item.page] = item
         except KeyError:
             selected[item.page] = item
-    return [item for item in selected.values()]
+    result = [item for item in selected.values()]
+    result = sorted(result, key=lambda x: x.page)
+    return result
 
 
 def extract_common_footer(
