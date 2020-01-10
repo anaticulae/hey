@@ -140,12 +140,7 @@ def remove_duplication(items):
     for item in items:
         source[item.page].append(item)
 
-    result = []
-    for values in source.values():
-        if len(values) == 1:
-            result.append(values)
-            continue
-        result.append(multijudgement(values))
+    result = [multijudgement(item) for item in source.values()]
 
     result = sorted(result, key=lambda x: x.page)
     return result
