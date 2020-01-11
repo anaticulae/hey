@@ -57,7 +57,7 @@ def run_package(pdf, outpath):
     return todo
 
 
-WORKER = 5
+WORKER = 8
 
 
 def extract_examples():
