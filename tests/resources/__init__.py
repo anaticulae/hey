@@ -107,6 +107,9 @@ BACHELOR_63PAGES_PDF = os.path.join(BACHELOR, 'page_63_images_toc.pdf')
 MASTER_72PAGES = os.path.join(GENERATED, 'page_72_noimages_toc')
 MASTER_72PAGES_PDF = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
 
+MASTER_89PAGES = os.path.join(GENERATED, 'page_89_noimages_toc')
+MASTER_89PAGES_PDF = os.path.join(MASTER, 'page_89_noimages_toc.pdf')
+
 BACHELOR_111PAGES = os.path.join(GENERATED, 'page_111_images_toc')
 BACHELOR_111PAGES_PDF = os.path.join(BACHELOR, 'page_111_images_toc.pdf')
 BACHELOR_111PAGES_PAGE_COUNT = 111
@@ -152,6 +155,8 @@ REQURIED_RESOURCES = [
     MASTER_72PAGES,
     MASTER_72PAGES_PDF,
     MASTER_78PAGES_PDF,
+    MASTER_89PAGES,
+    MASTER_89PAGES_PDF,
     PYPORTING,
     PYPORTING_FONT_CONTENT,
     PYPORTING_FONT_HEADER,

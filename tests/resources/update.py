@@ -69,11 +69,8 @@ def extract_examples():
     extract_single()
 
 
-def extract_single():
-    todo = create_todo_rawmaker(
-        tests.resources.BACHELOR_56PAGES_PDF,
-        tests.resources.BACHELOR_56PAGES,
-    )
+def run_single(pdf, dest):
+    todo = create_todo_rawmaker(pdf, dest)
     todo = [
         f'{executable} -i {inpath} -o {outpath} {configuration}'
         for (executable, inpath, outpath, configuration) in todo
@@ -81,6 +78,26 @@ def extract_single():
     todo = ' && '.join(todo)  # pylint:disable=R0204
     completed = utila.run(todo)
     utila.assert_success(completed)
+    return todo
+
+
+def extract_single():
+    plan = [
+        (tests.resources.BACHELOR_56PAGES_PDF,
+         tests.resources.BACHELOR_56PAGES),
+        (tests.resources.MASTER_89PAGES_PDF, tests.resources.MASTER_89PAGES),
+    ]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER) as executor:
+        futures = {
+            executor.submit(run_single, pdf, out): pdf for pdf, out in plan
+        }
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                comment = future.result()
+                utila.info(comment)
+            except Exception:
+                utila.info(f'{future} failed.')
+                raise
 
 
 def extract_standard():
