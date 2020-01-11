@@ -17,9 +17,10 @@ import tests.resources
 @pytest.mark.parametrize('cmd', [
     ['--help'],
     ['-i', tests.resources.MASTER_72PAGES, '-o', 'output'],
+    ['-i', tests.resources.MASTER_89PAGES, '-o', 'output'],
+    ['-i', tests.resources.PYPORTING, '-o', 'output'],
     ['-i', tests.resources.RESTRUCT, '-o', 'output'],
     ['-i', tests.resources.SIMPLE, '-o', 'output'],
-    ['-i', tests.resources.PYPORTING, '-o', 'output'],
 ])
 @pytest.mark.usefixtures('testdir')
 @utila.skip_longrun
