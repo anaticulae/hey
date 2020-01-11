@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.14.9
+
+### Fix
+
+* log page validations and do not let application fail (3914fcf2bde3)
+
 ## v1.14.8
 
 ## v1.14.7
