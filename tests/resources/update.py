@@ -83,9 +83,15 @@ def run_single(pdf, dest):
 
 def extract_single():
     plan = [
-        (tests.resources.BACHELOR_56PAGES_PDF,
-         tests.resources.BACHELOR_56PAGES),
+        (
+            tests.resources.BACHELOR_56PAGES_PDF,
+            tests.resources.BACHELOR_56PAGES,
+        ),
         (tests.resources.MASTER_89PAGES_PDF, tests.resources.MASTER_89PAGES),
+        (
+            tests.resources.HOWTO_WRITE_PAGE9_PDF,
+            tests.resources.HOWTO_WRITE_PAGE9,
+        ),
     ]
     with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER) as executor:
         futures = {

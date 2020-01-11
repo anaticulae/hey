@@ -19,6 +19,7 @@ BACHELOR = os.path.join(RESOURCES, 'bachelor')
 DOCU = os.path.join(RESOURCES, 'docu')
 MASTER = os.path.join(RESOURCES, 'master')
 TECHNICAL = os.path.join(RESOURCES, 'technical')
+ORDER = os.path.join(RESOURCES, 'order')
 
 BOXES_BOXES = 'rawmaker__boxes_boxes.yaml'
 FONTS_CONTENT = 'rawmaker__fonts_content.yaml'
@@ -127,6 +128,9 @@ HOWTO_ARGPARSE = os.path.join(GENERATED, 'howto_argparse')
 HOWTO_ARGPARSE_PDF = os.path.join(DOCU, 'howto_argparse.pdf')
 HOWTO_ARGPARSE_PAGE_COUNT = 14
 
+HOWTO_WRITE_PAGE9 = os.path.join(GENERATED, 'howtowrite_pages9')
+HOWTO_WRITE_PAGE9_PDF = os.path.join(ORDER, 'howtowrite_pages9.pdf')
+
 MASTER_78PAGES_PDF = os.path.join(MASTER, 'page_78_images_toc.pdf')
 
 NO_TITLE_EXAMPLE = [
@@ -152,6 +156,8 @@ REQURIED_RESOURCES = [
     BACHELOR_63PAGES_PDF,
     HOWTO_ARGPARSE,
     HOWTO_ARGPARSE_PDF,
+    HOWTO_WRITE_PAGE9,
+    HOWTO_WRITE_PAGE9_PDF,
     MASTER_72PAGES,
     MASTER_72PAGES_PDF,
     MASTER_78PAGES_PDF,
