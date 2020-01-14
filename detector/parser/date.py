@@ -15,13 +15,13 @@ TODO:
     Refactor and think about new concept
 """
 
-from calendar import weekday
-from functools import partial
-from re import search as re_search
+import calendar
+import functools
+import re
 
 import iamraw
 
-from detector.parser import extract_match
+import detector.parser
 
 
 def parse(raw: str) -> iamraw.TitleDate:
@@ -35,7 +35,7 @@ def parse(raw: str) -> iamraw.TitleDate:
 
     # Require different regex
     # Judge function to decide when having multiple results
-    simple_alpha_date_month_first = partial(
+    simple_alpha_date_month_first = functools.partial(
         simple_alpha_date,
         month=MONTH_ENG,
         pattern=SIMPLE_ALPHA_DATE_MONTH_FIRST,
@@ -47,7 +47,9 @@ def parse(raw: str) -> iamraw.TitleDate:
         simple_alpha_date_month_first,
         simple_month_year_date,
         simple_date,
-    ] + [partial(simple_alpha_date, reduce=index) for index in range(7)]
+    ] + [
+        functools.partial(simple_alpha_date, reduce=index) for index in range(7)
+    ]
 
     parsed = [parser(raw) for parser in pattern]
 
@@ -61,7 +63,7 @@ def parse(raw: str) -> iamraw.TitleDate:
 
 def validate_date(year, month, day):
     try:
-        weekday(year, month, day)
+        calendar.weekday(year, month, day)
     except ValueError:
         return False
     return True
@@ -116,7 +118,7 @@ LOCATION_COMMA_DAY_MONTH_YEAR = r'(?P<location>\w+), (den ){0,1}('\
 
 
 def simple_date(raw):
-    res = re_search(SIMPLE_DATE, raw)
+    res = re.search(SIMPLE_DATE, raw)
     if not res:
         return None
     res = res.groups()
@@ -159,11 +161,11 @@ def simple_alpha_date(
     changed_pattern = str(pattern)
     for key, value in month_match.items():
         changed_pattern = changed_pattern.replace(value, key)
-    res = re_search(changed_pattern, raw)
+    res = re.search(changed_pattern, raw)
     if not res:
         return None
 
-    matched = extract_match(res)
+    matched = detector.parser.extract_match(res)
     day = int(res['day'])
     collected = month_match[res['month']]
     month_ = month.index(collected) + 1
@@ -181,7 +183,7 @@ def simple_alpha_date(
 
 
 def simple_month_year_date(raw):
-    res = re_search(SIMPLE_MONTH_YEAR, raw)
+    res = re.search(SIMPLE_MONTH_YEAR, raw)
     if not res:
         return None
     res = res.groups()
@@ -200,7 +202,7 @@ def simple_month_year_date(raw):
 
 
 def location_comman_day_month_year(raw):
-    res = re_search(LOCATION_COMMA_DAY_MONTH_YEAR, raw)
+    res = re.search(LOCATION_COMMA_DAY_MONTH_YEAR, raw)
     if not res:
         return None
     location = res['location']
