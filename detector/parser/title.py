@@ -6,7 +6,11 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+"""Title page parser
+=================
 
+TODO: Introduce multiple extraction strategies
+"""
 import enum
 import math
 
