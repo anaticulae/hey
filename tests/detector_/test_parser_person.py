@@ -71,6 +71,15 @@ KAHN = iamraw.Person(
         ),
     ),
     (
+        'Hochschullehrer: Prof.-Dr.-Ing. Clemens Gühmann',
+        iamraw.Person(
+            PROF_DR,
+            'Gühmann',
+            'Clemens',
+            'Hochschullehrer: Prof.-Dr.-Ing. Clemens Gühmann',
+        ),
+    ),
+    (
         '2. Betreuer: Dr.-Ing. Dirk Contemporary',
         iamraw.Person(
             Title.DR,

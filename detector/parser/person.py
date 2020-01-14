@@ -173,6 +173,8 @@ MATCHES = {
     'M.Sc.': Title.MASTER,
     'Dr.-Ing.': Title.DR,
     'Dr.': Title.DR,
+    # TODO: ADD GENERAL -/RULE?
+    'Prof.-': Title.PROF,
     'Prof.': Title.PROF,
     r'[a-zA-Z\-]+. ': Title.DR,
     # see general pattern above
