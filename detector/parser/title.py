@@ -8,6 +8,7 @@
 # =============================================================================
 
 import enum
+import math
 
 import utila
 
@@ -39,10 +40,9 @@ def parse(textnavigator: hey.textnavigator.navigator.PageTextNavigator) -> str:
         - size(headline) 120% of next line
         - title greater than `MIN_TITLE_FONT_SIZE`
     """
-    sizes = []
-    for item in textnavigator:
-        fontsize = hey.textnavigator.style.TextStyle.textsizes(item.style)
-        sizes.append((fontsize, item.text))
+
+    merged = merge(textnavigator)
+    sizes = determine_sizes(merged)
 
     if len(sizes) <= 2:
         return TitleParserState.NOT_ENOUGH_LINES
@@ -51,7 +51,6 @@ def parse(textnavigator: hey.textnavigator.navigator.PageTextNavigator) -> str:
 
     detected_size = sizes[0][0]
     next_size = sizes[1][0]
-
     # Title size must be 20% greater
     if detected_size * 0.8 <= next_size:
         msg = ('title-detector: next following text font is to close: '
@@ -65,3 +64,38 @@ def parse(textnavigator: hey.textnavigator.navigator.PageTextNavigator) -> str:
     title = sizes[0][1].replace(utila.NEWLINE, ' ')
     title = title.strip()
     return title
+
+
+def merge(items):
+    if not items:
+        return []
+    max_distance = 20  # TODO HOLY VALUE
+    max_font_distance = 0.5  # TODO HOLY VALUE
+    merged = [[items[0]]]
+    for item in items[1:]:
+        last = merged[-1][-1]
+        distance = item.bounding[1] - last.bounding[3]
+        split = any([
+            distance > max_distance,
+            fontdistance(last, item) > max_font_distance
+        ])
+        if split:
+            merged.append([item])
+        else:
+            merged[-1].append(item)
+    return merged
+
+
+def determine_sizes(merged):
+    result = []
+    for group in merged:
+        size = hey.textnavigator.style.TextStyle.textsizes(group[0].style)
+        text = '\n'.join([item.text for item in group])
+        result.append((size, text))
+    return result
+
+
+def fontdistance(first, second) -> float:
+    first = hey.textnavigator.style.TextStyle.textsizes(first.style)
+    second = hey.textnavigator.style.TextStyle.textsizes(second.style)
+    return math.fabs(first - second)
