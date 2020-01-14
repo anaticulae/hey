@@ -61,7 +61,6 @@ def parse_person_without_title(raw: str) -> iamraw.Person:
         so. Therefore we have to mark it later as an error.
     """
     raw = raw.strip()
-
     # TODO: Keep attention to the list below. Refactor later
     preamble = [
         r'Erstprüfer',  # TODO: Remove this later
@@ -72,10 +71,10 @@ def parse_person_without_title(raw: str) -> iamraw.Person:
     ]
     preamble = '(' + '|'.join(
         fr'(?P<t{index}>{item})' for index, item in enumerate(preamble)) + ')'
-    between = r'[:]?[ ]{0,8}'
-    name = r'(?P<names>(\w+\s{0,5}){1,5})'
-
+    between = r'[:]?[\s ]{0,8}'
+    name = r'(?P<names>(\w+[ ]{0,5}){1,5})\b'
     pattern = re.compile(preamble + between + name, re.IGNORECASE)
+
     matched = re.search(pattern, raw)
     if not matched:
         return None
@@ -83,7 +82,6 @@ def parse_person_without_title(raw: str) -> iamraw.Person:
     firstname, name = firstname.strip(), name.strip()
 
     title = author_or_examiner(raw)
-
     result = iamraw.Person(
         title=title,
         name=name,
@@ -109,10 +107,26 @@ def parse_all(items):
             parsed = parse(line)
             if not parsed:
                 rest.append(line)
+                # check area to parse more than one line
+                area = lookbehind(rest)
+                if area is not None:
+                    persons.append(area[0])
+                    rest = area[1]
+                    continue
                 continue
             rest.append(line.replace(parsed.raw, ''))
             persons.append(parsed)
     return persons, rest
+
+
+def lookbehind(rest):
+    complete = '\n'.join(rest)
+    parsed = parse(complete)
+    if not parsed:
+        return None
+    complete = complete.replace(parsed.raw, '')
+    rest = [item for item in complete.splitlines() if item.strip()]
+    return parsed, rest
 
 
 def order_persons(persons):

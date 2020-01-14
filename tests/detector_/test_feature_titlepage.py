@@ -65,14 +65,13 @@ def check_116_pages(titlepage: iamraw.TitlePage):
         'elektrischem Stufenlosgetriebe'), titlepage.title
 
     # TODO: Activate later
-    # author = iamraw.Person(
-    #     detector.parser.person.Title.NO_TITLE,
-    #     'Fahrendholz',
-    #     'Helmut Konrad',
-    #     'Helmut Konrad Fahrendholz',
-    # )
-    # assert titlepage.author == author
-    assert titlepage.author is None
+    author = iamraw.Person(
+        detector.parser.person.Title.STUDENT,
+        'Fahrendholz',
+        'Helmut Konrad',
+        'vorgelegt von:\nHelmut Konrad Fahrendholz',
+    )
+    assert titlepage.author == author
 
 
 @pytest.mark.parametrize('source, checker', [
