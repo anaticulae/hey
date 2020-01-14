@@ -17,6 +17,7 @@ import utila
 import detector.cli
 import detector.feature.titlepage
 import detector.parser.complete
+import detector.parser.person
 import detector.titlepage
 import hey.textnavigator.navigator as htn
 import tests
@@ -62,6 +63,16 @@ def check_116_pages(titlepage: iamraw.TitlePage):
     assert titlepage.title == (
         'Modellierung und Simulation eines hybriden Lokomotivantriebs mit '
         'elektrischem Stufenlosgetriebe'), titlepage.title
+
+    # TODO: Activate later
+    # author = iamraw.Person(
+    #     detector.parser.person.Title.NO_TITLE,
+    #     'Fahrendholz',
+    #     'Helmut Konrad',
+    #     'Helmut Konrad Fahrendholz',
+    # )
+    # assert titlepage.author == author
+    assert titlepage.author is None
 
 
 @pytest.mark.parametrize('source, checker', [

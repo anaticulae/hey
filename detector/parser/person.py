@@ -128,6 +128,14 @@ def order_persons(persons):
         return None
     # sort persons by title and name as a tiebraker
     persons = sorted(persons, key=operator.attrgetter('title', 'name'))
+
+    if any([
+            persons[0].title in (Title.EXAMINIER, Title.DR, Title.PROF),
+            author_or_examiner(persons[0].raw) == Title.EXAMINIER
+    ]):
+        # author was not detected
+        return None, persons
+
     author, examiner = persons[0], persons[1:]
     return author, examiner
 
@@ -233,7 +241,7 @@ def author_or_examiner(raw: str) -> Title:
     if any([item in raw for item in author]):
         return Title.STUDENT
 
-    examiner = ['prüfer', 'gutachter']
+    examiner = ['prüfer', 'gutachter', 'betreuer']
     if any([item in raw for item in examiner]):
         return Title.EXAMINIER
 
