@@ -42,7 +42,7 @@ def parse(raw: str) -> iamraw.TitleDate:
     )
 
     pattern = [
-        location_comman_day_month_year,
+        location_comma_day_month_year,
         simple_alpha_date,
         simple_alpha_date_month_first,
         simple_month_year_date,
@@ -52,7 +52,6 @@ def parse(raw: str) -> iamraw.TitleDate:
     ]
 
     parsed = [parser(raw) for parser in pattern]
-
     parsed = [item for item in parsed if item]  # remove non matches
     # use longest matching pattern
     parsed = sorted(parsed, key=lambda x: len(x.raw), reverse=True)
@@ -201,7 +200,7 @@ def simple_month_year_date(raw):
     return result
 
 
-def location_comman_day_month_year(raw):
+def location_comma_day_month_year(raw: str) -> iamraw.TitleDate:
     res = re.search(LOCATION_COMMA_DAY_MONTH_YEAR, raw)
     if not res:
         return None
@@ -211,11 +210,13 @@ def location_comman_day_month_year(raw):
     year = int(res['year'])
     valid = validate_date(year, month, day)
 
-    return iamraw.TitleDate(
+    raw = detector.parser.extract_match(res)
+    result = iamraw.TitleDate(
         year=year,
         month=month,
         day=day,
         location=location,
         valid=valid,
-        raw=res.string,
+        raw=raw,
     )
+    return result

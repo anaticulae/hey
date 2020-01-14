@@ -132,6 +132,7 @@ HOWTO_WRITE_PAGE9 = os.path.join(GENERATED, 'howtowrite_pages9')
 HOWTO_WRITE_PAGE9_PDF = os.path.join(ORDER, 'howtowrite_pages9.pdf')
 
 MASTER_78PAGES_PDF = os.path.join(MASTER, 'page_78_images_toc.pdf')
+MASTER_116PAGES_PDF = os.path.join(MASTER, 'page_116_images_toc_formular.pdf')
 
 NO_TITLE_EXAMPLE = [
     BACHELOR_111PAGES_PDF,
@@ -158,6 +159,7 @@ REQURIED_RESOURCES = [
     HOWTO_ARGPARSE_PDF,
     HOWTO_WRITE_PAGE9,
     HOWTO_WRITE_PAGE9_PDF,
+    MASTER_116PAGES_PDF,
     MASTER_72PAGES,
     MASTER_72PAGES_PDF,
     MASTER_78PAGES_PDF,

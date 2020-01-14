@@ -48,9 +48,35 @@ def check_78_pages(titlepage: iamraw.TitlePage):
     assert university == 'Technische Universit¨at Darmstadt', str(university)
 
 
+def check_116_pages(titlepage: iamraw.TitlePage):
+    # TODO: Activate later if we can explain every element on title page
+    # assert titlepage.thesis.typ == iamraw.DocumentType.NONE
+    assert titlepage.date == iamraw.TitleDate(
+        year=2016,
+        month=4,
+        day=19,
+        location='Berlin',
+        valid=True,
+        raw='Berlin, 19. April 2016',
+    )
+
+
 @pytest.mark.parametrize('source, checker', [
-    (tests.resources.MASTER_72PAGES_PDF, check_72_pages),
-    (tests.resources.MASTER_78PAGES_PDF, check_78_pages),
+    pytest.param(
+        tests.resources.MASTER_72PAGES_PDF,
+        check_72_pages,
+        id='master72',
+    ),
+    pytest.param(
+        tests.resources.MASTER_78PAGES_PDF,
+        check_78_pages,
+        id='master78',
+    ),
+    pytest.param(
+        tests.resources.MASTER_116PAGES_PDF,
+        check_116_pages,
+        id='master116',
+    ),
 ])
 def test_detector_feature_titlepage_complete(
         source,
@@ -65,7 +91,7 @@ def test_detector_feature_titlepage_complete(
     rawmaker__ = utila.run(cmd)
     assert rawmaker__.returncode == utila.SUCCESS, str(rawmaker__)
 
-    cmd = f'-i {root}'
+    cmd = f'-i {root} --titlepage'
     utila.run_command(
         cmd,
         process=detector.cli.PROCESS,
