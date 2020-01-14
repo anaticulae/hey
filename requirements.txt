@@ -1,12 +1,12 @@
-iamraw==1.12.9
-utila==1.11.3
+iamraw==1.12.12
+utila==1.12.1
 
-configo==0.4.1
+configo==0.4.4
 
 # ensure that test data is generated with the right version of rawmaker
-rawmaker==1.7.4
+rawmaker==1.8.1
 # reference to test data
-power==0.6.6
+power==0.6.9
 
 # test data generator
-jam==0.1.1
+jam==0.1.3
