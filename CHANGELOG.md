@@ -2,6 +2,24 @@
 
 Every noteable change is logged here.
 
+## v1.14.10
+
+### Feature
+
+* extend pattern to parse on multiple lines. (935d092bd671)
+
+### Fix
+
+* extend check that lowest examiner is not detected as author (0147b9846dfc)
+* extend prof-detection pattern (f9f3775111be)
+* support multiline title (07045324605c)
+* fix date parser (996d195216bd)
+* fix accessing correct variable (271adc13f57d)
+
+### Documentation
+
+* extend title parser documentation (eacf2b2d71e2)
+
 ## v1.14.9
 
 ### Fix
