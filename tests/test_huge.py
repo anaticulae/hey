@@ -60,7 +60,13 @@ def params():
     pdf = tests.pdfs()
     # skip documents cause of to few computing power
     ignore = SKIP_DOCUMENTS | UNSUPPORTED_DOCUMENTS
-    pdf = [item for item in pdf if not tests.relative_path(item) in ignore]
+    pdf = [
+        item for item in pdf if all([
+            not tests.relative_path(item) in ignore,
+            # skip generated pdfs to avoid double work
+            not 'notitle' in item,
+        ])
+    ]
     # select 5 items to reduce required test power
     # random is not good when reproducing an error, may use it later.
     pdf = pdf[0:5]
