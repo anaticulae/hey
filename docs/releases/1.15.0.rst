@@ -8,28 +8,28 @@ footnotes
 
 * [ ] fix leading whitespaces
 
-* [ ] support multine footnotes
+* [ ] support multiline footnotes
 
 * [ ] improve:
 
 maintainance
 ------------
 
-* [ ] reduce execution time of last slowest 10 tests
+* [x] reduce execution time of last slowest 10 tests
 
   .. code-block::
 
   ========================== slowest 10 test durations ==========================
-  130.25s call     detector_/test_feature_titlepage.py::test_detector_feature_titlepage_parse_titlepage_negative
-  128.23s setup    test_huge.py::test_huge_running_words[generated/notitle/docu_porting_extension_modules.pdf]
-  117.85s setup    test_huge.py::test_huge_running_groupme[generated/notitle/docu_porting_extension_modules.pdf]
-  108.71s setup    test_huge.py::test_huge_sections_extractor[generated/notitle/docu_porting_extension_modules.pdf]
-  69.09s setup    test_huge.py::test_huge_running_words[generated/notitle/docu_restructuredtext.pdf]
-  63.94s setup    test_huge.py::test_huge_sections_extractor[generated/notitle/docu_restructuredtext.pdf]
-  57.88s setup    test_huge.py::test_huge_running_groupme[generated/notitle/docu_restructuredtext.pdf]
-  56.66s setup    test_huge.py::test_huge_running_words[generated/notitle/bachelor_page_111_images_toc.pdf]
-  51.80s setup    test_huge.py::test_huge_sections_extractor[generated/notitle/bachelor_page_111_images_toc.pdf]
-  47.64s setup    test_huge.py::test_huge_running_groupme[generated/notitle/bachelor_page_111_images_toc.pdf]
+  130.25s call    detector_/test_feature_titlepage.py::test_detector_[...]epage_negative
+  128.23s setup   test_huge.py::test_huge_[...]_words[generated/notitle/docu_porting_extension_modules.pdf]
+  117.85s setup   test_huge.py::test_huge_[...]_groupme[generated/notitle/docu_porting_extension_modules.pdf]
+  108.71s setup   test_huge.py::test_huge_[...]s_extractor[generated/notitle/docu_porting_extension_modules.pdf]
+  69.09s setup    test_huge.py::test_huge_[...]_words[generated/notitle/docu_restructuredtext.pdf]
+  63.94s setup    test_huge.py::test_huge_[...]s_extractor[generated/notitle/docu_restructuredtext.pdf]
+  57.88s setup    test_huge.py::test_huge_[...]_groupme[generated/notitle/docu_restructuredtext.pdf]
+  56.66s setup    test_huge.py::test_huge_[...]_words[generated/notitle/bachelor_page_111_images_toc.pdf]
+  51.80s setup    test_huge.py::test_huge_[...]s_extractor[generated/notitle/bachelor_page_111_images_toc.pdf]
+  47.64s setup    test_huge.py::test_huge_[...]_groupme[generated/notitle/bachelor_page_111_images_toc.pdf]
 
 code quality
 ------------

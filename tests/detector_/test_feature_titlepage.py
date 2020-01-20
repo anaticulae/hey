@@ -122,14 +122,15 @@ def test_detector_feature_titlepage_complete(
     checker(titlepage)
 
 
-def parse_titlepages(path: str):
-    navigators = htn.create_pagetextnavigators_frompath(path)
+def parse_titlepages(path: str, pages: tuple = None):
+    navigators = htn.create_pagetextnavigators_frompath(path, pages=pages)
     parsed = detector.feature.titlepage.parse_titlepages(navigators)
     return parsed
 
 
 def test_detector_feature_titlepage_select_best():
-    parsed = parse_titlepages(tr.MASTER_72PAGES)
+    pages = tuple(range(20))
+    parsed = parse_titlepages(tr.MASTER_72PAGES, pages=pages)
     best = detector.titlepage.select_best(parsed)
     assert best == parsed[0], str(best)
 
@@ -139,17 +140,22 @@ def test_detector_feature_titlepage_select_best():
     for item in tr.NO_TITLE_GENERATED
 ])
 def test_detector_feature_titlepage_select_best_no_titlepage(source):
-    parsed = parse_titlepages(source)
+    pages = tuple(range(20))
+    parsed = parse_titlepages(source, pages=pages)
     best = detector.titlepage.select_best(parsed)
     assert best is None, str(best)
 
 
 @pytest.mark.parametrize('pages', [
-    range(1, 10),
-    range(10, 20),
-    range(20, 30),
-    range(30, 40),
-    range(40, 50),
+    range(1, 5),
+    range(5, 10),
+    range(10, 15),
+    range(20, 25),
+    range(25, 30),
+    range(30, 35),
+    range(35, 40),
+    range(40, 45),
+    range(45, 50),
 ])
 def test_detector_feature_titlepage_parse_titlepage_negative(pages):
     """Split pages to increase mutli-process-testing."""

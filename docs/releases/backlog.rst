@@ -42,18 +42,3 @@ backlog
         width=371, height=14)), TextBoundsInfo(text='2.1 Grundlagen . . . .
         . . . . . . . . . . . . . . . . . . . . . . . . 3',
         bounds=TextBounds(xdist=120, ydist=317, width=371, height=14))]
-
-* reduce required test power
-
-    .. code-block:: None
-
-        317.45s setup    test_huge.py::test_huge_sections_extractor[generated\\notitle/docu_porting_extension_modules.pdf]
-        308.80s setup    test_huge.py::test_huge_running_words[generated\\notitle/docu_porting_extension_modules.pdf]
-        293.01s setup    test_huge.py::test_huge_running_groupme[generated\\notitle/docu_porting_extension_modules.pdf]
-        195.14s setup    test_huge.py::test_huge_running_words[generated\\notitle/bachelor_page_111_images_toc.pdf]
-        183.03s setup    test_huge.py::test_huge_running_words[generated\\notitle/docu_restructuredtext.pdf]
-        178.02s setup    test_huge.py::test_huge_sections_extractor[generated\\notitle/bachelor_page_111_images_toc.pdf]
-        169.86s setup    test_huge.py::test_huge_sections_extractor[generated\\notitle/docu_restructuredtext.pdf]
-        156.45s setup    test_huge.py::test_huge_running_groupme[generated\\notitle/bachelor_page_111_images_toc.pdf]
-        154.40s setup    test_huge.py::test_huge_running_groupme[generated\\notitle/docu_restructuredtext.pdf]
-        35.89s setup    test_huge.py::test_huge_running_words[docu/restructuredtext.pdf]

@@ -104,8 +104,8 @@ def rawresult(request, tmpdir):
         os.makedirs(item)
 
     pdf, toccmd, generalcmd = request.param
-    rawtoc = f'rawmaker -i {pdf} --pages=0:20 -o {tocpath} --prefix=oneline {toccmd}'
-    rawgeneral = f'rawmaker -i {pdf} --pages=0:20 -o {generalpath} {generalcmd}'
+    rawtoc = f'rawmaker -i {pdf} -j=8 --pages=0:20 -o {tocpath} --prefix=oneline {toccmd}'
+    rawgeneral = f'rawmaker -i {pdf} -j=8 --pages=0:20 -o {generalpath} {generalcmd}'
 
     completed = utila.run(rawtoc)
     assert completed.returncode == utila.SUCCESS, str(completed)
