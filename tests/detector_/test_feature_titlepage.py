@@ -144,13 +144,25 @@ def test_detector_feature_titlepage_select_best_no_titlepage(source):
     assert best is None, str(best)
 
 
-def test_detector_feature_titlepage_parse_titlepage_negative():
-    navigators = htn.create_pagetextnavigators_frompath(tr.MASTER_72PAGES)
-    max_pages = 50  # TODO: extend after improving parser
-    for index, navigator in enumerate(navigators[1:max_pages], start=1):
+@pytest.mark.parametrize('pages', [
+    range(1, 10),
+    range(10, 20),
+    range(20, 30),
+    range(30, 40),
+    range(40, 50),
+])
+def test_detector_feature_titlepage_parse_titlepage_negative(pages):
+    """Split pages to increase mutli-process-testing."""
+    pages = tuple(pages)
+    navigators = htn.create_pagetextnavigators_frompath(
+        tr.MASTER_72PAGES,
+        pages=pages,
+    )
+    for page in pages:
+        selected = utila.select_page(navigators, page=page)
         parsed = detector.feature.titlepage.parse_titlepages(
-            navigators=[navigator],
-            selected=[index],
+            navigators=[selected],
+            selected=[page],
         )
         selected = detector.titlepage.select_best(parsed)
-        assert not selected, str(f'page: {index}\n{selected}')
+        assert not selected, str(f'page: {page}\n{selected}')
