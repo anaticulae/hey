@@ -24,6 +24,14 @@ There are 2 supported types of footnotes:
 
   - TODO: FOR FURTHER ANALYSIS WE REQUIRE DIFFERENT FOOTER LINE ANALYZER
   - TODO: SUPPORT MULTILINE FOOTNOTES
+
+.. problem::
+
+  using regex to extract footnotes is not enough. There can not be
+  decided if a number is a footnote start or a normaly number in a
+  footnote.
+
+  we have to use a combination of font rise and maybe textual grammar.
 """
 import re
 
@@ -32,11 +40,18 @@ import iamraw
 import detector.parser
 
 # TODO: REPLACE WITH GENERAL TEXT PARSER
-PATTERN = r'^(?P<number>\d{1,3})[ ]?(?P<text>[\w\d:\.,;’/\(\) \-]{3,})$'
-PATTERN = re.compile(PATTERN, re.MULTILINE)
+# TODO: ADD REGEX BIB TO `GET_TEXT_PATTERN(name='text')`
+PATTERN = r"""
+        ^
+        (?P<number>\d{1,4}) # up to 4 digits foot-note-numbers
+        [ ]{0,5} # whitespaces between number and foot note text
+        (?P<text>[\w\d:\.,;’„“/\(\)\[\]\n \-]{5,}?) # more than 5 chars
+        $"""
+PATTERN = re.compile(PATTERN, re.VERBOSE)
 
 
 def parse(content: str):
+    assert isinstance(content, str), type(content)
     result = []
     parsed = re.finditer(PATTERN, content)
     for item in parsed:

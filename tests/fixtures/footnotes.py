@@ -18,27 +18,28 @@ FOOTNOTES = ([
     'Bonstein et al. 2009: 124 \n42 s. ebd.: 126 \n43 Bernd Graff, '
     'sueddeutsche.de, 17.5.2010 \n44 Ulrich Greiner, zeit.de, 27.4.2000 '
     '\n45 ebd. \n46 Horst 2012: 31',
-], 21)
+], 21, [])
 
-FOOTNOTES_SECOND = ([
+FOOTNOTES_SECOND = (
     '1 Aus Grnden der besseren Lesbarkeit wird hier und im Folgenden'
     ' ausschlielich die maskuline \nForm verwendet, wobei immer beide '
     'Geschlechter gemeint sind. \n2 s. Berg 2013: 2 \n3 s. Facebook newsroom; '
     'Stand: 1. Quartal 2014 \n4 s. Statista 2014 \n5 s. Oxford Dictionaries '
-    '2014 \n6 s. Utz/Kramer 2009; Kairam 2012: 1070; Busemann 2013: 393',
+    '2014 \n6 s. Utz/Kramer 2009; Kairam 2012: 1070; Busemann 2013: 393\n'
     '7 Aus Grnden der Abwechslung wird im Verlauf der Arbeit die deutsche '
     'bersetzung soziale Medien \nsynonym verwendet. \n8  Der  Begriff  des  '
     'Long  Tail  wurde  geprgt  durch  Chris  Anderson  (2006):  The  Long  '
     'Tail:  Why  the \nFuture of Business Is Selling Less of More. New York: '
-    'Hyperion.  \n9 s. OReilly 2007: 21ff.',
+    'Hyperion.  \n9 s. OReilly 2007: 21ff.\n'
     '10 s. fr die folgende Auflistung OReilly 2007: 18ff.; Ebersbach et al. '
-    '2011: 28ff. \n11 Ebersbach et al. 2011: 30',
+    '2011: 28ff. \n11 Ebersbach et al. 2011: 30\n'
     '12 Kaplan/Haenlein 2009: 61 \n13 s. ebd.: 61f. \n14 s. ebd.: 61 \n15 s. '
-    'ebd.: 61f.',
+    'ebd.: 61f.\n'
     '16 zusammengestellt nach Ebersbach et al. 2011: 37; Bendel o.J; '
-    'Kaplan/Haenlein 2009: 62ff.',
+    'Kaplan/Haenlein 2009: 62ff.\n'
     '17 s. Bendel o.J. \n18 Ewig 2011: 289 \n19 vgl. Ebersbach et al. 2011: '
-    '99 \n20 s. boyd 2011: 43',
+    '99 \n20 s. boyd 2011: 43\n'
     '21 Marwick/boyd 2011: 123 \n22 vgl. boyd 2011: 43f. \n23 s. Ebersbach et '
     'al. 2011: 106f.; Steinschaden 2010: 17',
-], 23)
+    23,
+)

@@ -146,9 +146,16 @@ def extract_footer(
     end = utila.roundme(end / pageheight)
 
     content = pagetextnavigator.between(begin, end)
-    content = footercontent(content)
 
-    footnotes = groupme.footer.footnotes.parse(content)
+    # split by highnotes
+    footnotes = []
+    splitted = splitby_highnotes(content)
+    for item in splitted:
+        parsed = groupme.footer.footnotes.parse(item)
+        if not parsed:
+            utila.info(f'could not parse: "{item}"')
+            continue
+        footnotes.extend(parsed)
 
     footer = iamraw.MovingFooterInformation(
         begin=begin,
@@ -156,6 +163,23 @@ def extract_footer(
         notes=footnotes,
     )
     return footer
+
+
+def splitby_highnotes(content):
+    # Split by highnotes at start of line content
+    result = []
+    collected = []
+    for line in content:
+        first = line.style.content[0].rise
+        if first > 4.0 and collected:
+            joined = '\n'.join([item.text for item in collected])
+            result.append(joined)
+            collected = []
+        collected.append(line)
+    if collected:
+        joined = '\n'.join([item.text for item in collected])
+        result.append(joined)
+    return result
 
 
 def analyze(results) -> MovingFooterResultReport:

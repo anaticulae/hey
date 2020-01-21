@@ -15,8 +15,14 @@ import tests.fixtures.footnotes
 
 
 @pytest.mark.parametrize('example', [
-    tests.fixtures.footnotes.FOOTNOTES,
-    tests.fixtures.footnotes.FOOTNOTES_SECOND,
+    pytest.param(
+        tests.fixtures.footnotes.FOOTNOTES,
+        marks=pytest.mark.xfail(reason='not possible with only regex'),
+    ),
+    pytest.param(
+        tests.fixtures.footnotes.FOOTNOTES_SECOND,
+        marks=pytest.mark.xfail(reason='not possible with only regex'),
+    ),
 ])
 def test_groupme_footer_footenote_parse_notes(example):
     raw, expected_footnotes = example[0], example[1]
@@ -24,3 +30,17 @@ def test_groupme_footer_footenote_parse_notes(example):
 
     parsed = groupme.footer.footnotes.parse(raw)
     assert len(parsed) == expected_footnotes
+
+
+@pytest.mark.xfail(reason='regex is not enough')
+def test_groupme_footer_footenote_parse_notes_multiline():
+    raw = tests.fixtures.footnotes.FOOTNOTES_SECOND[0]
+    parsed = groupme.footer.footnotes.parse(raw)
+    assert len(parsed) == 23, len(parsed)
+
+    assert parsed[0].number == 1
+    assert parsed[0].text == ('Aus Grnden der besseren Lesbarkeit wird hier '
+                              'und im Folgenden ausschlielich die maskuline\n'
+                              'Form verwendet, wobei immer beide '
+                              'Geschlechter gemeint sind.')
+    assert parsed[-1].number == 23

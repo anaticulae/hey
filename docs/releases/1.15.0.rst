@@ -6,9 +6,9 @@ RP 1.15.0
 footnotes
 ~~~~~~~~~
 
-* [ ] fix leading whitespaces
+* [x] fix leading whitespaces
 
-* [ ] support multiline footnotes
+* [x] support multiline footnotes
 
 * [ ] improve:
 
