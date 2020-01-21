@@ -24,6 +24,7 @@ import operator
 import re
 
 import iamraw
+
 import detector.parser
 
 

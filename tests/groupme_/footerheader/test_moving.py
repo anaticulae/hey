@@ -21,6 +21,7 @@ def validate_master72(result):
     first_notes = utila.select_page(result, page=3).footer.notes
     assert first_notes[0].number == '1', first_notes[0].number
 
+
 @pytest.mark.parametrize('document, pages, expected_footer, validate', [
     pytest.param(
         tests.resources.MASTER_72PAGES,
@@ -64,7 +65,6 @@ def test_groupme_footer_moving(document, pages, expected_footer, validate):
         extracted_footer = utila.select_page(result, page)
         assert len(extracted_footer.footer.notes) == length, f'on page: {page}'
         assert extracted_footer[1], utila.log_raw(f'has no footer: {page}')
-
 
 
 def test_groupme_footer_master72pages(testdir):

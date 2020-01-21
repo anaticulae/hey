@@ -10,7 +10,7 @@
 import pytest
 import utila
 
-import groupme.footer.footnotes
+import groupme.footnotes.parser
 import tests.fixtures.footnotes
 
 
@@ -28,14 +28,14 @@ def test_groupme_footer_footenote_parse_notes(example):
     raw, expected_footnotes = example[0], example[1]
     raw = utila.NEWLINE.join(raw)
 
-    parsed = groupme.footer.footnotes.parse(raw)
+    parsed = groupme.footnotes.parser.parse(raw)
     assert len(parsed) == expected_footnotes
 
 
 @pytest.mark.xfail(reason='regex is not enough')
 def test_groupme_footer_footenote_parse_notes_multiline():
     raw = tests.fixtures.footnotes.FOOTNOTES_SECOND[0]
-    parsed = groupme.footer.footnotes.parse(raw)
+    parsed = groupme.footnotes.parser.parse(raw)
     assert len(parsed) == 23, len(parsed)
 
     assert parsed[0].number == 1

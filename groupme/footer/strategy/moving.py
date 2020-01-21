@@ -25,9 +25,10 @@ import iamraw
 import utila
 
 import groupme.footer
-import groupme.footer.footnotes
 import groupme.footer.strategy as gfs
 import groupme.footer.strategy.pages as gfsp
+import groupme.footnotes.highnotes
+import groupme.footnotes.parser
 
 
 class MovingFooterStrategy(gfs.FooterHeaderDetectionStrategy):
@@ -149,9 +150,9 @@ def extract_footer(
 
     # split by highnotes
     footnotes = []
-    splitted = splitby_highnotes(content)
+    splitted = groupme.footnotes.highnotes.split(content)
     for item in splitted:
-        parsed = groupme.footer.footnotes.parse(item)
+        parsed = groupme.footnotes.parser.parse(item)
         if not parsed:
             utila.info(f'could not parse: "{item}"')
             continue
@@ -165,26 +166,9 @@ def extract_footer(
     return footer
 
 
-def splitby_highnotes(content):
-    # Split by highnotes at start of line content
-    result = []
-    collected = []
-    for line in content:
-        first = line.style.content[0].rise
-        if first > 4.0 and collected:
-            joined = '\n'.join([item.text for item in collected])
-            result.append(joined)
-            collected = []
-        collected.append(line)
-    if collected:
-        joined = '\n'.join([item.text for item in collected])
-        result.append(joined)
-    return result
-
-
 def analyze(results) -> MovingFooterResultReport:
     footer_count = gfs.count_footer(results)
-    emptyfooter_count = groupme.footer.footnotes.count_empty(results)
+    emptyfooter_count = groupme.footnotes.parser.count_empty(results)
     empty_factor = emptyfooter_count / footer_count if footer_count else 0
     too_many_empty_footer = empty_factor >= WRONG_STRATEGY_EMPTY_FOOTER_FACTOR
 
