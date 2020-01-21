@@ -24,6 +24,7 @@ import tests
 import tests.resources as tr
 
 
+@utila.skip_longrun
 def test_titlepage_parser():
     extracted = detector.feature.titlepage.work(
         tests.resources.SIMPLE_ONELINE_TEXT,
@@ -91,6 +92,7 @@ def check_116_pages(titlepage: iamraw.TitlePage):
         id='master116',
     ),
 ])
+@utila.skip_longrun
 def test_detector_feature_titlepage_complete(
         source,
         checker,
@@ -128,6 +130,7 @@ def parse_titlepages(path: str, pages: tuple = None):
     return parsed
 
 
+@utila.skip_longrun
 def test_detector_feature_titlepage_select_best():
     pages = tuple(range(20))
     parsed = parse_titlepages(tr.MASTER_72PAGES, pages=pages)
@@ -135,6 +138,7 @@ def test_detector_feature_titlepage_select_best():
     assert best == parsed[0], str(best)
 
 
+@utila.skip_longrun
 @pytest.mark.parametrize('source', [
     pytest.param(item, id=os.path.split(item)[1])
     for item in tr.NO_TITLE_GENERATED
@@ -157,6 +161,7 @@ def test_detector_feature_titlepage_select_best_no_titlepage(source):
     range(40, 45),
     range(45, 50),
 ])
+@utila.skip_longrun
 def test_detector_feature_titlepage_parse_titlepage_negative(pages):
     """Split pages to increase mutli-process-testing."""
     pages = tuple(pages)

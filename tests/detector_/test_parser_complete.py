@@ -39,6 +39,7 @@ import tests.resources
     ),
 ])
 def test_detector_parse_complete_title_page(page, expected):
+    # TODO: Why is this test so slow?   tests.fixtures.titlepage.THIRD
     pcn = hey.textnavigator.navigator.create_pagetextnavigator_fromstr(page)
     parsed = detector.parser.complete.parse(pcn)
     assert parsed == expected, str(parsed)

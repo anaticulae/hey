@@ -10,6 +10,7 @@
 import os
 
 import pytest
+import utila
 
 from tests import write_capsys
 from tests.detector_ import run_detector_success
@@ -34,6 +35,7 @@ def test_detector_misc(command, testdir, monkeypatch, capsys):  #pylint: disable
     RESTRUCT,
     PYPORTING,
 ])
+@utila.skip_longrun
 def test_detector_run_work(example, testdir, monkeypatch, capsys):  #pylint: disable=W0613
     output = str(testdir)
     command = f'-i {example} -o {output}'

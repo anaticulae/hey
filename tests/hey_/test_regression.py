@@ -28,6 +28,7 @@ def test_regression_sections_and_words(testdir, monkeypatch):
     tests.words_.run_words_success('--all', monkeypatch=monkeypatch)
 
 
+@utila.skip_longrun
 def test_regression_detector(testdir, monkeypatch):
     """Start with whitepage that leads to some trouble with empty
     navigators and problems to detect title page"""

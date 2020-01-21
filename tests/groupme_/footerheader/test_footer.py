@@ -113,6 +113,7 @@ def test_groupme_footer_footerheader_detectionstategy(
         id='master72',
     ),
 ])
+@utila.skip_longrun
 def test_groupme_footer_extract_footerheader_technical(root, expected):
     pages = None
     pagetextnavigators = htn.create_pagetextnavigators_frompath(
