@@ -17,12 +17,17 @@ import tests.fixtures.restruct
 import tests.resources
 
 
-@pytest.mark.parametrize('document, pages, expected_footer', [
+def validate_master72(result):
+    first_notes = utila.select_page(result, page=3).footer.notes
+    assert first_notes[0].number == '1', first_notes[0].number
+
+@pytest.mark.parametrize('document, pages, expected_footer, validate', [
     pytest.param(
         tests.resources.MASTER_72PAGES,
         tuple(range(20)),
         [(3, 6), (6, 3), (7, 2), (8, 4), (9, 1), (10, 4), (11, 3), (12, 2),
          (13, 6), (14, 7), (15, 8), (16, 10), (17, 8), (18, 7), (19, 8)],
+        validate_master72,
         id='master72pages',
     ),
     pytest.param(
@@ -30,16 +35,18 @@ import tests.resources
         tuple(range(20)),
         [(9, 2), (10, 3), (11, 2), (12, 1), (13, 1), (15, 2), (16, 1), (17, 8),
          (18, 3), (19, 1)],
+        None,
         id='bachelor111pages',
     ),
     pytest.param(
         tests.resources.RESTRUCT,
         tuple(range(20)),
         [],
+        None,
         id='restructured',
     ),
 ])
-def test_groupme_footer_moving(document, pages, expected_footer):
+def test_groupme_footer_moving(document, pages, expected_footer, validate):
     strategy = groupme.footer.strategy.create_strategy(
         path=document,
         strategy=groupme.footer.strategy.moving.MovingFooterStrategy,
@@ -47,14 +54,17 @@ def test_groupme_footer_moving(document, pages, expected_footer):
     )
     result = strategy.result()
 
+    if validate:
+        validate(result)
+
     footer = [item for item in result if item.footer]
     assert len(footer) == len(expected_footer), footer
 
     for page, length in expected_footer:
         extracted_footer = utila.select_page(result, page)
-        notes = extracted_footer.footer.notes
-        assert len(notes) == length, f'on page: {page}'
+        assert len(extracted_footer.footer.notes) == length, f'on page: {page}'
         assert extracted_footer[1], utila.log_raw(f'has no footer: {page}')
+
 
 
 def test_groupme_footer_master72pages(testdir):
