@@ -24,7 +24,6 @@ import operator
 import re
 
 import iamraw
-
 import detector.parser
 
 
@@ -92,7 +91,7 @@ def parse_person_without_title(raw: str) -> iamraw.Person:
 
 
 def parse_all(items):
-    """Parse title content to extract a list of Persons
+    """Parse title content to extract a list of Persons.
 
     Args:
         items(str): content of title page
@@ -134,7 +133,7 @@ def order_persons(persons):
     and the rest as examier.
 
     Args:
-        persons(list[Person]):
+        persons(list[Person]): list to order
     Returns:
         author(Person), examines as a list of persons
     """
