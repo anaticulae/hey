@@ -280,7 +280,7 @@ def create_pagetextnavigators(
                     # skip bad removed rawmaker extraction
                     continue
                 navigator.insert(
-                    text=line.text.strip(),
+                    text=line.text,  #.strip(),
                     style=style,
                     bounding=bounding,
                 )

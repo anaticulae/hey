@@ -35,6 +35,9 @@ class GeometryTocExtractor(gts.ExtractorStrategy):
         import groupme.toc.strategy.georegex as gtsg
         content = [gtsg.parse_group(group) for group in grouped]
 
+        # remove empty
+        content = [item for item in content if item]
+
         result = gts.ExtractionResult(content=content, invalid=[])
         return result
 

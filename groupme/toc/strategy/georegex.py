@@ -51,6 +51,8 @@ def analyse_page(content: htn.PageTextNavigator):
     content = gts.remove_headline(content)
     grouped = group_areas(content)
     result = [parse_group(items) for items in grouped]
+    # remove not parsed
+    result = [item for item in result if item]
     return result
 
 
@@ -94,7 +96,9 @@ def parse_group(items) -> groupme.toc.TocLines:
         result.append(parsed_item)
     if collected:
         extracted = group_collection_and_parse(collected)
-        result.append(extracted)
+        if extracted:
+            # parsing was successful
+            result.append(extracted)
     return result
 
 

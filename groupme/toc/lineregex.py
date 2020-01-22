@@ -16,6 +16,8 @@ import hey.text.regex as htr
 
 
 def parse(line: str) -> groupme.toc.TocLine:
+    # TODO: REMOVE LATER
+    line = line.strip()
     assert isinstance(line, str), type(line)
     for pattern in [
             EXTENDED_PATTERN,

@@ -271,10 +271,17 @@ def test_words_text_convert_undefined_to_text(
         ),
     ]
     expected = [
-        (24, 1, (
-            [(0, expected_list)],
-            [[2, 3, 4]],
-        )),
+        (
+            24,
+            1,
+            (
+                [(0, expected_list)],
+                [[2, 3, 4]],
+            ),
+        ),
     ]
     last_item = undefined[-1]
+    # TODO: REMOVE LATER?
+    for item in last_item[0][2][0][0][1]:
+        item.text = item.text.strip()
     assert last_item == expected

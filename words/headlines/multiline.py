@@ -51,7 +51,9 @@ class MultiLine(words.headlines.HeadlineExtractorStrategy):
         result = []
         grouped = htm.group_page_by_size_distance(pagecontent)
         for items in grouped:
-            text = ' '.join([item.text for item in items])
+            # TODO: REMOVE LATER
+            text = ' '.join([item.text.strip() for item in items])
+            # text = ' '.join([item.text for item in items])
             parsed = whs.parse_headline(text)
             if not parsed:
                 text = text.strip()
