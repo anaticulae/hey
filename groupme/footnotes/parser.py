@@ -36,8 +36,10 @@ There are 2 supported types of footnotes:
 import re
 
 import iamraw
+import utila
 
 import detector.parser
+import groupme.footnotes.highnotes
 
 # TODO: REPLACE WITH GENERAL TEXT PARSER
 # TODO: ADD REGEX BIB TO `GET_TEXT_PATTERN(name='text')`
@@ -74,3 +76,15 @@ def count_empty(items: iamraw.PageContentFooterHeader) -> int:
     empty_footnotes = [item for item in footers if len(item.notes) == 0]
     result = len(empty_footnotes)
     return result
+
+
+def parse_footer(content):
+    footnotes = []
+    splitted = groupme.footnotes.highnotes.split(content)
+    for item in splitted:
+        parsed = parse(item)
+        if not parsed:
+            utila.info(f'could not parse: "{item}"')
+            continue
+        footnotes.extend(parsed)
+    return footnotes

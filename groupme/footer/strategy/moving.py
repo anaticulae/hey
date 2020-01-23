@@ -149,14 +149,7 @@ def extract_footer(
     content = pagetextnavigator.between(begin, end)
 
     # split by highnotes
-    footnotes = []
-    splitted = groupme.footnotes.highnotes.split(content)
-    for item in splitted:
-        parsed = groupme.footnotes.parser.parse(item)
-        if not parsed:
-            utila.info(f'could not parse: "{item}"')
-            continue
-        footnotes.extend(parsed)
+    footnotes = groupme.footnotes.parser.parse_footer(content)
 
     footer = iamraw.MovingFooterInformation(
         begin=begin,
