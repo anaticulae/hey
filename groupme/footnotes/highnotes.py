@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw
+
 import hey.textnavigator.style
 
 
@@ -45,6 +47,7 @@ def split_textinfo(content):
                 highnote = hey.textnavigator.style.TextInfo(
                     text=item.text[style.start:style.end],
                     style=style,
+                    bounding=char_bounding(item.bounding, item.text, style),
                 )
             else:
                 collected.append((item.text, style))
@@ -66,4 +69,18 @@ def union(items) -> hey.textnavigator.style.TextInfo:
         text=raw,
         style=hey.textnavigator.style.TextStyle(content=content),
     )
+    return result
+
+
+def char_bounding(
+        bounding: iamraw.BoundingBox,
+        text: str,
+        style: hey.textnavigator.style.TextStyle,
+) -> iamraw.BoundingBox:
+    width = bounding.x1 - bounding.x0
+    char_width = width / len(text)
+
+    x0 = bounding.x0 + char_width * style.start
+    x1 = bounding.x0 + char_width * style.end
+    result = iamraw.BoundingBox(x0, bounding.y0, x1, bounding.y1)
     return result
