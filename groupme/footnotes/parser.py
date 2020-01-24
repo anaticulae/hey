@@ -61,7 +61,7 @@ def parse(content: str):
         text = item['text']
         raw = detector.parser.extract_match(item)
 
-        footnote = iamraw.FootNote(
+        footnote = iamraw.FootRawNote(
             number=number,
             text=text,
             raw=raw,
