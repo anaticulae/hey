@@ -79,6 +79,8 @@ def merge_online(items) -> list:
         2. Adjust highnotes on most left one
         3. Merge other highnotes into text
     """
+    if not items:
+        return []
     result = []
     mostleft = min([item.bounding.x0 for item, _ in items])
     high, collected = None, []
