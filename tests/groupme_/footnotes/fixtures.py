@@ -51,3 +51,17 @@ def master89_page_page19():
     footer = navigator.between(0.7, 0.95)
     assert len(footer) == 16, str(footer)
     return footer
+
+
+@pytest.fixture
+def bachelor111_page10():
+    page = 10
+    navigators = htn.create_pagetextnavigators_frompath(
+        tests.resources.BACHELOR_111PAGES,
+        pages=(page),
+    )
+    navigator = utila.select_page(navigators, page)
+    # TODO: REMOVE WITH EXTRACT MOVING FOOTER
+    footer = navigator.between(0.77, 0.95)
+    assert len(footer) == 5, str(footer)
+    return footer

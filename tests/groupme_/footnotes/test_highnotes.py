@@ -10,6 +10,7 @@
 import groupme.footnotes.highnotes
 import groupme.footnotes.parser
 # pylint:disable=W0611
+from tests.groupme_.footnotes.fixtures import bachelor111_page10
 from tests.groupme_.footnotes.fixtures import master72_page14
 from tests.groupme_.footnotes.fixtures import master89_page_page7
 from tests.groupme_.footnotes.fixtures import master89_page_page19
@@ -56,3 +57,9 @@ def test_groupme_footnotes_highnotes_split_mixed_in_text_tripple(
 def test_groupme_footnotes_parse_footer_with_highnotes(master89_page_page7):  # pylint:disable=W0621
     parsed = groupme.footnotes.parser.parse_with_highnotes(master89_page_page7)
     assert len(parsed) == 1, parsed
+
+
+def test_groupme_footnotes_highnotes_oneline_with_intention(bachelor111_page10):  # pylint:disable=W0621,W0612
+    # TODO: add test that highnotes are on oneline!
+    # CHECK Intentation, must be near 0.0
+    pass
