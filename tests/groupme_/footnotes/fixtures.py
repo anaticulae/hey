@@ -27,7 +27,7 @@ def master72_page14():
 
 
 @pytest.fixture
-def master89_page_page7():
+def master89_page7():
     page = 7
     navigators = htn.create_pagetextnavigators_frompath(
         tests.resources.MASTER_89PAGES,
@@ -40,7 +40,7 @@ def master89_page_page7():
 
 
 @pytest.fixture
-def master89_page_page19():
+def master89_page19():
     page = 19
     navigators = htn.create_pagetextnavigators_frompath(
         tests.resources.MASTER_89PAGES,
