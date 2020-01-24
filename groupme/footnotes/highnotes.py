@@ -7,9 +7,12 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import math
+
+import configo
 import iamraw
 
-import hey.textnavigator.style
+import hey.textnavigator.style as hts
 
 
 def split(content):
@@ -29,33 +32,85 @@ def split(content):
     return result
 
 
-def split_textinfo(content):
+VERTICAL_LINE_DIFF_OF_HIGHNOTES = configo.HV_FLOAT_PLUS(default=5.0).value
+
+HIGHNOTE_MIN_RISE = configo.HV_FLOAT_PLUS(default=5.0).value
+
+
+def split_textinfo(content) -> list:
     """Split text by `hightnote` and preserve TextInfo.
 
-    Yields:
-        tuple: of highnote and content
+    Returns:
+        list of a tuple of highnote and content
     """
     assert isinstance(content, list), type(content)
+    result = []
     highnote = None
     collected = []
     for item in content:
         for style in item.style.content:
-            if style.rise >= 5.0:
+            if style.rise >= HIGHNOTE_MIN_RISE:
                 if highnote:
-                    yield highnote, union(collected)
+                    result.append((highnote, union(collected)))
                     collected = []
-                highnote = hey.textnavigator.style.TextInfo(
+                style = style.copy()
+                highnote = hts.TextInfo(
                     text=item.text[style.start:style.end],
                     style=style,
                     bounding=char_bounding(item.bounding, item.text, style),
                 )
+                style.start = 0
+                style.end = len(highnote.text)
             else:
                 collected.append((item.text, style))
     if highnote:
-        yield highnote, union(collected)
+        # ?THERE IS ALWAYS A REST?
+        result.append((highnote, union(collected)))
+    return result
 
 
-def union(items) -> hey.textnavigator.style.TextInfo:
+def merge_online(items) -> list:
+    """Ensure that high notes are located on a vertical line. Therefore
+    we have to ignore highnotes which are located inside the text and
+    not part of the text flow.
+
+    Steps:
+        1. Determine the most left highnotes
+        2. Adjust highnotes on most left one
+        3. Merge other highnotes into text
+    """
+    result = []
+    mostleft = min([item.bounding.x0 for item, _ in items])
+    high, collected = None, []
+    for highnote, content in items:
+        diff = math.fabs(highnote.bounding.x0 - mostleft)
+        if diff > VERTICAL_LINE_DIFF_OF_HIGHNOTES:
+            # highnote in content
+            collected.append(shrink_tostyle(highnote.text, highnote.style))
+            collected.extend([
+                shrink_tostyle(content.text, style) for style in content.style
+            ])
+        else:
+            # new highnotes
+            if high:
+                result.append((high, union(collected)))
+            high = highnote
+            collected = [
+                shrink_tostyle(content.text, style) for style in content.style
+            ]
+    result.append((high, union(collected)))
+    return result
+
+
+def shrink_tostyle(text, style):
+    text = text[style.start:style.end]
+    style = style.copy()
+    style.start = 0
+    style.end = len(text)
+    return text, style
+
+
+def union(items) -> hts.TextInfo:
     raw = ''
     content = []
     for (text, style) in items:
@@ -65,9 +120,9 @@ def union(items) -> hey.textnavigator.style.TextInfo:
         section_style = style.copy()
         section_style.start, section_style.end = start, end
         content.append(section_style)
-    result = hey.textnavigator.style.TextInfo(
+    result = hts.TextInfo(
         text=raw,
-        style=hey.textnavigator.style.TextStyle(content=content),
+        style=hts.TextStyle(content=content),
     )
     return result
 
@@ -75,11 +130,10 @@ def union(items) -> hey.textnavigator.style.TextInfo:
 def char_bounding(
         bounding: iamraw.BoundingBox,
         text: str,
-        style: hey.textnavigator.style.TextStyle,
+        style: hts.TextStyle,
 ) -> iamraw.BoundingBox:
     width = bounding.x1 - bounding.x0
     char_width = width / len(text)
-
     x0 = bounding.x0 + char_width * style.start
     x1 = bounding.x0 + char_width * style.end
     result = iamraw.BoundingBox(x0, bounding.y0, x1, bounding.y1)
