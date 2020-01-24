@@ -93,7 +93,6 @@ def parse_footer(content):
 def parse_with_highnotes(content):
     splitted = groupme.footnotes.highnotes.split_textinfo(content)
     merged = groupme.footnotes.highnotes.merge_online(splitted)
-
     result = []
     for number, note in merged:
         footnote = iamraw.FootRawNote(

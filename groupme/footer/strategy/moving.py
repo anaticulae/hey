@@ -148,9 +148,9 @@ def extract_footer(
 
     content = pagetextnavigator.between(begin, end)
 
+    # TODO: INTRODUCE STRATEGY TO PARSE OTHER FOOTNOTES
     # split by highnotes
-    footnotes = groupme.footnotes.parser.parse_footer(content)
-
+    footnotes = groupme.footnotes.parser.parse_with_highnotes(content)
     footer = iamraw.MovingFooterInformation(
         begin=begin,
         end=end,

@@ -19,7 +19,7 @@ import tests.resources
 
 def validate_master72(result):
     first_notes = utila.select_page(result, page=3).footer.notes
-    assert first_notes[0].number == '1', first_notes[0].number
+    assert first_notes[0].number == 1, first_notes[0].number
 
 
 @pytest.mark.parametrize('document, pages, expected_footer, validate', [
@@ -45,7 +45,6 @@ def validate_master72(result):
         [],
         None,
         id='restructured',
-        marks=pytest.mark.xfail(reason='parsing to mutch - dont know why')
     ),
 ])
 def test_groupme_footer_moving(document, pages, expected_footer, validate):

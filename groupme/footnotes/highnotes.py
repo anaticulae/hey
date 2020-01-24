@@ -32,9 +32,9 @@ def split(content):
     return result
 
 
-VERTICAL_LINE_DIFF_OF_HIGHNOTES = configo.HV_FLOAT_PLUS(default=5.0).value
+VERTICAL_LINE_DIFF_OF_HIGHNOTES = configo.HV_FLOAT_PLUS(default=15.0).value
 
-HIGHNOTE_MIN_RISE = configo.HV_FLOAT_PLUS(default=5.0).value
+HIGHNOTE_MIN_RISE = configo.HV_FLOAT_PLUS(default=3.0).value
 
 
 def split_textinfo(content) -> list:
