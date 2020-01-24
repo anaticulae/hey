@@ -88,3 +88,9 @@ def parse_footer(content):
             continue
         footnotes.extend(parsed)
     return footnotes
+
+
+def parse_with_highnotes(content):
+    splitted = groupme.footnotes.highnotes.split_textinfo(content)
+    merged = groupme.footnotes.highnotes.merge_online(splitted)
+    return merged

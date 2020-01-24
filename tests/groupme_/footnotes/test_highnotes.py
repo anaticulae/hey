@@ -51,3 +51,8 @@ def test_groupme_footnotes_highnotes_split_mixed_in_text_tripple(
                 ' Der Held wird in seinem Leben in der \ngewohnten Welt '
                 'vorgestellt und erh')
     assert thirdnote_text.startswith(expected), thirdnote_text
+
+
+def test_groupme_footnotes_parse_footer_with_highnotes(master89_page_page7):  # pylint:disable=W0621
+    parsed = groupme.footnotes.parser.parse_with_highnotes(master89_page_page7)
+    assert len(parsed) == 1, parsed
