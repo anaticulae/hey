@@ -12,6 +12,7 @@ import iamraw
 import serializeraw
 import utila
 
+import hey.fonts.store
 import hey.path
 import hey.textnavigator
 import hey.textnavigator.style
@@ -257,7 +258,7 @@ PageTextContentNavigators = typing.List[PageTextContentNavigator]
 def create_pagetextnavigators(
         text: iamraw.Document,
         text_positions,
-        fontstore: 'hey.fonts.store.FontStore' = None,
+        fontstore: hey.fonts.store.FontStore = None,
 ) -> PageTextNavigators:
     result = []
     for textposition in text_positions:
@@ -268,7 +269,6 @@ def create_pagetextnavigators(
         )
         textid = 0
         content = utila.select_page(text, page)
-
         for item in content:
             try:
                 lines = item.lines
@@ -277,7 +277,6 @@ def create_pagetextnavigators(
             pos = textposition.content[textid]
             for index, line in enumerate(lines):
                 bounding = iamraw.split_y(pos, index, len(lines))
-
                 if fontstore:
                     for char_number, char in enumerate(line.chars):
                         fontid = fontstore.fontid(
@@ -353,13 +352,11 @@ def create_pagetextnavigators_frompath(
         rawmaker__oneline_text_text.yaml with `oneline` as prefix to
         separate instances.
     """
-
     text = hey.path.text(path, prefix=prefix)
     text = serializeraw.load_document(text, pages=pages)
 
     textposition = hey.path.textposition(path, prefix=prefix)
     textposition = serializeraw.load_textpositions(textposition, pages=pages)
-
     fontstore = hey.fonts.store.create_fontstore_frompath(
         path,
         prefix=prefix,

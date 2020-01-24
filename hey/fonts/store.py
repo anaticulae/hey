@@ -17,7 +17,6 @@ import serializeraw
 import utila
 
 import hey.path
-from hey.textnavigator.navigator import PageTextContentNavigator
 
 NO_FONT = -1
 
@@ -152,11 +151,11 @@ class FontContentStore:
     def __init__(
             self,
             store: FontStore,
-            navigator: PageTextContentNavigator,
+            navigator: 'PageTextContentNavigator',
             page: int,
     ):
         assert store, navigator
-        assert isinstance(navigator, PageTextContentNavigator)
+        # assert isinstance(navigator, PageTextContentNavigator)
         assert page == navigator.page, f'{page} {navigator.page}'
         self.store = store
         self.off_start = navigator.offset[0]
