@@ -9,12 +9,14 @@
 
 import dataclasses
 import functools
+import os
 import typing
 
 import iamraw
 import serializeraw
 import utila
 
+import hey.path
 from hey.textnavigator.navigator import PageTextContentNavigator
 
 NO_FONT = -1
@@ -214,18 +216,41 @@ class FontContentStore:
             raise IndexError('Invalid font index: %r' % index)
 
 
-def create_fontstore(header: str, content: str) -> FontStore:
+def create_fontstore(
+        header: str,
+        content: str,
+        pages: tuple = None,
+) -> FontStore:
     """Load FontStore from `header`-path and `content`-path
 
     Args:
         header(str): path to saved font-header
         content(str): path to saved font-content
+        pages(tuple): pages to load
     Returns:
         created FontStore
     """
 
     fonts = serializeraw.load_font_header(header)
-    pages = serializeraw.load_font_content(content)
+    pages = serializeraw.load_font_content(content, pages=pages)
 
     result = FontStore(fonts, pages)
     return result
+
+
+def create_fontstore_frompath(
+        path: str,
+        prefix: str = '',
+        pages: tuple = None,
+) -> FontStore:
+    header = hey.path.fontheader(path, prefix=prefix)
+    content = hey.path.fontcontent(path, prefix=prefix)
+
+    if not os.path.exists(header):
+        utila.error(f'fontstore: {header} does not exists')
+        return None
+    if not os.path.exists(content):
+        utila.error(f'fontstore: {content} does not exists')
+        return None
+
+    return create_fontstore(header, content, pages)

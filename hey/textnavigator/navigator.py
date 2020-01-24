@@ -257,6 +257,7 @@ PageTextContentNavigators = typing.List[PageTextContentNavigator]
 def create_pagetextnavigators(
         text: iamraw.Document,
         text_positions,
+        fontstore: 'hey.fonts.store.FontStore' = None,
 ) -> PageTextNavigators:
     result = []
     for textposition in text_positions:
@@ -276,6 +277,16 @@ def create_pagetextnavigators(
             pos = textposition.content[textid]
             for index, line in enumerate(lines):
                 bounding = iamraw.split_y(pos, index, len(lines))
+
+                if fontstore:
+                    for char_number, char in enumerate(line.chars):
+                        fontid = fontstore.fontid(
+                            page,
+                            textid,
+                            index,
+                            char_number,
+                        )
+                        char.font = fontid
                 style = hey.textnavigator.style.create_textstyle(line.chars)
                 # TODO: Remove strip after container is fixed
                 if not line.text.strip():
@@ -349,7 +360,13 @@ def create_pagetextnavigators_frompath(
     textposition = hey.path.textposition(path, prefix=prefix)
     textposition = serializeraw.load_textpositions(textposition, pages=pages)
 
-    navigators = create_pagetextnavigators(text, textposition)
+    fontstore = hey.fonts.store.create_fontstore_frompath(
+        path,
+        prefix=prefix,
+        pages=pages,
+    )
+
+    navigators = create_pagetextnavigators(text, textposition, fontstore)
     return navigators
 
 
@@ -374,11 +391,17 @@ def create_pagetextcontentnavigators_frompath(
         prefix=prefix,
         pages=pages,
     )
+
+    # TODO: ENABLE LATER
+    # headerfooterpath = hey.path.headerfooters(path, prefix=prefix)
     headerfooterpath = hey.path.headerfooters(path)
     headerfooter = serializeraw.load_headerfooter(
         headerfooterpath,
         pages=pages,
     )
+
+    # TODO: ENABLE LATER
+    # sizeandborderpath = hey.path.sizeandborder(path, prefix=prefix)
     sizeandborderpath = hey.path.sizeandborder(path)
     sizeandborder = serializeraw.load_pageborders(
         sizeandborderpath,

@@ -6,7 +6,8 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
+import hey.textnavigator.navigator as htn
+import tests.resources
 from hey.textnavigator.fonts import fontdistance
 from hey.textnavigator.fonts import textbounds
 from hey.textnavigator.fonts import textsize_from_page
@@ -53,3 +54,17 @@ def test_groupme_fonts_textsize(
 ):
     common_size = textsize_from_page(simple_second_page_navigator)
     assert common_size == 9.96
+
+
+def test_hey_navigator_create_pagetext_navigator_frompath_withfont():
+    loaded = htn.create_pagetextnavigators_frompath(
+        tests.resources.BACHELOR_111PAGES,
+        pages=(1, 2, 3, 4),
+    )
+    for page in loaded:
+        assert len(page) >= 1
+        for line in page:
+            assert len(line.style.content) >= 1
+            for char in line.style.content:
+                # ensure that every char contains font definition
+                assert char.font is not None, char
