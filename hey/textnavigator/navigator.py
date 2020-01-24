@@ -260,12 +260,14 @@ def create_pagetextnavigators(
 ) -> PageTextNavigators:
     result = []
     for textposition in text_positions:
+        page = textposition.page
         navigator = PageTextNavigator(
             size=text.dimension,
-            page=textposition.page,
+            page=page,
         )
         textid = 0
-        content = utila.select_page(text, textposition.page)
+        content = utila.select_page(text, page)
+
         for item in content:
             try:
                 lines = item.lines
