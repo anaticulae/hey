@@ -6,6 +6,14 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+"""Test-Data-Generator
+===================
+
+The purpose of this test-data-generator is to deliver easy use test data
+for following analysis steps. Furthermore these examples shows how to
+use the different tools together. We do not want to duplicate any
+generator code.
+"""
 import concurrent.futures
 import os
 import os.path
