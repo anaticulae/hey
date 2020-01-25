@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v1.15.1
+
+### Fix
+
+* add detector run to example data generator (3981793cb43f)
+
+### Documentation
+
+* add purpose of test data generator (4e5650c20864)
+
 ## v1.15.0
 
 ### Feature
