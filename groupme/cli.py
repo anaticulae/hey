@@ -44,6 +44,8 @@ WORKPLAN = [
         inputs=[
             ResultFile(producer='rawmaker', name='text_text'),
             ResultFile(producer='rawmaker', name='text_positions'),
+            ResultFile(producer='rawmaker', name='fonts_header'),
+            ResultFile(producer='rawmaker', name='fonts_content'),
             ResultFile(producer='rawmaker', name='boxes_horizontal'),
             ResultFile(producer='rawmaker', name='border_pages'),
             ResultFile(producer='groupme', name='pagenumbers_pagenumbers'),

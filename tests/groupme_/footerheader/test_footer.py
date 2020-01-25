@@ -33,6 +33,8 @@ def test_groupme_footer_work(testdir):  #pylint:disable=W0621
     dumped = groupme.feature.footer.work(
         tests.resources.text(tests.resources.RESTRUCT),
         tests.resources.text_positions(tests.resources.RESTRUCT),
+        tests.resources.font_header(tests.resources.RESTRUCT),
+        tests.resources.font_content(tests.resources.RESTRUCT),
         tests.resources.horizontals(tests.resources.RESTRUCT),
         tests.resources.sizeandborder(tests.resources.RESTRUCT),
         tests.resources.pagenumbers(tests.resources.RESTRUCT),

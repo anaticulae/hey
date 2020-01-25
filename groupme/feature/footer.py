@@ -23,6 +23,7 @@ import groupme.footer.strategy.fixed
 import groupme.footer.strategy.moving
 import groupme.footer.strategy.pages
 import groupme.utils
+import hey.fonts.store
 import hey.textnavigator
 import hey.textnavigator.navigator
 import hey.utils
@@ -31,6 +32,8 @@ import hey.utils
 def work(
         text: str,
         text_positions: str,
+        fontheader: str,
+        fontcontent: str,
         horizontals: str,
         sizeandborders: str,
         pagenumbers: str,
@@ -47,6 +50,7 @@ def work(
     # load
     text = serializeraw.load_document(text, pages=pages)
     text_position = serializeraw.load_textpositions(text_positions, pages=pages)
+    fontstore = hey.fonts.store.create_fontstore(fontheader, fontcontent, pages=pages) # yapf:disable
     horizontals = serializeraw.load_horizontals(horizontals, pages=pages)
     sizeandborders = serializeraw.load_pageborders(sizeandborders, pages=pages)
     pagenumbers = serializeraw.load_pagenumbers(pagenumbers, pages=pages)
@@ -54,6 +58,7 @@ def work(
     pagetextnavigators = hey.textnavigator.navigator.create_pagetextnavigators(
         text,
         text_position,
+        fontstore=fontstore,
     )
     # work
     result = extract_footerheader(
