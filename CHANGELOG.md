@@ -2,6 +2,32 @@
 
 Every noteable change is logged here.
 
+## v1.15.0
+
+### Feature
+
+* add missing resources to footer extraction step (25a4ca4b8c7e)
+* use highnotes parser and modify holy notes (f521890e7cc4)
+* add style to parsed footraw-note (8bd0044c32dc)
+* add font information to pagetextnavigator if provided (0df71d53d10d)
+* add method to parse footer with footnotes (0671139d4673)
+* add method to merge highnotes in horizontal line (01808530d52b)
+* add Bounding to extracted Highnote (f131c36d8c46)
+* add method to split content by Highnote (0cb2d3b604b0)
+* create separate package to add more detection logic (6321f606adf5)
+* parse multiline footnotes (0a94785a2234)
+
+### Fix
+
+* fix spelling error (be363d911f4d)
+* avoid determine min of empty sequence (229b43fcf9c2)
+* resolve cyclic import (27f92d0fa0c7)
+* do not modify parsed input data (884a683df2f5)
+
+### Documentation
+
+* extend interface documentation (c329e51de7ce)
+
 ## v1.14.12
 
 ## v1.14.11
