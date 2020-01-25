@@ -10,7 +10,7 @@ footnotes
 
 * [x] support multiline footnotes
 
-* [ ] improve:
+* [x] improve: footnote detection, parsing, grouping
 
 maintainance
 ------------
@@ -42,3 +42,5 @@ before
 
 after
 ~~~~~
+
+* Your code has been rated at 9.42/10
