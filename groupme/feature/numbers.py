@@ -113,6 +113,7 @@ def footer(
                 continue
             # support -1-, -2-, ...
             clean_number = text.replace('-', '', 2).strip()
+            # TODO: DELIVER RAW DATA FOR FOOTER PAGES STRATEGY DETECTION
             item = (item.bounding, clean_number)
 
             pagecontent.append(item)
