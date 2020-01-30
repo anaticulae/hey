@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v1.15.3
+
+### Feature
+
+* extract raw page number and converted value (f4292cfb3e9b)
+* add method to find item in navigator by BoundingBox (411607f51c0d)
+
 ## v1.15.2
 
 ## v1.15.1
