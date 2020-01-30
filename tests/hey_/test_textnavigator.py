@@ -6,6 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import iamraw
 import pytest
 import utila
 from iamraw import BoundingBox
@@ -109,3 +110,14 @@ def test_hey_navigator_create_pagetextcontent_navigator_frompath():
     first = loaded[0]
     lasttext = first[-1].text
     assert lasttext != 'i', lasttext
+
+
+def test_hey_navigator_find():
+    navigator = htn.PageTextNavigator()
+    location = iamraw.BoundingBox.from_str('10.0 12.0 15 20')
+    navigator.insert('me', bounding=location, style=None)
+    location = iamraw.BoundingBox.from_str('100.0 120.0 150 200')
+    navigator.insert('hello', bounding=location, style=None)
+
+    located = navigator.find(location)
+    assert located.text == 'hello'

@@ -184,6 +184,13 @@ class PageTextNavigator:
         top, bottom = result[0], result[-1] + 1
         return top, bottom
 
+    def find(self, location: iamraw.BoundingBox):
+        # TODO: VERY SLOW
+        for item in self.data:
+            if location == item.bounding:
+                return item
+        raise ValueError(f'could not find {location}')
+
 
 class PageTextContentNavigator:
     """Iterate over page content without footer and header.
