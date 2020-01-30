@@ -65,14 +65,14 @@ class PageNumberStrategy(gfs.FooterHeaderDetectionStrategy):
 
             begin = utila.roundme(processed[1].y0 / pageheight)
             end = hey.textnavigator.navigator.END
-            value, bounding = processed[0], processed[1]
+            bounding = processed[1]
             raw = navigator.find(bounding)
             footer = iamraw.PagesFooterInformation(
                 begin=begin,
                 end=end,
                 page_location=bounding,
                 page=iamraw.PageInformation(
-                    value=value,
+                    value=rawpage[1],
                     raw=raw.text.strip(),  # TODO: REMOVE STRIP
                 ))
             footer_header = iamraw.PageContentFooterHeader(
