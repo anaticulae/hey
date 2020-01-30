@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.15.4
+
+### Fix
+
+* fix detecting page number (a75051a58bef)
+
 ## v1.15.3
 
 ### Feature
