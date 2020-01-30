@@ -55,23 +55,31 @@ SECOND_LINE = (
 
 
 @pytest.mark.parametrize('content, expected', [
-    (FIRST_LINE, [
-        groupme.toc.TocLine(
-            '2.1',
-            'Web 2.0, Social Web und Social Media: Abgrenzungen und Definitionen',
-            '4',
-            FIRST_LINE,
-        ),
-    ]),
-    (SECOND_LINE, [
-        groupme.toc.TocLine(
-            '2.',
-            ('Das Social Web und die Privatsphäre Selbstdarstellungsverhalten\n'
-             'der Nutzer aus Sicht von Massenmedien und Literatur'),
-            '4',
-            SECOND_LINE,
-        )
-    ])
+    pytest.param(
+        FIRST_LINE,
+        [
+            groupme.toc.TocLine(
+                '2.1',
+                'Web 2.0, Social Web und Social Media: Abgrenzungen und Definitionen',
+                '4',
+                FIRST_LINE,
+            ),
+        ],
+        id='first_line',
+    ),
+    pytest.param(
+        SECOND_LINE,
+        [
+            groupme.toc.TocLine(
+                '2.',
+                ('Das Social Web und die Privatsphäre Selbstdarstellungsverhalten\n'
+                 'der Nutzer aus Sicht von Massenmedien und Literatur'),
+                '4',
+                SECOND_LINE,
+            )
+        ],
+        id='second_line',
+    )
 ])
 def test_extract_toc_line(content, expected):
     parsed = gtsr.parse(content)
