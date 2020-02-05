@@ -13,7 +13,7 @@ import tests.resources
 
 def master72() -> htn.PageTextNavigators:
     result = htn.create_pagetextnavigators_frompath(
-        tests.resources.MASTER_72PAGES,
+        tests.resources.MASTER72,
         pages=(1, 2),
         prefix='oneline',
     )
@@ -22,7 +22,7 @@ def master72() -> htn.PageTextNavigators:
 
 def bachelor111():
     result = htn.create_pagetextcontentnavigators_frompath(
-        tests.resources.BACHELOR_111PAGES,
+        tests.resources.BACHELOR111,
         pages=(1, 2, 3, 4),
         prefix='oneline',
     )

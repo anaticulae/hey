@@ -156,7 +156,7 @@ def test_words_headlines_dump_and_load_headlines():
 
 
 def extract_master72_headlines(root: str):
-    master72 = tests.resources.MASTER_72PAGES
+    master72 = tests.resources.MASTER72
     sections_ = sections.path.sections_(master72)
     text = tests.resources.text(master72)
     text_positions = tests.resources.text_positions(master72)

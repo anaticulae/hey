@@ -40,7 +40,7 @@ def test_words_feature_words_work_pages0_10(testdir, monkeypatch):
     cmd = f'-i {root} -o {root} --pages=0:10'
 
     tests.fixtures.setup_testresources(
-        source=tests.resources.MASTER_72PAGES,
+        source=tests.resources.MASTER72,
         dest=root,
         accept=['rawmaker', 'sections', 'groupme'],
     )

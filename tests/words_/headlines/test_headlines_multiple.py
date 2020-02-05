@@ -15,7 +15,7 @@ import words.loader.basic
 
 
 def test_headlines_multiple_master72_extract_pages_5_7():
-    path = tests.resources.MASTER_72PAGES
+    path = tests.resources.MASTER72
     pages = tuple(range(5, 7))
     chapters = None
 
@@ -45,7 +45,7 @@ def test_headlines_multiple_master72_extract_pages_5_7():
 
 
 def test_headlines_multiple_master72_extract_pages_13_14():
-    path = tests.resources.MASTER_72PAGES
+    path = tests.resources.MASTER72
     pages = tuple(range(13, 15))
     chapters = None
 

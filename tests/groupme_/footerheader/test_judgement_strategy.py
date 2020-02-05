@@ -15,7 +15,7 @@ import tests.resources
 
 @pytest.mark.parametrize('path, expected_quality', [
     pytest.param(
-        tests.resources.BACHELOR_111PAGES,
+        tests.resources.BACHELOR111,
         29,
         id='bachelor111',
     ),

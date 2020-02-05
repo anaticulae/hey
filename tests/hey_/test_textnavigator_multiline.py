@@ -19,7 +19,7 @@ NO_GROUP = [[18], [31], [29], [35]]  # number of items per page
 def example():
     pages = tuple(range(5, 9))
     navigators = htn.create_pagetextnavigators_frompath(
-        tests.resources.MASTER_72PAGES,
+        tests.resources.MASTER72,
         pages=pages,
     )
     return navigators

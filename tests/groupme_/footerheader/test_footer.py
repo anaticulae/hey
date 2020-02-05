@@ -109,12 +109,12 @@ def test_groupme_footer_footerheader_detectionstategy(
 
 @pytest.mark.parametrize('root, expected', [
     pytest.param(
-        tests.resources.TECHNICAL_24PAGES,
+        tests.resources.TECHNICAL24,
         list(range(1, 24)),
         id='technical24',
     ),
     pytest.param(
-        tests.resources.MASTER_72PAGES,
+        tests.resources.MASTER72,
         [],
         id='master72',
     ),

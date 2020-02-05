@@ -24,7 +24,7 @@ def validate_master72(result):
 
 @pytest.mark.parametrize('document, pages, expected_footer, validate', [
     pytest.param(
-        tests.resources.MASTER_72PAGES,
+        tests.resources.MASTER72,
         tuple(range(20)),
         [(3, 6), (6, 3), (7, 2), (8, 4), (9, 1), (10, 4), (11, 3), (12, 2),
          (13, 6), (14, 7), (15, 8), (16, 10), (17, 8), (18, 7), (19, 8)],
@@ -32,7 +32,7 @@ def validate_master72(result):
         id='master72pages',
     ),
     pytest.param(
-        tests.resources.BACHELOR_111PAGES,
+        tests.resources.BACHELOR111,
         tuple(range(20)),
         [(9, 2), (10, 3), (11, 2), (12, 1), (13, 1), (15, 2), (16, 1), (17, 8),
          (18, 3), (19, 1)],
@@ -69,6 +69,6 @@ def test_groupme_footer_moving(document, pages, expected_footer, validate):
 
 
 def test_groupme_footer_master72pages(testdir):
-    path = tests.resources.horizontals(tests.resources.MASTER_72PAGES)
+    path = tests.resources.horizontals(tests.resources.MASTER72)
     result = serializeraw.load_horizontals(path)
     assert len(result) > 10, str(result)

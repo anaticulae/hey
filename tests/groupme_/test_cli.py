@@ -16,12 +16,12 @@ import tests.resources
 
 @pytest.mark.parametrize('cmd', [
     ['--help'],
-    ['-i', tests.resources.MASTER_72PAGES, '-o', 'output'],
-    ['-i', tests.resources.MASTER_89PAGES, '-o', 'output'],
+    ['-i', tests.resources.HOWTOWRITE9, '-o', 'output'],
+    ['-i', tests.resources.MASTER72, '-o', 'output'],
+    ['-i', tests.resources.MASTER89, '-o', 'output'],
     ['-i', tests.resources.PYPORTING, '-o', 'output'],
     ['-i', tests.resources.RESTRUCT, '-o', 'output'],
     ['-i', tests.resources.SIMPLE, '-o', 'output'],
-    ['-i', tests.resources.HOWTO_WRITE_PAGE9, '-o', 'output'],
 ])
 @pytest.mark.usefixtures('testdir')
 @utila.skip_longrun
@@ -36,6 +36,6 @@ def test_regression_groupme_problem(testdir, monkeypatch):
     to duplicated header/footer. This was solved by sorting page number
     of left/right page numbers."""
     tests.groupme_.run_success(
-        f'-i {tests.resources.BACHELOR_56PAGES} -j=8',
+        f'-i {tests.resources.BACHELOR56} -j=8',
         monkeypatch=monkeypatch,
     )

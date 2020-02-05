@@ -10,7 +10,7 @@
 import pytest
 import utila
 
-from tests.resources import MASTER_72PAGES
+from tests.resources import MASTER72
 from tests.resources import PYPORTING
 from tests.resources import RESTRUCT
 from tests.resources import RESTRUCT_PDF
@@ -53,7 +53,7 @@ def test_run_sections_multicore(testdir, monkeypatch):
     # this required items.
     # Copy yaml files which starts with rawmaker or groupme.
     pattern = '[rawmaker|groupme]*.yaml'
-    utila.copy_content(MASTER_72PAGES, root, pattern=pattern)
+    utila.copy_content(MASTER72, root, pattern=pattern)
 
     jobs = 5
     cmd = f'-j{jobs} -i {root} -o {root} --pages=0:5 --all'

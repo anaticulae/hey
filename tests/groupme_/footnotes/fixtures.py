@@ -17,7 +17,7 @@ import tests.resources
 @pytest.fixture
 def master72_page14():
     navigators = htn.create_pagetextnavigators_frompath(
-        tests.resources.MASTER_72PAGES,
+        tests.resources.MASTER72,
         pages=(14),
     )
     navigator = utila.select_page(navigators, 14)
@@ -30,7 +30,7 @@ def master72_page14():
 def master89_page7():
     page = 7
     navigators = htn.create_pagetextnavigators_frompath(
-        tests.resources.MASTER_89PAGES,
+        tests.resources.MASTER89,
         pages=(page),
     )
     navigator = utila.select_page(navigators, page)
@@ -43,7 +43,7 @@ def master89_page7():
 def master89_page19():
     page = 19
     navigators = htn.create_pagetextnavigators_frompath(
-        tests.resources.MASTER_89PAGES,
+        tests.resources.MASTER89,
         pages=(page),
     )
     navigator = utila.select_page(navigators, page)
@@ -57,7 +57,7 @@ def master89_page19():
 def bachelor111_page10():
     page = 10
     navigators = htn.create_pagetextnavigators_frompath(
-        tests.resources.BACHELOR_111PAGES,
+        tests.resources.BACHELOR111,
         pages=(page),
     )
     navigator = utila.select_page(navigators, page)

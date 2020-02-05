@@ -17,7 +17,7 @@ import tests.resources
 def test_hey_example_common_root():
     pdfs = [
         tests.resources.PYPORTING_PDF,
-        tests.resources.BACHELOR_111PAGES_PDF,
+        tests.resources.BACHELOR111_PDF,
     ]
     expected = [
         'bachelor_page_111_images_toc',
@@ -35,7 +35,7 @@ def test_hey_example_extract(testdir):
     generated = os.path.join(root, 'generated')
     pdfs = [
         tests.resources.PYPORTING_PDF,
-        tests.resources.BACHELOR_111PAGES_PDF,
+        tests.resources.BACHELOR111_PDF,
     ]
     hey.example.extract(pdfs, generated)
 

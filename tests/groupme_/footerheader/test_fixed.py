@@ -61,15 +61,15 @@ def test_groupme_footer_fixed_restructed_extract_page_footerheader():
 
 
 def _bachelor111():
-    horizontals = tests.resources.horizontals(tests.resources.BACHELOR_111PAGES)
+    horizontals = tests.resources.horizontals(tests.resources.BACHELOR111)
     horizontals = serializeraw.load_horizontals(horizontals)
 
-    sizeandborder = tests.resources.sizeandborder(tests.resources.BACHELOR_111PAGES)  #yapf:disable
+    sizeandborder = tests.resources.sizeandborder(tests.resources.BACHELOR111)
     sizeandborder = serializeraw.load_pageborders(sizeandborder)
     pageheight = utila.select_page(sizeandborder, 0).size.height
 
     navigators = htn.create_pagetextnavigators_frompath(
-        tests.resources.BACHELOR_111PAGES,
+        tests.resources.BACHELOR111,
         prefix='oneline',
     )
 
@@ -110,7 +110,7 @@ def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader():
 
     footerheader = _bachelor111_footerheader()
     msg = 'more footer than pages, remove duplication'
-    assert len(footerheader) < tests.resources.BACHELOR_111PAGES_PAGE_COUNT, msg
+    assert len(footerheader) < tests.resources.BACHELOR111_PAGE_COUNT, msg
 
     header = [item.header for item in footerheader if item.header]
     assert len(header) == 94, utila.log_raw(header)

@@ -29,13 +29,13 @@ def sync_resources():
 
 
 PACKAGE = [
-    (tests.resources.BACHELOR_111PAGES_PDF, tests.resources.BACHELOR_111PAGES),
+    (tests.resources.BACHELOR111_PDF, tests.resources.BACHELOR111),
     (tests.resources.HOWTO_ARGPARSE_PDF, tests.resources.HOWTO_ARGPARSE),
-    (tests.resources.MASTER_72PAGES_PDF, tests.resources.MASTER_72PAGES),
+    (tests.resources.MASTER72_PDF, tests.resources.MASTER72),
     (tests.resources.PYPORTING_PDF, tests.resources.PYPORTING),
     (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT),
     (tests.resources.SIMPLE_PDF, tests.resources.SIMPLE),
-    (tests.resources.TECHNICAL_24PAGES_PDF, tests.resources.TECHNICAL_24PAGES),
+    (tests.resources.TECHNICAL24_PDF, tests.resources.TECHNICAL24),
     (tests.resources.TWINE_PDF, tests.resources.TWINE),
 ]
 
@@ -84,13 +84,13 @@ def run_single(pdf, dest):
 def extract_single():
     plan = [
         (
-            tests.resources.BACHELOR_56PAGES_PDF,
-            tests.resources.BACHELOR_56PAGES,
+            tests.resources.BACHELOR56_PDF,
+            tests.resources.BACHELOR56,
         ),
-        (tests.resources.MASTER_89PAGES_PDF, tests.resources.MASTER_89PAGES),
+        (tests.resources.MASTER89_PDF, tests.resources.MASTER89),
         (
-            tests.resources.HOWTO_WRITE_PAGE9_PDF,
-            tests.resources.HOWTO_WRITE_PAGE9,
+            tests.resources.HOWTOWRITE9_PDF,
+            tests.resources.HOWTOWRITE9,
         ),
     ]
     with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER) as executor:

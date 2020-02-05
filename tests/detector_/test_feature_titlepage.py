@@ -81,17 +81,17 @@ def check_116_pages(titlepage: iamraw.TitlePage):
 
 @pytest.mark.parametrize('source, checker', [
     pytest.param(
-        tests.resources.MASTER_72PAGES_PDF,
+        tests.resources.MASTER72_PDF,
         check_72_pages,
         id='master72',
     ),
     pytest.param(
-        tests.resources.MASTER_78PAGES_PDF,
+        tests.resources.MASTER78_PDF,
         check_78_pages,
         id='master78',
     ),
     pytest.param(
-        tests.resources.MASTER_116PAGES_PDF,
+        tests.resources.MASTER116_PDF,
         check_116_pages,
         id='master116',
     ),
@@ -137,7 +137,7 @@ def parse_titlepages(path: str, pages: tuple = None):
 @utila.skip_longrun
 def test_detector_feature_titlepage_select_best():
     pages = tuple(range(20))
-    parsed = parse_titlepages(tr.MASTER_72PAGES, pages=pages)
+    parsed = parse_titlepages(tr.MASTER72, pages=pages)
     best = detector.titlepage.select_best(parsed)
     assert best == parsed[0], str(best)
 
@@ -170,7 +170,7 @@ def test_detector_feature_titlepage_parse_titlepage_negative(pages):
     """Split pages to increase mutli-process-testing."""
     pages = tuple(pages)
     navigators = htn.create_pagetextnavigators_frompath(
-        tr.MASTER_72PAGES,
+        tr.MASTER72,
         pages=pages,
     )
     for page in pages:

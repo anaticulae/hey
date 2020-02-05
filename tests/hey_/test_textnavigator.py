@@ -103,7 +103,7 @@ def test_hey_navigator_merge_content(simple_second_page_navigator):
 
 def test_hey_navigator_create_pagetextcontent_navigator_frompath():
     loaded = htn.create_pagetextcontentnavigators_frompath(
-        tests.resources.BACHELOR_111PAGES,
+        tests.resources.BACHELOR111,
         pages=(1, 2, 3, 4),
         prefix='oneline',
     )

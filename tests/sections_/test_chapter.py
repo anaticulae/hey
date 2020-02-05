@@ -24,9 +24,9 @@ import tests.resources
         id='restruct',
     ),
     pytest.param(
-        tests.resources.text(tests.resources.MASTER_72PAGES),
-        tests.resources.text_positions(tests.resources.MASTER_72PAGES),
-        tests.resources.toc(tests.resources.MASTER_72PAGES),
+        tests.resources.text(tests.resources.MASTER72),
+        tests.resources.text_positions(tests.resources.MASTER72),
+        tests.resources.toc(tests.resources.MASTER72),
         [3, 6, 22, 45, 63],
         id='master72pages',
     ),

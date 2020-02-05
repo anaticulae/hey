@@ -58,7 +58,7 @@ def test_groupme_fonts_textsize(
 
 def test_hey_navigator_create_pagetext_navigator_frompath_withfont():
     loaded = htn.create_pagetextnavigators_frompath(
-        tests.resources.BACHELOR_111PAGES,
+        tests.resources.BACHELOR111,
         pages=(1, 2, 3, 4),
     )
     for page in loaded:

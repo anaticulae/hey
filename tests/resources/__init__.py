@@ -99,25 +99,25 @@ PYPORTING_TOC = os.path.join(PYPORTING, TOC)
 PYPORTING_CHAPTER_COUNT = 6
 PYPORTING_PDF = os.path.join(DOCU, 'porting_extension_modules.pdf')
 
-BACHELOR_56PAGES = os.path.join(GENERATED, 'page_56_hard_to_read')
-BACHELOR_56PAGES_PDF = os.path.join(BACHELOR, 'page_56_hard_to_read.pdf')
+BACHELOR56 = os.path.join(GENERATED, 'page_56_hard_to_read')
+BACHELOR56_PDF = os.path.join(BACHELOR, 'page_56_hard_to_read.pdf')
 
-BACHELOR_63PAGES = os.path.join(GENERATED, 'page_63_images_toc')
-BACHELOR_63PAGES_PDF = os.path.join(BACHELOR, 'page_63_images_toc.pdf')
+BACHELOR63 = os.path.join(GENERATED, 'page_63_images_toc')
+BACHELOR63_PDF = os.path.join(BACHELOR, 'page_63_images_toc.pdf')
 
-MASTER_72PAGES = os.path.join(GENERATED, 'page_72_noimages_toc')
-MASTER_72PAGES_PDF = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
+MASTER72 = os.path.join(GENERATED, 'page_72_noimages_toc')
+MASTER72_PDF = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
 
-MASTER_89PAGES = os.path.join(GENERATED, 'page_89_noimages_toc')
-MASTER_89PAGES_PDF = os.path.join(MASTER, 'page_89_noimages_toc.pdf')
+MASTER89 = os.path.join(GENERATED, 'page_89_noimages_toc')
+MASTER89_PDF = os.path.join(MASTER, 'page_89_noimages_toc.pdf')
 
-BACHELOR_111PAGES = os.path.join(GENERATED, 'page_111_images_toc')
-BACHELOR_111PAGES_PDF = os.path.join(BACHELOR, 'page_111_images_toc.pdf')
-BACHELOR_111PAGES_PAGE_COUNT = 111
+BACHELOR111 = os.path.join(GENERATED, 'page_111_images_toc')
+BACHELOR111_PDF = os.path.join(BACHELOR, 'page_111_images_toc.pdf')
+BACHELOR111_PAGE_COUNT = 111
 
-TECHNICAL_24PAGES = os.path.join(GENERATED, 'technical_24pages')
-TECHNICAL_24PAGES_PDF = os.path.join(TECHNICAL, 'page_24_color_figures_images.pdf') # yapf:disable
-TECHNICAL_24PAGES_PAGE_COUNT = 24
+TECHNICAL24 = os.path.join(GENERATED, 'technical_24pages')
+TECHNICAL24_PDF = os.path.join(TECHNICAL, 'page_24_color_figures_images.pdf')
+TECHNICAL24_PAGE_COUNT = 24
 
 TWINE = os.path.join(GENERATED, 'twine')
 TWINE_PDF = os.path.join(DOCU, 'twine.pdf')
@@ -128,16 +128,16 @@ HOWTO_ARGPARSE = os.path.join(GENERATED, 'howto_argparse')
 HOWTO_ARGPARSE_PDF = os.path.join(DOCU, 'howto_argparse.pdf')
 HOWTO_ARGPARSE_PAGE_COUNT = 14
 
-HOWTO_WRITE_PAGE9 = os.path.join(GENERATED, 'howtowrite_pages9')
-HOWTO_WRITE_PAGE9_PDF = os.path.join(ORDER, 'howtowrite_pages9.pdf')
+HOWTOWRITE9 = os.path.join(GENERATED, 'howtowrite_pages9')
+HOWTOWRITE9_PDF = os.path.join(ORDER, 'howtowrite_pages9.pdf')
 
-MASTER_78PAGES_PDF = os.path.join(MASTER, 'page_78_images_toc.pdf')
-MASTER_116PAGES_PDF = os.path.join(MASTER, 'page_116_images_toc_formular.pdf')
+MASTER78_PDF = os.path.join(MASTER, 'page_78_images_toc.pdf')
+MASTER116_PDF = os.path.join(MASTER, 'page_116_images_toc_formular.pdf')
 
 NO_TITLE_EXAMPLE = [
-    BACHELOR_111PAGES_PDF,
-    MASTER_72PAGES_PDF,
-    MASTER_78PAGES_PDF,
+    BACHELOR111_PDF,
+    MASTER72_PDF,
+    MASTER78_PDF,
     PYPORTING_PDF,
     RESTRUCT_PDF,
     SIMPLE_PDF,
@@ -149,22 +149,22 @@ NO_TITLE_GENERATED = [
 ]
 
 REQURIED_RESOURCES = [
-    BACHELOR_111PAGES,
-    BACHELOR_111PAGES_PDF,
-    BACHELOR_56PAGES,
-    BACHELOR_56PAGES_PDF,
-    # BACHELOR_63PAGES, TODO: ENABLE LATER
-    BACHELOR_63PAGES_PDF,
+    BACHELOR111,
+    BACHELOR111_PDF,
+    BACHELOR56,
+    BACHELOR56_PDF,
+    # BACHELOR63, TODO: ENABLE LATER
+    BACHELOR63_PDF,
     HOWTO_ARGPARSE,
     HOWTO_ARGPARSE_PDF,
-    HOWTO_WRITE_PAGE9,
-    HOWTO_WRITE_PAGE9_PDF,
-    MASTER_116PAGES_PDF,
-    MASTER_72PAGES,
-    MASTER_72PAGES_PDF,
-    MASTER_78PAGES_PDF,
-    MASTER_89PAGES,
-    MASTER_89PAGES_PDF,
+    HOWTOWRITE9,
+    HOWTOWRITE9_PDF,
+    MASTER116_PDF,
+    MASTER72,
+    MASTER72_PDF,
+    MASTER78_PDF,
+    MASTER89,
+    MASTER89_PDF,
     PYPORTING,
     PYPORTING_FONT_CONTENT,
     PYPORTING_FONT_HEADER,
@@ -206,8 +206,8 @@ REQURIED_RESOURCES = [
     SIMPLE_TEXT,
     SIMPLE_TEXT_POSITION,
     SIMPLE_TOC,
-    TECHNICAL_24PAGES,
-    TECHNICAL_24PAGES_PDF,
+    TECHNICAL24,
+    TECHNICAL24_PDF,
     TWINE,
     TWINE_NO_TILE,
     TWINE_PDF,

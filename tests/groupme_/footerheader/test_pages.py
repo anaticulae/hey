@@ -24,10 +24,10 @@ import tests.resources
             id='howtoargparse',
         ),
         pytest.param(
-            tests.resources.TECHNICAL_24PAGES,
-            tests.resources.TECHNICAL_24PAGES_PAGE_COUNT,
+            tests.resources.TECHNICAL24,
+            tests.resources.TECHNICAL24_PAGE_COUNT,
             # header page has no page number
-            tests.resources.TECHNICAL_24PAGES_PAGE_COUNT - 1,
+            tests.resources.TECHNICAL24_PAGE_COUNT - 1,
             id='technical24pages',
         ),
     ])

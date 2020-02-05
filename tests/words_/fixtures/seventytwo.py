@@ -26,7 +26,7 @@ SEVENTYTWO_FIRSTPAGE = os.path.join(
 @functools.lru_cache(configo.CACHE_SMALL)
 def textrequired(pages=None):
     return words.feature.load_resources_frompath(
-        tests.resources.MASTER_72PAGES,
+        tests.resources.MASTER72,
         pages=pages,
     )
 

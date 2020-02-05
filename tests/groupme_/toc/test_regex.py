@@ -15,14 +15,11 @@ import groupme.toc.lineregex
 import groupme.toc.strategy.regex as gtsr
 import tests
 
-MASTER_72PAGES_TEXT = tests.resources.text(
-    tests.resources.MASTER_72PAGES,
-    prefix='oneline',
-)
+MASTER72_TEXT = tests.resources.text(tests.resources.MASTER72, prefix='oneline')
 
 
 def test_extract_toc_from_master_pages72_page_1and2():
-    document = serializeraw.load_document(MASTER_72PAGES_TEXT)
+    document = serializeraw.load_document(MASTER72_TEXT)
 
     page1, page2 = document[1:3]
 
@@ -36,7 +33,7 @@ def test_extract_toc_from_master_pages72_page_1and2():
 
 
 def test_extract_toc_from_master_pages72_page_withouttoc():
-    document = serializeraw.load_document(MASTER_72PAGES_TEXT)
+    document = serializeraw.load_document(MASTER72_TEXT)
 
     result = gtsr.parse_page(document[4:])
 
