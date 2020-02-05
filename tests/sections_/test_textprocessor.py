@@ -11,20 +11,19 @@ from serializeraw import load_document
 from serializeraw import load_font_content
 from serializeraw import load_font_header
 
+import tests.resources
 from hey.fonts.store import FontStore
 from sections.feature.title import font_positions_from_page
 from sections.textprocessor import PageIter
-from tests.resources import PYPORTING_FONT_CONTENT
-from tests.resources import PYPORTING_FONT_HEADER
-from tests.resources import PYPORTING_TEXT
 
 
 def pyporting_pages(pagenumber):  #pagenumber: int):
-    document = load_document(PYPORTING_TEXT)
+    document = load_document(tests.resources.text(tests.resources.PYPORTING))
     current_page = document[pagenumber]
 
-    header = load_font_header(PYPORTING_FONT_HEADER)
-    content = load_font_content(PYPORTING_FONT_CONTENT)
+    header = load_font_header(tests.resources.font_header(tests.resources.PYPORTING)) # yapf:disable
+
+    content = load_font_content(tests.resources.font_content(tests.resources.PYPORTING)) # yapf:disable
     fontstore = FontStore(header, content)
 
     positions = font_positions_from_page(fontstore, pagenumber)

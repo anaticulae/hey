@@ -34,14 +34,14 @@ def test_words_text_work(
 ):
     headlines = restructured_headlines
     result = words.feature.text.work(
-        boxes=tests.resources.RESTRUCT_BOXES,
-        fontcontent=tests.resources.RESTRUCT_FONT_CONTENT,
-        fontheader=tests.resources.RESTRUCT_FONT_HEADER,
-        headerfooters=tests.resources.RESTRUCT_FOOTERS,
+        boxes=tests.resources.boxed(tests.resources.RESTRUCT),
+        fontcontent=tests.resources.font_content(tests.resources.RESTRUCT),
+        fontheader=tests.resources.font_header(tests.resources.RESTRUCT),
+        headerfooters=tests.resources.headerfooters(tests.resources.RESTRUCT),
         headlines=headlines,
-        pagesizes=tests.resources.RESTRUCT_PAGESIZE,
-        text=tests.resources.RESTRUCT_TEXT,
-        textposition=tests.resources.RESTRUCT_TEXT_POSITION,
+        pagesizes=tests.resources.sizeandborder(tests.resources.RESTRUCT),
+        text=tests.resources.text(tests.resources.RESTRUCT),
+        textposition=tests.resources.text_positions(tests.resources.RESTRUCT),
     )
     assert len(result) > 6000, str(result)
 
@@ -168,14 +168,14 @@ def test_words_extract_texts_page_x(
 ):
     headlines = restructured_headlines
     loaded = words.feature.load_resources(
-        boxes=tests.resources.RESTRUCT_BOXES,
-        fontcontent=tests.resources.RESTRUCT_FONT_CONTENT,
-        fontheader=tests.resources.RESTRUCT_FONT_HEADER,
-        headerfooters=tests.resources.RESTRUCT_FOOTERS,
+        boxes=tests.resources.boxed(tests.resources.RESTRUCT),
+        fontcontent=tests.resources.font_content(tests.resources.RESTRUCT),
+        fontheader=tests.resources.font_header(tests.resources.RESTRUCT),
+        headerfooters=tests.resources.headerfooters(tests.resources.RESTRUCT),
         headlines=headlines,
-        pagesizes=tests.resources.RESTRUCT_PAGESIZE,
-        text=tests.resources.RESTRUCT_TEXT,
-        textposition=tests.resources.RESTRUCT_TEXT_POSITION,
+        pagesizes=tests.resources.sizeandborder(tests.resources.RESTRUCT),
+        text=tests.resources.text(tests.resources.RESTRUCT),
+        textposition=tests.resources.text_positions(tests.resources.RESTRUCT),
     )
 
     def join_output(paragraph):

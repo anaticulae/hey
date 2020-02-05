@@ -14,8 +14,6 @@ import tests.resources
 from sections.feature.whitepage import PageContentWhitepages
 from sections.feature.whitepage import WhitePage
 from sections.feature.whitepage import extract_whitepages
-# pylint:disable=W0611
-from tests.fixtures.restruct import restructured_pagetextnavigators
 
 RESTRUCT_EXPECTED = [
     PageContentWhitepages(content=WhitePage.CONTENT, page=0),
@@ -48,10 +46,10 @@ RESTRUCT_EXPECTED = [
 ]
 
 
-def test_whitepages_extract(restructured_pagetextnavigators):  # pylint:disable=W0621
-    navigators = restructured_pagetextnavigators
+def test_whitepages_extract():
+    navigators = tests.fixtures.create_pagetextnavigators(tests.resources.RESTRUCT) # yapf:disable
 
-    document = serializeraw.load_document(tests.resources.RESTRUCT_TEXT)
+    document = serializeraw.load_document(tests.resources.text(tests.resources.RESTRUCT)) # yapf:disable
 
     headerfooters = tests.resources.headerfooters(tests.resources.RESTRUCT)
     headerfooters = serializeraw.load_headerfooter(headerfooters)

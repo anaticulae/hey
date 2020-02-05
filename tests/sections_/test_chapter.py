@@ -14,12 +14,16 @@ import hey.textnavigator.navigator
 import sections.feature.chapter
 import tests.resources
 
+RESTRUCT_TEXT = tests.resources.text(tests.resources.RESTRUCT)
+RESTRUCT_TEXT_POSITION = tests.resources.text_positions(tests.resources.RESTRUCT) # yapf:disable
+RESTRUCT_TOC = tests.resources.toc(tests.resources.RESTRUCT)
+
 
 @pytest.mark.parametrize('document, position, toc, expected', [
     pytest.param(
-        tests.resources.RESTRUCT_TEXT,
-        tests.resources.RESTRUCT_TEXT_POSITION,
-        tests.resources.RESTRUCT_TOC,
+        RESTRUCT_TEXT,
+        RESTRUCT_TEXT_POSITION,
+        RESTRUCT_TOC,
         [6, 8, 10, 12, 18, 20, 22, 24],
         id='restruct',
     ),
@@ -41,9 +45,9 @@ def test_sections_chapter_extract(document, position, toc, expected):
 
 @pytest.mark.parametrize('document, position, toc', [
     pytest.param(
-        tests.resources.RESTRUCT_TEXT,
-        tests.resources.RESTRUCT_TEXT_POSITION,
-        tests.resources.RESTRUCT_TOC,
+        RESTRUCT_TEXT,
+        RESTRUCT_TEXT_POSITION,
+        RESTRUCT_TOC,
         id='restruct',
     ),
 ])

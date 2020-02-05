@@ -29,7 +29,8 @@ def test_extract_index_likelihood(restructured_text):
 
 
 def test_index_work():
-    dumped = sections.feature.index.work(tests.resources.RESTRUCT_ONELINE_TEXT)
+    text = tests.resources.text(tests.resources.RESTRUCT, prefix='oneline')
+    dumped = sections.feature.index.work(text)
     assert len(dumped) > 100
 
 

@@ -9,7 +9,6 @@
 
 import iamraw
 import pytest
-import serializeraw
 import utila
 
 import hey.fonts.store as fs
@@ -23,8 +22,6 @@ from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_pagenumbers
 from tests.fixtures.restruct import restructured_sizeandborder
 from tests.fixtures.restruct import restructured_text
-from tests.resources import RESTRUCT_PAGESIZE
-from tests.resources import RESTRUCT_TEXT_POSITION
 
 FIRST_FONT = iamraw.Font(
     name='NimbusSanL',
@@ -135,25 +132,13 @@ def test_fontstore_from_str(
 
 
 @pytest.fixture
-def restructured_textnavigators(
-        restructured_text: iamraw.Document,  # pylint:disable=W0621
-) -> tn.PageTextNavigators:
-    textpositions = serializeraw.load_textpositions(tr.RESTRUCT_TEXT_POSITION)
-    navigators = tn.create_pagetextnavigators(
-        text=restructured_text,
-        text_positions=textpositions,
-    )
-    return navigators
-
-
-@pytest.fixture
 def restructured_pagetextcontentnavigator(
-        restructured_textnavigators,  # pylint:disable=W0621
         restructured_contentborder,  # pylint:disable=W0621
 ) -> tn.PageTextContentNavigator:
+    textnavigators = tn.create_pagetextnavigators_frompath(tr.RESTRUCT)
     contentborders = restructured_contentborder
     page = 4
-    navigator = utila.select_page(restructured_textnavigators, page)
+    navigator = utila.select_page(textnavigators, page)
     contentborders = utila.select_page(contentborders, page)
     pagecontent = tn.PageTextContentNavigator(
         navigator,

@@ -19,10 +19,6 @@ from hey.textnavigator.merger import merge_content
 from hey.textnavigator.merger import merge_content_join
 from hey.textnavigator.navigator import to_content
 #pylint:disable=W0611
-from tests.fixtures.restruct import RESTRUCT_HORIZONTAL
-from tests.fixtures.restruct import RESTRUCT_PAGESIZE
-from tests.fixtures.restruct import RESTRUCT_TEXT
-from tests.fixtures.restruct import RESTRUCT_TEXT_POSITION
 from tests.fixtures.restruct import restructured_headlines
 from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_list_dumped

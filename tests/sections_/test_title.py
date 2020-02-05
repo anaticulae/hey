@@ -23,10 +23,6 @@ from tests.fixtures.simple import simple_document  # pylint:disable=W0611
 from tests.fixtures.simple import simple_document_fixture
 from tests.fixtures.simple import simple_fontstore  # pylint:disable=W0611
 from tests.fixtures.simple import simple_fontstore_fixture
-# pylint:disable=W0611
-from tests.resources import RESTRUCT_ONELINE_FONT_CONTENT
-from tests.resources import RESTRUCT_ONELINE_FONT_HEADER
-from tests.resources import RESTRUCT_ONELINE_TEXT
 
 
 def test_load_font_lookup(restructured_fontstore):  #pylint:disable=W0621

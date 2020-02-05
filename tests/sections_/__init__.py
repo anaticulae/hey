@@ -19,12 +19,6 @@ from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
 from sections import PROCESS
 from sections.cli import main
-from tests.resources import RESTRUCT_HORIZONTAL
-from tests.resources import RESTRUCT_TEXT
-from tests.resources import RESTRUCT_TEXT_POSITION
-from tests.resources import SIMPLE_FONT_CONTENT
-from tests.resources import SIMPLE_FONT_HEADER
-from tests.resources import SIMPLE_TEXT
 
 #pylint:disable=C0103
 run_sections_success = partial(

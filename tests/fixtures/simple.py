@@ -24,13 +24,35 @@ import tests
 import tests.fixtures
 import tests.resources
 
+SIMPLE_PAGESIZE = tests.resources.sizeandborder(tests.resources.SIMPLE)
+SIMPLE_HORIZONTAL = tests.resources.horizontals(tests.resources.SIMPLE)
+SIMPLE_TEXT_POSITION = tests.resources.text_positions(tests.resources.SIMPLE)
+SIMPLE_TEXT = tests.resources.text(tests.resources.SIMPLE)
+SIMPLE_ONELINE_TEXT = tests.resources.text(
+    tests.resources.SIMPLE,
+    prefix='oneline',
+)
+SIMPLE_ONELINE_FONT_HEADER = tests.resources.font_header(
+    tests.resources.SIMPLE,
+    prefix='oneline',
+)
+SIMPLE_ONELINE_FONT_CONTENT = tests.resources.font_content(
+    tests.resources.SIMPLE,
+    prefix='oneline',
+)
+SIMPLE_FONT_HEADER = tests.resources.font_header(tests.resources.SIMPLE)
+SIMPLE_FONT_CONTENT = tests.resources.font_content(tests.resources.SIMPLE)
+SIMPLE_FOOTER = tests.resources.headerfooters(tests.resources.SIMPLE)
+SIMPLE_TOC = tests.resources.toc(tests.resources.SIMPLE)
+SIMPLE_FOOTERS = tests.resources.headerfooters(tests.resources.SIMPLE)
+
 
 @pytest.fixture
 def simple():
-    pagesize = serializeraw.load_pageborders(tests.resources.SIMPLE_PAGESIZE)
-    horizontals = serializeraw.load_horizontals(tests.resources.SIMPLE_HORIZONTAL) # yapf:disable
-    position = serializeraw.load_textpositions(tests.resources.SIMPLE_TEXT_POSITION) # yapf:disable
-    document = serializeraw.load_document(tests.resources.SIMPLE_TEXT)
+    pagesize = serializeraw.load_pageborders(SIMPLE_PAGESIZE)
+    horizontals = serializeraw.load_horizontals(SIMPLE_HORIZONTAL) # yapf:disable
+    position = serializeraw.load_textpositions(SIMPLE_TEXT_POSITION) # yapf:disable
+    document = serializeraw.load_document(SIMPLE_TEXT)
 
     assert pagesize
     assert horizontals
@@ -45,19 +67,19 @@ def simple():
 
 @pytest.fixture
 def simple_document() -> iamraw.Document:
-    loaded = serializeraw.load_document(tests.resources.SIMPLE_ONELINE_TEXT)
+    loaded = serializeraw.load_document(SIMPLE_ONELINE_TEXT)
     return loaded
 
 
 def simple_document_fixture() -> iamraw.Document:
-    loaded = serializeraw.load_document(tests.resources.SIMPLE_TEXT)
+    loaded = serializeraw.load_document(SIMPLE_TEXT)
     return loaded
 
 
 def simple_fontstore_fixture() -> hey.fonts.store.FontStore:
     lookup = hey.fonts.store.create_fontstore(
-        tests.resources.SIMPLE_FONT_HEADER,
-        tests.resources.SIMPLE_FONT_CONTENT,
+        SIMPLE_FONT_HEADER,
+        SIMPLE_FONT_CONTENT,
     )
     return lookup
 
@@ -65,8 +87,8 @@ def simple_fontstore_fixture() -> hey.fonts.store.FontStore:
 @pytest.fixture
 def simple_fontstore() -> hey.fonts.store.FontStore:
     lookup = hey.fonts.store.create_fontstore(
-        tests.resources.SIMPLE_FONT_HEADER,
-        tests.resources.SIMPLE_FONT_CONTENT,
+        SIMPLE_FONT_HEADER,
+        SIMPLE_FONT_CONTENT,
     )
     return lookup
 
@@ -86,14 +108,14 @@ def simple_pagetextnavigators() -> hey.textnavigator.navigator.PageTextNavigator
 
 @pytest.fixture
 def simple_pagesize():
-    size = serializeraw.load_pageborders(tests.resources.SIMPLE_PAGESIZE)
+    size = serializeraw.load_pageborders(SIMPLE_PAGESIZE)
     size = [item.size for item in size]
     return size
 
 
 @pytest.fixture
 def simple_contentborder():
-    border = serializeraw.load_pageborders(tests.resources.SIMPLE_PAGESIZE)
+    border = serializeraw.load_pageborders(SIMPLE_PAGESIZE)
     border = [item.border for item in border]
     return border
 
@@ -135,16 +157,16 @@ def simple_second_page_size(simple_contentborder) -> iamraw.Border:  # pylint:di
 
 @pytest.fixture
 def simple_toc():
-    result = sections.feature.toc.work(tests.resources.SIMPLE_ONELINE_TEXT)
+    result = sections.feature.toc.work(SIMPLE_ONELINE_TEXT)
     return result
 
 
 @pytest.fixture
 def simple_whitepage():
     result = sections.feature.whitepage.work(
-        tests.resources.SIMPLE_TEXT,
-        tests.resources.SIMPLE_TEXT_POSITION,
-        tests.resources.SIMPLE_FOOTERS,
+        SIMPLE_TEXT,
+        SIMPLE_TEXT_POSITION,
+        SIMPLE_FOOTERS,
     )
     return result
 
@@ -152,25 +174,25 @@ def simple_whitepage():
 @pytest.fixture
 def simple_title():
     result = sections.feature.title.work(
-        tests.resources.SIMPLE_ONELINE_TEXT,
-        tests.resources.SIMPLE_ONELINE_FONT_HEADER,
-        tests.resources.SIMPLE_ONELINE_FONT_CONTENT,
+        SIMPLE_ONELINE_TEXT,
+        SIMPLE_ONELINE_FONT_HEADER,
+        SIMPLE_ONELINE_FONT_CONTENT,
     )
     return result
 
 
 @pytest.fixture
 def simple_index():
-    result = sections.feature.index.work(tests.resources.SIMPLE_ONELINE_TEXT)
+    result = sections.feature.index.work(SIMPLE_ONELINE_TEXT)
     return result
 
 
 @pytest.fixture
 def simple_chapter():
     result = sections.feature.chapter.work(
-        tests.resources.SIMPLE_TEXT,
-        tests.resources.SIMPLE_TEXT_POSITION,
-        tests.resources.SIMPLE_TOC,
+        SIMPLE_TEXT,
+        SIMPLE_TEXT_POSITION,
+        SIMPLE_TOC,
     )
 
     # ensure that all chapters are detected
@@ -184,22 +206,22 @@ def simple_chapter():
 @pytest.fixture
 def simple_sections():
     chapter = sections.feature.chapter.work(
-        tests.resources.SIMPLE_TEXT,
-        tests.resources.SIMPLE_TEXT_POSITION,
-        tests.resources.SIMPLE_TOC,
+        SIMPLE_TEXT,
+        SIMPLE_TEXT_POSITION,
+        SIMPLE_TOC,
     )
 
-    index = sections.feature.index.work(tests.resources.SIMPLE_TEXT)
+    index = sections.feature.index.work(SIMPLE_TEXT)
     title = sections.feature.title.work(
-        tests.resources.SIMPLE_TEXT,
-        tests.resources.SIMPLE_FONT_HEADER,
-        tests.resources.SIMPLE_FONT_CONTENT,
+        SIMPLE_TEXT,
+        SIMPLE_FONT_HEADER,
+        SIMPLE_FONT_CONTENT,
     )
-    toc = sections.feature.toc.work(tests.resources.SIMPLE_TEXT)
+    toc = sections.feature.toc.work(SIMPLE_TEXT)
     whitepage = sections.feature.whitepage.work(
-        tests.resources.SIMPLE_TEXT,
-        tests.resources.SIMPLE_TEXT_POSITION,
-        tests.resources.SIMPLE_FOOTERS,
+        SIMPLE_TEXT,
+        SIMPLE_TEXT_POSITION,
+        SIMPLE_FOOTERS,
     )
     result = sections.feature.section.work(
         chapter,

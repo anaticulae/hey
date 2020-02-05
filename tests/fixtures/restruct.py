@@ -36,23 +36,35 @@ from sections.feature.section import work as section_work
 from sections.feature.title import work as title_work
 from sections.feature.toc import work as toc_work
 from sections.feature.whitepage import work as whitepage_work
-from tests.resources import RESTRUCT_BOXES
-from tests.resources import RESTRUCT_FONT_CONTENT
-from tests.resources import RESTRUCT_FONT_HEADER
-from tests.resources import RESTRUCT_FOOTERS
-from tests.resources import RESTRUCT_HORIZONTAL
-from tests.resources import RESTRUCT_ONELINE_FONT_CONTENT
-from tests.resources import RESTRUCT_ONELINE_FONT_HEADER
-from tests.resources import RESTRUCT_ONELINE_TEXT
-from tests.resources import RESTRUCT_PAGESIZE
-from tests.resources import RESTRUCT_TEXT
-from tests.resources import RESTRUCT_TEXT_POSITION
-from tests.resources import RESTRUCT_TOC
 from words.feature.boxed import dump_boxedcontent
 from words.feature.boxed import process_content as boxed_process_content
 from words.feature.headlines import work as headlines_work
 from words.feature.list import process as list_process
 from words.text.chapter import extract_texts as text_extract_texts
+
+RESTRUCT_BOXES = tests.resources.boxed(tests.resources.RESTRUCT)
+RESTRUCT_FONT_CONTENT = tests.resources.font_content(tests.resources.RESTRUCT)
+RESTRUCT_FONT_HEADER = tests.resources.font_header(tests.resources.RESTRUCT)
+RESTRUCT_FOOTERS = tests.resources.headerfooters(tests.resources.RESTRUCT)
+RESTRUCT_HORIZONTAL = tests.resources.horizontals(tests.resources.RESTRUCT)
+RESTRUCT_ONELINE_FONT_CONTENT = tests.resources.font_content(
+    tests.resources.RESTRUCT,
+    prefix='oneline',
+)
+RESTRUCT_ONELINE_FONT_HEADER = tests.resources.font_header(
+    tests.resources.RESTRUCT,
+    prefix='oneline',
+)
+RESTRUCT_ONELINE_TEXT = tests.resources.text(
+    tests.resources.RESTRUCT,
+    prefix='oneline',
+)
+RESTRUCT_PAGESIZE = tests.resources.sizeandborder(tests.resources.RESTRUCT)
+RESTRUCT_TEXT = tests.resources.text(tests.resources.RESTRUCT)
+RESTRUCT_TEXT_POSITION = tests.resources.text_positions(
+    tests.resources.RESTRUCT)
+RESTRUCT_TOC = tests.resources.toc(tests.resources.RESTRUCT)
+RESTRUCT_PAGENUMBERS = tests.resources.pagenumbers(tests.resources.RESTRUCT)
 
 
 @pytest.fixture
@@ -82,7 +94,7 @@ def restructured_fontstore_fixture() -> FontStore:
 
 @pytest.fixture
 def restructured_pagenumbers():
-    loaded = serializeraw.load_pagenumbers(tests.resources.RESTRUCT_PAGENUMBERS)
+    loaded = serializeraw.load_pagenumbers(RESTRUCT_PAGENUMBERS)
     return loaded
 
 
@@ -116,7 +128,7 @@ def restructured_headlines():
         font_content=RESTRUCT_FONT_CONTENT,
         sizeandborder=RESTRUCT_PAGESIZE,
         boxes=RESTRUCT_BOXES,
-        headerfooters=tests.resources.RESTRUCT_FOOTERS,
+        headerfooters=RESTRUCT_FOOTERS,
     )
     return dumped
 
@@ -245,7 +257,7 @@ def restructured_textexample(restructured_headlines):  # pylint:disable=W0621
         fontcontent=RESTRUCT_FONT_CONTENT,
         headlines=headlines,
         pagesizes=RESTRUCT_PAGESIZE,
-        headerfooters=tests.resources.RESTRUCT_FOOTERS,
+        headerfooters=RESTRUCT_FOOTERS,
         boxes=RESTRUCT_BOXES,
     )
     extracted = text_extract_texts(loaded)

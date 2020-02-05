@@ -20,7 +20,6 @@ from tests.fixtures.simple import simple_document
 from tests.fixtures.simple import simple_page_0
 from tests.resources import RESTRUCT_TOC_LINES
 from tests.resources import SIMPLE
-from tests.resources import SIMPLE_TEXT
 from tests.resources import SIMPLE_TOC_LINES
 
 

@@ -21,14 +21,21 @@ import detector.parser.person
 import detector.titlepage
 import hey.textnavigator.navigator as htn
 import tests
+import tests.fixtures.simple
 import tests.resources as tr
 
 
 @utila.skip_longrun
 def test_titlepage_parser():
     extracted = detector.feature.titlepage.work(
-        tests.resources.SIMPLE_ONELINE_TEXT,
-        tests.resources.SIMPLE_ONELINE_POSITION,
+        tests.resources.text(
+            tests.resources.SIMPLE,
+            prefix='oneline',
+        ),
+        tests.resources.text_positions(
+            tests.resources.SIMPLE,
+            prefix='oneline',
+        ),
     )
     assert extracted
 
