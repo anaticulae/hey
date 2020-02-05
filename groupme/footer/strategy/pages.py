@@ -66,14 +66,21 @@ class PageNumberStrategy(gfs.FooterHeaderDetectionStrategy):
             begin = utila.roundme(processed[1].y0 / pageheight)
             end = hey.textnavigator.navigator.END
             bounding = processed[1]
-            raw = navigator.find(bounding)
+            # TODO: REMOVE STRIP
+            if navigator is None:
+                # TODO: CHECK WHY NAVIGATOR CAN BE NONE
+                raw = ''
+                utila.error(f'could not determine `raw-page` on {pdfpage}'
+                            ' no navigator found')
+            else:
+                raw = navigator.find(bounding).text.strip()
             footer = iamraw.PagesFooterInformation(
                 begin=begin,
                 end=end,
                 page_location=bounding,
                 page=iamraw.PageInformation(
                     value=rawpage[1],
-                    raw=raw.text.strip(),  # TODO: REMOVE STRIP
+                    raw=raw,
                 ))
             footer_header = iamraw.PageContentFooterHeader(
                 header=header,
