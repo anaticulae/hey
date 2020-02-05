@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.15.6
+
+### Fix
+
+* log that textnavigator was not loaded (c00a96c1b987)
+
 ## v1.15.5
 
 ## v1.15.4
