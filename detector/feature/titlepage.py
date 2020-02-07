@@ -8,9 +8,9 @@
 # =============================================================================
 """                         TITLE PAGE EXTRACTOR
 
-The title page extractor extract information like author, type of work,
-university, date etc. out of the defined title page. Are further `decision
-unit` get these information are jduge them if there are right or something is
+The title page extractor extracts information like author, type of work,
+university, date etc. out of the defined title page. Further `decision unit`s
+gets these information and judge them if there are right or something is
 missing. A further unit gives advices how to improve the `title` page.
 
 workplan:
