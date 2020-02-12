@@ -23,6 +23,7 @@ UNSUPPORTED_DOCUMENTS = {
     'paper/page_10_double_column_with_tables.pdf',
     'paper/page_6_double_column.pdf',
     'paper/page_6_double_column_with_math.pdf',
+    'book/leftright.pdf',
 }
 
 EXPECTED_FAILURE = {  # yapf:disable
