@@ -11,8 +11,7 @@ from collections import namedtuple
 from re import search
 
 import iamraw
-
-from detector.parser import extract_match
+import utila
 
 # TODO: MOVE TO IAMRAW
 TitleThesisType = namedtuple('TitleThesisType', 'typ, title raw')
@@ -30,7 +29,7 @@ def parse(token: str) -> TitleThesisType:
         finding = collected[item.name]
         if not finding:
             continue
-        raw = extract_match(collected)
+        raw = utila.extract_match(collected)
         return TitleThesisType(item, finding, raw)
     assert 0, 'should not happen'
     return None

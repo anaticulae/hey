@@ -20,8 +20,7 @@ import functools
 import re
 
 import iamraw
-
-import detector.parser
+import utila
 
 
 def parse(raw: str) -> iamraw.TitleDate:
@@ -164,7 +163,7 @@ def simple_alpha_date(
     if not res:
         return None
 
-    matched = detector.parser.extract_match(res)
+    matched = utila.extract_match(res)
     day = int(res['day'])
     collected = month_match[res['month']]
     month_ = month.index(collected) + 1
@@ -210,7 +209,7 @@ def location_comma_day_month_year(raw: str) -> iamraw.TitleDate:
     year = int(res['year'])
     valid = validate_date(year, month, day)
 
-    raw = detector.parser.extract_match(res)
+    raw = utila.extract_match(res)
     result = iamraw.TitleDate(
         year=year,
         month=month,

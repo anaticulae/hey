@@ -24,8 +24,7 @@ import operator
 import re
 
 import iamraw
-
-import detector.parser
+import utila
 
 
 def parse(raw: str) -> iamraw.Person:
@@ -47,7 +46,7 @@ def parse(raw: str) -> iamraw.Person:
     title = merge_title(title)
 
     name, firstname = result['name'], result['fname']
-    raw = detector.parser.extract_match(result)
+    raw = utila.extract_match(result)
     person = iamraw.Person(title=title, name=name, firstname=firstname, raw=raw)
     return person
 
@@ -86,7 +85,7 @@ def parse_person_without_title(raw: str) -> iamraw.Person:
         title=title,
         name=name,
         firstname=firstname,
-        raw=detector.parser.extract_match(matched),
+        raw=utila.extract_match(matched),
     )
     return result
 

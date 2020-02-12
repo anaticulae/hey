@@ -38,7 +38,6 @@ import re
 import iamraw
 import utila
 
-import detector.parser
 import groupme.footnotes.highnotes
 
 # TODO: REPLACE WITH GENERAL TEXT PARSER
@@ -59,7 +58,7 @@ def parse(content: str):
     for item in parsed:
         number = item['number']
         text = item['text']
-        raw = detector.parser.extract_match(item)
+        raw = utila.extract_match(item)
 
         footnote = iamraw.FootRawNote(
             number=number,

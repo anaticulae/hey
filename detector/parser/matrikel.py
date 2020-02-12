@@ -26,8 +26,7 @@ not contains a matrikel-number-intro.
 import re
 
 import iamraw
-
-from detector.parser import extract_match
+import utila
 
 
 def parse(raw: str) -> iamraw.Matrikel:
@@ -44,7 +43,7 @@ def parse(raw: str) -> iamraw.Matrikel:
         return None
     intro = result['intro']
     number = int(result['number'])
-    raw = extract_match(result).strip()  # TODO: remove after fixing regex
+    raw = utila.extract_match(result).strip()  # TODO: remove after fixing regex
     matrikel = iamraw.Matrikel(number=number, intro=intro, raw=raw)
     return matrikel
 

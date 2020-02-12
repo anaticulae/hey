@@ -10,7 +10,8 @@
 import contextlib
 import re
 
-import detector.parser
+import utila
+
 import groupme.toc
 import hey.text.regex as htr
 
@@ -128,6 +129,6 @@ def extract_match(match: re.Match) -> groupme.toc.TocLine:
         level=level,
         title=title,
         page=page,
-        raw=detector.parser.extract_match(match),
+        raw=utila.extract_match(match),
     )
     return result
