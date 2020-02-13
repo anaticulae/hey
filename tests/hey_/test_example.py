@@ -19,12 +19,14 @@ def test_hey_example_common_root():
         tests.resources.PYPORTING_PDF,
         tests.resources.BACHELOR111_PDF,
     ]
-    expected = [
+    expected = {
         'bachelor_page_111_images_toc',
         'docu_porting_extension_modules',
-    ]
+    }
 
     root = hey.example.output_names(pdfs)
+    # the expected order is not important
+    root = set(root)
 
     assert root == expected
 

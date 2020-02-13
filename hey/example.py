@@ -114,5 +114,4 @@ def output_names(files):
     files = [item.replace('.pdf', '') for item in files]
     files = [item.replace('/', '_') for item in files]
 
-    files = sorted(files)
     return files
