@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.15.7
+
+### Documentation
+
+* fix title page introduction (459638064943)
+
 ## v1.15.6
 
 ### Fix
