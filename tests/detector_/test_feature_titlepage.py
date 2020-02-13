@@ -78,7 +78,7 @@ def check_116_pages(titlepage: iamraw.TitlePage):
 
     # TODO: Activate later
     author = iamraw.Person(
-        detector.parser.person.Title.STUDENT,
+        iamraw.AcademicTitle.STUDENT,
         'Fahrendholz',
         'Helmut Konrad',
         'vorgelegt von:\nHelmut Konrad Fahrendholz',

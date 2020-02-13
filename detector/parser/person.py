@@ -19,11 +19,11 @@ Examples:
         Prof. Dr. Nobert Bolz
         Zweitgutachter: Dipl.-Medienberater Stephan Frühwirt
 """
-import enum
 import operator
 import re
 
 import iamraw
+import iamraw.person
 import utila
 
 
@@ -143,8 +143,10 @@ def order_persons(persons):
     persons = sorted(persons, key=operator.attrgetter('title', 'name'))
 
     if any([
-            persons[0].title in (Title.EXAMINIER, Title.DR, Title.PROF),
-            author_or_examiner(persons[0].raw) == Title.EXAMINIER
+            persons[0].title in (iamraw.AcademicTitle.EXAMINIER,
+                                 iamraw.AcademicTitle.DR,
+                                 iamraw.AcademicTitle.PROF),
+            author_or_examiner(persons[0].raw) == iamraw.AcademicTitle.EXAMINIER
     ]):
         # author was not detected
         return None, persons
@@ -153,55 +155,24 @@ def order_persons(persons):
     return author, examiner
 
 
-class Title(enum.Flag):
-    # TODO: MOVE TO IAMRAW
-    NO_TITLE = enum.auto()
-    STUDENT = enum.auto()  # author without academic title
-    BSC = enum.auto()
-    MASTER = enum.auto()
-    EXAMINIER = enum.auto()  # examiner without academic title
-    DR = enum.auto()
-    PROF = enum.auto()
-
-    def __lt__(self, item):
-        # make `Title` orderable
-        try:
-            return self.value < item.value  # pylint:disable=comparison-with-callable
-        except ValueError:
-            return False
-        except AttributeError:
-            return False
-
-    @staticmethod
-    def fromstring(value):
-        try:
-            return MATCHES[value]
-        except KeyError:
-            return None
-
-    @staticmethod
-    def keys():
-        return [item for item in MATCHES]
-
-
-PROF_DR = Title.PROF | Title.DR
-
 MATCHES = {
-    'B.Sc.': Title.BSC,
-    r'Dipl.-\w+': Title.MASTER,
-    'Dipl. Ing.': Title.MASTER,
-    'M.A.': Title.MASTER,
-    'M.Sc.': Title.MASTER,
-    'Dr.-Ing.': Title.DR,
-    'Dr.': Title.DR,
+    'B.Sc.': iamraw.AcademicTitle.BSC,
+    r'Dipl.-\w+': iamraw.AcademicTitle.MASTER,
+    'Dipl. Ing.': iamraw.AcademicTitle.MASTER,
+    'M.A.': iamraw.AcademicTitle.MASTER,
+    'M.Sc.': iamraw.AcademicTitle.MASTER,
+    'Dr.-Ing.': iamraw.AcademicTitle.DR,
+    'Dr.': iamraw.AcademicTitle.DR,
     # TODO: ADD GENERAL -/RULE?
-    'Prof.-': Title.PROF,
-    'Prof.': Title.PROF,
-    r'[a-zA-Z\-]+. ': Title.DR,
+    'Prof.-': iamraw.AcademicTitle.PROF,
+    'Prof.': iamraw.AcademicTitle.PROF,
+    r'[a-zA-Z\-]+. ': iamraw.AcademicTitle.DR,
     # see general pattern above
-    # 'Dr. rer. biol. hum.': Title.DR,
-    # 'Dr. med.': Title.DR,
+    # 'Dr. rer. biol. hum.': AcademicTitle.DR,
+    # 'Dr. med.': AcademicTitle.DR,
 }
+# TODO: REMOVE AFTER MOVING TO IAMRAW
+iamraw.person.MATCHES = MATCHES
 
 EXAMINER = [
     # it's important to limit parsing length to avoid very long running parsing
@@ -217,7 +188,7 @@ EXAMINER = [
 
 TITLE_KEYS = [
     item.replace('.', r'\.').replace(' ', '[ ]')
-    for item in Title.keys()
+    for item in iamraw.AcademicTitle.keys()
     if item
 ]
 MATCHER = '|'.join(
@@ -233,7 +204,7 @@ PATTERN = re.compile(PATTERN, re.X)
 
 def extract_title(result):
     title = []
-    for item in range(len(Title.keys())):
+    for item in range(len(iamraw.AcademicTitle.keys())):
         try:
             parsed_title = result['t%d' % item]
             if not parsed_title:
@@ -246,22 +217,22 @@ def extract_title(result):
     return title
 
 
-def author_or_examiner(raw: str) -> Title:
+def author_or_examiner(raw: str) -> iamraw.AcademicTitle:
     raw = raw.lower()
 
     # Hint: add items as lower case
     author = ['vorgelegt', 'verfasser']
     if any([item in raw for item in author]):
-        return Title.STUDENT
+        return iamraw.AcademicTitle.STUDENT
 
     examiner = ['prüfer', 'gutachter', 'betreuer']
     if any([item in raw for item in examiner]):
-        return Title.EXAMINIER
+        return iamraw.AcademicTitle.EXAMINIER
 
-    return Title.NO_TITLE
+    return iamraw.AcademicTitle.NO_TITLE
 
 
-def merge_title(items) -> Title:
+def merge_title(items) -> iamraw.AcademicTitle:
     if not items:
         return None
     result = items[0]

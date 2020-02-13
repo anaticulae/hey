@@ -9,8 +9,6 @@
 
 import iamraw
 
-from detector.parser.person import PROF_DR
-from detector.parser.person import Title
 from detector.parser.thesis import TitleThesisType
 
 FIRST = """
@@ -58,7 +56,7 @@ FIRST_EXPECTED = iamraw.TitlePage(
         'Berlin, 19. April 2016',
     ),
     author=iamraw.Person(
-        Title.BSC,
+        iamraw.AcademicTitle.BSC,
         'Fahrendholz',
         'Helmut Konrad',
         'B.Sc. Helmut Konrad Fahrendholz',
@@ -66,19 +64,19 @@ FIRST_EXPECTED = iamraw.TitlePage(
     matrikel=iamraw.Matrikel(321240, '', '321240'),
     examiner=[
         iamraw.Person(
-            Title.MASTER,
+            iamraw.AcademicTitle.MASTER,
             'MÜller',
             'Thomas',
             'Betreuer: Dipl. Ing. Thomas MÜller',
         ),
         iamraw.Person(
-            Title.PROF | Title.DR,
+            iamraw.PROF_DR,
             'Libre',
             'Cuba',
             'Hochschullehrer: Prof. Dr.-Ing. Cuba Libre',
         ),
         iamraw.Person(
-            Title.PROF | Title.DR,
+            iamraw.PROF_DR,
             'Lover',
             'Coffee',
             'Zweitgutachter: Prof. Dr.-Ing. Coffee Lover',
@@ -129,7 +127,7 @@ SECOND_EXPECTED = iamraw.TitlePage(
         'Berlin, den 8. August 2015',
     ),
     author=iamraw.Person(
-        Title.BSC,
+        iamraw.AcademicTitle.BSC,
         'Helmer',
         'Thomas',
         'vorgelegt von B.Sc. Thomas Helmer',
@@ -141,13 +139,13 @@ SECOND_EXPECTED = iamraw.TitlePage(
     ),
     examiner=[
         iamraw.Person(
-            Title.DR,
+            iamraw.AcademicTitle.DR,
             'Contemporary',
             'Dirk',
             '2. Betreuer: Dr.-Ing. Dirk Contemporary',
         ),
         iamraw.Person(
-            PROF_DR,
+            iamraw.PROF_DR,
             'Semilov',
             'Carsten',
             '1. Betreuer: Prof. Dr. Carsten Semilov',
@@ -191,7 +189,7 @@ THIRD_INSTITUTION = iamraw.Institution(
 THIRD_EXPECTED = iamraw.TitlePage(
     institution=THIRD_INSTITUTION,
     author=iamraw.Person(
-        title=Title.STUDENT,
+        title=iamraw.AcademicTitle.STUDENT,
         name='Canham',
         firstname='Tabea',
         raw='Vorgelegt von   Tabea Canham',
@@ -206,13 +204,13 @@ THIRD_EXPECTED = iamraw.TitlePage(
     ),
     examiner=[
         iamraw.Person(
-            title=Title.MASTER,
+            title=iamraw.AcademicTitle.MASTER,
             name='Frühwirt',
             firstname='Stephan',
             raw='Dipl.-Medienberater Stephan Frühwirt',
         ),
         iamraw.Person(
-            title=PROF_DR,
+            title=iamraw.PROF_DR,
             name='Bolz',
             firstname='Nobert',
             raw='Prof. Dr. Nobert Bolz',

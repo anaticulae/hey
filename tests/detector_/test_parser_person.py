@@ -11,28 +11,23 @@ import iamraw
 import pytest
 
 import detector.parser.person
-from detector.parser.person import Title
-from detector.parser.person import order_persons
-from detector.parser.person import parse
-
-PROF_DR = Title.PROF | Title.DR
 
 HELMUT = iamraw.Person(
-    Title.BSC,
+    iamraw.AcademicTitle.BSC,
     'Fahrendholz',
     'Helmut Konrad',
     'B.Sc. Helmut Konrad Fahrendholz',
 )
 
 GOMEZ = iamraw.Person(
-    PROF_DR,
+    iamraw.PROF_DR,
     'Gomez',
     'Fabian',
     'Hochschullehrer: Prof. Dr.-Ing. Fabian Gomez',
 )
 
 KAHN = iamraw.Person(
-    PROF_DR,
+    iamraw.PROF_DR,
     'Kahn',
     'Oliver',
     'Zweitgutachter: Prof. Dr. Oliver Kahn',
@@ -55,7 +50,7 @@ KAHN = iamraw.Person(
     (
         'Betreuer VAI:Dipl. Ing. Andreas Zickler   Hier folgt weiterer Text',
         iamraw.Person(
-            Title.MASTER,
+            iamraw.AcademicTitle.MASTER,
             'Zickler',
             'Andreas',
             'Betreuer VAI:Dipl. Ing. Andreas Zickler',
@@ -64,7 +59,7 @@ KAHN = iamraw.Person(
     (
         'Betreuer: Prof. Dr. Groeg Trichter  ',
         iamraw.Person(
-            PROF_DR,
+            iamraw.PROF_DR,
             'Trichter',
             'Groeg',
             'Betreuer: Prof. Dr. Groeg Trichter',
@@ -73,7 +68,7 @@ KAHN = iamraw.Person(
     (
         'Hochschullehrer: Prof.-Dr.-Ing. Clemens Gühmann',
         iamraw.Person(
-            PROF_DR,
+            iamraw.PROF_DR,
             'Gühmann',
             'Clemens',
             'Hochschullehrer: Prof.-Dr.-Ing. Clemens Gühmann',
@@ -82,7 +77,7 @@ KAHN = iamraw.Person(
     (
         '2. Betreuer: Dr.-Ing. Dirk Contemporary',
         iamraw.Person(
-            Title.DR,
+            iamraw.AcademicTitle.DR,
             'Contemporary',
             'Dirk',
             '2. Betreuer: Dr.-Ing. Dirk Contemporary',
@@ -91,7 +86,7 @@ KAHN = iamraw.Person(
     (
         'Erstgutachter: Prof. Dr. rer. biol. hum. Erwin Paulat',
         iamraw.Person(
-            PROF_DR,
+            iamraw.PROF_DR,
             'Paulat',
             'Erwin',
             'Erstgutachter: Prof. Dr. rer. biol. hum. Erwin Paulat',
@@ -100,7 +95,7 @@ KAHN = iamraw.Person(
     (
         'Zweitgutachter: Prof. Dr. med. Dr.-Ing. Ronald Verbus-Trapp',
         iamraw.Person(
-            PROF_DR,
+            iamraw.PROF_DR,
             'Verbus-Trapp',
             'Ronald',
             'Zweitgutachter: Prof. Dr. med. Dr.-Ing. Ronald Verbus-Trapp',
@@ -109,7 +104,7 @@ KAHN = iamraw.Person(
     (
         '   vorgelegt von   Thomas Helmer  ',
         iamraw.Person(
-            Title.STUDENT,
+            iamraw.AcademicTitle.STUDENT,
             'Helmer',
             'Thomas',
             'vorgelegt von   Thomas Helmer',
@@ -118,7 +113,7 @@ KAHN = iamraw.Person(
     (
         '   Verfasserin: Tina Tomate  ',
         iamraw.Person(
-            Title.STUDENT,
+            iamraw.AcademicTitle.STUDENT,
             'Tomate',
             'Tina',
             'Verfasserin: Tina Tomate',
@@ -127,7 +122,7 @@ KAHN = iamraw.Person(
     (
         'Zweitgutachter: Dipl.-Medienberater Stephan Frühwirt',
         iamraw.Person(
-            Title.MASTER,
+            iamraw.AcademicTitle.MASTER,
             'Frühwirt',
             'Stephan',
             'Zweitgutachter: Dipl.-Medienberater Stephan Frühwirt',
@@ -136,7 +131,7 @@ KAHN = iamraw.Person(
     (
         'Prof. Dr. Nobert Bolz',
         iamraw.Person(
-            PROF_DR,
+            iamraw.PROF_DR,
             'Bolz',
             'Nobert',
             'Prof. Dr. Nobert Bolz',
@@ -145,7 +140,7 @@ KAHN = iamraw.Person(
     (
         'Zweitgutachter: M.A. Erwin Nolte',
         iamraw.Person(
-            Title.MASTER,
+            iamraw.AcademicTitle.MASTER,
             'Nolte',
             'Erwin',
             'Zweitgutachter: M.A. Erwin Nolte',
@@ -154,7 +149,7 @@ KAHN = iamraw.Person(
     (
         'Zweitprüfer: Peter Thomson',
         iamraw.Person(
-            Title.EXAMINIER,
+            iamraw.AcademicTitle.EXAMINIER,
             'Thomson',
             'Peter',
             'Zweitprüfer: Peter Thomson',
@@ -162,14 +157,14 @@ KAHN = iamraw.Person(
     ),
 ])
 def test_detector_parser_parse_person(raw, expected):
-    parsed = parse(raw)
+    parsed = detector.parser.person.parse(raw)
     assert parsed == expected, str(parsed)
 
 
 def test_detector_parser_person_order_person():
     persons = [KAHN, GOMEZ, HELMUT]
     expected = (HELMUT, [GOMEZ, KAHN])
-    current = order_persons(persons)
+    current = detector.parser.person.order_persons(persons)
 
     assert current == expected, str(current)
 
@@ -177,7 +172,7 @@ def test_detector_parser_person_order_person():
 def test_detector_parser_person_parse_person_without_title():
     raw = '  Vorgelegt von    Helmut Konrad Fahrendholz   '
     expected = iamraw.Person(
-        title=Title.STUDENT,
+        title=iamraw.AcademicTitle.STUDENT,
         name='Fahrendholz',
         firstname='Helmut Konrad',
         raw=raw.strip(),
