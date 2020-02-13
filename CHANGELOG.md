@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.15.8
+
+### Fix
+
+* fix generated outpath names (d7e91557c390)
+
 ## v1.15.7
 
 ### Documentation
