@@ -38,15 +38,6 @@ def group(items: groupme.toc.TocLines):
     return result
 
 
-def isascending(items):
-    # TODO: MOVE TO UTILA
-    items = [int(item) for item in items]
-    diff = [
-        (after - current) for (current, after) in zip(items[:-1], items[1:])
-    ]
-    return all([item >= 0 for item in diff])
-
-
 @dataclasses.dataclass
 class Level:
     value: int = None

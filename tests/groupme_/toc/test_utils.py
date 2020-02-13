@@ -6,6 +6,9 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+
+import utila
+
 import groupme.toc
 import groupme.toc.group
 
@@ -62,4 +65,4 @@ def test_groupme_toc_sort_byposition():
     """
     result = groupme.toc.sort_byposition(HEADLINES, CONTENT)
     pages = [item.page for item in result]
-    assert groupme.toc.group.isascending(pages)
+    assert utila.isascending(pages)
