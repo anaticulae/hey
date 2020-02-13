@@ -79,7 +79,7 @@ def extract_footerheader(
         sizeandborders: iamraw.PageSizeBorderList,
         pagenumbers,
         pagetextnavigators: hey.textnavigator.navigator.PageTextNavigators,
-) -> groupme.footer.strategy.PageContentFooterHeaders:
+) -> iamraw.PageContentFooterHeaders:
     """Extract most common header/footer of the document
 
     Args:
@@ -100,9 +100,8 @@ def extract_footerheader(
     return result
 
 
-def judge_strategy(
-        results: typing.List[groupme.footer.strategy.PageContentFooterHeaders],
-) -> groupme.footer.strategy.PageContentFooterHeaders:
+def judge_strategy(results: typing.List[iamraw.PageContentFooterHeaders],
+                  ) -> iamraw.PageContentFooterHeaders:
     """Decide which results fits best.
 
     Zip result of different strategies. Sometimes there are multiple
@@ -154,7 +153,6 @@ def judge_strategy(
     return result
 
 
-def judge_strategy_selective(
-        results: typing.List[groupme.footer.strategy.PageContentFooterHeaders],
-) -> groupme.footer.strategy.PageContentFooterHeaders:
+def judge_strategy_selective(results: iamraw.PageContentFooterHeaders
+                            ) -> iamraw.PageContentFooterHeader:
     return None

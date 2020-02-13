@@ -44,10 +44,6 @@ class FooterStrategyResultReport:
     pass
 
 
-# TODO: MOVE TO IAMRAW
-PageContentFooterHeaders = typing.List[iamraw.PageContentFooterHeader]
-
-
 class FooterHeaderDetectionStrategy(abc.ABC):
     """
     Relative or absolute result dimension?
@@ -73,7 +69,7 @@ class FooterHeaderDetectionStrategy(abc.ABC):
     def post_init(self):
         """Run after __init__"""
 
-    def result(self) -> PageContentFooterHeaders:
+    def result(self) -> iamraw.PageContentFooterHeaders:
         raise NotImplementedError()
 
     def report(self) -> FooterStrategyResultReport:

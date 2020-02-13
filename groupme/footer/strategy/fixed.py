@@ -155,7 +155,7 @@ def extract_page_footerheader(
         bottom: float,
         pageheight: float,
         pagetextnavigators,
-) -> typing.List[iamraw.PageContentFooterHeader]:
+) -> iamraw.PageContentFooterHeaders:
     """Extract footer and header which matches `top` and `bottom`.
 
     Args:

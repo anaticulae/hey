@@ -11,7 +11,6 @@
 
 import dataclasses
 import functools
-import typing
 
 import configo
 import iamraw
@@ -29,7 +28,7 @@ class BasicRequiredResources:
     fontstore: hey.fonts.store.FontStore
     textnavigators: hey.textnavigator.navigator.PageTextNavigators
     # TODO: fix iamraw
-    headerfooters: typing.List[iamraw.PageContentFooterHeader]
+    headerfooters: iamraw.PageContentFooterHeaders
 
 
 @functools.lru_cache(configo.CACHE_SMALL)
