@@ -102,7 +102,7 @@ def footer(
         pagecontent = []
         for item in page:
             text = item.text.strip()
-            if area(item.bounding) > max_area:
+            if iamraw.area(item.bounding) > max_area:
                 # ignore to big items
                 continue
             if remove_empty and not text:
@@ -223,21 +223,3 @@ def commandline():
         longcut=name(),
         message='extract page numbers from footer and header',
     )
-
-
-def area(bounding) -> float:
-    """Determine area out of `BoundingBox` or `tuple(4)`
-
-    Args:
-        bounding(BoundingBox/tuple): area to determine size of
-    Returns:
-        size of bounds [ ]
-    """
-    import math
-    # TODO: REMOVE AFTER UPGRADING IAMRAW
-    height = math.fabs(bounding[2] - bounding[0])
-    width = math.fabs(bounding[1] - bounding[3])
-
-    result = height * width
-    result = utila.roundme(result)
-    return result
