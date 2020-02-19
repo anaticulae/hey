@@ -1,0 +1,22 @@
+.. _1_16_0:
+
+RP 1.16.0
+=========
+
+groupme
+-------
+
+* [ ] add area step to determine areas which are text or table
+
+* [ ] add three examples to verify this behavior
+
+* [ ] add method to determine distance between text and table
+
+code quality
+------------
+
+before
+~~~~~~
+
+* Total coverage: 90.34%
+* Your code has been rated at 9.72/10

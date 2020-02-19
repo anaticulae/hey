@@ -4,7 +4,7 @@ RP 1.15.0
 =========
 
 footnotes
-~~~~~~~~~
+---------
 
 * [x] fix leading whitespaces
 
@@ -44,4 +44,6 @@ after
 ~~~~~
 
 * Total coverage: 90.34%
-* Your code has been rated at 9.42/10
+* Your code has been rated at 9.72/10
+
+.. note:: TODOs are not part of the quality metric anymore.
