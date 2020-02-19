@@ -87,3 +87,31 @@ def validate(items: list):
         msg.append(f'duplicated page: {page} ({value})')
     if msg:
         raise ValueError(utila.NEWLINE.join(msg))
+
+
+class RectangleCheck:
+
+    def __init__(self, max_diff: float = 0.0):
+        self.max_diff = max_diff
+        self.content = []
+
+    def extend(self, x0, y0, x1, y1):
+        self.content.append((x0, y0, x1, y1))
+
+    def contains(self, x0, y0, x1, y1) -> bool:
+        diff = self.max_diff / 2
+        for x00, y00, x11, y11 in self.content:
+            if all(((x00 - diff) <= x0 <= x1 <= (x11 + diff),
+                    (y00 - diff) <= y0 <= y1 <= (y11 + diff))):
+                return True
+        return False
+
+
+    def __getitem__(self, index):
+        return self.content[index]
+
+    def __len__(self):
+        return len(self.content)
+
+    def __str__(self):
+        return f'RectangleCheck<{self.x0}, {self.y0}, {self.x1}, {self.y1}>'
