@@ -29,11 +29,11 @@ import tests.resources as tr
 def test_titlepage_parser():
     extracted = detector.feature.titlepage.work(
         tests.resources.text(
-            tests.resources.SIMPLE,
+            tests.resources.HOWTO_PYPORTING,
             prefix='oneline',
         ),
         tests.resources.text_positions(
-            tests.resources.SIMPLE,
+            tests.resources.HOWTO_PYPORTING,
             prefix='oneline',
         ),
     )

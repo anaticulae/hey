@@ -14,9 +14,9 @@ import utila
 
 from tests import write_capsys
 from tests.detector_ import run_detector_success
+from tests.resources import HOWTO_PYPORTING
 from tests.resources import PYPORTING
 from tests.resources import RESTRUCT
-from tests.resources import SIMPLE
 
 
 @pytest.mark.parametrize('command', [
@@ -31,7 +31,7 @@ def test_detector_misc(command, testdir, monkeypatch, capsys):  #pylint: disable
 
 
 @pytest.mark.parametrize('example', [
-    SIMPLE,
+    HOWTO_PYPORTING,
     RESTRUCT,
     PYPORTING,
 ])

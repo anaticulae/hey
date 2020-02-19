@@ -29,14 +29,14 @@ RESTRUCT_PDF = os.path.join(DOCU, 'restructuredtext.pdf')
 RESTRUCT_CHAPTER_COUNT = 8
 RESTRUCT_TOC_LINES = 13
 
-SIMPLE = os.path.join(GENERATED, 'simple')
-SIMPLE_PDF = os.path.join(RESOURCES, 'simple/howto_pyporting.pdf')
+HOWTO_PYPORTING = os.path.join(GENERATED, 'howto_pyporting')
+HOWTO_PYPORTING_PDF = os.path.join(DOCU, 'howto_pyporting.pdf')
 # the simple example has two 2 chapters, but there are on the same page,
 # therfore 1 page_count.
 # TODO: Change after removed xfail, see: test_sections_extract_sections_simple
-SIMPLE_CHAPTER_PAGE_COUNT = 1  # change to 2
-SIMPLE_HEADLINES_PAGE_3 = 4
-SIMPLE_TOC_LINES = 12
+HOWTO_PYPORTING_CHAPTER_PAGE_COUNT = 1  # change to 2
+HOWTO_PYPORTING_HEADLINES_PAGE_3 = 4
+HOWTO_PYPORTING_TOC_LINES = 12
 
 # porting module
 PYPORTING = os.path.join(GENERATED, 'porting_module')
@@ -84,7 +84,7 @@ NO_TITLE_EXAMPLE = [
     MASTER78_PDF,
     PYPORTING_PDF,
     RESTRUCT_PDF,
-    SIMPLE_PDF,
+    HOWTO_PYPORTING_PDF,
     TWINE_PDF,
 ]
 NO_TITLE_GENERATED = [
@@ -103,6 +103,8 @@ REQURIED_RESOURCES = [
     HOWTOWRITE9_PDF,
     HOWTO_ARGPARSE,
     HOWTO_ARGPARSE_PDF,
+    HOWTO_PYPORTING,
+    HOWTO_PYPORTING_PDF,
     MASTER116_PDF,
     MASTER72,
     MASTER72_PDF,
@@ -114,8 +116,6 @@ REQURIED_RESOURCES = [
     RESOURCES,
     RESTRUCT,
     RESTRUCT_PDF,
-    SIMPLE,
-    SIMPLE_PDF,
     TECHNICAL24,
     TECHNICAL24_PDF,
     TWINE,

@@ -18,13 +18,13 @@ import tests.resources
 # pylint: disable=unused-import
 from tests.fixtures.simple import simple_document
 from tests.fixtures.simple import simple_page_0
+from tests.resources import HOWTO_PYPORTING
 from tests.resources import RESTRUCT_TOC_LINES
-from tests.resources import SIMPLE
-from tests.resources import SIMPLE_TOC_LINES
+from tests.resources import HOWTO_PYPORTING_TOC_LINES
 
 
 def test_groupme_toc_groupby_level():
-    navigators = groupme.toc.loader.load_frompath(SIMPLE)
+    navigators = groupme.toc.loader.load_frompath(HOWTO_PYPORTING)
     selected = groupme.feature.toc.select_tocpages(navigators)
     # select toc pages only
     navigators = [item for item in navigators if item.page in selected]
@@ -41,7 +41,7 @@ def test_groupme_toc_groupby_level():
 
 def test_extract_toc(simple_page_0: iamraw.Page):  # pylint: disable=W0621
     result = groupme.feature.toc.toc_from_page(simple_page_0)
-    assert len(result) == SIMPLE_TOC_LINES
+    assert len(result) == HOWTO_PYPORTING_TOC_LINES
 
 
 @pytest.mark.parametrize('resources, pages, expected', [
@@ -52,9 +52,9 @@ def test_extract_toc(simple_page_0: iamraw.Page):  # pylint: disable=W0621
         id='restructured',
     ),
     pytest.param(
-        tests.resources.SIMPLE,
+        tests.resources.HOWTO_PYPORTING,
         (0),
-        SIMPLE_TOC_LINES,
+        HOWTO_PYPORTING_TOC_LINES,
         marks=pytest.mark.xfail,
         id='simple',
     ),

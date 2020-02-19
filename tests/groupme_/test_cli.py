@@ -21,7 +21,7 @@ import tests.resources
     ['-i', tests.resources.MASTER89, '-o', 'output'],
     ['-i', tests.resources.PYPORTING, '-o', 'output'],
     ['-i', tests.resources.RESTRUCT, '-o', 'output'],
-    ['-i', tests.resources.SIMPLE, '-o', 'output'],
+    ['-i', tests.resources.HOWTO_PYPORTING, '-o', 'output'],
 ])
 @pytest.mark.usefixtures('testdir')
 @utila.skip_longrun

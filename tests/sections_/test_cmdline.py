@@ -10,11 +10,11 @@
 import pytest
 import utila
 
+from tests.resources import HOWTO_PYPORTING
 from tests.resources import MASTER72
 from tests.resources import PYPORTING
 from tests.resources import RESTRUCT
 from tests.resources import RESTRUCT_PDF
-from tests.resources import SIMPLE
 from tests.sections_ import run_sections_failure
 from tests.sections_ import run_sections_success
 
@@ -22,7 +22,7 @@ from tests.sections_ import run_sections_success
 @pytest.mark.parametrize('command', [
     ['--help'],
     ['-i', RESTRUCT, '-o', '.', '--all'],
-    ['-i', SIMPLE, '-o', '.', '--all'],
+    ['-i', HOWTO_PYPORTING, '-o', '.', '--all'],
     ['-i', PYPORTING, '-o', '.', '--all'],
 ])
 def test_run_sections(command, testdir, monkeypatch):  #pylint: disable=W0613

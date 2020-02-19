@@ -23,7 +23,7 @@ from tests.fixtures.simple import simple_page_2_text_only
 
 def test_groupme_chapter_extract_page2(simple_page_2: iamraw.Page):  # pylint: disable=W0621
     blocks = groupme.structure.sections_from_page(simple_page_2)
-    assert len(blocks) == tests.resources.SIMPLE_HEADLINES_PAGE_3
+    assert len(blocks) == tests.resources.HOWTO_PYPORTING_HEADLINES_PAGE_3
 
 
 def test_groupme_chapter_extract_document(simple_document: iamraw.Document):  # pylint: disable=W0621
@@ -52,7 +52,8 @@ def test_groupme_chapter_test_parse_headlines(simple_page_2_text_only):  # pylin
         if not result:
             continue
         headlines.append(result[1])
-    assert len(headlines) == tests.resources.SIMPLE_HEADLINES_PAGE_3, headlines
+    expected = tests.resources.HOWTO_PYPORTING_HEADLINES_PAGE_3
+    assert len(headlines) == expected, headlines
 
 
 @pytest.mark.timeout(20, "slow", method="thread")

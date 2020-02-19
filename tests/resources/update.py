@@ -34,7 +34,7 @@ PACKAGE = [
     (tests.resources.MASTER72_PDF, tests.resources.MASTER72),
     (tests.resources.PYPORTING_PDF, tests.resources.PYPORTING),
     (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT),
-    (tests.resources.SIMPLE_PDF, tests.resources.SIMPLE),
+    (tests.resources.HOWTO_PYPORTING_PDF, tests.resources.HOWTO_PYPORTING),
     (tests.resources.TECHNICAL24_PDF, tests.resources.TECHNICAL24),
     (tests.resources.TWINE_PDF, tests.resources.TWINE),
 ]

@@ -24,27 +24,30 @@ import tests
 import tests.fixtures
 import tests.resources
 
-SIMPLE_PAGESIZE = tests.resources.sizeandborder(tests.resources.SIMPLE)
-SIMPLE_HORIZONTAL = tests.resources.horizontals(tests.resources.SIMPLE)
-SIMPLE_TEXT_POSITION = tests.resources.text_positions(tests.resources.SIMPLE)
-SIMPLE_TEXT = tests.resources.text(tests.resources.SIMPLE)
+SIMPLE_PAGESIZE = tests.resources.sizeandborder(tests.resources.HOWTO_PYPORTING)
+SIMPLE_HORIZONTAL = tests.resources.horizontals(tests.resources.HOWTO_PYPORTING)
+SIMPLE_TEXT_POSITION = tests.resources.text_positions(
+    tests.resources.HOWTO_PYPORTING)
+SIMPLE_TEXT = tests.resources.text(tests.resources.HOWTO_PYPORTING)
 SIMPLE_ONELINE_TEXT = tests.resources.text(
-    tests.resources.SIMPLE,
+    tests.resources.HOWTO_PYPORTING,
     prefix='oneline',
 )
 SIMPLE_ONELINE_FONT_HEADER = tests.resources.font_header(
-    tests.resources.SIMPLE,
+    tests.resources.HOWTO_PYPORTING,
     prefix='oneline',
 )
 SIMPLE_ONELINE_FONT_CONTENT = tests.resources.font_content(
-    tests.resources.SIMPLE,
+    tests.resources.HOWTO_PYPORTING,
     prefix='oneline',
 )
-SIMPLE_FONT_HEADER = tests.resources.font_header(tests.resources.SIMPLE)
-SIMPLE_FONT_CONTENT = tests.resources.font_content(tests.resources.SIMPLE)
-SIMPLE_FOOTER = tests.resources.headerfooters(tests.resources.SIMPLE)
-SIMPLE_TOC = tests.resources.toc(tests.resources.SIMPLE)
-SIMPLE_FOOTERS = tests.resources.headerfooters(tests.resources.SIMPLE)
+SIMPLE_FONT_HEADER = tests.resources.font_header(
+    tests.resources.HOWTO_PYPORTING)
+SIMPLE_FONT_CONTENT = tests.resources.font_content(
+    tests.resources.HOWTO_PYPORTING)
+SIMPLE_FOOTER = tests.resources.headerfooters(tests.resources.HOWTO_PYPORTING)
+SIMPLE_TOC = tests.resources.toc(tests.resources.HOWTO_PYPORTING)
+SIMPLE_FOOTERS = tests.resources.headerfooters(tests.resources.HOWTO_PYPORTING)
 
 
 @pytest.fixture
@@ -102,7 +105,7 @@ def simple_navigator(simple):  #pylint:disable=W0621
 @pytest.fixture
 def simple_pagetextnavigators() -> hey.textnavigator.navigator.PageTextNavigators:  # yapf:disable
     navigator = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
-        tests.resources.SIMPLE)
+        tests.resources.HOWTO_PYPORTING)
     return navigator
 
 
@@ -198,7 +201,7 @@ def simple_chapter():
     # ensure that all chapters are detected
     tests.fixtures.assert_chapter_count(
         serializeraw.load_likelihood(result),
-        tests.resources.SIMPLE_CHAPTER_PAGE_COUNT,
+        tests.resources.HOWTO_PYPORTING_CHAPTER_PAGE_COUNT,
     )
     return result
 
