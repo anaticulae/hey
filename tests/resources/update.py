@@ -31,10 +31,10 @@ def sync_resources():
 PACKAGE = [
     (tests.resources.BACHELOR111_PDF, tests.resources.BACHELOR111),
     (tests.resources.HOWTO_ARGPARSE_PDF, tests.resources.HOWTO_ARGPARSE),
+    (tests.resources.HOWTO_PYPORTING_PDF, tests.resources.HOWTO_PYPORTING),
     (tests.resources.MASTER72_PDF, tests.resources.MASTER72),
     (tests.resources.PYPORTING_PDF, tests.resources.PYPORTING),
     (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT),
-    (tests.resources.HOWTO_PYPORTING_PDF, tests.resources.HOWTO_PYPORTING),
     (tests.resources.TECHNICAL24_PDF, tests.resources.TECHNICAL24),
     (tests.resources.TWINE_PDF, tests.resources.TWINE),
 ]
@@ -87,7 +87,10 @@ def extract_single():
             tests.resources.BACHELOR56_PDF,
             tests.resources.BACHELOR56,
         ),
-        (tests.resources.MASTER89_PDF, tests.resources.MASTER89),
+        (
+            tests.resources.MASTER89_PDF,
+            tests.resources.MASTER89,
+        ),
         (
             tests.resources.HOWTOWRITE9_PDF,
             tests.resources.HOWTOWRITE9,
@@ -139,8 +142,14 @@ def create_todo_rawmaker(inpath, outpath):
             inpath,
             outpath,
             '--all --char_margin=5.0 --boxes_flow=1.0 --line_margin=0.3',
+            # TODO: move configuration to global var
         ),
-        # TODO: move configuration to global var
+        (
+            'linero',
+            outpath,
+            outpath,
+            '',
+        ),
     ]
     return result
 

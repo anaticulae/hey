@@ -27,7 +27,7 @@ def extract(
         files: list,
         destination: str,
         pages: str = '0:10',
-        worker: int = 5,
+        worker: int = 12,
 ):
     """Run rawmaker, groupme, sections and words for given `files` and write
     result to `destination`.
@@ -96,6 +96,7 @@ def create_job(src: str, dest: str, pages: tuple = None) -> str:
     task = [
         f'rawmaker -j 8 -i {src} -o {dest} {config} {pages}',
         f'rawmaker -j 8 -i {src} -o {dest} {oneline} {pages}',
+        f'linero -i {dest} -o {dest}',
         f'groupme -j 8 -i {dest} -o {dest}',
         f'sections -j 8 -i {dest} -o {dest}',
         f'words -j 8 -i {dest} -o {dest}',

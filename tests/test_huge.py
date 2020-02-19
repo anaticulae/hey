@@ -50,6 +50,8 @@ SKIP_DOCUMENTS = {
     'master/page_83_noimages_toc.pdf',
     'master/page_89_noimages_toc.pdf',
     'order/howtowrite_pages9.pdf',
+    # requires to much required test time
+    'technical/page_24_color_figures_images.pdf',
 }
 
 HEADLINE_COUNT = {
