@@ -97,6 +97,7 @@ def _bachelor111_footerheader():
     return footerheader
 
 
+@utila.skip_longrun
 def test_groupme_footer_fixed_bachelor111page_extract_common_footer():
     _, __, top, bottom, ___ = _bachelor111()
     assert top  # document has header
@@ -104,6 +105,7 @@ def test_groupme_footer_fixed_bachelor111page_extract_common_footer():
     assert top < bottom
 
 
+@utila.skip_longrun
 def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader():
     """Use more than one group to detect all headers. There are ordered
     from biggest to smallest"""
@@ -120,6 +122,7 @@ def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader():
     assert not footer, utila.log_raw(footer)
 
 
+@utila.skip_longrun
 def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader_header(): # yapf:disable
     footerheader = _bachelor111_footerheader()
     pages = [item.page for item in footerheader]

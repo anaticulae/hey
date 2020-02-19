@@ -6,6 +6,8 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import utila
+
 import groupme.toc.strategy.georegex as gtsg
 import hey.textnavigator.navigator as htn
 import tests.resources
@@ -29,6 +31,7 @@ def bachelor111():
     return result
 
 
+@utila.skip_longrun
 def test_groupme_toc_geometry_analyse_page_master72():
     data = master72()
 
@@ -41,6 +44,7 @@ def test_groupme_toc_geometry_analyse_page_master72():
     assert len(parsed) == 4
 
 
+@utila.skip_longrun
 def test_groupme_toc_geometry_analyse_page_bachelor111():
     """Check that geometry approach parses and group toc lines correctly."""
 

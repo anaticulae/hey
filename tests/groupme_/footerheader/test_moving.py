@@ -47,6 +47,7 @@ def validate_master72(result):
         id='restructured',
     ),
 ])
+@utila.skip_longrun
 def test_groupme_footer_moving(document, pages, expected_footer, validate):
     strategy = groupme.footer.strategy.create_strategy(
         path=document,

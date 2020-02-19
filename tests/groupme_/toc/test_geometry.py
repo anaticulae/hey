@@ -7,11 +7,14 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import utila
+
 import groupme.toc.extractor as gte
 import groupme.toc.strategy.geometry as gtsg
 import tests.fixtures.tableofcontent as tft
 
 
+@utila.skip_longrun
 def test_groupme_toc_strategy_geometry():
     headlines = tft.bachelor111_toc()
 

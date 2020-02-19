@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import utila
+
 import groupme.footnotes.highnotes
 import groupme.footnotes.parser
 # pylint:disable=W0611
@@ -16,6 +18,7 @@ from tests.groupme_.footnotes.fixtures import master89_page7
 from tests.groupme_.footnotes.fixtures import master89_page19
 
 
+@utila.skip_longrun
 def test_groupme_footnotes_highnotes_split(master72_page14):  # pylint:disable=W0621
     footer = master72_page14
     splitted = list(groupme.footnotes.highnotes.split_textinfo(footer))
@@ -23,6 +26,7 @@ def test_groupme_footnotes_highnotes_split(master72_page14):  # pylint:disable=W
     assert len(splitted) == 7, splitted
 
 
+@utila.skip_longrun
 def test_groupme_footnotes_highnotes_split_mixed_in_text(master89_page7):  # pylint:disable=W0621
     """Test to extract only starting highnotes. In this example, there
     is a highnote inside the text flow."""
@@ -34,6 +38,7 @@ def test_groupme_footnotes_highnotes_split_mixed_in_text(master89_page7):  # pyl
     assert len(merged) == 1, merged
 
 
+@utila.skip_longrun
 def test_groupme_footnotes_highnotes_split_mixed_in_text_tripple(
         master89_page19):  # pylint:disable=W0621
     """Test to extract only starting highnotes. In this example, there
@@ -54,11 +59,13 @@ def test_groupme_footnotes_highnotes_split_mixed_in_text_tripple(
     assert thirdnote_text.startswith(expected), thirdnote_text
 
 
+@utila.skip_longrun
 def test_groupme_footnotes_parse_footer_with_highnotes(master89_page7):  # pylint:disable=W0621
     parsed = groupme.footnotes.parser.parse_with_highnotes(master89_page7)
     assert len(parsed) == 1, parsed
 
 
+@utila.skip_longrun
 def test_groupme_footnotes_highnotes_oneline_with_intention(bachelor111_page10):  # pylint:disable=W0621,W0612
     # TODO: add test that highnotes are on oneline!
     # CHECK Intentation, must be near 0.0
