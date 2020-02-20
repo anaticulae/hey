@@ -22,6 +22,16 @@ TOC_OUTPUT = 'toc'
 
 WORKPLAN = [
     step(
+        'area',
+        inputs=[
+            ResultFile(producer='rawmaker', name='boxes_boxes'),
+            ResultFile(producer='linero', name='table_table'),
+            ResultFile(producer='rawmaker', name='text_text'),
+            ResultFile(producer='rawmaker', name='text_positions'),
+        ],
+        output=('area',),
+    ),
+    step(
         TOC_STEP,
         inputs=[
             ResultFile(producer='rawmaker', name='text_text'),

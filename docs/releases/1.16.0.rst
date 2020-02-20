@@ -6,7 +6,7 @@ RP 1.16.0
 groupme
 -------
 
-* [ ] add area step to determine areas which are text or table
+* [x] add area step to determine areas which are text or table
 
 * [ ] add three examples to verify this behavior
 
