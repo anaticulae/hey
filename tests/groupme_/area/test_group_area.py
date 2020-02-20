@@ -21,10 +21,10 @@ def pyporting(pages: tuple = None):
     tables = os.path.join(source, 'linero__table_table.yaml')
     boxes = rawmaker.path.boxed(source)
     loaded = groupme.feature.area.load(
-        text,
-        textpositions,
-        tables=tables,
         boxes=boxes,
+        tables=tables,
+        text=text,
+        textpositions=textpositions,
         pages=pages,
     )
     return loaded

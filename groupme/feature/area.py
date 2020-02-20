@@ -35,35 +35,35 @@ RequiredResources = collections.namedtuple(
 
 PageContentTextualArea = collections.namedtuple(
     'PageContentTextualArea',
-    'page, textual, outside',
+    'page, textual, outside, border',
 )
 PageContentTextualAreas = typing.List[PageContentTextualArea]
 
 
 def work(
+        boxes: str,
+        tables: str,
         text: str,
         textpositions: str,
-        tables: str,
-        boxes: str,
         pages: tuple = None,
 ) -> str:
     """Extract different areas out of given data.
 
     Args:
+        boxes(str): path to extract `rawmaker` content boxes
+        tables(str): path to extracted `linero` tables
         text(str): extracted `rawmaker` text
         textpositions(str): positions of extracted text
-        tables(str): path to extracted `linero` tables
-        boxes(str): path to extract `rawmaker` content boxes
         pages(tuple): tuple of pages to process
     Returns:
         Dumped extracted areas.
     """
     loaded = load(
-        text=text,
-        textpositions=textpositions,
-        tables=tables,
         boxes=boxes,
         pages=pages,
+        tables=tables,
+        text=text,
+        textpositions=textpositions,
     )
 
     grouped = group_areas(loaded=loaded)
@@ -89,7 +89,6 @@ def group_areas(loaded: RequiredResources) -> PageContentTextualAreas:
 
 def group_page(navigator, tables, boxes) -> PageContentTextualArea:
     if tables:
-        # tables
         tables = table_checker(tables)
 
     if boxes:
@@ -112,14 +111,20 @@ def group_page(navigator, tables, boxes) -> PageContentTextualArea:
     inside_tables = groupme.utils.merge_rectangles(inside_tables)
     inside_boxes = groupme.utils.merge_rectangles(inside_boxes)
     outside = {
-        'tables': inside_tables,
         'boxes': inside_boxes,
+        'tables': inside_tables,
     }
-    pagenumber = navigator.page
+    border = {
+        key: [item for item in value] for key, value in [
+            ('boxes', boxes.content if boxes else []),
+            ('tables', tables.content if tables else []),
+        ]
+    }
     result = PageContentTextualArea(
-        page=pagenumber,
+        page=navigator.page,
         textual=textual,
         outside=outside,
+        border=border,
     )
     return result
 
@@ -139,10 +144,10 @@ def table_checker(items) -> groupme.utils.RectangleCheck:
 
 
 def load(
+        boxes: str,
+        tables: str,
         text: str,
         textpositions: str,
-        tables: str,
-        boxes: str,
         pages: tuple = None,
 ) -> RequiredResources:
     text = serializeraw.load_document(text, pages=pages)
@@ -154,9 +159,9 @@ def load(
     boxes = serializeraw.load_boxes(boxes, pages=pages)
     tables = serializeraw.load_tables(tables, pages=pages)
     result = RequiredResources(
-        textnavigator=textnavigator,
-        tables=tables,
         boxes=boxes,
+        tables=tables,
+        textnavigator=textnavigator,
     )
     return result
 
@@ -168,10 +173,15 @@ def dump_area(items) -> str:
             key: [tuple_tostr(item) for item in value
                  ] for key, value in page.outside.items()
         }
+        border = {
+            key: [tuple_tostr(item) for item in border
+                 ] for key, border in page.border.items()
+        }
         content = {
+            'border': border,
+            'outside': outside,
             'page': page.page,
             'textual': [tuple_tostr(item) for item in page.textual],
-            'outside': outside,
         }
         raw.append(content)
     dumped = yaml.dump(raw)
@@ -191,11 +201,16 @@ def load_area(content: str, pages: tuple = None) -> PageContentTextualAreas:
             key: [utila.parse_tuple(item) for item in values
                  ] for key, values in page['outside'].items()
         }
+        border = {
+            key: [utila.parse_tuple(item) for item in values
+                 ] for key, values in page['border'].items()
+        }
         result.append(
             PageContentTextualArea(
+                border=border,
+                outside=outside,
                 page=pagenumber,
                 textual=textual,
-                outside=outside,
             ))
     return result
 
