@@ -19,8 +19,8 @@ import tests.resources
 from tests.fixtures.simple import simple_document
 from tests.fixtures.simple import simple_page_0
 from tests.resources import HOWTO_PYPORTING
-from tests.resources import RESTRUCT_TOC_LINES
 from tests.resources import HOWTO_PYPORTING_TOC_LINES
+from tests.resources import RESTRUCT_TOC_LINES
 
 
 def test_groupme_toc_groupby_level():

@@ -1,0 +1,75 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2020 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+
+import os
+
+import groupme.feature.area
+import rawmaker.path
+import tests.resources
+
+
+def pyporting(pages: tuple):
+    source = tests.resources.HOWTO_PYPORTING
+    text = rawmaker.path.text(source)
+    textpositions = rawmaker.path.textposition(source)
+    tables = os.path.join(source, 'linero__table_table.yaml')
+    boxes = rawmaker.path.boxed(source)
+    loaded = groupme.feature.area.load(
+        text,
+        textpositions,
+        tables=tables,
+        boxes=boxes,
+        pages=pages,
+    )
+    return loaded
+
+
+def test_groupme_area_pyporting_table():
+    loaded = pyporting(pages=3)
+    grouped = groupme.feature.area.group_areas(loaded)
+    assert grouped
+    assert len(grouped[0].outside['tables']) == 6
+
+
+def test_groupme_area_pyporting_boxes():
+    loaded = pyporting(pages=5)
+    grouped = groupme.feature.area.group_areas(loaded)
+    assert grouped
+    assert len(grouped) == 1
+    # elements inside boxes
+    assert len(grouped[0].outside['boxes']) == 17
+
+
+def test_groupme_area_merge_rectangles():
+    before = [
+        (10, 10, 100, 100),
+        (10, 10, 30, 30),
+        (90, 10, 150, 100),
+        (30, 30, 60, 70),
+    ]
+    expected = [
+        (10, 10, 100, 100),
+        (90, 10, 150, 100),
+    ]
+
+    merged = groupme.utils.merge_rectangles(before)
+    assert merged == expected
+
+    before = [
+        (10, 10, 100, 100),
+        (25, 25, 50, 50),
+        (50, 50, 75, 75),
+        (75, 75, 100, 100),
+    ]
+    expected = [
+        (10, 10, 100, 100),
+    ]
+
+    merged = groupme.utils.merge_rectangles(before)
+    assert merged == expected
