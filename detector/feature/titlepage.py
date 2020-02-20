@@ -55,6 +55,7 @@ import serializeraw
 import utila
 
 import detector.parser.complete
+import detector.titlepage
 import hey.textnavigator.navigator as htn
 
 # TODO: MOVE TO MORE GENERAL POSITION
@@ -82,7 +83,6 @@ def work(text: str, text_positions: str) -> str:
     )
 
     parsed = parse_titlepages(navigators)
-    import detector.titlepage  # TODO: MOVE TO PACKAGE LATER
     best = detector.titlepage.select_best(parsed)
 
     dumped = serializeraw.dump_titlepage(best)
