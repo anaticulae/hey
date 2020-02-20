@@ -47,6 +47,17 @@ def work(
         boxes: str,
         pages: tuple = None,
 ) -> str:
+    """Extract different areas out of given data.
+
+    Args:
+        text(str): extracted `rawmaker` text
+        textpositions(str): positions of extracted text
+        tables(str): path to extracted `linero` tables
+        boxes(str): path to extract `rawmaker` content boxes
+        pages(tuple): tuple of pages to process
+    Returns:
+        Dumped extracted areas.
+    """
     loaded = load(
         text=text,
         textpositions=textpositions,
@@ -61,7 +72,7 @@ def work(
     return dumped
 
 
-def group_areas(loaded: RequiredResources):
+def group_areas(loaded: RequiredResources) -> PageContentTextualAreas:
     result = []
     for navigator in loaded.textnavigator:
         page = navigator.page
