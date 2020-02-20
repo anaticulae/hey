@@ -14,7 +14,7 @@ import rawmaker.path
 import tests.resources
 
 
-def pyporting(pages: tuple):
+def pyporting(pages: tuple = None):
     source = tests.resources.HOWTO_PYPORTING
     text = rawmaker.path.text(source)
     textpositions = rawmaker.path.textposition(source)
@@ -44,6 +44,16 @@ def test_groupme_area_pyporting_boxes():
     assert len(grouped) == 1
     # elements inside boxes
     assert len(grouped[0].outside['boxes']) == 17
+
+
+def test_groupme_area_dump_load():
+    data = pyporting()
+    grouped = groupme.feature.area.group_areas(data)
+
+    assert grouped
+    dumped = groupme.feature.area.dump_area(grouped)
+    loaded = groupme.feature.area.load_area(dumped)
+    assert grouped == loaded
 
 
 def test_groupme_area_merge_rectangles():

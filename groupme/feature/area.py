@@ -17,10 +17,11 @@ TODO:
 """
 
 import collections
+import typing
 
-import iamraw
 import serializeraw
 import utila
+import yaml
 
 import groupme.utils
 import hey.textnavigator.navigator
@@ -34,6 +35,7 @@ PageContentTextualArea = collections.namedtuple(
     'PageContentTextualArea',
     'page, textual, outside',
 )
+PageContentTextualAreas = typing.List[PageContentTextualArea]
 
 
 def work(
@@ -53,7 +55,7 @@ def work(
 
     grouped = group_areas(loaded=loaded)
 
-    dumped = dump_areas(grouped)
+    dumped = dump_area(grouped)
     return dumped
 
 
@@ -149,5 +151,46 @@ def table_checker(items) -> groupme.utils.RectangleCheck:
     return result
 
 
-def dump_areas(items) -> str:
-    pass
+def dump_area(items) -> str:
+    raw = []
+    for page in items:
+        outside = {
+            key: [tuple_tostr(item) for item in value
+                 ] for key, value in page.outside.items()
+        }
+        content = {
+            'page': page.page,
+            'textual': [tuple_tostr(item) for item in page.textual],
+            'outside': outside,
+        }
+        raw.append(content)
+    dumped = yaml.dump(raw)
+    return dumped
+
+
+def load_area(content: str, pages: tuple = None) -> PageContentTextualAreas:
+    content = utila.from_raw_or_path(content, ftype='yaml')
+    loaded = yaml.load(content, Loader=yaml.FullLoader)
+    result = []
+    for page in loaded:
+        pagenumber = int(page['page'])
+        if utila.should_skip(pagenumber, pages):
+            continue
+        textual = [utila.parse_tuple(item) for item in page['textual']]
+        outside = {
+            key: [utila.parse_tuple(item) for item in values
+                 ] for key, values in page['outside'].items()
+        }
+        result.append(
+            PageContentTextualArea(
+                page=pagenumber,
+                textual=textual,
+                outside=outside,
+            ))
+    return result
+
+
+def tuple_tostr(item):
+    item = utila.roundme(item)
+    item = [str(var) for var in item]
+    return ' '.join(item)
