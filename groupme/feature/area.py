@@ -26,6 +26,8 @@ import yaml
 import groupme.utils
 import hey.textnavigator.navigator
 
+RECTANGLE_MAX_DIFF = 10.0  # TODO: HOLY VALUE
+
 RequiredResources = collections.namedtuple(
     'RequiredResources',
     'textnavigator, tables, boxes',
@@ -59,29 +61,6 @@ def work(
     return dumped
 
 
-def load(
-        text: str,
-        textpositions: str,
-        tables: str,
-        boxes: str,
-        pages: tuple = None,
-) -> RequiredResources:
-    text = serializeraw.load_document(text, pages=pages)
-    textpositions = serializeraw.load_textpositions(textpositions, pages=pages)
-    textnavigator = hey.textnavigator.navigator.create_pagetextnavigators(
-        text,
-        text_positions=textpositions,
-    )
-    boxes = serializeraw.load_boxes(boxes, pages=pages)
-    tables = serializeraw.load_tables(tables, pages=pages)
-    result = RequiredResources(
-        textnavigator=textnavigator,
-        tables=tables,
-        boxes=boxes,
-    )
-    return result
-
-
 def group_areas(loaded: RequiredResources):
     result = []
     for navigator in loaded.textnavigator:
@@ -95,9 +74,6 @@ def group_areas(loaded: RequiredResources):
         grouped = group_page(navigator, tables=tables, boxes=boxes)
         result.append(grouped)
     return result
-
-
-RECTANGLE_MAX_DIFF = 10.0  # TODO: HOLY VALUE
 
 
 def group_page(navigator, tables, boxes) -> PageContentTextualArea:
@@ -148,6 +124,29 @@ def table_checker(items) -> groupme.utils.RectangleCheck:
     result = groupme.utils.RectangleCheck(max_diff=RECTANGLE_MAX_DIFF)
     for item in items:
         result.extend(*item.bounding)
+    return result
+
+
+def load(
+        text: str,
+        textpositions: str,
+        tables: str,
+        boxes: str,
+        pages: tuple = None,
+) -> RequiredResources:
+    text = serializeraw.load_document(text, pages=pages)
+    textpositions = serializeraw.load_textpositions(textpositions, pages=pages)
+    textnavigator = hey.textnavigator.navigator.create_pagetextnavigators(
+        text,
+        text_positions=textpositions,
+    )
+    boxes = serializeraw.load_boxes(boxes, pages=pages)
+    tables = serializeraw.load_tables(tables, pages=pages)
+    result = RequiredResources(
+        textnavigator=textnavigator,
+        tables=tables,
+        boxes=boxes,
+    )
     return result
 
 
