@@ -10,7 +10,7 @@ groupme
 
 * [ ] add three examples to verify this behavior
 
-* [ ] add method to determine distance between text and table
+* [x] add method to determine distance between text and table
 
 code quality
 ------------
