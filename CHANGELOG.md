@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v1.16.1
+
+### Feature
+
+* add distance feature to cli (1b0d5d6541f7)
+
 ## v1.16.0
 
 ### Feature
