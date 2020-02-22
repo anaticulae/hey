@@ -10,6 +10,10 @@
 import hey.path
 
 
+def area(path: str, prefix: str = '') -> str:
+    return hey.path.pathconnector(path, 'groupme', 'area_area', prefix)
+
+
 def pagenumbers(path: str, prefix: str = '') -> str:
     return hey.path.pathconnector(
         path,
@@ -29,9 +33,4 @@ def headerfooters(path: str, prefix: str = '') -> str:
 
 
 def toc(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
-        path,
-        'groupme',
-        'toc_toc',
-        prefix,
-    )
+    return hey.path.pathconnector(path, 'groupme', 'toc_toc', prefix)
