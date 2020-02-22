@@ -14,6 +14,10 @@ def area(path: str, prefix: str = '') -> str:
     return hey.path.pathconnector(path, 'groupme', 'area_area', prefix)
 
 
+def distance(path: str, prefix: str = '') -> str:
+    return hey.path.pathconnector(path, 'groupme', 'distance_distance', prefix)
+
+
 def pagenumbers(path: str, prefix: str = '') -> str:
     return hey.path.pathconnector(
         path,

@@ -32,6 +32,15 @@ WORKPLAN = [
         output=('area',),
     ),
     step(
+        'distance',
+        inputs=[
+            ResultFile(producer='groupme', name='area_area'),
+            ResultFile(producer='rawmaker', name='text_text'),
+            ResultFile(producer='rawmaker', name='text_positions'),
+        ],
+        output=('distance',),
+    ),
+    step(
         TOC_STEP,
         inputs=[
             ResultFile(producer='rawmaker', name='text_text'),
