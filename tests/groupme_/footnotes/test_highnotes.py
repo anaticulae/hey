@@ -66,7 +66,7 @@ def test_groupme_footnotes_parse_footer_with_highnotes(master89_page7):  # pylin
 
 
 @utila.skip_longrun
-def test_groupme_footnotes_highnotes_oneline_with_intention(bachelor111_page10):  # pylint:disable=W0621,W0612
+def test_groupme_footnotes_highnotes_oneline_with_intention(bachelor111_page10):  # pylint:disable=W0621,W0613
     # TODO: add test that highnotes are on oneline!
     # CHECK Intentation, must be near 0.0
     pass

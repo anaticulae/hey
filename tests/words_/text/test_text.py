@@ -18,6 +18,7 @@ import words.feature
 import words.feature.text
 import words.text.chapter as wtc
 # pylint:disable=W0611
+# pylint:disable=ungrouped-imports
 from tests.fixtures.restruct import restructured_contentborder
 from tests.fixtures.restruct import restructured_headerfooter
 from tests.fixtures.restruct import restructured_headlines
@@ -202,8 +203,8 @@ def test_words_extract_texts_page_x(
     page, content = analyzed.page, analyzed.content
     assert page == current_page, 'wrong extracted page: %d' % page
 
-    first_headline, first_output = content[0][0], content[0][1]
-    last_headline, last_output = content[-1][0], content[-1][1]
+    first_headline, first_output = content[0][0], content[0][1]  # pylint:disable=E1136
+    last_headline, last_output = content[-1][0], content[-1][1]  # pylint:disable=E1136
     # msg = 'invalid returned value due `analyze_page`'
     # assert headline.text == current[0].text, '%s\n%s' % (msg, output)
     assert first_headline.page == current_page
@@ -220,13 +221,12 @@ def test_words_extract_texts_page_x(
     assert last_line == expected_end
 
 
-def test_words_text_convert_undefined_to_text(
+def test_words_text_convert_undefined_to_text(  # pylint:disable=R0914
         restructured_headlines,  # pylint:disable=W0621
         restructured_textexample,  # pylint:disable=W0621
         restructured_text,  # pylint:disable=W0621
         restructured_text_positions,  # pylint:disable=W0621
-        restructured_sizeandborder,  # pylint:disable=W0621
-        restructured_contentborder,  # pylint:disable=W0613
+        restructured_contentborder,  # pylint:disable=W0621
 ):
     headlines = restructured_headlines
     textexample = restructured_textexample

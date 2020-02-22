@@ -6,8 +6,8 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""The word package is a text processor which convert the pdf file into a
-text markup for further analysis.
+"""The word package is a text processor which convert the pdf file into
+a text markup for further analysis.
 
 The package supports the following features:
 

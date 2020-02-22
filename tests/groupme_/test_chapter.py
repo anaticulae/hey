@@ -6,9 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""
-Test to group chapter out of text and and headlines.
-"""
+"""Test to group chapter out of text and and headlines."""
 
 import iamraw
 import pytest

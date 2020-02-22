@@ -6,9 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""
-Extract footer out of document.
-"""
+"""Extract footer out of document."""
 import typing
 
 import pytest

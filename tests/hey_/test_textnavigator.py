@@ -9,17 +9,11 @@
 import iamraw
 import pytest
 import utila
-from iamraw import BoundingBox
 
+import hey.textnavigator.merger as htm
 import hey.textnavigator.navigator as htn
 import tests.fixtures.headlines
 import tests.resources
-from hey.textnavigator.merger import merge_content
-from hey.textnavigator.merger import merge_content_join
-from hey.textnavigator.navigator import PageTextNavigator
-from hey.textnavigator.navigator import navigator_to_bounds
-from hey.textnavigator.navigator import percent_to_pagesize
-from hey.textnavigator.navigator import to_content
 #pylint:disable=W0611
 from tests.fixtures.simple import simple_document
 from tests.fixtures.simple import simple_pagetextnavigators
@@ -27,7 +21,7 @@ from tests.fixtures.simple import simple_second_page_navigator
 from tests.groupme_ import navigator  # pylint:disable=W0611
 
 
-def test_insert_order(navigator: PageTextNavigator):  #pylint:disable=W0621
+def test_insert_order(navigator: htn.PageTextNavigator):  #pylint:disable=W0621
     for before, after in zip(navigator[:-1], navigator[1:]):
         before = before.bounding
         after = after.bounding
@@ -41,7 +35,7 @@ def test_insert_order(navigator: PageTextNavigator):  #pylint:disable=W0621
     assert current_order == list(range(len(navigator))), current_order
 
 
-def test_after(navigator: PageTextNavigator):  #pylint:disable=W0621
+def test_after(navigator: htn.PageTextNavigator):  #pylint:disable=W0621
     # Bottom footer
     after = 0.8  # from 80% to 100%
     # greater than 563
@@ -50,7 +44,7 @@ def test_after(navigator: PageTextNavigator):  #pylint:disable=W0621
     assert len(result) == 4, result
 
 
-def test_before(navigator: PageTextNavigator):  #pylint:disable=W0621
+def test_before(navigator: htn.PageTextNavigator):  #pylint:disable=W0621
     # Top footer
     # smaller than 158.4
     before = 0.2  # from 20% to 0%
@@ -65,7 +59,7 @@ def test_before(navigator: PageTextNavigator):  #pylint:disable=W0621
     (100.0, 0.75, 25),
 ])
 def test_textnavigator_percent_to_page(size, percent, expected):
-    result = percent_to_pagesize(
+    result = htn.percent_to_pagesize(
         size,
         percent,
     )
@@ -73,21 +67,21 @@ def test_textnavigator_percent_to_page(size, percent, expected):
 
 
 #pylint:disable=W0621
-def test_fonts_navigator_to_bounds(navigator: PageTextNavigator):
-    result = navigator_to_bounds(navigator)
-    assert all([isinstance(item, BoundingBox) for item in result])
+def test_fonts_navigator_to_bounds(navigator: htn.PageTextNavigator):
+    result = htn.navigator_to_bounds(navigator)
+    assert all([isinstance(item, iamraw.BoundingBox) for item in result])
 
 
 def test_hey_navigator_merge_content(simple_second_page_navigator):
-    content = to_content(simple_second_page_navigator)
-    merged, _ = merge_content(content)
-    merged = merge_content_join(merged)
+    content = htn.to_content(simple_second_page_navigator)
+    merged, _ = htm.merge_content(content)
+    merged = htm.merge_content_join(merged)
 
     paragraph_after_merge = 8
 
-    content = to_content(simple_second_page_navigator)
-    merged, _ = merge_content(content)  # split content and merge_ids
-    merged_content = merge_content_join(merged)
+    content = htn.to_content(simple_second_page_navigator)
+    merged, _ = htm.merge_content(content)  # split content and merge_ids
+    merged_content = htm.merge_content_join(merged)
 
     expectend_content = utila.NEWLINE.join([item.text for item in content])
     merged_content = utila.NEWLINE.join([item.text for item in merged_content])

@@ -101,7 +101,7 @@ def test_words_list_navigator_extract_lists(
 
     for index, item in enumerate(raw, start=1):
         expected.append(item, '%d.' % index)
-    expected = [expected]
+    expected = [expected]  # pylint:disable=W0621
     extracted = extract_lists(
         simple_second_page_merged_content,
         simple_second_page_size,
