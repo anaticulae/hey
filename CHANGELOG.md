@@ -2,6 +2,24 @@
 
 Every noteable change is logged here.
 
+## v1.16.0
+
+### Feature
+
+* add distance feature (18e935b39307)
+* add tolerance to inside detection (05966311a689)
+* extend path module (5e9a21dc0895)
+* add area step to command line interface (cade977e92ad)
+* save area of non textual elements (77c0d29de7df)
+* add method to dump and load detected areas (ca3c67de15c0)
+* add step area to judge elements on page (0141b2444a9a)
+* add method to determine minimal count of required rectangles (6e063f354505)
+* add bounding rectangle checker (3690735ae1ba)
+
+### Documentation
+
+* extend interface documentation (46bd0eaee5d6)
+
 ## v1.15.9
 
 ## v1.15.8
