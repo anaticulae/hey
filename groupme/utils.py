@@ -162,8 +162,12 @@ def size(rectangle):
     return area
 
 
-def inside(first, second):
-    """Is `second` rectangle in `first`"""
+def inside(first, second, diff: float = 0):
+    """Is `second` rectangle in `first`."""
+    diff = diff / 2
     x0, y0, x1, y1 = first
     x00, y00, x11, y11 = second
-    return (x0 <= x00 <= x11 <= x1) and (y0 <= y00 <= y11 <= y1)
+    return all((
+        ((x0 - diff) <= x00 <= x11 <= (x1 + diff)),
+        ((y0 - diff) <= y00 <= y11 <= (y1 + diff)),
+    ))
