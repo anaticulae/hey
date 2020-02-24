@@ -1,0 +1,36 @@
+.. _1_16_0:
+
+RP 1.16.0
+=========
+
+groupme
+-------
+
+* [ ] add step to extract abbreviation table
+
+* [ ] verify with two examples
+
+words
+-----
+
+* [ ] add step to extract abbreviation out of text
+
+* [ ] extract positions for every abbreviation
+
+* [ ] verify with 30 text pages
+
+sections
+--------
+
+* [ ] add step to compute likelihood of beeing an abbreviation table
+
+* [ ] verify with two examples
+
+code quality
+------------
+
+before
+~~~~~~
+
+* Total coverage: 90.34%
+* Your code has been rated at 9.77/10
