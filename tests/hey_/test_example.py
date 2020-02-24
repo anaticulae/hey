@@ -39,6 +39,6 @@ def test_hey_example_extract(testdir):
         tests.resources.PYPORTING_PDF,
         tests.resources.BACHELOR111_PDF,
     ]
-    hey.example.extract(pdfs, generated)
+    hey.example.extract(pdfs, generated, pages='0:5')
 
     assert os.path.exists(generated), str(generated)
