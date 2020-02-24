@@ -60,8 +60,9 @@ def run_package(pdf, outpath, pages=None):
     utila.log(f'run {pdf}')
     todo = []
     todo.extend(create_todo_rawmaker(pdf, outpath, pages=pages))
-    todo.extend(create_todo_groupme(outpath))
-    todo.extend(create_todo_sections(outpath))
+
+    todo.append(('groupme', outpath, outpath, ''))
+    todo.append(('sections', outpath, outpath, '--all'))
 
     todo = [
         f'{executable} -i {inpath} -o {outpath} {configuration}'
@@ -74,6 +75,7 @@ def run_package(pdf, outpath, pages=None):
 
 
 def run_single(pdf, dest, pages=None):
+    """Extract only rawmaker and linero and nothing more."""
     todo = create_todo_rawmaker(pdf, dest, pages=pages)
     todo = [
         f'{executable} -i {inpath} -o {outpath} {configuration}'
@@ -140,19 +142,6 @@ def create_todo_rawmaker(inpath, outpath, pages=None):
     ]
     return result
 
-
-def create_todo_sections(path):
-    result = [
-        ('sections', path, path, '--all'),
-    ]
-    return result
-
-
-def create_todo_groupme(path):
-    result = [
-        ('groupme', path, path, ''),
-    ]
-    return result
 
 
 def extract_without_titlepage():
