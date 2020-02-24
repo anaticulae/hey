@@ -18,6 +18,8 @@ import hey
 import hey.example
 import tests.resources
 
+WORKER = 12
+
 
 def install_requirements():
     utila.clean_install(hey.ROOT, hey.PACKAGE)
@@ -28,15 +30,29 @@ def sync_resources():
     assert completed.returncode == utila.SUCCESS, str(completed)
 
 
+def extract_examples():
+    if os.path.exists(tests.resources.GENERATED):
+        return
+    extract()
+    extract_without_titlepage()
+
+
+# yapf:disable
 PACKAGE = [
-    (tests.resources.BACHELOR111_PDF, tests.resources.BACHELOR111),
-    (tests.resources.HOWTO_ARGPARSE_PDF, tests.resources.HOWTO_ARGPARSE),
-    (tests.resources.HOWTO_PYPORTING_PDF, tests.resources.HOWTO_PYPORTING),
-    (tests.resources.MASTER72_PDF, tests.resources.MASTER72),
-    (tests.resources.PYPORTING_PDF, tests.resources.PYPORTING),
-    (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT),
-    (tests.resources.TECHNICAL24_PDF, tests.resources.TECHNICAL24),
-    (tests.resources.TWINE_PDF, tests.resources.TWINE),
+    (tests.resources.BACHELOR111_PDF, tests.resources.BACHELOR111, None),
+    (tests.resources.HOWTO_ARGPARSE_PDF, tests.resources.HOWTO_ARGPARSE, None),
+    (tests.resources.HOWTO_PYPORTING_PDF, tests.resources.HOWTO_PYPORTING, None),
+    (tests.resources.MASTER72_PDF, tests.resources.MASTER72, None),
+    (tests.resources.PYPORTING_PDF, tests.resources.PYPORTING, None),
+    (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT, None),
+    (tests.resources.TECHNICAL24_PDF, tests.resources.TECHNICAL24, None),
+    (tests.resources.TWINE_PDF, tests.resources.TWINE, None),
+]
+
+SINGLE = [
+    (tests.resources.BACHELOR56_PDF, tests.resources.BACHELOR56, '0:10'),
+    (tests.resources.MASTER89_PDF, tests.resources.MASTER89, '0:50'),
+    (tests.resources.HOWTOWRITE9_PDF, tests.resources.HOWTOWRITE9, '0:10'),
 ]
 
 
@@ -57,18 +73,6 @@ def run_package(pdf, outpath, pages=None):
     return todo
 
 
-WORKER = 8
-
-
-def extract_examples():
-    if os.path.exists(tests.resources.GENERATED):
-        return
-
-    extract_standard()
-    extract_without_titlepage()
-    extract_single()
-
-
 def run_single(pdf, dest, pages=None):
     todo = create_todo_rawmaker(pdf, dest, pages=pages)
     todo = [
@@ -81,50 +85,24 @@ def run_single(pdf, dest, pages=None):
     return todo
 
 
-def extract_single():
-    plan = [
-        (
-            tests.resources.BACHELOR56_PDF,
-            tests.resources.BACHELOR56,
-            '0:10',
-        ),
-        (
-            tests.resources.MASTER89_PDF,
-            tests.resources.MASTER89,
-            '0:10',
-        ),
-        (
-            tests.resources.HOWTOWRITE9_PDF,
-            tests.resources.HOWTOWRITE9,
-            '0:10',
-        ),
-    ]
-    with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER) as executor:
-        futures = {
-            executor.submit(run_single, pdf, out, pages=pages): pdf
-            for pdf, out, pages in plan
-        }
-        for future in concurrent.futures.as_completed(futures):
-            try:
-                comment = future.result()
-                utila.info(comment)
-            except Exception:
-                utila.info(f'{future} failed.')
-                raise
-
-
-def extract_standard():
-    for pdf, _ in PACKAGE:
+def extract():
+    for pdf, _, __ in PACKAGE:
         assert pdf.endswith('.pdf') and os.path.exists(pdf), pdf
 
     # ensure that generation directory exists
     os.makedirs(tests.resources.GENERATED)
-    pages = '0:10'
     with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER) as executor:
-        futures = {
+        futures_standard = {
             executor.submit(run_package, pdf, out, pages=pages): pdf
-            for pdf, out in PACKAGE
+            for pdf, out, pages in PACKAGE
         }
+        futures_singles = {
+            executor.submit(run_single, pdf, out, pages=pages): pdf
+            for pdf, out, pages in SINGLE
+        }
+        futures = {}
+        futures.update(futures_standard)
+        futures.update(futures_singles)
         for future in concurrent.futures.as_completed(futures):
             try:
                 comment = future.result()
@@ -189,6 +167,6 @@ def extract_without_titlepage():
             without_titlepage,
         )
     ]
-    returncode = utila.run_parallel(todo, worker=18)
+    returncode = utila.run_parallel(todo, worker=WORKER)
     assert returncode == utila.SUCCESS, str(returncode)
     hey.example.extract(without_titlepage, destination, pages='0:10')
