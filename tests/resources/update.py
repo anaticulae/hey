@@ -40,10 +40,10 @@ PACKAGE = [
 ]
 
 
-def run_package(pdf, outpath):
+def run_package(pdf, outpath, pages=None):
     utila.log(f'run {pdf}')
     todo = []
-    todo.extend(create_todo_rawmaker(pdf, outpath))
+    todo.extend(create_todo_rawmaker(pdf, outpath, pages=pages))
     todo.extend(create_todo_groupme(outpath))
     todo.extend(create_todo_sections(outpath))
 
@@ -69,8 +69,8 @@ def extract_examples():
     extract_single()
 
 
-def run_single(pdf, dest):
-    todo = create_todo_rawmaker(pdf, dest)
+def run_single(pdf, dest, pages=None):
+    todo = create_todo_rawmaker(pdf, dest, pages=pages)
     todo = [
         f'{executable} -i {inpath} -o {outpath} {configuration}'
         for (executable, inpath, outpath, configuration) in todo
@@ -86,19 +86,23 @@ def extract_single():
         (
             tests.resources.BACHELOR56_PDF,
             tests.resources.BACHELOR56,
+            '0:10',
         ),
         (
             tests.resources.MASTER89_PDF,
             tests.resources.MASTER89,
+            '0:10',
         ),
         (
             tests.resources.HOWTOWRITE9_PDF,
             tests.resources.HOWTOWRITE9,
+            '0:10',
         ),
     ]
     with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER) as executor:
         futures = {
-            executor.submit(run_single, pdf, out): pdf for pdf, out in plan
+            executor.submit(run_single, pdf, out, pages=pages): pdf
+            for pdf, out, pages in plan
         }
         for future in concurrent.futures.as_completed(futures):
             try:
@@ -115,10 +119,11 @@ def extract_standard():
 
     # ensure that generation directory exists
     os.makedirs(tests.resources.GENERATED)
-
+    pages = '0:10'
     with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER) as executor:
         futures = {
-            executor.submit(run_package, pdf, out): pdf for pdf, out in PACKAGE
+            executor.submit(run_package, pdf, out, pages=pages): pdf
+            for pdf, out in PACKAGE
         }
         for future in concurrent.futures.as_completed(futures):
             try:
@@ -129,20 +134,24 @@ def extract_standard():
                 raise
 
 
-def create_todo_rawmaker(inpath, outpath):
+def create_todo_rawmaker(inpath, outpath, pages=None):
+    # default config
+    # TODO: move configuration to global var
+    config = '--all --char_margin=5.0 --boxes_flow=1.0 --line_margin=0.3'
+    pages = f' --pages {pages} ' if pages is not None else ' '
     result = [
         (
             'rawmaker -j8',
             inpath,
             outpath,
-            detector.feature.titlepage.RAWMAKER_CONFIGURATION,
+            # oneline configuration
+            detector.feature.titlepage.RAWMAKER_CONFIGURATION + pages,
         ),
         (
             'rawmaker -j8',
             inpath,
             outpath,
-            '--all --char_margin=5.0 --boxes_flow=1.0 --line_margin=0.3',
-            # TODO: move configuration to global var
+            config + pages,
         ),
         (
             'linero',
@@ -174,11 +183,12 @@ def extract_without_titlepage():
         os.path.join(destination, f'{item}.pdf')
         for item in hey.example.output_names(tests.resources.NO_TITLE_EXAMPLE)
     ]
-    for inpath, outpath in zip(
+    todo = [
+        f'jam -i {inpath} -o {outpath} --remove=0' for inpath, outpath in zip(
             tests.resources.NO_TITLE_EXAMPLE,
             without_titlepage,
-    ):
-        completed = utila.run(f'jam -i {inpath} -o {outpath} --remove=0')
-        assert completed.returncode == utila.SUCCESS, str(completed)
-
-    hey.example.extract(without_titlepage, destination, pages='0:20')
+        )
+    ]
+    returncode = utila.run_parallel(todo, worker=18)
+    assert returncode == utila.SUCCESS, str(returncode)
+    hey.example.extract(without_titlepage, destination, pages='0:10')
