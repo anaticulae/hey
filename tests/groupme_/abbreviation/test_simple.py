@@ -9,7 +9,7 @@
 
 import pytest
 
-import groupme.abbreviation.parser
+import groupme.abbreviation.simple
 import hey.textnavigator.navigator
 import tests.resources
 
@@ -25,12 +25,14 @@ import tests.resources
         marks=pytest.mark.xfail(reason='require more complex strategy'),
     ),
 ])
-def test_abbreviation_parse_example(source, pages, expected):
+def test_abbreviation_parse_simple(source, pages, expected):
     content = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
         source,
         prefix='oneline',
         pages=pages,
     )
-    parsed = groupme.abbreviation.parser.parse(content)
+    content = groupme.abbreviation.AbbreviationData(content=content)
+    strategy = groupme.abbreviation.simple.SimpleAbbreviationParser(content)
+    parsed = strategy.result()
     assert parsed, parsed
     assert len(parsed) == expected, str(parsed)
