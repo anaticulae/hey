@@ -79,7 +79,7 @@ def parse_page(page) -> groupme.abbreviation.Abbreviations:
         description = ' '.join(description)
         result.append(
             groupme.abbreviation.Abbreviation(
-                short=short,
+                short=short.text.strip(),
                 description=description,
             ))
     return result
