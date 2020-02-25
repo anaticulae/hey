@@ -43,7 +43,7 @@ class GeometryAbbreviationParser(groupme.abbreviation.AbbreviationExtractorStrat
 
     def result(self) -> groupme.abbreviation.AbbreviationResult:
         ready = groupme.abbreviation.AbbreviationResult()
-        for page in self.loaded.content:
+        for page in self.loaded.normal:
             parsed = parse_page(page)
             if parsed is None:
                 utila.info(f'could not parse page: {page.page}')
@@ -57,7 +57,7 @@ def parse_page(page) -> groupme.abbreviation.Abbreviations:
     line_gaps = lines(page)
     marker = columns(page)
 
-    if not marker or not line_gaps:
+    if not marker:
         return None
 
     short_marker = marker[0]

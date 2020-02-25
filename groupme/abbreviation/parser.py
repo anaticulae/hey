@@ -8,15 +8,29 @@
 # =============================================================================
 
 import groupme.abbreviation
+import groupme.abbreviation.geometry
 import groupme.abbreviation.simple
-import hey.textnavigator.navigator
+
+STRATEGIES = [
+    groupme.abbreviation.simple.SimpleAbbreviationParser,
+    groupme.abbreviation.geometry.GeometryAbbreviationParser,
+]
 
 
-def parse(items: hey.textnavigator.navigator.PageTextNavigator,
+def parse(data: groupme.abbreviation.AbbreviationData,
          ) -> groupme.abbreviation.AbbreviationResult:
-    assert isinstance(items, list), type(items)
-    loaded = groupme.abbreviation.AbbreviationData(content=items)
+    assert isinstance(data.normal, list), type(data)
+    assert isinstance(data.oneline, list), type(data)
 
-    strategy = groupme.abbreviation.simple.SimpleAbbreviationParser(loaded)
-    result = strategy.result()
+    parsed = [strategy(data).result() for strategy in STRATEGIES]
+
+    judged = judge(parsed)
+    return judged
+
+
+def judge(results) -> groupme.abbreviation.AbbreviationData:
+    results = sorted(results, key=len, reverse=True)
+
+    master = results[0]
+    result = groupme.abbreviation.AbbreviationResult(master)
     return result

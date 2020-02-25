@@ -16,7 +16,7 @@ class SimpleAbbreviationParser(groupme.abbreviation.AbbreviationExtractorStrateg
 
     def result(self) -> groupme.abbreviation.AbbreviationResult:
         ready = groupme.abbreviation.AbbreviationResult()
-        for page in self.loaded.content:
+        for page in self.loaded.oneline:
             parsed = parse_page(page)
             for item in parsed:
                 ready.append(item)

@@ -61,6 +61,7 @@ if __name__ == "__main__":
             'detector.feature',
             'detector.parser',
             'groupme',
+            'groupme.abbreviation',
             'groupme.feature',
             'groupme.footer',
             'groupme.footer.strategy',

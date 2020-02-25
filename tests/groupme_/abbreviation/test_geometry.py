@@ -20,7 +20,7 @@ def bachelor37():
         tests.resources.BACHELOR37,
         pages=2,
     )
-    content = groupme.abbreviation.AbbreviationData(content=content)
+    content = groupme.abbreviation.AbbreviationData(normal=content)
     return content
 
 
@@ -39,14 +39,14 @@ def bachelor37():
         # geometry appraoch does not work for this example, cause left and
         # right column are very tight together.
         pytest.param(tests.resources.HOMEWORK50, 6, 0, id='homework50'),
-        pytest.param(tests.resources.BACHELOR37, 2, 10, id='bachelor37'),
+        pytest.param(tests.resources.BACHELOR37, 2, 10, id='bachelor37_figures'),
     ])
 def test_abbreviation_parse_strategy_geometry(source, pages, expected):
     content = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
         source,
         pages=pages,
     )
-    content = groupme.abbreviation.AbbreviationData(content=content)
+    content = groupme.abbreviation.AbbreviationData(normal=content)
     strategy = groupme.abbreviation.geometry.GeometryAbbreviationParser(content)
     parsed = strategy.result()
     for item in parsed:
@@ -55,9 +55,8 @@ def test_abbreviation_parse_strategy_geometry(source, pages, expected):
 
 
 def test_abbreviation_geometry_columns():
-    page = bachelor37()[0]
+    page = bachelor37().normal[0]  # pylint:disable=E1136
     columns = groupme.abbreviation.geometry.columns(page)
-
     content = [
         groupme.abbreviation.geometry.column_data(page, column)
         for column in columns
@@ -68,7 +67,7 @@ def test_abbreviation_geometry_columns():
 
 
 def test_abbreviation_geometry_all_columns():
-    page = bachelor37()[0]
+    page = bachelor37().normal[0]  # pylint:disable=E1136
     columns = [
         groupme.abbreviation.geometry.column_data(page, x0=item)
         for item in groupme.abbreviation.geometry.columns(page)
