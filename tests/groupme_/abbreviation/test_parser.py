@@ -26,12 +26,11 @@ import tests.resources
     ),
 ])
 def test_abbreviation_parse_example(source, pages, expected):
-    ptn = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
+    content = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
         source,
         prefix='oneline',
         pages=pages,
     )
-    content = ptn
     parsed = groupme.abbreviation.parser.parse(content)
     assert parsed, parsed
     assert len(parsed) == expected, str(parsed)
