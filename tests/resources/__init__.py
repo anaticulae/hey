@@ -17,9 +17,10 @@ RESOURCES = os.path.join(hey.ROOT, 'tests/resources')
 
 BACHELOR = os.path.join(RESOURCES, 'bachelor')
 DOCU = os.path.join(RESOURCES, 'docu')
+HOMEWORK = os.path.join(RESOURCES, 'homework')
 MASTER = os.path.join(RESOURCES, 'master')
-TECHNICAL = os.path.join(RESOURCES, 'technical')
 ORDER = os.path.join(RESOURCES, 'order')
+TECHNICAL = os.path.join(RESOURCES, 'technical')
 
 GENERATED = os.path.join(RESOURCES, 'generated')
 NO_TITLE = os.path.join(GENERATED, 'notitle')
@@ -43,6 +44,9 @@ PYPORTING = os.path.join(GENERATED, 'porting_module')
 PYPORTING_PDF = os.path.join(DOCU, 'porting_extension_modules.pdf')
 PYPORTING_CHAPTER_COUNT = 6
 
+BACHELOR37 = os.path.join(GENERATED, 'page_37_tables')
+BACHELOR37_PDF = os.path.join(BACHELOR, 'page_37_tables.pdf')
+
 BACHELOR56 = os.path.join(GENERATED, 'page_56_hard_to_read')
 BACHELOR56_PDF = os.path.join(BACHELOR, 'page_56_hard_to_read.pdf')
 
@@ -54,6 +58,9 @@ MASTER72_PDF = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
 
 MASTER89 = os.path.join(GENERATED, 'page_89_noimages_toc')
 MASTER89_PDF = os.path.join(MASTER, 'page_89_noimages_toc.pdf')
+
+MASTER116 = os.path.join(GENERATED, 'page_116_images_toc_formular')
+MASTER116_PDF = os.path.join(MASTER, 'page_116_images_toc_formular.pdf')
 
 BACHELOR111 = os.path.join(GENERATED, 'page_111_images_toc')
 BACHELOR111_PDF = os.path.join(BACHELOR, 'page_111_images_toc.pdf')
@@ -76,15 +83,17 @@ HOWTOWRITE9 = os.path.join(GENERATED, 'howtowrite_pages9')
 HOWTOWRITE9_PDF = os.path.join(ORDER, 'howtowrite_pages9.pdf')
 
 MASTER78_PDF = os.path.join(MASTER, 'page_78_images_toc.pdf')
-MASTER116_PDF = os.path.join(MASTER, 'page_116_images_toc_formular.pdf')
+
+HOMEWORK50 = os.path.join(GENERATED, 'homework_page_50_math')
+HOMEWORK50_PDF = os.path.join(HOMEWORK, 'page_50_math.pdf')
 
 NO_TITLE_EXAMPLE = [
     BACHELOR111_PDF,
+    HOWTO_PYPORTING_PDF,
     MASTER72_PDF,
     MASTER78_PDF,
     PYPORTING_PDF,
     RESTRUCT_PDF,
-    HOWTO_PYPORTING_PDF,
     TWINE_PDF,
 ]
 NO_TITLE_GENERATED = [
@@ -99,12 +108,15 @@ REQURIED_RESOURCES = [
     BACHELOR56,
     BACHELOR56_PDF,
     BACHELOR63_PDF,
+    HOMEWORK50,
+    HOMEWORK50_PDF,
     HOWTOWRITE9,
     HOWTOWRITE9_PDF,
     HOWTO_ARGPARSE,
     HOWTO_ARGPARSE_PDF,
     HOWTO_PYPORTING,
     HOWTO_PYPORTING_PDF,
+    MASTER116,
     MASTER116_PDF,
     MASTER72,
     MASTER72_PDF,
