@@ -22,6 +22,8 @@ import abc
 import dataclasses
 import typing
 
+import hey.textnavigator.navigator
+
 
 @dataclasses.dataclass
 class Abbreviation:
@@ -34,7 +36,7 @@ Abbreviations = typing.List[Abbreviation]
 
 @dataclasses.dataclass
 class AbbreviationData:
-    pass
+    content: hey.textnavigator.navigator.PageTextNavigators = None
 
 
 @dataclasses.dataclass

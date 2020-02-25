@@ -6,44 +6,17 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-import utila
 
 import groupme.abbreviation
+import groupme.abbreviation.simple
 import hey.textnavigator.navigator
 
 
-def parse(content: hey.textnavigator.navigator.PageTextNavigator,
+def parse(items: hey.textnavigator.navigator.PageTextNavigator,
          ) -> groupme.abbreviation.AbbreviationResult:
-    result = []
-    for line in content:
-        raw = line.text
-        utila.debug(f'parse: {raw}')
-        try:
-            short, description = raw.split(maxsplit=1)
-        except ValueError:
-            if not is_excluded(raw):
-                utila.error(f'could not parse: {raw}')
-            continue
-        if is_excluded(short) or is_excluded(description):
-            utila.info(f'skip: {short}, {description}')
-            continue
-        short, description = short.strip(), description.strip()
-        parsed = groupme.abbreviation.Abbreviation(
-            short=short,
-            description=description,
-        )
-        utila.debug(f'parsed: {parsed}')
-        result.append(parsed)
+    assert isinstance(items, list), type(items)
+    loaded = groupme.abbreviation.AbbreviationData(content=items)
+
+    strategy = groupme.abbreviation.simple.SimpleAbbreviationParser(loaded)
+    result = strategy.result()
     return result
-
-
-def is_excluded(item):
-    item = item.strip()
-    excluded = {
-        'Abkürzung',
-        'Abkürzungsverzeichnis',
-        'Beschreibung',
-        'Glossar',
-        'Tabellenverzeichnis',
-    }
-    return item in excluded

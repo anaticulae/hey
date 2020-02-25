@@ -31,7 +31,7 @@ def test_abbreviation_parse_example(source, pages, expected):
         prefix='oneline',
         pages=pages,
     )
-    content = ptn[0]
+    content = ptn
     parsed = groupme.abbreviation.parser.parse(content)
     assert parsed, parsed
     assert len(parsed) == expected, str(parsed)
