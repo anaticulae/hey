@@ -7,9 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import groupme.feature.area
 import linero.path
 import rawmaker.path
+
+import groupme.feature.area
 import tests.resources
 
 

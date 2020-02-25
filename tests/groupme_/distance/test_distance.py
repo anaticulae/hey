@@ -7,9 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import rawmaker.path
+
 import groupme.feature.distance
 import groupme.path
-import rawmaker.path
 import tests.resources
 
 
