@@ -1,0 +1,27 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2020 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+"""Abbreviation
+============
+
+Examples:
+
+* homework/page_50_math.pdf:page6
+* master/page_116_images_toc_formular.pdf:95
+
+TODO: Abbreviation creation tool
+TODO: Symbol collector
+"""
+
+import dataclasses
+
+
+@dataclasses.dataclass
+class Abbreviation:
+    short: str = None
+    description: str = None
