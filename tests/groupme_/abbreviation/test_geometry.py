@@ -39,7 +39,14 @@ def bachelor37():
         # geometry appraoch does not work for this example, cause left and
         # right column are very tight together.
         pytest.param(tests.resources.HOMEWORK50, 6, 0, id='homework50'),
-        pytest.param(tests.resources.BACHELOR37, 2, 10, id='bachelor37_figures'),
+        pytest.param(
+            tests.resources.BACHELOR37,
+            1,
+            26,
+            id='bachelor37_abbrev',
+            marks=pytest.mark.xfail(reason=('holy whitespaces - fix rawmaker')),
+        ),
+        pytest.param(tests.resources.BACHELOR37, 2, 10, id='bachelor37_figures'), # yapf:disable
     ])
 def test_abbreviation_parse_strategy_geometry(source, pages, expected):
     content = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
@@ -49,8 +56,6 @@ def test_abbreviation_parse_strategy_geometry(source, pages, expected):
     content = groupme.abbreviation.AbbreviationData(normal=content)
     strategy = groupme.abbreviation.geometry.GeometryAbbreviationParser(content)
     parsed = strategy.result()
-    for item in parsed:
-        print(item)
     assert len(parsed) == expected, len(parsed)
 
 
