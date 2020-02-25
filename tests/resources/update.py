@@ -49,7 +49,7 @@ PACKAGE = [
     (tests.resources.TWINE_PDF, tests.resources.TWINE, None),
 ]
 SINGLE = [
-    (tests.resources.BACHELOR37_PDF, tests.resources.BACHELOR37, '1'),
+    (tests.resources.BACHELOR37_PDF, tests.resources.BACHELOR37, '1,2'),
     (tests.resources.BACHELOR56_PDF, tests.resources.BACHELOR56, '0:10'),
     (tests.resources.HOMEWORK50_PDF, tests.resources.HOMEWORK50, '6'),
     (tests.resources.HOWTOWRITE9_PDF, tests.resources.HOWTOWRITE9, '0:10'),
