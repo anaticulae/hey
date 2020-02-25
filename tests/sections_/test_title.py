@@ -6,14 +6,16 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-from iamraw import Font
-from pytest import approx
-from pytest import mark
-from serializeraw import dump_likelihood
-from serializeraw import load_likelihood
 
-from sections.feature.title import extract_title_likelihood
-from sections.textprocessor import split_page
+import iamraw
+import pytest
+import rawmaker.path
+import serializeraw
+
+import hey.fonts.store
+import sections.feature.title
+import sections.textprocessor
+import tests.resources
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_fontstore
 from tests.fixtures.restruct import restructured_fontstore_fixture
@@ -34,23 +36,26 @@ def test_load_font_lookup(restructured_fontstore):  #pylint:disable=W0621
     )
 
     assert first_font
-    assert isinstance(first_font, Font)
+    assert isinstance(first_font, iamraw.Font)
 
 
 # qualitygate for further alogrithm improvements
 MIN_TITLE_LIKELIHOOD = 0.70
 
 
-# TODO: google: pytest + parametrize + fixture
-@mark.parametrize('document,fontstore', [
-    (restructured_text_fixture(), restructured_fontstore_fixture()),
-    (simple_document_fixture(), simple_fontstore_fixture()),
+@pytest.mark.parametrize('source', [
+    pytest.param(tests.resources.RESTRUCT, id='restruct'),
+    pytest.param(tests.resources.HOWTO_PYPORTING, id='pyporting'),
 ])
-def test_extract_title_likelihood(
-        document,
-        fontstore,
-):
-    result = extract_title_likelihood(
+def test_extract_title_likelihood(source):
+    document = rawmaker.path.text(source)
+    fontheader = rawmaker.path.fontheader(source)
+    fontcontent = rawmaker.path.fontcontent(source)
+
+    document = serializeraw.load_document(document)
+    fontstore = hey.fonts.store.create_fontstore(fontheader, fontcontent)
+
+    result = sections.feature.title.extract_title_likelihood(
         document,
         fontstore,
     )
@@ -58,12 +63,12 @@ def test_extract_title_likelihood(
     # as a result of rounding the sum of the likelihoods is not one, but thats
     # not a big problem, hitting the region one is enough.
     result = [item.content.value for item in result]
-    assert sum(result) == approx(1.0, abs=0.05)
+    assert sum(result) == pytest.approx(1.0, abs=0.05)
 
 
 # TODO: Move to more general package
 # TODO Investigate on this example. Page number must have a different font
-@mark.parametrize(
+@pytest.mark.parametrize(
     'page,position,expected',
     [
         (
@@ -138,7 +143,7 @@ def test_split_page(
 ):
     first_page = restructured_text[page]
 
-    result = split_page(first_page, position)
+    result = sections.textprocessor.split_page(first_page, position)
     assert result == expected
 
 
@@ -146,11 +151,11 @@ def test_dump_and_load_likelhood(
         restructured_text,  #pylint:disable=W0621
         restructured_fontstore,  #pylint:disable=W0621
 ):
-    result = extract_title_likelihood(
+    result = sections.feature.title.extract_title_likelihood(
         restructured_text,
         restructured_fontstore,
     )
-    dumped = dump_likelihood(result)
-    loaded = load_likelihood(dumped)
+    dumped = serializeraw.dump_likelihood(result)
+    loaded = serializeraw.load_likelihood(dumped)
 
     assert loaded == result
