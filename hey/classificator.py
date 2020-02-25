@@ -51,6 +51,14 @@ def common_items(
     return result
 
 
+def max_distance(items, diff: float = 1.0, min_elements=2):
+
+    def classifier(candidat, clusteritem):
+        return math.fabs(candidat - clusteritem) <= diff
+
+    return determine_cluster(items, classifier, min_elements=min_elements)
+
+
 def page_from_cluster(cluster, collected) -> list:
     result = []
     for pagecount, content in enumerate(collected):
