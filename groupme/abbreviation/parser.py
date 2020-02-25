@@ -12,7 +12,8 @@ import groupme.abbreviation
 import hey.textnavigator.navigator
 
 
-def parse(content: hey.textnavigator.navigator.PageTextNavigator):
+def parse(content: hey.textnavigator.navigator.PageTextNavigator,
+         ) -> groupme.abbreviation.AbbreviationResult:
     result = []
     for line in content:
         raw = line.text

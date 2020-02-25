@@ -18,10 +18,45 @@ TODO: Abbreviation creation tool
 TODO: Symbol collector
 """
 
+import abc
 import dataclasses
+import typing
 
 
 @dataclasses.dataclass
 class Abbreviation:
     short: str = None
     description: str = None
+
+
+Abbreviations = typing.List[Abbreviation]
+
+
+@dataclasses.dataclass
+class AbbreviationData:
+    pass
+
+
+@dataclasses.dataclass
+class AbbreviationResult:
+
+    abbreviations: Abbreviations = dataclasses.field(default_factory=list)
+
+    def append(self, item):
+        self.abbreviations.append(item)  # pylint:disable=E1101
+
+    def __getitem__(self, index):
+        return self.abbreviations[index]  # pylint:disable=E1136
+
+    def __len__(self):
+        return len(self.abbreviations)
+
+
+class AbbreviationExtractorStrategy(abc.ABC):
+
+    def __init__(self, loaded: AbbreviationData):
+        self.loaded = loaded
+
+    @abc.abstractmethod
+    def result(self) -> AbbreviationResult:
+        pass
