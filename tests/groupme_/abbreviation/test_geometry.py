@@ -1,0 +1,77 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2020 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+
+import pytest
+
+import groupme.abbreviation.geometry
+import groupme.abbreviation.parser
+import hey.textnavigator.navigator
+import tests.resources
+
+
+def bachelor37():
+    content = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
+        tests.resources.BACHELOR37,
+        pages=2,
+    )
+    content = groupme.abbreviation.AbbreviationData(content=content)
+    return content
+
+
+@pytest.mark.parametrize(
+    'source, pages, expected',
+    [
+        pytest.param(
+            tests.resources.MASTER116,
+            96,
+            8,
+            id='master116',
+            marks=pytest.mark.xfail(
+                reason=('improve layout parser configuration, convert more '
+                        'space into whitespaces.')),
+        ),
+        # geometry appraoch does not work for this example, cause left and
+        # right column are very tight together.
+        pytest.param(tests.resources.HOMEWORK50, 6, 0, id='homework50'),
+        pytest.param(tests.resources.BACHELOR37, 2, 10, id='bachelor37'),
+    ])
+def test_abbreviation_parse_strategy_geometry(source, pages, expected):
+    content = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
+        source,
+        pages=pages,
+    )
+    content = groupme.abbreviation.AbbreviationData(content=content)
+    strategy = groupme.abbreviation.geometry.GeometryAbbreviationParser(content)
+    parsed = strategy.result()
+    for item in parsed:
+        print(item)
+    assert len(parsed) == expected, len(parsed)
+
+
+def test_abbreviation_geometry_columns():
+    page = bachelor37()[0]
+    columns = groupme.abbreviation.geometry.columns(page)
+
+    content = [
+        groupme.abbreviation.geometry.column_data(page, column)
+        for column in columns
+    ]
+    assert len(content) == 2
+    assert len(content[0]) == 11
+    assert len(content[1]) == 20, str(content[1])
+
+
+def test_abbreviation_geometry_all_columns():
+    page = bachelor37()[0]
+    columns = [
+        groupme.abbreviation.geometry.column_data(page, x0=item)
+        for item in groupme.abbreviation.geometry.columns(page)
+    ]
+    all_columns = groupme.abbreviation.geometry.all_columns(columns)
+    assert len(all_columns) == 20, str(all_columns)

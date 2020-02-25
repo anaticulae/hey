@@ -38,6 +38,9 @@ Abbreviations = typing.List[Abbreviation]
 class AbbreviationData:
     content: hey.textnavigator.navigator.PageTextNavigators = None
 
+    def __getitem__(self, index):
+        return self.content[index]  # pylint:disable=E1136
+
 
 @dataclasses.dataclass
 class AbbreviationResult:
