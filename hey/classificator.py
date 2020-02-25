@@ -117,6 +117,10 @@ def same_area_cluster(
 
 
 def determine_cluster(todo, classificator, min_elements=2):
+    """Determine cluster out of `todo`.
+
+    Sort clustered result by length of cluster descending.
+    """
     if not todo:
         return []
 
@@ -162,4 +166,6 @@ def determine_cluster(todo, classificator, min_elements=2):
         before.add(hashid)
     # A cluster must have at least 2 items
     clusters = [item for item in result if len(item) >= min_elements]
+
+    clusters = sorted(clusters, key=len, reverse=True)
     return clusters
