@@ -81,6 +81,8 @@ def analyse_page(page: iamraw.Page) -> Tuple[int, int]:
         (linecount, matched features):
     """
     content = page.text.splitlines()
+    # remove empty lines
+    content = [item for item in content if item]
     linecount = len(content)
 
     # search for single chars, which represents the index

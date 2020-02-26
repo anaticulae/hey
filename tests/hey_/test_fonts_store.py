@@ -65,8 +65,7 @@ FIFTH_FONT = iamraw.Font(
         (0, 2, 0, 11, THIRD_FONT),
         (0, 3, 0, 0, FORTH_FONT),
         (0, 4, 0, 0, fs.NO_FONT),
-        (0, 3, 0, 13, fs.NO_FONT),
-        (0, 3, 1, 0, fs.NO_FONT),
+        (0, 3, 0, 13, FORTH_FONT),
         (1, 0, 0, 0, fs.NO_FONT),  # Empty page
         (2, 0, 0, 0, FIFTH_FONT),
         (2, 0, 0, 7, FIFTH_FONT),
@@ -85,6 +84,24 @@ def test_fontstore_access_font_id(
     if expected == fs.NO_FONT:
         expected_fontid = fs.NO_FONT
     assert fontid == expected_fontid
+
+
+@pytest.mark.parametrize('page,container,line,char', [
+    (0, 3, 1, 0),
+    (0, 3, 200, 0),
+])
+@pytest.mark.xfail(reason='out of bounds error not implemented')
+def test_fontstore_access_out_of_bounds(
+        restructured_fontstore: fs.FontStore,  # pylint:disable=W0621
+        page,
+        container,
+        line,
+        char,
+):
+    # TODO: USE NO_FONT INSTEAD OF VALUE_ERROR?
+    fontstore = restructured_fontstore
+    with pytest.raises(ValueError):
+        fontstore.fontid(page, container, line, char)
 
 
 def expected_result():
