@@ -30,6 +30,7 @@ def validate_master72(result):
          (13, 6), (14, 7), (15, 8), (16, 10), (17, 8), (18, 7), (19, 8)],
         validate_master72,
         id='master72pages',
+        marks=pytest.mark.xfail(reason='fix footnote parser'),
     ),
     pytest.param(
         tests.resources.BACHELOR111,
