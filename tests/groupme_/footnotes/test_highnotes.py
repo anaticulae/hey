@@ -54,7 +54,7 @@ def test_groupme_footnotes_highnotes_split_mixed_in_text_tripple(
     thirdnote_text = merged[2][1].text
     thirdnote_text = thirdnote_text.strip()  # TODO: REMOVE LATER
     expected = ('Das Schema fasst Vogler (vgl. 21998: 74f.) wie folgt zusammen:'
-                ' Der Held wird in seinem Leben in der \ngewohnten Welt '
+                ' Der Held wird in seinem Leben in der\ngewohnten Welt '
                 'vorgestellt und erh')
     assert thirdnote_text.startswith(expected), thirdnote_text
 

@@ -48,8 +48,8 @@ def master89_page19():
     )
     navigator = utila.select_page(navigators, page)
     # TODO: REMOVE WITH EXTRACT MOVING FOOTER
-    footer = navigator.between(0.7, 0.95)
-    assert len(footer) == 16, str(footer)
+    footer = navigator.between(0.69, 0.95)
+    assert len(footer) == 16, len(footer)
     return footer
 
 
