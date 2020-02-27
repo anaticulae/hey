@@ -25,51 +25,47 @@ from tests.fixtures.restruct import restructured_text
 
 FIRST_FONT = iamraw.Font(
     name='NimbusSanL',
-    scale=18,
+    scale=18.5,
     weight=iamraw.Weight.BOLD,
 )
 
 SECOND_FONT = iamraw.Font(
     name='NimbusSanL',
-    scale=13,
+    scale=12.85,
     weight=iamraw.Weight.BOLD,
     style=iamraw.Style.ITALIC,
 )
 THIRD_FONT = iamraw.Font(
     name='NimbusSanL',
-    scale=13,
+    scale=12.85,
     weight=iamraw.Weight.BOLD,
 )
 
 FORTH_FONT = iamraw.Font(
     name='NimbusSanL',
-    scale=9,
+    scale=8.93,
     weight=iamraw.Weight.BOLD,
 )
 
 FIFTH_FONT = iamraw.Font(
     name='NimbusSanL',
-    scale=11,
+    scale=10.71,
     weight=iamraw.Weight.LIGHT,
     style=iamraw.Style.NORMAL,
     stretch=iamraw.Stretch.REGULAR,
 )
 
 
-@pytest.mark.parametrize(
-    'page,container,line,char,expected',
-    [
-        (0, 0, 1, 5, FIRST_FONT),
-        (0, 1, 0, 5, SECOND_FONT),
-        (0, 1, 0, 10, SECOND_FONT),
-        (0, 2, 0, 11, THIRD_FONT),
-        (0, 3, 0, 0, FORTH_FONT),
-        (0, 4, 0, 0, fs.NO_FONT),
-        (0, 3, 0, 13, FORTH_FONT),
-        (1, 0, 0, 0, fs.NO_FONT),  # Empty page
-        (2, 0, 0, 0, FIFTH_FONT),
-        (2, 0, 0, 7, FIFTH_FONT),
-    ])  #TODO: THINK ABOUT BETTER APPRAOCH THAN SAVING HASH KEY
+@pytest.mark.parametrize('page,container,line,char,expected', [
+    (0, 0, 1, 5, FIRST_FONT),
+    (0, 1, 0, 5, SECOND_FONT),
+    (0, 1, 0, 10, SECOND_FONT),
+    (0, 2, 0, 11, THIRD_FONT),
+    (0, 3, 0, 0, FORTH_FONT),
+    (0, 3, 0, 12, FORTH_FONT),
+    (2, 0, 0, 0, FIFTH_FONT),
+    (2, 0, 0, 7, FIFTH_FONT),
+])
 def test_fontstore_access_font_id(
         restructured_fontstore: fs.FontStore,  # pylint:disable=W0621
         page,
@@ -89,8 +85,9 @@ def test_fontstore_access_font_id(
 @pytest.mark.parametrize('page,container,line,char', [
     (0, 3, 1, 0),
     (0, 3, 200, 0),
+    (0, 4, 0, 0),
+    (1, 0, 0, 0),
 ])
-@pytest.mark.xfail(reason='out of bounds error not implemented')
 def test_fontstore_access_out_of_bounds(
         restructured_fontstore: fs.FontStore,  # pylint:disable=W0621
         page,
@@ -98,10 +95,10 @@ def test_fontstore_access_out_of_bounds(
         line,
         char,
 ):
-    # TODO: USE NO_FONT INSTEAD OF VALUE_ERROR?
+    """Notes: (1,0,0,0): empty page"""
     fontstore = restructured_fontstore
-    with pytest.raises(ValueError):
-        fontstore.fontid(page, container, line, char)
+    fontid = fontstore.fontid(page, container, line, char)
+    assert fontid == fs.NO_FONT
 
 
 def expected_result():
@@ -110,14 +107,14 @@ def expected_result():
             ' two other markup languages, Setext and StructuredText.')
     first = iamraw.Font(
         name='NimbusRomNo9L',
-        scale=7,
+        scale=7.43,
         weight=iamraw.Weight.LIGHT,
         style=iamraw.Style.NORMAL,
         stretch=iamraw.Stretch.REGULAR,
     )
     bold = iamraw.Font(
         name='NimbusRomNo9L',
-        scale=7,
+        scale=7.43,
         weight=iamraw.Weight.MEDIUM,
         style=iamraw.Style.NORMAL,
         stretch=iamraw.Stretch.REGULAR,
