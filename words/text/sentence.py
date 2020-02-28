@@ -165,6 +165,8 @@ def split_sentences(text: str) -> typing.List[str]:
     # something else.
     result = []
     current = []
+    # support multi line text
+    text = text.replace('\n', ' ')
     tokens = text.split(' ')
     for token in tokens:
         if not token:
