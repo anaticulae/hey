@@ -1,10 +1,10 @@
-iamraw==1.16.4
+iamraw==1.17.1
 utila==1.14.0
 
 configo==0.5.2
 
 # ensure that test data is generated with the right version of rawmaker
-rawmaker==1.13.0
+rawmaker==1.13.1
 # reference to test data
 power==0.6.12
 
