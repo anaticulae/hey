@@ -73,7 +73,6 @@ def test_words_text_seventytwo_visit_sentences_merge_page_endstart():
     assert all([item is not None for _, item in merged])
 
 
-# @pytest.mark.xfail(reason='require to fix headline parser')
 def test_words_text_seventytwo_visit_sentences_merge_page5_7():
     required = fseventytwo.textrequired(pages=(5, 6, 7))
     pages = words.text.chapter.split(required)
