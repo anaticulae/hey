@@ -28,9 +28,11 @@ def parse(data: groupme.abbreviation.AbbreviationData,
     return judged
 
 
-def judge(results) -> groupme.abbreviation.AbbreviationData:
-    results = sorted(results, key=len, reverse=True)
+def judge(results) -> groupme.abbreviation.AbbreviationResult:
+    simple = results[0]
+    geometry = results[1]
 
-    master = results[0]
-    result = groupme.abbreviation.AbbreviationResult(master)
-    return result
+    more_than_double_parsed = (len(geometry) * 2) < len(simple)
+    if more_than_double_parsed:
+        return simple
+    return geometry

@@ -17,13 +17,7 @@ import tests.resources
 @pytest.mark.parametrize('source, pages, expected', [
     pytest.param(tests.resources.MASTER116, 96, 8, id='master116'),
     pytest.param(tests.resources.HOMEWORK50, 6, 18, id='homework50'),
-    pytest.param(
-        tests.resources.BACHELOR37,
-        1,
-        26,
-        id='bachelor37',
-        marks=pytest.mark.xfail(reason='improve geometry parser'),
-    ),
+    pytest.param(tests.resources.BACHELOR37, 1, 26, id='bachelor37'),
 ])
 def test_abbreviation_parser(source, pages, expected):
     normal = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
