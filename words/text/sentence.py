@@ -183,8 +183,8 @@ def split_sentences(text: str) -> typing.List[str]:
             if token[:-1].isnumeric():
                 # 1.; 13.
                 continue
-            if token.startswith('('):
-                # (z.B.)
+            if token.startswith('(') and not token.endswith(').'):
+                # (z.B.), Phelps (2006).
                 continue
         if lastchar in SIGN:
             result.append(' '.join(current))
