@@ -62,9 +62,13 @@ def parse_page(page) -> groupme.abbreviation.Abbreviations:
 
     short_marker = marker[0]
     description_marker = marker[1]
-
     short_column = column_data(page, short_marker)
     description_column = column_data(page, description_marker)
+
+    if overlapping_column(short_column, description_column):
+        # TODO: EXTEND ERROR MESSAGE
+        utila.error('could not analyze, columns are mixed/ambigous')
+        return None
     left, right = adjust_columns(
         short_column,
         description_column,
@@ -81,6 +85,15 @@ def parse_page(page) -> groupme.abbreviation.Abbreviations:
                 description=description,
             ))
     return result
+
+
+def overlapping_column(short, description):
+    # TODO: INTRODUCE HASH BOUNDING METHOD
+    shorts = set(str(item.bounding) for item in short)
+    descriptions = set(str(item.bounding) for item in description)
+
+    mixig = shorts & descriptions
+    return mixig
 
 
 def adjust_columns(short_column, description_column, line_gaps, short_marker):
