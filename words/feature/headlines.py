@@ -48,7 +48,7 @@ def work(
         font_header: str,
         font_content: str,
         sizeandborder: str,
-        boxes: str, # pylint:disable=W0613
+        boxes: str,  # pylint:disable=W0613
         headerfooters: str,
         pages=None,
 ) -> str:

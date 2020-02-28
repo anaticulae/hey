@@ -160,7 +160,7 @@ def test_words_text_extractor_titles(
             marks=pytest.mark.xfail(reason='dont know why'),
         ),
     ])
-def test_words_extract_texts_page_x( # pylint:disable=too-many-locals
+def test_words_extract_texts_page_x(  # pylint:disable=too-many-locals
         current_page,
         current_headline,
         expected_start,

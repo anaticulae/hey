@@ -42,7 +42,10 @@ def test_groupme_fonts_textbounds(
         simple_second_page_navigator,  #pylint:disable=W0621
         simple_second_page_size,  #pylint:disable=W0621
 ):
-    bounds = hey.textnavigator.fonts.textbounds(simple_second_page_navigator, simple_second_page_size)
+    bounds = hey.textnavigator.fonts.textbounds(
+        simple_second_page_navigator,
+        simple_second_page_size,
+    )
 
     assert len(bounds) == len(simple_second_page_navigator)
 
@@ -50,7 +53,8 @@ def test_groupme_fonts_textbounds(
 def test_groupme_fonts_textsize(
         simple_second_page_navigator,  #pylint:disable=W0621
 ):
-    common_size = hey.textnavigator.fonts.textsize_from_page(simple_second_page_navigator)
+    common_size = hey.textnavigator.fonts.textsize_from_page(
+        simple_second_page_navigator)
     assert common_size == 9.96
 
 
