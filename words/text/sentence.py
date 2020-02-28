@@ -203,6 +203,10 @@ def is_sentence_closed(token: list) -> bool:
     return last_char in SIGN
 
 
+def is_sentence(sentence: str):
+    return len(split_sentences(sentence)) == 1
+
+
 SIGN = {
     '!',
     '.',
