@@ -74,7 +74,8 @@ def filter_headlines(items: iamraw.PagesHeadlineList):
                 chapter_headlines.append(headline)
                 continue
         result[chapter].extend(chapter_headlines)
-    result = dict(result)  # require KeyError
+    # require KeyError
+    result = dict(result)  # pylint:disable=R0204
     return result
 
 

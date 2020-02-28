@@ -31,7 +31,7 @@ ChapterRange = collections.namedtuple('ChapterRange', 'start end')
 ChapterRanges = typing.List[ChapterRange]
 
 
-class HeadlineExtractorStrategy(abc.ABC):
+class HeadlineExtractorStrategy(abc.ABC):  # pylint:disable=too-many-instance-attributes
     """Strategy approach to determine the `Headlines` of a given set of
     pages.
 
@@ -138,11 +138,6 @@ class HeadlineExtractorStrategy(abc.ABC):
             self,
             pagecontent,
     ):
-        """
-        Args:
-            page(int): page number
-            pagecontent: content of page to extract headlines
-        """
         result = []
         xoff, xend = pagecontent.offset
         xoff = xoff if xoff is not None else 0
@@ -184,7 +179,7 @@ class HeadlineExtractorStrategy(abc.ABC):
             page,
             containerid,
             content_range,
-    ):
+    ):  # pylint:disable=R0914
         text = textinfo.text
         contentstart, contentend = content_range
         distanceid = containerid - contentstart
@@ -229,7 +224,7 @@ class HeadlineExtractorStrategy(abc.ABC):
     ):
         pass
 
-    def levelme(
+    def levelme(  # pylint:disable=R0201
             self,
             textsize: float,  # pylint:disable=W0613
             dist_top: float,

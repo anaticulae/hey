@@ -48,20 +48,11 @@ def work(
         font_header: str,
         font_content: str,
         sizeandborder: str,
-        boxes: str,
+        boxes: str, # pylint:disable=W0613
         headerfooters: str,
         pages=None,
 ) -> str:
-    """Extract headlines out of data
-
-    Args:
-        sections
-        text
-        text_position
-        font_header
-        sizeandborder
-        horizontals
-    """
+    """Extract headlines out of data."""
     loaded = words.loader.basic.load_basic(
         text,
         text_position,

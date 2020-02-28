@@ -6,7 +6,9 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""
+"""Words: Boxed Text Extractor
+===========================
+
 TODO: Think about this complex data structure. Do we need this realy?
 """
 import collections

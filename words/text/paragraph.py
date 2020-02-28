@@ -21,10 +21,11 @@ def collect_paragraph(
         second: iamraw.Headline,
         page: int,
         pcn: hey.textnavigator.navigator.PageTextContentNavigator,
-        fcs: hey.fonts.store.FontContentStore,
+        fcs: hey.fonts.store.FontContentStore,  # pylint:disable=W0613
         boxes: words.boxed.BoxedChecker,
 ) -> iamraw.ChapterText:
-    """
+    """Extract paragraphs between defined headlines.
+
     Hint: The Headlines/Container are numbered in absolute indies. Accessing
     the content requires to subtract the offset which is produced by the
     header.

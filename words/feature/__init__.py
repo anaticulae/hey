@@ -35,7 +35,7 @@ class TextRequiredResources:
 
 
 @functools.lru_cache(configo.CACHE_SMALL)
-def load_resources(
+def load_resources(  # pylint:disable=R0914
         text: str,
         textposition: str,
         fontheader: str,
