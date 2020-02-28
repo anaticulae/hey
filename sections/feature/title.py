@@ -9,10 +9,11 @@
 from typing import List
 
 import iamraw
+import texmex
 from serializeraw import dump_likelihood
 from serializeraw import load_document
 
-import sections.textprocessor
+import sections.feature
 from hey.fonts.store import FontStore
 from hey.fonts.store import create_fontstore
 
@@ -109,9 +110,6 @@ def determine_hugest_font(fonts, positions, page: iamraw.Page):
     max_font = max(fonts)
     max_font_index = fonts.index(max_font)
 
-    text_length = [
-        len(item)
-        for item in sections.textprocessor.split_page(page, positions)
-    ]
+    text_length = [len(item) for item in texmex.split_page(page, positions)]
     max_font_length = text_length[max_font_index]
     return max_font, max_font_length

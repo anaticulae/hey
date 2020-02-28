@@ -19,6 +19,7 @@ from serializeraw import dump_likelihood
 from serializeraw import load_document
 
 import sections
+import sections.feature
 
 
 def work(text_linewise: str, pages=None) -> str:

@@ -16,6 +16,7 @@ import iamraw
 import serializeraw
 
 import sections
+import sections.feature
 
 
 def work(text_linewise: str, pages=None) -> str:
