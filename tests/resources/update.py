@@ -119,7 +119,7 @@ def extract():
 def create_todo_rawmaker(inpath, outpath, pages=None):
     # default config
     # TODO: move configuration to global var
-    config = '--all --char_margin=5.0 --boxes_flow=1.0 --line_margin=0.25 '
+    config = '--all --char_margin=3.1 --boxes_flow=1.0 --line_margin=0.25 '
     pages = f' --pages {pages} ' if pages is not None else ' '
     result = [
         (

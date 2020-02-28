@@ -131,11 +131,15 @@ def all_columns(items):
         for item in column_:
             rounded = utila.roundme(item.bounding[3], digits=0)
             # TODO: DIRTY :)
+            buckets[index].add(rounded + 4.0)
+            buckets[index].add(rounded + 3.0)
             buckets[index].add(rounded + 2.0)
             buckets[index].add(rounded + 1.0)
             buckets[index].add(rounded)
             buckets[index].add(rounded - 1.0)
             buckets[index].add(rounded - 2.0)
+            buckets[index].add(rounded - 3.0)
+            buckets[index].add(rounded - 4.0)
     result = []
     all_items = utila.flatten(items)
     for item in all_items:
