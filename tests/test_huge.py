@@ -131,7 +131,7 @@ def groupme(rawresult):  # pylint:disable=W0621
     groupmepath = os.path.join(tmpdir, 'groupme')
     os.makedirs(groupmepath)
 
-    runme = 'groupme -i %s -i %s -o %s --all'
+    runme = 'groupme -i %s -i %s -o %s -j=8'
     runme = runme % (generalpath, tocpath, groupmepath)
 
     completed = utila.run(runme)
@@ -146,7 +146,7 @@ def sections_result(groupme):  # pylint:disable=W0621
     sectionspath = os.path.join(tmpdir, 'sections')
     os.makedirs(sectionspath)
 
-    runme = 'sections -i %s -i %s -i %s -o %s --all'
+    runme = 'sections -i %s -i %s -i %s -o %s -j=8'
     runme = runme % (generalpath, tocpath, groupmepath, sectionspath)
 
     completed = utila.run(runme)
@@ -164,7 +164,7 @@ def words_result(sections_result):  # pylint:disable=W0621
     wordspath = os.path.join(tmpdir, 'words')
     os.makedirs(wordspath)
 
-    runme = 'words -i %s -i %s -i %s -o %s --all'
+    runme = 'words -i %s -i %s -i %s -o %s -j=8'
     runme = runme % (generalpath, sectionspath, groupmepath, wordspath)
 
     completed = utila.run(runme)
