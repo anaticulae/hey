@@ -65,14 +65,12 @@ def parse_page(page) -> groupme.abbreviation.Abbreviations:
 
     short_column = column_data(page, short_marker)
     description_column = column_data(page, description_marker)
-
     left, right = adjust_columns(
         short_column,
         description_column,
         line_gaps,
         short_marker,
     )
-
     result = []
     for short, description in zip(left, right):
         description = [item.text.strip() for item in description]
@@ -89,7 +87,6 @@ def adjust_columns(short_column, description_column, line_gaps, short_marker):
     """Adjust multi line columns. Group right side items to
     corresponding left side shortcut."""
     inside_all = all_columns([short_column, description_column])
-
     left = [item for item in inside_all if near(item.bounding[0], short_marker)]
     right = []
     for first, second in zip(left[:-1], left[1:]):
@@ -124,20 +121,25 @@ def adjust_columns(short_column, description_column, line_gaps, short_marker):
 
 
 def all_columns(items):
+    """Select items which have a correspondet in every column with the
+    same y1-baseline.
+
+    Using y1 to use `baseline` of text cause lower z and upper Z have
+    same base but the top coordinate can vary very much."""
     buckets = [set() for _ in items]
     for index, column_ in enumerate(items):
         for item in column_:
-            # y0
-            # TODO: NOT VERY TOLERANT
-            rounded = utila.roundme(item.bounding[1], digits=0)
+            rounded = utila.roundme(item.bounding[3], digits=0)
             # TODO: DIRTY :)
-            buckets[index].add(rounded)
+            buckets[index].add(rounded + 2.0)
             buckets[index].add(rounded + 1.0)
+            buckets[index].add(rounded)
             buckets[index].add(rounded - 1.0)
+            buckets[index].add(rounded - 2.0)
     result = []
     all_items = utila.flatten(items)
     for item in all_items:
-        rounded = utila.roundme(item.bounding[1], digits=0)
+        rounded = utila.roundme(item.bounding[3], digits=0)
         inside = [rounded in bucket for bucket in buckets]
         if not all(inside):
             continue
