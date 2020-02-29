@@ -19,8 +19,11 @@ TODO: Symbol collector
 """
 
 import abc
+import contextlib
 import dataclasses
 import typing
+
+import utila
 
 import hey.textnavigator.navigator
 
@@ -72,3 +75,32 @@ class AbbreviationExtractorStrategy(abc.ABC):
     @abc.abstractmethod
     def result(self) -> AbbreviationResult:
         pass
+
+
+def _dump_abbreviation(item) -> dict:
+    assert isinstance(item, Abbreviation), type(item)
+    position = item.position
+    raw = {
+        'short': item.short,
+    }
+    if item.description:
+        raw['description'] = item.description
+    if position:
+        raw['position'] = f'{position.page} {position.sentence} {position.word}'
+    return raw
+
+
+def _load_abbreviation(raw: dict) -> Abbreviation:
+    assert isinstance(raw, dict), type(raw)
+    result = Abbreviation(short=raw['short'])
+    with contextlib.suppress(KeyError):
+        result.description = raw['description']
+    with contextlib.suppress(KeyError):
+        # TODO: REPLACE WITH UTILA>PARSE_TUPLE AFTER UPGRADING
+        page, sentence, word = [int(item) for item in raw['position'].split()]
+        result.position = AbbreviationPosition(
+            page=page,
+            sentence=sentence,
+            word=word,
+        )
+    return result
