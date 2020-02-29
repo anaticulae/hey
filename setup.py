@@ -75,6 +75,7 @@ if __name__ == "__main__":
             'sections',
             'sections.feature',
             'words',
+            'words.abbreviation',
             'words.feature',
             'words.headlines',
             'words.links',
