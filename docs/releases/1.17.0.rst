@@ -13,11 +13,11 @@ groupme
 words
 -----
 
-* [ ] add step to extract abbreviation out of text
+* [x] add step to extract abbreviation out of text
 
-* [ ] extract positions for every abbreviation
+* [x] extract positions for every abbreviation
 
-* [ ] verify with 30 text pages
+* [/] verify with 30 text pages
 
 sections
 --------

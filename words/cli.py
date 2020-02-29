@@ -94,6 +94,14 @@ WORKPLAN = [
         ],
         output=('result',),
     ),
+    step(
+        'abbreviation',
+        inputs=[
+            ResultFile('words', 'word_result'),
+            ResultFile('words', HEADLINES),
+        ],
+        output=('detected',),
+    ),
 ]
 
 
