@@ -78,7 +78,7 @@ def split_words(items: str):
 
     result = []
     current = []
-    for token in items:
+    for index, token in enumerate(items):
         if token == ' ':
             if len(current) == 1 and not isnumber(current[0]):
                 continue
@@ -92,21 +92,31 @@ def split_words(items: str):
             if dot_pattern(current, token):
                 current.append(token)
                 continue
+            if special == Mark.FULLSTOP:
+                if index != (len(items) - 1):
+                    continue
             if len(current) >= 2:
                 result.append(''.join(current))
                 current = []
             result.append(special)
             continue
         current.append(token)
+    if current and items[-1] in words.text.sentence.SIGN:
+        result.append(''.join(current))
+        current = []
     assert not current, current
     return result
 
 
 def dot_pattern(current, token):
     # W.D.
-    if len(current) == 1 and current[0] not in (')', ']'):
-        return True
+    if len(current) == 1:
+        if current[0] not in (')', ']'):
+            return True
     if len(current) == 3 and token == '.' and current[1] == '.':
+        if isnumber(current[0]) and isnumber(current[2]):
+            # 3.2
+            return False
         return True
     return False
 

@@ -73,7 +73,6 @@ def load_text_abbreviations(
         pagenumber = int(page['page'])
         if utila.should_skip(pagenumber, pages):
             continue
-        print(page['content'])
         current = [
             groupme.abbreviation._load_abbreviation(item)  # pylint:disable=W0212
             for item in page['content']
