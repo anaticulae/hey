@@ -47,9 +47,9 @@ PACKAGE = [
     (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT, None),
     (tests.resources.TECHNICAL24_PDF, tests.resources.TECHNICAL24, None),
     (tests.resources.TWINE_PDF, tests.resources.TWINE, None),
+    (tests.resources.BACHELOR37_PDF, tests.resources.BACHELOR37, '0:30'),
 ]
 SINGLE = [
-    (tests.resources.BACHELOR37_PDF, tests.resources.BACHELOR37, '1,2'),
     (tests.resources.BACHELOR56_PDF, tests.resources.BACHELOR56, '0:10'),
     (tests.resources.HOMEWORK50_PDF, tests.resources.HOMEWORK50, '6'),
     (tests.resources.HOWTOWRITE9_PDF, tests.resources.HOWTOWRITE9, '0:10'),
