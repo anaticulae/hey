@@ -56,7 +56,11 @@ def max_distance(items, diff: float = 1.0, min_elements=2):
     def classifier(candidat, clusteritem):
         return math.fabs(candidat - clusteritem) <= diff
 
-    return determine_cluster(items, classifier, min_elements=min_elements)
+    return determine_cluster(
+        items,
+        classificator=classifier,
+        min_elements=min_elements,
+    )
 
 
 def page_from_cluster(cluster, collected) -> list:
@@ -135,30 +139,29 @@ def determine_cluster(todo, classificator, min_elements=2):
     # prepare cluster, a single element is a cluster
     result = [[item] for item in todo]
 
-    def match(result, current):
-        for clusterindex, cluster in enumerate(result):
-            for clusteritem in cluster:
-                match = [
-                    classificator(candidat=test, clusteritem=clusteritem)
-                    for test in current
-                ]
-                if any(match):
-                    return clusterindex
+    def match(clusters, current) -> bool:
+        for clusterindex, cluster in enumerate(clusters):
+            matched = (all((classificator(
+                candidat=test,
+                clusteritem=clusteritem,
+            ) for test in current)) for clusteritem in cluster)
+            if all(matched):
+                return clusterindex
         return None
 
-    def clusterme(result):
-        result, todo = result[0], result[1:]
-        if not isinstance(result[0], list):
-            result = [result]
+    def clusterme(clusters):
+        clusters, todo = clusters[0], clusters[1:]
+        if not isinstance(clusters[0], list):
+            clusters = [clusters]
         while todo:
             current = todo.pop()
-            index = match(result, current)
+            index = match(clusters, current)
             if index is None:
                 # No match, create new cluster
-                result.insert(0, current)
+                clusters.insert(0, current)
             else:
-                result[index].extend(current)
-        return result
+                clusters[index].extend(current)
+        return clusters
 
     # Break when cluster does not change result
     # Cluster till cluster move does not change the result
