@@ -25,10 +25,19 @@ import typing
 import hey.textnavigator.navigator
 
 
+# TODO: MOVE TO IAMRAW
+@dataclasses.dataclass
+class AbbreviationPosition:
+    page: int = None
+    sentence: int = None
+    word: int = None
+
+
 @dataclasses.dataclass
 class Abbreviation:
     short: str = None
     description: str = None
+    position: AbbreviationPosition = None
 
 
 Abbreviations = typing.List[Abbreviation]
