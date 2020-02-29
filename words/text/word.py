@@ -69,7 +69,9 @@ MATCH = {
 
 
 def split_words(items: str):
-    assert words.text.sentence.is_sentence(items), f'not a sentence {items}'
+    if not words.text.sentence.is_sentence(items):
+        """Ensure to parse complete sentences."""
+        return None
     items = items.replace('\n', ' ')
 
     items = items.replace(' z. B. ', ' z.B. ')

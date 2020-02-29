@@ -9,6 +9,8 @@
 
 import contextlib
 
+import utila
+
 import groupme.abbreviation
 import groupme.abbreviation.lists
 import words.abbreviation.loader
@@ -43,6 +45,9 @@ def parse_page(
             sentences = words.text.sentence.split_sentences(paragraph)
             for sentence in sentences:
                 items = words.text.word.split_words(sentence)
+                if items is None:
+                    utila.info(f'incomplete sentence: {sentence}')
+                    continue
                 for word in items:
                     if word in lookup or isabbreviation(word):
                         position = groupme.abbreviation.AbbreviationPosition(

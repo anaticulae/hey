@@ -204,7 +204,7 @@ def is_sentence_closed(token: list) -> bool:
 
 
 def is_sentence(sentence: str):
-    return len(split_sentences(sentence)) == 1
+    return len(split_sentences(sentence)) == 1 and (sentence[-1] in SIGN)
 
 
 SIGN = {
