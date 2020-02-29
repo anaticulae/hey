@@ -65,6 +65,8 @@ def run_package(pdf, outpath, pages=None):
 
     todo.append(('groupme', outpath, outpath, ''))
     todo.append(('sections', outpath, outpath, '--all'))
+    # required by abbreviation test
+    todo.append(('words', outpath, outpath, '--all'))
 
     todo = [
         f'{executable} -i {inpath} -o {outpath} {configuration}'
