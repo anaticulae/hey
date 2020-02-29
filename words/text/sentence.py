@@ -214,7 +214,9 @@ SIGN = {
     '?',
 }
 
+# TODO: MOVE TO DUDEN PACKAGE
 WHITELIST = {
+    'Abb.',
     'Aufl.',
     'Bd.',
     'Co.',
@@ -222,8 +224,8 @@ WHITELIST = {
     'Dok.',
     'Forts.',
     'Hrsg.',
-    'Hrsg.',
     'Jg.',
+    'S.',
     'Sp.',
     'Verf.',
     'Verl.',
@@ -231,13 +233,14 @@ WHITELIST = {
     'a.a.O.',
     'al.',
     'bzw.',
+    'ca.',
     'etc.',
+    'f.',
     'ff.'
     'ggf.',
     'lat.',
     'mind.',
     'o.J.',
-    'o.V.',
     'o.V.',
     'o.Ä',
     'usw.',
