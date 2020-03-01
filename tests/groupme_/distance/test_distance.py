@@ -7,7 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import rawmaker.path
+import iamraw.path
 
 import groupme.feature.distance
 import groupme.path
@@ -17,8 +17,8 @@ import tests.resources
 def pyporting(pages: tuple = None):
     source = tests.resources.HOWTO_PYPORTING
     area = groupme.path.area(source)
-    text = rawmaker.path.text(source)
-    textposition = rawmaker.path.textposition(source)
+    text = iamraw.path.text(source)
+    textposition = iamraw.path.textposition(source)
     loaded = groupme.feature.distance.load(
         area,
         text,

@@ -7,11 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import iamraw.path
+import utila
 
 
 def headlines(path: str, prefix: str = '') -> str:
-    return iamraw.path.pathconnector(
+    return utila.pathconnector(
         path,
         'words',
         'headlines_headlines',
@@ -20,4 +20,4 @@ def headlines(path: str, prefix: str = '') -> str:
 
 
 def text(path: str, prefix: str = '') -> str:
-    return iamraw.path.pathconnector(path, 'words', 'word_result', prefix)
+    return utila.pathconnector(path, 'words', 'word_result', prefix)

@@ -8,8 +8,8 @@
 # =============================================================================
 
 import iamraw
+import iamraw.path
 import pytest
-import rawmaker.path
 import serializeraw
 
 import hey.fonts.store
@@ -43,9 +43,9 @@ MIN_TITLE_LIKELIHOOD = 0.70
     pytest.param(tests.resources.HOWTO_PYPORTING, id='pyporting'),
 ])
 def test_extract_title_likelihood(source):
-    document = rawmaker.path.text(source)
-    fontheader = rawmaker.path.fontheader(source)
-    fontcontent = rawmaker.path.fontcontent(source)
+    document = iamraw.path.text(source)
+    fontheader = iamraw.path.fontheader(source)
+    fontcontent = iamraw.path.fontcontent(source)
 
     document = serializeraw.load_document(document)
     fontstore = hey.fonts.store.create_fontstore(fontheader, fontcontent)

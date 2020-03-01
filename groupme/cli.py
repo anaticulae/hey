@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 #==============================================================================
 
+import utila
 from utila import ResultFile
 from utila import create_step as step
 from utila import featurepack
@@ -76,12 +77,14 @@ WORKPLAN = [
 
 def main():
     featurepack(
-        description=DESCRIPTION,
-        featurepackage='groupme.feature',
-        multiprocessed=True,
-        name=PROCESS,
-        pages=True,
-        root=ROOT,
-        version=__version__,
         workplan=WORKPLAN,
+        root=ROOT,
+        featurepackage='groupme.feature',
+        config=utila.FeaturePackConfig(
+            description=DESCRIPTION,
+            multiprocessed=True,
+            name=PROCESS,
+            pages=True,
+            version=__version__,
+        ),
     )

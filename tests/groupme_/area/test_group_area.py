@@ -7,8 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw.path
 import linero.path
-import rawmaker.path
 
 import groupme.feature.area
 import tests.resources
@@ -16,10 +16,10 @@ import tests.resources
 
 def pyporting(pages: tuple = None):
     source = tests.resources.HOWTO_PYPORTING
-    text = rawmaker.path.text(source)
-    textpositions = rawmaker.path.textposition(source)
+    text = iamraw.path.text(source)
+    textpositions = iamraw.path.textposition(source)
     tables = linero.path.table(source)
-    boxes = rawmaker.path.boxed(source)
+    boxes = iamraw.path.boxed(source)
     loaded = groupme.feature.area.load(
         boxes=boxes,
         tables=tables,

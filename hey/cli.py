@@ -17,5 +17,4 @@ from hey import __version__
 @saveme
 def main():
     error('No implemented')
-
     return FAILURE

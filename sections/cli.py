@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 #==============================================================================
 
+import utila
 from utila import ResultFile as RF
 from utila import create_step as step
 from utila import featurepack
@@ -78,13 +79,15 @@ WORKPLAN = [
 
 def main():
     featurepack(
-        description=DESCRIPTION,
-        featurepackage='sections.feature',
-        multiprocessed=True,
-        name=PROCESS,
-        pages=True,
-        root=ROOT,
-        singleinput=False,  # require result folder, ignore single pdf file
-        version=__version__,
         workplan=WORKPLAN,
+        root=ROOT,
+        featurepackage='sections.feature',
+        config=utila.FeaturePackConfig(
+            description=DESCRIPTION,
+            multiprocessed=True,
+            name=PROCESS,
+            pages=True,
+            singleinput=False,  # require result folder, ignore single pdf file
+            version=__version__,
+        ),
     )
