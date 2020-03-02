@@ -2,6 +2,49 @@
 
 Every noteable change is logged here.
 
+## v1.17.0
+
+### Feature
+
+* add abbreviation step to command line interface (9042a3b522e2)
+* add step to determine abbreviation likelihood (9490fd4b1e4d)
+* extend blacklist for sentence parser (d535b262c9e4)
+* add parser to extract lists of words and statistics from page (9da30366bfa4)
+* add parser to convert texts into single words (6d65669334b7)
+* add option to disable input validation (5f0a0d989e32)
+* do not parse non closed sentences (1c72d9d4edfa)
+* add abbreviation step to parse abbreviation out of text (6cd737dc3af3)
+* add method to dump and load abbreviations (576dd45c86d1)
+* extend DUDEN white list and remove duplication (1a75d2b70a0a)
+* add optional position to store parse location (18d387e797ba)
+* add method to split sentences into words (4ce5ef54c15d)
+* add method to check for a sentence (6227b1fccbf1)
+* support multiple lines (50b131af7a6c)
+* add path module to access generated path (a193b8398533)
+* ensure that algorithm has correct assumptions (744dd074bd13)
+* use simple parser only as backup (d2bcf54d74e9)
+* remove trailing white spaces of shortcut (29c7e34c3192)
+* add judging strategy to abbreviation (c17202e4d26d)
+* add abbreviation geometry strategy (725c3099a73b)
+* add classifier to group list of number by distance (000de5d97f0d)
+* sort cluster by element size descending (a3927aa65e30)
+* move simple parser to first simple strategy (ba34d295add3)
+* add pattern to implement abbreviation parser strategies (a61aee3a1da2)
+* add simple abbreviation extractor (bbb0d56e3e25)
+
+### Fix
+
+* extend word splitter (b04e455cf524)
+* fix cluster computation (4c84481154b4)
+* increase tolerance to solve master116 example (9662a88eb4a6)
+* use y1 baseline to improve grouping quality (ead0b08f8dc4)
+* disable broken foot note parser test (71feecfd9221)
+* change expected size to new font size rounding (5c8f7feeedd5)
+
+### Documentation
+
+* add introduction to introduce sections feature (9a69f4695488)
+
 ## v1.16.1
 
 ### Feature
