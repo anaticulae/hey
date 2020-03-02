@@ -204,6 +204,12 @@ def is_sentence_closed(token: list) -> bool:
 
 
 def is_sentence(sentence: str):
+    if len(sentence) <= 5:  # TODO: HOLY VALUE
+        # sentence is too short
+        return False
+    if sentence.count('.') >= 5:  # TODO: HOLY VALUE
+        # sentence contains too much dots, maybe a toc line
+        return False
     return len(split_sentences(sentence)) == 1 and (sentence[-1] in SIGN)
 
 
