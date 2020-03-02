@@ -9,6 +9,7 @@
 
 import contextlib
 import enum
+import typing
 
 import words.text.sentence
 
@@ -41,6 +42,8 @@ class Mark(enum.Enum):
     def fromstr(cls, item: str):
         return MATCH[item]
 
+
+Marks = typing.List[Mark]
 
 MATCH = {
     '.': Mark.FULLSTOP,

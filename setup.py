@@ -74,6 +74,7 @@ if __name__ == "__main__":
             'hey.textnavigator',
             'sections',
             'sections.feature',
+            'sections.utils',
             'words',
             'words.abbreviation',
             'words.feature',
