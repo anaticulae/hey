@@ -7,13 +7,14 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import serializeraw
+
 import groupme.toc.strategy
-import hey.textnavigator.navigator as htn
 import tests.resources
 
 
 def headlines_frompath(path: str, pages=None):
-    loaded = htn.create_pagetextcontentnavigators_frompath(
+    loaded = serializeraw.create_pagetextcontentnavigators_frompath(
         path,
         pages=pages,
         prefix='oneline',

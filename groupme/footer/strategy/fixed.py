@@ -22,6 +22,7 @@ import typing
 
 import configo
 import iamraw
+import texmex
 import utila
 
 import groupme.footer
@@ -30,7 +31,6 @@ import groupme.footer.strategy as gfs
 import groupme.horizontals
 import groupme.utils
 import hey.classificator
-import hey.textnavigator.navigator
 
 
 class FixedFooterStrategy(gfs.FooterHeaderDetectionStrategy):
@@ -124,21 +124,21 @@ def extract_common_footer(
     top = extract_inarea(
         clusters,
         pageheight=pageheight,
-        upper_bound=hey.textnavigator.navigator.START,
+        upper_bound=texmex.START,
         lower_bound=HEADER_MAX_SIZE,
         max_group_count=max_group_count,
     )
     bottom = extract_inarea(
         clusters,
         pageheight=pageheight,
-        upper_bound=hey.textnavigator.navigator.END - FOOTER_MAX_SIZE,
-        lower_bound=hey.textnavigator.navigator.END,
+        upper_bound=texmex.END - FOOTER_MAX_SIZE,
+        lower_bound=texmex.END,
         max_group_count=max_group_count,
     )
 
     if top is None:
         # could not detect any header
-        top = [hey.textnavigator.navigator.START]
+        top = [texmex.START]
 
     if bottom is None:
         # could not detect any footer
@@ -181,7 +181,7 @@ def extract_page_footerheader(
             bottom_ = utila.roundme(bottom / pageheight)
             footer = iamraw.FixedFooterInformation(
                 begin=bottom_,
-                end=hey.textnavigator.navigator.END,
+                end=texmex.END,
             )
 
         if header is None and footer is None:
@@ -206,13 +206,13 @@ def create_header(top, pageheight, textnavigator):
     # XXX: 10% percent cause of bad font-bounding-boxing
     top_ = utila.roundme(top_ * 1.1)
     headercontent = textnavigator.between(
-        hey.textnavigator.navigator.START,
+        texmex.START,
         top_,
     )
     parsed = groupme.footer.headnotes.parse(headercontent)
 
     result = iamraw.FixedHeaderInformation(
-        begin=hey.textnavigator.navigator.START,
+        begin=texmex.START,
         end=top_,
     )
     for item in parsed:
@@ -226,7 +226,7 @@ def create_header(top, pageheight, textnavigator):
 
 
 
-NO_CLUSTER = [hey.textnavigator.navigator.START], [hey.textnavigator.navigator.END] # yapf:disable
+NO_CLUSTER = [texmex.START], [texmex.END] # yapf:disable
 
 # max difference between left and right y-coordinate
 COMMON_HORIZONTAL_CLASSIFICATOR_MAX_ERROR = configo.HV_FLOAT_PLUS(default=2.0).value # yapf:disable
@@ -247,8 +247,8 @@ FOOTER_MAX_SIZE = configo.HV_PERCENT_PLUS(default=20, limit=100).value
 def extract_inarea(
         clusters: typing.List,
         pageheight: int,
-        upper_bound: float = hey.textnavigator.navigator.START,
-        lower_bound: float = hey.textnavigator.navigator.END,
+        upper_bound: float = texmex.START,
+        lower_bound: float = texmex.END,
         max_group_count: int = 1,
         min_group_size: int = MIN_CLUSTER_SIZE,
 ) -> float:

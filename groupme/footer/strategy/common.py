@@ -16,13 +16,13 @@ text and images. There is no horizontal line required.
     TODO: SUPPORT COMMON IMAGES
 """
 import iamraw
+import texmex
 import utila
 
 import groupme.footer.strategy as gfs
 import hey.classificator
 import hey.textnavigator
 import hey.textnavigator.fonts as htf
-import hey.textnavigator.navigator
 
 COMMON_HEADER_MAX_ERROR = 1.0  # TODO: HOLY VALUE
 
@@ -80,7 +80,7 @@ def cluster_pages(pagenavigators, pageheight: int):
                 # remove newline at end TODO: REMOVE LATER
                 text = text.text.strip()
                 header = iamraw.FixedHeaderInformation(
-                    begin=hey.textnavigator.navigator.START,
+                    begin=texmex.START,
                     end=end,
                     page=iamraw.PageInformation(value=page, raw=None),
                     undefined=[iamraw.RawText(text=text)]  # pylint:disable=E1101

@@ -11,9 +11,9 @@ import os
 import iamraw
 import pytest
 import serializeraw
+import texmex
 import utila
 
-import hey.textnavigator.navigator
 import sections.path
 import tests.fixtures.headlines
 import tests.resources
@@ -107,7 +107,7 @@ def test_words_headlines_extract_headlines(
     sizeandborder = restructured_sizeandborder
     headerfooters = restructured_headerfooter
 
-    navigator = hey.textnavigator.navigator.create_pagetextnavigators(
+    navigator = texmex.create_pagetextnavigators(
         text=document,
         text_positions=position,
     )

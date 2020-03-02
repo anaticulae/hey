@@ -8,15 +8,15 @@
 # =============================================================================
 
 import pytest
+import serializeraw
 
 import groupme.abbreviation.geometry
 import groupme.abbreviation.parser
-import hey.textnavigator.navigator
 import tests.resources
 
 
 def bachelor37():
-    content = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
+    content = serializeraw.create_pagetextnavigators_frompath(
         tests.resources.BACHELOR37,
         pages=2,
     )
@@ -36,7 +36,7 @@ def bachelor37():
         marks=pytest.mark.xfail(reason='improve strategy')),
 ])
 def test_abbreviation_parse_strategy_geometry(source, pages, expected):
-    content = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
+    content = serializeraw.create_pagetextnavigators_frompath(
         source,
         pages=pages,
     )

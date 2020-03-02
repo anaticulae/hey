@@ -9,6 +9,7 @@
 
 import iamraw
 import utila
+from texmex import PageTextNavigator
 
 from detector.parser import textblock_token
 from detector.parser.date import parse as parse_date
@@ -18,7 +19,6 @@ from detector.parser.person import order_persons
 from detector.parser.person import parse_all as parse_person_all
 from detector.parser.thesis import parse as parse_thesis
 from detector.parser.title import parse as parse_title
-from hey.textnavigator.navigator import PageTextNavigator
 
 
 def parse(text: PageTextNavigator) -> iamraw.TitlePage:

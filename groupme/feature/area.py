@@ -20,11 +20,11 @@ import collections
 import typing
 
 import serializeraw
+import texmex
 import utila
 import yaml
 
 import groupme.utils
-import hey.textnavigator.navigator
 
 RECTANGLE_MAX_DIFF = 10.0  # TODO: HOLY VALUE
 
@@ -152,7 +152,7 @@ def load(
 ) -> RequiredResources:
     text = serializeraw.load_document(text, pages=pages)
     textpositions = serializeraw.load_textpositions(textpositions, pages=pages)
-    textnavigator = hey.textnavigator.navigator.create_pagetextnavigators(
+    textnavigator = texmex.create_pagetextnavigators(
         text,
         text_positions=textpositions,
     )

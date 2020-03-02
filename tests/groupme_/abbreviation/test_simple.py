@@ -8,9 +8,9 @@
 # =============================================================================
 
 import pytest
+import serializeraw
 
 import groupme.abbreviation.simple
-import hey.textnavigator.navigator
 import tests.resources
 
 
@@ -26,7 +26,7 @@ import tests.resources
     ),
 ])
 def test_abbreviation_parse_simple(source, pages, expected):
-    content = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
+    content = serializeraw.create_pagetextnavigators_frompath(
         source,
         prefix='oneline',
         pages=pages,

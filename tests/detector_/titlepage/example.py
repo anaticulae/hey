@@ -9,10 +9,10 @@
 
 import pytest
 import serializeraw
+import texmex
 import utila
 
 import hey.fonts.store
-import hey.textnavigator.navigator
 
 # NOTE: POSITION AND SPACES ARE NOT UP TO DATE
 
@@ -128,7 +128,7 @@ def new_fontstore():
 
 @pytest.fixture
 def new_textnavgiator():
-    navigators = hey.textnavigator.navigator.create_pagetextnavigators(
+    navigators = texmex.create_pagetextnavigators(
         serializeraw.load_document(TEXT, pages=0),  # just load the first page
         serializeraw.load_textpositions(TEXT_POSITION, pages=0),
     )

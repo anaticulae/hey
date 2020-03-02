@@ -19,7 +19,6 @@ import detector.feature.titlepage
 import detector.parser.complete
 import detector.parser.person
 import detector.titlepage
-import hey.textnavigator.navigator as htn
 import tests
 import tests.fixtures.simple
 import tests.resources as tr
@@ -136,7 +135,8 @@ def test_detector_feature_titlepage_complete(
 
 
 def parse_titlepages(path: str, pages: tuple = None):
-    navigators = htn.create_pagetextnavigators_frompath(path, pages=pages)
+    navigators = serializeraw.create_pagetextnavigators_frompath(
+        path, pages=pages)
     parsed = detector.feature.titlepage.parse_titlepages(navigators)
     return parsed
 
@@ -176,7 +176,7 @@ def test_detector_feature_titlepage_select_best_no_titlepage(source):
 def test_detector_feature_titlepage_parse_titlepage_negative(pages):
     """Split pages to increase mutli-process-testing."""
     pages = tuple(pages)
-    navigators = htn.create_pagetextnavigators_frompath(
+    navigators = serializeraw.create_pagetextnavigators_frompath(
         tr.MASTER72,
         pages=pages,
     )

@@ -8,16 +8,16 @@
 # =============================================================================
 
 import pytest
+import texmex
+import texmex.navigator
 import utila
 from iamraw import ListType
 from iamraw import PageList
 from serializeraw import dump_lists
 from serializeraw import load_lists
 
-from hey.textnavigator import TextBoundsList
 from hey.textnavigator.merger import merge_content
 from hey.textnavigator.merger import merge_content_join
-from hey.textnavigator.navigator import to_content
 #pylint:disable=W0611
 from tests.fixtures.restruct import restructured_headlines
 from tests.fixtures.restruct import restructured_horizontals
@@ -62,9 +62,9 @@ def test_list_extract_page(
 
 
 @pytest.fixture
-def simple_second_page_merged_content(simple_second_page_navigator,
-                                     ) -> TextBoundsList:
-    content = to_content(simple_second_page_navigator)
+def simple_second_page_merged_content(
+        simple_second_page_navigator) -> texmex.TextBoundsInfos:
+    content = texmex.navigator_to_content(simple_second_page_navigator)
     merged, _ = merge_content(content)
     merged = merge_content_join(merged)
     return merged

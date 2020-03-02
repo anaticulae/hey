@@ -52,11 +52,11 @@ Requirements - "Wissenschaftliches Arbeiten" - Manuel Rene Theisen:
 """
 
 import serializeraw
+import texmex
 import utila
 
 import detector.parser.complete
 import detector.titlepage
-import hey.textnavigator.navigator as htn
 
 # TODO: MOVE TO MORE GENERAL POSITION
 # TODO: check 0.1, use a higher number?
@@ -77,7 +77,7 @@ def work(text: str, text_positions: str) -> str:
         pages=SELECTED_PAGES,
     )
 
-    navigators = htn.create_pagetextnavigators(
+    navigators = texmex.create_pagetextnavigators(
         text,
         text_positions,
     )
@@ -90,7 +90,7 @@ def work(text: str, text_positions: str) -> str:
 
 
 def parse_titlepages(
-        navigators: htn.PageTextNavigators,
+        navigators: texmex.PageTextNavigators,
         selected=SELECTED_PAGES,
 ):
     result = []

@@ -8,9 +8,8 @@
 # =============================================================================
 
 import utila
-
-from hey.textnavigator.navigator import PageTextContentNavigator
-from hey.textnavigator.navigator import create_pagetextnavigators
+from texmex import PageTextContentNavigator
+from texmex import create_pagetextnavigators
 
 
 def extract_undefined(pages, text, text_position, contentborder: dict):

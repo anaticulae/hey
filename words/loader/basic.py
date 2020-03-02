@@ -15,18 +15,18 @@ import functools
 import configo
 import iamraw
 import serializeraw
+import texmex
 
 import groupme.path
 import hey.fonts.store
 import hey.path
-import hey.textnavigator.navigator
 
 
 @dataclasses.dataclass
 class BasicRequiredResources:
     sizeandborder: iamraw.PageSizeBorderList
     fontstore: hey.fonts.store.FontStore
-    textnavigators: hey.textnavigator.navigator.PageTextNavigators
+    textnavigators: texmex.PageTextNavigators
     # TODO: fix iamraw
     headerfooters: iamraw.PageContentFooterHeaders
 
@@ -43,7 +43,7 @@ def load_basic(
 ) -> BasicRequiredResources:
     text = serializeraw.load_document(text, pages=pages)
     text_position = serializeraw.load_textpositions(text_position, pages=pages)
-    textnavigators = hey.textnavigator.navigator.create_pagetextnavigators(
+    textnavigators = texmex.create_pagetextnavigators(
         text=text,
         text_positions=text_position,
     )

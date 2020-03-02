@@ -10,9 +10,10 @@
 ====================================
 """
 
+import texmex
+
 import groupme.toc.strategy as gts
 import hey.textnavigator.fonts as htf
-import hey.textnavigator.navigator as htn
 
 MAX_HEADLINE_LEVEL = 3  # TODO: HOLY VALUE
 
@@ -42,7 +43,7 @@ class GeometryTocExtractor(gts.ExtractorStrategy):
         return result
 
 
-def analyse_page(navigator: htn.PageTextContentNavigators, level_feed: list):
+def analyse_page(navigator: texmex.PageTextContentNavigators, level_feed: list):
     result = []
     textbounds = htf.textbounds(navigator, navigator.content)
     for item in textbounds:

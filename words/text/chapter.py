@@ -11,10 +11,10 @@ import functools
 import itertools
 
 import iamraw
+import texmex
 import utila
 
 import hey.fonts.store
-import hey.textnavigator.navigator
 import words.boxed
 import words.feature
 import words.headlines
@@ -78,7 +78,7 @@ def split(loaded: words.feature.TextRequiredResources
 def analyze_page(
         headlines,
         fontstore: hey.fonts.store.FontStore,
-        textnavigators: hey.textnavigator.navigator.PageTextNavigator,
+        textnavigators: texmex.PageTextNavigator,
         border: iamraw.Border,
         boxes: words.boxed.BoxedChecker,
 ) -> words.text.PageTextWithHeadlines:
@@ -147,7 +147,7 @@ def prepare_analyze_page(
     if contentborder is None:
         return None
 
-    pcn = hey.textnavigator.navigator.PageTextContentNavigator(
+    pcn = texmex.PageTextContentNavigator(
         textnavigator=utila.select_page(textnavigators, page=page),
         content=utila.select_page(borders, page=page),
     )

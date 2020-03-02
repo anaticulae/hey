@@ -32,11 +32,11 @@ import typing
 
 import iamraw
 import serializeraw
+import texmex
 import utila
 
 import groupme.path
 import hey.path
-import hey.textnavigator.navigator
 
 
 @dataclasses.dataclass  # pylint:disable=R0903
@@ -54,7 +54,7 @@ class FooterHeaderDetectionStrategy(abc.ABC):
             horizontals: iamraw.PagesWithHorizontalList,
             sizeandborders: iamraw.PageSizeBorderList,
             pagenumbers,
-            pagetextnavigators: hey.textnavigator.navigator.PageTextNavigators,
+            pagetextnavigators: texmex.PageTextNavigators,
     ):
         assert isinstance(horizontals, typing.List), str(horizontals)
         self.horizontals = horizontals
@@ -108,7 +108,7 @@ def create_strategy(
     pagenumbers = groupme.path.pagenumbers(path)
     pagenumbers = serializeraw.load_pagenumbers(pagenumbers, pages=pages)
 
-    navigator = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
+    navigator = serializeraw.create_pagetextnavigators_frompath(
         path,
         pages=pages,
     )

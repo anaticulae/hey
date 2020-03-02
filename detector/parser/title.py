@@ -14,10 +14,8 @@ TODO: Introduce multiple extraction strategies
 import enum
 import math
 
+import texmex
 import utila
-
-import hey.textnavigator.navigator
-import hey.textnavigator.style
 
 # TODO: HOLY VALUE
 MIN_TITLE_FONT_SIZE = 20
@@ -30,7 +28,7 @@ class TitleParserState(enum.Enum):
     TITLE_TO_SMALL = enum.auto()
 
 
-def parse(textnavigator: hey.textnavigator.navigator.PageTextNavigator) -> str:
+def parse(textnavigator: texmex.PageTextNavigator) -> str:
     """Parse hugest text line as title.
 
     Args:
@@ -93,13 +91,13 @@ def merge(items):
 def determine_sizes(merged):
     result = []
     for group in merged:
-        size = hey.textnavigator.style.TextStyle.textsizes(group[0].style)
+        size = texmex.TextStyle.textsizes(group[0].style)
         text = '\n'.join([item.text for item in group])
         result.append((size, text))
     return result
 
 
 def fontdistance(first, second) -> float:
-    first = hey.textnavigator.style.TextStyle.textsizes(first.style)
-    second = hey.textnavigator.style.TextStyle.textsizes(second.style)
+    first = texmex.TextStyle.textsizes(first.style)
+    second = texmex.TextStyle.textsizes(second.style)
     return math.fabs(first - second)

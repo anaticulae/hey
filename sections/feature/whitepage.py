@@ -32,8 +32,8 @@ import typing
 
 import iamraw
 import serializeraw
+import texmex
 
-import hey.textnavigator.navigator
 import hey.utils
 
 PageContentWhitepages = collections.namedtuple(
@@ -78,7 +78,7 @@ def work(
         pages=pages,
     )
 
-    navigators = hey.textnavigator.navigator.create_pagetextnavigators(
+    navigators = texmex.create_pagetextnavigators(
         text=document,
         text_positions=position,
     )
@@ -95,7 +95,7 @@ def work(
 
 def extract_whitepages(
         document: iamraw.Document,
-        navigators: typing.List[hey.textnavigator.navigator.PageTextNavigator],
+        navigators: typing.List[texmex.PageTextNavigator],
         headerfooters,
 ):
     result = {}
@@ -119,8 +119,8 @@ def extract_whitepages(
                 # Elements on the page, maybe title page, chapter page...
                 result[pagenumber] = WhitePage.CONTENT
         else:
-            top = header.end if header else hey.textnavigator.navigator.START
-            bottom = footer.begin if footer else hey.textnavigator.navigator.END
+            top = header.end if header else texmex.START
+            bottom = footer.begin if footer else texmex.END
             if not navigator.between(top, bottom):
                 result[pagenumber] = WhitePage.WHITE
             else:

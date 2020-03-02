@@ -9,10 +9,11 @@
 
 import iamraw
 import pytest
+import serializeraw
+import texmex
 import utila
 
 import hey.fonts.store as fs
-import hey.textnavigator.navigator as tn
 import tests.resources as tr
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_contentborder
@@ -148,13 +149,14 @@ def test_fontstore_from_str(
 @pytest.fixture
 def restructured_pagetextcontentnavigator(
         restructured_contentborder,  # pylint:disable=W0621
-) -> tn.PageTextContentNavigator:
-    textnavigators = tn.create_pagetextnavigators_frompath(tr.RESTRUCT)
+) -> texmex.PageTextContentNavigator:
+    textnavigators = serializeraw.create_pagetextnavigators_frompath(
+        tr.RESTRUCT)
     contentborders = restructured_contentborder
     page = 4
     navigator = utila.select_page(textnavigators, page)
     contentborders = utila.select_page(contentborders, page)
-    pagecontent = tn.PageTextContentNavigator(
+    pagecontent = texmex.PageTextContentNavigator(
         navigator,
         contentborders,
     )

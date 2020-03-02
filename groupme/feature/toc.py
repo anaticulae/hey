@@ -19,6 +19,7 @@ import typing
 
 import iamraw
 import serializeraw
+import texmex
 import utila
 
 import groupme.feature
@@ -29,7 +30,6 @@ import groupme.toc.loader
 import groupme.toc.strategy
 import groupme.toc.strategy.regex as gtsr
 import groupme.utils
-import hey.textnavigator.navigator as htn
 import words.headlines
 
 MIN_TOCS_PER_PAGE = 0.2  # TODO: HOLY VALUE
@@ -88,7 +88,8 @@ LeveledTitle = typing.Tuple[Level, Title]
 LeveledTitles = typing.List[LeveledTitle]
 
 
-def select_tocpages(textnavigators: htn.PageTextNavigators) -> typing.List[int]:
+def select_tocpages(
+        textnavigators: texmex.PageTextNavigators) -> typing.List[int]:
     """Use simple approach to decide which page is a toc page."""
     selected = []
     for page in textnavigators:

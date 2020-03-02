@@ -24,10 +24,10 @@ import typing
 
 import iamraw
 import serializeraw
+import texmex
 import utila
 
 import hey.classificator
-import hey.textnavigator.navigator
 
 PageContentTextPosition = collections.namedtuple(
     'PageContentTextPosition',
@@ -40,7 +40,7 @@ def work(documentpath: str, positionpath: str) -> str:
     document = serializeraw.load_document(documentpath)
     position = serializeraw.load_textpositions(positionpath)
 
-    navigator = hey.textnavigator.navigator.create_pagetextnavigators(
+    navigator = texmex.create_pagetextnavigators(
         text=document,
         text_positions=position,
     )

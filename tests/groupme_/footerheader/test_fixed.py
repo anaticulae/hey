@@ -14,7 +14,6 @@ import utila
 
 import groupme.footer.strategy as gfs
 import groupme.footer.strategy.fixed as gfsf
-import hey.textnavigator.navigator as htn
 import tests.fixtures
 import tests.resources
 
@@ -68,7 +67,7 @@ def _bachelor111():
     sizeandborder = serializeraw.load_pageborders(sizeandborder)
     pageheight = utila.select_page(sizeandborder, 0).size.height
 
-    navigators = htn.create_pagetextnavigators_frompath(
+    navigators = serializeraw.create_pagetextnavigators_frompath(
         tests.resources.BACHELOR111,
         prefix='oneline',
     )

@@ -8,9 +8,9 @@
 # =============================================================================
 
 import serializeraw
+import texmex
 
 import hey.path
-import hey.textnavigator.navigator as htn
 
 
 def load(
@@ -19,10 +19,10 @@ def load(
         headerfooter: str,
         sizeandborder: str,
         pages: tuple = None,
-) -> htn.PageTextContentNavigators:
+) -> texmex.PageTextContentNavigators:
     text = serializeraw.load_document(text, pages=pages)
     textpositions = serializeraw.load_textpositions(textpositions, pages=pages)
-    navigators = htn.create_pagetextnavigators(
+    navigators = texmex.create_pagetextnavigators(
         text,
         textpositions,
     )
@@ -37,7 +37,7 @@ def load(
         pages=pages,
     )
 
-    navigators = htn.create_pagetextcontentnavigators(
+    navigators = texmex.create_pagetextcontentnavigators(
         navigators=navigators,
         headerfooter=headerfooter,
         sizeandborder=sizeandborder,

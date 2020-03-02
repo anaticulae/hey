@@ -13,7 +13,9 @@ Example:
 
 """
 
-import hey.textnavigator.style
+import serializeraw
+import texmex
+
 import words.feature
 import words.text
 import words.text.chapter
@@ -60,7 +62,7 @@ def work(
 
     extracted = extract_highnotes(resources)
 
-    dumped = hey.textnavigator.style.dump_highnotes(extracted)
+    dumped = serializeraw.dump_highnotes(extracted)
     return dumped
 
 
@@ -80,12 +82,12 @@ def extract_highnotes(loaded: words.feature.TextRequiredResources,
     for page in loaded:
         parsed = []
         for headline, content in words.text.sentence.visit_sections(page):
-            highnotes = hey.textnavigator.style.highnotes(content)
+            highnotes = texmex.highnotes(content)
             parsed.extend(highnotes)
         if not parsed:
             continue
         result.append(
-            hey.textnavigator.style.PageContentTextItems(
+            texmex.PageContentTextItems(
                 page=page.page,
                 content=parsed,
             ))

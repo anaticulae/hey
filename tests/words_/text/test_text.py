@@ -9,9 +9,9 @@
 import iamraw
 import pytest
 import serializeraw
+import texmex
 import utila
 
-import hey.textnavigator.style
 import hey.undefined
 import tests.resources
 import words.feature
@@ -248,26 +248,23 @@ def test_words_text_convert_undefined_to_text(  # pylint:disable=R0914
     )
 
     expected_list = [
-        hey.textnavigator.style.TextInfo(
+        texmex.TextInfo(
             bounding=iamraw.BoundingBox(
                 x0=88.44, y0=332.13, x1=133.28, y1=344.13),
             text='• genindex',
-            style=hey.textnavigator.style.TextStyle.create(
-                start=0, end=11, size=9.96),
+            style=texmex.TextStyle.create(start=0, end=11, size=9.96),
         ),
-        hey.textnavigator.style.TextInfo(
+        texmex.TextInfo(
             bounding=iamraw.BoundingBox(
                 x0=88.44, y0=350.07, x1=136.61, y1=362.07),
             text='• modindex',
-            style=hey.textnavigator.style.TextStyle.create(
-                start=0, end=11, size=9.96),
+            style=texmex.TextStyle.create(start=0, end=11, size=9.96),
         ),
-        hey.textnavigator.style.TextInfo(
+        texmex.TextInfo(
             bounding=iamraw.BoundingBox(
                 x0=88.44, y0=368.00, x1=122.35, y1=380.00),
             text='• search',
-            style=hey.textnavigator.style.TextStyle.create(
-                start=0, end=9, size=9.96),
+            style=texmex.TextStyle.create(start=0, end=9, size=9.96),
         ),
     ]
     expected = [

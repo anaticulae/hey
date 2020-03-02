@@ -22,11 +22,11 @@ import typing
 
 import iamraw
 import serializeraw
+import texmex
 import utila
 
 import hey.textnavigator
 import hey.textnavigator.merger
-import hey.textnavigator.navigator
 import words.loader.input
 
 
@@ -94,7 +94,7 @@ def process_page(pagecontent, contentborder: iamraw.Border):
         zipped = enumerate(zip(content, uindexs))
         for mergednumber, ((_, items), uindex) in zipped:
             items = [
-                hey.textnavigator.TextBoundsInfo(
+                texmex.TextBoundsInfo(
                     bounds=item.bounding,
                     text=item.text,
                 ) for item in items
@@ -115,7 +115,7 @@ def process_page(pagecontent, contentborder: iamraw.Border):
 
 
 def extract_lists(
-        page: hey.textnavigator.navigator.PageTextNavigator,
+        page: texmex.PageTextNavigator,
         pagesize: iamraw.Border,
         uindex=None,
 ) -> typing.List[iamraw.PageList]:

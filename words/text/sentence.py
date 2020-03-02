@@ -10,9 +10,9 @@
 import typing
 
 import iamraw
+import texmex
 import utila
 
-import hey.textnavigator.style as ts
 import words.text
 
 
@@ -32,7 +32,7 @@ def find_sentences(page: words.text.PageTextWithHeadlines) -> words.text.TextSec
             # does not have any content, see commit.
             if seq.content is None:
                 continue
-            text = ts.remove_highnotes(seq.content)
+            text = texmex.remove_highnotes(seq.content)
             text = text.replace(utila.NEWLINE, ' ').strip()
             current.append(text)
         if current:
@@ -73,7 +73,7 @@ def visit_sentences(
                 if not skip_undefined:
                     yield section.headline, f'{seq.container}u'
                 continue
-            text = ts.remove_highnotes(seq.content)
+            text = texmex.remove_highnotes(seq.content)
             text = text.replace(utila.NEWLINE, ' ').strip()
             current.append(text)
         if current:

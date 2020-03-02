@@ -9,8 +9,8 @@
 
 import pytest
 import serializeraw
+import texmex
 
-import hey.textnavigator.navigator
 import sections.feature.chapter
 import tests.resources
 
@@ -66,7 +66,7 @@ def extract_chapter(document, position, toc):
     position = serializeraw.load_textpositions(position)
     tocs = serializeraw.load_toc(toc)
 
-    navigators = hey.textnavigator.navigator.create_pagetextnavigators(
+    navigators = texmex.create_pagetextnavigators(
         text=document,
         text_positions=position,
     )

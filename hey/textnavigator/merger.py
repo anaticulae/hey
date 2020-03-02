@@ -9,6 +9,7 @@
 
 import configo
 import iamraw
+import texmex
 import utila
 
 import hey.path
@@ -22,11 +23,11 @@ MAX_MERGE_HORIZONTALY = configo.HV_FLOAT_PLUS(default=14.0).value
 
 
 def merge_content(
-        text: hey.textnavigator.TextBoundsList,
+        text: texmex.TextBoundsInfos,
         max_x_merge=MAX_MERGE_HORIZONTALY,
         max_y_merge=MAX_MERGE_DISTANCE,
         uindex=None,
-) -> hey.textnavigator.TextBoundsList:
+) -> texmex.TextBoundsInfos:
     """Merge content blocks to create greater content blocks depending on
     merge strategy.
 
@@ -35,7 +36,7 @@ def merge_content(
         max_x_merge(float): feed distance between the two left sides
         max_y_merge(float): vertical distance between 2 BoundingBoxes to
                             merge them into one
-        uindex(list[int]): undefined index to link text(TextBoundsList) with
+        uindex(list[int]): undefined index to link text(TextBoundsInfos) with
                            text-source if uindex is None, the `uindex` is an
                            ascending list starting with zero.
     Returns:
@@ -47,9 +48,8 @@ def merge_content(
         return []
 
     # ensure input
-    assert all([
-        isinstance(item, hey.textnavigator.TextBoundsInfo) for item in text
-    ]), str(text)
+    assert all(
+        [isinstance(item, texmex.TextBoundsInfo) for item in text]), str(text)
 
     uindex = list(range(len(text))) if uindex is None else uindex
     bounds = [item.bounds for item in text]
@@ -85,7 +85,7 @@ def merge_content(
         )
 
     result = [
-        hey.textnavigator.TextBoundsInfo(
+        texmex.TextBoundsInfo(
             text=item[1],
             bounds=item[0],
         ) for item in result
@@ -95,7 +95,7 @@ def merge_content(
 
 def merge_content_join(result):
     result = [
-        hey.textnavigator.TextBoundsInfo(
+        texmex.TextBoundsInfo(
             text=utila.NEWLINE.join(item.text),
             bounds=item.bounds,
         ) for item in result

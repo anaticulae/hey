@@ -6,15 +6,16 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import serializeraw
+import texmex
 import utila
 
 import groupme.toc.strategy.georegex as gtsg
-import hey.textnavigator.navigator as htn
 import tests.resources
 
 
-def master72() -> htn.PageTextNavigators:
-    result = htn.create_pagetextnavigators_frompath(
+def master72() -> texmex.PageTextNavigators:
+    result = serializeraw.create_pagetextnavigators_frompath(
         tests.resources.MASTER72,
         pages=(1, 2),
         prefix='oneline',
@@ -23,7 +24,7 @@ def master72() -> htn.PageTextNavigators:
 
 
 def bachelor111():
-    result = htn.create_pagetextcontentnavigators_frompath(
+    result = serializeraw.create_pagetextcontentnavigators_frompath(
         tests.resources.BACHELOR111,
         pages=(1, 2, 3, 4),
         prefix='oneline',

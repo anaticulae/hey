@@ -7,11 +7,12 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 import iamraw
-import pytest
+import serializeraw
+import texmex
+import texmex.navigator
 import utila
 
 import hey.textnavigator.merger as htm
-import hey.textnavigator.navigator as htn
 import tests.fixtures.headlines
 import tests.resources
 #pylint:disable=W0611
@@ -21,7 +22,7 @@ from tests.fixtures.simple import simple_second_page_navigator
 from tests.groupme_ import navigator  # pylint:disable=W0611
 
 
-def test_insert_order(navigator: htn.PageTextNavigator):  #pylint:disable=W0621
+def test_insert_order(navigator: texmex.PageTextNavigator):  #pylint:disable=W0621
     for before, after in zip(navigator[:-1], navigator[1:]):
         before = before.bounding
         after = after.bounding
@@ -35,7 +36,7 @@ def test_insert_order(navigator: htn.PageTextNavigator):  #pylint:disable=W0621
     assert current_order == list(range(len(navigator))), current_order
 
 
-def test_after(navigator: htn.PageTextNavigator):  #pylint:disable=W0621
+def test_after(navigator: texmex.PageTextNavigator):  #pylint:disable=W0621
     # Bottom footer
     after = 0.8  # from 80% to 100%
     # greater than 563
@@ -44,7 +45,7 @@ def test_after(navigator: htn.PageTextNavigator):  #pylint:disable=W0621
     assert len(result) == 4, result
 
 
-def test_before(navigator: htn.PageTextNavigator):  #pylint:disable=W0621
+def test_before(navigator: texmex.PageTextNavigator):  #pylint:disable=W0621
     # Top footer
     # smaller than 158.4
     before = 0.2  # from 20% to 0%
@@ -53,31 +54,18 @@ def test_before(navigator: htn.PageTextNavigator):  #pylint:disable=W0621
     assert len(result) == 1, before
 
 
-@pytest.mark.parametrize('size,percent,expected', [
-    (100.0, 1.0, 0),
-    (100.0, 0.0, 100),
-    (100.0, 0.75, 25),
-])
-def test_textnavigator_percent_to_page(size, percent, expected):
-    result = htn.percent_to_pagesize(
-        size,
-        percent,
-    )
-    assert result == expected
-
-
 #pylint:disable=W0621
-def test_fonts_navigator_to_bounds(navigator: htn.PageTextNavigator):
-    result = htn.navigator_to_bounds(navigator)
+def test_fonts_navigator_to_bounds(navigator: texmex.PageTextNavigator):
+    result = texmex.navigator_to_bounds(navigator)
     assert all([isinstance(item, iamraw.BoundingBox) for item in result])
 
 
 def test_hey_navigator_merge_content(simple_second_page_navigator):
-    content = htn.to_content(simple_second_page_navigator)
+    content = texmex.navigator_to_content(simple_second_page_navigator)
     merged, _ = htm.merge_content(content)
     merged = htm.merge_content_join(merged)
 
-    content = htn.to_content(simple_second_page_navigator)
+    content = texmex.navigator_to_content(simple_second_page_navigator)
     merged, _ = htm.merge_content(content)  # split content and merge_ids
     # NOTE: Dependens on `MAX_MERGE_DISTANCE`, not a good test?
     #     paragraph_after_merge = 8
@@ -95,7 +83,7 @@ def test_hey_navigator_merge_content(simple_second_page_navigator):
 
 
 def test_hey_navigator_create_pagetextcontent_navigator_frompath():
-    loaded = htn.create_pagetextcontentnavigators_frompath(
+    loaded = serializeraw.create_pagetextcontentnavigators_frompath(
         tests.resources.BACHELOR111,
         pages=(1, 2, 3, 4),
         prefix='oneline',
@@ -106,7 +94,7 @@ def test_hey_navigator_create_pagetextcontent_navigator_frompath():
 
 
 def test_hey_navigator_find():
-    navigator = htn.PageTextNavigator()
+    navigator = texmex.PageTextNavigator()
     location = iamraw.BoundingBox.from_str('10.0 12.0 15 20')
     navigator.insert('me', bounding=location, style=None)
     location = iamraw.BoundingBox.from_str('100.0 120.0 150 200')

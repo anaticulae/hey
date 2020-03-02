@@ -12,9 +12,9 @@ import os
 import iamraw
 import iamraw.sections
 import serializeraw
+import texmex
 import utila
 
-import hey.textnavigator.navigator
 import tests.resources
 
 
@@ -57,7 +57,7 @@ def create_pagetextnavigators(path, pages=None):
     )
     assert text_positions
 
-    navigators = hey.textnavigator.navigator.create_pagetextnavigators(
+    navigators = texmex.create_pagetextnavigators(
         text=text,
         text_positions=text_positions,
     )

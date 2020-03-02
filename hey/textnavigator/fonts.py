@@ -12,11 +12,10 @@ import statistics
 import typing
 
 import iamraw
+import texmex
 import utila
 
 import hey.textnavigator
-import hey.textnavigator.navigator as htn
-import hey.textnavigator.style
 import hey.utils
 
 
@@ -40,14 +39,13 @@ def feeddistance(bounds: typing.List[iamraw.BoundingBox]) -> typing.List[float]:
     return distance
 
 
-def fontdistance_textbounds(bounds: typing.List[hey.textnavigator.TextBounds],
+def fontdistance_textbounds(bounds: typing.List[texmex.TextBounds],
                            ) -> typing.List[float]:
     assert isinstance(bounds, list)
-    assert all(
-        isinstance(
-            item,
-            hey.textnavigator.TextBounds,
-        ) for item in bounds)
+    assert all(isinstance(
+        item,
+        texmex.TextBounds,
+    ) for item in bounds)
     distance = [
         utila.roundme(second.ydist - (first.ydist + first.height))
         for (first), (second) in zip(bounds[0:], bounds[1:])
@@ -66,7 +64,7 @@ NONE_BORDER = iamraw.Border(None, None, None, None)
 def bounds_to_textbounds(
         bounds: iamraw.BoundingBox,
         contentborder: iamraw.Border = None,
-) -> hey.textnavigator.TextBounds:
+) -> texmex.TextBounds:
     """Compute distance to page `contentborder` and determine font size
 
     Args:
@@ -84,14 +82,14 @@ def bounds_to_textbounds(
         int(x1 - x0),
         int(y1 - y0),
     )
-    return hey.textnavigator.TextBounds(xdist, ydist, width, height)
+    return texmex.TextBounds(xdist, ydist, width, height)
 
 
 def textbounds(
-        navigator: htn.PageTextNavigator,
+        navigator: texmex.PageTextNavigator,
         contentborder: iamraw.Border,
-) -> hey.textnavigator.TextBoundsList:
-    assert hey.textnavigator.is_navigator(navigator), type(navigator)
+) -> texmex.TextBoundsInfos:
+    assert isinstance(navigator, texmex.NavigatorMixin), type(navigator)
 
     # ensure that order of items has no effect
     cb = contentborder  # pylint:disable=C0103
@@ -100,7 +98,7 @@ def textbounds(
         return []
 
     result = [
-        hey.textnavigator.TextBoundsInfo(
+        texmex.TextBoundsInfo(
             text=item.text,
             bounds=bounds_to_textbounds(
                 item.bounding,
@@ -111,7 +109,7 @@ def textbounds(
     return result
 
 
-def textsize(occurrences: hey.textnavigator.FontOccurrences) -> int:
+def textsize(occurrences: texmex.FontOccurrences) -> int:
     """Compute size of text"""
     mostly = sorted(occurrences, key=lambda item: item[1], reverse=True)
     if not mostly:
@@ -121,10 +119,10 @@ def textsize(occurrences: hey.textnavigator.FontOccurrences) -> int:
     return size
 
 
-def textsize_from_page(navigator: htn.PageTextNavigator) -> float:
+def textsize_from_page(navigator: texmex.PageTextNavigator) -> float:
     collected = []
     for line in navigator:
-        fontsizes = hey.textnavigator.style.TextStyle.textsizes(
+        fontsizes = texmex.TextStyle.textsizes(
             line.style,
             method=lambda x: x,  # do not filter anything
         )
@@ -133,7 +131,7 @@ def textsize_from_page(navigator: htn.PageTextNavigator) -> float:
 
 
 def document_textfeed(
-        navigators: hey.textnavigator.navigator.PageTextNavigators,
+        navigators: texmex.PageTextNavigators,
         count: int = 1,
 ) -> typing.List[int]:
     assert count >= 1, 'require none negative count'
@@ -154,7 +152,7 @@ def document_textsize(navigators) -> float:
     collected = []
     for navigator in navigators:
         for line in navigator:
-            fontsizes = hey.textnavigator.style.TextStyle.textsizes(
+            fontsizes = texmex.TextStyle.textsizes(
                 line.style,
                 method=lambda x: x,  # do not filter anything
             )

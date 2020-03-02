@@ -10,12 +10,11 @@
 import iamraw
 import pytest
 import serializeraw
+import texmex
 
 import detector.cli
 import detector.feature.titlepage
 import detector.parser.complete
-import hey.textnavigator.navigator
-import hey.textnavigator.style
 import tests
 import tests.fixtures.titlepage
 import tests.resources
@@ -40,7 +39,7 @@ import tests.resources
 ])
 def test_detector_parse_complete_title_page(page, expected):
     # TODO: Why is this test so slow?   tests.fixtures.titlepage.THIRD
-    pcn = hey.textnavigator.navigator.create_pagetextnavigator_fromstr(page)
+    pcn = texmex.create_pagetextnavigator_fromstr(page)
     parsed = detector.parser.complete.parse(pcn)
     assert parsed == expected, str(parsed)
 

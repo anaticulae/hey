@@ -26,10 +26,9 @@ import typing
 
 import iamraw
 import serializeraw
+import texmex
 import utila
 import yaml
-
-import hey.textnavigator.navigator
 
 
 def work(document: str, position: str, tocpath: str, pages=None) -> str:
@@ -49,7 +48,7 @@ def work(document: str, position: str, tocpath: str, pages=None) -> str:
     position = serializeraw.load_textpositions(position, pages=pages)
     tocs = serializeraw.load_toc(tocpath)
 
-    navigators = hey.textnavigator.navigator.create_pagetextnavigators(
+    navigators = texmex.create_pagetextnavigators(
         text=document,
         text_positions=position,
     )
@@ -69,7 +68,7 @@ FIRST_QUARTER = 0.35
 
 
 def space_between_header_and_first_line(
-        navigators: hey.textnavigator.navigator.PageTextNavigators,
+        navigators: texmex.PageTextNavigators,
         tocs,
 ) -> iamraw.PageContentLikelihoods:
     result = []

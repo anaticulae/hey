@@ -13,9 +13,8 @@ import math
 import operator
 
 import iamraw
+import texmex
 import utila
-
-import hey.textnavigator.navigator as htn
 
 
 def count_textlines(page: iamraw.Page, remove_empty=False) -> int:
@@ -31,7 +30,7 @@ def count_textlines(page: iamraw.Page, remove_empty=False) -> int:
     """
     # TODO: MOVE TO IAMRAW PACKAGE
     content = []
-    if htn.isnavigator(page):
+    if isinstance(page, texmex.NavigatorMixin):
         return len([item for item in page if item.text.strip()])
 
     for item in page:

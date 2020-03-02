@@ -12,11 +12,10 @@ import typing
 
 import iamraw
 import iamraw.sections
+import texmex
 import utila
 
 import hey.textnavigator.fonts as htf
-import hey.textnavigator.navigator as htn
-import hey.textnavigator.style as hts
 import sections.feature.section
 import words.loader.basic
 import words.utils.skipper
@@ -126,7 +125,7 @@ class HeadlineExtractorStrategy(abc.ABC):  # pylint:disable=too-many-instance-at
             if not border or not textnavigator:
                 # empty page
                 continue
-            pagecontent = htn.PageTextContentNavigator(
+            pagecontent = texmex.PageTextContentNavigator(
                 textnavigator,
                 border,
             )
@@ -185,7 +184,7 @@ class HeadlineExtractorStrategy(abc.ABC):  # pylint:disable=too-many-instance-at
         distanceid = containerid - contentstart
         fontdistance = textdistances[distanceid]
         textfeed = textfeeds[distanceid]
-        textsize = hts.TextStyle.textsizes(textinfo.style)
+        textsize = texmex.TextStyle.textsizes(textinfo.style)
 
         distance_tosmall = fontdistance < self.smallest_headlinedistance()
         headline_tosmall = textsize < self.smallest_textsize()

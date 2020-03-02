@@ -21,14 +21,13 @@ r"""Multiline
 
     Remove high notes before starting analysis.
 """
+
 import dataclasses
 import math
 import typing
 
+import texmex
 import utila
-
-import hey.textnavigator.navigator as htn
-import hey.textnavigator.style as hts
 
 
 @dataclasses.dataclass
@@ -51,7 +50,7 @@ class MultilineGroup():
     """Group of following text lines with equal properties.
 
     Public Attributes:
-        text: content as a list of following hey.textnavigator.style.TextInfo.
+        text: content as a list of following texmex.TextInfo.
         size: font size of common content.
     """
     text: list = dataclasses.field(default_factory=list)
@@ -74,7 +73,7 @@ class MultilineGroup():
 
 
 def group_pages_by_fontsize(
-        pagetextnavigators: htn.PageTextNavigators,
+        pagetextnavigators: texmex.PageTextNavigators,
         sizediff: float = 0.0,
 ) -> PageContentMultiLines:
     """Iterate thru different pages of `pagetextnavigators` and extract
@@ -95,7 +94,7 @@ def group_pages_by_fontsize(
 
 
 def group_page_by_fontsize(
-        pagetextnavigator: htn.PageTextNavigator,
+        pagetextnavigator: texmex.PageTextNavigator,
         sizediff: float = 0.0,
 ) -> PageContentMultiLine:
     """Group text lines by `sizediff`.
@@ -110,7 +109,7 @@ def group_page_by_fontsize(
     current = []
     style, size = None, None
     for containerid, item in enumerate(pagetextnavigator):
-        line = hts.style_without_highnotes(item, merge=True)
+        line = texmex.style_without_highnotes(item, merge=True)
         style = line.content[0]  # pylint:disable=E1136
         currentsize = style.size
         if size is None:
@@ -247,7 +246,7 @@ def maxdistance(size: float):
 
 
 def group_linedistances_complex(
-        content: htn.PageTextNavigator,
+        content: texmex.PageTextNavigator,
         max_sizediff: float = MAX_SIZEDIFF,
         max_distance: callable = maxdistance,
 ) -> typing.List[int]:
@@ -261,7 +260,7 @@ def group_linedistances_complex(
     Returns:
         List of grouped indexes
     """
-    assert htn.isnavigator(content), type(content)
+    assert isinstance(content, texmex.NavigatorMixin), type(content)
     distances = linedistances(content)
     sizes = [max([item.size for item in items.style]) for items in content]
     assert len(distances) == len(sizes)
@@ -299,8 +298,8 @@ def group_linedistances_complex(
     return result
 
 
-def group_page_by_size_distance(content: htn.PageTextNavigator):
-    assert htn.isnavigator(content), type(content)
+def group_page_by_size_distance(content: texmex.PageTextNavigator):
+    assert isinstance(content, texmex.NavigatorMixin), type(content)
     grouped = group_linedistances_complex(content)
     result = []
     for group in grouped:

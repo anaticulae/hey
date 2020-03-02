@@ -23,11 +23,11 @@ import collections
 import typing
 
 import serializeraw
+import texmex
 import utila
 import yaml
 
 import groupme.feature.area
-import hey.textnavigator.navigator
 
 RequiredResources = collections.namedtuple(
     'RequiredResources',
@@ -175,7 +175,7 @@ def load(
     area = groupme.feature.area.load_area(area, pages=pages)
     text = serializeraw.load_document(text, pages=pages)
     textpositions = serializeraw.load_textpositions(textpositions, pages=pages)
-    textnavigator = hey.textnavigator.navigator.create_pagetextnavigators(
+    textnavigator = texmex.create_pagetextnavigators(
         text,
         text_positions=textpositions,
     )

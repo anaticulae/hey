@@ -14,11 +14,11 @@ import typing
 import configo
 import iamraw
 import serializeraw
+import texmex
 
 import groupme.path
 import hey.fonts.store
 import hey.path
-import hey.textnavigator.navigator
 import sections.path
 import words.boxed
 import words.feature.headlines
@@ -31,7 +31,7 @@ class TextRequiredResources:
     boxes: words.boxed.BoxedChecker
     fontstore: hey.fonts.store.FontStore
     headlines: iamraw.PagesHeadlineList
-    textnavigators: hey.textnavigator.navigator.PageTextNavigators
+    textnavigators: texmex.PageTextNavigators
 
 
 @functools.lru_cache(configo.CACHE_SMALL)
@@ -54,7 +54,7 @@ def load_resources(  # pylint:disable=R0914
 
     fontstore = hey.fonts.store.create_fontstore(fontheader, fontcontent)
 
-    textnavigators = hey.textnavigator.navigator.create_pagetextnavigators(
+    textnavigators = texmex.create_pagetextnavigators(
         text=text,
         text_positions=position,
     )

@@ -18,7 +18,6 @@ import groupme.footer.strategy as gfs
 import groupme.footer.strategy.moving
 import groupme.path
 import hey.path
-import hey.textnavigator.navigator as htn
 import tests.fixtures.restruct
 import tests.resources
 # pylint:disable=W0611
@@ -122,7 +121,7 @@ def test_groupme_footer_footerheader_detectionstategy(
 @utila.skip_longrun
 def test_groupme_footer_extract_footerheader_technical(root, expected):
     pages = None
-    pagetextnavigators = htn.create_pagetextnavigators_frompath(
+    pagetextnavigators = serializeraw.create_pagetextnavigators_frompath(
         root,
         pages=pages,
     )

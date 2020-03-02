@@ -7,13 +7,12 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import groupme.footer.strategy.common
-import groupme.footer.strategy.fixed
-import groupme.footer.strategy.moving
-import groupme.footer.strategy.pages
-
 
 def strategies():
+    import groupme.footer.strategy.common
+    import groupme.footer.strategy.fixed
+    import groupme.footer.strategy.moving
+    import groupme.footer.strategy.pages
     # TODO: Automate collection
     result = [
         groupme.footer.strategy.common.CommonTextStrategy,

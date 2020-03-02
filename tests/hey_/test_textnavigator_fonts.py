@@ -6,8 +6,10 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+
+import serializeraw
+
 import hey.textnavigator.fonts
-import hey.textnavigator.navigator as htn
 import tests.resources
 #pylint:disable=W0611
 from tests.fixtures.simple import simple_contentborder
@@ -59,7 +61,7 @@ def test_groupme_fonts_textsize(
 
 
 def test_hey_navigator_create_pagetext_navigator_frompath_withfont():
-    loaded = htn.create_pagetextnavigators_frompath(
+    loaded = serializeraw.create_pagetextnavigators_frompath(
         tests.resources.BACHELOR111,
         pages=(1, 2, 3, 4),
     )

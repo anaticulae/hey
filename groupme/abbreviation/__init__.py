@@ -23,9 +23,8 @@ import contextlib
 import dataclasses
 import typing
 
+import texmex
 import utila
-
-import hey.textnavigator.navigator
 
 
 # TODO: MOVE TO IAMRAW
@@ -48,8 +47,8 @@ Abbreviations = typing.List[Abbreviation]
 
 @dataclasses.dataclass
 class AbbreviationData:
-    normal: hey.textnavigator.navigator.PageTextNavigators = None
-    oneline: hey.textnavigator.navigator.PageTextNavigators = None
+    normal: texmex.PageTextNavigators = None
+    oneline: texmex.PageTextNavigators = None
 
 
 @dataclasses.dataclass

@@ -20,10 +20,10 @@ next horizontal line is greater than `MIN_DISTANCE_TO_HORIZONTAL`.
 """
 
 import iamraw
+import texmex
 import utila
 
 import groupme.footer.strategy as gfs
-import hey.textnavigator.navigator
 
 MIN_DISTANCE_TO_HORIZONTAL = 50  # TODO: HOLY VALUE
 
@@ -64,7 +64,7 @@ class PageNumberStrategy(gfs.FooterHeaderDetectionStrategy):
             header = None
 
             begin = utila.roundme(processed[1].y0 / pageheight)
-            end = hey.textnavigator.navigator.END
+            end = texmex.END
             bounding = processed[1]
             # TODO: REMOVE STRIP
             if navigator is None:

@@ -20,8 +20,8 @@ Text:
 import enum
 
 import iamraw
+import texmex
 
-import hey.textnavigator.navigator
 import words.boxed
 
 
@@ -46,7 +46,7 @@ class DocumentObjectTyper:
 
     def __init__(
             self,
-            textnavigators: hey.textnavigator.navigator.PageTextNavigators,
+            textnavigators: texmex.PageTextNavigators,
             boxedchecker: words.boxed.BoxedChecker,
     ):
         self.boxedchecker = boxedchecker

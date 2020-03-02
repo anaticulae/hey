@@ -25,13 +25,13 @@ import collections
 import typing
 
 import iamraw
+import texmex
 import utila
 
 import groupme.toc
 import groupme.toc.lineregex
 import groupme.toc.strategy as gts
 import hey.textnavigator.multiline as htm
-import hey.textnavigator.navigator as htn
 
 MIN_GROUP_GAP = 30.0  # TODO HOLY VALUE
 
@@ -46,8 +46,8 @@ class GeometryRegexTocExtractor(gts.ExtractorStrategy):
         return grouped
 
 
-def analyse_page(content: htn.PageTextNavigator):
-    assert htn.isnavigator(content), type(content)
+def analyse_page(content: texmex.PageTextNavigator):
+    assert isinstance(content, texmex.NavigatorMixin), type(content)
     content = gts.remove_headline(content)
     grouped = group_areas(content)
     result = [parse_group(items) for items in grouped]
@@ -56,7 +56,7 @@ def analyse_page(content: htn.PageTextNavigator):
     return result
 
 
-def group_areas(content: htn.PageTextNavigator):
+def group_areas(content: texmex.PageTextNavigator):
     linedistances = htm.linedistances(content, noneatend=False)
     result = []
     grouped = []

@@ -11,10 +11,11 @@ import abc
 import dataclasses
 import typing
 
+import texmex
+
 import groupme.toc as gt
 import groupme.toc.group as gtg
 import groupme.utils
-import hey.textnavigator.navigator as htn
 
 
 @dataclasses.dataclass
@@ -31,7 +32,7 @@ class ExtractionResult:
 
 @dataclasses.dataclass
 class ExtractionData:
-    content: htn.PageTextContentNavigators = None
+    content: texmex.PageTextContentNavigators = None
 
 
 ExtractionResults = typing.List[ExtractionResult]
@@ -58,7 +59,7 @@ def group(extracted: groupme.toc.TocLines) -> ExtractionResult:
     return result
 
 
-def load(content: htn.PageTextContentNavigators) -> ExtractionData:
+def load(content: texmex.PageTextContentNavigators) -> ExtractionData:
     # TODO: RENAME TO CREATE?
     data = ExtractionData(content=content)
     return data
@@ -68,9 +69,10 @@ def load_frompath(path: str):
     pass
 
 
-def remove_headline(content: htn.PageTextNavigator) -> htn.PageTextNavigator:
+def remove_headline(
+        content: texmex.PageTextNavigator) -> texmex.PageTextNavigator:
     """Remove table of content headline to improve extraction result."""
-    result = htn.PageTextNavigator(
+    result = texmex.PageTextNavigator(
         size=(content.width, content.height),
         page=content.page,
     )

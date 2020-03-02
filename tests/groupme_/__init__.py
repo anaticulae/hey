@@ -12,11 +12,11 @@ from functools import partial
 from iamraw import BoundingBox
 from iamraw import common_box
 from pytest import fixture
+from texmex import PageTextNavigator
 from utila import run_command
 
 from groupme.cli import PROCESS
 from groupme.cli import main
-from hey.textnavigator.navigator import PageTextNavigator
 
 #pylint: disable=invalid-name
 run_success = partial(

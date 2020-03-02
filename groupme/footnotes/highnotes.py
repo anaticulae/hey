@@ -11,8 +11,7 @@ import math
 
 import configo
 import iamraw
-
-import hey.textnavigator.style as hts
+import texmex
 
 
 def split(content):
@@ -54,7 +53,7 @@ def split_textinfo(content) -> list:
                     result.append((highnote, union(collected)))
                     collected = []
                 style = style.copy()
-                highnote = hts.TextInfo(
+                highnote = texmex.TextInfo(
                     text=item.text[style.start:style.end],
                     style=style,
                     bounding=char_bounding(item.bounding, item.text, style),
@@ -112,7 +111,7 @@ def shrink_tostyle(text, style):
     return text, style
 
 
-def union(items) -> hts.TextInfo:
+def union(items) -> texmex.TextInfo:
     raw = ''
     content = []
     for (text, style) in items:
@@ -122,9 +121,9 @@ def union(items) -> hts.TextInfo:
         section_style = style.copy()
         section_style.start, section_style.end = start, end
         content.append(section_style)
-    result = hts.TextInfo(
+    result = texmex.TextInfo(
         text=raw,
-        style=hts.TextStyle(content=content),
+        style=texmex.TextStyle(content=content),
     )
     return result
 
@@ -132,7 +131,7 @@ def union(items) -> hts.TextInfo:
 def char_bounding(
         bounding: iamraw.BoundingBox,
         text: str,
-        style: hts.TextStyle,
+        style: texmex.TextStyle,
 ) -> iamraw.BoundingBox:
     width = bounding.x1 - bounding.x0
     char_width = width / len(text)

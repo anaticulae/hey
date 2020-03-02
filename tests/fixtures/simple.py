@@ -10,10 +10,10 @@
 import iamraw
 import pytest
 import serializeraw
+import texmex
 import utila
 
 import hey.fonts.store
-import hey.textnavigator.navigator
 import sections.feature.chapter
 import sections.feature.index
 import sections.feature.section
@@ -61,7 +61,7 @@ def simple():
     assert horizontals
     assert position
 
-    navigator = hey.textnavigator.navigator.create_pagetextnavigators(
+    navigator = texmex.create_pagetextnavigators(
         text=document,
         text_positions=position,
     )
@@ -103,8 +103,8 @@ def simple_navigator(simple):  #pylint:disable=W0621
 
 
 @pytest.fixture
-def simple_pagetextnavigators() -> hey.textnavigator.navigator.PageTextNavigators:  # yapf:disable
-    navigator = hey.textnavigator.navigator.create_pagetextnavigators_frompath(
+def simple_pagetextnavigators() -> texmex.PageTextNavigators:  # yapf:disable
+    navigator = serializeraw.create_pagetextnavigators_frompath(
         tests.resources.HOWTO_PYPORTING)
     return navigator
 
@@ -149,7 +149,7 @@ def simple_page_2_text_only(simple_page_2: iamraw.Page):  # pylint: disable=W062
 @pytest.fixture
 def simple_second_page_navigator(
         simple_pagetextnavigators,  # pylint:disable=W0621
-) -> hey.textnavigator.navigator.PageTextNavigator:
+) -> texmex.PageTextNavigator:
     return utila.select_page(simple_pagetextnavigators, page=1)
 
 

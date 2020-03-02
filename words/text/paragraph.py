@@ -8,9 +8,9 @@
 # =============================================================================
 
 import iamraw
+import texmex
 
 import hey.fonts.store
-import hey.textnavigator.navigator
 import words.boxed
 import words.feature
 import words.headlines
@@ -20,7 +20,7 @@ def collect_paragraph(
         first: iamraw.Headline,
         second: iamraw.Headline,
         page: int,
-        pcn: hey.textnavigator.navigator.PageTextContentNavigator,
+        pcn: texmex.PageTextContentNavigator,
         fcs: hey.fonts.store.FontContentStore,  # pylint:disable=W0613
         boxes: words.boxed.BoxedChecker,
 ) -> iamraw.ChapterText:

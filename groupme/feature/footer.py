@@ -14,6 +14,7 @@ import typing
 
 import iamraw
 import serializeraw
+import texmex
 import utila
 
 import groupme.footer
@@ -25,7 +26,6 @@ import groupme.footer.strategy.pages
 import groupme.utils
 import hey.fonts.store
 import hey.textnavigator
-import hey.textnavigator.navigator
 import hey.utils
 
 
@@ -55,7 +55,7 @@ def work(
     sizeandborders = serializeraw.load_pageborders(sizeandborders, pages=pages)
     pagenumbers = serializeraw.load_pagenumbers(pagenumbers, pages=pages)
 
-    pagetextnavigators = hey.textnavigator.navigator.create_pagetextnavigators(
+    pagetextnavigators = texmex.create_pagetextnavigators(
         text,
         text_position,
         fontstore=fontstore,
@@ -78,7 +78,7 @@ def extract_footerheader(
         horizontals: iamraw.PagesWithHorizontalList,
         sizeandborders: iamraw.PageSizeBorderList,
         pagenumbers,
-        pagetextnavigators: hey.textnavigator.navigator.PageTextNavigators,
+        pagetextnavigators: texmex.PageTextNavigators,
 ) -> iamraw.PageContentFooterHeaders:
     """Extract most common header/footer of the document
 

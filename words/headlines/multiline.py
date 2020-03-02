@@ -8,10 +8,10 @@
 # =============================================================================
 
 import iamraw
+import texmex
 import utila
 
 import hey.textnavigator.multiline as htm
-import hey.textnavigator.navigator as htn
 import words.headlines
 import words.headlines.standard as whs
 
@@ -39,7 +39,7 @@ class MultiLine(words.headlines.HeadlineExtractorStrategy):
 
     def extract_page(
             self,
-            pagecontent: htn.PageTextNavigator,
+            pagecontent: texmex.PageTextNavigator,
     ) -> iamraw.Headlines:
         """Extract headlines on selected page
 
