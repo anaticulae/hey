@@ -23,6 +23,16 @@ TOC_OUTPUT = 'toc'
 
 WORKPLAN = [
     step(
+        'abbreviation',
+        inputs=[
+            ResultFile(producer='rawmaker', name='text_text'),
+            ResultFile(producer='rawmaker', name='text_positions'),
+            ResultFile(producer='rawmaker', name='oneline_text_text'),
+            ResultFile(producer='rawmaker', name='oneline_text_positions'),
+        ],
+        output=('abbreviation',),
+    ),
+    step(
         'area',
         inputs=[
             ResultFile(producer='rawmaker', name='boxes_boxes'),
