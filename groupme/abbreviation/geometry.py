@@ -69,12 +69,15 @@ def parse_page(page) -> groupme.abbreviation.Abbreviations:
         # TODO: EXTEND ERROR MESSAGE
         utila.error('could not analyze, columns are mixed/ambigous')
         return None
-    left, right = adjust_columns(
+    adjusted = adjust_columns(
         short_column,
         description_column,
         line_gaps,
         short_marker,
     )
+    if adjusted is None:
+        return None
+    left, right = adjusted
     result = []
     for short, description in zip(left, right):
         description = [item.text.strip() for item in description]
@@ -109,6 +112,10 @@ def adjust_columns(short_column, description_column, line_gaps, short_marker):
             item for item in description_column
             if start <= item.bounding[1] <= item.bounding[3] <= end
         ])
+    if not left or not right:
+        # could not adjust multiline colum
+        return None
+
     # TODO: DIRTY, move to separate method
     # group last item
     start = left[-1].bounding[1]
