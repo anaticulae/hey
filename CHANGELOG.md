@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v1.17.1
+
+### Feature
+
+* add abbreviation table parser step to groupme (335e2eb35c59)
+
+### Fix
+
+* skip non column layout (e640fd56470e)
+
 ## v1.17.0
 
 ### Feature
