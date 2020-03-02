@@ -6,26 +6,36 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 #==============================================================================
-"""
-* Introduction
-    * Titlepage
-    * Thank you
-    * Copyright etc.
-    * Erklaerung
-* Table-Area
-    * Table of content
-    * Short cuts
-    * Figure table
-* Content
-    * Chapter
-        * Figure
-        * Text
-        * Headlines
-* Table-Area-B
-* Appendix
-    * Resources
-    * Link
-    * Literature
+"""Sections
+========
+
+The `sections` tool is a very lightwight tool to determine the
+likelihood of a feature on a page very quickly. Sections is runned to
+determine which feature extraction is runned on which pages.
+
+The following sections are planned to be supported:
+
+.. code-block:: none
+
+    * Introduction
+        * Titlepage
+        * Thank you
+        * Copyright etc.
+        * Erklaerung
+    * Table-Area
+        * Table of content
+        * Short cuts
+        * Figure table
+    * Content
+        * Chapter
+            * Figure
+            * Text
+            * Headlines
+    * Table-Area-B
+    * Appendix
+        * Resources
+        * Link
+        * Literature
 """
 
 import os
