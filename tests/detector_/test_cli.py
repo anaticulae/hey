@@ -31,9 +31,9 @@ def test_detector_misc(command, testdir, monkeypatch, capsys):  #pylint: disable
 
 
 @pytest.mark.parametrize('example', [
-    HOWTO_PYPORTING,
-    RESTRUCT,
-    PYPORTING,
+    pytest.param(HOWTO_PYPORTING, id='howto_pyporting'),
+    pytest.param(RESTRUCT, id='restructured'),
+    pytest.param(PYPORTING, id='pyporting'),
 ])
 @utila.skip_longrun
 def test_detector_run_work(example, testdir, monkeypatch, capsys):  #pylint: disable=W0613
