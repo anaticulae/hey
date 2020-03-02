@@ -68,9 +68,9 @@ MATCH = {
 }
 
 
-def split_words(items: str):
-    if not words.text.sentence.is_sentence(items):
-        """Ensure to parse complete sentences."""
+def split_words(items: str, validate_sentences: bool = True):
+    if validate_sentences and not words.text.sentence.is_sentence(items):
+        # Ensure to parse complete sentences.
         return None
     items = items.replace('\n', ' ')
 
@@ -87,24 +87,30 @@ def split_words(items: str):
             result.append(''.join(current))
             current = []
             continue
-        with contextlib.suppress(KeyError):
-            special = MATCH[token]
-            if dot_pattern(current, token):
+        else:
+            try:
+                special = MATCH[token]
+            except KeyError:
+                # append normal text char or number
                 current.append(token)
-                continue
-            if special == Mark.FULLSTOP:
-                if index != (len(items) - 1):
+            else:
+                # evaluate sentence sign
+                if dot_pattern(current, token):
+                    current.append(token)
                     continue
-            if len(current) >= 2:
-                result.append(''.join(current))
-                current = []
-            result.append(special)
-            continue
-        current.append(token)
+                if special == Mark.FULLSTOP:
+                    if index != (len(items) - 1):
+                        continue
+                if len(current) >= 2:
+                    result.append(''.join(current))
+                    current = []
+                # append ), ], 3., etc.
+                result.append(special)
     if current and items[-1] in words.text.sentence.SIGN:
         result.append(''.join(current))
         current = []
-    assert not current, current
+    if validate_sentences:
+        assert not current, current
     return result
 
 
