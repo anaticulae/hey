@@ -23,6 +23,14 @@ ResultFile = lambda producer, name: RF(producer=producer, name=name)
 
 WORKPLAN = [
     step(
+        'abbreviation',
+        inputs=[
+            ResultFile('rawmaker', 'text_text'),
+            ResultFile('rawmaker', 'text_positions'),
+        ],
+        output=('likelihood',),
+    ),
+    step(
         'index',
         inputs=[
             ResultFile('rawmaker', 'oneline_text_text'),

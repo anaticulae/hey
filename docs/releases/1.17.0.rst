@@ -22,9 +22,9 @@ words
 sections
 --------
 
-* [ ] add step to compute likelihood of beeing an abbreviation table
+* [x] add step to compute likelihood of beeing an abbreviation table
 
-* [ ] verify with two examples
+* [x] verify with two examples
 
 code quality
 ------------
