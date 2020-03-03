@@ -70,10 +70,8 @@ def cluster_pages(pagenavigators):
         for (page, (bounding, text, pageheight, pagenumber)) in cluster:
             end = utila.roundme(bounding.y1 / pageheight)
             try:
-                # TODO: ADD append method to FixedHeaderInformation
-                result[page].undefined.append(iamraw.RawText(text=text))
-                # TODO: ADD update_end method to FixedHeaderInformation
-                result[page].end = max(result[page].end, end)
+                result[page].append(iamraw.RawText(text=text))
+                result[page].extend(end=end)
             except KeyError:
                 # remove newline at end TODO: REMOVE LATER
                 text = text.text.strip()
