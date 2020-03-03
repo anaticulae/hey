@@ -8,7 +8,7 @@
 # =============================================================================
 import math
 
-from utila.utils import flatten
+import utila
 
 
 def common_items(
@@ -39,7 +39,7 @@ def common_items(
     if selector is None:
         selector = lambda x: x[0]
 
-    flat = flatten(collected)
+    flat = utila.flatten(collected)
     assert all([selector(item) is not None for item in flat]), flat
     clusters = same_area_cluster(
         flat,
@@ -58,7 +58,7 @@ def max_distance(items, diff: float = 1.0, min_elements=2):
 
     return determine_cluster(
         items,
-        classificator=classifier,
+        classifier=classifier,
         min_elements=min_elements,
     )
 
@@ -128,46 +128,23 @@ def same_area_cluster(
     return determine_cluster(todo, classificator, min_elements=min_elements)
 
 
-def determine_cluster(todo, classificator, min_elements=2):
+def determine_cluster(todo, classifier, min_elements=2):
     """Determine cluster out of `todo`.
 
     Sort clustered result by length of cluster descending.
     """
+    assert min_elements >= 1, str(min_elements)
     if not todo:
         return []
 
     # prepare cluster, a single element is a cluster
     result = [[item] for item in todo]
 
-    def match(clusters, current) -> bool:
-        for clusterindex, cluster in enumerate(clusters):
-            matched = (all((classificator(
-                candidat=test,
-                clusteritem=clusteritem,
-            ) for test in current)) for clusteritem in cluster)
-            if all(matched):
-                return clusterindex
-        return None
-
-    def clusterme(clusters):
-        clusters, todo = clusters[0], clusters[1:]
-        if not isinstance(clusters[0], list):
-            clusters = [clusters]
-        while todo:
-            current = todo.pop()
-            index = match(clusters, current)
-            if index is None:
-                # No match, create new cluster
-                clusters.insert(0, current)
-            else:
-                clusters[index].extend(current)
-        return clusters
-
     # Break when cluster does not change result
     # Cluster till cluster move does not change the result
     before = set()
     while True:
-        result = clusterme(result)
+        result = clusterme(result, classifier=classifier)
         if len(result) == 1:
             # all elements are in the same group
             break
@@ -179,4 +156,30 @@ def determine_cluster(todo, classificator, min_elements=2):
     clusters = [item for item in result if len(item) >= min_elements]
 
     clusters = sorted(clusters, key=len, reverse=True)
+    return clusters
+
+
+def match(clusters, current, classifier) -> bool:
+    for clusterindex, cluster in enumerate(clusters):
+        matched = (all((classifier(
+            candidat=test,
+            clusteritem=clusteritem,
+        ) for test in current)) for clusteritem in cluster)
+        if all(matched):
+            return clusterindex
+    return None
+
+
+def clusterme(clusters, classifier):
+    clusters, todo = clusters[0], clusters[1:]
+    if not isinstance(clusters[0], list):
+        clusters = [clusters]
+    while todo:
+        current = todo.pop()
+        index = match(clusters, current, classifier)
+        if index is None:
+            # No match, create new cluster
+            clusters.insert(0, current)
+        else:
+            clusters[index].extend(current)
     return clusters
