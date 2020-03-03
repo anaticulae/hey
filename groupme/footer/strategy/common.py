@@ -15,6 +15,7 @@ text and images. There is no horizontal line required.
 .. note ::
     TODO: SUPPORT COMMON IMAGES
 """
+import configo
 import iamraw
 import texmex
 import utila
@@ -25,7 +26,8 @@ import hey.textnavigator
 import hey.textnavigator.fonts as htf
 
 COMMON_HEADER_MAX_ERROR = 1.0  # TODO: HOLY VALUE
-
+# minimal items in a cluster to be detected and accepted as feature.
+MIN_CLUSTER_COUNT = configo.HV_INT_PLUS(5)
 MIN_OCCURRENCE = 0.5
 TOP_AREA = 0.15  # TODO: HOLY VALUE
 
@@ -54,7 +56,10 @@ class CommonTextStrategy(gfs.FooterHeaderDetectionStrategy):
 def cluster_pages(pagenavigators, pageheight: int):
     assert pageheight > 0
     pagenumbers = len(pagenavigators)
-    min_cluster_count = int(pagenumbers * MIN_OCCURRENCE)
+    min_cluster_count = max([
+        int(pagenumbers * MIN_OCCURRENCE),
+        MIN_CLUSTER_COUNT,
+    ])
 
     with_box = prepare_clustering(pagenavigators)
 
