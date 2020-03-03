@@ -35,13 +35,7 @@ TOP_AREA = 0.15  # TODO: HOLY VALUE
 class CommonTextStrategy(gfs.FooterHeaderDetectionStrategy):
 
     def result(self):
-        # TODO: HOW TO HANDLE DIFFERENT PAGE HEIGHTS
-        pageheight = self.pageheight(0)
-
-        header = cluster_pages(
-            self.pagetextnavigators,
-            pageheight=pageheight,
-        )
+        header = cluster_pages(self.pagetextnavigators)
 
         result = [
             iamraw.PageContentFooterHeader(
@@ -53,8 +47,7 @@ class CommonTextStrategy(gfs.FooterHeaderDetectionStrategy):
         return result
 
 
-def cluster_pages(pagenavigators, pageheight: int):
-    assert pageheight > 0
+def cluster_pages(pagenavigators):
     pagenumbers = len(pagenavigators)
     min_cluster_count = max([
         int(pagenumbers * MIN_OCCURRENCE),
@@ -74,7 +67,7 @@ def cluster_pages(pagenavigators, pageheight: int):
 
     result = {}
     for cluster in clusters:
-        for (page, (bounding, text)) in cluster:
+        for (page, (bounding, text, pageheight, pagenumber)) in cluster:
             end = utila.roundme(bounding.y1 / pageheight)
             try:
                 # TODO: ADD append method to FixedHeaderInformation
@@ -104,6 +97,6 @@ def prepare_clustering(pagetextnavigators):
             if item.style.textsize() == textsize:
                 # TODO: FIND A BETTER FILTER
                 continue
-            content.append((item.bounding, item))
+            content.append((item.bounding, item, page.height, page.page))
         result.append(content)
     return result
