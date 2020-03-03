@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 import math
+import typing
 
 import utila
 
@@ -98,7 +99,6 @@ def same_area_cluster(
         min_elements: int = 2,
         selector=None,
 ):
-
     if selector is None:
         selector = lambda x: x[0]
 
@@ -128,7 +128,42 @@ def same_area_cluster(
     return determine_cluster(todo, classificator, min_elements=min_elements)
 
 
-def determine_cluster(todo, classifier, min_elements=2):
+class Cluster:
+
+    def __init__(self, item):
+        self.content = [item] if item is not None else []
+        self.changed = True
+
+    def extend(self, cluster):
+        self.content.extend(cluster.content)
+        self.changed = True
+
+    @property
+    def center(self):
+        if self.changed:
+            self.update()
+            self.changed = False
+        return self.content[0]
+
+    def update(self):
+        pass
+
+    def __len__(self):
+        return len(self.content)
+
+    def __getitem__(self, index):
+        return self.content[index]
+
+
+Clusters = typing.List[Cluster]
+
+
+def determine_cluster(
+        todo: list,
+        classifier: callable,
+        min_elements: int = 2,
+        ctor: Cluster = None,
+) -> Clusters:
     """Determine cluster out of `todo`.
 
     Sort clustered result by length of cluster descending.
@@ -136,10 +171,10 @@ def determine_cluster(todo, classifier, min_elements=2):
     assert min_elements >= 1, str(min_elements)
     if not todo:
         return []
-
+    if ctor is None:
+        ctor = Cluster
     # prepare cluster, a single element is a cluster
-    result = [[item] for item in todo]
-
+    result = [ctor(item) for item in todo]
     # Break when cluster does not change result
     # Cluster till cluster move does not change the result
     before = set()
@@ -154,32 +189,31 @@ def determine_cluster(todo, classifier, min_elements=2):
         before.add(hashid)
     # A cluster must have at least 2 items
     clusters = [item for item in result if len(item) >= min_elements]
-
     clusters = sorted(clusters, key=len, reverse=True)
     return clusters
 
 
-def match(clusters, current, classifier) -> bool:
-    for clusterindex, cluster in enumerate(clusters):
-        matched = (all((classifier(
-            candidat=test,
-            clusteritem=clusteritem,
-        ) for test in current)) for clusteritem in cluster)
-        if all(matched):
-            return clusterindex
+def match(cluster: Cluster, todo: Clusters, classifier: callable) -> int:
+    for clusterindex, candiat in enumerate(todo):
+        matched = classifier(
+            candidat=candiat.center,
+            clusteritem=cluster.center,
+        )
+        if not matched:
+            continue
+        return clusterindex
     return None
 
 
-def clusterme(clusters, classifier):
-    clusters, todo = clusters[0], clusters[1:]
-    if not isinstance(clusters[0], list):
-        clusters = [clusters]
+def clusterme(clusters: Clusters, classifier: callable) -> Clusters:
+    current, todo = clusters[0], clusters[1:]
+    result = [current]
     while todo:
-        current = todo.pop()
-        index = match(clusters, current, classifier)
+        test = todo.pop()
+        index = match(test, result, classifier)
         if index is None:
             # No match, create new cluster
-            clusters.insert(0, current)
+            result.insert(0, test)
         else:
-            clusters[index].extend(current)
-    return clusters
+            result[index].extend(test)
+    return result

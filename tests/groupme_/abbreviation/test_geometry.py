@@ -28,12 +28,7 @@ def bachelor37():
     pytest.param(tests.resources.BACHELOR37, 1, 26, id='bachelor37_abbrev'),
     pytest.param(tests.resources.BACHELOR37, 2, 10, id='bachelor37_figure'),
     pytest.param(tests.resources.HOMEWORK50, 6, 0, id='homework50'),
-    pytest.param(
-        tests.resources.MASTER116,
-        96,
-        8,
-        id='master116',
-        marks=pytest.mark.xfail(reason='improve strategy')),
+    pytest.param(tests.resources.MASTER116, 96, 8, id='master116'),
 ])
 def test_abbreviation_parse_strategy_geometry(source, pages, expected):
     content = serializeraw.create_pagetextnavigators_frompath(
