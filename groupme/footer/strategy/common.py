@@ -70,8 +70,8 @@ def cluster_pages(pagenavigators):
         for (page, (bounding, text, pageheight, pagenumber)) in cluster:
             end = utila.roundme(bounding.y1 / pageheight)
             try:
-                result[page].append(iamraw.RawText(text=text))
-                result[page].extend(end=end)
+                result[pagenumber].append(iamraw.RawText(text=text))
+                result[pagenumber].extend(end=end)
             except KeyError:
                 # remove newline at end TODO: REMOVE LATER
                 text = text.text.strip()
@@ -81,7 +81,7 @@ def cluster_pages(pagenavigators):
                     page=iamraw.PageInformation(value=page, raw=None),
                     undefined=[iamraw.RawText(text=text)]  # pylint:disable=E1101
                 )
-                result[page] = header
+                result[pagenumber] = header
     result = [(item, result[item]) for item in sorted(result.keys())]
     return result
 
