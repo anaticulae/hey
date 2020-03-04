@@ -26,6 +26,11 @@ import typing
 import texmex
 import utila
 
+import groupme.utils.alpha
+
+# TODO: REPLACE AFTER UPGRADING TEXMEX/IAMRAW
+texmex.alpha = groupme.utils.alpha
+
 
 # TODO: MOVE TO IAMRAW
 @dataclasses.dataclass
@@ -40,6 +45,10 @@ class Abbreviation:
     short: str = None
     description: str = None
     position: AbbreviationPosition = None
+
+    def __lt__(self, item):
+        return (texmex.alpha.replace(self.short).lower() <=
+                texmex.alpha.replace(item.short).lower())
 
 
 Abbreviations = typing.List[Abbreviation]
