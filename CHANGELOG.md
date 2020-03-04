@@ -2,6 +2,21 @@
 
 Every noteable change is logged here.
 
+## v1.17.2
+
+### Feature
+
+* make abbreviation sortable (b3e7c93de81b)
+* add method to sort words alphabetically (3a3164644493)
+* introduce Cluster to formalize clustering (fd8cbedf6f58)
+* use navigators page number to support selective processing (6b423f7f76ff)
+* ensure that min elements is less one (e461df72629f)
+* add minimal feature count (76ff8bb4e2b0)
+
+### Fix
+
+* avoid selecting empty page height (2681a016ad5c)
+
 ## v1.17.1
 
 ### Feature
