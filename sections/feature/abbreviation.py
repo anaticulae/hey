@@ -17,46 +17,32 @@ for selective words "Abkuerzungsverzeichnis, ...".
 NOTE: This approach is only for demo time.
 """
 
-import iamraw
-import serializeraw
 import texmex
-import utila
 
 import sections.feature
+import sections.utils.spa
 import sections.utils.text
 
 TITLE = ['Abkürzungsverzeichnis']
 
 
 def work(document: str, position: str, pages=None) -> str:
-    # load and setup
-    pages = tuple(pages) if pages else None
-    document = serializeraw.load_document(document, pages=pages)
-    position = serializeraw.load_textpositions(position, pages=pages)
-
-    navigators = texmex.create_pagetextnavigators(
-        text=document,
-        text_positions=position,
-        # fill_empty=False,
+    data = sections.utils.spa.Data(
+        document=document,
+        position=position,
+        pages=pages,
     )
-    # TODO: REMOVE AFTER UPGRADING IAMRAW, add fill_empty=False
-    navigators = [
-        item for item in navigators if not utila.should_skip(item.page, pages)
-    ]
 
-    result = {page.page: analyse_page(page) for page in navigators}
+    config = sections.utils.spa.Config(
+        likelihood_name='abbrviation_table',
+        page_analysis=analyse_page,
+    )
 
-    uniformed = sections.feature.uniform_result(result)
+    dumped = sections.utils.spa.work(
+        data=data,
+        config=config,
+    )
 
-    likelihood = [
-        iamraw.PageContentLikelihood(
-            page=page,
-            content=iamraw.Likelihood(value, 'abbreviation_table'),
-        ) for page, value in uniformed.items()
-    ]
-
-    # write result
-    dumped = serializeraw.dump_likelihood(likelihood)
     return dumped
 
 
