@@ -6,18 +6,24 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+# TODO: MOVE TO UTILA
+import typing
 
 import iamraw
+import texmex
 import utila
 
+Count = int
+Page = int
+StatisticalResultItem = typing.Tuple[texmex.Occurrence, Count]  # number
+StatisticalResult = typing.Dict[Page, StatisticalResultItem]
 
-def uniform_result(items) -> iamraw.PageContentLikelihoods:
-    # List[Item, Selector]
-    # likelihood = Selector / Item
 
+def uniform_result(items: StatisticalResult) -> iamraw.PageContentLikelihoods:
+    assert isinstance(items, dict), type(items)
     values = items.values()
     max_features = sum([feature for _, feature in values])
-    if max_features == 0:
+    if not max_features:
         # no potential feature in document
         return {page: 0.0 for page in items}
 

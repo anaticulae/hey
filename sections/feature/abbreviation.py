@@ -17,8 +17,6 @@ for selective words "Abkuerzungsverzeichnis, ...".
 NOTE: This approach is only for demo time.
 """
 
-import typing
-
 import iamraw
 import serializeraw
 import texmex
@@ -28,9 +26,6 @@ import sections.feature
 import sections.utils.text
 
 TITLE = ['Abkürzungsverzeichnis']
-
-# TODO: REPLACE
-PageResult = typing.Tuple[texmex.Occurrence, int]  # number
 
 
 def work(document: str, position: str, pages=None) -> str:
@@ -65,7 +60,8 @@ def work(document: str, position: str, pages=None) -> str:
     return dumped
 
 
-def analyse_page(navigator: texmex.PageTextNavigator) -> PageResult:
+def analyse_page(navigator: texmex.PageTextNavigator
+                ) -> sections.feature.StatisticalResultItem:
     result = []
     if not is_abbreviation_table_statistical(navigator):
         return (0, 0.0)
