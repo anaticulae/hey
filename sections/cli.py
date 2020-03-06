@@ -38,6 +38,14 @@ WORKPLAN = [
         output=('likelihood',),
     ),
     step(
+        'legal',
+        inputs=[
+            ResultFile('rawmaker', 'text_text'),
+            ResultFile('rawmaker', 'text_positions'),
+        ],
+        output=('likelihood',),
+    ),
+    step(
         'toc',
         inputs=[
             ResultFile('rawmaker', 'oneline_text_text'),

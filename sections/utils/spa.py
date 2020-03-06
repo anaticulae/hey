@@ -47,7 +47,6 @@ def work(data: Data, config: Config) -> str:
     pages = tuple(data.pages) if data.pages else None
     text = serializeraw.load_document(data.document, pages=pages)
     textposition = serializeraw.load_textpositions(data.position, pages=pages)
-
     navigators = texmex.create_pagetextnavigators(
         text=text,
         text_positions=textposition,
@@ -57,7 +56,6 @@ def work(data: Data, config: Config) -> str:
     navigators = [
         item for item in navigators if not utila.should_skip(item.page, pages)
     ]
-
     result = {page.page: page_analysis(page) for page in navigators}
 
     uniformed = sections.feature.uniform_result(result)
