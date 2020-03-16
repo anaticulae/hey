@@ -1,0 +1,54 @@
+.. _1_18_0:
+
+RP 1.18.0
+=========
+
+detector - literature
+---------------------
+
+* [ ] add literatur parser
+
+* [ ] add oneline literature
+
+* [ ] two column latex
+
+* [ ] verify with two examples
+
+titlepage
+---------
+
+* [ ] enable page selection
+
+fix
+---
+
+* [ ] do not split likelihood for multi page tocs
+
+    .. code-block:: yaml
+
+        - content:
+          - name: toc
+            value: 0.26
+          page: 1
+        - content:
+          - name: toc
+            value: 0.37
+          page: 2
+        - content:
+          - name: toc
+            value: 0.22
+          page: 3
+
+maintenance
+-----------
+
+* [ ] increase code coverage
+
+code quality
+------------
+
+before
+~~~~~~
+
+* Total coverage: 91.17%
+* Your code has been rated at 9.81/10
