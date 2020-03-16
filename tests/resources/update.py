@@ -40,14 +40,15 @@ def extract_examples():
 # yapf:disable
 PACKAGE = [
     (tests.resources.BACHELOR111_PDF, tests.resources.BACHELOR111, None),
+    (tests.resources.BACHELOR37_PDF, tests.resources.BACHELOR37, '0:30'),
     (tests.resources.HOWTO_ARGPARSE_PDF, tests.resources.HOWTO_ARGPARSE, None),
     (tests.resources.HOWTO_PYPORTING_PDF, tests.resources.HOWTO_PYPORTING, None),
+    (tests.resources.LEFTRIGHT_PDF, tests.resources.LEFTRIGHT, None),
     (tests.resources.MASTER72_PDF, tests.resources.MASTER72, None),
     (tests.resources.PYPORTING_PDF, tests.resources.PYPORTING, None),
     (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT, None),
     (tests.resources.TECHNICAL24_PDF, tests.resources.TECHNICAL24, None),
     (tests.resources.TWINE_PDF, tests.resources.TWINE, None),
-    (tests.resources.BACHELOR37_PDF, tests.resources.BACHELOR37, '0:30'),
 ]
 SINGLE = [
     (tests.resources.BACHELOR56_PDF, tests.resources.BACHELOR56, '0:10'),

@@ -43,6 +43,14 @@ WORKPLAN = [
         output=('area',),
     ),
     step(
+        'border',
+        inputs=[
+            ResultFile(producer='rawmaker', name='border_pages'),
+            ResultFile(producer='rawmaker', name='text_positions'),
+        ],
+        output=('leftright',),
+    ),
+    step(
         'distance',
         inputs=[
             ResultFile(producer='groupme', name='area_area'),

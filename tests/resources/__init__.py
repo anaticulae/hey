@@ -16,6 +16,7 @@ import hey.example
 RESOURCES = os.path.join(hey.ROOT, 'tests/resources')
 
 BACHELOR = os.path.join(RESOURCES, 'bachelor')
+BOOK = os.path.join(RESOURCES, 'book')
 DOCU = os.path.join(RESOURCES, 'docu')
 HOMEWORK = os.path.join(RESOURCES, 'homework')
 MASTER = os.path.join(RESOURCES, 'master')
@@ -87,6 +88,12 @@ MASTER78_PDF = os.path.join(MASTER, 'page_78_images_toc.pdf')
 HOMEWORK50 = os.path.join(GENERATED, 'homework_page_50_math')
 HOMEWORK50_PDF = os.path.join(HOMEWORK, 'page_50_math.pdf')
 
+LEFTRIGHT_PDF = os.path.join(BOOK, 'leftright.pdf')
+LEFTRIGHT = os.path.join(
+    GENERATED,
+    'book_leftright',
+)
+
 NO_TITLE_EXAMPLE = [
     BACHELOR111_PDF,
     HOWTO_PYPORTING_PDF,
@@ -118,6 +125,8 @@ REQURIED_RESOURCES = [
     HOWTO_ARGPARSE_PDF,
     HOWTO_PYPORTING,
     HOWTO_PYPORTING_PDF,
+    LEFTRIGHT,
+    LEFTRIGHT_PDF,
     MASTER116,
     MASTER116_PDF,
     MASTER72,

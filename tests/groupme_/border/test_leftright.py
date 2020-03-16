@@ -1,0 +1,91 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2020 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+
+import serializeraw
+
+import groupme.border.leftright
+import hey.path
+import tests.resources
+
+
+def load_example(path: str):
+    # TODO: USE ONELINE?
+    textpositions = serializeraw.load_textpositions(hey.path.textposition(path))
+    pagesizes = serializeraw.load_pageborders(hey.path.sizeandborder(path))
+    return textpositions, pagesizes
+
+
+def load_leftright(path: str):
+    textpositions, pagesizes = load_example(path)
+    left, right = groupme.border.leftright.determine_pageborder(
+        textpositions,
+        pagesizes,
+    )
+    return left, right
+
+
+def test_leftright_run():
+    """Detect book-like document with different border for left and
+    right page."""
+    left, right = load_leftright(tests.resources.LEFTRIGHT)
+    result = groupme.border.leftright.simple(left, right)
+    assert result.valid, result
+    assert isinstance(result.left, tuple), result
+    assert isinstance(result.right, tuple), result
+
+
+def test_leftright_run_noleftright():
+    """Ensure that document with single page layout has no different
+    border for left and right but only a single border."""
+    textpositions, pagesizes = load_example(tests.resources.MASTER72)
+    result = groupme.border.leftright.run(textpositions, pagesizes)
+    assert result.valid is False, result
+    # ensure that left border is more left then right
+    assert result.left < result.right, result
+
+
+def test_leftright_one_error():
+    """Introduce error to challenge algorithm."""
+    left, right = load_leftright(tests.resources.LEFTRIGHT)
+
+    left.append(left.pop(3))
+    right.append(right.pop(3))
+
+    result = groupme.border.leftright.raising(left, right)
+    assert result, result
+    assert result.valid, result
+    assert isinstance(result.left, tuple), result
+    assert isinstance(result.right, tuple), result
+
+
+def test_leftright_strategy_witherror():
+    """Run left right strategy with example which contains an error."""
+    left, right = load_example(tests.resources.LEFTRIGHT)
+
+    left, right = introduce_error(left, right)
+
+    result = groupme.border.leftright.run(left, right)
+    assert result, result
+    assert result.valid, result
+    assert isinstance(result.left, tuple), result
+    assert isinstance(result.right, tuple), result
+
+
+def introduce_error(left, right):
+    left, right = left[:], right[:]
+    # introduce an error
+    left.append(left.pop(3))
+    right.append(right.pop(3))
+
+    lresult, rresult = [], []
+    # fix page number - ensure to have ascending page numbers
+    for page, (first, second) in enumerate(zip(left, right)):
+        lresult.append(first._replace(page=page))  # pylint:disable=W0212
+        rresult.append(second._replace(page=page))  # pylint:disable=W0212
+    return lresult, rresult
