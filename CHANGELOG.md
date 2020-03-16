@@ -2,6 +2,14 @@
 
 Every noteable change is logged here.
 
+## v1.17.4
+
+### Feature
+
+* move leftright border detector from decider (19746141807f)
+* add legal step to detect location of Eidesstattliche Erklaerung (8bfb10ace75f)
+* improve type defintion (e4a5dac631ea)
+
 ## v1.17.3
 
 ## v1.17.2
