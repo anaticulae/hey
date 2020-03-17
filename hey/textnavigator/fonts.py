@@ -127,7 +127,7 @@ def textsize_from_page(navigator: texmex.PageTextNavigator) -> float:
             method=lambda x: x,  # do not filter anything
         )
         collected.extend(fontsizes)
-    return statistics.mode(collected)
+    return utila.modes(collected, minimize=True)
 
 
 def document_textfeed(
