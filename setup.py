@@ -72,6 +72,7 @@ if __name__ == "__main__":
             'groupme.utils',
             'hey',
             'hey.fonts',
+            'hey.geometry',
             'hey.text',
             'hey.textnavigator',
             'sections',
