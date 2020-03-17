@@ -19,12 +19,11 @@ from tests.resources.update import sync_resources
 
 pytest_plugins = ['pytester', 'xdist']  # pylint: disable=invalid-name
 
-# TODO: Ensure that tests waits before this process is ready
 
-if not 'PYTEST_XDIST_WORKER' in os.environ:
-    # master process only
-    # ensure to avoid race condition if more than one thread tries to
-    # install or use rawmaker
+def pytest_sessionstart(session):  # pylint:disable=W0613
+    if 'PYTEST_XDIST_WORKER' in os.environ:
+        # master process only
+        return
 
     if 'GENERATE' in os.environ or utila.test.LONGRUN:
         utila.log('install requirements')
@@ -37,9 +36,9 @@ if not 'PYTEST_XDIST_WORKER' in os.environ:
         utila.log('extract resources')
         extract_examples()
 
-CHECK = REQURIED_RESOURCES + NO_TITLE_GENERATED
+    check = REQURIED_RESOURCES + NO_TITLE_GENERATED
 
-for item in CHECK:
     advice = 'run `baw --test=generate` to generate test data'
-    msg = f'required test path does not exists: {item}, {advice}'
-    assert os.path.exists(item), msg
+    for item in check:
+        msg = f'required test path does not exists: {item}, {advice}'
+        assert os.path.exists(item), msg
