@@ -55,7 +55,7 @@ SINGLE = [
     (tests.resources.BACHELOR56_PDF, tests.resources.BACHELOR56, '0:10'),
     (tests.resources.HOMEWORK50_PDF, tests.resources.HOMEWORK50, '6'),
     (tests.resources.HOWTOWRITE9_PDF, tests.resources.HOWTOWRITE9, '0:10'),
-    (tests.resources.MASTER116_PDF, tests.resources.MASTER116, '0,1,2,3,4,96'),
+    (tests.resources.MASTER116_PDF, tests.resources.MASTER116, '0,1,2,3,4,96,97,98,99,100'),
     (tests.resources.MASTER89_PDF, tests.resources.MASTER89, '0:50'),
 ]
 
