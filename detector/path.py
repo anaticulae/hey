@@ -10,10 +10,10 @@
 import hey.path
 
 
-def literature_detected(path: str, prefix: str = '') -> str:
+def bibliography_detected(path: str, prefix: str = '') -> str:
     return hey.path.pathconnector(
         path,
         'detector',
-        'literature_detected',
+        'bibliography_detected',
         prefix,
     )

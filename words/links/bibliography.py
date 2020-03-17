@@ -63,17 +63,17 @@ class LLPages:
 
 
 @dataclasses.dataclass
-class LiteratureLink:
+class BibliographyLink:
     author: str = None
     year: int = None
     pages: int = None
     raw: str = None
 
 
-LiteratureLinks = typing.List[LiteratureLink]
+BibliographyLinks = typing.List[BibliographyLink]
 
 
-def parse(raw: str) -> LiteratureLinks:
+def parse(raw: str) -> BibliographyLinks:
     result = []
 
     for current in [PATTERN, AUTHOR_AND_YEAR]:
@@ -82,7 +82,7 @@ def parse(raw: str) -> LiteratureLinks:
     return result
 
 
-def _parse(raw: str, pattern) -> LiteratureLinks:
+def _parse(raw: str, pattern) -> BibliographyLinks:
     matched = re.finditer(pattern, raw, re.VERBOSE)
     if not matched:
         return []
@@ -95,7 +95,7 @@ def _parse(raw: str, pattern) -> LiteratureLinks:
             pages = item['pages']
         except IndexError:
             pages = None
-        link = LiteratureLink(
+        link = BibliographyLink(
             author=author,
             year=year,
             pages=pages,

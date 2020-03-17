@@ -9,7 +9,7 @@
 
 import pytest
 
-import detector.literature.data
+import detector.bibliography.data
 import detector.path
 import tests.detector_
 import tests.resources
@@ -19,11 +19,17 @@ import tests.resources
     pytest.param(tests.resources.BACHELOR63, '59', 12, id='bachelor63'),
     pytest.param(tests.resources.MASTER116, '97,98,99,100', 46, id='master116'),
 ])
-def test_detector_literature_run(source, pages, expected, testdir, monkeypatch):  #pylint: disable=W0613
+def test_detector_bibliography_run(
+        source,
+        pages,
+        expected,
+        testdir,
+        monkeypatch,
+):  #pylint: disable=W0613
     root = testdir.tmpdir
-    command = f'-i {source} -o {root} --literature --pages={pages}'
+    command = f'-i {source} -o {root} --bibliography --pages={pages}'
     tests.detector_.run_detector_success(command, monkeypatch=monkeypatch)
 
-    outpath = detector.path.literature_detected(root)
-    loaded = detector.literature.data.load_literature_reference(outpath)
+    outpath = detector.path.bibliography_detected(root)
+    loaded = detector.bibliography.data.load_bibliography_reference(outpath)
     assert len(loaded) == expected, str(loaded)

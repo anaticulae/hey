@@ -15,7 +15,7 @@ import yaml
 
 
 @dataclasses.dataclass(unsafe_hash=True)
-class LiteratureReference:
+class BibliographyReference:
 
     reference: str = None
     data: str = None
@@ -25,15 +25,15 @@ class LiteratureReference:
     authors: typing.List[str] = dataclasses.field(default_factory=list)
 
 
-LiteratureReferences = typing.List[LiteratureReference]
+BibliographyReferences = typing.List[BibliographyReference]
 
 
-def dump_literature_reference(references: LiteratureReferences) -> str:
+def dump_bibliography_reference(references: BibliographyReferences) -> str:
     dumped = yaml.dump(references)
     return dumped
 
 
-def load_literature_reference(content: str) -> LiteratureReferences:
+def load_bibliography_reference(content: str) -> BibliographyReferences:
     content = utila.from_raw_or_path(content, ftype='yaml')
     loaded = yaml.load(content, Loader=yaml.FullLoader)
     return loaded

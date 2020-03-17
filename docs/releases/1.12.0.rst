@@ -14,7 +14,7 @@ Text
 ----
 
 * [x] enable iterating text/chapter/section/paragraph/sentence/word/char
-  to extract `literature links` and `footlinks`.
+  to extract `bibliography links` and `footlinks`.
 
 Footlink
 --------

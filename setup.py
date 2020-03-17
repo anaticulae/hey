@@ -59,7 +59,7 @@ if __name__ == "__main__":
         packages=[
             'detector',
             'detector.feature',
-            'detector.literature',
+            'detector.bibliography',
             'detector.parser',
             'groupme',
             'groupme.abbreviation',

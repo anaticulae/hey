@@ -14,7 +14,7 @@ There are 2 supported types of footnotes:
 
   - "Aus Gründen der besseren Lesbarkeit wird hier und im "
 
-- literature:
+- bibliography:
 
   - "s. Berg 2013: 2"
   - "Gero von Randow, zeit.de, 19.1.2007"

@@ -6,10 +6,10 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""Literature Link
-===============
+"""Bibliography Link
+=================
 
-This module enables to parse links to the literature sources out of text
+This module enables to parse links to the bibliography sources out of text
 flow.
 
 See `footlink`.
@@ -52,9 +52,9 @@ Numbers
 Location
 --------
 
-There are 2 location where literature links can be located. On the one
+There are 2 location where bibliography links can be located. On the one
 hand there can stand in the floating text to reference sentences or
-pargraph. On the other hand footer can contain list of literature links
+pargraph. On the other hand footer can contain list of bibliography links
 
 """
 

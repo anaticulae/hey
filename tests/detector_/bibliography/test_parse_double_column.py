@@ -9,11 +9,11 @@
 
 import serializeraw
 
-import detector.literature.column
+import detector.bibliography.column
 import tests.resources
 
 
-def test_parse_literature_bachelor63_page59():
+def test_parse_bibliography_bachelor63_page59():
     """Latex double column. Left side with [Hem10] pattern"""
     pages = (59)
     navigators = serializeraw.create_pagetextnavigators_frompath(
@@ -21,5 +21,5 @@ def test_parse_literature_bachelor63_page59():
         # fill_empty=False,
         pages=pages,
     )
-    parsed = detector.literature.column.extracts(navigators)
+    parsed = detector.bibliography.column.extracts(navigators)
     assert len(parsed) == 12, str(parsed)

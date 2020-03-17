@@ -35,7 +35,7 @@ The following sections are planned to be supported:
     * Appendix
         * Resources
         * Link
-        * Literature
+        * Bibliography
 """
 
 import os

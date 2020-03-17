@@ -10,8 +10,8 @@
 import serializeraw
 import texmex
 
-import detector.literature.data
-import detector.literature.strategy
+import detector.bibliography.data
+import detector.bibliography.strategy
 
 
 def work(
@@ -26,7 +26,7 @@ def work(
 
     pagetextnavigators = texmex.create_pagetextnavigators(text, textpositions)
 
-    extracted = detector.literature.strategy.extracts(pagetextnavigators)
+    extracted = detector.bibliography.strategy.extracts(pagetextnavigators)
 
-    dumped = detector.literature.data.dump_literature_reference(extracted)
+    dumped = detector.bibliography.data.dump_bibliography_reference(extracted)
     return dumped

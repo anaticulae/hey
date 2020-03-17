@@ -3,12 +3,12 @@
 RP 1.18.0
 =========
 
-detector - literature
+detector - bibliography
 ---------------------
 
 * [ ] add literatur parser
 
-* [ ] add oneline literature
+* [ ] add oneline bibliography
 
 * [ ] two column latex
 

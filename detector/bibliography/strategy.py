@@ -9,9 +9,9 @@
 
 import texmex
 
-import detector.literature.column
+import detector.bibliography.column
 
 
 def extracts(items: texmex.PageTextNavigators):
-    extracted = detector.literature.column.extracts(items)
+    extracted = detector.bibliography.column.extracts(items)
     return extracted

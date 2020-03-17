@@ -9,7 +9,7 @@
 
 import texmex
 
-import detector.literature.data
+import detector.bibliography.data
 import hey.geometry.double_column
 
 
@@ -24,7 +24,7 @@ def extracts(items: texmex.PageTextNavigators):
 
 
 def extract(content: texmex.PageTextNavigator,
-           ) -> detector.literature.data.LiteratureReferences:
+           ) -> detector.bibliography.data.BibliographyReferences:
     parsed = hey.geometry.double_column.parse_page(content)
     if parsed is None:
         return None
@@ -36,7 +36,7 @@ def extract(content: texmex.PageTextNavigator,
         reference = remove_bracket_angle(reference)
         data = item[1].strip()
         result.append(
-            detector.literature.data.LiteratureReference(
+            detector.bibliography.data.BibliographyReference(
                 reference=reference,
                 data=data,
             ))
