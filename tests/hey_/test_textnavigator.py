@@ -21,6 +21,8 @@ from tests.fixtures.simple import simple_pagetextnavigators
 from tests.fixtures.simple import simple_second_page_navigator
 from tests.groupme_ import navigator  # pylint:disable=W0611
 
+# TODO: MOVE TO TEXMEX TESTS
+
 
 def test_insert_order(navigator: texmex.PageTextNavigator):  #pylint:disable=W0621
     for before, after in zip(navigator[:-1], navigator[1:]):
