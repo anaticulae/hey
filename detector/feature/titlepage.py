@@ -60,11 +60,10 @@ import detector.titlepage
 
 # TODO: MOVE TO MORE GENERAL POSITION
 # TODO: check 0.1, use a higher number?
-RAWMAKER_CONFIGURATION = ('--prefix=oneline '
-                          '--font --text --toc '
-                          '--boxes_flow=1.0 '
-                          '--char_margin=100.0 '
-                          '--line_margin=0.0001')
+RAWMAKER_CONFIGURATION = (
+    '--prefix=oneline '
+    '--font --text --toc '
+    '--boxes_flow=1.0 --char_margin=100.0 --line_margin=0.0001')
 
 # Include first 5 pages into TitlePage detection
 SELECTED_PAGES = (0, 1, 2, 3, 4)
