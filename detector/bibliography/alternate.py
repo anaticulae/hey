@@ -12,12 +12,11 @@ import re
 import texmex
 import utila
 
-import detector.bibliography.data
+import detector.bibliography.data as dbd
 import hey.geometry.alternate
 
 
-def extracts(items: texmex.PageTextNavigators,
-            ) -> detector.bibliography.data.BibliographyReferences:
+def extracts(items: texmex.PageTextNavigators) -> dbd.BibliographyReferences:
     result = []
     for item in items:
         extracted = extract(item)
@@ -27,8 +26,7 @@ def extracts(items: texmex.PageTextNavigators,
     return result
 
 
-def extract(content: texmex.PageTextNavigator,
-           ) -> detector.bibliography.data.BibliographyReferences:
+def extract(content: texmex.PageTextNavigator,) -> dbd.BibliographyReferences:
     parsed = hey.geometry.alternate.parse_page(content)
     if parsed is None:
         return None
@@ -36,11 +34,7 @@ def extract(content: texmex.PageTextNavigator,
     for group in parsed:
         raw = connect_text([item.text for item in group])
         reference, data = split_bibliography(raw)
-        result.append(
-            detector.bibliography.data.BibliographyReference(
-                reference=reference,
-                data=data,
-            ))
+        result.append(dbd.BibliographyReference(reference=reference, data=data))
     return result
 
 
