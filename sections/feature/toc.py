@@ -63,7 +63,10 @@ def analyse_page(page) -> float:
     content = page.text.splitlines()
     linecount = len(content)
 
-    possible_toc_line = len([line for line in content if line.count('. .') > 3])
+    possible_toc_line = len([
+        line for line in content
+        if line.count('. .') > 3 or line.count('..') > 3
+    ])
 
     # likelihood = possible_toc_line / linecount if linecount else 0.0
     return linecount, possible_toc_line
