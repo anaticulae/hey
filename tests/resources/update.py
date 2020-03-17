@@ -41,7 +41,7 @@ def extract_examples():
 PACKAGE = [
     (tests.resources.BACHELOR111_PDF, tests.resources.BACHELOR111, None),
     (tests.resources.BACHELOR37_PDF, tests.resources.BACHELOR37, '0:30'),
-    (tests.resources.BACHELOR63_PDF, tests.resources.BACHELOR63, '0,1,2,3,4,59,60,61'),
+    (tests.resources.BACHELOR63_PDF, tests.resources.BACHELOR63, '0,1,2,3,4,5,6,7,8,59,60,61'),
     (tests.resources.HOWTO_ARGPARSE_PDF, tests.resources.HOWTO_ARGPARSE, None),
     (tests.resources.HOWTO_PYPORTING_PDF, tests.resources.HOWTO_PYPORTING, None),
     (tests.resources.LEFTRIGHT_PDF, tests.resources.LEFTRIGHT, None),
