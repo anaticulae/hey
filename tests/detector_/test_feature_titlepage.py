@@ -137,7 +137,7 @@ def test_detector_feature_titlepage_complete(
 def parse_titlepages(path: str, pages: tuple = None):
     navigators = serializeraw.create_pagetextnavigators_frompath(
         path, pages=pages)
-    parsed = detector.feature.titlepage.parse_titlepages(navigators)
+    parsed = detector.feature.titlepage.parse_titlepages(navigators, pages)
     return parsed
 
 
@@ -184,7 +184,7 @@ def test_detector_feature_titlepage_parse_titlepage_negative(pages):
         selected = utila.select_page(navigators, page=page)
         parsed = detector.feature.titlepage.parse_titlepages(
             navigators=[selected],
-            selected=[page],
+            pages=[page],
         )
         selected = detector.titlepage.select_best(parsed)
         assert not selected, str(f'page: {page}\n{selected}')

@@ -17,7 +17,7 @@ detector - bibliography
 titlepage
 ---------
 
-* [ ] enable page selection
+* [x] enable page selection
 
 fix
 ---

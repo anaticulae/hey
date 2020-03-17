@@ -67,14 +67,17 @@ RAWMAKER_CONFIGURATION = ('--prefix=oneline '
                           '--line_margin=0.0001')
 
 # Include first 5 pages into TitlePage detection
-SELECTED_PAGES = tuple(range(5))  # TODO: HOLY VALUE
+SELECTED_PAGES = (0, 1, 2, 3, 4)
 
 
-def work(text: str, text_positions: str) -> str:
-    text = serializeraw.load_document(text, pages=SELECTED_PAGES)
+def work(text: str, text_positions: str, pages: tuple = None) -> str:
+    if pages is None:
+        # first five pages
+        pages = SELECTED_PAGES
+    text = serializeraw.load_document(text, pages=pages)
     text_positions = serializeraw.load_textpositions(
         text_positions,
-        pages=SELECTED_PAGES,
+        pages=pages,
     )
 
     navigators = texmex.create_pagetextnavigators(
@@ -82,20 +85,19 @@ def work(text: str, text_positions: str) -> str:
         text_positions,
     )
 
-    parsed = parse_titlepages(navigators)
+    parsed = parse_titlepages(navigators, pages)
     best = detector.titlepage.select_best(parsed)
 
     dumped = serializeraw.dump_titlepage(best)
     return dumped
 
 
-def parse_titlepages(
-        navigators: texmex.PageTextNavigators,
-        selected=SELECTED_PAGES,
-):
+def parse_titlepages(navigators: texmex.PageTextNavigators, pages=None):
+    if not pages:
+        pages = SELECTED_PAGES
     result = []
-    for index in selected:
-        navigator = utila.select_page(navigators, page=index)
+    for page in pages:
+        navigator = utila.select_page(navigators, page=page)
         if navigator is None:
             # white page
             parsed = None
