@@ -9,9 +9,20 @@
 
 import texmex
 
+import detector.bibliography.alternate
 import detector.bibliography.column
+import detector.bibliography.data
 
 
-def extracts(items: texmex.PageTextNavigators):
-    extracted = detector.bibliography.column.extracts(items)
-    return extracted
+def extracts(
+        text: texmex.PageTextNavigators,
+        text_oneline: texmex.PageTextNavigators,
+) -> detector.bibliography.data.BibliographyReferences:
+    column = detector.bibliography.column.extracts(text)
+    alternate = detector.bibliography.alternate.extracts(text_oneline)
+
+    if (len(alternate) / 2) > len(column):
+        # alternate extracts a lot of more possible bibs, therefore we
+        # have to punish the number of results. HolyValue: 0.5
+        return alternate
+    return column

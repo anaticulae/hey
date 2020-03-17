@@ -24,9 +24,25 @@ def work(
     text = serializeraw.load_document(text, pages=pages)
     textpositions = serializeraw.load_textpositions(textpositions, pages=pages)
 
-    pagetextnavigators = texmex.create_pagetextnavigators(text, textpositions)
+    oneline_text = serializeraw.load_document(oneline_text, pages=pages)
+    oneline_textpositions = serializeraw.load_textpositions(
+        oneline_textpositions,
+        pages=pages,
+    )
 
-    extracted = detector.bibliography.strategy.extracts(pagetextnavigators)
+    textnavigators = texmex.create_pagetextnavigators(
+        text,
+        textpositions,
+    )
+    onelines = texmex.create_pagetextnavigators(
+        oneline_text,
+        oneline_textpositions,
+    )
+
+    extracted = detector.bibliography.strategy.extracts(
+        textnavigators,
+        onelines,
+    )
 
     dumped = detector.bibliography.data.dump_bibliography_reference(extracted)
     return dumped

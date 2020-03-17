@@ -6,11 +6,11 @@ RP 1.18.0
 detector - bibliography
 ---------------------
 
-* [ ] add literatur parser
+* [x] add literatur parser
 
-* [ ] add oneline bibliography
+* [x] add oneline bibliography
 
-* [ ] two column latex
+* [x] two column latex
 
 * [ ] verify with two examples
 
