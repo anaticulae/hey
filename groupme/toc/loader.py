@@ -36,7 +36,6 @@ def load(
         sizeandborder,
         pages=pages,
     )
-
     navigators = texmex.create_pagetextcontentnavigators(
         navigators=navigators,
         headerfooter=headerfooter,
