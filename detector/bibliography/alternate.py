@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import contextlib
 import re
 
 import texmex
@@ -44,13 +45,14 @@ PREFIX = r'^\[(?P<label>[\w\d]+)\][ ]?(?P<text>.+)'
 
 def split_bibliography(raw: str):
     raw = raw.strip()
-    reference, data = None, None
+    reference, data = None, raw
 
     matched = re.match(PREFIX, raw)
     if matched:
         return matched['label'], matched['text']
 
-    reference, data = raw.split(maxsplit=1)
+    with contextlib.suppress(ValueError):
+        reference, data = raw.split(maxsplit=1)
     return reference, data
 
 
