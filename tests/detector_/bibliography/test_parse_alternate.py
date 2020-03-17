@@ -10,21 +10,21 @@
 import pytest
 import serializeraw
 
-import hey.geometry.alternate
+import detector.bibliography.column
 import tests.resources
 
 
-@pytest.mark.parametrize('page, expected', [
+@pytest.mark.parametrize('pages, expected', [
     (97, 14),
     (98, 14),
     (99, 15),
     (100, 3),
 ])
-def test_parse_alternate_master116_page_x(page, expected):
+def test_parse_bibliography_master116_page_x(pages, expected):
     navigators = serializeraw.create_pagetextnavigators_frompath(
         tests.resources.MASTER116,
         prefix='oneline',
-        pages=page,
+        pages=pages,
     )
-    parsed = hey.geometry.alternate.parse_page(navigators[0])
+    parsed = detector.bibliography.alternate.extracts(navigators)
     assert len(parsed) == expected, str(parsed)
