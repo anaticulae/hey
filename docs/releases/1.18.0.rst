@@ -22,7 +22,7 @@ titlepage
 fix
 ---
 
-* [ ] do not split likelihood for multi page tocs
+* [x] do not split likelihood for multi page tocs
 
     .. code-block:: yaml
 

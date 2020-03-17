@@ -39,6 +39,9 @@ def extract_toc_likelihood(document: iamraw.Document) -> typing.List[float]:
     result = {page.page: analyse_page(page) for page in document}
 
     uniformed = sections.feature.uniform_result(result)
+    multiformed = sections.feature.multiform_result(result)
+    if multiformed is not None:
+        uniformed = multiformed
     assert len(uniformed) == len(document)
 
     result = [

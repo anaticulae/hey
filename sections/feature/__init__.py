@@ -33,3 +33,44 @@ def uniform_result(items: StatisticalResult) -> iamraw.PageContentLikelihoods:
     # round to 2 digits
     result = {page: utila.roundme(item) for page, item in result.items()}
     return result
+
+
+def multiform_result(items):
+    """Use local likelihood for multiple feature pages.
+
+    Support multiple feature pages. If we have more than one feature
+    page, for example a toc which is expanded over three pages, the
+    relative likelihood for every page is splitted between these three
+    pages. See `uniform_result`. Therefore we need a different approach.
+
+    The following approach checks for multiple featurepages, if there is
+    only one page `None` as error is returned and we can use
+    `uniform_result` approach.
+    If we have multiple pages we compute the local likelihood for every
+    page and ignore pages which does not have at least the half of the
+    findings as the master page.
+
+    NOTE: BAD DOCS
+    TODO: What should we do with small feature pages?
+    """
+    assert isinstance(items, dict), type(items)
+    values = items.values()
+    max_features = sum([feature for _, feature in values])
+    if not max_features:
+        # no potential feature in document
+        return {page: 0.0 for page in items}
+
+    max_per_page = max([feature for _, feature in values])
+
+    double_max = 0.5 * max_per_page
+    multi_max = [feature for _, feature in values if feature >= double_max]
+    if len(multi_max) < 2:
+        # not enough multi form elements
+        return None
+    result = {
+        page: (feature / lines) if feature > double_max else 0.0
+        for page, (lines, feature) in items.items()
+    }
+    # round to 2 digits
+    result = {page: utila.roundme(item) for page, item in result.items()}
+    return result

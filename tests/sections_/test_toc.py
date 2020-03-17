@@ -30,4 +30,7 @@ def test_extract_toc_likelihood_bachelor63():
 
     extracted = sections.feature.toc.extract_toc_likelihood(text)
     extracted = [item.content.value for item in extracted]
-    assert sum(extracted) == pytest.approx(1.0)
+    likelihood = sum(extracted)
+    # table of content is spreaded over two pages. Therefore the
+    # likelihood must be higher than 1.0
+    assert likelihood > 1.5, str(likelihood)  # holy value
