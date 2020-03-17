@@ -24,8 +24,6 @@ def test_parse_column_bachelor63_page59():
 
     parsed = hey.geometry.double_column.parse_page(navigators[0])
     assert len(parsed) == 12, str(parsed)
-    # assert len(parsed[0]) == 12, str(parsed)
-    # assert len(parsed[1]) == 12, str(parsed)
 
 
 def test_parse_column_bachelor63_page59_all_columns():

@@ -38,8 +38,10 @@ def parse_page(page) -> list:
     (short_column, description_column), short_mark = split_bymarker(
         page, marker)
 
-    if overlapping_column(short_column, description_column):
+    overlapping = overlapping_column(short_column, description_column)
+    if overlapping:
         # TODO: EXTEND ERROR MESSAGE
+        utila.debug(overlapping)
         utila.error('could not analyze, columns are mixed/ambigous')
         return None
     adjusted = adjust_columns(
