@@ -30,7 +30,7 @@ def pytest_sessionstart(session):  # pylint:disable=W0613
         install_requirements()
 
         # ensure that all test resources exists
-        utila.log('synchronize test resources')
+        utila.log('synchronize resources')
         sync_resources()
 
         utila.log('extract resources')
