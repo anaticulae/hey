@@ -11,26 +11,24 @@ TODO:
     - support table of figures
               table of abbreviation
 """
-from typing import List
+import typing
 
 import iamraw
-from iamraw import Document
-from serializeraw import dump_likelihood
-from serializeraw import load_document
+import serializeraw
 
 import sections
 import sections.feature
 
 
 def work(text_linewise: str, pages=None) -> str:
-    document = load_document(text_linewise, pages=pages)
+    document = serializeraw.load_document(text_linewise, pages=pages)
 
     extracted = extract_toc_likelihood(document)
-    dumped = dump_likelihood(extracted)
+    dumped = serializeraw.dump_likelihood(extracted)
     return dumped
 
 
-def extract_toc_likelihood(document: Document) -> List[float]:
+def extract_toc_likelihood(document: iamraw.Document) -> typing.List[float]:
     """Iterate throw the document and determine the uniformed likelihood of
     beeing a table page
 
