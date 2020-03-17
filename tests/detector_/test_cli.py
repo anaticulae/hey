@@ -44,6 +44,6 @@ def test_detector_run_work(example, testdir, monkeypatch, capsys):  #pylint: dis
 
     # ensure that process write a file
     written = list(os.scandir(output))
-    assert len(written) == 1, str(written)
+    assert len(written) == 2, str(written)
 
     write_capsys(capsys)

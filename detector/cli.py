@@ -26,6 +26,16 @@ TITLEPAGE_OUTPUT = 'detected'
 
 WORKPLAN = [
     step(
+        'literature',
+        inputs=[
+            ResultFile('rawmaker', 'text_text'),
+            ResultFile('rawmaker', 'text_positions'),
+            ResultFile('rawmaker', 'oneline_text_text'),
+            ResultFile('rawmaker', 'oneline_text_positions'),
+        ],
+        output=(TITLEPAGE_OUTPUT,),
+    ),
+    step(
         TITLEPAGE_STEP,
         inputs=[
             ResultFile('rawmaker', 'oneline_text_text'),
