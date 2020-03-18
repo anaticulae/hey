@@ -61,6 +61,27 @@ def split_bibliography(raw: str):
     if matched:
         return matched['label'], matched['text']
 
+    reference, data = authordate_pattern(raw)
+    if reference:
+        return reference, data
+
     with contextlib.suppress(ValueError):
         reference, data = raw.split(maxsplit=1)
+    return reference, data
+
+
+def authordate_pattern(raw: str):
+    # TODO: SUPPORT HIGHNOTES
+    """Split author and date, separated with colon from further bib data.
+
+    >>> authordate_pattern('KUNCZIK, Michael/ZIPFEL, Astrid (52006): Gewalt'
+    ... ' und Medien. Ein Studienhandbuch. Köln [u.a.]: Böhlau.')
+    ('KUNCZIK, Michael/ZIPFEL, Astrid (52006)', 'Gewalt und Medien. ...
+    """
+    reference, data = None, raw
+    with contextlib.suppress(ValueError):
+        reference, data = raw.split(':', maxsplit=1)
+    if reference:
+        reference = reference.strip()
+    data = data.strip()
     return reference, data
