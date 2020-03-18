@@ -20,7 +20,7 @@ import tests.resources
     (99, 15),
     (100, 3),
 ])
-def test_parse_alternate_master116_page_x(page, expected):
+def test_parse_alternate_master116_page(page, expected):
     navigators = serializeraw.create_pagetextnavigators_frompath(
         tests.resources.MASTER116,
         prefix='oneline',
@@ -28,3 +28,35 @@ def test_parse_alternate_master116_page_x(page, expected):
     )
     parsed = hey.geometry.alternate.parse_page(navigators[0])
     assert len(parsed) == expected, str(parsed)
+
+
+def test_parse_alternate_master89_external_liningpoints():
+    """Page 80 has to few content items to determine the lining points.
+    Therefore the external lining points of page 79 are used to
+    determine the bibliograpy on page 80.
+    """
+    pages = (79, 80)
+    expected = (14, 1)
+    parsed = load_and_parse(pages)
+    for page_result, page_expected in zip(parsed, expected):
+        assert len(page_result) == page_expected, str(page_result)
+
+
+def test_parse_alternate_master89_external_liningpoints_single():
+    pages = 79
+    parsed = load_and_parse(pages)[0]
+    assert len(parsed) == 14, str(parsed)
+
+
+def load_and_parse(pages):
+    navigators = serializeraw.create_pagetextnavigators_frompath(
+        tests.resources.MASTER89,
+        prefix='oneline',
+        pages=pages,
+    )
+    config = hey.geometry.alternate.ParserConfig(
+        min_content_length=10,
+        min_word_count=4,
+    )
+    parsed = hey.geometry.alternate.parse_pages(navigators, config=config)
+    return parsed

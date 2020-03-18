@@ -17,6 +17,14 @@ text which differs to much from standard text size.
 Currently we compute the most 2 text feed groups. But in general we can
 extend this algorithm to more `lining points`.
 
+To few data on a single page
+----------------------------
+
+In some cases there can be to few data on a page to determine the lining
+points. This can happen if you have only one bibliography on the last
+bib page. In this case, we can use the lining points of pages parsed
+before.
+
 Requirements
 ------------
 
@@ -44,9 +52,12 @@ Example:
     SCHENK, Michael (32007): Medienwirkungsforschung. Tübingen: Mohr Siebeck.
 """
 
+import dataclasses
+
 import utila
 
 import hey.classificator
+import hey.text.utils
 import hey.textnavigator.fonts
 import hey.textnavigator.multiline
 
@@ -56,7 +67,36 @@ MAX_LINE_DIFF = 10
 MAX_TEXT_DIFF = 2.5
 
 
-def parse_page(page) -> list:
+@dataclasses.dataclass
+class ParserConfig:
+    min_word_count: int = 1
+    min_content_length: int = 1
+
+
+def parse_pages(pages, config: ParserConfig = None) -> list:
+    """Analyse multiple pages to extract alternating text.
+
+    If there is to few content for a page given, no local
+    `lining_points` can be determined. To solve this issue we determine
+    the global linings for all pages and parse the page with to few data
+    with them. We prefer local over global linings. The global linings
+    are only a backup.
+    """
+    if not config:
+        config = ParserConfig()
+    linings = external_lining_points(pages)
+    result = []
+    for page in pages:
+        try:
+            # prefer own lining points
+            parsed = parse_page(page, config=config)
+        except NoSingleLiningPoints:
+            parsed = parse_page(page, lining_points=linings, config=config)
+        result.append(parsed)
+    return result
+
+
+def parse_page(page, lining_points=None, config: ParserConfig = None) -> list:
     """Iterate through lines in document.
 
     A group is separated by an alternating text feed. We skip all
@@ -74,10 +114,13 @@ def parse_page(page) -> list:
     """
     if not page:
         return None
-    starts = group_line_start(page)
+    starts = group_line_start(page) if lining_points is None else lining_points
     if not starts:
-        utila.error('could not find any lining points')
-        return None
+        raise NoSingleLiningPoints('could not find enough lining points')
+
+    if not config:
+        config = ParserConfig()
+
     textsize = hey.textnavigator.fonts.textsize_from_page(page)
     result = []
     current = None
@@ -106,7 +149,38 @@ def parse_page(page) -> list:
             else:
                 # member of group
                 result[-1].append(line)
+
+    # remove items with to few content
+    result = [item for item in result if valid_content(item, config)]
     return result
+
+
+def external_lining_points(pages):
+    starts = [group_line_start(page) for page in pages]
+    # remove page without clear lining points
+    starts = [item for item in starts if item is not None]
+
+    starts = utila.flatten(starts)
+
+    clustered = hey.classificator.max_distance(
+        starts,
+        diff=MAX_LINE_DIFF,
+        min_elements=1,
+    )
+    starts = [item.center for item in clustered]
+    if len(starts) < 2:
+        raise NoMultipleLiningPoints
+    lining_points = [starts[0], starts[1]]
+    return lining_points
+
+
+def valid_content(item, config):
+    item = hey.text.utils.connect_text(item)
+    if len(item) < config.min_content_length:
+        return False
+    if len(item.split()) < config.min_word_count:
+        return False
+    return True
 
 
 def inside(starts, value):
@@ -127,3 +201,15 @@ def group_line_start(page):
     items = [item.center for item in clusters[0:2]]
     first, second = min(items), max(items)
     return first, second
+
+
+class AlternateGeometryException(ValueError):
+    pass
+
+
+class NoSingleLiningPoints(AlternateGeometryException):
+    pass
+
+
+class NoMultipleLiningPoints(AlternateGeometryException):
+    pass

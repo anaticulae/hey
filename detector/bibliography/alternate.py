@@ -54,14 +54,3 @@ def split_bibliography(raw: str):
     with contextlib.suppress(ValueError):
         reference, data = raw.split(maxsplit=1)
     return reference, data
-
-
-def connect_text(items) -> str:
-    items = [item.replace(utila.NEWLINE, ' ').strip() for item in items]
-    # replace trennung
-    items = [
-        item[0:-1] if item[-1] in ('-', chr(173)) else item for item in items
-    ]
-    raw = ''.join(items)
-    raw = raw.replace(utila.NEWLINE, ' ')
-    return raw
