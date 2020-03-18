@@ -2,6 +2,31 @@
 
 Every noteable change is logged here.
 
+## v1.18.0
+
+### Feature
+
+* extend pattern to split author/year and other data (52f5a6434d7c)
+* unite hurenkind over two pages correctly (1b19b081e553)
+* ensure to handle start with title item (8c552e07a812)
+* extend alternate approach to parse pages with few bibs (a6c67b9ed80f)
+* support global lining points (56fc67bc501e)
+* add approach to handle multi page likelihoods (ce944aaeac68)
+* extend section toc likelihood pattern (6711d4e999de)
+* enable shrink title page detector (734182618ea7)
+* add alternate strategy to bibliography parser (e05d720ba13e)
+* add bibliography extractor to support [HELM10]-pattern (281fd318e96e)
+* add alternate geometry parser (c8dd46119825)
+* extend strategy logging and remove unused code (62b6beaf3717)
+* add step to extract literature table (baaf6a5747be)
+* add path module to determine output path (a6393a4e9f00)
+* add double column layout parser (7eb365e01152)
+
+### Fix
+
+* solve multiple font (e68e55ee789e)
+* ensure to handle invalid bibs correctly (4da45366c5d7)
+
 ## v1.17.4
 
 ### Feature
