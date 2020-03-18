@@ -12,7 +12,7 @@ detector - bibliography
 
 * [x] two column latex
 
-* [ ] verify with two examples
+* [x] verify with two examples
 
 titlepage
 ---------

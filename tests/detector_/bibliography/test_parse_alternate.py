@@ -30,3 +30,16 @@ def test_parse_bibliography_master116_page_x(pages, expected):
     parsed = detector.bibliography.alternate.extracts(navigators)
     parsed = utila.flatten(parsed)
     assert len(parsed) == expected, str(parsed)
+
+
+def test_parse_bibliography_hurenkind():
+    expected = 8
+    pages = (51)
+    navigators = serializeraw.create_pagetextnavigators_frompath(
+        tests.resources.BACHELOR56,
+        prefix='oneline',
+        pages=pages,
+    )
+    parsed = detector.bibliography.alternate.extracts(navigators)
+    parsed = utila.flatten(parsed)
+    assert len(parsed) == expected, str(parsed)

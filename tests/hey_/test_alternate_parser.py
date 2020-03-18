@@ -9,6 +9,7 @@
 
 import pytest
 import serializeraw
+import utila
 
 import hey.geometry.alternate
 import tests.resources
@@ -58,6 +59,13 @@ def test_parse_alternate_bachelor56_page51_hurenkind_error():
     pages = (51)
     parsed = load_and_parse(pages, tests.resources.BACHELOR56)[0]
     assert len(parsed) == 8, str(parsed)
+
+
+def test_parse_alternate_bachelor56_page5051_hurenkind_unite():
+    pages = (50, 51)
+    parsed = load_and_parse(pages, tests.resources.BACHELOR56)
+    flat = utila.flatten(parsed)
+    assert len(flat) == 15, str(parsed)
 
 
 def load_and_parse(pages, resources: str):

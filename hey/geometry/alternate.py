@@ -104,6 +104,40 @@ def parse_pages(pages, config: ParserConfig = None) -> list:
         except NoSingleLiningPoints:
             parsed = parse_page(page, lining_points=linings, config=config)
         result.append(parsed)
+    result = unite_hurenkind(result)
+    return result
+
+
+def unite_hurenkind(pages: list) -> list:
+    """Unite group which does not start with title with title of the
+    page before.
+
+    Assume that title starts with left item. TODO: SUPPORT LEFT, RIGHT,
+    MULTIPLE TITLE.
+    """
+    if not pages:
+        return pages
+    feeding = []
+    for page in pages:
+        if not page:
+            continue
+        for bib in page:
+            for item in bib:
+                feeding.append(item.bounding[0])
+    _, right = min(feeding), max(feeding)
+    result = [pages[0]]
+    for page in pages[1:]:
+        if not page:
+            # empty page
+            result.append(page)
+            continue
+        if utila.near(page[0][0].bounding[0], right, diff=MAX_LINE_DIFF):
+            # move hurenkind to page before
+            result[-1][-1].extend(page[0])
+            # remove hurenkind from current page
+            result.append(page[1:])
+        else:
+            result.append(page)
     return result
 
 
@@ -161,7 +195,7 @@ def parse_page(page, lining_points=None, config: ParserConfig = None) -> list:
                 if config.main_split:
                     # mainsplit: ensure to start with `Title Item`, see above.
                     # Ensure to handle `Hurenkind` correctly.
-                    if utila.near(starts[0], x0, diff=MAX_LINE_DIFF):
+                    if utila.near(min(starts), x0, diff=MAX_LINE_DIFF):
                         # page starts with hurenkind
                         result.append([line])
                         current = x0
@@ -170,7 +204,6 @@ def parse_page(page, lining_points=None, config: ParserConfig = None) -> list:
                 else:
                     # member of group
                     result[-1].append(line)
-
     # remove items with to few content
     result = [item for item in result if valid_content(item, config)]
     return result
@@ -190,7 +223,7 @@ def external_lining_points(pages):
     starts = [item.center for item in clustered]
     if len(starts) < 2:
         raise NoMultipleLiningPoints
-    lining_points = [starts[0], starts[1]]
+    lining_points = (starts[0], starts[1])
     return lining_points
 
 
