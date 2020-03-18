@@ -37,20 +37,26 @@ def test_parse_alternate_master89_external_liningpoints():
     """
     pages = (79, 80)
     expected = (14, 1)
-    parsed = load_and_parse(pages)
+    parsed = load_and_parse(pages, tests.resources.MASTER89)
     for page_result, page_expected in zip(parsed, expected):
         assert len(page_result) == page_expected, str(page_result)
 
 
 def test_parse_alternate_master89_external_liningpoints_single():
     pages = 79
-    parsed = load_and_parse(pages)[0]
+    parsed = load_and_parse(pages, tests.resources.MASTER89)[0]
     assert len(parsed) == 14, str(parsed)
 
 
-def load_and_parse(pages):
+def test_parse_alternate_bachelor56_page49_whitespace_error():
+    pages = (49)
+    parsed = load_and_parse(pages, tests.resources.BACHELOR56)[0]
+    assert len(parsed) == 8, str(parsed)
+
+
+def load_and_parse(pages, resources: str):
     navigators = serializeraw.create_pagetextnavigators_frompath(
-        tests.resources.MASTER89,
+        resources,
         prefix='oneline',
         pages=pages,
     )
