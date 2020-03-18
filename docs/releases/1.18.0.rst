@@ -42,7 +42,7 @@ fix
 maintenance
 -----------
 
-* [ ] increase code coverage
+* [x] increase code coverage
 
 code quality
 ------------

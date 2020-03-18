@@ -131,14 +131,14 @@ FOOTER = """
         #     ll.BibliographyLink(author='Luhmann', year=2005, pages='192'),
         # ),
     ])
-def test_words_text_bibliographylink_parse_links(line, expected):
+def test_parse_bibliographylink(line, expected):
     if not isinstance(expected, list):
         expected = [expected]
     parsed = ll.parse(line)
     assert parsed == expected
 
 
-def test_words_text_bibliographylink_parse_links_in_text():
+def test_parse_bibliographylink_in_text():
     expected = [
         ll.BibliographyLink(author='McQuail', year=2010, pages='454'),
         ll.BibliographyLink(author='McQuail', year=2010, pages='456-459'),

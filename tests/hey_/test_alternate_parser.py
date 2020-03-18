@@ -21,7 +21,7 @@ import tests.resources
     (99, 15),
     (100, 3),
 ])
-def test_parse_alternate_master116_page(page, expected):
+def test_parse_master116_page(page, expected):
     navigators = serializeraw.create_pagetextnavigators_frompath(
         tests.resources.MASTER116,
         prefix='oneline',
@@ -31,7 +31,7 @@ def test_parse_alternate_master116_page(page, expected):
     assert len(parsed) == expected, str(parsed)
 
 
-def test_parse_alternate_master89_external_liningpoints():
+def test_parse_master89_external_liningpoints():
     """Page 80 has to few content items to determine the lining points.
     Therefore the external lining points of page 79 are used to
     determine the bibliograpy on page 80.
@@ -43,25 +43,25 @@ def test_parse_alternate_master89_external_liningpoints():
         assert len(page_result) == page_expected, str(page_result)
 
 
-def test_parse_alternate_master89_external_liningpoints_single():
+def test_parse_master89_external_liningpoints_single():
     pages = 79
     parsed = load_and_parse(pages, tests.resources.MASTER89)[0]
     assert len(parsed) == 14, str(parsed)
 
 
-def test_parse_alternate_bachelor56_page49_whitespace_error():
+def test_parse_bachelor56_page49_whitespace_error():
     pages = (49)
     parsed = load_and_parse(pages, tests.resources.BACHELOR56)[0]
     assert len(parsed) == 8, str(parsed)
 
 
-def test_parse_alternate_bachelor56_page51_hurenkind_error():
+def test_parse_bachelor56_page51_hurenkind_error():
     pages = (51)
     parsed = load_and_parse(pages, tests.resources.BACHELOR56)[0]
     assert len(parsed) == 8, str(parsed)
 
 
-def test_parse_alternate_bachelor56_page5051_hurenkind_unite():
+def test_parse_bachelor56_page5051_hurenkind_unite():
     pages = (50, 51)
     parsed = load_and_parse(pages, tests.resources.BACHELOR56)
     flat = utila.flatten(parsed)

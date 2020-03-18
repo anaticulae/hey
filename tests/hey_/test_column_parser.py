@@ -21,7 +21,6 @@ def test_parse_column_bachelor63_page59():
         # fill_empty=False,
         pages=pages,
     )
-
     parsed = hey.geometry.double_column.parse_page(navigators[0])
     assert len(parsed) == 12, str(parsed)
 
@@ -34,14 +33,12 @@ def test_parse_column_bachelor63_page59_all_columns():
         # fill_empty=False,
         pages=pages,
     )
-
     page = navigators[0]
     marker = hey.geometry.double_column.columns(page)
     (short, description), _ = hey.geometry.double_column.split_bymarker(
         page,
         marker,
     ) # yapf:disable
-
     inside_all = hey.geometry.double_column.all_columns(
         [short, description],
         vertical_diff=5.0,
