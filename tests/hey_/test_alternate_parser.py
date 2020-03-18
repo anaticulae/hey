@@ -54,6 +54,12 @@ def test_parse_alternate_bachelor56_page49_whitespace_error():
     assert len(parsed) == 8, str(parsed)
 
 
+def test_parse_alternate_bachelor56_page51_hurenkind_error():
+    pages = (51)
+    parsed = load_and_parse(pages, tests.resources.BACHELOR56)[0]
+    assert len(parsed) == 8, str(parsed)
+
+
 def load_and_parse(pages, resources: str):
     navigators = serializeraw.create_pagetextnavigators_frompath(
         resources,

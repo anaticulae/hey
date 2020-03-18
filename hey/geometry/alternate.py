@@ -50,6 +50,16 @@ Example:
     SARBIN, Theodore R. (1986): Introduction and Overview. In: Sarbin 1986, ix-xviii.
 
     SCHENK, Michael (32007): Medienwirkungsforschung. Tübingen: Mohr Siebeck.
+
+Title/Content Item
+------------------
+
+..code-block:: none
+
+    Moskowitz, H. & Fiorentino, D. (2000a). A review of    TITLE_ITEM
+        regarding the effects of alcohol on driving-rel    CONTENT_ITEM
+        Concentrations of 0.08 grams per deciliter and     CONTENT_ITEM
+
 """
 
 import dataclasses
@@ -71,6 +81,7 @@ MAX_TEXT_DIFF = 2.5
 class ParserConfig:
     min_word_count: int = 1
     min_content_length: int = 1
+    main_split: bool = True
 
 
 def parse_pages(pages, config: ParserConfig = None) -> list:
@@ -147,8 +158,18 @@ def parse_page(page, lining_points=None, config: ParserConfig = None) -> list:
                 current = x0
                 result.append([line])
             else:
-                # member of group
-                result[-1].append(line)
+                if config.main_split:
+                    # mainsplit: ensure to start with `Title Item`, see above.
+                    # Ensure to handle `Hurenkind` correctly.
+                    if utila.near(starts[0], x0, diff=MAX_LINE_DIFF):
+                        # page starts with hurenkind
+                        result.append([line])
+                        current = x0
+                    else:
+                        result[-1].append(line)
+                else:
+                    # member of group
+                    result[-1].append(line)
 
     # remove items with to few content
     result = [item for item in result if valid_content(item, config)]
@@ -161,7 +182,6 @@ def external_lining_points(pages):
     starts = [item for item in starts if item is not None]
 
     starts = utila.flatten(starts)
-
     clustered = hey.classificator.max_distance(
         starts,
         diff=MAX_LINE_DIFF,
