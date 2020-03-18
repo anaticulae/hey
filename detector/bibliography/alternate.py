@@ -11,29 +11,39 @@ import contextlib
 import re
 
 import texmex
-import utila
 
 import detector.bibliography.data as dbd
 import hey.geometry.alternate
+import hey.text.utils
+
+MIN_CONTENT_LENGTH = 15  # TODO: HOLY VALUE
+
+MIN_WORD_COUNT = 2  # TODO: HOLY VALUE
 
 
 def extracts(items: texmex.PageTextNavigators) -> dbd.BibliographyReferences:
     result = []
-    for item in items:
-        extracted = extract(item)
-        if not extracted:
-            continue
-        result.extend(extracted)
+    config = hey.geometry.alternate.ParserConfig(
+        min_content_length=MIN_CONTENT_LENGTH,
+        min_word_count=MIN_WORD_COUNT,
+    )
+    try:
+        parsed = hey.geometry.alternate.parse_pages(items, config=config)
+    except hey.geometry.alternate.NoMultipleLiningPoints:
+        return []
+    for page in parsed:
+        extracted = extract(page)
+        result.append(extracted)
     return result
 
 
-def extract(content: texmex.PageTextNavigator,) -> dbd.BibliographyReferences:
-    parsed = hey.geometry.alternate.parse_page(content)
-    if parsed is None:
-        return None
+def extract(content) -> dbd.BibliographyReferences:
+    if content is None:
+        # white page
+        return []
     result = []
-    for group in parsed:
-        raw = connect_text([item.text for item in group])
+    for group in content:
+        raw = hey.text.utils.connect_text(group)
         reference, data = split_bibliography(raw)
         result.append(dbd.BibliographyReference(reference=reference, data=data))
     return result

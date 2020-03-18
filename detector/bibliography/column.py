@@ -19,7 +19,7 @@ def extracts(items: texmex.PageTextNavigators):
         extracted = extract(item)
         if not extracted:
             continue
-        result.extend(extracted)
+        result.append(extracted)
     return result
 
 

@@ -8,6 +8,7 @@
 # =============================================================================
 
 import serializeraw
+import utila
 
 import detector.bibliography.column
 import tests.resources
@@ -22,4 +23,5 @@ def test_parse_bibliography_bachelor63_page59():
         pages=pages,
     )
     parsed = detector.bibliography.column.extracts(navigators)
+    parsed = utila.flatten(parsed)
     assert len(parsed) == 12, str(parsed)

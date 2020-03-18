@@ -9,6 +9,7 @@
 
 import pytest
 import serializeraw
+import utila
 
 import detector.bibliography.column
 import tests.resources
@@ -27,4 +28,5 @@ def test_parse_bibliography_master116_page_x(pages, expected):
         pages=pages,
     )
     parsed = detector.bibliography.alternate.extracts(navigators)
+    parsed = utila.flatten(parsed)
     assert len(parsed) == expected, str(parsed)

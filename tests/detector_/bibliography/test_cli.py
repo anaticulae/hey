@@ -8,6 +8,7 @@
 # =============================================================================
 
 import pytest
+import utila
 
 import detector.bibliography.data
 import detector.path
@@ -18,6 +19,7 @@ import tests.resources
 @pytest.mark.parametrize('source, pages, expected', [
     pytest.param(tests.resources.BACHELOR63, '59', 12, id='bachelor63'),
     pytest.param(tests.resources.MASTER116, '97,98,99,100', 46, id='master116'),
+    pytest.param(tests.resources.MASTER89, '70:81', 149, id='master89'),
 ])
 def test_detector_bibliography_run(
         source,
@@ -32,4 +34,5 @@ def test_detector_bibliography_run(
 
     outpath = detector.path.bibliography_detected(root)
     loaded = detector.bibliography.data.load_bibliography_reference(outpath)
-    assert len(loaded) == expected, str(loaded)
+    flat = utila.flatten(loaded)
+    assert len(flat) == expected, str(loaded)
