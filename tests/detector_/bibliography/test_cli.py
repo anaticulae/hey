@@ -20,6 +20,7 @@ import tests.resources
     pytest.param(tests.resources.BACHELOR63, '59', 12, id='bachelor63'),
     pytest.param(tests.resources.MASTER116, '97,98,99,100', 46, id='master116'),
     pytest.param(tests.resources.MASTER89, '70:81', 149, id='master89'),
+    pytest.param(tests.resources.BACHELOR56, '49:52', 32, id='bachelor56'),
 ])
 def test_detector_bibliography_run(
         source,
