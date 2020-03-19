@@ -20,11 +20,11 @@ import utila
 import hey.utils
 import sections.path
 
-# features with lower trust are not excepted as detected feaute
+# features with lower trust are not expected as detected feature
 MIN_FEATURE_TRUST = configo.HV_PERCENT_PLUS(default=40).value
 
-# more than one feature have this trust, acceppt all of them
-MULTIPLE_FEATURE_TRUST = configo.HV_PERCENT_PLUS(default=90).value
+# more than one feature have this trust, accept all of them
+MULTIPLE_FEATURE_TRUST = configo.HV_PERCENT_PLUS(default=75).value
 
 
 @utila.checkdatatype
@@ -148,7 +148,7 @@ def most_trusted_items(items: list) -> list:
     possible.
 
     Accepted features must have a higher trust than `MIN_FEATURE_TRUST`.
-    Multiple featues on a page require a much higher trust
+    Multiple features on a page require a much higher trust
     `MULTIPLE_FEATURE_TRUST`.
 
     Args:
@@ -176,9 +176,9 @@ def most_trusted_items(items: list) -> list:
             item for item in items if item and item.content and
             item.content.value >= MULTIPLE_FEATURE_TRUST
         ]
-        assert len(multiple) >= 1
+        # TODO: SEARCH FOR A BETTER APROACH, NEED MORE INFORMATION
+        assert len(multiple) >= 1, str(items)
         items = multiple
-
     return items
 
 
