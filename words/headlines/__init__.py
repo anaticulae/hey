@@ -18,7 +18,6 @@ import utila
 import hey.textnavigator.fonts as htf
 import sections.feature.section
 import words.loader.basic
-import words.utils.skipper
 
 WHITELIST = set([
     'Anhang',
@@ -90,7 +89,7 @@ class HeadlineExtractorStrategy(abc.ABC):  # pylint:disable=too-many-instance-at
         # run extraction
         for chapter in self.chapters:
             # TODO: replace with utila code
-            if words.utils.skipper.should_skip(self.content[chapter], pages):
+            if utila.should_skip(self.content[chapter], pages):
                 continue
             self.extract_chapter(chapter)
 
