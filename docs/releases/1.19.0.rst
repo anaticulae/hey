@@ -14,7 +14,7 @@ sections
 
 bibliography
 
-* [] make BibliographyReference sortable
+* [x] make BibliographyReference sortable
 
 * [ ] add bibliography likelihood detector
 
