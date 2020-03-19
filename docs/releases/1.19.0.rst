@@ -1,0 +1,28 @@
+.. _1_19_0:
+
+RP 1.19.0
+=========
+
+sections
+--------
+
+* [ ] extend sections likelihood detection
+
+* [ ] convert sections likelihood to extraction/work-plan
+
+* [ ] verify with 3 examples
+
+bibliography
+
+* [] make BibliographyReference sortable
+
+* [ ] add bibliography likelihood detector
+
+code quality
+------------
+
+before
+~~~~~
+
+* Total coverage: 91.94%
+* Your code has been rated at 9.83/10
