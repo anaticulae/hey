@@ -31,6 +31,14 @@ WORKPLAN = [
         output=('likelihood',),
     ),
     step(
+        'bibliography',
+        inputs=[
+            ResultFile('rawmaker', 'text_text'),
+            ResultFile('rawmaker', 'text_positions'),
+        ],
+        output=('likelihood',),
+    ),
+    step(
         'index',
         inputs=[
             ResultFile('rawmaker', 'oneline_text_text'),

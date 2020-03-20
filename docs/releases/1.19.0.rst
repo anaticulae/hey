@@ -6,7 +6,7 @@ RP 1.19.0
 sections
 --------
 
-* [ ] extend sections likelihood detection
+* [x] extend sections likelihood detection
 
 * [ ] convert sections likelihood to extraction/work-plan
 
