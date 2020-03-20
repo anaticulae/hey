@@ -15,6 +15,7 @@ import texmex
 import utila
 
 import sections.utils.spa
+import words.text.word
 
 
 def work(document: str, position: str, pages=None) -> str:
@@ -39,12 +40,32 @@ def work(document: str, position: str, pages=None) -> str:
 
 def analyse_page(navigator: texmex.PageTextNavigator
                 ) -> sections.feature.StatisticalResultItem:
-
     raw = ' '.join([line.text for line in navigator])
     collected = []
     for method in [years, dates, pages]:
         collected.extend(method(raw))
-    return len(navigator), len(collected)
+
+    marker = len(collected)
+    if special_chars(raw):
+        # thirty percent bonus
+        marker *= 1.3  # TODO: HOLY VALUE
+    return len(navigator), marker
+
+
+def special_chars(raw: str) -> list:
+    # TODO: A LOT OF MISMATCHES AS A RESULT OF PROGRAM CODE IN DOCUMENT
+    result = []
+    for line in raw.splitlines():
+        parsed = words.text.word.split_words(line, validate_sentences=False)
+        result.extend(parsed)
+    counted = raw.count(';') + raw.count(',') + raw.count('/') + raw.count(':')
+    counted += raw.count('[') + raw.count(']') + raw.count(')') + raw.count('(')
+
+    word_count = len(result)
+    classifier = counted / word_count if word_count else 0
+    if word_count > 40 and classifier > 0.3:  # TODO HOLY VALUE
+        return True
+    return False
 
 
 def years(raw: str, min_=1950, max_=2020):
