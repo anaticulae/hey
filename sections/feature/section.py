@@ -366,6 +366,68 @@ def load_section_likelihood_frompath(path: str, pages: tuple = None):
     return result
 
 
-    loaded = load_features(chapter, index, title, toc, whitepage, pages=pages)
+def extract_sections_frompath(
+        path: str,
+        prefix: str = '',
+        pages: tuple = None,
+) -> iamraw.Sections:
+    import sections.feature.chapter
+    import sections.feature.abbreviation
+    import sections.feature.bibliography
+    import sections.feature.legal
+    import sections.feature.title
+    import sections.feature.index
+    import sections.feature.toc
+    import sections.feature.whitepage
+    text = iamraw.path.text(path, prefix=prefix)
+    textposition = iamraw.path.textposition(path, prefix=prefix)
+    toc = iamraw.path.toc(path, prefix=prefix)
+    fontheader = iamraw.path.fontheader(path, prefix=prefix)
+    fontcontent = iamraw.path.fontcontent(path, prefix=prefix)
+    footers = iamraw.path.headerfooters(path, prefix=prefix)
+
+    chapter = sections.feature.chapter.work(
+        text,
+        textposition,
+        toc,
+        pages=pages,
+    )
+    abbreviation = sections.feature.abbreviation.work(
+        text,
+        textposition,
+        pages=pages,
+    )
+    bibliography = sections.feature.bibliography.work(
+        text,
+        textposition,
+        pages=pages,
+    )
+    legal = sections.feature.legal.work(text, textposition, pages=pages)
+    index = sections.feature.index.work(text, pages=pages)
+    title = sections.feature.title.work(
+        text,
+        fontheader,
+        fontcontent,
+        pages=pages,
+    )
+    toc = sections.feature.toc.work(text, pages=pages)
+    whitepage = sections.feature.whitepage.work(
+        text,
+        textposition,
+        footers=footers,
+        pages=pages,
+    )
+    loaded = load_features(
+        abbreviation,
+        bibliography,
+        chapter,
+        index,
+        legal,
+        title,
+        toc,
+        whitepage,
+        pages=pages,
+    )
+    # work
     result = extract_sections(loaded)
     return result
