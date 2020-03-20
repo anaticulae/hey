@@ -20,6 +20,33 @@ def sections_(path: str, prefix: str = '') -> str:
     )
 
 
+def abbreviation(path: str, prefix: str = '') -> str:
+    return hey.path.pathconnector(
+        path,
+        sections.PROCESS,
+        'abbreviation_likelihood',
+        prefix,
+    )
+
+
+def bibliography(path: str, prefix: str = '') -> str:
+    return hey.path.pathconnector(
+        path,
+        sections.PROCESS,
+        'bibliography_likelihood',
+        prefix,
+    )
+
+
+def chapter(path: str, prefix: str = '') -> str:
+    return hey.path.pathconnector(
+        path,
+        sections.PROCESS,
+        'chapter_likelihood',
+        prefix,
+    )
+
+
 def index(path: str, prefix: str = '') -> str:
     return hey.path.pathconnector(
         path,
@@ -29,11 +56,11 @@ def index(path: str, prefix: str = '') -> str:
     )
 
 
-def toc(path: str, prefix: str = '') -> str:
+def legal(path: str, prefix: str = '') -> str:
     return hey.path.pathconnector(
         path,
         sections.PROCESS,
-        'toc_likelihood',
+        'legal_likelihood',
         prefix,
     )
 
@@ -47,19 +74,19 @@ def title(path: str, prefix: str = '') -> str:
     )
 
 
+def toc(path: str, prefix: str = '') -> str:
+    return hey.path.pathconnector(
+        path,
+        sections.PROCESS,
+        'toc_likelihood',
+        prefix,
+    )
+
+
 def whitepage(path: str, prefix: str = '') -> str:
     return hey.path.pathconnector(
         path,
         sections.PROCESS,
         'whitepage_likelihood',
-        prefix,
-    )
-
-
-def chapter(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
-        path,
-        sections.PROCESS,
-        'chapter_likelihood',
         prefix,
     )

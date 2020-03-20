@@ -29,8 +29,11 @@ MULTIPLE_FEATURE_TRUST = configo.HV_PERCENT_PLUS(default=75).value
 
 @utila.checkdatatype
 def work(
+        abbreviation: str,
+        bibliography: str,
         chapter: str,
         index: str,
+        legal: str,
         title: str,
         toc: str,
         whitepage: str,
@@ -52,8 +55,11 @@ def work(
     # TODO: Add @checkfile decorator to utila, to ensure that files exists
     # TODO: Investigate add check if raw content or file path is used
     loaded = load_features(
+        abbreviation,
+        bibliography,
         chapter,
         index,
+        legal,
         title,
         toc,
         whitepage,
@@ -69,8 +75,11 @@ def work(
 
 @dataclasses.dataclass
 class SectionsRequiredResources:
+    abbreviation: iamraw.PageContentLikelihoods
+    bibliography: iamraw.PageContentLikelihoods
     chapter: iamraw.PageContentLikelihoods
     index: iamraw.PageContentLikelihoods
+    legal: iamraw.PageContentLikelihoods
     title: iamraw.PageContentLikelihoods
     toc: iamraw.PageContentLikelihoods
     whitepage: typing.List[iamraw.sections.WhitePage]
@@ -88,8 +97,11 @@ def extract_sections(loaded: SectionsRequiredResources) -> iamraw.Sections:
     """
     result = {}
     for pagenumber, content in hey.utils.sync([
+            loaded.abbreviation,
+            loaded.bibliography,
             loaded.chapter,
             loaded.index,
+            loaded.legal,
             loaded.title,
             loaded.toc,
             loaded.whitepage,
@@ -182,15 +194,6 @@ def most_trusted_items(items: list) -> list:
     return items
 
 
-BUILDER = [
-    iamraw.sections.Chapter,
-    iamraw.sections.Index,
-    iamraw.sections.TitlePage,
-    iamraw.sections.TableOfContent,
-    iamraw.sections.WhitePage,
-]
-
-
 def is_new_area(current, next_):
     current_class = current.__class__
     next_class = next_ if callable(next_) else next_.__class__
@@ -231,18 +234,47 @@ def group_sections(items: AreaItems) -> iamraw.Sections:
     return result
 
 
+@dataclasses.dataclass
+class Abbreviation(iamraw.sections.AreaItem):
+    pass
+
+
+@dataclasses.dataclass
+class Bibliography(iamraw.sections.AreaItem):
+    pass
+
+
+@dataclasses.dataclass
+class Legal(iamraw.sections.AreaItem):
+    pass
+
+
+BUILDER = [
+    Abbreviation,
+    Bibliography,
+    iamraw.sections.Chapter,
+    iamraw.sections.Index,
+    Legal,
+    iamraw.sections.TitlePage,
+    iamraw.sections.TableOfContent,
+    iamraw.sections.WhitePage,
+]
+
 # do not change DocumentSection
 # iamraw.sections.DocumentSection
 #       iamraw.sections.Text
 #       iamraw.sections.WhitePage:
 MATCHING = {
+    Abbreviation: iamraw.sections.Appendix,
+    Bibliography: iamraw.sections.Appendix,
+    Legal: iamraw.sections.Appendix,
+    iamraw.MultipleSection: iamraw.MultipleSection,
     iamraw.sections.Chapter: iamraw.MainPart,
     iamraw.sections.Index: iamraw.sections.Table,
     iamraw.sections.TableOfContent: iamraw.sections.Table,
     iamraw.sections.Text: iamraw.sections.DocumentSection,
     iamraw.sections.TitlePage: iamraw.sections.Introduction,
     iamraw.sections.WhitePage: iamraw.sections.DocumentSection,
-    iamraw.MultipleSection: iamraw.MultipleSection,
 }
 
 
@@ -260,22 +292,31 @@ def determine_document_section(
 
 @functools.lru_cache(configo.CACHE_SMALL)
 def load_features(
+        abbreviation,
+        bibliography,
         chapter,
         index,
+        legal,
         title,
         toc,
         whitepage,
         pages=None,
 ) -> SectionsRequiredResources:
+    abbreviation = serializeraw.load_likelihood(abbreviation, pages=pages)
+    bibliography = serializeraw.load_likelihood(bibliography, pages=pages)
     chapter = serializeraw.load_likelihood(chapter, pages=pages)
     index = serializeraw.load_likelihood(index, pages=pages)
+    legal = serializeraw.load_likelihood(legal, pages=pages)
     title = serializeraw.load_likelihood(title, pages=pages)
     toc = serializeraw.load_likelihood(toc, pages=pages)
     white = serializeraw.load_whitepages(whitepage, pages=pages)
 
     result = SectionsRequiredResources(
+        abbreviation=abbreviation,
+        bibliography=bibliography,
         chapter=chapter,
         index=index,
+        legal=legal,
         title=title,
         toc=toc,
         whitepage=white,
@@ -308,12 +349,22 @@ def name():
     return 'section'
 
 
-def sections_frompath(path: str, pages: tuple = None):
-    chapter = sections.path.chapter(path)
-    index = sections.path.index(path)
-    title = sections.path.title(path)
-    toc = sections.path.toc(path)
-    whitepage = sections.path.whitepage(path)
+def load_section_likelihood_frompath(path: str, pages: tuple = None):
+    # TODO: we need to improve this
+    loaded = load_features(
+        sections.path.abbreviation(path),
+        sections.path.bibliography(path),
+        sections.path.chapter(path),
+        sections.path.index(path),
+        sections.path.legal(path),
+        sections.path.title(path),
+        sections.path.toc(path),
+        sections.path.whitepage(path),
+        pages=pages,
+    )
+    result = extract_sections(loaded)
+    return result
+
 
     loaded = load_features(chapter, index, title, toc, whitepage, pages=pages)
     result = extract_sections(loaded)

@@ -90,8 +90,11 @@ WORKPLAN = [
     step(
         'section',
         inputs=[
+            ResultFile('sections', 'abbreviation_likelihood'),
+            ResultFile('sections', 'bibliography_likelihood'),
             ResultFile('sections', 'chapter_likelihood'),
             ResultFile('sections', 'index_likelihood'),
+            ResultFile('sections', 'legal_likelihood'),
             ResultFile('sections', 'title_likelihood'),
             ResultFile('sections', 'toc_likelihood'),
             ResultFile('sections', 'whitepage_likelihood'),
