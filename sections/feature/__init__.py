@@ -61,14 +61,13 @@ def multiform_result(items):
         return {page: 0.0 for page in items}
 
     max_per_page = max([feature for _, feature in values])
-
-    double_max = 0.5 * max_per_page
-    multi_max = [feature for _, feature in values if feature >= double_max]
+    max_half = 0.5 * max_per_page
+    multi_max = [feature for _, feature in values if feature >= max_half]
     if len(multi_max) < 2:
         # not enough multi form elements
         return None
     result = {
-        page: (feature / lines) if feature > double_max else 0.0
+        page: (feature / lines) if feature > max_half else 0.0
         for page, (lines, feature) in items.items()
     }
     # round to 2 digits

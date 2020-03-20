@@ -34,7 +34,7 @@ def work(document: str, position: str, pages=None) -> str:
     )
 
     config = sections.utils.spa.Config(
-        likelihood_name='abbrviation_table',
+        likelihood_name='abbreviation_table',
         page_analysis=analyse_page,
     )
 
