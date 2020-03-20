@@ -45,7 +45,4 @@ def test_section_bibliography_work():
     for page, value in expected:
         selected = utila.select_page(loaded, page=page)
         current = selected.content.value
-        if value == 0.0:
-            assert current <= 0.2, str(selected)
-        else:
-            assert current >= value, str(selected)
+        assert current >= value, str(selected)

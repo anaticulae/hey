@@ -16,7 +16,7 @@ bibliography
 
 * [x] make BibliographyReference sortable
 
-* [ ] add bibliography likelihood detector
+* [x] add bibliography likelihood detector
 
 code quality
 ------------

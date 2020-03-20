@@ -17,6 +17,8 @@ import utila
 import sections.utils.spa
 import words.text.word
 
+MIN_LIKELIHOOD = 0.3  # TODO: HOLY VALUE
+
 
 def work(document: str, position: str, pages=None) -> str:
     data = sections.utils.spa.Data(
@@ -49,6 +51,11 @@ def analyse_page(navigator: texmex.PageTextNavigator
     if special_chars(raw):
         # thirty percent bonus
         marker *= 1.3  # TODO: HOLY VALUE
+    likelihood = len(navigator) / marker if marker else 0.0
+    if likelihood < MIN_LIKELIHOOD:
+        # TODO: CHECK THIS
+        # this can not be a bib table
+        marker = 0
     return len(navigator), marker
 
 
