@@ -13,6 +13,7 @@ from iamraw import Document
 from iamraw.sections import PERCENT_100
 from iamraw.sections import Sections
 
+import sections.feature.section
 import tests.fixtures
 import tests.resources
 import words.feature
@@ -225,42 +226,10 @@ def restructured_whitepage():
 
 
 def restructured_sections():
-    chapter = chapter_work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION, RESTRUCT_TOC)
-
-    # ensure that all chapters are detected
-    tests.fixtures.assert_chapter_count(
-        serializeraw.load_likelihood(chapter),
-        tests.resources.RESTRUCT_CHAPTER_COUNT,
-    )
-
-    abbreviation = abbreviation_work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION)
-    bibliography = bibliography_work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION)
-    legal = legal_work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION)
-
-    index = index_work(RESTRUCT_TEXT)
-    title = title_work(
-        RESTRUCT_TEXT,
-        RESTRUCT_FONT_HEADER,
-        RESTRUCT_FONT_CONTENT,
-    )
-    toc = toc_work(RESTRUCT_TEXT)
-    whitepage = whitepage_work(
-        RESTRUCT_TEXT,
-        RESTRUCT_TEXT_POSITION,
-        footers=RESTRUCT_FOOTERS,
-    )
-    result = section_work(
-        abbreviation,
-        bibliography,
-        chapter,
-        index,
-        legal,
-        title,
-        toc,
-        whitepage,
-    )
-
-    return result
+    extracted = sections.feature.section.extract_sections_frompath(
+        tests.resources.RESTRUCT)
+    dumped = serializeraw.dump_sections(extracted)
+    return dumped
 
 
 @pytest.fixture
