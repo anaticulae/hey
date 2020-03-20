@@ -189,8 +189,10 @@ def most_trusted_items(items: list) -> list:
             item.content.value >= MULTIPLE_FEATURE_TRUST
         ]
         # TODO: SEARCH FOR A BETTER APROACH, NEED MORE INFORMATION
-        assert len(multiple) >= 1, str(items)
-        items = multiple
+        # THIS ASSERT SEAMS NOT TO BE USEFUL
+        # assert len(multiple) >= 1, str(items)
+        if multiple:
+            items = multiple
     return items
 
 

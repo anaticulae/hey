@@ -75,6 +75,5 @@ def analyse_page(page) -> float:
         line for line in content
         if line.count('. .') > 3 or line.count('..') > 3
     ])
-
     # likelihood = possible_toc_line / linecount if linecount else 0.0
     return linecount, possible_toc_line
