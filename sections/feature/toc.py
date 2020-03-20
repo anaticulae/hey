@@ -38,6 +38,11 @@ def extract_toc_likelihood(document: iamraw.Document) -> typing.List[float]:
 
     result = {page.page: analyse_page(page) for page in document}
 
+    # NO TOC AFTER PAGE 30: TODO: HOLY VALUE
+    result = {
+        page: value if page < 30 else (0, 0) for page, value in result.items()
+    }
+
     uniformed = sections.feature.uniform_result(result)
     multiformed = sections.feature.multiform_result(result)
     if multiformed is not None:
