@@ -16,7 +16,7 @@ from tests.resources import PYPORTING
 from tests.resources import RESTRUCT
 from tests.resources import RESTRUCT_PDF
 from tests.sections_ import run_sections_failure
-from tests.sections_ import run_sections_success
+from tests.sections_ import run_sections
 
 
 @pytest.mark.parametrize('command', [
@@ -27,7 +27,7 @@ from tests.sections_ import run_sections_success
 ])
 def test_run_sections(command, testdir, monkeypatch):  #pylint: disable=W0613
     """Run help and version and format command to reach basic test coverage"""
-    run_sections_success(command, monkeypatch=monkeypatch)
+    run_sections(command, monkeypatch=monkeypatch)
 
 
 @pytest.mark.parametrize('command', [
@@ -57,4 +57,4 @@ def test_run_sections_multicore(testdir, monkeypatch):
 
     jobs = 5
     cmd = f'-j{jobs} -i {root} -o {root} --pages=0:5 --all'
-    run_sections_success(cmd, monkeypatch=monkeypatch)
+    run_sections(cmd, monkeypatch=monkeypatch)
