@@ -58,7 +58,9 @@ def work(data: Data, config: Config) -> str:
     ]
     result = {page.page: page_analysis(page) for page in navigators}
 
-    uniformed = sections.feature.uniform_result(result)
+    uniformed = sections.feature.multiform_result(result)
+    if uniformed is None:
+        uniformed = sections.feature.uniform_result(result)
 
     likelihood = [
         iamraw.PageContentLikelihood(
