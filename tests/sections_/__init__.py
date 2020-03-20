@@ -21,7 +21,7 @@ from sections import PROCESS
 from sections.cli import main
 
 #pylint:disable=C0103
-run_sections_success = partial(
+run_sections = partial(
     run_command,
     main=main,
     process=PROCESS,

@@ -23,7 +23,7 @@ def test_regression_sections_and_words(testdir, monkeypatch):
 
     jobs = 5
     cmd = f'-j{jobs} --all'
-    tests.sections_.run_sections_success(cmd, monkeypatch=monkeypatch)
+    tests.sections_.run_sections(cmd, monkeypatch=monkeypatch)
 
     tests.words_.run_words_success('--all', monkeypatch=monkeypatch)
 

@@ -15,8 +15,8 @@ from tests.resources import MASTER72
 from tests.resources import PYPORTING
 from tests.resources import RESTRUCT
 from tests.resources import RESTRUCT_PDF
-from tests.sections_ import run_sections_failure
 from tests.sections_ import run_sections
+from tests.sections_ import run_sections_failure
 
 
 @pytest.mark.parametrize('command', [
