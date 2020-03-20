@@ -62,14 +62,24 @@ def multiform_result(items):
 
     max_per_page = max([feature for _, feature in values])
     max_half = 0.5 * max_per_page
-    multi_max = [feature for _, feature in values if feature >= max_half]
+    multi_max = [
+        feature for elements, feature in values if feature >= max_half or
+        likelihood(elements, feature) > 0.75  # TODO: HOLY VALUE
+    ]
     if len(multi_max) < 2:
         # not enough multi form elements
         return None
     result = {
-        page: (feature / lines) if feature > max_half else 0.0
+        page: likelihood(feature, lines) if
+        (feature > max_half or likelihood(lines, feature) > 0.75) else 0.0
         for page, (lines, feature) in items.items()
     }
     # round to 2 digits
     result = {page: utila.roundme(item) for page, item in result.items()}
     return result
+
+
+def likelihood(elements, feature):
+    if feature == 0:
+        return 0.0
+    return elements / feature
