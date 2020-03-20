@@ -12,6 +12,8 @@ import serializeraw
 
 import sections.creator
 import sections.feature.section
+import tests.resources
+import tests.sections_
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_chapter
 from tests.fixtures.restruct import restructured_index
@@ -55,27 +57,15 @@ def test_section_validate_restructured(restructured_sections_manual):  #pylint:d
 
 #pylint:disable=W0621
 def test_section_extract_sections_restructured(
-        restructured_chapter,
-        restructured_index,
+        testdir,
+        monkeypatch,
         restructured_sections_manual,
-        restructured_title,
-        restructured_toc,
-        restructured_whitepage,
 ):
-    chapter = serializeraw.load_likelihood(restructured_chapter)
-    index = serializeraw.load_likelihood(restructured_index)
-    title = serializeraw.load_likelihood(restructured_title)
-    toc = serializeraw.load_likelihood(restructured_toc)
-    whitepage = serializeraw.load_whitepages(restructured_whitepage)
+    root = testdir.tmpdir
+    source = tests.resources.RESTRUCT
+    tests.sections_.run_sections(f'-i {source}', monkeypatch=monkeypatch)
 
-    loaded = sections.feature.section.SectionsRequiredResources(
-        chapter=chapter,
-        index=index,
-        title=title,
-        toc=toc,
-        whitepage=whitepage,
-    )
-    result = sections.feature.section.extract_sections(loaded)
+    result = sections.feature.section.load_section_likelihood_frompath(root)
     assert result
     for index, (actual, expected) in enumerate(
             zip(result, restructured_sections_manual)):
@@ -100,27 +90,9 @@ def test_section_chapters(restructured_sections_manual):
 
 
 #pylint:disable=W0621
-def test_section_extract_sections_simple(
-        simple_chapter,
-        simple_index,
-        simple_title,
-        simple_toc,
-        simple_whitepage,
-):
-    chapter = serializeraw.load_likelihood(simple_chapter)
-    index = serializeraw.load_likelihood(simple_index)
-    title = serializeraw.load_likelihood(simple_title)
-    toc = serializeraw.load_likelihood(simple_toc)
-    whitepage = serializeraw.load_whitepages(simple_whitepage)
-
-    loaded = sections.feature.section.SectionsRequiredResources(
-        chapter=chapter,
-        index=index,
-        title=title,
-        toc=toc,
-        whitepage=whitepage,
-    )
-    result = sections.feature.section.extract_sections(loaded)
+def test_section_extract_sections_simple():
+    result = sections.feature.section.extract_sections_frompath(
+        tests.resources.HOWTO_PYPORTING)
 
     expected = [
         iamraw.MultipleSection,
@@ -141,7 +113,8 @@ def test_section_extract_sections_simple(
 
 def test_section_sections_simple(simple_sections):
     """Check dumped result of section work method"""
-    assert len(simple_sections) > 100, simple_sections
-    loaded = serializeraw.load_sections(simple_sections)
-
-    assert len(loaded) == 2, len(loaded)
+    assert len(simple_sections) == 2, len(simple_sections)
+    dumped = serializeraw.dump_sections(simple_sections)
+    assert len(dumped) > 100, dumped
+    loaded = serializeraw.load_sections(dumped)
+    assert loaded == simple_sections, loaded

@@ -30,8 +30,11 @@ from sections.creator import add_text
 from sections.creator import add_title
 from sections.creator import add_toc
 from sections.creator import add_whitepage
+from sections.feature.abbreviation import work as abbreviation_work
+from sections.feature.bibliography import work as bibliography_work
 from sections.feature.chapter import work as chapter_work
 from sections.feature.index import work as index_work
+from sections.feature.legal import work as legal_work
 from sections.feature.section import work as section_work
 from sections.feature.title import work as title_work
 from sections.feature.toc import work as toc_work
@@ -230,6 +233,10 @@ def restructured_sections():
         tests.resources.RESTRUCT_CHAPTER_COUNT,
     )
 
+    abbreviation = abbreviation_work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION)
+    bibliography = bibliography_work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION)
+    legal = legal_work(RESTRUCT_TEXT, RESTRUCT_TEXT_POSITION)
+
     index = index_work(RESTRUCT_TEXT)
     title = title_work(
         RESTRUCT_TEXT,
@@ -242,7 +249,16 @@ def restructured_sections():
         RESTRUCT_TEXT_POSITION,
         footers=RESTRUCT_FOOTERS,
     )
-    result = section_work(chapter, index, title, toc, whitepage)
+    result = section_work(
+        abbreviation,
+        bibliography,
+        chapter,
+        index,
+        legal,
+        title,
+        toc,
+        whitepage,
+    )
 
     return result
 

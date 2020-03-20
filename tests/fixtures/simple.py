@@ -208,29 +208,6 @@ def simple_chapter():
 
 @pytest.fixture
 def simple_sections():
-    chapter = sections.feature.chapter.work(
-        SIMPLE_TEXT,
-        SIMPLE_TEXT_POSITION,
-        SIMPLE_TOC,
-    )
-
-    index = sections.feature.index.work(SIMPLE_TEXT)
-    title = sections.feature.title.work(
-        SIMPLE_TEXT,
-        SIMPLE_FONT_HEADER,
-        SIMPLE_FONT_CONTENT,
-    )
-    toc = sections.feature.toc.work(SIMPLE_TEXT)
-    whitepage = sections.feature.whitepage.work(
-        SIMPLE_TEXT,
-        SIMPLE_TEXT_POSITION,
-        SIMPLE_FOOTERS,
-    )
-    result = sections.feature.section.work(
-        chapter,
-        index,
-        title,
-        toc,
-        whitepage,
-    )
+    result = sections.feature.section.extract_sections_frompath(
+        tests.resources.HOWTO_PYPORTING)
     return result

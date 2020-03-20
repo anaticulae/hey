@@ -19,7 +19,10 @@ def test_headlines_multiple_master72_extract_pages_5_7():
     pages = tuple(range(5, 7))
     chapters = None
 
-    sections_ = sections.feature.section.sections_frompath(path, pages=pages)
+    sections_ = sections.feature.section.load_section_likelihood_frompath(
+        path,
+        pages=pages,
+    )
     loaded = words.loader.basic.load_basic_frompath(path, pages=pages)
 
     strategy = words.headlines.multiline.MultiLine(
@@ -49,7 +52,10 @@ def test_headlines_multiple_master72_extract_pages_13_14():
     pages = tuple(range(13, 15))
     chapters = None
 
-    sections_ = sections.feature.section.sections_frompath(path, pages=pages)
+    sections_ = sections.feature.section.load_section_likelihood_frompath(
+        path,
+        pages=pages,
+    )
     loaded = words.loader.basic.load_basic_frompath(path, pages=pages)
 
     strategy = words.headlines.multiline.MultiLine(
