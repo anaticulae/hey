@@ -143,7 +143,10 @@ def test_words_text_seventytwo_visit_chapters_complete():
 
     chapters = list(wts.visit_chapters(pages))
 
-    assert len(chapters) == 32
+    # user content headlines, Literverzeichnis and Eidesstattliches are
+    # excluded cause there are part of appendix.
+    master72_headline_count = 30
+    assert len(chapters) == master72_headline_count
 
 
 def test_words_text_seventytwo_extract_sentences():
