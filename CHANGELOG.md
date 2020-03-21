@@ -2,6 +2,29 @@
 
 Every noteable change is logged here.
 
+## v1.19.0
+
+### Feature
+
+* introduce min likelihood to disable feature (1c6b77ae59b2)
+* no toc after page 30 - very weak (d475aaee5d4c)
+* add method to extract sections from path (d6a8c21a2ad2)
+* add bib, legal and abbreviation likelihood to decider (d6e489046f5b)
+* add bib likelihood extract step - cli (b8ec664b3b4c)
+* add likelihood detector for bibliography (717655f4d277)
+* use multi formed analysis (c8c0bc800610)
+* make bibliography sortable (4679a40a3b9c)
+
+### Fix
+
+* shrink test result cause appendix is recognized correctly now (6ff97be1d794)
+* ensure that at least one feature is selected (6825ec082c10)
+* extend bib likelihood detector (c51965f10152)
+* do not ignore very high rated features (5ef95028d506)
+* align tests with new interfaces (91205938f62d)
+* fix name (d8c1f9251fc5)
+* reduce minimal required trust to have multiple features (7b2b2657bce2)
+
 ## v1.18.0
 
 ### Feature
