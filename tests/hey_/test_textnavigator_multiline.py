@@ -111,36 +111,3 @@ def test_hey_textnavigator_multiline_group_linedistances_page_zero_tolerance():
         max_distance=lambda x: 0.0,
     )
     assert len(grouped) == 18
-
-
-def test_hey_textnavigator_multiline_unite_groups():
-    content = [['A'], ['W'] * 16, ['C'], ['D'], ['E'], ['G']]
-    index = [
-        [0],
-        [1, 2],
-        [3, 4],
-        [5, 6],
-        [7, 8],
-        [9, 10],
-        [11, 12, 13],
-        [14, 15],
-        [16],
-        [17],
-        [18, 19],
-        [20],
-    ]
-    expected = [
-        ['A'],
-        ['W', 'W'],
-        ['W', 'W'],
-        ['W', 'W'],
-        ['W', 'W'],
-        ['W', 'W'],
-        ['W', 'W', 'W'],
-        ['W', 'W'],
-        ['W'],
-        ['C'],
-        ['G'],
-    ]
-    united = texmex.unite_groups(content, index)
-    assert united == expected

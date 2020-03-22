@@ -6,62 +6,19 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-import iamraw
+
 import serializeraw
 import texmex
-import texmex.navigator
 import utila
 
-import tests.fixtures.headlines
 import tests.resources
 #pylint:disable=W0611
 from tests.fixtures.simple import simple_document
 from tests.fixtures.simple import simple_pagetextnavigators
 from tests.fixtures.simple import simple_second_page_navigator
-from tests.groupme_ import navigator  # pylint:disable=W0611
-
-# TODO: MOVE TO TEXMEX TESTS
 
 
-def test_insert_order(navigator: texmex.PageTextNavigator):  #pylint:disable=W0621
-    for before, after in zip(navigator[:-1], navigator[1:]):
-        before = before.bounding
-        after = after.bounding
-        assert before.y0 <= after.y0
-        if before.y0 == after.y0:
-            assert before.x0 <= after.x0
-
-    current_order = [item.text for item in navigator]
-
-    # items are sorted in ascending
-    assert current_order == list(range(len(navigator))), current_order
-
-
-def test_after(navigator: texmex.PageTextNavigator):  #pylint:disable=W0621
-    # Bottom footer
-    after = 0.8  # from 80% to 100%
-    # greater than 563
-    # 1 item in this example
-    result = navigator.after(after)
-    assert len(result) == 4, result
-
-
-def test_before(navigator: texmex.PageTextNavigator):  #pylint:disable=W0621
-    # Top footer
-    # smaller than 158.4
-    before = 0.2  # from 20% to 0%
-    # 2 items in this example
-    result = navigator.before(before)
-    assert len(result) == 1, before
-
-
-#pylint:disable=W0621
-def test_fonts_navigator_to_bounds(navigator: texmex.PageTextNavigator):
-    result = texmex.navigator_to_bounds(navigator)
-    assert all([isinstance(item, iamraw.BoundingBox) for item in result])
-
-
-def test_hey_navigator_merge_content(simple_second_page_navigator):
+def test_hey_navigator_merge_content(simple_second_page_navigator):  # pylint:disable=W0621
     content = texmex.navigator_to_content(simple_second_page_navigator)
     merged, _ = texmex.merge_content(content)
     merged = texmex.merge_content_join(merged)
@@ -92,14 +49,3 @@ def test_hey_navigator_create_pagetextcontent_navigator_frompath():
     first = loaded[0]
     lasttext = first[-1].text
     assert lasttext != 'i', lasttext
-
-
-def test_hey_navigator_find():
-    navigator = texmex.PageTextNavigator()
-    location = iamraw.BoundingBox.from_str('10.0 12.0 15 20')
-    navigator.insert('me', bounding=location, style=None)
-    location = iamraw.BoundingBox.from_str('100.0 120.0 150 200')
-    navigator.insert('hello', bounding=location, style=None)
-
-    located = navigator.find(location)
-    assert located.text == 'hello'
