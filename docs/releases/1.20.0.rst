@@ -1,0 +1,22 @@
+.. _1_20_0:
+
+RP 1.20.0
+=========
+
+refactoring
+-----------
+
+* [ ] move sections to separate package
+
+* [ ] move words to separate package
+
+* [ ] replace FontStore with iamraw code
+
+code quality
+------------
+
+before
+~~~~~
+
+* Total coverage: 91.94%
+* Your code has been rated at 9.83/10
