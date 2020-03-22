@@ -50,12 +50,8 @@ def work(data: Data, config: Config) -> str:
     navigators = texmex.create_pagetextnavigators(
         text=text,
         text_positions=textposition,
-        # fill_empty=False,
+        fill_empty=False,
     )
-    # TODO: REMOVE AFTER UPGRADING IAMRAW, add fill_empty=False
-    navigators = [
-        item for item in navigators if not utila.should_skip(item.page, pages)
-    ]
     result = {page.page: page_analysis(page) for page in navigators}
 
     uniformed = sections.feature.multiform_result(result)
