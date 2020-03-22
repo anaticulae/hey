@@ -12,7 +12,6 @@ import texmex
 import texmex.navigator
 import utila
 
-import hey.textnavigator.merger as htm
 import tests.fixtures.headlines
 import tests.resources
 #pylint:disable=W0611
@@ -64,15 +63,15 @@ def test_fonts_navigator_to_bounds(navigator: texmex.PageTextNavigator):
 
 def test_hey_navigator_merge_content(simple_second_page_navigator):
     content = texmex.navigator_to_content(simple_second_page_navigator)
-    merged, _ = htm.merge_content(content)
-    merged = htm.merge_content_join(merged)
+    merged, _ = texmex.merge_content(content)
+    merged = texmex.merge_content_join(merged)
 
     content = texmex.navigator_to_content(simple_second_page_navigator)
-    merged, _ = htm.merge_content(content)  # split content and merge_ids
+    merged, _ = texmex.merge_content(content)  # split content and merge_ids
     # NOTE: Dependens on `MAX_MERGE_DISTANCE`, not a good test?
     #     paragraph_after_merge = 8
     #     assert len(merged) == paragraph_after_merge
-    merged_content = htm.merge_content_join(merged)
+    merged_content = texmex.merge_content_join(merged)
 
     expectend_content = utila.NEWLINE.join([item.text for item in content])
     merged_content = utila.NEWLINE.join([item.text for item in merged_content])

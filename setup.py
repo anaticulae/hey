@@ -74,7 +74,6 @@ if __name__ == "__main__":
             'hey',
             'hey.geometry',
             'hey.text',
-            'hey.textnavigator',
             'sections',
             'sections.feature',
             'sections.utils',

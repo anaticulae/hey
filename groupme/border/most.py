@@ -13,8 +13,6 @@ import math
 import iamraw
 import utila
 
-import groupme.border.utils
-
 
 @dataclasses.dataclass
 class MostBoundingDetected:
@@ -47,9 +45,9 @@ def run(sizeandborder: iamraw.PageSizeBorderList) -> MostBoundingDetected:
 
 
 def most_boundingbox(
-        boxes: groupme.border.utils.Rectangles,
+        boxes: utila.Rectangles,
         roundme: bool = False,
-) -> groupme.border.utils.Rectangle:
+) -> utila.Rectangle:
     """Extract bounding box of most common occurence for every side.
 
     Round detected boundingbox to full number to make approach more

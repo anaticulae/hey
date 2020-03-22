@@ -11,7 +11,6 @@ import iamraw
 import texmex
 import utila
 
-import hey.textnavigator.multiline as htm
 import words.headlines
 import words.headlines.standard as whs
 
@@ -49,7 +48,7 @@ class MultiLine(words.headlines.HeadlineExtractorStrategy):
             Extracted list of iamraw.Headline.
         """
         result = []
-        grouped = htm.group_page_by_size_distance(pagecontent)
+        grouped = texmex.group_page_by_size_distance(pagecontent)
         for items in grouped:
             # TODO: REMOVE LATER
             text = ' '.join([item.text.strip() for item in items])

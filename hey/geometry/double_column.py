@@ -22,10 +22,10 @@ Example:
 import math
 
 import configo
+import texmex
 import utila.math
 
 import hey.classificator
-import hey.textnavigator.multiline
 
 
 def parse_page(page) -> list:
@@ -198,10 +198,7 @@ MIN_LINE_GAP = configo.HV_FLOAT_PLUS(10.0)
 
 
 def lines(page) -> utila.Numbers:
-    line_distance = hey.textnavigator.multiline.linedistances(
-        page,
-        noneatend=False,
-    )
+    line_distance = texmex.linedistances(page, noneatend=False)
     clustered = hey.classificator.max_distance(
         line_distance,
         diff=2.0,  # TODO: HOLY VALUE

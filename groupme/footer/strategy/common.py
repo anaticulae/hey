@@ -22,8 +22,6 @@ import utila
 
 import groupme.footer.strategy as gfs
 import hey.classificator
-import hey.textnavigator
-import hey.textnavigator.fonts as htf
 
 COMMON_HEADER_MAX_ERROR = 1.0  # TODO: HOLY VALUE
 # minimal items in a cluster to be detected and accepted as feature.
@@ -87,7 +85,7 @@ def cluster_pages(pagenavigators):
 
 
 def prepare_clustering(pagetextnavigators):
-    textsize = htf.document_textsize(pagetextnavigators)
+    textsize = texmex.document_textsize(pagetextnavigators)
     result = []
     for page in pagetextnavigators:
         content = []

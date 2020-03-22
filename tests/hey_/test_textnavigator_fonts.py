@@ -8,8 +8,8 @@
 # =============================================================================
 
 import serializeraw
+import texmex
 
-import hey.textnavigator.fonts
 import tests.resources
 #pylint:disable=W0611
 from tests.fixtures.simple import simple_contentborder
@@ -24,8 +24,7 @@ def test_groupme_fonts_fontdistance(simple_second_page_navigator):  #pylint:disa
     # if you have 3 item, you have 2 distances A -> B, B-> C
     distance_count = len(content) - 1
     bounds = [item.bounding for item in content]
-    distances = hey.textnavigator.fonts.fontdistance(bounds)
-
+    distances = texmex.fontdistance(bounds)
     assert len(distances) == distance_count
 
     ### 2 elements with negative font size, cause there matching together
@@ -44,19 +43,17 @@ def test_groupme_fonts_textbounds(
         simple_second_page_navigator,  #pylint:disable=W0621
         simple_second_page_size,  #pylint:disable=W0621
 ):
-    bounds = hey.textnavigator.fonts.textbounds(
+    bounds = texmex.textbounds(
         simple_second_page_navigator,
         simple_second_page_size,
     )
-
     assert len(bounds) == len(simple_second_page_navigator)
 
 
 def test_groupme_fonts_textsize(
         simple_second_page_navigator,  #pylint:disable=W0621
 ):
-    common_size = hey.textnavigator.fonts.textsize_from_page(
-        simple_second_page_navigator)
+    common_size = texmex.textsize_frompage(simple_second_page_navigator)
     assert common_size == 9.96
 
 

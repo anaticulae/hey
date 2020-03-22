@@ -17,7 +17,6 @@ import iamraw.sections
 import serializeraw
 import utila
 
-import hey.utils
 import sections.path
 
 # features with lower trust are not expected as detected feature
@@ -96,7 +95,7 @@ def extract_sections(loaded: SectionsRequiredResources) -> iamraw.Sections:
         `Sections` definition for given pages
     """
     result = {}
-    for pagenumber, content in hey.utils.sync([
+    for pagenumber, content in utila.sync_pages([
             loaded.abbreviation,
             loaded.bibliography,
             loaded.chapter,

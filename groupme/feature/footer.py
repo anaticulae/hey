@@ -24,7 +24,6 @@ import groupme.footer.strategy.fixed
 import groupme.footer.strategy.moving
 import groupme.footer.strategy.pages
 import groupme.utils
-import hey.utils
 
 
 def work(
@@ -119,12 +118,7 @@ def judge_strategy(results: typing.List[iamraw.PageContentFooterHeaders],
     """
     assert results is not None, 'require list of strategy results'
     result = []
-    for pagenumber, (
-            common,
-            fixed,
-            moving,
-            pages,
-    ) in hey.utils.sync(results):
+    for pagenumber, (common, fixed, moving, pages) in utila.sync_pages(results):
         header = fixed.header if fixed else None
         footer = fixed.footer if fixed else None
 

@@ -47,9 +47,7 @@ import configo
 import iamraw
 import utila
 
-import groupme.border.utils
 import hey.classificator
-import hey.utils
 
 # max diff to match in common group.
 MAX_SIDE_DIFF = configo.HV_INT_PLUS(default=2.0)
@@ -126,14 +124,13 @@ def simple(left: utila.Numbers, right: utila.Numbers) -> LeftRightDetected:
         None if no valid LeftRightDetected was detected
         LeftRightDetected if failrate is not to hight
     """
-    mixed = groupme.border.utils.diff_mode(left, max_diff=MAX_SIDE_DIFF.value)
+    mixed = utila.diff_mode(left, max_diff=MAX_SIDE_DIFF.value)
     # first side
     first = left[::2]
-    first_matched = groupme.border.utils.diff_mode(
-        first, max_diff=MAX_SIDE_DIFF.value)
+    first_matched = utila.diff_mode(first, max_diff=MAX_SIDE_DIFF.value)
     # second side
     second = left[1::2]
-    second_matched = groupme.border.utils.diff_mode(second, max_diff=MAX_SIDE_DIFF.value) # yapf:disable
+    second_matched = utila.diff_mode(second, max_diff=MAX_SIDE_DIFF.value)
 
     mixed_error = 1 - len(mixed) / len(left)
     first_error = 1 - len(first_matched) / len(first)
@@ -145,7 +142,7 @@ def simple(left: utila.Numbers, right: utila.Numbers) -> LeftRightDetected:
 
     # left right
     # TODO: DEFINE BETTER CONFIDENCE APPROACH
-    max_firstsecond_error = groupme.border.utils.lookup(
+    max_firstsecond_error = utila.lookup(
         len(first),
         MAX_FIRSTSECOND_ERROR,
     )
@@ -198,13 +195,13 @@ def raising(left: utila.Numbers, right: utila.Numbers) -> LeftRightDetected:
     first_right = statistics.mean(longest_right[0])
     second_right = statistics.mean(longest_right[1])
 
-    edges = groupme.border.utils.diffs(left)
+    edges = utila.diffs(left)
     failures = [
         index for index, item in enumerate(edges)
         if item < edge * MIN_RAISING_EDGE.value
     ]
     failrate = len(failures) / len(edges)
-    max_failrate = groupme.border.utils.lookup(len(edges), RAISING_FAILRATE)
+    max_failrate = utila.lookup(len(edges), RAISING_FAILRATE)
 
     if failrate > max_failrate:
         return None
@@ -246,7 +243,7 @@ def determine_pageborder(textpositions, pagesizes):
     left = []
     right = []
     before = -1
-    for current, (page, size) in hey.utils.sync([textpositions, pagesizes]):
+    for current, (page, size) in utila.sync_pages([textpositions, pagesizes]):
         assert current > before, f'{before} < {current}'
         before = current
         if not page or not size:
@@ -260,7 +257,7 @@ def determine_pageborder(textpositions, pagesizes):
 
 
 def maximize_leftright(
-        boundings: groupme.border.utils.Rectangles,
+        boundings: utila.Rectangles,
         size: iamraw.PageSizeBorder,
 ) -> LeftRight:
     """Determine the left and right border of a page based on `mode`

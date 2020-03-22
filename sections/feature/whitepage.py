@@ -33,8 +33,7 @@ import typing
 import iamraw
 import serializeraw
 import texmex
-
-import hey.utils
+import utila
 
 PageContentWhitepages = collections.namedtuple(
     'PageContentWhitepages',
@@ -99,7 +98,7 @@ def extract_whitepages(
         headerfooters,
 ):
     result = {}
-    for pagenumber, (currentpage, navigator, headerfooter) in hey.utils.sync([
+    for pagenumber, (currentpage, navigator, headerfooter) in utila.sync_pages([
             document,
             navigators,
             headerfooters,

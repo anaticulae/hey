@@ -13,7 +13,6 @@
 import texmex
 
 import groupme.toc.strategy as gts
-import hey.textnavigator.fonts as htf
 
 MAX_HEADLINE_LEVEL = 3  # TODO: HOLY VALUE
 
@@ -25,7 +24,7 @@ class GeometryTocExtractor(gts.ExtractorStrategy):
     def result(self) -> gts.ExtractionResult:
         extracted = []
         feed = sorted(
-            htf.document_textfeed(
+            texmex.document_textfeed(
                 self.loaded.content,
                 count=MAX_HEADLINE_LEVEL,
             ))
@@ -45,7 +44,7 @@ class GeometryTocExtractor(gts.ExtractorStrategy):
 
 def analyse_page(navigator: texmex.PageTextContentNavigators, level_feed: list):
     result = []
-    textbounds = htf.textbounds(navigator, navigator.content)
+    textbounds = texmex.textbounds(navigator, navigator.content)
     for item in textbounds:
         if item.text in ('Inhaltsverzeichnis', 'Contents'):
             continue

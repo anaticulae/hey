@@ -6,11 +6,10 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-
 import pytest
 import serializeraw
+import texmex
 
-import hey.textnavigator.multiline as htm
 import tests.resources
 
 NO_GROUP = [[18], [31], [29], [35]]  # number of items per page
@@ -28,8 +27,8 @@ def example():
 @pytest.mark.xfail(reason='grouping is too soft')
 def test_hey_textnavigator_multiline_group_page_no_group():
     navigators = example()
-    grouped = htm.group_pages_by_fontsize(navigators)
-    grouped = [htm.group_by_linedistance(item) for item in grouped]
+    grouped = texmex.group_pages_by_fontsize(navigators)
+    grouped = [texmex.group_by_linedistance(item) for item in grouped]
 
     count = [[len(item) for item in items] for items in grouped]
     assert count == NO_GROUP
@@ -37,7 +36,7 @@ def test_hey_textnavigator_multiline_group_page_no_group():
 
 def test_hey_textnavigator_multiline_group_page_by_fontsize():
     navigators = example()
-    grouped = htm.group_pages_by_fontsize(navigators)
+    grouped = texmex.group_pages_by_fontsize(navigators)
     count = [[len(item) for item in items] for items in grouped]
     expected = [
         [1, 16, 1],  # page 5, 3 MultilineGroups with `text` content
@@ -50,7 +49,7 @@ def test_hey_textnavigator_multiline_group_page_by_fontsize():
 
 def test_hey_textnavigator_multiline_group_page_by_maxdistance():
     navigators = example()
-    grouped = htm.group_pages_by_fontsize(navigators)
+    grouped = texmex.group_pages_by_fontsize(navigators)
     count = [[len(item) for item in items] for items in grouped]
     expected = [
         [1, 16, 1],  # page 5, 3 MultilineGroups with `text` content
@@ -99,14 +98,14 @@ def test_hey_textnavigator_multiline_group_page_by_maxdistance():
 def test_hey_textnavigator_multiline_group_linedistances_page(page, expected):
     navigators = example()
     content = navigators[page]
-    grouped = htm.group_linedistances_complex(content)
+    grouped = texmex.group_linedistances_complex(content)
     assert grouped == expected
 
 
 def test_hey_textnavigator_multiline_group_linedistances_page_zero_tolerance():
     navigators = example()
     content = navigators[0]
-    grouped = htm.group_linedistances_complex(
+    grouped = texmex.group_linedistances_complex(
         content,
         max_sizediff=0.0,
         max_distance=lambda x: 0.0,
@@ -143,5 +142,5 @@ def test_hey_textnavigator_multiline_unite_groups():
         ['C'],
         ['G'],
     ]
-    united = htm.unite_groups(content, index)
+    united = texmex.unite_groups(content, index)
     assert united == expected

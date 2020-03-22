@@ -31,7 +31,6 @@ import utila
 import groupme.toc
 import groupme.toc.lineregex
 import groupme.toc.strategy as gts
-import hey.textnavigator.multiline as htm
 
 MIN_GROUP_GAP = 30.0  # TODO HOLY VALUE
 
@@ -57,7 +56,7 @@ def analyse_page(content: texmex.PageTextNavigator):
 
 
 def group_areas(content: texmex.PageTextNavigator):
-    linedistances = htm.linedistances(content, noneatend=False)
+    linedistances = texmex.linedistances(content, noneatend=False)
     result = []
     grouped = []
     for item, distance in zip(content, linedistances):

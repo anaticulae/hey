@@ -32,11 +32,11 @@ Nearly working
 import math
 
 import configo
+import texmex
 import utila.math
 
 import groupme.abbreviation
 import hey.classificator
-import hey.textnavigator.multiline
 
 
 class GeometryAbbreviationParser(groupme.abbreviation.AbbreviationExtractorStrategy): # yapf:disable
@@ -210,7 +210,7 @@ MIN_LINE_GAP = configo.HV_FLOAT_PLUS(10.0)
 
 
 def lines(page) -> utila.Numbers:
-    line_distance = hey.textnavigator.multiline.linedistances(
+    line_distance = texmex.linedistances(
         page,
         noneatend=False,
     )

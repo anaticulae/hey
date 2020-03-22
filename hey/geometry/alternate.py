@@ -64,12 +64,11 @@ Title/Content Item
 
 import dataclasses
 
+import texmex
 import utila
 
 import hey.classificator
 import hey.text.utils
-import hey.textnavigator.fonts
-import hey.textnavigator.multiline
 
 MIN_LINE_ELEMENT = 3  # TODO: HOLY VALUE
 MAX_LINE_DIFF = 10
@@ -165,8 +164,7 @@ def parse_page(page, lining_points=None, config: ParserConfig = None) -> list:
 
     if not config:
         config = ParserConfig()
-
-    textsize = hey.textnavigator.fonts.textsize_from_page(page)
+    textsize = texmex.textsize_frompage(page)
     result = []
     current = None
     for line in page:
