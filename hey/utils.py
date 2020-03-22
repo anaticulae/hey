@@ -26,7 +26,6 @@ def choose_random(items, count: int = 5) -> list:
     Returns:
         `count` selected items out of collections
       """
-
     items = list(items)  # create a copy
     random.shuffle(items)
     return items[0:count]
