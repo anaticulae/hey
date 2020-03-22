@@ -110,63 +110,10 @@ class RectangleCheck:
     def shrinken(self):
         """Reduce checking rectangles to minimal required. Remove
         rectangle is there are included in a parent rectangle."""
-        self.content = merge_rectangles(self.content)
+        self.content = utila.rectangle_merge(self.content)
 
     def __getitem__(self, index):
         return self.content[index]
 
     def __len__(self):
         return len(self.content)
-
-
-def merge_rectangles(rectangles):
-    """Reduce list of rectangles to the minimal list to describe the
-    covered area. Remove rectangle when there have a parent rectangle
-    which covers them.
-
-    Note: This algoritm does not determine the optimal count of
-    rectangles, if two rectangle cover the area of a third one, all
-    three rectangle will be saved."""
-    #TODO: MOVE TO UTILA.math
-    if not rectangles:
-        return []
-
-    def merge(items):
-        # sort top down, left right
-        items = sorted(items, key=operator.itemgetter(1, 0))
-        result = []
-        while len(items) >= 2:
-            item = items.pop()
-            if any((inside(check, item) for check in items)):
-                continue
-            else:
-                result.insert(0, item)
-        result.insert(0, items.pop())
-        return result
-
-    current = rectangles[:]
-    merged = merge(current)
-    while merged != current:
-        # repeat till algorithm does not change the list
-        current = merged
-        merged = merge(current)
-    return current
-
-
-def size(rectangle):
-    width = rectangle[2] - rectangle[0]
-    height = rectangle[3] - rectangle[1]
-    area = math.fabs(width * height)
-    area = utila.roundme(area)
-    return area
-
-
-def inside(first, second, diff: float = 0):
-    """Is `second` rectangle in `first`."""
-    diff = diff / 2
-    x0, y0, x1, y1 = first
-    x00, y00, x11, y11 = second
-    return all((
-        ((x0 - diff) <= x00 <= x11 <= (x1 + diff)),
-        ((y0 - diff) <= y00 <= y11 <= (y1 + diff)),
-    ))

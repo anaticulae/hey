@@ -24,12 +24,8 @@ import dataclasses
 import typing
 
 import texmex
+import texmex.alpha
 import utila
-
-import groupme.utils.alpha
-
-# TODO: REPLACE AFTER UPGRADING TEXMEX/IAMRAW
-texmex.alpha = groupme.utils.alpha
 
 
 # TODO: MOVE TO IAMRAW

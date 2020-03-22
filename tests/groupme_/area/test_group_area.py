@@ -9,6 +9,7 @@
 
 import iamraw.path
 import linero.path
+import utila
 
 import groupme.feature.area
 import tests.resources
@@ -56,7 +57,7 @@ def test_groupme_area_dump_load():
     assert grouped == loaded
 
 
-def test_groupme_area_merge_rectangles():
+def test_groupme_area_rectangle_merge():
     before = [
         (10, 10, 100, 100),
         (10, 10, 30, 30),
@@ -68,7 +69,7 @@ def test_groupme_area_merge_rectangles():
         (90, 10, 150, 100),
     ]
 
-    merged = groupme.utils.merge_rectangles(before)
+    merged = utila.rectangle_merge(before)
     assert merged == expected
 
     before = [
@@ -81,5 +82,5 @@ def test_groupme_area_merge_rectangles():
         (10, 10, 100, 100),
     ]
 
-    merged = groupme.utils.merge_rectangles(before)
+    merged = utila.rectangle_merge(before)
     assert merged == expected

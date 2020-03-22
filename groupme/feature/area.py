@@ -107,9 +107,9 @@ def group_page(navigator, tables, boxes) -> PageContentTextualArea:
             textual.append(bounding)
 
     # optimize rectangles
-    textual = groupme.utils.merge_rectangles(textual)
-    inside_tables = groupme.utils.merge_rectangles(inside_tables)
-    inside_boxes = groupme.utils.merge_rectangles(inside_boxes)
+    textual = utila.rectangle_merge(textual)
+    inside_tables = utila.rectangle_merge(inside_tables)
+    inside_boxes = utila.rectangle_merge(inside_boxes)
     outside = {
         'boxes': inside_boxes,
         'tables': inside_tables,
@@ -171,17 +171,21 @@ def dump_area(items) -> str:
     for page in items:
         outside = {
             key: [tuple_tostr(item) for item in value
-                 ] for key, value in page.outside.items()
+                 ] if value else value for key, value in page.outside.items()
         }
         border = {
             key: [tuple_tostr(item) for item in border
-                 ] for key, border in page.border.items()
+                 ] if border else border for key, border in page.border.items()
         }
+        textual = page.textual
+        if textual:
+            textual = [tuple_tostr(item) for item in textual]
+
         content = {
             'border': border,
             'outside': outside,
             'page': page.page,
-            'textual': [tuple_tostr(item) for item in page.textual],
+            'textual': textual,
         }
         raw.append(content)
     dumped = yaml.dump(raw)
@@ -196,14 +200,17 @@ def load_area(content: str, pages: tuple = None) -> PageContentTextualAreas:
         pagenumber = int(page['page'])
         if utila.should_skip(pagenumber, pages):
             continue
-        textual = [utila.parse_tuple(item) for item in page['textual']]
+        textual = [utila.parse_tuple(item) for item in page['textual']
+                  ] if page['textual'] else page['textual']
         outside = {
-            key: [utila.parse_tuple(item) for item in values
-                 ] for key, values in page['outside'].items()
+            key:
+            [utila.parse_tuple(item) for item in values] if values else values
+            for key, values in page['outside'].items()
         }
         border = {
-            key: [utila.parse_tuple(item) for item in values
-                 ] for key, values in page['border'].items()
+            key:
+            [utila.parse_tuple(item) for item in values] if values else values
+            for key, values in page['border'].items()
         }
         result.append(
             PageContentTextualArea(
