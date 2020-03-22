@@ -10,7 +10,6 @@
 import iamraw
 import texmex
 
-import hey.fonts.store
 import words.boxed
 import words.feature
 import words.headlines
@@ -21,7 +20,7 @@ def collect_paragraph(
         second: iamraw.Headline,
         page: int,
         pcn: texmex.PageTextContentNavigator,
-        fcs: hey.fonts.store.FontContentStore,  # pylint:disable=W0613
+        fcs: iamraw.FontContentStore,  # pylint:disable=W0613
         boxes: words.boxed.BoxedChecker,
 ) -> iamraw.ChapterText:
     """Extract paragraphs between defined headlines.

@@ -10,7 +10,7 @@ refactoring
 
 * [ ] move words to separate package
 
-* [ ] replace FontStore with iamraw code
+* [x] replace FontStore with iamraw code
 
 code quality
 ------------

@@ -18,14 +18,13 @@ import serializeraw
 import texmex
 
 import groupme.path
-import hey.fonts.store
 import hey.path
 
 
 @dataclasses.dataclass
 class BasicRequiredResources:
     sizeandborder: iamraw.PageSizeBorderList
-    fontstore: hey.fonts.store.FontStore
+    fontstore: iamraw.FontStore
     textnavigators: texmex.PageTextNavigators
     # TODO: fix iamraw
     headerfooters: iamraw.PageContentFooterHeaders
@@ -48,7 +47,7 @@ def load_basic(
         text_positions=text_position,
     )
 
-    fontstore = hey.fonts.store.create_fontstore(font_header, font_content)
+    fontstore = serializeraw.create_fontstore(font_header, font_content)
     sizeandborder = serializeraw.load_pageborders(pagesizes, pages=pages)
 
     headerfooters = serializeraw.load_headerfooter(

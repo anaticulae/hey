@@ -9,13 +9,13 @@
 
 # TODO: REMOVE/MOVE TO TEXMEX
 
+from iamraw import FontStore
 from serializeraw import load_document
 from serializeraw import load_font_content
 from serializeraw import load_font_header
 from texmex.iter import PageIter
 
 import tests.resources
-from hey.fonts.store import FontStore
 from sections.feature.title import font_positions_from_page
 
 

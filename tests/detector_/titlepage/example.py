@@ -12,8 +12,6 @@ import serializeraw
 import texmex
 import utila
 
-import hey.fonts.store
-
 # NOTE: POSITION AND SPACES ARE NOT UP TO DATE
 
 TEXT = r"""
@@ -119,7 +117,7 @@ FONT_CONTENT = """
 
 
 def new_fontstore():
-    fontstore = hey.fonts.store.create_fontstore(
+    fontstore = serializeraw.create_fontstore(
         serializeraw.load_font_header(FONT_HEADER),
         serializeraw.load_font_content(FONT_CONTENT),
     )

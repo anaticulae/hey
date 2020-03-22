@@ -10,13 +10,13 @@
 from functools import partial
 
 from iamraw import Document
+from iamraw import FontStore
 from pytest import fixture
+from serializeraw import create_fontstore
 from serializeraw import load_document
 from serializeraw import load_horizontals
 from utila import run_command
 
-from hey.fonts.store import FontStore
-from hey.fonts.store import create_fontstore
 from sections import PROCESS
 from sections.cli import main
 

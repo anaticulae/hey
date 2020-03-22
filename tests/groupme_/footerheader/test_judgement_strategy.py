@@ -9,6 +9,7 @@
 
 import pytest
 
+import groupme.feature.footer
 import groupme.footer
 import tests.resources
 

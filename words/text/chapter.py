@@ -14,7 +14,6 @@ import iamraw
 import texmex
 import utila
 
-import hey.fonts.store
 import words.boxed
 import words.feature
 import words.headlines
@@ -77,7 +76,7 @@ def split(loaded: words.feature.TextRequiredResources
 
 def analyze_page(
         headlines,
-        fontstore: hey.fonts.store.FontStore,
+        fontstore: iamraw.FontStore,
         textnavigators: texmex.PageTextNavigator,
         border: iamraw.Border,
         boxes: words.boxed.BoxedChecker,
@@ -155,7 +154,7 @@ def prepare_analyze_page(
         # empty page
         return None
 
-    fontstore = hey.fonts.store.FontContentStore(fontstore, pcn, page)
+    fontstore = iamraw.FontContentStore(fontstore, pcn, page)
     # pcn.offset[0] - 1: the "virtual" headline is one container element before
     # the first content.
     if headlines[0].container is None:

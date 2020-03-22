@@ -6,16 +6,14 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-from typing import List
+
+import typing
 
 import iamraw
+import serializeraw
 import texmex
-from serializeraw import dump_likelihood
-from serializeraw import load_document
 
 import sections.feature
-from hey.fonts.store import FontStore
-from hey.fonts.store import create_fontstore
 
 
 def work(
@@ -24,19 +22,19 @@ def work(
         font_content: str,
         pages=None,
 ) -> str:
-    document = load_document(text_linewise, pages=pages)
+    document = serializeraw.load_document(text_linewise, pages=pages)
 
-    lookup = create_fontstore(font_header, font_content)
+    lookup = serializeraw.create_fontstore(font_header, font_content)
 
     result = extract_title_likelihood(document, lookup)
-    dumped = dump_likelihood(result)
+    dumped = serializeraw.dump_likelihood(result)
     return dumped
 
 
 def extract_title_likelihood(
         document: iamraw.Document,
-        fontstore: FontStore,
-) -> List[float]:
+        fontstore: iamraw.FontStore,
+) -> typing.List[float]:
     result = {page.page: analyse_page(page, fontstore) for page in document}
 
     uniformed = sections.feature.uniform_result(result)
@@ -56,7 +54,7 @@ MAXIMAL_TITLE_LENGTH = 200
 EMPTY_RESULT = (0, 0.0)
 
 
-def analyse_page(page: iamraw.Page, fontstore: FontStore) -> float:
+def analyse_page(page: iamraw.Page, fontstore: iamraw.FontStore) -> float:
     """Determine the likelihood that `page` is a title page
 
     A high title_indicator provides a high likelihood of beeing a title
@@ -89,14 +87,14 @@ def analyse_page(page: iamraw.Page, fontstore: FontStore) -> float:
     return max_font_length, title_indicator
 
 
-def font_sizes_from_page(store: FontStore, pagenumber: int):
+def font_sizes_from_page(store: iamraw.FontStore, pagenumber: int):
     fonts = [
         store[font].scale for _, __, ___, font in store.page_iter(pagenumber)
     ]
     return fonts
 
 
-def font_positions_from_page(store: FontStore, pagenumber: int):
+def font_positions_from_page(store: iamraw.FontStore, pagenumber: int):
     positions = [(
         container,
         line,

@@ -13,7 +13,6 @@ import re
 import iamraw
 import utila
 
-import hey.fonts.store
 import hey.textnavigator.fonts
 import hey.utils
 import words.headlines

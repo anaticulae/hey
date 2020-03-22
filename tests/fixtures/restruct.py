@@ -10,6 +10,7 @@
 import pytest
 import serializeraw
 from iamraw import Document
+from iamraw import FontStore
 from iamraw.sections import PERCENT_100
 from iamraw.sections import Sections
 
@@ -20,8 +21,6 @@ import words.feature
 import words.feature.boxed
 import words.headlines
 import words.loader.input
-from hey.fonts.store import FontStore
-from hey.fonts.store import create_fontstore
 from sections.creator import add_chapter
 from sections.creator import add_content
 from sections.creator import add_index
@@ -31,7 +30,6 @@ from sections.creator import add_text
 from sections.creator import add_title
 from sections.creator import add_toc
 from sections.creator import add_whitepage
-from sections.feature.abbreviation import work as abbreviation_work
 from sections.feature.bibliography import work as bibliography_work
 from sections.feature.chapter import work as chapter_work
 from sections.feature.index import work as index_work
@@ -85,14 +83,20 @@ def restructured_text() -> Document:
 
 @pytest.fixture
 def restructured_fontstore() -> FontStore:
-    lookup = create_fontstore(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
+    lookup = serializeraw.create_fontstore(
+        RESTRUCT_FONT_HEADER,
+        RESTRUCT_FONT_CONTENT,
+    )
     return lookup
 
 
 def restructured_fontstore_fixture() -> FontStore:
     # TODO: Remove with new pytest - this is required, because pytest carn't
     # use pytest.fixture in paramertized tests.
-    lookup = create_fontstore(RESTRUCT_FONT_HEADER, RESTRUCT_FONT_CONTENT)
+    lookup = serializeraw.create_fontstore(
+        RESTRUCT_FONT_HEADER,
+        RESTRUCT_FONT_CONTENT,
+    )
     return lookup
 
 

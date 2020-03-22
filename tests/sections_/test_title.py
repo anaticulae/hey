@@ -12,7 +12,6 @@ import iamraw.path
 import pytest
 import serializeraw
 
-import hey.fonts.store
 import sections.feature.title
 import tests.resources
 # pylint:disable=W0611
@@ -48,7 +47,7 @@ def test_extract_title_likelihood(source):
     fontcontent = iamraw.path.fontcontent(source)
 
     document = serializeraw.load_document(document)
-    fontstore = hey.fonts.store.create_fontstore(fontheader, fontcontent)
+    fontstore = serializeraw.create_fontstore(fontheader, fontcontent)
 
     result = sections.feature.title.extract_title_likelihood(
         document,

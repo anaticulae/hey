@@ -17,7 +17,6 @@ import serializeraw
 import texmex
 
 import groupme.path
-import hey.fonts.store
 import hey.path
 import sections.path
 import words.boxed
@@ -29,7 +28,7 @@ import words.headlines
 class TextRequiredResources:
     border: iamraw.Border
     boxes: words.boxed.BoxedChecker
-    fontstore: hey.fonts.store.FontStore
+    fontstore: iamraw.FontStore
     headlines: iamraw.PagesHeadlineList
     textnavigators: texmex.PageTextNavigators
 
@@ -52,7 +51,7 @@ def load_resources(  # pylint:disable=R0914
     headlines = serializeraw.load_headlines(headlines, pages=pages)
     boxes = serializeraw.load_boxes(boxes, pages=pages)
 
-    fontstore = hey.fonts.store.create_fontstore(fontheader, fontcontent)
+    fontstore = serializeraw.create_fontstore(fontheader, fontcontent)
 
     textnavigators = texmex.create_pagetextnavigators(
         text=text,

@@ -13,7 +13,6 @@ import serializeraw
 import texmex
 import utila
 
-import hey.fonts.store
 import sections.feature.chapter
 import sections.feature.index
 import sections.feature.section
@@ -79,8 +78,8 @@ def simple_document_fixture() -> iamraw.Document:
     return loaded
 
 
-def simple_fontstore_fixture() -> hey.fonts.store.FontStore:
-    lookup = hey.fonts.store.create_fontstore(
+def simple_fontstore_fixture() -> iamraw.FontStore:
+    lookup = serializeraw.create_fontstore(
         SIMPLE_FONT_HEADER,
         SIMPLE_FONT_CONTENT,
     )
@@ -88,8 +87,8 @@ def simple_fontstore_fixture() -> hey.fonts.store.FontStore:
 
 
 @pytest.fixture
-def simple_fontstore() -> hey.fonts.store.FontStore:
-    lookup = hey.fonts.store.create_fontstore(
+def simple_fontstore() -> iamraw.FontStore:
+    lookup = serializeraw.create_fontstore(
         SIMPLE_FONT_HEADER,
         SIMPLE_FONT_CONTENT,
     )
