@@ -9,6 +9,7 @@
 
 import os
 
+import iamraw
 import pytest
 import serializeraw
 import utila
@@ -17,7 +18,6 @@ import groupme.feature.footer
 import groupme.footer.strategy as gfs
 import groupme.footer.strategy.moving
 import groupme.path
-import hey.path
 import tests.fixtures.restruct
 import tests.resources
 # pylint:disable=W0611
@@ -127,12 +127,12 @@ def test_groupme_footer_extract_footerheader_technical(root, expected):
     )
 
     horizontals = serializeraw.load_horizontals(
-        hey.path.horizontals(root),
+        iamraw.path.horizontals(root),
         pages=pages,
     )
 
     sizeandborders = serializeraw.load_pageborders(
-        hey.path.sizeandborder(root),
+        iamraw.path.sizeandborder(root),
         pages=pages,
     )
 

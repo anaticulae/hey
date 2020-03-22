@@ -7,10 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw.path
 import serializeraw
 import texmex
-
-import hey.path
 
 
 def load(
@@ -47,10 +46,10 @@ def load(
 
 
 def load_frompath(path: str, pages: tuple = None):
-    text = hey.path.text(path, prefix='oneline')
-    textpositions = hey.path.textposition(path, prefix='oneline')
-    sizeandborder = hey.path.sizeandborder(path)
-    headerfooter = hey.path.headerfooters(path)
+    text = iamraw.path.text(path, prefix='oneline')
+    textpositions = iamraw.path.textposition(path, prefix='oneline')
+    sizeandborder = iamraw.path.sizeandborder(path)
+    headerfooter = iamraw.path.headerfooters(path)
     loaded = load(
         text,
         textpositions,

@@ -68,7 +68,7 @@ class PageNumberStrategy(gfs.FooterHeaderDetectionStrategy):
             bounding = processed[1]
             # TODO: REMOVE STRIP
             if navigator is None:
-                # TODO: CHECK WHY NAVIGATOR CAN BE NONE
+                # TODO: CHECK WHY NAVIGATOR CAN BE NONE - EMPTY PAGE?
                 raw = ''
                 utila.error(f'could not determine `raw-page` on {pdfpage}'
                             ' no navigator found')

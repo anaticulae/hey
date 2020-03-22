@@ -13,11 +13,11 @@ import typing
 
 import configo
 import iamraw
+import iamraw.path
 import serializeraw
 import texmex
 
 import groupme.path
-import hey.path
 import sections.path
 import words.boxed
 import words.feature.headlines
@@ -86,13 +86,13 @@ def load_resources_frompath(
         path: str,
         pages: tuple = None,
 ) -> TextRequiredResources:
-    text = hey.path.text(path)
-    textposition = hey.path.textposition(path)
-    fontheader = hey.path.fontheader(path)
-    fontcontent = hey.path.fontcontent(path)
+    text = iamraw.path.text(path)
+    textposition = iamraw.path.textposition(path)
+    fontheader = iamraw.path.fontheader(path)
+    fontcontent = iamraw.path.fontcontent(path)
     section = sections.path.sections_(path)
-    sizeandborder = hey.path.sizeandborder(path)
-    boxes = hey.path.boxed(path)
+    sizeandborder = iamraw.path.sizeandborder(path)
+    boxes = iamraw.path.boxed(path)
     headerfooters = groupme.path.headerfooters(path)
 
     headlines = words.feature.headlines.work(

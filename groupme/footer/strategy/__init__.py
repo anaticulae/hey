@@ -31,12 +31,12 @@ import os
 import typing
 
 import iamraw
+import iamraw.path
 import serializeraw
 import texmex
 import utila
 
 import groupme.path
-import hey.path
 
 
 @dataclasses.dataclass  # pylint:disable=R0903
@@ -99,10 +99,10 @@ def create_strategy(
         strategy: FooterHeaderDetectionStrategy,
         pages=None,
 ):
-    horizontals = hey.path.horizontals(path)
+    horizontals = iamraw.path.horizontals(path)
     horizontals = serializeraw.load_horizontals(horizontals, pages=pages)
 
-    sizeandborders = hey.path.sizeandborder(path)
+    sizeandborders = iamraw.path.sizeandborder(path)
     sizeandborders = serializeraw.load_pageborders(sizeandborders, pages=pages)
 
     pagenumbers = groupme.path.pagenumbers(path)

@@ -34,8 +34,6 @@ Raising Edge
 The change of the text feed creates an raising edge between pages. This
 approach detects these edges to determine left and right page border
 width.
-
-TODO: MOVE TO HEY PACKAGE LATER
 """
 
 import dataclasses

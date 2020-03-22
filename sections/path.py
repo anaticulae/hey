@@ -7,12 +7,13 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import hey.path
+import utila
+
 import sections
 
 
 def sections_(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
+    return utila.pathconnector(
         path,
         sections.PROCESS,
         'section_result',
@@ -21,7 +22,7 @@ def sections_(path: str, prefix: str = '') -> str:
 
 
 def abbreviation(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
+    return utila.pathconnector(
         path,
         sections.PROCESS,
         'abbreviation_likelihood',
@@ -30,7 +31,7 @@ def abbreviation(path: str, prefix: str = '') -> str:
 
 
 def bibliography(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
+    return utila.pathconnector(
         path,
         sections.PROCESS,
         'bibliography_likelihood',
@@ -39,7 +40,7 @@ def bibliography(path: str, prefix: str = '') -> str:
 
 
 def chapter(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
+    return utila.pathconnector(
         path,
         sections.PROCESS,
         'chapter_likelihood',
@@ -48,7 +49,7 @@ def chapter(path: str, prefix: str = '') -> str:
 
 
 def index(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
+    return utila.pathconnector(
         path,
         sections.PROCESS,
         'index_likelihood',
@@ -57,7 +58,7 @@ def index(path: str, prefix: str = '') -> str:
 
 
 def legal(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
+    return utila.pathconnector(
         path,
         sections.PROCESS,
         'legal_likelihood',
@@ -66,7 +67,7 @@ def legal(path: str, prefix: str = '') -> str:
 
 
 def title(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
+    return utila.pathconnector(
         path,
         sections.PROCESS,
         'title_likelihood',
@@ -75,7 +76,7 @@ def title(path: str, prefix: str = '') -> str:
 
 
 def toc(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
+    return utila.pathconnector(
         path,
         sections.PROCESS,
         'toc_likelihood',
@@ -84,7 +85,7 @@ def toc(path: str, prefix: str = '') -> str:
 
 
 def whitepage(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
+    return utila.pathconnector(
         path,
         sections.PROCESS,
         'whitepage_likelihood',

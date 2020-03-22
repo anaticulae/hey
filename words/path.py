@@ -11,12 +11,7 @@ import utila
 
 
 def headlines(path: str, prefix: str = '') -> str:
-    return utila.pathconnector(
-        path,
-        'words',
-        'headlines_headlines',
-        prefix,
-    )
+    return utila.pathconnector(path, 'words', 'headlines_headlines', prefix)
 
 
 def text(path: str, prefix: str = '') -> str:

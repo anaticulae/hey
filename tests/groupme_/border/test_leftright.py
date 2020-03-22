@@ -7,17 +7,18 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw.path
 import serializeraw
 
 import groupme.border.leftright
-import hey.path
 import tests.resources
 
 
 def load_example(path: str):
     # TODO: USE ONELINE?
-    textpositions = serializeraw.load_textpositions(hey.path.textposition(path))
-    pagesizes = serializeraw.load_pageborders(hey.path.sizeandborder(path))
+    textpositions = serializeraw.load_textpositions(
+        iamraw.path.textposition(path))
+    pagesizes = serializeraw.load_pageborders(iamraw.path.sizeandborder(path))
     return textpositions, pagesizes
 
 

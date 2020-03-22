@@ -7,23 +7,28 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import hey.path
+import utila
 
 
 def area(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(path, 'groupme', 'area_area', prefix)
+    return utila.pathconnector(path, 'groupme', 'area_area', prefix)
 
 
 def border_leftright(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(path, 'groupme', 'border_leftright', prefix)
+    return utila.pathconnector(
+        path,
+        'groupme',
+        'border_leftright',
+        prefix,
+    )
 
 
 def distance(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(path, 'groupme', 'distance_distance', prefix)
+    return utila.pathconnector(path, 'groupme', 'distance_distance', prefix)
 
 
 def pagenumbers(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
+    return utila.pathconnector(
         path,
         'groupme',
         'pagenumbers_pagenumbers',
@@ -32,7 +37,7 @@ def pagenumbers(path: str, prefix: str = '') -> str:
 
 
 def headerfooters(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
+    return utila.pathconnector(
         path,
         'groupme',
         'footer_footerheader',
@@ -41,4 +46,4 @@ def headerfooters(path: str, prefix: str = '') -> str:
 
 
 def toc(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(path, 'groupme', 'toc_toc', prefix)
+    return utila.pathconnector(path, 'groupme', 'toc_toc', prefix)

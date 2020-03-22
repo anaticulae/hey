@@ -7,11 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import hey.path
+import utila
 
 
 def bibliography_detected(path: str, prefix: str = '') -> str:
-    return hey.path.pathconnector(
+    return utila.pathconnector(
         path,
         'detector',
         'bibliography_detected',
