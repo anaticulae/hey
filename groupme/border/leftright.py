@@ -55,7 +55,8 @@ import hey.utils
 MAX_SIDE_DIFF = configo.HV_INT_PLUS(default=2.0)
 # exceptions which are allowed cause of user defined error.
 # TODO: REPLACE WITH HOLY VALUE CONFIGO APPROACH
-MAX_FIRSTSECOND_ERROR = ((2, 0.5), (3, 0.35), (5, 0.26), (10, .21), (15, 0.05))
+MAX_FIRSTSECOND_ERROR = ((2, 0.5), (3, 0.35), (5, 0.26), (10, .21), (15, 0.05),
+                         (200, 0.01))
 # errors which are a result of handle alternating border as single border.
 MIN_MIXED_ERROR = configo.HV_PERCENT_PLUS(default=15)
 # area where left border can be located.
@@ -66,7 +67,7 @@ RIGHT_PERCENT = configo.HV_PERCENT_PLUS(default=30)
 MIN_RAISING_EDGE = configo.HV_PERCENT_PLUS(default=75)
 
 # TODO: REPLACE WITH CONFIGO TABLE
-RAISING_FAILRATE = ((5, 0), (7, 0.2), (10, 0.3), (40, 0.1))
+RAISING_FAILRATE = ((5, 0), (7, 0.2), (10, 0.3), (40, 0.1), (200, 0.05))
 
 LeftRight = typing.Tuple[float, float]
 
