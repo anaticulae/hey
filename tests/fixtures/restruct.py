@@ -87,27 +87,3 @@ def restructured_pagetextnavigators():
 def restructured_sizeandborder():
     loaded = serializeraw.load_pageborders(RESTRUCT_PAGESIZE)
     return loaded
-
-
-@pytest.fixture
-def restructured_textpositions():
-    loaded = serializeraw.load_textpositions(RESTRUCT_TEXT_POSITION)
-    return loaded
-
-
-@pytest.fixture
-def restructured_headerfooter():
-    headerfooter = serializeraw.load_headerfooter(RESTRUCT_FOOTERS)
-    return headerfooter
-
-
-@pytest.fixture
-def restructured_contentborder(
-        # pylint:disable=W0621
-        restructured_headerfooter,
-        restructured_sizeandborder,
-):
-    border = restructured_sizeandborder
-    headerfooter = restructured_headerfooter
-    result = words.headlines.contentborder(border, headerfooter)
-    return result
