@@ -11,11 +11,9 @@ import contextlib
 import os
 
 import pytest
-import serializeraw
 import utila
 
 import tests
-import words
 
 # TODO: Reduce list of unsupported documents
 # this documents does not passes the current implementation
@@ -124,8 +122,9 @@ def rawresult(request, tmpdir):
     return (tmpdir, tocpath, generalpath)
 
 
-@pytest.fixture
-def groupme(rawresult):  # pylint:disable=W0621
+@utila.skip_nightly
+@pytest.mark.usefixtures('testdir')
+def test_huge_running_groupme(rawresult):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath = rawresult
 
     groupmepath = os.path.join(tmpdir, 'groupme')
@@ -136,80 +135,3 @@ def groupme(rawresult):  # pylint:disable=W0621
 
     completed = utila.run(runme)
     assert completed.returncode == utila.SUCCESS, str(completed)
-    return (tmpdir, tocpath, generalpath, groupmepath)
-
-
-@pytest.fixture
-def sections_result(groupme):  # pylint:disable=W0621
-    tmpdir, tocpath, generalpath, groupmepath = groupme
-
-    sectionspath = os.path.join(tmpdir, 'sections')
-    os.makedirs(sectionspath)
-
-    runme = 'sections -i %s -i %s -i %s -o %s -j=8'
-    runme = runme % (generalpath, tocpath, groupmepath, sectionspath)
-
-    completed = utila.run(runme)
-    if completed.returncode != utila.SUCCESS:
-        utila.log(completed.stdout)
-        utila.log(completed.stderr)
-    assert completed.returncode == utila.SUCCESS
-    return (tmpdir, tocpath, generalpath, sectionspath, groupmepath)
-
-
-@pytest.fixture
-def words_result(sections_result):  # pylint:disable=W0621
-    tmpdir, tocpath, generalpath, sectionspath, groupmepath = sections_result
-
-    wordspath = os.path.join(tmpdir, 'words')
-    os.makedirs(wordspath)
-
-    runme = 'words -i %s -i %s -i %s -o %s -j=8'
-    runme = runme % (generalpath, sectionspath, groupmepath, wordspath)
-
-    completed = utila.run(runme)
-    if completed.returncode:
-        utila.error((utila.format_completed(completed)))
-    assert completed.returncode == utila.SUCCESS
-
-    files = [
-        ('words__word_result.yaml', 2000),
-        ('words__headlines_headlines.yaml', 380),
-    ]
-    for item, expected_length in files:
-        path = os.path.join(wordspath, item)
-        content = utila.file_read(path)
-        assert len(content) > expected_length, content
-
-    return (tmpdir, tocpath, generalpath, sectionspath, wordspath)
-
-
-@utila.skip_longrun
-def test_huge_sections_extractor(testdir, sections_result):  # pylint:disable=W0621
-    assert sections_result
-
-
-@utila.skip_longrun
-@pytest.mark.usefixtures('testdir')
-def test_huge_running_words(words_result, request):  # pylint:disable=W0621
-    """Run rawmaker -> sections -> words. Ensure that this chain works for
-    huge pdf example provided by power tool."""
-    testfile = request.node.name.split('[')[1].split(']')[0]
-    expected_headlines = HEADLINE_COUNT.get(testfile, 0)
-
-    headlines = serializeraw.load_headlines(
-        os.path.join(
-            words_result[4],
-            words.WORDS_HEADLINES,
-        ))
-    headlines = utila.flatten(headlines)
-
-    if expected_headlines:
-        assert len(headlines) == expected_headlines, headlines
-
-
-@utila.skip_longrun
-@pytest.mark.usefixtures('groupme')
-@pytest.mark.usefixtures('testdir')
-def test_huge_running_groupme():
-    """Run rawmaker > groupme"""
