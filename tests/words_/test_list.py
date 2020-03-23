@@ -23,7 +23,7 @@ from tests.fixtures.restruct import restructured_list_dumped
 from tests.fixtures.restruct import restructured_list_work
 from tests.fixtures.restruct import restructured_sizeandborder
 from tests.fixtures.restruct import restructured_text
-from tests.fixtures.restruct import restructured_text_positions
+from tests.fixtures.restruct import restructured_textpositions
 from tests.fixtures.restruct import restructured_textexample
 from tests.fixtures.restruct import restructured_textexample_dumped
 from tests.fixtures.simple import simple_contentborder

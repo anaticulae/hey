@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw.path
 import pytest
 import serializeraw
 import texmex
@@ -14,9 +15,9 @@ import texmex
 import sections.feature.chapter
 import tests.resources
 
-RESTRUCT_TEXT = tests.resources.text(tests.resources.RESTRUCT)
-RESTRUCT_TEXT_POSITION = tests.resources.text_positions(tests.resources.RESTRUCT) # yapf:disable
-RESTRUCT_TOC = tests.resources.toc(tests.resources.RESTRUCT)
+RESTRUCT_TEXT = iamraw.path.text(tests.resources.RESTRUCT)
+RESTRUCT_TEXT_POSITION = iamraw.path.textposition(tests.resources.RESTRUCT) # yapf:disable
+RESTRUCT_TOC = iamraw.path.toc(tests.resources.RESTRUCT)
 
 
 @pytest.mark.parametrize('document, position, toc, expected', [
@@ -28,9 +29,9 @@ RESTRUCT_TOC = tests.resources.toc(tests.resources.RESTRUCT)
         id='restruct',
     ),
     pytest.param(
-        tests.resources.text(tests.resources.MASTER72),
-        tests.resources.text_positions(tests.resources.MASTER72),
-        tests.resources.toc(tests.resources.MASTER72),
+        iamraw.path.text(tests.resources.MASTER72),
+        iamraw.path.textposition(tests.resources.MASTER72),
+        iamraw.path.toc(tests.resources.MASTER72),
         [3, 6, 22, 45, 63],
         id='master72pages',
     ),

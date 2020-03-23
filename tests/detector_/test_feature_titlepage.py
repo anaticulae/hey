@@ -27,11 +27,11 @@ import tests.resources as tr
 @utila.skip_longrun
 def test_titlepage_parser():
     extracted = detector.feature.titlepage.work(
-        tests.resources.text(
+        iamraw.path.text(
             tests.resources.HOWTO_PYPORTING,
             prefix='oneline',
         ),
-        tests.resources.text_positions(
+        iamraw.path.textposition(
             tests.resources.HOWTO_PYPORTING,
             prefix='oneline',
         ),

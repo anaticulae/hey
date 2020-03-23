@@ -23,30 +23,30 @@ import tests
 import tests.fixtures
 import tests.resources
 
-SIMPLE_PAGESIZE = tests.resources.sizeandborder(tests.resources.HOWTO_PYPORTING)
-SIMPLE_HORIZONTAL = tests.resources.horizontals(tests.resources.HOWTO_PYPORTING)
-SIMPLE_TEXT_POSITION = tests.resources.text_positions(
+SIMPLE_PAGESIZE = iamraw.path.sizeandborder(tests.resources.HOWTO_PYPORTING)
+SIMPLE_HORIZONTAL = iamraw.path.horizontals(tests.resources.HOWTO_PYPORTING)
+SIMPLE_TEXT_POSITION = iamraw.path.textposition(
     tests.resources.HOWTO_PYPORTING)
-SIMPLE_TEXT = tests.resources.text(tests.resources.HOWTO_PYPORTING)
-SIMPLE_ONELINE_TEXT = tests.resources.text(
+SIMPLE_TEXT = iamraw.path.text(tests.resources.HOWTO_PYPORTING)
+SIMPLE_ONELINE_TEXT = iamraw.path.text(
     tests.resources.HOWTO_PYPORTING,
     prefix='oneline',
 )
-SIMPLE_ONELINE_FONT_HEADER = tests.resources.font_header(
+SIMPLE_ONELINE_FONT_HEADER = iamraw.path.fontheader(
     tests.resources.HOWTO_PYPORTING,
     prefix='oneline',
 )
-SIMPLE_ONELINE_FONT_CONTENT = tests.resources.font_content(
+SIMPLE_ONELINE_FONT_CONTENT = iamraw.path.fontcontent(
     tests.resources.HOWTO_PYPORTING,
     prefix='oneline',
 )
-SIMPLE_FONT_HEADER = tests.resources.font_header(
+SIMPLE_FONT_HEADER = iamraw.path.fontheader(
     tests.resources.HOWTO_PYPORTING)
-SIMPLE_FONT_CONTENT = tests.resources.font_content(
+SIMPLE_FONT_CONTENT = iamraw.path.fontcontent(
     tests.resources.HOWTO_PYPORTING)
-SIMPLE_FOOTER = tests.resources.headerfooters(tests.resources.HOWTO_PYPORTING)
-SIMPLE_TOC = tests.resources.toc(tests.resources.HOWTO_PYPORTING)
-SIMPLE_FOOTERS = tests.resources.headerfooters(tests.resources.HOWTO_PYPORTING)
+SIMPLE_FOOTER = iamraw.path.headerfooters(tests.resources.HOWTO_PYPORTING)
+SIMPLE_TOC = iamraw.path.toc(tests.resources.HOWTO_PYPORTING)
+SIMPLE_FOOTERS = iamraw.path.headerfooters(tests.resources.HOWTO_PYPORTING)
 
 
 @pytest.fixture

@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw.path
 import pytest
 import serializeraw
 
@@ -38,21 +39,21 @@ def test_footer_pagenumber_strategy(
 ):
     pages = tuple(range(pages))
     horizontallines = serializeraw.load_horizontals(
-        tests.resources.horizontals(document),
+        iamraw.path.horizontals(document),
         pages,
     )
     sizeandborder = serializeraw.load_pageborders(
-        tests.resources.sizeandborder(document),
+        iamraw.path.sizeandborder(document),
         pages,
     )
     pagenumbers = serializeraw.load_pagenumbers(
-        tests.resources.pagenumbers(document),
+        groupme.path.pagenumbers(document),
         pages,
     )
 
-    pagetextnavigators = tests.fixtures.create_pagetextnavigators(
+    pagetextnavigators = serializeraw.create_pagetextnavigators_frompath(
         document,
-        pages,
+        pages=pages,
     )
 
     strategy = groupme.footer.strategy.pages.PageNumberStrategy(

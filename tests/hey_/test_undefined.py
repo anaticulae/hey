@@ -16,8 +16,8 @@ from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_pagenumbers
 from tests.fixtures.restruct import restructured_sizeandborder
 from tests.fixtures.restruct import restructured_text
-from tests.fixtures.restruct import restructured_text_positions
 from tests.fixtures.restruct import restructured_textexample
+from tests.fixtures.restruct import restructured_textpositions
 
 # collected by reading the pdf file
 RESTRUCTURED_NON_TEXTUAL_PAGE = 10
@@ -27,7 +27,7 @@ RESTRUCTURED_NON_TEXTUAL_PAGE = 10
 def test_extract_undefined(
         restructured_textexample,
         restructured_text,
-        restructured_text_positions,
+        restructured_textpositions,
         restructured_contentborder,
 ):
     """Text replacing the undefined items with content"""
@@ -35,7 +35,7 @@ def test_extract_undefined(
     extracted = extract_undefined(
         restructured_textexample,
         restructured_text,
-        restructured_text_positions,
+        restructured_textpositions,
         restructured_contentborder,
     )
     assert extracted

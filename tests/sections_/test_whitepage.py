@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw.path
 import serializeraw
 
 import tests.fixtures
@@ -47,11 +48,11 @@ RESTRUCT_EXPECTED = [
 
 
 def test_whitepages_extract():
-    navigators = tests.fixtures.create_pagetextnavigators(tests.resources.RESTRUCT) # yapf:disable
+    navigators = serializeraw.create_pagetextnavigators_frompath(tests.resources.RESTRUCT) # yapf:disable
 
-    document = serializeraw.load_document(tests.resources.text(tests.resources.RESTRUCT)) # yapf:disable
+    document = serializeraw.load_document(iamraw.path.text(tests.resources.RESTRUCT)) # yapf:disable
 
-    headerfooters = tests.resources.headerfooters(tests.resources.RESTRUCT)
+    headerfooters = iamraw.path.headerfooters(tests.resources.RESTRUCT)
     headerfooters = serializeraw.load_headerfooter(headerfooters)
 
     # work

@@ -6,6 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import iamraw.path
 import serializeraw
 
 import sections.feature.index
@@ -29,14 +30,14 @@ def test_extract_index_likelihood(restructured_text):
 
 
 def test_index_work():
-    text = tests.resources.text(tests.resources.RESTRUCT, prefix='oneline')
+    text = iamraw.path.text(tests.resources.RESTRUCT, prefix='oneline')
     dumped = sections.feature.index.work(text)
     assert len(dumped) > 100
 
 
 def test_hey_sections_feature_index_extract_index_likelihood():
     """Reduce false detection of index-pages"""
-    path = tests.resources.text(tests.resources.HOWTO_ARGPARSE)
+    path = iamraw.path.text(tests.resources.HOWTO_ARGPARSE)
     document = serializeraw.load_document(path)
 
     result = sections.feature.index.extract_index_likelihood(document)

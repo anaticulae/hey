@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw.path
 import pytest
 import serializeraw
 from iamraw import Document
@@ -14,6 +15,7 @@ from iamraw import FontStore
 from iamraw.sections import PERCENT_100
 from iamraw.sections import Sections
 
+import groupme.path
 import sections.feature.section
 import tests.fixtures
 import tests.resources
@@ -44,29 +46,28 @@ from words.feature.headlines import work as headlines_work
 from words.feature.list import process as list_process
 from words.text.chapter import extract_texts as text_extract_texts
 
-RESTRUCT_BOXES = tests.resources.boxed(tests.resources.RESTRUCT)
-RESTRUCT_FONT_CONTENT = tests.resources.font_content(tests.resources.RESTRUCT)
-RESTRUCT_FONT_HEADER = tests.resources.font_header(tests.resources.RESTRUCT)
-RESTRUCT_FOOTERS = tests.resources.headerfooters(tests.resources.RESTRUCT)
-RESTRUCT_HORIZONTAL = tests.resources.horizontals(tests.resources.RESTRUCT)
-RESTRUCT_ONELINE_FONT_CONTENT = tests.resources.font_content(
+RESTRUCT_BOXES = iamraw.path.boxed(tests.resources.RESTRUCT)
+RESTRUCT_FONT_CONTENT = iamraw.path.fontcontent(tests.resources.RESTRUCT)
+RESTRUCT_FONT_HEADER = iamraw.path.fontheader(tests.resources.RESTRUCT)
+RESTRUCT_FOOTERS = iamraw.path.headerfooters(tests.resources.RESTRUCT)
+RESTRUCT_HORIZONTAL = iamraw.path.horizontals(tests.resources.RESTRUCT)
+RESTRUCT_ONELINE_FONT_CONTENT = iamraw.path.fontcontent(
     tests.resources.RESTRUCT,
     prefix='oneline',
 )
-RESTRUCT_ONELINE_FONT_HEADER = tests.resources.font_header(
+RESTRUCT_ONELINE_FONT_HEADER = iamraw.path.fontheader(
     tests.resources.RESTRUCT,
     prefix='oneline',
 )
-RESTRUCT_ONELINE_TEXT = tests.resources.text(
+RESTRUCT_ONELINE_TEXT = iamraw.path.text(
     tests.resources.RESTRUCT,
     prefix='oneline',
 )
-RESTRUCT_PAGESIZE = tests.resources.sizeandborder(tests.resources.RESTRUCT)
-RESTRUCT_TEXT = tests.resources.text(tests.resources.RESTRUCT)
-RESTRUCT_TEXT_POSITION = tests.resources.text_positions(
-    tests.resources.RESTRUCT)
-RESTRUCT_TOC = tests.resources.toc(tests.resources.RESTRUCT)
-RESTRUCT_PAGENUMBERS = tests.resources.pagenumbers(tests.resources.RESTRUCT)
+RESTRUCT_PAGESIZE = iamraw.path.sizeandborder(tests.resources.RESTRUCT)
+RESTRUCT_TEXT = iamraw.path.text(tests.resources.RESTRUCT)
+RESTRUCT_TEXT_POSITION = iamraw.path.textposition(tests.resources.RESTRUCT)
+RESTRUCT_TOC = iamraw.path.toc(tests.resources.RESTRUCT)
+RESTRUCT_PAGENUMBERS = groupme.path.pagenumbers(tests.resources.RESTRUCT)
 
 
 @pytest.fixture
@@ -120,7 +121,7 @@ def restructured_index():
 
 @pytest.fixture
 def restructured_pagetextnavigators():
-    navigators = tests.fixtures.create_pagetextnavigators(tests.resources.RESTRUCT) # yapf:disable
+    navigators = serializeraw.create_pagetextnavigators_frompath(tests.resources.RESTRUCT) # yapf:disable
     return navigators
 
 
@@ -193,7 +194,7 @@ def restructured_sizeandborder():
 
 
 @pytest.fixture
-def restructured_text_positions():
+def restructured_textpositions():
     loaded = serializeraw.load_textpositions(RESTRUCT_TEXT_POSITION)
     return loaded
 

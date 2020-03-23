@@ -26,7 +26,7 @@ from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_pagenumbers
 from tests.fixtures.restruct import restructured_sizeandborder
 from tests.fixtures.restruct import restructured_text
-from tests.fixtures.restruct import restructured_text_positions
+from tests.fixtures.restruct import restructured_textpositions
 from tests.fixtures.restruct import restructured_textexample
 
 
@@ -35,14 +35,14 @@ def test_words_text_work(
 ):
     headlines = restructured_headlines
     result = words.feature.text.work(
-        boxes=tests.resources.boxed(tests.resources.RESTRUCT),
-        fontcontent=tests.resources.font_content(tests.resources.RESTRUCT),
-        fontheader=tests.resources.font_header(tests.resources.RESTRUCT),
-        headerfooters=tests.resources.headerfooters(tests.resources.RESTRUCT),
+        boxes=iamraw.path.boxed(tests.resources.RESTRUCT),
+        fontcontent=iamraw.path.fontcontent(tests.resources.RESTRUCT),
+        fontheader=iamraw.path.fontheader(tests.resources.RESTRUCT),
+        headerfooters=iamraw.path.headerfooters(tests.resources.RESTRUCT),
         headlines=headlines,
-        pagesizes=tests.resources.sizeandborder(tests.resources.RESTRUCT),
-        text=tests.resources.text(tests.resources.RESTRUCT),
-        textposition=tests.resources.text_positions(tests.resources.RESTRUCT),
+        pagesizes=iamraw.path.sizeandborder(tests.resources.RESTRUCT),
+        text=iamraw.path.text(tests.resources.RESTRUCT),
+        textposition=iamraw.path.textposition(tests.resources.RESTRUCT),
     )
     assert len(result) > 6000, str(result)
 
@@ -169,14 +169,14 @@ def test_words_extract_texts_page_x(  # pylint:disable=too-many-locals
 ):
     headlines = restructured_headlines
     loaded = words.feature.load_resources(
-        boxes=tests.resources.boxed(tests.resources.RESTRUCT),
-        fontcontent=tests.resources.font_content(tests.resources.RESTRUCT),
-        fontheader=tests.resources.font_header(tests.resources.RESTRUCT),
-        headerfooters=tests.resources.headerfooters(tests.resources.RESTRUCT),
+        boxes=iamraw.path.boxed(tests.resources.RESTRUCT),
+        fontcontent=iamraw.path.fontcontent(tests.resources.RESTRUCT),
+        fontheader=iamraw.path.fontheader(tests.resources.RESTRUCT),
+        headerfooters=iamraw.path.headerfooters(tests.resources.RESTRUCT),
         headlines=headlines,
-        pagesizes=tests.resources.sizeandborder(tests.resources.RESTRUCT),
-        text=tests.resources.text(tests.resources.RESTRUCT),
-        textposition=tests.resources.text_positions(tests.resources.RESTRUCT),
+        pagesizes=iamraw.path.sizeandborder(tests.resources.RESTRUCT),
+        text=iamraw.path.text(tests.resources.RESTRUCT),
+        textposition=iamraw.path.textposition(tests.resources.RESTRUCT),
     )
 
     def join_output(paragraph):
@@ -225,13 +225,13 @@ def test_words_text_convert_undefined_to_text(  # pylint:disable=R0914
         restructured_headlines,  # pylint:disable=W0621
         restructured_textexample,  # pylint:disable=W0621
         restructured_text,  # pylint:disable=W0621
-        restructured_text_positions,  # pylint:disable=W0621
+        restructured_textpositions,  # pylint:disable=W0621
         restructured_contentborder,  # pylint:disable=W0621
 ):
     headlines = restructured_headlines
     textexample = restructured_textexample
     text = restructured_text
-    text_positions = restructured_text_positions
+    text_positions = restructured_textpositions
     contentborder = restructured_contentborder
     assert textexample is not None
     assert headlines is not None

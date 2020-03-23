@@ -9,6 +9,7 @@
 """Extract footer out of document."""
 import typing
 
+import iamraw.path
 import pytest
 import serializeraw
 import utila
@@ -112,8 +113,8 @@ def pagenumbers_simple(simple_navigator):  #pylint:disable=W0621
 @utila.skip_longrun
 def test_groupme_numbers_work_single(resource, expected_numbers):
     # TODO: bottom only, add header page extraction
-    text = tests.resources.text(resource)
-    text_positions = tests.resources.text_positions(resource)
+    text = iamraw.path.text(resource)
+    text_positions = iamraw.path.textposition(resource)
 
     result = groupme.feature.numbers.work(text, text_positions)
     result = serializeraw.load_pagenumbers(result)

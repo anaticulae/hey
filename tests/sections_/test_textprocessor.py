@@ -9,6 +9,7 @@
 
 # TODO: REMOVE/MOVE TO TEXMEX
 
+import iamraw.path
 from iamraw import FontStore
 from serializeraw import load_document
 from serializeraw import load_font_content
@@ -20,12 +21,12 @@ from sections.feature.title import font_positions_from_page
 
 
 def pyporting_pages(pagenumber):  #pagenumber: int):
-    document = load_document(tests.resources.text(tests.resources.PYPORTING))
+    document = load_document(iamraw.path.text(tests.resources.PYPORTING))
     current_page = document[pagenumber]
 
-    header = load_font_header(tests.resources.font_header(tests.resources.PYPORTING)) # yapf:disable
+    header = load_font_header(iamraw.path.fontheader(tests.resources.PYPORTING)) # yapf:disable
 
-    content = load_font_content(tests.resources.font_content(tests.resources.PYPORTING)) # yapf:disable
+    content = load_font_content(iamraw.path.fontcontent(tests.resources.PYPORTING)) # yapf:disable
     fontstore = FontStore(header, content)
 
     positions = font_positions_from_page(fontstore, pagenumber)

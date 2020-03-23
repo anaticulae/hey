@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw.path
 import pytest
 import serializeraw
 
@@ -15,7 +16,7 @@ import groupme.toc.lineregex
 import groupme.toc.strategy.regex as gtsr
 import tests
 
-MASTER72_TEXT = tests.resources.text(tests.resources.MASTER72, prefix='oneline')
+MASTER72_TEXT = iamraw.path.text(tests.resources.MASTER72, prefix='oneline')
 
 
 def test_extract_toc_from_master_pages72_page_1and2():

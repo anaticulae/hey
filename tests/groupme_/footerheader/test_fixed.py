@@ -9,26 +9,26 @@
 
 import itertools
 
+import iamraw
+import iamraw.path
 import serializeraw
 import utila
 
 import groupme.footer.strategy as gfs
 import groupme.footer.strategy.fixed as gfsf
-import tests.fixtures
 import tests.resources
 
 
 def _restructed():
-    horizontals = tests.resources.horizontals(tests.resources.RESTRUCT)
+    horizontals = iamraw.path.horizontals(tests.resources.RESTRUCT)
     horizontals = serializeraw.load_horizontals(horizontals)
 
-    sizeandborder = tests.resources.sizeandborder(tests.resources.RESTRUCT)
+    sizeandborder = iamraw.path.sizeandborder(tests.resources.RESTRUCT)
     sizeandborder = serializeraw.load_pageborders(sizeandborder)
 
     pageheight = utila.select_page(sizeandborder, 0).size.height
 
-    navigators = tests.fixtures.create_pagetextnavigators(tests.resources.RESTRUCT) # yapf:disable
-
+    navigators = serializeraw.create_pagetextnavigators_frompath(tests.resources.RESTRUCT) # yapf:disable
     top, bottom = gfsf.extract_common_footer(
         horizontals=horizontals,
         pageheight=pageheight,
@@ -60,10 +60,10 @@ def test_groupme_footer_fixed_restructed_extract_page_footerheader():
 
 
 def _bachelor111():
-    horizontals = tests.resources.horizontals(tests.resources.BACHELOR111)
+    horizontals = iamraw.path.horizontals(tests.resources.BACHELOR111)
     horizontals = serializeraw.load_horizontals(horizontals)
 
-    sizeandborder = tests.resources.sizeandborder(tests.resources.BACHELOR111)
+    sizeandborder = iamraw.path.sizeandborder(tests.resources.BACHELOR111)
     sizeandborder = serializeraw.load_pageborders(sizeandborder)
     pageheight = utila.select_page(sizeandborder, 0).size.height
 

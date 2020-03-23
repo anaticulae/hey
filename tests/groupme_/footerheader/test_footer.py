@@ -10,6 +10,7 @@
 import os
 
 import iamraw
+import iamraw.path
 import pytest
 import serializeraw
 import utila
@@ -30,13 +31,13 @@ from tests.fixtures.restruct import restructured_sizeandborder
 def test_groupme_footer_work(testdir):  #pylint:disable=W0621
     root = str(testdir)
     dumped = groupme.feature.footer.work(
-        tests.resources.text(tests.resources.RESTRUCT),
-        tests.resources.text_positions(tests.resources.RESTRUCT),
-        tests.resources.font_header(tests.resources.RESTRUCT),
-        tests.resources.font_content(tests.resources.RESTRUCT),
-        tests.resources.horizontals(tests.resources.RESTRUCT),
-        tests.resources.sizeandborder(tests.resources.RESTRUCT),
-        tests.resources.pagenumbers(tests.resources.RESTRUCT),
+        iamraw.path.text(tests.resources.RESTRUCT),
+        iamraw.path.textposition(tests.resources.RESTRUCT),
+        iamraw.path.fontheader(tests.resources.RESTRUCT),
+        iamraw.path.fontcontent(tests.resources.RESTRUCT),
+        iamraw.path.horizontals(tests.resources.RESTRUCT),
+        iamraw.path.sizeandborder(tests.resources.RESTRUCT),
+        groupme.path.pagenumbers(tests.resources.RESTRUCT),
     )
     assert dumped
     assert len(dumped) > 100, str(dumped)  # there is some content
