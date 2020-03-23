@@ -29,7 +29,3 @@ def choose_random(items, count: int = 5) -> list:
     items = list(items)  # create a copy
     random.shuffle(items)
     return items[0:count]
-
-
-# Unicode special minus sign
-SPECIAL_MINUS_SIGN = '–'
