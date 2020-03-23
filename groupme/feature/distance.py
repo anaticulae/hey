@@ -66,7 +66,6 @@ def determine_distances(loaded: RequiredResources) -> PageContentAreaDistances:
     for navigator in loaded.textnavigator:
         page = navigator.page
         areas = utila.select_page(loaded.area, page)
-
         grouped = group_page(navigator, areas)
         if not grouped:
             continue
@@ -178,6 +177,7 @@ def load(
     textnavigator = texmex.create_pagetextnavigators(
         text,
         text_positions=textpositions,
+        fill_empty=False,
     )
     result = RequiredResources(
         area=area,

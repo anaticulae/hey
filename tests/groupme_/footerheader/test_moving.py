@@ -70,6 +70,7 @@ def test_groupme_footer_moving(document, pages, expected_footer, validate):
         assert len(notes) == length, f'on page: {page}'
         assert extracted_footer[1], utila.log_raw(f'has no footer: {page}')
 
+
 def test_groupme_footer_master72pages(testdir):
     path = iamraw.path.horizontals(tests.resources.MASTER72)
     result = serializeraw.load_horizontals(path)
