@@ -26,7 +26,7 @@ def install_requirements():
 
 
 def sync_resources():
-    completed = utila.run('power --all', tests.resources.RESOURCES)  # pylint:disable=C0103
+    completed = utila.run('power --all', tests.resources.RESOURCES)
     assert completed.returncode == utila.SUCCESS, str(completed)
 
 
@@ -37,60 +37,46 @@ def extract_examples():
     extract_without_titlepage()
 
 
-# yapf:disable
+CONFIG = '--char_margin=3.1 --boxes_flow=1.0 --line_margin=0.25 '
+ONELINE = detector.feature.titlepage.RAWMAKER_CONFIGURATION
+
 PACKAGE = [
     (tests.resources.BACHELOR111_PDF, tests.resources.BACHELOR111, None),
     (tests.resources.BACHELOR37_PDF, tests.resources.BACHELOR37, '0:30'),
-    (tests.resources.BACHELOR63_PDF, tests.resources.BACHELOR63, '0,1,2,3,4,5,6,7,8,59,60,61'),
+    (tests.resources.BACHELOR63_PDF, tests.resources.BACHELOR63, '0:9,59:62'),
     (tests.resources.HOWTO_ARGPARSE_PDF, tests.resources.HOWTO_ARGPARSE, None),
-    (tests.resources.HOWTO_PYPORTING_PDF, tests.resources.HOWTO_PYPORTING, None),
+    (tests.resources.HOWTO_PYPORTING_PDF, tests.resources.HOWTO_PYPORTING,
+     None),
     (tests.resources.LEFTRIGHT_PDF, tests.resources.LEFTRIGHT, None),
     (tests.resources.MASTER72_PDF, tests.resources.MASTER72, None),
     (tests.resources.PYPORTING_PDF, tests.resources.PYPORTING, None),
     (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT, None),
     (tests.resources.TECHNICAL24_PDF, tests.resources.TECHNICAL24, None),
     (tests.resources.TWINE_PDF, tests.resources.TWINE, None),
-]
-SINGLE = [
     (tests.resources.BACHELOR56_PDF, tests.resources.BACHELOR56, '0:55'),
     (tests.resources.HOMEWORK50_PDF, tests.resources.HOMEWORK50, '6'),
     (tests.resources.HOWTOWRITE9_PDF, tests.resources.HOWTOWRITE9, '0:10'),
-    (tests.resources.MASTER116_PDF, tests.resources.MASTER116, '0,1,2,3,4,96,97,98,99,100'),
-    (tests.resources.MASTER89_PDF, tests.resources.MASTER89, '0:89'), # complete
+    (tests.resources.MASTER116_PDF, tests.resources.MASTER116, '0:5,96:101'),
+    (tests.resources.MASTER89_PDF, tests.resources.MASTER89, '0:89'),
 ]
 
 
 def run_package(pdf, outpath, pages=None):
-    utila.log(f'run {pdf}')
-    todo = []
-    todo.extend(create_todo_rawmaker(pdf, outpath, pages=pages))
-
-    todo.append(('groupme', outpath, outpath, ''))
-    todo.append(('sections', outpath, outpath, '--all'))
-    # required by abbreviation test
-    todo.append(('words', outpath, outpath, '--all'))
-
-    todo = [
-        f'{executable} -i {inpath} -o {outpath} {configuration}'
-        for (executable, inpath, outpath, configuration) in todo
-    ]
-    todo = ' && '.join(todo)  # pylint:disable=R0204
-    completed = utila.run(todo)
-    utila.assert_success(completed)
-    return todo
-
-
-def run_single(pdf, dest, pages=None):
-    """Extract only rawmaker and linero and nothing more."""
-    todo = create_todo_rawmaker(pdf, dest, pages=pages)
-    todo = [
-        f'{executable} -i {inpath} -o {outpath} {configuration}'
-        for (executable, inpath, outpath, configuration) in todo
-    ]
-    todo = ' && '.join(todo)  # pylint:disable=R0204
-    completed = utila.run(todo)
-    utila.assert_success(completed)
-    return todo
+    relative = utila.make_relative(pdf, tests.resources.RESOURCES)
+    utila.log(f'run: {relative}')
+    todo = create_todo(pdf, outpath, pages=pages)
+    for item in todo:
+        if isinstance(item, str):
+            completed = utila.run(item)
+            utila.assert_success(completed)
+        else:
+            parallel = [
+                ' && '.join(para) if isinstance(para, tuple) else para
+                for para in item
+            ]
+            ret = utila.run_parallel(parallel)
+            assert ret == utila.SUCCESS, str(parallel)
+    utila.log(f'completed: {relative}')
 
 
 def extract():
@@ -100,54 +86,31 @@ def extract():
     # ensure that generation directory exists
     os.makedirs(tests.resources.GENERATED)
     with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER) as executor:
-        futures_standard = {
+        futures = {
             executor.submit(run_package, pdf, out, pages=pages): pdf
             for pdf, out, pages in PACKAGE
         }
-        futures_singles = {
-            executor.submit(run_single, pdf, out, pages=pages): pdf
-            for pdf, out, pages in SINGLE
-        }
-        futures = {}
-        futures.update(futures_standard)
-        futures.update(futures_singles)
         for future in concurrent.futures.as_completed(futures):
             try:
-                comment = future.result()
-                utila.log(comment)
-            except Exception:
+                future.result()
+            except Exception as error:  # pylint:disable=broad-except
                 utila.error(f'{future} failed.')
-                raise
+                utila.error(error)
 
 
-def create_todo_rawmaker(inpath, outpath, pages=None):
-    # default config
-    # TODO: move configuration to global var
-    config = '--all --char_margin=3.1 --boxes_flow=1.0 --line_margin=0.25 '
+def create_todo(inpath, outpath, pages: tuple = None):
     pages = f' --pages {pages} ' if pages is not None else ' '
-    result = [
+    result = (
         (
-            'rawmaker -j8',
-            inpath,
-            outpath,
-            # oneline configuration
-            detector.feature.titlepage.RAWMAKER_CONFIGURATION + pages,
+            (
+                f'rawmaker -j8 -i {inpath} -o {outpath} {CONFIG} {pages}',
+                f'linero -i {outpath} -o {outpath}',
+            ),
+            f'rawmaker -j8 -i {inpath} -o {outpath} {ONELINE} {pages}',
         ),
-        (
-            'rawmaker -j8',
-            inpath,
-            outpath,
-            config + pages,
-        ),
-        (
-            'linero',
-            outpath,
-            outpath,
-            '',
-        ),
-    ]
+        f'groupme -j8 -i {outpath} -o {outpath} {pages}',
+    )
     return result
-
 
 
 def extract_without_titlepage():
@@ -164,4 +127,11 @@ def extract_without_titlepage():
     ]
     returncode = utila.run_parallel(todo, worker=WORKER)
     assert returncode == utila.SUCCESS, str(returncode)
-    hey.example.extract(without_titlepage, destination, pages='0:10')
+    hey.example.extract(
+        files=without_titlepage,
+        destination=destination,
+        pages='0:10',
+        detector=False,
+        sections=False,
+        words=False,
+    )
