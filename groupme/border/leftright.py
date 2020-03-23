@@ -122,6 +122,10 @@ def simple(left: utila.Numbers, right: utila.Numbers) -> LeftRightDetected:
         None if no valid LeftRightDetected was detected
         LeftRightDetected if failrate is not to hight
     """
+    if len(left) <= 1:
+        # TODO: INVESTIGATE HERE
+        utila.error('could not run simple approach')
+        return None
     mixed = utila.diff_mode(left, max_diff=MAX_SIDE_DIFF.value)
     # first side
     first = left[::2]
