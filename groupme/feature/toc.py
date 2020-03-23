@@ -30,7 +30,6 @@ import groupme.toc.loader
 import groupme.toc.strategy
 import groupme.toc.strategy.regex as gtsr
 import groupme.utils
-import words.headlines
 
 MIN_TOCS_PER_PAGE = 0.2  # TODO: HOLY VALUE
 
@@ -114,6 +113,14 @@ def select_tocpages(
     return set(selected)
 
 
+# TODO: THIS IS STOLEN FROM WORDS
+WHITELIST = set([
+    'Anhang',
+    'Eidesstattliche Erklärung',
+    'Literaturverzeichnis',
+])
+
+
 def decide_non_level_possible_headlines(items):
     """Decide level for toc lines without 1.2.3-pattern in table of content
 
@@ -122,7 +129,7 @@ def decide_non_level_possible_headlines(items):
     result = []
     for item in items:
         if item.level is None:
-            if not item.title in words.headlines.WHITELIST:
+            if not item.title in WHITELIST:
                 # remove items which are not part of the white list
                 utila.info(f'skip potential headline: {item.title}')
                 continue

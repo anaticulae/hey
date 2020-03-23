@@ -10,7 +10,40 @@
 import dataclasses
 import typing
 
-import words.text.sentence
+# TODO: THIS IS STOLEN FROM WORDS
+WHITELIST = {
+    'Abb.',
+    'Aufl.',
+    'Bd.',
+    'Co.',
+    'Diss.',
+    'Dok.',
+    'Forts.',
+    'Hrsg.',
+    'Jg.',
+    'S.',
+    'Sp.',
+    'Verf.',
+    'Verl.',
+    'Vol.',
+    'a.a.O.',
+    'al.',
+    'bzw.',
+    'ca.',
+    'etc.',
+    'f.',
+    'ff.'
+    'ggf.',
+    'lat.',
+    'mind.',
+    'o.J.',
+    'o.V.',
+    'o.Ä',
+    'usw.',
+    'vgl.',
+    'z.B.',
+}
+WHITELIST = {item.lower() for item in WHITELIST}
 
 
 @dataclasses.dataclass
@@ -26,7 +59,7 @@ class AbbreviationList:
 
 AbbreviationLists = typing.List[AbbreviationList]
 
-DUDEN = AbbreviationList(data=words.text.sentence.WHITELIST)
+DUDEN = AbbreviationList(data=WHITELIST)
 
 
 @dataclasses.dataclass
