@@ -12,18 +12,17 @@ import texmex
 import utila
 
 import tests.resources
-#pylint:disable=W0611
-from tests.fixtures.simple import simple_document
-from tests.fixtures.simple import simple_pagetextnavigators
-from tests.fixtures.simple import simple_second_page_navigator
 
 
-def test_hey_navigator_merge_content(simple_second_page_navigator):  # pylint:disable=W0621
-    content = texmex.navigator_to_content(simple_second_page_navigator)
+def test_hey_navigator_merge_content():  # pylint:disable=W0621
+    navigator = serializeraw.create_pagetextnavigators_frompath(
+        tests.resources.HOWTO_PYPORTING)
+    navigator = utila.select_page(navigator, page=1)
+    content = texmex.navigator_to_content(navigator)
     merged, _ = texmex.merge_content(content)
     merged = texmex.merge_content_join(merged)
 
-    content = texmex.navigator_to_content(simple_second_page_navigator)
+    content = texmex.navigator_to_content(navigator)
     merged, _ = texmex.merge_content(content)  # split content and merge_ids
     # NOTE: Dependens on `MAX_MERGE_DISTANCE`, not a good test?
     #     paragraph_after_merge = 8

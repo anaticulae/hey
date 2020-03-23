@@ -10,22 +10,23 @@
 import utila
 
 import tests.resources
-import tests.sections_
 
+# TODO: MOVE LATER
+# import tests.sections_
 
-def test_regression_sections_and_words(testdir, monkeypatch):
-    """Start with whitepage that leads to some trouble with empty
-    navigators and problems in serializeraw module."""
-    root = str(testdir)
+# def test_regression_sections_and_words(testdir, monkeypatch):
+#     """Start with whitepage that leads to some trouble with empty
+#     navigators and problems in serializeraw module."""
+#     root = str(testdir)
 
-    pattern = '[rawmaker|groupme]*.yaml'
-    utila.copy_content(tests.resources.TWINE_NO_TILE, root, pattern=pattern)
+#     pattern = '[rawmaker|groupme]*.yaml'
+#     utila.copy_content(tests.resources.TWINE_NO_TILE, root, pattern=pattern)
 
-    jobs = 5
-    cmd = f'-j{jobs} --all'
-    tests.sections_.run_sections(cmd, monkeypatch=monkeypatch)
+#     jobs = 5
+#     cmd = f'-j{jobs} --all'
+#     tests.sections_.run_sections(cmd, monkeypatch=monkeypatch)
 
-    tests.words_.run_words_success('--all', monkeypatch=monkeypatch)
+#     tests.words_.run_words_success('--all', monkeypatch=monkeypatch)
 
 
 @utila.skip_longrun

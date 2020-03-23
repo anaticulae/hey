@@ -11,22 +11,14 @@ import iamraw
 import pytest
 import serializeraw
 import texmex
-import utila
 
-import sections.feature.chapter
-import sections.feature.index
-import sections.feature.section
-import sections.feature.title
-import sections.feature.toc
-import sections.feature.whitepage
 import tests
 import tests.fixtures
 import tests.resources
 
 SIMPLE_PAGESIZE = iamraw.path.sizeandborder(tests.resources.HOWTO_PYPORTING)
 SIMPLE_HORIZONTAL = iamraw.path.horizontals(tests.resources.HOWTO_PYPORTING)
-SIMPLE_TEXT_POSITION = iamraw.path.textposition(
-    tests.resources.HOWTO_PYPORTING)
+SIMPLE_TEXT_POSITION = iamraw.path.textposition(tests.resources.HOWTO_PYPORTING)
 SIMPLE_TEXT = iamraw.path.text(tests.resources.HOWTO_PYPORTING)
 SIMPLE_ONELINE_TEXT = iamraw.path.text(
     tests.resources.HOWTO_PYPORTING,
@@ -40,10 +32,8 @@ SIMPLE_ONELINE_FONT_CONTENT = iamraw.path.fontcontent(
     tests.resources.HOWTO_PYPORTING,
     prefix='oneline',
 )
-SIMPLE_FONT_HEADER = iamraw.path.fontheader(
-    tests.resources.HOWTO_PYPORTING)
-SIMPLE_FONT_CONTENT = iamraw.path.fontcontent(
-    tests.resources.HOWTO_PYPORTING)
+SIMPLE_FONT_HEADER = iamraw.path.fontheader(tests.resources.HOWTO_PYPORTING)
+SIMPLE_FONT_CONTENT = iamraw.path.fontcontent(tests.resources.HOWTO_PYPORTING)
 SIMPLE_FOOTER = iamraw.path.headerfooters(tests.resources.HOWTO_PYPORTING)
 SIMPLE_TOC = iamraw.path.toc(tests.resources.HOWTO_PYPORTING)
 SIMPLE_FOOTERS = iamraw.path.headerfooters(tests.resources.HOWTO_PYPORTING)
@@ -142,71 +132,3 @@ def simple_page_2_text_only(simple_page_2: iamraw.Page):  # pylint: disable=W062
             continue
         lines.extend(child.text.splitlines())
     return lines
-
-
-# TODO: Reduce amout of fixtures
-@pytest.fixture
-def simple_second_page_navigator(
-        simple_pagetextnavigators,  # pylint:disable=W0621
-) -> texmex.PageTextNavigator:
-    return utila.select_page(simple_pagetextnavigators, page=1)
-
-
-@pytest.fixture
-def simple_second_page_size(simple_contentborder) -> iamraw.Border:  # pylint:disable=W0621
-    return simple_contentborder[1]
-
-
-@pytest.fixture
-def simple_toc():
-    result = sections.feature.toc.work(SIMPLE_ONELINE_TEXT)
-    return result
-
-
-@pytest.fixture
-def simple_whitepage():
-    result = sections.feature.whitepage.work(
-        SIMPLE_TEXT,
-        SIMPLE_TEXT_POSITION,
-        SIMPLE_FOOTERS,
-    )
-    return result
-
-
-@pytest.fixture
-def simple_title():
-    result = sections.feature.title.work(
-        SIMPLE_ONELINE_TEXT,
-        SIMPLE_ONELINE_FONT_HEADER,
-        SIMPLE_ONELINE_FONT_CONTENT,
-    )
-    return result
-
-
-@pytest.fixture
-def simple_index():
-    result = sections.feature.index.work(SIMPLE_ONELINE_TEXT)
-    return result
-
-
-@pytest.fixture
-def simple_chapter():
-    result = sections.feature.chapter.work(
-        SIMPLE_TEXT,
-        SIMPLE_TEXT_POSITION,
-        SIMPLE_TOC,
-    )
-
-    # ensure that all chapters are detected
-    tests.fixtures.assert_chapter_count(
-        serializeraw.load_likelihood(result),
-        tests.resources.HOWTO_PYPORTING_CHAPTER_PAGE_COUNT,
-    )
-    return result
-
-
-@pytest.fixture
-def simple_sections():
-    result = sections.feature.section.extract_sections_frompath(
-        tests.resources.HOWTO_PYPORTING)
-    return result
