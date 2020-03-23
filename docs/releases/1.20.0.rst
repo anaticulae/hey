@@ -6,9 +6,9 @@ RP 1.20.0
 refactoring
 -----------
 
-* [ ] move sections to separate package
+* [x] move sections to separate package
 
-* [ ] move words to separate package
+* [x] move words to separate package
 
 * [x] replace FontStore with iamraw code
 
@@ -16,7 +16,12 @@ code quality
 ------------
 
 before
-~~~~~
+~~~~~~
 
 * Total coverage: 91.94%
 * Your code has been rated at 9.83/10
+
+after
+~~~~~
+
+* Your code has been rated at 9.82/10
