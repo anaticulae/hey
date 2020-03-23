@@ -2,6 +2,18 @@
 
 Every noteable change is logged here.
 
+## v2.0.0
+
+### Feature
+
+* make example run selective (f21dc889b773)
+
+### Fix
+
+* catch to few items (b5ddba61c1ab)
+* ensure to handle partial pages correctly (451dddf183f6)
+* add stolen code from words package (e16f073a4b4d)
+
 ## v1.19.1
 
 ## v1.19.0
