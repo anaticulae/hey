@@ -23,11 +23,16 @@ import utila
 import detector.feature.titlepage as dft
 
 
-def extract(
+def extract(  # pylint:disable=R0914
         files: list,
         destination: str,
         pages: str = '0:10',
         worker: int = 12,
+        *,
+        groupme: bool = True,
+        sections: bool = True,
+        words: bool = True,
+        detector: bool = True,
 ):
     """Run rawmaker, groupme, sections and words for given `files` and write
     result to `destination`.
@@ -37,6 +42,10 @@ def extract(
         destination(path): create folder for every file and save result
         pages(str): range of selected pages
         worker(int): number of threads to extract examples
+        groupme(bool): run if True
+        sections(bool): run if True
+        words(bool): run if True
+        detector(bool): run if True
     Raises:
         Exception: if Exception occurs while extracting file
     """
@@ -50,7 +59,13 @@ def extract(
         completed = utila.run(job)
         utila.assert_success(completed)
 
-    generated = generate(files, destination, pages=pages)
+    config = {
+        'groupme': groupme,
+        'sections': sections,
+        'words': words,
+        'detector': detector,
+    }
+    generated = generate(files, destination, pages=pages, config=config)
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=worker) as executor:
         futures = {executor.submit(run_job, pdf): pdf for pdf in generated}
@@ -63,7 +78,7 @@ def extract(
                 raise
 
 
-def generate(files: list, outpath: str, pages: str) -> list:
+def generate(files: list, outpath: str, pages: str, config: dict) -> list:
     todo = []
     names = output_names(files)
     for inpath, output in zip(files, names):
@@ -71,18 +86,25 @@ def generate(files: list, outpath: str, pages: str) -> list:
             inpath,
             os.path.join(outpath, output),
             pages=pages,
+            config=config,
         )
         todo.append(next_job)
     return todo
 
 
-def create_job(src: str, dest: str, pages: tuple = None) -> str:
+def create_job(
+        src: str,
+        dest: str,
+        pages: tuple = None,
+        config: dict = None,
+) -> str:
     """Create job to run required steps for next processing unit.
 
     Args:
         src: pdf file for processing
         dest: output path to output folder
         pages: shrink processing if given - if None process all pages
+        config: select which processes to run
     Returns:
         Created process todo description.
     """
@@ -90,18 +112,22 @@ def create_job(src: str, dest: str, pages: tuple = None) -> str:
 
     oneline = dft.RAWMAKER_CONFIGURATION
     # TODO: USE A MORE GENERAL PLACE
-    config = '--all --char_margin=5.0 --boxes_flow=1.0 --line_margin=0.3'
+    layoutconfig = '--all --char_margin=5.0 --boxes_flow=1.0 --line_margin=0.3'
 
     pages = f'--pages={pages}' if pages is not None else ''
     task = [
-        f'rawmaker -j 8 -i {src} -o {dest} {config} {pages}',
+        f'rawmaker -j 8 -i {src} -o {dest} {layoutconfig} {pages}',
         f'rawmaker -j 8 -i {src} -o {dest} {oneline} {pages}',
         f'linero -i {dest} -o {dest}',
-        f'groupme -j 8 -i {dest} -o {dest}',
-        f'sections -j 8 -i {dest} -o {dest}',
-        f'words -j 8 -i {dest} -o {dest}',
-        f'detector -i {dest} -o {dest}',
     ]
+    if config['groupme']:
+        task.append(f'groupme -j 8 -i {dest} -o {dest}')
+    if config['sections']:
+        task.append(f'sections -j 8 -i {dest} -o {dest}')
+    if config['words']:
+        task.append(f'words -j 8 -i {dest} -o {dest}')
+    if config['detector']:
+        task.append(f'detector -i {dest} -o {dest}')
     todo = ' && '.join(task)
     return todo
 
