@@ -109,6 +109,8 @@ def create_job(
         Created process todo description.
     """
     assert os.path.exists(src), str(src)
+    if config is None:
+        config = {}
 
     oneline = dft.RAWMAKER_CONFIGURATION
     # TODO: USE A MORE GENERAL PLACE
@@ -120,13 +122,13 @@ def create_job(
         f'rawmaker -j 8 -i {src} -o {dest} {oneline} {pages}',
         f'linero -i {dest} -o {dest}',
     ]
-    if config['groupme']:
+    if config.get('groupme', False):
         task.append(f'groupme -j 8 -i {dest} -o {dest}')
-    if config['sections']:
+    if config.get('sections', False):
         task.append(f'sections -j 8 -i {dest} -o {dest}')
-    if config['words']:
+    if config.get('words', False):
         task.append(f'words -j 8 -i {dest} -o {dest}')
-    if config['detector']:
+    if config.get('detector', False):
         task.append(f'detector -i {dest} -o {dest}')
     todo = ' && '.join(task)
     return todo
