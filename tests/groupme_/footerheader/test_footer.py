@@ -73,11 +73,7 @@ def test_groupme_footer_dump_and_load(
 @pytest.mark.parametrize(
     'strategy, expected_results',
     [
-        pytest.param(
-            gfs.moving.MovingFooterStrategy,
-            0,
-            marks=pytest.mark.xfail(reason='parsing to much - dont know why'),
-        ),
+        (gfs.moving.MovingFooterStrategy, 0),
         (gfs.fixed.FixedFooterStrategy, 25),  # TODO: CHECK 25 yapf:disable
         (gfs.pages.PageNumberStrategy, 0),
     ])

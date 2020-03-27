@@ -151,6 +151,9 @@ def extract_footer(
     # TODO: INTRODUCE STRATEGY TO PARSE OTHER FOOTNOTES
     # split by highnotes
     footnotes = groupme.footnotes.parser.parse_with_highnotes(content)
+    if not footnotes:
+        # no footnotes parsed, therefore do not return MovingFooterInformation
+        return None
     footer = iamraw.MovingFooterInformation(
         begin=begin,
         end=end,
