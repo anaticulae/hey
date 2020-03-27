@@ -31,7 +31,6 @@ def validate_master72(result):
          (13, 6), (14, 7), (15, 8), (16, 10), (17, 8), (18, 7), (19, 8)],
         validate_master72,
         id='master72pages',
-        marks=pytest.mark.xfail(reason='fix footnote parser'),
     ),
     pytest.param(
         tests.resources.BACHELOR111,
@@ -51,6 +50,9 @@ def validate_master72(result):
 ])
 @utila.skip_longrun
 def test_groupme_footer_moving(document, pages, expected_footer, validate):
+    """Hint: This test is dependend on moving footer strategy. If this
+    test fails, may the footer is not extracted correctly. Look at the
+    holy value in moving.py:extract_footer."""
     strategy = groupme.footer.strategy.create_strategy(
         path=document,
         strategy=groupme.footer.strategy.moving.MovingFooterStrategy,

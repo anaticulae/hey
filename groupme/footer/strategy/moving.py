@@ -137,7 +137,7 @@ def extract_footer(
     # in the current parser state, the location of tiny distances between
     # objects is not interpreted correctly. The distance is often to small.
     # TODO: Remove after improving layout parser
-    begin = begin - 0.015
+    begin = begin - 0.0515  # TODO: HOLY VALUE
     begin = utila.roundme(begin)
 
     # TODO: HOW TO HANDLE NON DETECTED PAGENUMBER_LOCATION
