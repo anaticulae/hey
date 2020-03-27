@@ -47,6 +47,36 @@ class RegexTocExtractor(gts.ExtractorStrategy):
         return grouped
 
 
+def parse_page(page: iamraw.Page) -> typing.List[groupme.toc.TocLine]:
+    """Merge `page` to raw string and extract the lines of table of content.
+
+    Hint:
+        see `parse`
+    """
+    if isinstance(page, iamraw.Page):
+        lines = utila.flatten([
+            container for container in page
+            if isinstance(container, iamraw.TextContainer)
+        ])
+        lines = [item.text for item in lines]
+    else:
+        # PageTextNavigator
+        lines = [item.text for item in page]
+
+    # collect lines with dots
+    # lines = [item for item in lines if item.count('.') > 4]
+
+    # strip lines
+    lines = [item.strip() for item in lines]
+
+    text = utila.NEWLINE.join(lines)
+
+    # work
+    result = parse(text)
+
+    return result
+
+
 def parse(content: str) -> groupme.toc.TocLines:
     """Parse table of content via regex.
 
@@ -100,34 +130,4 @@ def parse(content: str) -> groupme.toc.TocLines:
 
     # Ensure that toc list is ordered by position on pdf page
     result = groupme.toc.sort_byposition(result, duplicated)
-    return result
-
-
-def parse_page(page: iamraw.Page) -> typing.List[groupme.toc.TocLine]:
-    """Merge `page` to raw string and extract the lines of table of content.
-
-    Hint:
-        see `parse`
-    """
-    if isinstance(page, iamraw.Page):
-        lines = utila.flatten([
-            container for container in page
-            if isinstance(container, iamraw.TextContainer)
-        ])
-        lines = [item.text for item in lines]
-    else:
-        # PageTextNavigator
-        lines = [item.text for item in page]
-
-    # collect lines with dots
-    # lines = [item for item in lines if item.count('.') > 4]
-
-    # strip lines
-    lines = [item.strip() for item in lines]
-
-    text = utila.NEWLINE.join(lines)
-
-    # work
-    result = parse(text)
-
     return result
