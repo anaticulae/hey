@@ -33,12 +33,11 @@ def test_extract_toc_from_master_pages72_page_1and2():
     assert all([not '...' in item.title for item in result_page2])
 
 
-@pytest.mark.xfail(reason='regex is going crazy')
 def test_extract_toc_from_master_pages72_page_withouttoc():
+    """No toc must produce no extracted table of content lines."""
     document = serializeraw.load_document(MASTER72_TEXT)
 
     result = gtsr.parse_page(document[4:])
-
     assert not result, str(result)
 
 

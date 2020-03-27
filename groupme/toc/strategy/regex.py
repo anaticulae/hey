@@ -62,11 +62,12 @@ def parse_page(page: iamraw.Page) -> typing.List[groupme.toc.TocLine]:
     else:
         # PageTextNavigator
         lines = [item.text for item in page]
+    lines = split_newlines(lines)
 
-    # collect lines with dots
-    # lines = [item for item in lines if item.count('.') > 4]
-
-    # strip lines
+    # ignore non dotted lines
+    lines = [
+        item for index, item in enumerate(lines) if is_tocline(index, lines)
+    ]
     lines = [item.strip() for item in lines]
 
     text = utila.NEWLINE.join(lines)
@@ -75,6 +76,36 @@ def parse_page(page: iamraw.Page) -> typing.List[groupme.toc.TocLine]:
     result = parse(text)
 
     return result
+
+
+def split_newlines(items):
+    result = []
+    for item in items:
+        result.extend(item.splitlines())
+    return result
+
+
+MIN_DOTS_IN_TOC_LINE = 4  # TODO: HOLY VALUE
+
+
+def is_tocline(index, lines):
+
+    def tocline(item):
+        if item.count('.') < MIN_DOTS_IN_TOC_LINE:
+            return False
+        # avoid count sentence endings.
+        return any((item.count('. .') >= (MIN_DOTS_IN_TOC_LINE / 2),
+                    item.count('..') >= (MIN_DOTS_IN_TOC_LINE / 2)))
+
+    item = lines[index]
+    if tocline(item):
+        return True
+    try:
+        before = lines[index - 1]
+        after = lines[index + 1]
+    except IndexError:
+        return False
+    return tocline(before) and tocline(after)
 
 
 def parse(content: str) -> groupme.toc.TocLines:
