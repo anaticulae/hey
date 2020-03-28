@@ -77,8 +77,7 @@ def params():
     def determine_mark(pdf):
         relative = tests.relative_path(pdf)
         if relative in UNSUPPORTED_DOCUMENTS:
-            return pytest.mark.xfail(
-                reason="unsupported font format with current impl",)
+            return pytest.mark.xfail(reason='contains unsupported feature')
         with contextlib.suppress(KeyError):
             return pytest.mark.xfail(reason=EXPECTED_FAILURE[relative])
         return pytest.mark.huge
