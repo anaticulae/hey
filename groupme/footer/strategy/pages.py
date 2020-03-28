@@ -95,20 +95,27 @@ def process_page(page, rawpage, horizontals):
     if rawpage is None:
         return None
     pagenumber_bounding = rawpage[0]
-
-    distance_to_firsthorizontal = distance(pagenumber_bounding, horizontals)
+    distance_to_firsthorizontal = distance(
+        pagenumber_bounding,
+        horizontals,
+        page,
+    )
+    if distance_to_firsthorizontal < 0.0:
+        return None
     if distance_to_firsthorizontal >= MIN_DISTANCE_TO_HORIZONTAL:
         return (page, pagenumber_bounding)
     return None
 
 
-def distance(bounding, items):
+def distance(bounding, items, page):
     items = items.content if items else []
     bounding = bounding.y0
     ydistance = [bounding - item.box.y1 for item in items]
-
     result = min(ydistance, default=utila.INF)
-    assert result >= 0, result
+    result = utila.roundme(result)
+    if result < 0:
+        utila.error(f'negative distance: {result} to first horizontal,'
+                    f' page: {page}')
     return result
 
 
