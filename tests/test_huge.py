@@ -120,14 +120,15 @@ def rawresult(request, testdir):
 
 @utila.skip_nightly
 @pytest.mark.usefixtures('testdir')
-def test_huge_running_groupme(rawresult):  # pylint:disable=W0621
+@pytest.mark.parametrize('application', ['groupme', 'detector'])
+def test_huge_running_application(application, rawresult):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath = rawresult
 
     current = os.path.join(tmpdir, 'current')
     os.makedirs(current)
 
-    runme = 'groupme -i %s -i %s -o %s -j=8'
-    runme = runme % (generalpath, tocpath, current)
+    runme = '%s -i %s -i %s -o %s -j=8'
+    runme = runme % (application, generalpath, tocpath, current)
 
     completed = utila.run(runme)
     assert completed.returncode == utila.SUCCESS, str(completed)
