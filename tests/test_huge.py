@@ -60,8 +60,8 @@ HEADLINE_COUNT = {
 
 def params():
     pdf = tests.pdfs()
-    # skip documents cause of to few computing power
-    ignore = SKIP_DOCUMENTS | UNSUPPORTED_DOCUMENTS
+    # do not ignore any document, it's a nightly
+    ignore = []
     pdf = [
         item for item in pdf if all([
             not tests.relative_path(item) in ignore,
@@ -69,9 +69,6 @@ def params():
             not 'notitle' in item,
         ])
     ]
-    # select 5 items to reduce required test power
-    # random is not good when reproducing an error, may use it later.
-    pdf = pdf[0:5]
     result = []
 
     def determine_mark(pdf):
