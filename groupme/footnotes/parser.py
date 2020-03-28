@@ -12,26 +12,20 @@ There are 2 supported types of footnotes:
 
 - raw text:
 
-  - "Aus Gründen der besseren Lesbarkeit wird hier und im "
+  - "1 Aus Gründen der besseren Lesbarkeit wird hier und im "
 
 - bibliography:
 
-  - "s. Berg 2013: 2"
-  - "Gero von Randow, zeit.de, 19.1.2007"
+  - "5 s. Berg 2013: 2"
+  - "6 Gero von Randow, zeit.de, 19.1.2007"
 
 
 .. todo::
 
   - TODO: FOR FURTHER ANALYSIS WE REQUIRE DIFFERENT FOOTER LINE ANALYZER
-  - TODO: SUPPORT MULTILINE FOOTNOTES
 
-.. problem::
 
-  using regex to extract footnotes is not enough. There can not be
-  decided if a number is a footnote start or a normaly number in a
-  footnote.
-
-  we have to use a combination of font rise and maybe textual grammar.
+  ? we have to use a combination of font rise and maybe textual grammar ?
 """
 import re
 
@@ -40,33 +34,59 @@ import utila
 
 import groupme.footnotes.highnotes
 
-# TODO: REPLACE WITH GENERAL TEXT PARSER
-# TODO: ADD REGEX BIB TO `GET_TEXT_PATTERN(name='text')`
-PATTERN = r"""
-        ^
-        (?P<number>\d{1,4}) # up to 4 digits foot-note-numbers
-        [ ]{0,5} # whitespaces between number and foot note text
-        (?P<text>[\w\d:\.,;’„“/\(\)\[\]\n \-]{5,}?) # more than 5 chars
-        $"""
-PATTERN = re.compile(PATTERN, re.VERBOSE)
-
 
 def parse(content: str):
     assert isinstance(content, str), type(content)
     result = []
-    parsed = re.finditer(PATTERN, content)
-    for item in parsed:
-        number = item['number']
-        text = item['text']
-        raw = utila.extract_match(item)
 
+    for item in footnote_split(content):
+        number, text = item.split(maxsplit=1)
         footnote = iamraw.FootRawNote(
-            number=number,
+            number=int(number),
             text=text,
-            raw=raw,
+            raw=item,
         )
         result.append(footnote)
     return result
+
+
+def footnote_split(raw: str) -> list:
+    """Split footnote into chunks. A empty newline or a starting
+    footnote([int, whitespace]) marks the ending of a multiline footnote.
+
+    Example:
+    .. code-block:: none
+
+        ...End of some Text.
+
+        1 I am the first note
+        2 I am a
+        very long
+        multiline note.
+
+        I am a lonely newline which will not pass.
+        3 But i will pass the test
+
+        30 Helm
+
+        Start of some text..
+    """
+    pattern = r'^\d{1,4}[ ]{1,5}'
+    result = []
+    for item in raw.splitlines():
+        item = item.strip()
+        if not item:
+            # empty newline separates list elements from text
+            result.append(None)
+        if re.match(pattern, item):
+            # match line start pattern
+            result.append([item])
+        else:
+            if result and result[-1]:
+                # ensure to have valid predecessor
+                result[-1].append(item)
+    joined = [' '.join(item) for item in result if item]
+    return joined
 
 
 def count_empty(items: iamraw.PageContentFooterHeader) -> int:
