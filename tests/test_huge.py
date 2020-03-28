@@ -15,7 +15,6 @@ import utila
 
 import tests
 
-# TODO: Reduce list of unsupported documents
 # this documents does not passes the current implementation
 UNSUPPORTED_DOCUMENTS = {
     # 'paper/page_6_double_column.pdf',
@@ -103,14 +102,14 @@ def rawresult(request, testdir):
     rawgeneral = f'rawmaker -i {pdf} -j=8 --pages=0:20 -o {generalpath} {generalcmd}'
     linero = f'linero -o {generalpath}'
 
-    completed = utila.run(rawtoc)
-    assert completed.returncode == utila.SUCCESS, str(completed)
+    done = utila.run(rawtoc)
+    assert done.returncode == utila.SUCCESS, utila.format_completed(done)
 
-    completed = utila.run(rawgeneral)
-    assert completed.returncode == utila.SUCCESS, str(completed)
+    done = utila.run(rawgeneral)
+    assert done.returncode == utila.SUCCESS, utila.format_completed(done)
 
-    completed = utila.run(linero)
-    assert completed.returncode == utila.SUCCESS, str(completed)
+    done = utila.run(linero)
+    assert done.returncode == utila.SUCCESS, utila.format_completed(done)
 
     return (tmpdir, tocpath, generalpath)
 
@@ -127,5 +126,5 @@ def test_huge_running_application(application, rawresult):  # pylint:disable=W06
     runme = '%s -i %s -i %s -o %s -j=8'
     runme = runme % (application, generalpath, tocpath, current)
 
-    completed = utila.run(runme)
-    assert completed.returncode == utila.SUCCESS, str(completed)
+    done = utila.run(runme)
+    assert done.returncode == utila.SUCCESS, utila.format_completed(done)
