@@ -18,10 +18,7 @@ import tests
 # TODO: Reduce list of unsupported documents
 # this documents does not passes the current implementation
 UNSUPPORTED_DOCUMENTS = {
-    'paper/page_10_double_column_with_tables.pdf',
-    'paper/page_6_double_column.pdf',
-    'paper/page_6_double_column_with_math.pdf',
-    'book/leftright.pdf',
+    # 'paper/page_6_double_column.pdf',
 }
 
 EXPECTED_FAILURE = {  # yapf:disable
