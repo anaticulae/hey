@@ -9,9 +9,6 @@
 """Store experimental code here"""
 
 import random
-import typing
-
-import utila
 
 
 def choose_random(items, count: int = 5) -> list:
