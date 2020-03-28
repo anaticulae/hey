@@ -94,8 +94,8 @@ def params():
 
 
 @pytest.fixture(params=params())
-def rawresult(request, tmpdir):
-    tmpdir = str(tmpdir)
+def rawresult(request, testdir):
+    tmpdir = testdir.tmpdir
     tocpath = os.path.join(tmpdir, 'toc')
     generalpath = os.path.join(tmpdir, 'general')
     for item in [tocpath, generalpath]:
@@ -123,11 +123,11 @@ def rawresult(request, tmpdir):
 def test_huge_running_groupme(rawresult):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath = rawresult
 
-    groupmepath = os.path.join(tmpdir, 'groupme')
-    os.makedirs(groupmepath)
+    current = os.path.join(tmpdir, 'current')
+    os.makedirs(current)
 
     runme = 'groupme -i %s -i %s -o %s -j=8'
-    runme = runme % (generalpath, tocpath, groupmepath)
+    runme = runme % (generalpath, tocpath, current)
 
     completed = utila.run(runme)
     assert completed.returncode == utila.SUCCESS, str(completed)
