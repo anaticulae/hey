@@ -2,6 +2,20 @@
 
 Every noteable change is logged here.
 
+## v2.0.3
+
+### Feature
+
+* improve multiline footnote parser (6ed7db9ff1e0)
+
+### Fix
+
+* ensure that negative detection does not break analysis, log instead (b45e24f65149)
+* do not return empty moving footer (7cf04a8502d7)
+* make toc line matching harder (0058077dd266)
+* adjust holy value to solve failing test (89c0cf31ffe2)
+* ensure that default variable is handled correctly (95069aa99ef2)
+
 ## v2.0.2
 
 ## v2.0.1
