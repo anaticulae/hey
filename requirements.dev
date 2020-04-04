@@ -1,0 +1,8 @@
+# ensure that test data is generated with the right version of rawmaker
+rawmaker==1.17.4
+
+# reference to test data
+power==0.6.23
+
+# test data generator
+jam==0.1.14
