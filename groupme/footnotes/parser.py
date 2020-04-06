@@ -103,7 +103,7 @@ def parse_footer(content):
     for item in splitted:
         parsed = parse(item)
         if not parsed:
-            utila.info(f'could not parse: "{item}"')
+            utila.info(f'footer - could not parse: "{item}"')
             continue
         footnotes.extend(parsed)
     return footnotes

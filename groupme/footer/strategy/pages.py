@@ -73,7 +73,10 @@ class PageNumberStrategy(gfs.FooterHeaderDetectionStrategy):
                 utila.error(f'could not determine `raw-page` on {pdfpage}'
                             ' no navigator found')
             else:
-                raw = navigator.find(bounding).text.strip()
+                try:
+                    raw = navigator.find(bounding).text.strip()
+                except ValueError:
+                    raw = ''
             footer = iamraw.PagesFooterInformation(
                 begin=begin,
                 end=end,
