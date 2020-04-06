@@ -114,8 +114,13 @@ def parse_with_highnotes(content):
     merged = groupme.footnotes.highnotes.merge_online(splitted)
     result = []
     for number, note in merged:
+        try:
+            notenumber = int(number.text)
+        except ValueError:
+            utila.error(f'could not convert to int: {number.text}')
+            notenumber = number.text
         footnote = iamraw.FootRawNote(
-            number=int(number.text),
+            number=notenumber,
             text=note.text,
             raw='',  # TODO: REMOVE THIS?
             style=(number.style, note.style),
