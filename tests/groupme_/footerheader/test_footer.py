@@ -20,6 +20,7 @@ import groupme.footer.strategy as gfs
 import groupme.footer.strategy.moving
 import groupme.path
 import tests.fixtures.restruct
+import tests.groupme_
 import tests.resources
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_horizontals
@@ -147,3 +148,21 @@ def test_groupme_footer_extract_footerheader_technical(root, expected):
 
     header = [item.page for item in result if item.header is not None]
     assert header == expected
+
+
+def test_groupme_footer_master72_extract(testdir, monkeypatch):
+    outdir = testdir.tmpdir
+    cmd = f'-i {tests.resources.MASTER72}  -o {outdir} --footer --pages=3'
+    tests.groupme_.run_success(cmd, monkeypatch=monkeypatch)
+
+    headfoot = serializeraw.load_headerfooter(iamraw.path.headerfooters(outdir))
+    footnotes = headfoot[0].footer.notes
+    assert len(footnotes) == 6, str(footnotes)
+
+    first = normalize_whitespaces(footnotes[0].text)
+    assert first.startswith('Aus Gründen der besseren Lesbarkeit'), first
+
+
+def normalize_whitespaces(text: str) -> str:
+    text = ' '.join(text.strip().split())
+    return text
