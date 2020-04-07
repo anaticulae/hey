@@ -102,11 +102,9 @@ def process_page(
     pageheight = sizeandborder.size.height
 
     footer_start = pageheight * BOTTOM_BORDER
-    filtered = [item for item in horizontals if item.box.y1 >= footer_start]
-    bottomed = max(
-        [item.box.y1 for item in filtered],
-        default=None,
-    )
+    filtered = [item for item in horizontals if item.box.y0 >= footer_start]
+    bottomed = max([item.box.y0 for item in filtered], default=None)
+
     footer = None
     header = None
 
