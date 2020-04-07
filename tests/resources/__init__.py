@@ -108,6 +108,8 @@ NO_TITLE_GENERATED = [
     for item in hey.example.output_names(NO_TITLE_EXAMPLE)
 ]
 
+NO_TITLE_RESTRUCTURED = os.path.join(NO_TITLE, 'docu_restructuredtext')
+
 REQURIED_RESOURCES = [
     BACHELOR63,
     BACHELOR63_PDF,

@@ -96,9 +96,9 @@ def footer(
     # TODO: MOVE THIS METHOD TO MORE GENERAL FOOTER FILE BECAUSE THIS CODE
     # HAS NOTHING TODO WITH NUMBERS
     # TODO: Split method into numbers part and grouping part
-    collected = [page.after(BOTTOM_BORDER) for page in navigators]
+    collected = [(page.page, page.after(BOTTOM_BORDER)) for page in navigators]
     filtered = []
-    for page in collected:
+    for pagenumber, page in collected:
         pagecontent = []
         for item in page:
             text = item.text.strip()
@@ -114,11 +114,9 @@ def footer(
             # support -1-, -2-, ...
             clean_number = text.replace('-', '', 2).strip()
             # TODO: DELIVER RAW DATA FOR FOOTER PAGES STRATEGY DETECTION
-            item = (item.bounding, clean_number)
-
+            item = (item.bounding, clean_number, pagenumber)
             pagecontent.append(item)
         filtered.append(pagecontent)
-
     common = hey.classificator.common_items(
         filtered,
         max_difference=max_difference,
@@ -153,7 +151,6 @@ def is_pagenumber(number: str) -> bool:
     isroman = all([test in roman for test in number])
     if isroman:
         return True
-
     return False
 
 
@@ -181,7 +178,7 @@ def pagenumbers(clusters: typing.List[Cluster]):
     used_cluster = set()
     left, right = [], []
     for clusterid, cluster in enumerate(clusters):
-        for pdf_page, (bounding, content) in cluster:
+        for _, (bounding, content, pdf_page) in cluster:
             content = str(content)
             if not is_pagenumber(content):
                 continue

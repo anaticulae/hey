@@ -131,3 +131,17 @@ def test_groumpe_numbers_is_pagenumber_negative(nopagenumber):
 @pytest.mark.parametrize('pagenumber', ['xxc', '10'])
 def test_groumpe_numbers_is_pagenumber(pagenumber):
     assert groupme.feature.numbers.is_pagenumber(pagenumber)
+
+
+def test_numbers_restructured_without_title():
+    """Ensure to extract correct pdf page on document which starts with
+    empty page. Before this patch, the pdfpages started with zero
+    instead of one."""
+    source = tests.resources.NO_TITLE_RESTRUCTURED
+    navigator = serializeraw.create_pagetextnavigators_frompath(source)
+    pagenumbers = groupme.feature.numbers.determine_pagenumbers(navigator)
+    pagenumbers = utila.flatten(pagenumbers)  # pylint:disable=R0204
+    pagenumbers = sorted(pagenumbers, key=lambda x: x[0])
+    expected_pdfpages = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    current = [item[0] for item in pagenumbers]
+    assert current == expected_pdfpages, str(current)
