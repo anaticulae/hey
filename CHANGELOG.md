@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v2.0.4
+
+### Fix
+
+* do not let parser fail (66e7e2a0a58d)
+* skip footnote when not able to convert footnote number (073e9d888d8a)
+
 ## v2.0.3
 
 ### Feature
