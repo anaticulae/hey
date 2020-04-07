@@ -1,5 +1,5 @@
-iamraw==1.20.5
-utila==1.17.3
+iamraw==1.20.6
+utila==1.17.4
 
-configo==0.5.14
+configo==0.5.15
 
