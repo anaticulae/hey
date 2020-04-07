@@ -2,6 +2,17 @@
 
 Every noteable change is logged here.
 
+## v2.0.5
+
+### Feature
+
+* enable selective page selection (3924ee219eee)
+
+### Fix
+
+* use pagenumber to avoid handling empty special cases (3546d1a2dbe8)
+* adjust correct pdf page extracted page number (f7a6905b0a01)
+
 ## v2.0.4
 
 ### Fix
