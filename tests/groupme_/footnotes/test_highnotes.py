@@ -65,8 +65,8 @@ def test_groupme_footnotes_parse_footer_with_highnotes(master89_page7):  # pylin
     assert len(parsed) == 1, parsed
 
 
-@utila.skip_longrun
 def test_groupme_footnotes_highnotes_oneline_with_intention(bachelor111_page10):  # pylint:disable=W0621,W0613
-    # TODO: add test that highnotes are on oneline!
-    # CHECK Intentation, must be near 0.0
-    pass
+    parsed = groupme.footnotes.parser.parse_with_highnotes(bachelor111_page10)
+    assert len(parsed) == 3, str(parsed)
+    notes = [item.number for item in parsed]
+    assert notes == [3, 4, 5], str(notes)
