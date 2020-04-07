@@ -135,10 +135,11 @@ def extract_footer(
     # in the current parser state, the location of tiny distances between
     # objects is not interpreted correctly. The distance is often to small.
     # TODO: Remove after improving layout parser
-    begin = begin - 0.0515  # TODO: HOLY VALUE
-    begin = utila.roundme(begin)
-
+    # two percent less, ca. 20 pixel
+    begin = begin - 0.025  # TODO: HOLY VALUE
     # TODO: HOW TO HANDLE NON DETECTED PAGENUMBER_LOCATION
+    # TODO: use different bounding box approach, do not use the upper
+    # coordinate, use avg upper coordinate.
     end = pageheight
     if pagenumber_location and pagenumber_location.footer:
         end = pagenumber_location.footer.page_location.y0
