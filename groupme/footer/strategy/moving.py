@@ -22,6 +22,7 @@ import dataclasses
 
 import configo
 import iamraw
+import texmex.navigator
 import utila
 
 import groupme.footer
@@ -134,18 +135,18 @@ def extract_footer(
     begin = footerstart / pageheight
     # in the current parser state, the location of tiny distances between
     # objects is not interpreted correctly. The distance is often to small.
-    # TODO: Remove after improving layout parser
-    # two percent less, ca. 20 pixel
-    begin = begin - 0.025  # TODO: HOLY VALUE
     # TODO: HOW TO HANDLE NON DETECTED PAGENUMBER_LOCATION
-    # TODO: use different bounding box approach, do not use the upper
-    # coordinate, use avg upper coordinate.
     end = pageheight
     if pagenumber_location and pagenumber_location.footer:
         end = pagenumber_location.footer.page_location.y0
     end = utila.roundme(end / pageheight)
 
-    content = pagetextnavigator.between(begin, end)
+    # TODO: USE TWO_THIRDS Strategy
+    content = pagetextnavigator.between(
+        begin,
+        end,
+        selector=texmex.navigator.SelectBounding.BOTTOM,
+    )
 
     # TODO: INTRODUCE STRATEGY TO PARSE OTHER FOOTNOTES
     # split by highnotes
