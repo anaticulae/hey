@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v2.0.6
+
+### Fix
+
+* use strategy instead of fixed diff (b69095405cc1)
+* adjust holy value (fe4a7ed819df)
+
 ## v2.0.5
 
 ### Feature
