@@ -252,7 +252,8 @@ def determine_pageborder(textpositions, pagesizes):
             left.append(None)
             right.append(None)
             continue
-        leftright = maximize_leftright(page.content.values(), size)
+        bounding = [item for item, _ in page.content.values()]
+        leftright = maximize_leftright(bounding, size)
         left.append(leftright[0])
         right.append(leftright[1])
     return left, right
