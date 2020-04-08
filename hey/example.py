@@ -56,8 +56,10 @@ def extract(  # pylint:disable=R0914
     os.makedirs(destination, exist_ok=True)
 
     def run_job(job: str):
+        utila.log(f'start: {job[0:200]}')
         completed = utila.run(job)
         utila.assert_success(completed)
+        utila.log(f'complete: {job[0:100]}')
 
     config = {
         'groupme': groupme,
