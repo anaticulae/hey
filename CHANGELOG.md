@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v2.0.7
+
+### Feature
+
+* add logging step (deabb4968724)
+
 ## v2.0.6
 
 ### Fix
