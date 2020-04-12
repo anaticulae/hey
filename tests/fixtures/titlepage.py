@@ -9,8 +9,6 @@
 
 import iamraw
 
-from detector.parser.thesis import TitleThesisType
-
 FIRST = """
 Faktultät IV
 Institut für gute Getränke
@@ -42,7 +40,7 @@ FIRST_INSTITUTION = iamraw.Institution(
 )
 FIRST_EXPECTED = iamraw.TitlePage(
     # title='Modellierung und Simulation eines hybriden Lokomotivantriebs',
-    thesis=TitleThesisType(
+    thesis=iamraw.TitleThesisType(
         iamraw.DocumentType.MASTER,
         'Masterarbeit',
         'Masterarbeit',
@@ -113,7 +111,7 @@ SECOND_INSTITUTION = iamraw.Institution(
 )
 SECOND_EXPECTED = iamraw.TitlePage(
     # title='Steuerung und Überwachung intelligenter Gebäudetechnik',
-    thesis=TitleThesisType(
+    thesis=iamraw.TitleThesisType(
         iamraw.DocumentType.MASTER,
         'Masterarbeit',
         'Masterarbeit',
@@ -216,7 +214,7 @@ THIRD_EXPECTED = iamraw.TitlePage(
             raw='Prof. Dr. Nobert Bolz',
         ),
     ],
-    thesis=TitleThesisType(
+    thesis=iamraw.TitleThesisType(
         iamraw.DocumentType.MASTER,
         title='Masterarbeit',
         raw='Masterarbeit',

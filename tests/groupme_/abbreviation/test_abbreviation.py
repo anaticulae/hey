@@ -7,12 +7,12 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import groupme.abbreviation
+import iamraw
 
 
 def test_abbreviation_sorting():
     example = [
-        groupme.abbreviation.Abbreviation(item)
+        iamraw.Abbreviation(item)
         for item in ['α', 'Alpha', 'Beta', 'Gamma', 'helm']
     ]
     assert sorted(example) == example

@@ -29,9 +29,8 @@ Nearly working
 * master116: improve layout parser
 """
 
-import math
-
 import configo
+import iamraw
 import texmex
 import utila.math
 
@@ -41,8 +40,8 @@ import hey.classificator
 
 class GeometryAbbreviationParser(groupme.abbreviation.AbbreviationExtractorStrategy): # yapf:disable
 
-    def result(self) -> groupme.abbreviation.AbbreviationResult:
-        ready = groupme.abbreviation.AbbreviationResult()
+    def result(self) -> iamraw.AbbreviationResult:
+        ready = iamraw.AbbreviationResult()
         for page in self.loaded.normal:
             parsed = parse_page(page)
             if parsed is None:
@@ -53,7 +52,7 @@ class GeometryAbbreviationParser(groupme.abbreviation.AbbreviationExtractorStrat
         return ready
 
 
-def parse_page(page) -> groupme.abbreviation.Abbreviations:
+def parse_page(page) -> iamraw.Abbreviations:
     line_gaps = lines(page)
     marker = columns(page)
 
@@ -83,7 +82,7 @@ def parse_page(page) -> groupme.abbreviation.Abbreviations:
         description = [item.text.strip() for item in description]
         description = ' '.join(description)
         result.append(
-            groupme.abbreviation.Abbreviation(
+            iamraw.Abbreviation(
                 short=short.text.strip(),
                 description=description,
             ))
@@ -103,7 +102,10 @@ def adjust_columns(short_column, description_column, line_gaps, short_marker):
     """Adjust multi line columns. Group right side items to
     corresponding left side shortcut."""
     inside_all = all_columns([short_column, description_column])
-    left = [item for item in inside_all if near(item.bounding[0], short_marker)]
+    left = [
+        item for item in inside_all
+        if utila.near(item.bounding[0], short_marker)
+    ]
     right = []
     for first, second in zip(left[:-1], left[1:]):
         start, end = first.bounding[1], second.bounding[1]
@@ -180,7 +182,7 @@ def column_data(page, x0, diff: float = 60.0):
     line."""
     result = []
     for item in page:
-        if not near(item.bounding[0], x0, diff):
+        if not utila.near(item.bounding[0], x0, diff):
             continue
         result.append(item)
     return result
@@ -223,8 +225,3 @@ def lines(page) -> utila.Numbers:
     # huggest element first
     result = sorted(result, reverse=True)
     return result
-
-
-def near(first, second, diff: float = 2.0):
-    # TODO: REPLACE WITH UTILA CODE
-    return math.fabs(first - second) <= diff

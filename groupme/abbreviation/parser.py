@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw
+
 import groupme.abbreviation
 import groupme.abbreviation.geometry
 import groupme.abbreviation.simple
@@ -18,7 +20,7 @@ STRATEGIES = [
 
 
 def parse(data: groupme.abbreviation.AbbreviationData,
-         ) -> groupme.abbreviation.AbbreviationResult:
+         ) -> iamraw.AbbreviationResult:
     assert isinstance(data.normal, list), type(data)
     assert isinstance(data.oneline, list), type(data)
 
@@ -28,7 +30,7 @@ def parse(data: groupme.abbreviation.AbbreviationData,
     return judged
 
 
-def judge(results) -> groupme.abbreviation.AbbreviationResult:
+def judge(results) -> iamraw.AbbreviationResult:
     simple = results[0]
     geometry = results[1]
 

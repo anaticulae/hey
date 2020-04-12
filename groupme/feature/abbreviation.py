@@ -11,7 +11,6 @@ import serializeraw
 import texmex
 
 import groupme.abbreviation
-import groupme.abbreviation.dumper
 import groupme.abbreviation.parser
 
 
@@ -45,5 +44,5 @@ def work(
 
     parsed = groupme.abbreviation.parser.parse(data)
 
-    dumped = groupme.abbreviation.dumper.dump_abbreviation_table(parsed)
+    dumped = serializeraw.dump_abbreviation_table(parsed)
     return dumped

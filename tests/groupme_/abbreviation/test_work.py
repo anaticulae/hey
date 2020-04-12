@@ -8,8 +8,8 @@
 # =============================================================================
 
 import iamraw
+import serializeraw
 
-import groupme.abbreviation.dumper
 import groupme.feature.abbreviation
 import tests.resources
 
@@ -31,5 +31,5 @@ def test_groupme_abbreviation_work():
         pages=(1,),
     )
 
-    loaded = groupme.abbreviation.dumper.load_abbreviation_table(dumped)
+    loaded = serializeraw.load_abbreviation_table(dumped)
     assert len(loaded) == 26

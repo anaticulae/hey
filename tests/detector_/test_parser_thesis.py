@@ -10,14 +10,13 @@
 import iamraw
 import pytest
 
-from detector.parser.thesis import TitleThesisType
-from detector.parser.thesis import parse
+import detector.parser.thesis
 
 
 @pytest.mark.parametrize('raw, expected', [
     (
         'Masterarbeit',
-        TitleThesisType(
+        iamraw.TitleThesisType(
             iamraw.DocumentType.MASTER,
             'Masterarbeit',
             'Masterarbeit',
@@ -25,7 +24,7 @@ from detector.parser.thesis import parse
     ),
     (
         'Promotion',
-        TitleThesisType(
+        iamraw.TitleThesisType(
             iamraw.DocumentType.DOCTOR,
             'Promotion',
             'Promotion',
@@ -33,5 +32,5 @@ from detector.parser.thesis import parse
     ),
 ])
 def test_parse_thesis(raw, expected):
-    parsed = parse(raw)
+    parsed = detector.parser.thesis.parse(raw)
     assert parsed == expected, str(parsed)

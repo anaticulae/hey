@@ -13,11 +13,8 @@ from re import search
 import iamraw
 import utila
 
-# TODO: MOVE TO IAMRAW
-TitleThesisType = namedtuple('TitleThesisType', 'typ, title raw')
 
-
-def parse(token: str) -> TitleThesisType:
+def parse(token: str) -> iamraw.TitleThesisType:
     collected = search(PATTERN, token)
     if not collected:
         return None
@@ -30,7 +27,7 @@ def parse(token: str) -> TitleThesisType:
         if not finding:
             continue
         raw = utila.extract_match(collected)
-        return TitleThesisType(item, finding, raw)
+        return iamraw.TitleThesisType(item, finding, raw)
     assert 0, 'should not happen'
     return None
 

@@ -84,7 +84,10 @@ def adjust_columns(short_column, description_column, line_gaps, short_marker):
     """Adjust multi line columns. Group right side items to
     corresponding left side shortcut."""
     inside_all = all_columns([short_column, description_column])
-    left = [item for item in inside_all if near(item.bounding[0], short_marker)]
+    left = [
+        item for item in inside_all
+        if utila.near(item.bounding[0], short_marker)
+    ]
     right = []
     for first, second in zip(left[:-1], left[1:]):
         start, end = first.bounding[1], second.bounding[1]
@@ -144,7 +147,7 @@ def all_columns(items, vertical_diff: float = 6.0):
         inside = [
             # any match in a column
             any(
-                near(
+                utila.near(
                     # bottom line position: y1
                     item.bounding[3],
                     ypos,
@@ -168,7 +171,7 @@ def column_data(page, x0, diff: float = 60.0):
     line."""
     result = []
     for item in page:
-        if not near(item.bounding[0], x0, diff):
+        if not utila.near(item.bounding[0], x0, diff):
             continue
         result.append(item)
     return result
@@ -208,8 +211,3 @@ def lines(page) -> utila.Numbers:
     # huggest element first
     result = sorted(result, reverse=True)
     return result
-
-
-def near(first, second, diff: float = 2.0):
-    # TODO: REPLACE WITH UTILA CODE
-    return math.fabs(first - second) <= diff

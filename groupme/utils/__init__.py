@@ -8,43 +8,8 @@
 # =============================================================================
 
 import collections
-import contextlib
-import math
-import operator
 
-import iamraw
-import texmex
 import utila
-
-
-def count_textlines(page: iamraw.Page, remove_empty=False) -> int:
-    """Iterate over `page`-content and extract textlines. If
-    `remove_empty` is True, all lines which contain nothing or spaces
-    will be ignored.
-
-    Args:
-        page(Page):
-        remove_empty(bool):
-    Returns:
-        count of text lines on single page
-    """
-    # TODO: MOVE TO IAMRAW PACKAGE
-    content = []
-    if isinstance(page, texmex.NavigatorMixin):
-        return len([item for item in page if item.text.strip()])
-
-    for item in page:
-        with contextlib.suppress(AttributeError):
-            content.extend([item.text for item in item.lines])
-
-    if remove_empty:
-        content = [item for item in content if item.strip()]
-    return len(content)
-
-
-def percent(value):
-    assert value >= 0.0, str(value)
-    return value * 0.01
 
 
 def between(bounding, ymin, ymax):

@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw
 import utila
 
 import groupme.abbreviation
@@ -14,8 +15,8 @@ import groupme.abbreviation
 
 class SimpleAbbreviationParser(groupme.abbreviation.AbbreviationExtractorStrategy): # yapf:disable
 
-    def result(self) -> groupme.abbreviation.AbbreviationResult:
-        ready = groupme.abbreviation.AbbreviationResult()
+    def result(self) -> iamraw.AbbreviationResult:
+        ready = iamraw.AbbreviationResult()
         for page in self.loaded.oneline:
             parsed = parse_page(page)
             for item in parsed:
@@ -38,10 +39,7 @@ def parse_page(content):
             utila.info(f'skip: {short}, {description}')
             continue
         short, description = short.strip(), description.strip()
-        parsed = groupme.abbreviation.Abbreviation(
-            short=short,
-            description=description,
-        )
+        parsed = iamraw.Abbreviation(short=short, description=description)
         utila.debug(f'parsed: {parsed}')
         result.append(parsed)
     return result
