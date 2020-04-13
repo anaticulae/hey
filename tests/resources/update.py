@@ -116,8 +116,8 @@ def create_todo(inpath, outpath, pages: tuple = None):
 def extract_without_titlepage():
     destination = tests.resources.NO_TITLE
     without_titlepage = [
-        os.path.join(destination, f'{item}.pdf')
-        for item in hey.example.output_names(tests.resources.NO_TITLE_EXAMPLE)
+        os.path.join(destination, f'{item}.pdf') for item in
+        utila.simplify_testfile_names(tests.resources.NO_TITLE_EXAMPLE)
     ]
     todo = [
         f'jam -i {inpath} -o {outpath} --remove=0' for inpath, outpath in zip(

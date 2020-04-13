@@ -82,7 +82,7 @@ def extract(  # pylint:disable=R0914
 
 def generate(files: list, outpath: str, pages: str, config: dict) -> list:
     todo = []
-    names = output_names(files)
+    names = utila.simplify_testfile_names(files)
     for inpath, output in zip(files, names):
         next_job = create_job(
             inpath,
@@ -134,15 +134,3 @@ def create_job(
         task.append(f'detector -i {dest} -o {dest}')
     todo = ' && '.join(task)
     return todo
-
-
-def output_names(files):
-    files = [utila.forward_slash(item) for item in files]
-    prefix = utila.forward_slash(os.path.commonpath(files))
-
-    # remove first slash
-    files = [item.replace(prefix, '')[1:] for item in files]
-    files = [item.replace('.pdf', '') for item in files]
-    files = [item.replace('/', '_') for item in files]
-
-    return files

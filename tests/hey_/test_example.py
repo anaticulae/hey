@@ -24,7 +24,7 @@ def test_hey_example_common_root():
         'docu_porting_extension_modules',
     }
 
-    root = hey.example.output_names(pdfs)
+    root = utila.simplify_testfile_names(pdfs)
     # the expected order is not important
     root = set(root)
 

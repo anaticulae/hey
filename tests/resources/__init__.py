@@ -105,7 +105,7 @@ NO_TITLE_EXAMPLE = [
 ]
 NO_TITLE_GENERATED = [
     os.path.join(NO_TITLE, item)
-    for item in hey.example.output_names(NO_TITLE_EXAMPLE)
+    for item in utila.simplify_testfile_names(NO_TITLE_EXAMPLE)
 ]
 
 NO_TITLE_RESTRUCTURED = os.path.join(NO_TITLE, 'docu_restructuredtext')
