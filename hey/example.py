@@ -59,7 +59,7 @@ def extract(  # pylint:disable=R0914
         utila.log(f'start: {job[0:200]}')
         completed = utila.run(job)
         utila.assert_success(completed)
-        utila.log(f'complete: {job[0:100]}')
+        utila.log(f'completed: {job[0:100]}')
 
     config = {
         'groupme': groupme,
@@ -116,7 +116,7 @@ def create_job(
 
     oneline = dft.RAWMAKER_CONFIGURATION
     # TODO: USE A MORE GENERAL PLACE
-    layoutconfig = '--all --char_margin=5.0 --boxes_flow=1.0 --line_margin=0.3'
+    layoutconfig = '--char_margin=5.0 --boxes_flow=1.0 --line_margin=0.3'
 
     pages = f'--pages={pages}' if pages is not None else ''
     task = [
