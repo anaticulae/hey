@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v2.0.11
+
+### Fix
+
+* sort files cause simplify expects sorted files (c295ce036b93)
+* fix typo and remove unnecessary option (d448a6f8faf0)
+
 ## v2.0.10
 
 ## v2.0.9
