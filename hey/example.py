@@ -80,10 +80,9 @@ def extract(  # pylint:disable=R0914
                 raise
 
 
-@utila.refactor(major=1, minor=20, description='use files_sort')
 def generate(files: list, outpath: str, pages: str, config: dict) -> list:
     todo = []
-    files = sorted(files, key=lambda x: x.lower())
+    files = utila.files_sort(files)
     names = utila.simplify_testfile_names(files)
     for inpath, output in zip(files, names):
         next_job = create_job(

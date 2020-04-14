@@ -48,7 +48,11 @@ def analyse_page(navigator: texmex.PageTextContentNavigators, level_feed: list):
     for item in textbounds:
         if item.text in ('Inhaltsverzeichnis', 'Contents'):
             continue
-        current_level = level(item.bounds.xdist, level_feed)
+        # document_text feed is computed from left page border to text
+        # text feed is computed from expected content start till text start
+        # convert local to global text feed
+        xdist = navigator.content.left + item.bounds.leftdist
+        current_level = level(xdist, level_feed)
         result.append((current_level, item))
     return result
 

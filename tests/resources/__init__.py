@@ -149,6 +149,4 @@ REQURIED_RESOURCES = [
     TWINE_PDF,
 ]
 
-REQURIED_RESOURCES = [
-    utila.forward_slash(item, save_newline=False) for item in REQURIED_RESOURCES
-]
+REQURIED_RESOURCES = [utila.forward_slash(item) for item in REQURIED_RESOURCES]
