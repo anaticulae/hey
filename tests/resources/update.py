@@ -71,8 +71,9 @@ def run_package(pdf, outpath, pages=None):
             utila.assert_success(completed)
         else:
             parallel = [
-                ' && '.join(para) if isinstance(para, tuple) else para
-                for para in item
+                ' && '.join(sequence)
+                if isinstance(sequence, tuple) else sequence
+                for sequence in item
             ]
             ret = utila.run_parallel(parallel)
             assert ret == utila.SUCCESS, str(parallel)
