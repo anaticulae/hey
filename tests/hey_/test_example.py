@@ -26,7 +26,7 @@ def test_hey_example_common_root():
 
     root = utila.simplify_testfile_names(pdfs)
     # the expected order is not important
-    root = set(root)
+    root = set(root)  # pylint:disable=R0204
 
     assert root == expected
 

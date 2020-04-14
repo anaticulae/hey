@@ -82,14 +82,15 @@ def footer(
         max_difference: float = BOTTOM_MAX_DIFFERENCE,
         numbers_only: bool = True,
         remove_empty: bool = True,
-):
+) -> list:
     """Detect similar elements in footer area which are duplicated on
     different pages.
 
     Args:
-        navigators:
-        max_difference: difference of BoundingBox-coordinates in same cluster
-        max_area: size of items which are grouped to a cluster
+        navigators(list): list of text navgiators
+        max_difference(float): difference of BoundingBox-coordinates in
+                               same cluster
+        max_area(float): size of items which are grouped to a cluster
         numbers_only(bool): if True, remove all non numeric/romanic elements
         remove_empty(bool): remove empty elements, e.g. whitespaces
     """
@@ -164,7 +165,7 @@ def is_rightpage(pdf_pagenumber: int) -> bool:
 Cluster = typing.List[typing.Tuple[iamraw.BoundingBox, str]]
 
 
-def pagenumbers(clusters: typing.List[Cluster]):
+def pagenumbers(clusters: typing.List[Cluster]) -> list:
     """Determine pagenumbers out of list of cluster
 
     2. Scenarios are possible, we have alternating left and right page numbers
@@ -183,7 +184,7 @@ def pagenumbers(clusters: typing.List[Cluster]):
             if not is_pagenumber(content):
                 continue
             try:
-                content = int(content)
+                content = int(content)  # pylint:disable=R0204
             except ValueError:
                 # roman number
                 pass
