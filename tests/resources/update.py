@@ -8,6 +8,7 @@
 # =============================================================================
 
 import concurrent.futures
+import functools
 import os
 
 import utila
@@ -43,14 +44,22 @@ def sync_resources():
 def extract_examples():
     if os.path.exists(tests.resources.TWINE):
         return
-    extract()
-    extract_without_titlepage()
+    todo = []
+    todo.extend(extract())
+    todo.extend(extract_without_titlepage())
+    run_parallel(*todo)
 
 
 CONFIG = '--char_margin=3.1 --boxes_flow=1.0 --line_margin=0.25 '
 ONELINE = detector.feature.titlepage.RAWMAKER_CONFIGURATION
 
+# Put long documents first! If we have the long documents at the end, the
+# scheduler gets hungry in the end and runs with low cpu load.
+# NOTE: This schedule is orderd by the required runtime on my computer.
 PACKAGE = [
+    (tests.resources.BACHELOR56_PDF, tests.resources.BACHELOR56, '0:55'),
+    (tests.resources.MASTER89_PDF, tests.resources.MASTER89, '0:89'),
+    (tests.resources.MASTER72_PDF, tests.resources.MASTER72, None),
     (tests.resources.BACHELOR111_PDF, tests.resources.BACHELOR111, None),
     (tests.resources.BACHELOR37_PDF, tests.resources.BACHELOR37, '0:30'),
     (tests.resources.BACHELOR63_PDF, tests.resources.BACHELOR63, '0:9,59:62'),
@@ -58,16 +67,13 @@ PACKAGE = [
     (tests.resources.HOWTO_PYPORTING_PDF, tests.resources.HOWTO_PYPORTING,
      None),
     (tests.resources.LEFTRIGHT_PDF, tests.resources.LEFTRIGHT, None),
-    (tests.resources.MASTER72_PDF, tests.resources.MASTER72, None),
     (tests.resources.PYPORTING_PDF, tests.resources.PYPORTING, None),
     (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT, None),
     (tests.resources.TECHNICAL24_PDF, tests.resources.TECHNICAL24, None),
     (tests.resources.TWINE_PDF, tests.resources.TWINE, None),
-    (tests.resources.BACHELOR56_PDF, tests.resources.BACHELOR56, '0:55'),
     (tests.resources.HOMEWORK50_PDF, tests.resources.HOMEWORK50, '6'),
     (tests.resources.HOWTOWRITE9_PDF, tests.resources.HOWTOWRITE9, '0:10'),
     (tests.resources.MASTER116_PDF, tests.resources.MASTER116, '0:5,96:101'),
-    (tests.resources.MASTER89_PDF, tests.resources.MASTER89, '0:89'),
 ]
 
 
@@ -93,6 +99,12 @@ def run_package(pdf, outpath, pages=None):
 def extract():
     for pdf, _, __ in PACKAGE:
         assert pdf.endswith('.pdf') and os.path.exists(pdf), pdf
+
+    todo = [
+        functools.partial(run_package, pdf, out, pages=pages)
+        for pdf, out, pages in PACKAGE
+    ]
+    return todo
     with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER) as executor:
         futures = {
             executor.submit(run_package, pdf, out, pages=pages): pdf
@@ -133,11 +145,37 @@ def notitle() -> list:
 
 def extract_without_titlepage():
     destination = tests.resources.NO_TITLE
-    hey.example.extract(
+    todo = hey.example.extract(
         files=notitle(),
         destination=destination,
         pages='0:10',
         detector=False,
         sections=False,
         words=False,
+        as_todo=True,
     )
+    return todo
+
+
+def run_parallel(*items, worker=6):
+    """6 worker archive test result on my maschine
+
+    Worker  Secs
+    ------------
+    8       450
+    7       437
+    6       430
+    5       446
+    """
+    # worker = 0.75 * cpu_count
+    # TODO: MOVE TO UTILA
+    # rename to threaded
+    # rename to fork_and_join to use Process Pool
+    with concurrent.futures.ThreadPoolExecutor(max_workers=worker) as executor:
+        futures = {executor.submit(item): item for item in items}
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                future.result()
+            except Exception as error:  # pylint:disable=broad-except
+                utila.error(f'{future} failed.')
+                utila.error(error)

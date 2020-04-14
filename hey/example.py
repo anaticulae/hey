@@ -15,6 +15,7 @@ use the different tools together. We do not want to duplicate any
 generator code.
 """
 import concurrent.futures
+import functools
 import os
 import os.path
 
@@ -33,6 +34,7 @@ def extract(  # pylint:disable=R0914
         sections: bool = True,
         words: bool = True,
         detector: bool = True,
+        as_todo: bool = False,
 ):
     """Run rawmaker, groupme, sections and words for given `files` and write
     result to `destination`.
@@ -46,6 +48,7 @@ def extract(  # pylint:disable=R0914
         sections(bool): run if True
         words(bool): run if True
         detector(bool): run if True
+        as_todo(bool): if True return list of partial.method
     Raises:
         Exception: if Exception occurs while extracting file
     """
@@ -55,12 +58,6 @@ def extract(  # pylint:disable=R0914
     # ensure that generation directory exists
     os.makedirs(destination, exist_ok=True)
 
-    def run_job(job: str):
-        utila.log(f'start: {job[0:200]}')
-        completed = utila.run(job)
-        utila.assert_success(completed)
-        utila.log(f'completed: {job[0:100]}')
-
     config = {
         'groupme': groupme,
         'sections': sections,
@@ -68,6 +65,10 @@ def extract(  # pylint:disable=R0914
         'detector': detector,
     }
     generated = generate(files, destination, pages=pages, config=config)
+
+    if as_todo:
+        todo = [functools.partial(run_job, pdf) for pdf in generated]
+        return todo
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=worker) as executor:
         futures = {executor.submit(run_job, pdf): pdf for pdf in generated}
@@ -78,6 +79,13 @@ def extract(  # pylint:disable=R0914
             except Exception:
                 utila.info(f'{future} failed.')
                 raise
+
+
+def run_job(job: str):
+    utila.log(f'start: {job[0:200]}')
+    completed = utila.run(job)
+    utila.assert_success(completed)
+    utila.log(f'completed: {job[0:100]}')
 
 
 def generate(files: list, outpath: str, pages: str, config: dict) -> list:
