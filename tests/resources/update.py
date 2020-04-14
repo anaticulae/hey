@@ -29,9 +29,19 @@ def sync_resources():
     completed = utila.run('power --all', tests.resources.RESOURCES)
     assert completed.returncode == utila.SUCCESS, str(completed)
 
+    utila.log('generate jam')
+    todo = [
+        f'jam -i {inpath} -o {outpath} --remove=0' for inpath, outpath in zip(
+            tests.resources.NO_TITLE_EXAMPLE,
+            notitle(),
+        )
+    ]
+    returncode = utila.run_parallel(todo, worker=WORKER)
+    assert returncode == utila.SUCCESS, str(returncode)
+
 
 def extract_examples():
-    if os.path.exists(tests.resources.GENERATED):
+    if os.path.exists(tests.resources.TWINE):
         return
     extract()
     extract_without_titlepage()
@@ -83,9 +93,6 @@ def run_package(pdf, outpath, pages=None):
 def extract():
     for pdf, _, __ in PACKAGE:
         assert pdf.endswith('.pdf') and os.path.exists(pdf), pdf
-
-    # ensure that generation directory exists
-    os.makedirs(tests.resources.GENERATED)
     with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER) as executor:
         futures = {
             executor.submit(run_package, pdf, out, pages=pages): pdf
@@ -114,22 +121,20 @@ def create_todo(inpath, outpath, pages: tuple = None):
     return result
 
 
-def extract_without_titlepage():
+def notitle() -> list:
     destination = tests.resources.NO_TITLE
     without_titlepage = [
-        os.path.join(destination, f'{item}.pdf') for item in
-        utila.simplify_testfile_names(tests.resources.NO_TITLE_EXAMPLE)
+        os.path.join(destination, f'{item}.pdf')
+        for item in utila.simplify_testfile_names(
+            tests.resources.NO_TITLE_EXAMPLE, sort=False)
     ]
-    todo = [
-        f'jam -i {inpath} -o {outpath} --remove=0' for inpath, outpath in zip(
-            tests.resources.NO_TITLE_EXAMPLE,
-            without_titlepage,
-        )
-    ]
-    returncode = utila.run_parallel(todo, worker=WORKER)
-    assert returncode == utila.SUCCESS, str(returncode)
+    return without_titlepage
+
+
+def extract_without_titlepage():
+    destination = tests.resources.NO_TITLE
     hey.example.extract(
-        files=without_titlepage,
+        files=notitle(),
         destination=destination,
         pages='0:10',
         detector=False,
