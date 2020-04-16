@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v2.0.14
+
+### Feature
+
+* add optional pages pattern to shrink range of extraction (5fe3c987b3ec)
+
+### Fix
+
+* ensure to have valid pageheight (3f230c401cfd)
+
 ## v2.0.13
 
 ### Feature
