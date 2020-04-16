@@ -15,7 +15,6 @@ use the different tools together. We do not want to duplicate any
 generator code.
 """
 import concurrent.futures
-import functools
 import os
 import os.path
 
@@ -34,7 +33,6 @@ def extract(  # pylint:disable=R0914
         sections: bool = True,
         words: bool = True,
         detector: bool = True,
-        as_todo: bool = False,
 ):
     """Run rawmaker, groupme, sections and words for given `files` and write
     result to `destination`.
@@ -48,30 +46,20 @@ def extract(  # pylint:disable=R0914
         sections(bool): run if True
         words(bool): run if True
         detector(bool): run if True
-        as_todo(bool): if True return list of partial.method
     Raises:
         Exception: if Exception occurs while extracting file
     """
-    for pdf in files:
-        assert pdf.endswith('.pdf') and os.path.exists(pdf), str(pdf)
-
-    # ensure that generation directory exists
-    os.makedirs(destination, exist_ok=True)
-
-    config = {
-        'groupme': groupme,
-        'sections': sections,
-        'words': words,
-        'detector': detector,
-    }
-    generated = generate(files, destination, pages=pages, config=config)
-
-    if as_todo:
-        todo = [functools.partial(run_job, pdf) for pdf in generated]
-        return todo
-
+    todo = todolist(
+        files,
+        destination,
+        pages,
+        groupme=groupme,
+        sections=sections,
+        words=words,
+        detector=detector,
+    )
     with concurrent.futures.ThreadPoolExecutor(max_workers=worker) as executor:
-        futures = {executor.submit(run_job, pdf): pdf for pdf in generated}
+        futures = [executor.submit(run_job, job) for job in todo]
         for future in concurrent.futures.as_completed(futures):
             try:
                 comment = future.result()
@@ -79,6 +67,26 @@ def extract(  # pylint:disable=R0914
             except Exception:
                 utila.info(f'{future} failed.')
                 raise
+
+
+def todolist(
+        files: list,
+        destination: str,
+        pages: str = '0:10',
+        *,
+        groupme: bool = True,
+        sections: bool = True,
+        words: bool = True,
+        detector: bool = True,
+):
+    config = {
+        'groupme': groupme,
+        'sections': sections,
+        'words': words,
+        'detector': detector,
+    }
+    todo = generate(files, destination, pages=pages, config=config)
+    return todo
 
 
 def run_job(job: str):
@@ -119,7 +127,6 @@ def create_job(
     Returns:
         Created process todo description.
     """
-    assert os.path.exists(src), str(src)
     if config is None:
         config = {}
 
