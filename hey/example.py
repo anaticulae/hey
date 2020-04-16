@@ -38,7 +38,9 @@ def extract(  # pylint:disable=R0914
     result to `destination`.
 
     Args:
-        files(list): list of files to work on
+        files(list): list of files to work on; list of pattern
+                     (file, _pages_) or (file). If `_pages_` is given
+                     use default var `pages`.
         destination(path): create folder for every file and save result
         pages(str): range of selected pages
         worker(int): number of threads to extract examples
@@ -79,6 +81,11 @@ def todolist(
         words: bool = True,
         detector: bool = True,
 ):
+    """Create todo list to extract resources.
+
+        files: list of resources to extract. There are two list pattens:
+               (file, pages) or (file).
+    """
     config = {
         'groupme': groupme,
         'sections': sections,
@@ -98,17 +105,30 @@ def run_job(job: str):
 
 def generate(files: list, outpath: str, pages: str, config: dict) -> list:
     todo = []
-    files = utila.files_sort(files)
+    single_pages = paged(files, default=pages)
+    files = list(single_pages.keys())
     names = utila.simplify_testfile_names(files, sort=False)
     for inpath, output in zip(files, names):
         next_job = create_job(
             inpath,
             os.path.join(outpath, output),
-            pages=pages,
+            pages=single_pages[inpath],
             config=config,
         )
         todo.append(next_job)
     return todo
+
+
+def paged(files, default=None) -> dict:
+    """Select pages, if given `(source, pages)`, to extract. If no pages
+    are given, use `default` one."""
+    result = {}
+    for item in files:
+        page = default
+        if isinstance(item, tuple):
+            item, page = item
+        result[item] = page
+    return result
 
 
 def create_job(
