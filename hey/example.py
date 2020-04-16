@@ -91,7 +91,7 @@ def run_job(job: str):
 def generate(files: list, outpath: str, pages: str, config: dict) -> list:
     todo = []
     files = utila.files_sort(files)
-    names = utila.simplify_testfile_names(files)
+    names = utila.simplify_testfile_names(files, sort=False)
     for inpath, output in zip(files, names):
         next_job = create_job(
             inpath,
