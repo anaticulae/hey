@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v2.0.13
+
+### Feature
+
+* separate run and todo generator step (40b4829063b2)
+
+### Fix
+
+* disable sorting (2cb00ae0115e)
+
 ## v2.0.12
 
 ## v2.0.11
