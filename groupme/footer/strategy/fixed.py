@@ -45,8 +45,13 @@ class FixedFooterStrategy(gfs.FooterHeaderDetectionStrategy):
     """
 
     def result(self):
+        if not self.pagetextnavigators:
+            return []
         # TODO: HOW TO HANDLE DIFFERENT PAGE HEIGHTS
-        pageheight = self.pageheight(0)
+        # TODO: GROUP PAGE BY PAGESIZE FIRST AND THEN COMPUTE FOR EVERY
+        # DIFFERENT PAGE SIZE
+        first_page = self.pagetextnavigators[0].page
+        pageheight = self.pageheight(first_page)
 
         # determine most common border for all pages
         tops, bottoms = extract_common_footer(
