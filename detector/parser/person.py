@@ -77,7 +77,13 @@ def parse_person_without_title(raw: str) -> iamraw.Person:
     matched = re.search(pattern, raw)
     if not matched:
         return None
-    firstname, name = matched['names'].rsplit(' ', maxsplit=1)
+    try:
+        # TODO: SUPPORT SINGLE NAME?
+        # TODO: LINT TO VERIFY PRE AND SUR NAME
+        firstname, name = matched['names'].rsplit(' ', maxsplit=1)
+    except ValueError:
+        utila.error(f'could not split: {matched["names"]}; {matched}')
+        return None
     firstname, name = firstname.strip(), name.strip()
 
     title = author_or_examiner(raw)

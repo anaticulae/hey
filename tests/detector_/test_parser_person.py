@@ -179,3 +179,23 @@ def test_detector_parser_person_parse_person_without_title():
     )
     parsed = detector.parser.person.parse_person_without_title(raw)
     assert parsed == expected
+
+
+BROKEN_INPUT = """\
+Hier steht ein wenig Text
+
+Matrikel-Nummer:
+Erstprüfer:
+
+Zweitprüfer: *
+"""
+
+
+def test_detector_parser_person_regression(capsys):
+    """The regex matches `Erstprüfer:\n\nZweitprüfer` and fails to
+    extract name."""
+    # TODO: SOLVE BY BETTER REGEX APPROACH
+    parsed = detector.parser.person.parse_person_without_title(BROKEN_INPUT)
+    assert not parsed, str(parsed)
+    _, stderr = capsys.readouterr()
+    assert '[ERROR]' in stderr  # TODO: REMOVE LATER
