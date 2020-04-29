@@ -153,7 +153,7 @@ def test_groupme_footer_extract_footerheader_technical(root, expected):
 def test_groupme_footer_master72_extract(testdir, monkeypatch):
     outdir = testdir.tmpdir
     cmd = f'-i {tests.resources.MASTER72}  -o {outdir} --footer --pages=3'
-    tests.groupme_.run_success(cmd, monkeypatch=monkeypatch)
+    tests.groupme_.run(cmd, monkeypatch=monkeypatch)
 
     headfoot = serializeraw.load_headerfooter(iamraw.path.headerfooters(outdir))
     footnotes = headfoot[0].footer.notes

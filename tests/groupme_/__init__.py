@@ -19,19 +19,8 @@ from groupme.cli import PROCESS
 from groupme.cli import main
 
 #pylint: disable=invalid-name
-run_success = partial(
-    run_command,
-    main=main,
-    process=PROCESS,
-    success=True,
-)
-
-run_failure = partial(
-    run_command,
-    main=main,
-    process=PROCESS,
-    success=False,
-)
+run = partial(run_command, main=main, process=PROCESS, success=True)
+fail = partial(run_command, main=main, process=PROCESS, success=False)
 
 SAMPLE = [
     (8, BoundingBox.from_str("130.91 668.55 540.00 704.02")),

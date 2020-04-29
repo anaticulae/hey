@@ -22,7 +22,7 @@ def test_footer_regression_common_strategy(testdir, monkeypatch):
     source = tests.resources.BACHELOR37
     page = 1
     cmd = f'-i {source} -o {root} --footer --pages={page}'
-    tests.groupme_.run_success(cmd, monkeypatch=monkeypatch)
+    tests.groupme_.run(cmd, monkeypatch=monkeypatch)
 
     path = iamraw.path.headerfooters(root)
     headerfooter = serializeraw.load_headerfooter(path)

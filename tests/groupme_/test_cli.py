@@ -27,7 +27,7 @@ import tests.resources
 @utila.skip_longrun
 def test_groupme_run_external(cmd, monkeypatch):
     """Run help and version and format command to reach basic test coverage"""
-    tests.groupme_.run_success(cmd, monkeypatch=monkeypatch)
+    tests.groupme_.run(cmd, monkeypatch=monkeypatch)
 
 
 @utila.skip_longrun
@@ -35,7 +35,7 @@ def test_regression_groupme_problem(testdir, monkeypatch):
     """There was a problem with not sorted page numbers which leads
     to duplicated header/footer. This was solved by sorting page number
     of left/right page numbers."""
-    tests.groupme_.run_success(
+    tests.groupme_.run(
         f'-i {tests.resources.BACHELOR56} -j=8',
         monkeypatch=monkeypatch,
     )
