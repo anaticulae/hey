@@ -68,7 +68,7 @@ def most_boundingbox(
         # support multiple border options.
         minimize = method is math.floor
         # TODO: REQUIRE A BETTER TY-BREAKER
-        mode = utila.modes(rounded, minimize=minimize)
+        mode = utila.mode(rounded, minimize=minimize)
         result.append(mode)
     # (x0, y0, x1, y1)
     return tuple(result)

@@ -8,10 +8,10 @@
 # =============================================================================
 
 # ensure that test data is generated with the right version of rawmaker
-rawmaker==1.18.2
+rawmaker==1.18.3
 
 # reference to test data
-power==0.8.0
+power==0.8.1
 
 # test data generator
-jam==0.1.21
+jam==0.1.22

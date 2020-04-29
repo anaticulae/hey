@@ -98,8 +98,8 @@ def run(
     if result:
         return result
 
-    leftborder = utila.modes(left)
-    rightborder = utila.modes(right, minimize=False)
+    leftborder = utila.mode(left, minimize=True)
+    rightborder = utila.mode(right, minimize=False)
     return LeftRightDetected(
         left=leftborder,
         right=rightborder,
@@ -153,12 +153,12 @@ def simple(left: utila.Numbers, right: utila.Numbers) -> LeftRightDetected:
             second_error < max_firstsecond_error,
     ]):
         leftborder = (
-            utila.modes(first),
-            utila.modes(second),
+            utila.mode(first, minimize=True),
+            utila.mode(second, minimize=True),
         )
         rightborder = (
-            utila.modes(right[::2], minimize=False),
-            utila.modes(right[1::2], minimize=False),
+            utila.mode(right[::2]),
+            utila.mode(right[1::2]),
         )
         return LeftRightDetected(
             left=leftborder,
@@ -288,11 +288,11 @@ def maximize_leftright(
     if not left:
         left = 0.0
     else:
-        left = utila.modes(left)
+        left = utila.mode(left, minimize=True)
     if not right:
         right = size.size.width
     else:
-        right = utila.modes(right, minimize=False)
+        right = utila.mode(right, minimize=False)
     return left, right
 
 
