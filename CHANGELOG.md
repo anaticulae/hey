@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v2.0.17
+
+### Fix
+
+* by pass problem in name parser (8554451dbc68)
+
+### Documentation
+
+* extend interface documentation (f4ce77bc7ce2)
+
 ## v2.0.16
 
 ## v2.0.15
