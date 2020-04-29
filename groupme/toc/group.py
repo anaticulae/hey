@@ -10,6 +10,8 @@
 import contextlib
 import dataclasses
 
+import texmex.numbers
+
 import groupme.toc
 
 
@@ -84,7 +86,7 @@ def level(item: str) -> Level:
         return Level(value=value, raw=item)
 
     with contextlib.suppress(KeyError):
-        value = ROMAN[item.upper()]
+        value = texmex.numbers.arabic(item.upper())
         return RomanLevel(value=value, raw=item)
 
     letter, _ = item.split('.', maxsplit=1)
@@ -95,19 +97,3 @@ def level(item: str) -> Level:
         return result
 
     assert 0, str(item)
-
-
-#TODO: REPLACE WITH PYTHON PACKAGE WHICH SUPPORTS ROMAN NUMBERS
-ROMAN = {
-    'I': 1,
-    'II': 2,
-    'III': 3,
-    'IIII': 4,
-    'IV': 4,
-    'V': 5,
-    'VI': 6,
-    'VII': 7,
-    'VIII': 8,
-    'IX': 9,
-    'X': 10,
-}
