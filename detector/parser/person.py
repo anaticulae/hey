@@ -161,25 +161,6 @@ def order_persons(persons):
     return author, examiner
 
 
-MATCHES = {
-    'B.Sc.': iamraw.AcademicTitle.BSC,
-    r'Dipl.-\w+': iamraw.AcademicTitle.MASTER,
-    'Dipl. Ing.': iamraw.AcademicTitle.MASTER,
-    'M.A.': iamraw.AcademicTitle.MASTER,
-    'M.Sc.': iamraw.AcademicTitle.MASTER,
-    'Dr.-Ing.': iamraw.AcademicTitle.DR,
-    'Dr.': iamraw.AcademicTitle.DR,
-    # TODO: ADD GENERAL -/RULE?
-    'Prof.-': iamraw.AcademicTitle.PROF,
-    'Prof.': iamraw.AcademicTitle.PROF,
-    r'[a-zA-Z\-]+. ': iamraw.AcademicTitle.DR,
-    # see general pattern above
-    # 'Dr. rer. biol. hum.': AcademicTitle.DR,
-    # 'Dr. med.': AcademicTitle.DR,
-}
-# TODO: REMOVE AFTER MOVING TO IAMRAW
-iamraw.person.MATCHES = MATCHES
-
 EXAMINER = [
     # it's important to limit parsing length to avoid very long running parsing
     r'(\d\.\s?)?Betreuer',
@@ -218,7 +199,7 @@ def extract_title(result):
         except KeyError:
             continue
         else:
-            matches = [item for item in MATCHES.values()]
+            matches = [item for item in iamraw.person.MATCHES.values()]
             title.append(matches[item])
     return title
 
