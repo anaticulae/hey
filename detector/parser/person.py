@@ -31,8 +31,8 @@ def parse(raw: str) -> iamraw.Person:
     """Parse `Person` out of name line
 
     Args:
-        raw(str):
-    Returns
+        raw(str): raw parsing text
+    Returns:
         Person if parsing was successful, else None
     """
     result = re.search(PATTERN, raw)
@@ -180,7 +180,7 @@ TITLE_KEYS = [
 ]
 MATCHER = '|'.join(
     fr'(?P<t{index}>{item})[\ ]?' for index, item in enumerate(TITLE_KEYS))
-EXAMINER = '|'.join(EXAMINER)
+EXAMINER = '|'.join(EXAMINER)  # pylint:disable=R0204
 
 PATTERN = rf"""(?P<examiner>({EXAMINER})[:]?\s?)?
                ({MATCHER}\ *)+(\ )?
