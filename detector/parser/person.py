@@ -75,6 +75,7 @@ def parse_person_without_title(raw: str) -> iamraw.Person:
         r'Verfasser(in)?',
         r'Zweitprüfer(in)?',
         r'vorgelegt von',
+        # r'von', # TODO: exclude von in `title`
     ]
     preamble = [fr'(?P<t{index}>{item})' for index, item in enumerate(preamble)]
     preamble = '(' + '|'.join(preamble) + ')'  # pylint:disable=R0204
@@ -177,6 +178,7 @@ EXAMINER = [
     # it's important to limit parsing length to avoid very long running parsing
     r'(\d\.\s?)?Betreuer(in)?',
     r'Erstgutachter(in)?',
+    r'Betreuung',
     r'Gutachter(in)?',
     r'Hochschullehrer(in)?',
     r'Zweitgutachter(in)?',
