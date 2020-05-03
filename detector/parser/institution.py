@@ -128,10 +128,11 @@ COURSES = [
 UNIVERSITIES = [
     'Duale Hochschule Baden-Würtemberg',
     'Hochschule für Technik und Wirtschaft Berlin',
-    'Technische Universität Berlin',
-    'Technische Universität Darmstadt',
     # TODO: INVESTIGATE THIS '' char later. Don't know how to solve yet.
     'Technische Universit¨at Darmstadt',
+    'Technische Universität Berlin',
+    'Technische Universität Darmstadt',
+    'Universität Bielefeld',
     'Universität Münster',
 ]
 
