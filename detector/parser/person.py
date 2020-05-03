@@ -41,6 +41,10 @@ def parse(raw: str) -> iamraw.Person:
     """
     result = re.search(PATTERN, raw)
     if not result:
+        # second try with reversed title
+        result = re.search(PATTER_PERSON_AFTER, raw)
+
+    if not result:
         # try second parser
         result = parse_person_without_title(raw)
         if result:
@@ -190,12 +194,22 @@ PERSON_TITLE = '|'.join(
     fr'(?P<t{index}>{item})[\ ]?' for index, item in enumerate(TITLE_KEYS))
 EXAMINER = '|'.join(EXAMINER)  # pylint:disable=R0204
 
-PERSON_NAME = r'(?P<fname>(\w+[ ]?)*)\ (?P<name>[\w|-]+)'
+PERSON_NAME = r'(?P<fname>(\w+[ ]?){1,5})[ ](?P<name>[\w|-]+)'
 
 PATTERN = rf"""(?P<examiner>({EXAMINER})[:]?\s?)?
                ({PERSON_TITLE}\ *)+(\ )?{PERSON_NAME}
             """
 PATTERN = re.compile(PATTERN, re.X)
+
+# TODO: IMPROVE THIS
+# TODO: SUPPORT PARSING DOUBLE PRE NAME
+# Parses: Examiner: Hemut Konrad, M.A.
+PATTER_PERSON_AFTER = rf"""
+            (?P<examiner>({EXAMINER})[:]?\s?)
+            (?P<fname>(\w+[ ]?){1,5}?)[ ](?P<name>[\w|-]+)
+            [,]?[\ ]{0,3}?(?P<t3>M\.A\.?\B)
+            """
+PATTER_PERSON_AFTER = re.compile(PATTER_PERSON_AFTER, re.X)
 
 
 def extract_title(result):
@@ -205,7 +219,8 @@ def extract_title(result):
             parsed_title = result['t%d' % item]
             if not parsed_title:
                 continue
-        except KeyError:
+        except (KeyError, IndexError):
+            # IndexError: no every group is used. For example only t3:master
             continue
         else:
             matches = [item for item in iamraw.person.MATCHES.values()]
