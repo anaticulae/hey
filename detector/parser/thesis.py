@@ -34,7 +34,6 @@ def parse(token: str) -> iamraw.TitleThesisType:
 def construct_pattern():
     pattern = []
     for key, values in iamraw.titlepage.THESIS.items():
-        subpattern = []
         subpattern = '(?P<%s>(' % str(key.name)
         # reverse to have the longer pattern in front, `Masterarbeit` before
         # `Master`
