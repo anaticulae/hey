@@ -46,6 +46,7 @@ def parse(raw: str) -> iamraw.TitleDate:
         simple_alpha_date_month_first,
         simple_month_year_date,
         simple_date,
+        semester_year,
     ] + [
         functools.partial(simple_alpha_date, reduce=index) for index in range(7)
     ]
@@ -217,5 +218,29 @@ def location_comma_day_month_year(raw: str) -> iamraw.TitleDate:
         location=location,
         valid=valid,
         raw=raw,
+    )
+    return result
+
+
+SEMESTER = r'(Sommersemester|Wintersemester)[ ](?P<year>\d{4})'
+
+
+def semester_year(raw: str) -> iamraw.TitleDate:
+    """Parses year from semester text.
+
+    >>> semester_year('BACHELORARBEIT von Martina Feilke Sommersemester 2009 SOLAR II').year
+    2009
+    """
+    res = re.search(SEMESTER, raw)
+    if not res:
+        return None
+    year = int(res['year'])
+    result = iamraw.TitleDate(
+        year=year,
+        month=None,
+        day=None,
+        location=None,
+        valid=True,
+        raw=utila.extract_match(res),
     )
     return result
