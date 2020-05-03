@@ -17,3 +17,12 @@ def bibliography_detected(path: str, prefix: str = '') -> str:
         'bibliography_detected',
         prefix,
     )
+
+
+def titlepage(path: str, prefix: str = '') -> str:
+    return utila.pathconnector(
+        path,
+        'detector',
+        'titlepage_detected',
+        prefix,
+    )
