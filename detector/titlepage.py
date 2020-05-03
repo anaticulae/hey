@@ -41,15 +41,18 @@ def select_best(pages: typing.List[iamraw.TitlePage]) -> iamraw.TitlePage:
 
 
 def rate(title: iamraw.TitlePage) -> int:
+    # TODO: NOT VERY SMART
     result = 0
-    if not title:
-        return result
     if title.title:
         result += 5
     if title.thesis:
         result += 10
     if title.date:
         result += 10
+    if title.matrikel:
+        result += 5
+    if title.examiner:
+        result += 5 * len(title.examiner)
     if title.institution:
         result += 20
     return result

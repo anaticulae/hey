@@ -10,7 +10,7 @@ titlepage extractor
 
 * [ ] fix bachelor72 non detection of title page
 
-* [ ] do not detect so strict when `detecting` no headline, cause headline
+* [x] do not detect so strict when `detecting` no headline, cause headline
   is written in normal text size: Give hint to increase title size
 
 * [ ] title page parser: add `Betreuerin`, `Prüferin` etc.

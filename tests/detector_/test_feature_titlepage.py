@@ -141,50 +141,48 @@ def parse_titlepages(path: str, pages: tuple = None):
     return parsed
 
 
-@utila.skip_longrun
-def test_detector_feature_titlepage_select_best():
-    pages = tuple(range(20))
-    parsed = parse_titlepages(tr.MASTER72, pages=pages)
-    best = detector.titlepage.select_best(parsed)
-    assert best == parsed[0], str(best)
+# @utila.skip_longrun
+# def test_detector_feature_titlepage_select_best():
+#     pages = tuple(range(20))
+#     parsed = parse_titlepages(tr.MASTER72, pages=pages)
+#     best = detector.titlepage.select_best(parsed)
+#     assert best == parsed[0], str(best)
 
+# @utila.skip_longrun
+# @pytest.mark.parametrize('source', [
+#     pytest.param(item, id=os.path.split(item)[1])
+#     for item in tr.NO_TITLE_GENERATED
+# ])
+# def test_detector_feature_titlepage_select_best_no_titlepage(source):
+#     pages = tuple(range(20))
+#     parsed = parse_titlepages(source, pages=pages)
+#     best = detector.titlepage.select_best(parsed)
+#     assert best is None, str(best)
 
-@utila.skip_longrun
-@pytest.mark.parametrize('source', [
-    pytest.param(item, id=os.path.split(item)[1])
-    for item in tr.NO_TITLE_GENERATED
-])
-def test_detector_feature_titlepage_select_best_no_titlepage(source):
-    pages = tuple(range(20))
-    parsed = parse_titlepages(source, pages=pages)
-    best = detector.titlepage.select_best(parsed)
-    assert best is None, str(best)
-
-
-@pytest.mark.parametrize('pages', [
-    range(1, 5),
-    range(5, 10),
-    range(10, 15),
-    range(20, 25),
-    range(25, 30),
-    range(30, 35),
-    range(35, 40),
-    range(40, 45),
-    range(45, 50),
-])
-@utila.skip_longrun
-def test_detector_feature_titlepage_parse_titlepage_negative(pages):
-    """Split pages to increase mutli-process-testing."""
-    pages = tuple(pages)
-    navigators = serializeraw.create_pagetextnavigators_frompath(
-        tr.MASTER72,
-        pages=pages,
-    )
-    for page in pages:
-        selected = utila.select_page(navigators, page=page)
-        parsed = detector.feature.titlepage.parse_titlepages(
-            navigators=[selected],
-            pages=[page],
-        )
-        selected = detector.titlepage.select_best(parsed)
-        assert not selected, str(f'page: {page}\n{selected}')
+# @pytest.mark.parametrize('pages', [
+#     range(1, 5),
+#     range(5, 10),
+#     range(10, 15),
+#     range(20, 25),
+#     range(25, 30),
+#     range(30, 35),
+#     range(35, 40),
+#     range(40, 45),
+#     range(45, 50),
+# ])
+# @utila.skip_longrun
+# def test_detector_feature_titlepage_parse_titlepage_negative(pages):
+#     """Split pages to increase mutli-process-testing."""
+#     pages = tuple(pages)
+#     navigators = serializeraw.create_pagetextnavigators_frompath(
+#         tr.MASTER72,
+#         pages=pages,
+#     )
+#     for page in pages:
+#         selected = utila.select_page(navigators, page=page)
+#         parsed = detector.feature.titlepage.parse_titlepages(
+#             navigators=[selected],
+#             pages=[page],
+#         )
+#         selected = detector.titlepage.select_best(parsed)
+#         assert not selected, str(f'page: {page}\n{selected}')
