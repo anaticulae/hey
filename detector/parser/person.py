@@ -6,7 +6,10 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""There are two types of person which must appear on the titlepage. The
+"""Titlepage: Person Parser
+========================
+
+There are two types of person which must appear on the titlepage. The
 author and examiner. An author can have an academic title. An Examiner
 must have an academic title.
 
@@ -68,8 +71,8 @@ def parse_person_without_title(raw: str) -> iamraw.Person:
         r'Zweitprüfer(in)?',
         r'vorgelegt von',
     ]
-    preamble = '(' + '|'.join(
-        fr'(?P<t{index}>{item})' for index, item in enumerate(preamble)) + ')'
+    preamble = [fr'(?P<t{index}>{item})' for index, item in enumerate(preamble)]
+    preamble = '(' + '|'.join(preamble) + ')'  # pylint:disable=R0204
     between = r'[:]?[\s ]{0,8}'
     name = r'(?P<names>(\w+[ ]{0,5}){1,5})\b'
     pattern = re.compile(preamble + between + name, re.IGNORECASE)
@@ -96,11 +99,11 @@ def parse_person_without_title(raw: str) -> iamraw.Person:
     return result
 
 
-def parse_all(items):
+def parse_all(items: list) -> list:
     """Parse title content to extract a list of Persons.
 
     Args:
-        items(str): content of title page
+        items(list): content of title page
     Returns:
         detected list of Persons and the rest of the page content as a list
     """
