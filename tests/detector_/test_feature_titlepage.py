@@ -53,7 +53,7 @@ def check_78_pages(titlepage: iamraw.TitlePage):
     assert titlepage.thesis.typ == iamraw.DocumentType.MASTER
 
     university = titlepage.institution.university
-    assert university == 'Technische Universit¨at Darmstadt', str(university)
+    assert university == 'Technische Universität Darmstadt', str(university)
 
 
 def check_116_pages(titlepage: iamraw.TitlePage):

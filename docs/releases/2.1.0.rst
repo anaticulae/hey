@@ -6,7 +6,7 @@ RP 2.1.0
 titlepage extractor
 -------------------
 
-* [ ] validate titlepage extractor with 5 further examples
+* [x] validate titlepage extractor with 5 further examples
 
 * [x] fix bachelor72 non detection of title page
 
