@@ -190,14 +190,14 @@ TITLE_KEYS = [
     for item in iamraw.AcademicTitle.keys()
     if item
 ]
-PERSON_TITLE = '|'.join(
-    fr'(?P<t{index}>{item})[\ ]?' for index, item in enumerate(TITLE_KEYS))
+
+PERSON_TITLE = '|'.join(fr'(?P<t{index}>{item})[ ]?' for index, item in enumerate(TITLE_KEYS)) # yapf:disable
 EXAMINER = '|'.join(EXAMINER)  # pylint:disable=R0204
 
 PERSON_NAME = r'(?P<fname>(\w+[ ]?){1,5})[ ](?P<name>[\w|-]+)'
 
 PATTERN = rf"""(?P<examiner>({EXAMINER})[:]?\s?)?
-               ({PERSON_TITLE}\ *)+(\ )?{PERSON_NAME}
+               ({PERSON_TITLE}[ ]*)+[ ]?{PERSON_NAME}
             """
 PATTERN = re.compile(PATTERN, re.X)
 
@@ -207,7 +207,7 @@ PATTERN = re.compile(PATTERN, re.X)
 PATTER_PERSON_AFTER = rf"""
             (?P<examiner>({EXAMINER})[:]?\s?)
             (?P<fname>(\w+[ ]?){1,5}?)[ ](?P<name>[\w|-]+)
-            [,]?[\ ]{0,3}?(?P<t3>M\.A\.?\B)
+            [,]?[ ]{0,3}?(?P<t3>M\.A\.?\B)
             """
 PATTER_PERSON_AFTER = re.compile(PATTER_PERSON_AFTER, re.X)
 
