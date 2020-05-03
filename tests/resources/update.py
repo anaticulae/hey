@@ -47,7 +47,8 @@ def extract_examples():
     todo = []
     todo.extend(extract())
     todo.extend(extract_without_titlepage())
-    run_parallel(*todo)
+    returncode = run_parallel(*todo)
+    assert returncode == utila.SUCCESS, str(returncode)
 
 
 CONFIG = '--char_margin=3.1 --boxes_flow=1.0 --line_margin=0.25 '
@@ -171,6 +172,7 @@ def run_parallel(*items, worker=6):
     # TODO: MOVE TO UTILA
     # rename to threaded
     # rename to fork_and_join to use Process Pool
+    failure = 0
     with concurrent.futures.ThreadPoolExecutor(max_workers=worker) as executor:
         futures = {executor.submit(item): item for item in items}
         for future in concurrent.futures.as_completed(futures):
@@ -179,3 +181,5 @@ def run_parallel(*items, worker=6):
             except Exception as error:  # pylint:disable=broad-except
                 utila.error(f'{future} failed.')
                 utila.error(error)
+                failure += 1
+    return failure
