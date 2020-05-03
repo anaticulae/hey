@@ -24,7 +24,8 @@ ORDER = os.path.join(RESOURCES, 'order')
 TECHNICAL = os.path.join(RESOURCES, 'technical')
 
 GENERATED = os.path.join(RESOURCES, 'generated')
-NO_TITLE = os.path.join(GENERATED, 'notitle')
+# TODO: remove _ after fixing path bug
+NO_TITLE = os.path.join(GENERATED, '_notitle')
 
 RESTRUCT = os.path.join(GENERATED, 'restruct')
 RESTRUCT_PDF = os.path.join(DOCU, 'restructuredtext.pdf')

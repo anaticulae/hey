@@ -107,17 +107,6 @@ def extract():
         for pdf, out, pages in PACKAGE
     ]
     return todo
-    with concurrent.futures.ThreadPoolExecutor(max_workers=WORKER) as executor:
-        futures = {
-            executor.submit(run_package, pdf, out, pages=pages): pdf
-            for pdf, out, pages in PACKAGE
-        }
-        for future in concurrent.futures.as_completed(futures):
-            try:
-                future.result()
-            except Exception as error:  # pylint:disable=broad-except
-                utila.error(f'{future} failed.')
-                utila.error(error)
 
 
 def create_todo(inpath, outpath, pages: tuple = None):
@@ -147,15 +136,21 @@ def notitle() -> list:
 
 def extract_without_titlepage():
     destination = tests.resources.NO_TITLE
-    todo = hey.example.extract(
+    todo = hey.example.todolist(
         files=notitle(),
         destination=destination,
         pages='0:10',
         detector=False,
         sections=False,
         words=False,
-        as_todo=True,
     )
+
+    def run_notile(item):
+        utila.log(f'notitle: {item[0:200]}')
+        with utila.assert_run(item, cwd=None):
+            utila.log('completed')
+
+    todo = [functools.partial(run_notile, item) for item in todo]
     return todo
 
 
