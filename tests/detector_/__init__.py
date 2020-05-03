@@ -15,14 +15,14 @@ from detector import PROCESS
 from detector.cli import main
 
 #pylint:disable=C0103
-run_detector_success = functools.partial(
+run = functools.partial(
     utila.run_command,
     main=main,
     process=PROCESS,
     success=True,
 )
 
-run_detector_failure = functools.partial(
+fail = functools.partial(
     utila.run_command,
     main=main,
     process=PROCESS,

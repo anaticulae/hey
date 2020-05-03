@@ -12,8 +12,8 @@ import os
 import pytest
 import utila
 
-from tests import write_capsys
-from tests.detector_ import run_detector_success
+import tests
+import tests.detector_
 from tests.resources import HOWTO_PYPORTING
 from tests.resources import PYPORTING
 from tests.resources import RESTRUCT
@@ -25,9 +25,9 @@ from tests.resources import RESTRUCT
 ])
 def test_detector_misc(command, testdir, monkeypatch, capsys):  #pylint: disable=W0613
     """Run help and version command to reach basic test coverage"""
-    run_detector_success(command, monkeypatch=monkeypatch)
+    tests.detector_.run(command, monkeypatch=monkeypatch)
 
-    write_capsys(capsys)
+    tests.write_capsys(capsys)
 
 
 @pytest.mark.parametrize('example', [
@@ -40,10 +40,10 @@ def test_detector_run_work(example, testdir, monkeypatch, capsys):  #pylint: dis
     output = str(testdir)
     command = f'-i {example} -o {output}'
 
-    run_detector_success(command, monkeypatch=monkeypatch)
+    tests.detector_.run(command, monkeypatch=monkeypatch)
 
     # ensure that process write a file
     written = list(os.scandir(output))
     assert len(written) == 2, str(written)
 
-    write_capsys(capsys)
+    tests.write_capsys(capsys)

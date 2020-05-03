@@ -40,4 +40,4 @@ def test_regression_detector(testdir, monkeypatch):
 
     jobs = 5
     cmd = f'-j{jobs} --all'
-    tests.detector_.run_detector_success(cmd, monkeypatch=monkeypatch)
+    tests.detector_.run(cmd, monkeypatch=monkeypatch)

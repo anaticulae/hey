@@ -31,7 +31,7 @@ def test_detector_bibliography_run(
 ):  #pylint: disable=W0613
     root = testdir.tmpdir
     command = f'-i {source} -o {root} --bibliography --pages={pages}'
-    tests.detector_.run_detector_success(command, monkeypatch=monkeypatch)
+    tests.detector_.run(command, monkeypatch=monkeypatch)
 
     outpath = detector.path.bibliography_detected(root)
     loaded = detector.bibliography.data.load_bibliography_reference(outpath)
