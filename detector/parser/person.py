@@ -62,11 +62,10 @@ def parse_person_without_title(raw: str) -> iamraw.Person:
     raw = raw.strip()
     # TODO: Keep attention to the list below. Refactor later
     preamble = [
-        r'Erstprüfer',  # TODO: Remove this later
-        r'Autor',
-        r'Verfasserin',
-        r'Verfasser',
-        r'Zweitprüfer',
+        r'Erstprüfer(in)?',  # TODO: Remove this later
+        r'Autor(in)?',
+        r'Verfasser(in)?',
+        r'Zweitprüfer(in)?',
         r'vorgelegt von',
     ]
     preamble = '(' + '|'.join(
@@ -164,11 +163,11 @@ def order_persons(persons):
 
 EXAMINER = [
     # it's important to limit parsing length to avoid very long running parsing
-    r'(\d\.\s?)?Betreuer',
-    r'Erstgutachter',
-    r'Gutachter',
-    r'Hochschullehrer',
-    r'Zweitgutachter',
+    r'(\d\.\s?)?Betreuer(in)?',
+    r'Erstgutachter(in)?',
+    r'Gutachter(in)?',
+    r'Hochschullehrer(in)?',
+    r'Zweitgutachter(in)?',
     # [\s|:] to avoid confusing 'Prof. Dr. Theo Wil'
     r'(\w+\s?){1,4}?[\s|:]',
     r'^',
