@@ -26,6 +26,14 @@ class TitleParserState(enum.Enum):
     NOT_ENOUGH_LINES = enum.auto()
     NOT_ENOUGH_DISTANCE = enum.auto()
     TITLE_TO_SMALL = enum.auto()
+    TITLE_BLACKLIST = enum.auto()
+
+
+TITLE_BLACKLIST = {
+    'STUDIENARBEIT',
+    'BACHELORARBEIT',
+    'MASTERARBEIT',
+}
 
 
 def parse(textnavigator: texmex.PageTextNavigator) -> str:
@@ -42,7 +50,6 @@ def parse(textnavigator: texmex.PageTextNavigator) -> str:
         - size(headline) 120% of next line
         - title greater than `MIN_TITLE_FONT_SIZE`
     """
-
     merged = merge(textnavigator)
     sizes = determine_sizes(merged)
 
@@ -65,6 +72,9 @@ def parse(textnavigator: texmex.PageTextNavigator) -> str:
 
     title = sizes[0][1].replace(utila.NEWLINE, ' ')
     title = title.strip()
+    if title.upper() in TITLE_BLACKLIST:
+        # bachelor
+        return TitleParserState.TITLE_BLACKLIST
     return title
 
 
