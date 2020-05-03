@@ -2,6 +2,30 @@
 
 Every noteable change is logged here.
 
+## v2.1.0
+
+### Feature
+
+* do not parse thesis type as title (60bcbf096c50)
+* support lowercase and uppercase thesis type (e455abd257fb)
+* add semester date parser (57b70a7e53a1)
+* extend person parser (3a34b77ac26d)
+* handle specials chars correctly (1b205a3e2546)
+* extend universities (a2f4d412c99d)
+* parsing persons with academic title after persons name (e9c6c5452788)
+* extend list of know universities (ed1caeb065b8)
+* add optional female endings (a01c0b018b0b)
+* add method to determine extracted titlepage path (5e255f8b74d8)
+
+### Fix
+
+* detect bachelor76 page0 as valid title page example (b67efffb76fb)
+* do not fail without detecting title (f030fd6a0c77)
+
+### Documentation
+
+* extend interface documentation (dc29dec1e403)
+
 ## v2.0.17
 
 ### Fix
