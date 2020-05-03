@@ -186,13 +186,14 @@ TITLE_KEYS = [
     for item in iamraw.AcademicTitle.keys()
     if item
 ]
-MATCHER = '|'.join(
+PERSON_TITLE = '|'.join(
     fr'(?P<t{index}>{item})[\ ]?' for index, item in enumerate(TITLE_KEYS))
 EXAMINER = '|'.join(EXAMINER)  # pylint:disable=R0204
 
+PERSON_NAME = r'(?P<fname>(\w+[ ]?)*)\ (?P<name>[\w|-]+)'
+
 PATTERN = rf"""(?P<examiner>({EXAMINER})[:]?\s?)?
-               ({MATCHER}\ *)+(\ )?
-               (?P<fname>(\w+[ ]?)*)\ (?P<name>[\w|-]+)
+               ({PERSON_TITLE}\ *)+(\ )?{PERSON_NAME}
             """
 PATTERN = re.compile(PATTERN, re.X)
 
