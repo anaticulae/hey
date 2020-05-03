@@ -76,6 +76,7 @@ PACKAGE = [
     (tests.resources.HOMEWORK50_PDF, tests.resources.HOMEWORK50, '6'),
     (tests.resources.HOWTOWRITE9_PDF, tests.resources.HOWTOWRITE9, '0:10'),
     (tests.resources.MASTER116_PDF, tests.resources.MASTER116, '0:5,96:101'),
+    (tests.resources.BACHELOR76_PDF, tests.resources.BACHELOR76, '0:5'),
 ]
 
 
