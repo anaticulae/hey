@@ -131,7 +131,6 @@ UNIVERSITIES = [
     'Katholische Hochschule Nordrhein-Westfalen',
     'Ludwig-Maximilians-Universität München'
     'Suchtakademie Berlin-Brandenburg',
-    'Technische Universit¨at Darmstadt',  # TODO: INVESTIGATE THIS '' char later. Don't know how to solve yet.
     'Technische Universität Berlin',
     'Technische Universität Darmstadt',
     'Universität Bielefeld',
@@ -149,6 +148,7 @@ def find_institution(raw) -> str:
 
     TODO: Use difflib to improve collecting approach
     """
+    raw = replace_special_chars(raw)
     splitted = raw.split(',')
     splitted = utila.flatten([item.split(utila.NEWLINE) for item in splitted])
     # TODO require better lookup technology with hashing
@@ -163,3 +163,9 @@ def find_institution(raw) -> str:
 
     rest = raw.replace(collected, '')
     return collected, rest
+
+
+def replace_special_chars(raw: str) -> str:
+    raw = raw.replace('¨a', 'ä')
+    raw = raw.replace('¨u', 'ü')
+    return raw
