@@ -63,6 +63,7 @@ def parse_person_without_title(raw: str) -> iamraw.Person:
     # TODO: Keep attention to the list below. Refactor later
     preamble = [
         r'Erstprüfer',  # TODO: Remove this later
+        r'Autor',
         r'Verfasserin',
         r'Verfasser',
         r'Zweitprüfer',
@@ -208,7 +209,7 @@ def author_or_examiner(raw: str) -> iamraw.AcademicTitle:
     raw = raw.lower()
 
     # Hint: add items as lower case
-    author = ['vorgelegt', 'verfasser']
+    author = ['vorgelegt', 'verfasser', 'autor']
     if any([item in raw for item in author]):
         return iamraw.AcademicTitle.STUDENT
 

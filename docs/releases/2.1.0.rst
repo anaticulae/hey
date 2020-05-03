@@ -8,7 +8,7 @@ titlepage extractor
 
 * [ ] validate titlepage extractor with 5 further examples
 
-* [ ] fix bachelor72 non detection of title page
+* [x] fix bachelor72 non detection of title page
 
 * [x] do not detect so strict when `detecting` no headline, cause headline
   is written in normal text size: Give hint to increase title size
