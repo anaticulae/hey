@@ -7,18 +7,17 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from collections import namedtuple
-from re import search
+import re
 
 import iamraw
 import utila
 
 
 def parse(token: str) -> iamraw.TitleThesisType:
-    collected = search(PATTERN, token)
+    # support Bachelorarbeit and BACHELORARBEIT
+    collected = re.search(PATTERN, token, flags=re.IGNORECASE)
     if not collected:
         return None
-
     # TODO: HOW TO HANDLE MULTIPLE COLLECTION, e.g. Master, Bachelor on the
     # same page.
     # TODO: ADD DIRECT IMPORT OF THESIS
