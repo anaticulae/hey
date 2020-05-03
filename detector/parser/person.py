@@ -223,7 +223,7 @@ def extract_title(result):
             # IndexError: no every group is used. For example only t3:master
             continue
         else:
-            matches = [item for item in iamraw.person.MATCHES.values()]
+            matches = [it for it in iamraw.person.MATCHES.values()]
             title.append(matches[item])
     return title
 
