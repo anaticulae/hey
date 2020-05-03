@@ -24,6 +24,7 @@ Examples:
 """
 import operator
 import re
+import typing
 
 import iamraw
 import iamraw.person
@@ -137,7 +138,11 @@ def lookbehind(rest):
     return parsed, rest
 
 
-def order_persons(persons):
+# TODO: REPLACE AFTER UPGRADING IAMRAW
+iamraw.Persons = typing.List[iamraw.Person]
+
+
+def order_persons(persons: list) -> typing.Tuple[iamraw.Person, iamraw.Persons]:
     """Sort persons by academical rank and return the lowester rang as author
     and the rest as examier.
 
