@@ -19,11 +19,12 @@ import groupme.likelihood
 def match(
         content: iamraw.PageContentHorizontals,
         vertical_position: float,
-):
+) -> bool:
     """Check if any horizontal match the `vertical_position`
 
     Args:
-        todo(PageContentHorizontals): list with horizontal lines, mostly one page
+        content(PageContentHorizontals): list with horizontal lines,
+                                         mostly one page
         vertical_position(float): position on the page in 'pixel'
     Returns:
         True if any horizontal line match the `vertical_position`
