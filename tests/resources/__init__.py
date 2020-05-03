@@ -89,10 +89,7 @@ HOMEWORK50 = os.path.join(GENERATED, 'homework_page_50_math')
 HOMEWORK50_PDF = os.path.join(HOMEWORK, 'page_50_math.pdf')
 
 LEFTRIGHT_PDF = os.path.join(BOOK, 'leftright.pdf')
-LEFTRIGHT = os.path.join(
-    GENERATED,
-    'book_leftright',
-)
+LEFTRIGHT = os.path.join(GENERATED, 'book_leftright')
 
 NO_TITLE_EXAMPLE = [
     BACHELOR111_PDF,
@@ -111,14 +108,14 @@ NO_TITLE_GENERATED = [
 NO_TITLE_RESTRUCTURED = os.path.join(NO_TITLE, 'docu_restructuredtext')
 
 REQURIED_RESOURCES = [
-    BACHELOR63,
-    BACHELOR63_PDF,
     BACHELOR111,
     BACHELOR111_PDF,
     BACHELOR37,
     BACHELOR37_PDF,
     BACHELOR56,
     BACHELOR56_PDF,
+    BACHELOR63,
+    BACHELOR63_PDF,
     BACHELOR63_PDF,
     HOMEWORK50,
     HOMEWORK50_PDF,

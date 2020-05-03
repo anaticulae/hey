@@ -39,6 +39,7 @@ def sync_resources():
     ]
     returncode = utila.run_parallel(todo, worker=WORKER)
     assert returncode == utila.SUCCESS, str(returncode)
+    utila.log('jam completed')
 
 
 def extract_examples():
