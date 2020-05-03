@@ -155,6 +155,15 @@ KAHN = iamraw.Person(
             'Zweitprüfer: Peter Thomson',
         ),
     ),
+    (
+        'Zweitgutachterin: Aleksandra Filonova, M.A.',
+        iamraw.Person(
+            iamraw.AcademicTitle.MASTER,
+            'Filonova',
+            'Aleksandra',
+            'Zweitgutachterin: Aleksandra Filonova, M.A.',
+        ),
+    ),
 ])
 def test_detector_parser_parse_person(raw, expected):
     parsed = detector.parser.person.parse(raw)

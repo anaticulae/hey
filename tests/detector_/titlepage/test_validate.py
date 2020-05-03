@@ -27,8 +27,17 @@ def bachelor76(titlepage: iamraw.TitlePage):
     assert len(titlepage.examiner) == 2, titlepage.examiner
 
 
+def master98(titlepage: iamraw.TitlePage):
+    assert titlepage
+    assert len(titlepage.examiner) == 2, titlepage.examiner
+    assert titlepage.institution, titlepage.institution
+    assert titlepage.thesis.typ == iamraw.DocumentType.MASTER, titlepage.thesis
+    assert titlepage.date, titlepage.date
+
+
 @pytest.mark.parametrize('source, check', [
     pytest.param(tests.resources.BACHELOR76, bachelor76, id='bachelor76'),
+    pytest.param(tests.resources.MASTER98, master98, id='master98'),
 ])
 def test_validate_titlepage_extractor(source, check, testdir, monkeypatch):  #pylint: disable=W0613
     outdir = testdir.tmpdir
