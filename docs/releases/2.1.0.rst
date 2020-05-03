@@ -1,0 +1,26 @@
+.. _2_1_0:
+
+RP 2.1.0
+=========
+
+titlepage extractor
+-------------------
+
+* [ ] validate titlepage extractor with 5 further examples
+
+* [ ] fix bachelor72 non detection of title page
+
+* [ ] do not detect so strict when `detecting` no headline, cause headline
+  is written in normal text size: Give hint to increase title size
+
+* [ ] title page parser: add `Betreuerin`, `Prüferin` etc.
+
+code quality
+------------
+
+before
+~~~~~~
+
+* Total coverage: 91.18%
+* Your code has been rated at 9.82/10
+* Todo: 152
