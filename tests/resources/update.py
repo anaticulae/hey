@@ -73,11 +73,13 @@ PACKAGE = [
     (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT, None),
     (tests.resources.TECHNICAL24_PDF, tests.resources.TECHNICAL24, None),
     (tests.resources.TWINE_PDF, tests.resources.TWINE, None),
-    (tests.resources.HOMEWORK50_PDF, tests.resources.HOMEWORK50, '6'),
+    (tests.resources.HOMEWORK50_PDF, tests.resources.HOMEWORK50, '0:10'),
     (tests.resources.HOWTOWRITE9_PDF, tests.resources.HOWTOWRITE9, '0:10'),
     (tests.resources.MASTER116_PDF, tests.resources.MASTER116, '0:5,96:101'),
     (tests.resources.BACHELOR76_PDF, tests.resources.BACHELOR76, '0:5'),
     (tests.resources.MASTER98_PDF, tests.resources.MASTER98, '0:5'),
+    (tests.resources.MASTER78_PDF, tests.resources.MASTER78, '0:5'),
+    (tests.resources.BACHELOR241_PDF, tests.resources.BACHELOR241, '0:5'),
 ]
 
 

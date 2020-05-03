@@ -74,6 +74,9 @@ BACHELOR111 = os.path.join(GENERATED, 'page_111_images_toc')
 BACHELOR111_PDF = os.path.join(BACHELOR, 'page_111_images_toc.pdf')
 BACHELOR111_PAGE_COUNT = 111
 
+BACHELOR241 = os.path.join(GENERATED, 'page241')
+BACHELOR241_PDF = os.path.join(BACHELOR, 'page241.pdf')
+
 TECHNICAL24 = os.path.join(GENERATED, 'technical_24pages')
 TECHNICAL24_PDF = os.path.join(TECHNICAL, 'page_24_color_figures_images.pdf')
 TECHNICAL24_PAGE_COUNT = 24
@@ -90,6 +93,7 @@ HOWTO_ARGPARSE_PAGE_COUNT = 14
 HOWTOWRITE9 = os.path.join(GENERATED, 'howtowrite_pages9')
 HOWTOWRITE9_PDF = os.path.join(ORDER, 'howtowrite_pages9.pdf')
 
+MASTER78 = os.path.join(GENERATED, 'page_78_images_toc')
 MASTER78_PDF = os.path.join(MASTER, 'page_78_images_toc.pdf')
 
 HOMEWORK50 = os.path.join(GENERATED, 'homework_page_50_math')
@@ -140,6 +144,7 @@ REQURIED_RESOURCES = [
     MASTER116_PDF,
     MASTER72,
     MASTER72_PDF,
+    MASTER78,
     MASTER78_PDF,
     MASTER89,
     MASTER89_PDF,
