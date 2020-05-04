@@ -119,7 +119,7 @@ def sections_from_page(page: Page) -> typing.List[str]:
     return result
 
 
-def parse_headline(line: str):
+def parse_headline(line: str) -> tuple:
     """Extract potential headline from str
 
     Use regex to determine headlines with level in document from random text.
@@ -132,7 +132,7 @@ def parse_headline(line: str):
 
     Args:
         line(str): random text line of document
-    Returns
+    Returns:
         (level, title): return potential level/depth and title of headline
     """
     assert isinstance(line, str)
