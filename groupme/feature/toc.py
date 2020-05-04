@@ -105,6 +105,7 @@ def select_tocpages(
 
         pageslines = texmex.count_textlines(page, remove_empty=True)
         toc_percent = len(tocpage) / pageslines
+        utila.info(f'toc percent: {toc_percent} on page: {page.page}')
         if toc_percent < MIN_TOCS_PER_PAGE:
             # avoid missdetection in random pages if only few lines are
             # missdetected as toc line.
