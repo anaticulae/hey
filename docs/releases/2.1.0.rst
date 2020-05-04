@@ -21,12 +21,13 @@ code quality
 before
 ~~~~~~
 
+* Todo: 152
 * Total coverage: 91.18%
 * Your code has been rated at 9.82/10
-* Todo: 152
 
 after
 ~~~~~
 
-* Your code has been rated at 9.86/10
 * Todo: 157
+* Total coverage: 91.26%
+* Your code has been rated at 9.86/10
