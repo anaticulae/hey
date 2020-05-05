@@ -104,3 +104,77 @@ def test_groupme_toc_lineregex_parse():
     line = '2.2.3 Drahtlostechnologien fuer Nahbereichsnetzwerke (WPAN) 15'
     parsed = groupme.toc.lineregex.parse(line)
     assert parsed
+
+
+EXAMPLES = """\
+1 Einleitung ..................................................... 1
+1 Einleitung 1
+
+3 Der Elysée-Vertrag – Ein deutsch-französischer Erinnerungsort ............ 25
+3 Der Elysée-Vertrag – Ein deutsch-französischer Erinnerungsort 25
+
+7.2 Tabellenverzeichnis ................................... 94
+7.2 Tabellenverzeichnis 94
+
+5.6 Reflexion der kulturdidaktischen Lernziele ................ 82
+5.6 Reflexion der kulturdidaktischen Lernziele 82
+
+2. Sänger der Gegenwart:\nAudiovisuelle Medien im Zeichen formaler Kontinuität.................5
+2. Sänger der Gegenwart: Audiovisuelle Medien im Zeichen formaler Kontinuität 5
+
+Anhang A: Die Reise des Helden in der Odyssee...............................82
+Anhang%20A: Die Reise des Helden in der Odyssee 82
+
+Literaturverzeichnis........................................................71
+_ Literaturverzeichnis 71
+
+7.4.2. Interpretation der Ergebnisse der nach Mayring....................... 77
+7.4.2. Interpretation der Ergebnisse der nach Mayring 77
+
+4.1.1. Selbstbeobachtung................................................... 37
+4.1.1. Selbstbeobachtung 37
+
+Abkürzungsverzeichnis…………………………………5
+_ Abkürzungsverzeichnis 5
+
+8. Beantwortung der Forschungsfragen und\nweiterführende Fragen ........................ 80
+8. Beantwortung der Forschungsfragen und weiterführende Fragen 80
+
+7. Zusammenfassung und Ausblick 80
+7. Zusammenfassung und Ausblick 80
+
+A. Anhang                 XXI
+A. Anhang XXI
+
+2. Das Social –\nSelbstdarstellungsverhalten  ....  4
+2. Das Social – Selbstdarstellungsverhalten 4
+
+Eidesstattliche Erklärung .................................................. 69
+_ Eidesstattliche Erklärung 69"""
+
+EXAMPLES = [
+    pytest.param(item, id=f'{index}')
+    for index, item in enumerate(EXAMPLES.split('\n\n'))
+]
+
+
+@pytest.mark.parametrize('resources', EXAMPLES)
+def test_parse_line(resources):
+    line, expected = resources.rsplit('\n', maxsplit=1)
+
+    expected_level, expected = expected.split(maxsplit=1)
+    if expected_level == '_':
+        expected_level = None
+    else:
+        expected_level = expected_level.replace('%20', ' ')
+
+    expected_title, expected_page = expected.rsplit(maxsplit=1)
+
+    parsed = gtsr.parse(line)
+    assert len(parsed) == 1, str(parsed)
+    parsed = parsed[0]
+
+    parsed_title = parsed.title.replace('\n', ' ')
+    assert parsed.level == expected_level, parsed
+    assert parsed.page == expected_page, parsed
+    assert parsed_title == expected_title, parsed
