@@ -15,6 +15,16 @@ import utila
 import groupme.path
 import tests.resources
 
+
+def merge_required(toc: iamraw.Toc) -> str:
+    result = []
+    for item in toc:
+        result.append(f'{item.title}')
+        result.extend([f'   {it.title}' for it in item.children])
+    titles = utila.NEWLINE.join(result)
+    return titles
+
+
 TITLE_MASTER98 = """\
 Einleitung
 Theoretische Grundlagen
@@ -49,12 +59,8 @@ Anhang"""
 def master98(toc: iamraw.Toc):
     # TODO: REPLACE DUE LEN AFTER UPGRADE
     assert len([item for item in toc]) == 8
-    result = []
-    for item in toc:
-        result.append(f'{item.title}')
-        result.extend([f'   {it.title}' for it in item.children])
-    titles = utila.NEWLINE.join(result)
     # titles = utila.NEWLINE.join([item.title for item in toc])
+    titles = merge_required(toc)
     assert titles == TITLE_MASTER98, toc
 
 
@@ -81,11 +87,7 @@ def master89(toc: iamraw.Toc):
     """This example contains 2 Errors. There is content which is hidden
     out of page border the `A` and `m` which follows out of bad
     formattting."""
-    result = []
-    for item in toc:
-        result.append(f'{item.title}')
-        result.extend([f'   {it.title}' for it in item.children])
-    titles = utila.NEWLINE.join(result)
+    titles = merge_required(toc)
     assert titles == TITLE_MASTER89
 
 
