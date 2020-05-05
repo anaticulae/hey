@@ -15,12 +15,6 @@ import utila
 import groupme.path
 import tests.resources
 
-
-def master78(toc: iamraw.Toc):
-    for item in toc:
-        print(item.title)
-
-
 TITLE_MASTER98 = """\
 Einleitung
 Theoretische Grundlagen
@@ -64,8 +58,39 @@ def master98(toc: iamraw.Toc):
     assert titles == TITLE_MASTER98, toc
 
 
+TITLE_MASTER89 = """\
+Einleitung
+Sänger der Gegenwart: A Audiovisuelle Medien im Zeichen formaler Kontinuität
+   Mediale Darstellung zwischen Mündlichkeit und Schriftlichkeit
+   Mythos als Konstante audiovisuellen Erzählens
+Lernen durch Geschichten: m Mythen und Spielfilme als Enzyklopädien des sozialen Verhaltens
+   Wissen als soziales Konstrukt
+   Mediale Wirklichkeit und Beobachtung von Verhalten
+   Sinnliches Erleben und Wissenserwerb
+Rhapsoden, Film und Fernsehen als Archivare sozialen Wissens
+   Träger des kollektiven Gedächtnisses
+   Mythos als sinnstiftende Organisationsform
+Schlussbetrachtung und Ausblick
+Literaturverzeichnis
+Die Reise des Helden in der Odyssee
+Die Reise des Helden in MATCH POINT
+Die Reise des Helden in VINCENT WILL MEER"""
+
+
+def master89(toc: iamraw.Toc):
+    """This example contains 2 Errors. There is content which is hidden
+    out of page border the `A` and `m` which follows out of bad
+    formattting."""
+    result = []
+    for item in toc:
+        result.append(f'{item.title}')
+        result.extend([f'   {it.title}' for it in item.children])
+    titles = utila.NEWLINE.join(result)
+    assert titles == TITLE_MASTER89
+
+
 @pytest.mark.parametrize('source, validate, pages', [
-    pytest.param(tests.resources.MASTER78, master78, (2, 3, 4), id='master78'),
+    pytest.param(tests.resources.MASTER89, master89, (1,), id='master89'),
     pytest.param(tests.resources.MASTER98, master98, (1,), id='master98'),
 ])
 def test_groupme_toc_validate(source, validate, pages, monkeypatch, testdir):
