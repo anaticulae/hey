@@ -101,7 +101,6 @@ def select_tocpages(
         if not tocpage:
             # after filtering, no toc line is left
             continue
-
         pageslines = texmex.count_textlines(page, remove_empty=True)
         toc_percent = len(tocpage) / pageslines
         utila.info(f'toc percent: {toc_percent} on page: {page.page}')

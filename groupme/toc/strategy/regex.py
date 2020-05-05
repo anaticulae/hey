@@ -23,6 +23,8 @@ Should we support following whitespaces?
 
     See: :class:`tests.groupme_.toc.test_regex.test_extract_toc_line_whitespace_decission`.
 """
+import copy
+import math
 import re
 
 import iamraw
@@ -52,27 +54,55 @@ def parse_page(page: iamraw.Page) -> groupme.toc.TocLines:
     Hint:
         see `parse`
     """
+    # prepare data
+    oneline_text = oneline(page)
+
+    result = parse(oneline_text)
+    return result
+
+
+def oneline(page) -> str:
     if isinstance(page, iamraw.Page):
         lines = utila.flatten([
             container for container in page
             if isinstance(container, iamraw.TextContainer)
         ])
+        # lines = oneline_merge(lines)
+        # TODO: CHECK FOR ONELINE_MERGE
         lines = [item.text for item in lines]
     else:
         # PageTextNavigator
-        lines = [item.text for item in page]
+        lines = oneline_merge([item for item in page])
+        lines = [item.text for item in lines]
     lines = split_newlines(lines)
-
-    # ignore non dotted lines
-    lines = [
-        item for index, item in enumerate(lines) if is_tocline(index, lines)
-    ]
     lines = [item.strip() for item in lines]
 
     text = utila.NEWLINE.join(lines)
+    return text
 
-    # work
-    result = parse(text)
+
+def oneline_merge(lines):
+    """Merge layout if required."""
+    # TODO: EXPERIMENTAL: IMPROVE, MOVE TO RAWMAKER?
+    if not lines:
+        return []
+    # TODO: REPLACE BY .copy
+    lines = [copy.deepcopy(item) for item in lines]
+    # left to right
+    lines = sorted(lines, key=lambda item: item.bounding.x0)
+    # top to down
+    lines = sorted(lines, key=lambda item: item.bounding.y0)
+
+    result = [lines[0]]
+    for item in lines[1:]:
+        last_y = result[-1].bounding.y0
+        current_y = item.bounding.y0
+        if math.fabs(last_y - current_y) > 5.0:  # TODO: HOLY VALUE
+            result.append(item)
+            continue
+        # TODO: MERGE BOUNDING
+        # merge
+        result[-1].text = result[-1].text.strip() + ' ' + item.text.strip()
 
     return result
 

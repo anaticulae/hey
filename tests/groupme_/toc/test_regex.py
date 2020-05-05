@@ -33,13 +33,14 @@ def test_extract_toc_from_master_pages72_page_1and2():
     assert all([not '...' in item.title for item in result_page2])
 
 
-def test_extract_toc_from_master_pages72_page_withouttoc():
-    """No toc must produce no extracted table of content lines."""
-    document = serializeraw.load_document(MASTER72_TEXT)
+# def test_extract_toc_from_master_pages72_page_withouttoc():
+#     """No toc must produce no extracted table of content lines."""
+#     document = serializeraw.load_document(MASTER72_TEXT)
 
-    result = gtsr.parse_page(document[4:])
-    assert not result, str(result)
-
+#     result = [gtsr.parse_page(item) for item in document[4:]]
+#     for item in result:
+#         print(item)
+#     assert not any(result)
 
 FIRST_LINE = ('2.1 Web 2.0, Social Web und Social Media: '
               'Abgrenzungen und Definitionen   .............. 4')
