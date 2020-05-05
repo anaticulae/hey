@@ -48,6 +48,62 @@ class RegexTocExtractor(gts.ExtractorStrategy):
         return grouped
 
 
+def parse(content: str) -> groupme.toc.TocLines:
+    """Parse table of content via regex.
+
+    Args
+        content(str): content of block of text
+    Returns:
+        ordered list form top to down of parse table of content
+    Pattern:
+
+        with level:
+
+        .. code-block :: none
+
+            X.      Chapter ........... 1
+            X.X     Section . . . . . . 3
+
+        or no level:
+
+        .. code-block :: none
+
+            Eidesstattliche Erklärung ........... 69
+    """
+    duplicated = content
+    result = []
+    for pattern in [
+            gtl.EXTENDED_PATTERN,
+            gtl.EXTENDED_PATTERN_LETTER,
+            gtl.DICTONARY,
+            gtl.NO_DOTS,
+    ]:
+        for line in re.finditer(pattern, content):
+            item = gtl.extract_match(line)
+            result.append(item)
+            # remove already matched content to do not confuse lower
+            # strict pattern
+            content = content.replace(item.raw, '')
+
+    # TODO: improve this
+    for line in [item for item in content.splitlines() if item.strip()]:
+        if re.match(r'^\d', line):
+            continue
+        matched = re.match(gtl.NO_LEVEL, line)
+        if not matched:
+            continue
+        matched = gtl.extract_match(matched)
+        result.append(matched)
+
+    # remove duplications, which can occur when table of content is on the
+    # same page as first headline.
+    result = groupme.toc.remove_duplication(result)
+
+    # Ensure that toc list is ordered by position on pdf page
+    result = groupme.toc.sort_byposition(result, duplicated)
+    return result
+
+
 def parse_page(page: iamraw.Page) -> groupme.toc.TocLines:
     """Merge `page` to raw string and extract the lines of table of content.
 
@@ -138,59 +194,3 @@ def is_tocline(index, lines) -> bool:
     except IndexError:
         return False
     return tocline(before) and tocline(after)
-
-
-def parse(content: str) -> groupme.toc.TocLines:
-    """Parse table of content via regex.
-
-    Args
-        content(str): content of block of text
-    Returns:
-        ordered list form top to down of parse table of content
-    Pattern:
-
-        with level:
-
-        .. code-block :: none
-
-            X.      Chapter ........... 1
-            X.X     Section . . . . . . 3
-
-        or no level:
-
-        .. code-block :: none
-
-            Eidesstattliche Erklärung ........... 69
-    """
-    duplicated = content
-    result = []
-    for pattern in [
-            gtl.EXTENDED_PATTERN,
-            gtl.EXTENDED_PATTERN_LETTER,
-            gtl.DICTONARY,
-            gtl.NO_DOTS,
-    ]:
-        for line in re.finditer(pattern, content):
-            item = gtl.extract_match(line)
-            result.append(item)
-            # remove already matched content to do not confuse lower
-            # strict pattern
-            content = content.replace(item.raw, '')
-
-    # TODO: improve this
-    for line in [item for item in content.splitlines() if item.strip()]:
-        if re.match(r'^\d', line):
-            continue
-        matched = re.match(gtl.NO_LEVEL, line)
-        if not matched:
-            continue
-        matched = gtl.extract_match(matched)
-        result.append(matched)
-
-    # remove duplications, which can occur when table of content is on the
-    # same page as first headline.
-    result = groupme.toc.remove_duplication(result)
-
-    # Ensure that toc list is ordered by position on pdf page
-    result = groupme.toc.sort_byposition(result, duplicated)
-    return result
