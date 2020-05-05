@@ -104,7 +104,9 @@ def test_extract_toc_line_whitespace_decision():
 def test_groupme_toc_lineregex_parse():
     line = '2.2.3 Drahtlostechnologien fuer Nahbereichsnetzwerke (WPAN) 15'
     parsed = groupme.toc.lineregex.parse(line)
-    assert parsed
+    assert parsed.level == '2.2.3'
+    assert parsed.title == 'Drahtlostechnologien fuer Nahbereichsnetzwerke (WPAN)'
+    assert parsed.page == '15'
 
 
 EXAMPLES = """\
