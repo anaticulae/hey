@@ -94,8 +94,11 @@ def is_tocline(index, lines):
         if item.count('.') < MIN_DOTS_IN_TOC_LINE:
             return False
         # avoid count sentence endings.
-        return any((item.count('. .') >= (MIN_DOTS_IN_TOC_LINE / 2),
-                    item.count('..') >= (MIN_DOTS_IN_TOC_LINE / 2)))
+        return any((
+            item.count('. .') >= (MIN_DOTS_IN_TOC_LINE / 2),
+            item.count('..') >= (MIN_DOTS_IN_TOC_LINE / 2),
+            item.count('…') >= (MIN_DOTS_IN_TOC_LINE / 2),
+        ))
 
     item = lines[index]
     if tocline(item):
