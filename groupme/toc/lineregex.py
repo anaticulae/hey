@@ -33,6 +33,18 @@ def parse(line: str) -> groupme.toc.TocLine:
     return None
 
 
+INNER_WHITESPACES = re.compile(r'\s+', re.M)
+
+
+def normalize_inner_whitespaces(item: str) -> str:
+    # TODO: MOVE TO UTILA
+    """
+    >>> normalize_inner_whitespaces('Hier:    Spricht  Helm')
+    'Hier: Spricht Helm'
+    """
+    return INNER_WHITESPACES.sub(' ', item)
+
+
 LEVEL = r'(?P<level>(\d{1,2}\.)+\d{0,2})'
 LEVEL_DOTTED_OPTIONAL = r'(?P<level>(\d{1,2}\.?)+\d{0,2})'
 
@@ -130,6 +142,9 @@ def extract_match(match: re.Match) -> groupme.toc.TocLine:
         page = match['page']
     with contextlib.suppress(IndexError):
         level = match['level']
+
+    title = title.replace('\n', ' ')
+    title = normalize_inner_whitespaces(title)
 
     result = groupme.toc.TocLine(
         level=level,

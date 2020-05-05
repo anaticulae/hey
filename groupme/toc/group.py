@@ -67,7 +67,6 @@ class AppendixLevel(Level):
 
 def level(item: str) -> Level:
     """
-
     Examples:
       - IV Anhang
       - 4.1.1 Datenschicht
