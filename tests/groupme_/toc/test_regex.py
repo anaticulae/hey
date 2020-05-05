@@ -154,7 +154,10 @@ Eidesstattliche Erklärung .................................................. 69
 _ Eidesstattliche Erklärung 69
 
 7.4.1. Interpretation Konsumtagebücher Auswertung .......................... 66
-7.4.1. Interpretation Konsumtagebücher Auswertung 66"""
+7.4.1. Interpretation Konsumtagebücher Auswertung 66
+
+Literatur- und Quellenverzeichnis ........................................ 85
+_ Literatur- und Quellenverzeichnis 85"""
 
 EXAMPLES = [
     pytest.param(item, id=f'{index}')

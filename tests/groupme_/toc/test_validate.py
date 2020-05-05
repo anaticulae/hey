@@ -91,9 +91,48 @@ def master89(toc: iamraw.Toc):
     assert titles == TITLE_MASTER89
 
 
+TITLE_MASTER99 = """\
+Abkürzungsverzeichnis
+Einleitung
+   Forschungskontext
+   Persönliche Motivation
+   Aufgabenstellung und Zielsetzung
+   Aufbau der Arbeit
+Betreuung und Klientel
+   Betreutes Wohnen bei der ADV gGmbH
+   Klientel
+Wirksamkeit der Verhaltenstherapie
+Untersuchte verhaltenstherapeutische Standardmethoden
+   Psychoedukation
+   Kontingenzmanagement
+Forschungsfragen und Hypothesen
+Forschungsplan
+   Methode
+   Beteiligter Personenkreis
+   Rahmenbedingungen
+   Testphase
+   Einbringen ins Team und Intervention
+Datenauswertung
+   Mixed-Methods-Studie
+   Quantitative Sozialforschung
+   Qualitative Sozialforschung
+   Interpretation der Ergebnisse
+Beantwortung der Forschungsfragen und Hypothesen sowie Fazit und weiterführende Fragen
+Literatur- und Quellenverzeichnis
+Abbildungs- und Tabellenverzeichnis
+Anhang
+Versicherung selbständiger Arbeit"""
+
+
+def master99(toc: iamraw.Toc):
+    titles = merge_required(toc)
+    assert titles == TITLE_MASTER99
+
+
 @pytest.mark.parametrize('source, validate, pages', [
     pytest.param(tests.resources.MASTER89, master89, (1,), id='master89'),
     pytest.param(tests.resources.MASTER98, master98, (1,), id='master98'),
+    pytest.param(tests.resources.MASTER99, master99, (2, 3), id='master99'),
 ])
 def test_groupme_toc_validate(source, validate, pages, monkeypatch, testdir):
     pages = ','.join((str(item) for item in pages))
