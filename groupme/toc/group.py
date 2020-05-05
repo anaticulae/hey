@@ -89,8 +89,12 @@ def level(item: str) -> Level:
         value = texmex.numbers.arabic(item.upper())
         return RomanLevel(value=value, raw=item)
 
-    letter, _ = item.split('.', maxsplit=1)
-    letter = letter.upper()
+    try:
+        letter, _ = item.split('.', maxsplit=1)
+        letter = letter.upper()
+    except ValueError:
+        # TODO: REMOVE THIS HACK AFTER FIXING LINEREGEX
+        letter = item.replace('Anhang', '').replace(':', '').strip()
 
     if letter in ('A', 'B', 'C', 'D'):
         result = AppendixLevel(value=letter, character=letter, raw=item)
