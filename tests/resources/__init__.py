@@ -67,6 +67,9 @@ MASTER89_PDF = os.path.join(MASTER, 'page_89_noimages_toc.pdf')
 MASTER98 = os.path.join(GENERATED, 'master98')
 MASTER98_PDF = os.path.join(MASTER, 'page98.pdf')
 
+MASTER99 = os.path.join(GENERATED, 'master99')
+MASTER99_PDF = os.path.join(MASTER, 'page99.pdf')
+
 MASTER116 = os.path.join(GENERATED, 'page_116_images_toc_formular')
 MASTER116_PDF = os.path.join(MASTER, 'page_116_images_toc_formular.pdf')
 
@@ -150,6 +153,8 @@ REQURIED_RESOURCES = [
     MASTER89_PDF,
     MASTER98,
     MASTER98_PDF,
+    MASTER99,
+    MASTER99_PDF,
     PYPORTING,
     PYPORTING_PDF,
     RESOURCES,
