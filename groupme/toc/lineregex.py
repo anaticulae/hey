@@ -51,7 +51,7 @@ PAGE = r'\b(?P<page>(\d+|[IiVvXx]{1,}))\b'  # arabic and roman numbers
 
 EXTENDED_PATTERN = re.compile(
     ('^'
-     f'{LEVEL}'
+     f'{LEVEL_DOTTED_OPTIONAL}'
      f'{WHITESPACES}'
      f'{TEXT}'
      f'{DOTTED}'
