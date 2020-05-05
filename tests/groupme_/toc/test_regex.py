@@ -122,14 +122,14 @@ EXAMPLES = """\
 2. Sänger der Gegenwart:\nAudiovisuelle Medien im Zeichen formaler Kontinuität.................5
 2. Sänger der Gegenwart: Audiovisuelle Medien im Zeichen formaler Kontinuität 5
 
-Anhang A: Die Reise des Helden in der Odyssee...............................82
-Anhang%20A: Die Reise des Helden in der Odyssee 82
+Anhang A: Die Reise des Helden, in der Odyssee...............................82
+Anhang%20A: Die Reise des Helden, in der Odyssee 82
 
 Literaturverzeichnis........................................................71
 _ Literaturverzeichnis 71
 
-7.4.2. Interpretation der Ergebnisse der nach Mayring....................... 77
-7.4.2. Interpretation der Ergebnisse der nach Mayring 77
+7.4.2. Interpretation der; Ergebnisse der nach Mayring?....................... 77
+7.4.2. Interpretation der; Ergebnisse der nach Mayring? 77
 
 4.1.1. Selbstbeobachtung................................................... 37
 4.1.1. Selbstbeobachtung 37
