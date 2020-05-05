@@ -46,8 +46,8 @@ TEXT = (
     ')')
 
 WHITESPACES = r'[ ]{1,5}'
-DOTTED = r'([ \.]{1,})'
-PAGE = r'(?P<page>\d+)'
+DOTTED = r'([ \.…]{1,})'
+PAGE = r'\b(?P<page>(\d+|[IiVvXx]{1,}))\b'  # arabic and roman numbers
 
 EXTENDED_PATTERN = re.compile(
     ('^'
