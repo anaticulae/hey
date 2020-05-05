@@ -150,7 +150,10 @@ A. Anhang XXI
 2. Das Social – Selbstdarstellungsverhalten 4
 
 Eidesstattliche Erklärung .................................................. 69
-_ Eidesstattliche Erklärung 69"""
+_ Eidesstattliche Erklärung 69
+
+7.4.1. Interpretation Konsumtagebücher Auswertung .......................... 66
+7.4.1. Interpretation Konsumtagebücher Auswertung 66"""
 
 EXAMPLES = [
     pytest.param(item, id=f'{index}')
