@@ -24,7 +24,6 @@ Should we support following whitespaces?
     See: :class:`tests.groupme_.toc.test_regex.test_extract_toc_line_whitespace_decission`.
 """
 import re
-import typing
 
 import iamraw
 import utila
@@ -47,7 +46,7 @@ class RegexTocExtractor(gts.ExtractorStrategy):
         return grouped
 
 
-def parse_page(page: iamraw.Page) -> typing.List[groupme.toc.TocLine]:
+def parse_page(page: iamraw.Page) -> groupme.toc.TocLines:
     """Merge `page` to raw string and extract the lines of table of content.
 
     Hint:
@@ -88,7 +87,7 @@ def split_newlines(items):
 MIN_DOTS_IN_TOC_LINE = 4  # TODO: HOLY VALUE
 
 
-def is_tocline(index, lines):
+def is_tocline(index, lines) -> bool:
 
     def tocline(item):
         if item.count('.') < MIN_DOTS_IN_TOC_LINE:
@@ -144,8 +143,8 @@ def parse(content: str) -> groupme.toc.TocLines:
         for line in re.finditer(pattern, content):
             item = gtl.extract_match(line)
             result.append(item)
-            # remove already match content to do not confuse lower strict
-            # pattern
+            # remove already matched content to do not confuse lower
+            # strict pattern
             content = content.replace(item.raw, '')
 
     # TODO: improve this

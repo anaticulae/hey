@@ -60,7 +60,6 @@ def work(
         sizeandborder,
         pages=pages,
     )
-
     selected = select_tocpages(navigators)
     # select toc pages only
     navigators = [item for item in navigators if item.page in selected]
