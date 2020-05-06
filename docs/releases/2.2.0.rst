@@ -6,9 +6,13 @@ RP 2.2.0
 table of contet
 ---------------
 
-* [ ] validate with 5 examples
+* [x] validate with 5 examples
 
-* [ ] add toc outline strategy
+* [/] add toc outline strategy
+
+Note: A toc outline strategy is not required, cause not every pdf file
+have an outlines and furthermore the outlines does not contain the human
+page number.
 
 code quality
 ------------
@@ -19,3 +23,9 @@ before
 * Todo: 157
 * Total coverage: 91.26%
 * Your code has been rated at 9.86/10
+
+after
+~~~~~
+
+* Todo: 173
+* Your code has been rated at 9.87/10
