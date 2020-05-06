@@ -10,6 +10,7 @@
 import iamraw.path
 import pytest
 import serializeraw
+import utila
 
 import groupme.feature.toc
 import groupme.toc.lineregex
@@ -187,3 +188,40 @@ def test_parse_line(resources):
     assert parsed.level == expected_level, parsed
     assert parsed.page == expected_page, parsed
     assert parsed_title == expected_title, parsed
+
+
+CONTENT = """\
+7.3.  Qualitative Sozialforschung ........................................... 60
+7.4. Interpretation der Ergebnisse ......................................... 65
+7.4.1. Interpretation der Ergebnisse der Konsumtagebuecher anhand der quantitativen
+Auswertung durch statistische Daten ........................................ 66
+7.4.2. Interpretation der Ergebnisse der Frageboegen anhand der qualitativen Auswertung
+durch die qualitative Inhaltsanalyse nach Mayring........................... 77
+
+8.  Beantwortung der Forschungsfragen und Hypothesen sowie Fazit und
+weiterführende Fragen ...................................................... 80
+Literatur- und Quellenverzeichnis .......................................... 85
+Abbildungs- und Tabellenverzeichnis ........................................ 90
+Anhang ..................................................................... 91
+Versicherung selbständiger Arbeit................99
+"""
+
+EXPECTED = """\
+Qualitative Sozialforschung
+Interpretation der Ergebnisse
+Interpretation der Ergebnisse der Konsumtagebuecher anhand der quantitativen \
+Auswertung durch statistische Daten
+Interpretation der Ergebnisse der Frageboegen anhand der qualitativen Auswertung \
+durch die qualitative Inhaltsanalyse nach Mayring
+Beantwortung der Forschungsfragen und Hypothesen sowie Fazit und weiterführende Fragen
+Literatur- und Quellenverzeichnis
+Abbildungs- und Tabellenverzeichnis
+Anhang
+Versicherung selbständiger Arbeit"""
+
+
+def test_toc_parse_content():
+    parsed = gtsr.parse(CONTENT)
+    assert len(parsed) == 9
+    result = utila.NEWLINE.join([item.title for item in parsed])
+    assert result == EXPECTED
