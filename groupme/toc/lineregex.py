@@ -64,8 +64,9 @@ TEXT = (
     ')')
 
 WHITESPACES = r'[ ]{1,5}'
-DOTTED = r'([ \.…]{1,})'
-PAGE = r'\b(?P<page>(\d+|[IiVvXx]{1,}))\b'  # arabic and roman numbers
+WHITESPACES_OPT = r'[ ]{0,3}'
+DOTTED = r'([ \.…]+)'
+PAGE = r'\b(?P<page>(\d+|[IiVvXx]+))\b'  # arabic and roman numbers
 
 EXTENDED_PATTERN = re.compile(
     ('^'
@@ -103,10 +104,12 @@ NO_DOTS = re.compile(
 NO_LEVEL = re.compile(
     ('^'
      f'{TEXT}'
+     f'{WHITESPACES_OPT}'
      f'{DOTTED}'
+     f'{WHITESPACES_OPT}'
      f'{PAGE}'
      '$'),
-    re.VERBOSE | re.UNICODE,
+    re.VERBOSE | re.UNICODE,  # TODO: CHECK FOR MULTILINE TO LONG NO LEVEL LINES
 )
 
 #  r'([ \.]{2,})'

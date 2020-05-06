@@ -38,11 +38,7 @@ import groupme.toc.strategy as gts
 class RegexTocExtractor(gts.ExtractorStrategy):
 
     def result(self) -> gts.ExtractionResult:
-        pages = []
-        for page in self.loaded.content:
-            pages.append(utila.NEWLINE.join([item.text for item in page]))
-
-        parsed = [parse(item) for item in pages]
+        parsed = [parse_page(page) for page in self.loaded.content]
         flat = utila.flatten(parsed)
         grouped = gts.group(flat)
         return grouped
@@ -76,6 +72,7 @@ def parse(content: str) -> groupme.toc.TocLines:
             gtl.EXTENDED_PATTERN,
             gtl.EXTENDED_PATTERN_LETTER,
             gtl.DICTONARY,
+            gtl.NO_LEVEL,
             gtl.NO_DOTS,
     ]:
         for line in re.finditer(pattern, content):
@@ -158,8 +155,8 @@ def oneline_merge(lines):
             continue
         # TODO: MERGE BOUNDING
         # merge
-        result[-1].text = result[-1].text.strip() + ' ' + item.text.strip()
-
+        # do NOT strip second item, we do not want to lose the newline
+        result[-1].text = result[-1].text.strip() + ' ' + item.text
     return result
 
 
