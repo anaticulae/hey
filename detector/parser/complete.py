@@ -65,7 +65,7 @@ def parse(text: PageTextNavigator) -> iamraw.TitlePage:
             undecided.append(action)
 
     # run complex parsing
-    persons, todo = parse_person_all(parsed)
+    persons, _ = parse_person_all(parsed)
     if persons:
         result.author, result.examiner = order_persons(persons)
 

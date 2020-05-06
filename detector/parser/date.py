@@ -142,18 +142,12 @@ def reduce_word(word, count):
     return reduced
 
 
-def simple_alpha_date(
+def simple_alpha_date(  # pylint:disable=R0914
         raw,
         reduce: int = 0,
         month=None,
         pattern=SIMPLE_ALPHA_DATE,
 ):
-    """
-    Args:
-        reduce(int):
-    Returns:
-
-    """
     if not month:
         month = MONTH
     month_match = {reduce_word(item, reduce): item for item in month}

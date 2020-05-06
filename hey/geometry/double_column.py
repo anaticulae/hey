@@ -19,8 +19,6 @@ Example:
                         Vorlesungsskript SS2010, Hochschule Ulm (2010)
 """
 
-import math
-
 import configo
 import texmex
 import utila.math

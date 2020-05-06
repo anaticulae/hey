@@ -26,8 +26,7 @@ def parse(raw: str) -> iamraw.Institution:
             parsed = None
         results.append(parsed)
 
-    (department, institute, field, courses) = results
-
+    department, institute, field, courses = results  # pylint:disable=W0632
     result = iamraw.Institution(
         courseofstudies=courses,
         department=department,
@@ -139,10 +138,10 @@ UNIVERSITIES = [
 
 
 def find_institution(raw) -> str:
-    """Check that `institution` is in UNIVERSITIES dictonary
+    """Check that `institution` is in UNIVERSITIES dictonary.
 
     Args:
-        institution(str):
+        raw(str): page text content
     Returns:
         None if `institution` is in dictonary else collected
 

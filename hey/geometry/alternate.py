@@ -140,7 +140,7 @@ def unite_hurenkind(pages: list) -> list:
     return result
 
 
-def parse_page(page, lining_points=None, config: ParserConfig = None) -> list:
+def parse_page(page, lining_points=None, config: ParserConfig = None) -> list:  # pylint:disable=R1260,R0912
     """Iterate through lines in document.
 
     A group is separated by an alternating text feed. We skip all

@@ -10,15 +10,17 @@
 from utila import NEWLINE
 
 
-def textblock_token(text: str):
-    """Split textpage into connected textblocks which are separated by empty
-    newlines.
+def textblock_token(text: str) -> list:
+    """Split textpage into connected textblocks which are separated by
+    empty newlines.
 
     Args:
         text(str): text page with textchunks
     Returns:
         list of splitted chunks
     """
+    # TODO: CHECK TO MOVE TO A MORE GENERAL PLACE, ADD PARAMETER FOR COUNT
+    # OF NEWLINES BETWEEN?
     if not text:
         return []
     splitted = text.splitlines()
