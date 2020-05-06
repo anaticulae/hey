@@ -189,12 +189,90 @@ def homework50(toc: iamraw.Toc):
     assert titles == TITLE_HOMEWORK50
 
 
+# TODO: PARSE Literaturverzeichnis NODES correctly
+TITLE_BACHELOR111 = """\
+Einführung
+    Motivation und Zielsetzung
+    Aufbau der Arbeit
+Grundlagen
+    Smartphones
+        Google Android
+        Apple iPhoneOS
+        Weitere Mobilplattformen
+        Zusammenfassung
+    Drahtlose Kommunikationstechnologien
+        Drahtlostechnologien für Mobilfunknetze
+        Drahtlostechnologien für lokale Netzwerke (WLAN)
+        Drahtlostechnologien für Nahbereichsnetzwerke (WPAN)
+        Zusammenfassung
+    Gebäudeautomation
+        KNX/EIB
+        Weitere Bus-Technologien zur Gebäudeautomation
+    Beispiele für Anwendungen zum mobilen Zugriffa uf Gebäu- deautomationssysteme
+    Zusammenfassung
+Anforderungsanalyse
+    Anwendungsumgebung
+        Einsatzgebiet
+        Rahmenbedingungen
+    Systemanforderungen
+    Analyse der Anwendungsfälle
+        Szenario 1: Anwendung läuft im lokalen Netzwerk
+        Szenario 2: Anwendung läuft nicht im lokalen Netzwerk oder ist inaktiv
+Systementwurf
+    Architektur
+        Datenschicht
+        Steuerungsschicht
+        Präsentationsschicht
+Implementierung
+    iPhone-Anwendung zur Steuerung und Überwachung von KNX-Systemen
+        Entwicklungsumgebung
+        Projektstruktur
+        Datenschicht
+        Steuerungsschicht
+        Präsentationsschicht
+Evaluierung und Demonstration des Prototypen
+    Evaluierung des Systems
+        Modularität und Erweiterbarkeit
+        Funktionalität und Benutzbarkeit
+    Demonstration des Prototypen
+        Anwendungsstart und Konfiguration eines Projektes
+        Auswahl von Projekten und KNX-Gruppen
+        Steuern und Überwachen von KNX-Geräten
+Zusammenfassung und Ausblick
+    Zusammenfassung
+    Ausblick
+Glossar
+Literatur
+    Literaturverzeichnis
+    Internetquellen
+    Bildquellen
+Abbildungsverzeichnis
+Listings
+Tabellenverzeichnis
+A
+    Diagramme
+        Flussdiagramme
+        Flussdiagramm Gruppe steuern und überwachen
+        Klassendiagramme
+    Benutzerschnittstellen
+        Entwürfe der iPhone-Anwendung
+    Fotos
+        Aufbau der KNX-Gebäudeinstallation"""
+
+
+def bachelor111(toc: iamraw.Toc):
+    titles = merge_required(toc)
+    assert titles == TITLE_BACHELOR111
+
+
 # yapf:disable, format the list by hand
 @pytest.mark.parametrize('source, validate, pages', [
     pytest.param(tests.resources.HOMEWORK50, homework50, (3, 4), id='homework50'),
     pytest.param(tests.resources.MASTER89, master89, (1,), id='master89'),
     pytest.param(tests.resources.MASTER98, master98, (1,), id='master98'),
     pytest.param(tests.resources.MASTER99, master99, (2, 3), id='master99'),
+    pytest.param(tests.resources.BACHELOR111, bachelor111, (1, 2, 3, 4), id='bachelor111',
+        marks=pytest.mark.xfail(reason='literaturverzeichnis sub notes')),
 ])  # yapf:enable
 def test_groupme_toc_validate(source, validate, pages, monkeypatch, testdir):
     pages = ','.join((str(item) for item in pages))
