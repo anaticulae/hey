@@ -18,9 +18,17 @@ import tests.resources
 
 def merge_required(toc: iamraw.Toc) -> str:
     result = []
+
+    def recursive(item, level):
+        result = []
+        result.append('    ' * level + item.title)
+        if item.children:
+            for child in item.children:
+                result.extend(recursive(child, level + 1))
+        return result
+
     for item in toc:
-        result.append(f'{item.title}')
-        result.extend([f'    {it.title}' for it in item.children])
+        result.extend(recursive(item, level=0))
     titles = utila.NEWLINE.join(result)
     return titles
 
@@ -101,9 +109,13 @@ Einleitung
 Betreuung und Klientel
     Betreutes Wohnen bei der ADV gGmbH
     Klientel
+        Persönlichkeitsstörungen
+        Therapeut-Klient-Beziehung
 Wirksamkeit der Verhaltenstherapie
 Untersuchte verhaltenstherapeutische Standardmethoden
     Psychoedukation
+        Selbstbeobachtung
+        Konsumtagebuch
     Kontingenzmanagement
 Forschungsfragen und Hypothesen
 Forschungsplan
@@ -117,6 +129,8 @@ Datenauswertung
     Quantitative Sozialforschung
     Qualitative Sozialforschung
     Interpretation der Ergebnisse
+        Interpretation der Ergebnisse der Konsumtagebücher anhand der quantitativen Auswertung durch statistische Daten
+        Interpretation der Ergebnisse der Fragebögen anhand der qualitativen Auswertung durch die qualitative Inhaltsanalyse nach Mayring
 Beantwortung der Forschungsfragen und Hypothesen sowie Fazit und weiterführende Fragen
 Literatur- und Quellenverzeichnis
 Abbildungs- und Tabellenverzeichnis
@@ -129,46 +143,10 @@ def master99(toc: iamraw.Toc):
     assert titles == TITLE_MASTER99
 
 
-TITLE_HOMEWORK50 = """\
-Abbildungsverzeichnis
-Abkürzungsverzeichnis
-Einleitung
-Konzept
-    Leistungs- und Energiemessung
-    Aufbau
-    UART Modus
-    SD Card Modus
-    Verarbeitung auf Host-System
-Implementierung
-    Hardwareentwurf
-        MSP430 Mikrocontroller
-        Spannungsversorgung
-        Strommessschaltung
-        Ein- und Ausgänge
-        Benutzerschnittstelle
-        Gehäuse
-    Mikrocontrollerprogramm
-        Leistungs- und Energiemessung
-        UART
-        SD CARD
-            Dateisystem
-        Konfiguration des Messsystems
-        Auswertungs-/Empfängerprogramm
-Benutzungshinweise
-    Auswahl des Shuntwiderstands
-    Auswahl der Abtastrate
-    Verbinden der Messleitungen
-    Messung
-    Auswertung
-Beispielmessung an Temperaturlogger
-Verbesserungsmöglichkeiten
-Zusammenfassung
-Anhang"""
-
-# TODO: USE FULL VALIDATION LATER
-# Dateisystem have no level and is therefore parsed at level 1 item
-# Dateisystem
-#     Konfiguration des Messsystems
+# # TODO: USE FULL VALIDATION LATER
+# # Dateisystem have no level and is therefore parsed at level 1 item
+# # Dateisystem
+# #     Konfiguration des Messsystems
 TITLE_HOMEWORK50 = """\
 Abbildungsverzeichnis
 Abkürzungsverzeichnis
@@ -181,7 +159,16 @@ Konzept
     Verarbeitung auf Host-System
 Implementierung
     Hardware Entwurf
+        MSP430 Mikrocontroller
+        Spannungsversorgung
+        Strommessschaltung
+        Ein- und Ausgänge
+        Benutzerschnittstelle
+        Gehäuse
     Mikrocontrollerprogramm
+        Leistungs- und Energiemessung
+        UART
+        SD Card
 Dateisystem
     Konfiguration des Messsystems
     Auswertungs-/Empfängerprogramm
