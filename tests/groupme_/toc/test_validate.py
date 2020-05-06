@@ -129,11 +129,80 @@ def master99(toc: iamraw.Toc):
     assert titles == TITLE_MASTER99
 
 
+TITLE_HOMEWORK50 = """\
+Abbildungsverzeichnis
+Abkürzungsverzeichnis
+Einleitung
+Konzept
+    Leistungs- und Energiemessung
+    Aufbau
+    UART Modus
+    SD Card Modus
+    Verarbeitung auf Host-System
+Implementierung
+    Hardwareentwurf
+        MSP430 Mikrocontroller
+        Spannungsversorgung
+        Strommessschaltung
+        Ein- und Ausgänge
+        Benutzerschnittstelle
+        Gehäuse
+    Mikrocontrollerprogramm
+        Leistungs- und Energiemessung
+        UART
+        SD CARD
+            Dateisystem
+        Konfiguration des Messsystems
+        Auswertungs-/Empfängerprogramm
+Benutzungshinweise
+    Auswahl des Shuntwiderstands
+    Auswahl der Abtastrate
+    Verbinden der Messleitungen
+    Messung
+    Auswertung
+Beispielmessung an Temperaturlogger
+Verbesserungsmöglichkeiten
+Zusammenfassung
+Anhang"""
+
+# TODO: USE FULL VALIDATION LATER
+TITLE_HOMEWORK50 = """\
+Abbildungsverzeichnis
+Abkürzungsverzeichnis
+Einleitung
+Konzept
+    Leistungs- und Energiemessung
+    Aufbau
+    UART Modus
+    SD Card Modus
+    Verarbeitung auf Host-System
+Implementierung
+    Hardwareentwurf
+    Mikrocontrollerprogramm
+Benutzungshinweise
+    Auswahl des Shuntwiderstands
+    Auswahl der Abtastrate
+    Verbinden der Messleitungen
+    Messung
+    Auswertung
+Beispielmessung an Temperaturlogger
+Verbesserungsmöglichkeiten
+Zusammenfassung
+Anhang"""
+
+
+def homework50(toc: iamraw.Toc):
+    titles = merge_required(toc)
+    assert titles == TITLE_HOMEWORK50
+
+
+# yapf:disable, format the list by hand
 @pytest.mark.parametrize('source, validate, pages', [
+    pytest.param(tests.resources.HOMEWORK50, homework50, (3, 4), id='homework50', marks=pytest.mark.xfail(reason='improve')),
     pytest.param(tests.resources.MASTER89, master89, (1,), id='master89'),
     pytest.param(tests.resources.MASTER98, master98, (1,), id='master98'),
     pytest.param(tests.resources.MASTER99, master99, (2, 3), id='master99'),
-])
+])  # yapf:enable
 def test_groupme_toc_validate(source, validate, pages, monkeypatch, testdir):
     pages = ','.join((str(item) for item in pages))
     cmd = f'-i {source} --toc --pages={pages}'
