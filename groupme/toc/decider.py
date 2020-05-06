@@ -25,12 +25,15 @@ class ExtractionStatistic:
     group_count: int
     oneline_factor: float
     invalid_count: int = 0
+    parsed_level: int = 0
 
     def __lt__(self, item):
         # TODO: IMRPOVE THIS SIMPLE STRATEGY
         if self.invalid_count == item.invalid_count:
             if self.validitem_count == item.validitem_count:
-                return self.oneline_factor < item.oneline_factor
+                if self.parsed_level == item.parsed_level:
+                    return self.oneline_factor < item.oneline_factor
+                return self.parsed_level > item.parsed_level
             return self.validitem_count > item.validitem_count
         return self.invalid_count < item.invalid_count
 
@@ -50,7 +53,7 @@ def analyze_result(result: gts.ExtractionResult) -> ExtractionStatistic:
     flat = utila.flatten(result)
 
     oneliner = len([item for item in result if len(item) == 1])
-
+    parsed_level = [item.level for item in flat if item.level is not None]
     oneline_factor = 0.0
     if len(result) >= 1:
         oneline_factor = utila.roundme(oneliner / len(result))  # pylint:disable=R0204
@@ -60,4 +63,5 @@ def analyze_result(result: gts.ExtractionResult) -> ExtractionStatistic:
         invalid_count=len(result.invalid),
         group_count=len(result),
         oneline_factor=oneline_factor,
+        parsed_level=len(parsed_level),
     )
