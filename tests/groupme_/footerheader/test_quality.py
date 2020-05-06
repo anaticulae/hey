@@ -35,3 +35,4 @@ def test_groupme_footerheader_quality_bachelor111():
 
     assert len(selected) == len(pages)
     assert extracted_pages == pages
+    # TODO: ADD VALIDATION HERE
