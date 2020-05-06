@@ -2,6 +2,28 @@
 
 Every noteable change is logged here.
 
+## v2.2.0
+
+### Feature
+
+* skip empty lines to avoid detecting single words as toc content (7357ff604818)
+* use oneline input cause we expect better easier toc parsing (2c123327c3c4)
+* extend no level pattern (20b5066c66e7)
+* count parsed level to extend toc decider strategy (003459c1e31c)
+* improve regex parser due run grouping layout before (5dd06f55b063)
+* normalize white spaces cause of bad formatted title page (65a29aaa9eaa)
+* extend toc letter parser (59b002f51c9c)
+* extended dotted pattern (655b65ab7944)
+* extend dotted and number parser (4370211dce7f)
+* add optional debugging information (f3e1dc8ba01e)
+* extend interface documentation (7562b828b2cf)
+
+### Fix
+
+* extend linter white list (ee3979308646)
+* ensure to handle lines with dotted correctly (7a9a72c8cac9)
+* solve linter warnings (21841cab7bb9)
+
 ## v2.1.0
 
 ### Feature
