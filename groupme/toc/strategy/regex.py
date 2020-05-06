@@ -110,7 +110,20 @@ def parse_page(page: iamraw.Page) -> groupme.toc.TocLines:
     # prepare data
     oneline_text = oneline(page)
 
-    result = parse(oneline_text)
+    # remove single word line
+    # HOMEWORK PAGE 4, remove `Inhaltsverzeichnis` in header.
+    # # TODO: Look for a better header exclusion strategy
+    # TODO: ONLY REQUIRED IF TO FEW PAGES ARE AVAILABLE, CAUSE HEADER
+    # FOOTER STRATEGY NEEDS SOME DATA
+    # TODO: THINK ABOUT REMOVING THIS
+    result = [
+        item for item in oneline_text.splitlines()
+        if len(item.strip().split()) > 1
+    ]
+    result = utila.NEWLINE.join(result)
+
+    result = parse(result)
+
     return result
 
 

@@ -166,6 +166,9 @@ Zusammenfassung
 Anhang"""
 
 # TODO: USE FULL VALIDATION LATER
+# Dateisystem have no level and is therefore parsed at level 1 item
+# Dateisystem
+#     Konfiguration des Messsystems
 TITLE_HOMEWORK50 = """\
 Abbildungsverzeichnis
 Abkürzungsverzeichnis
@@ -177,8 +180,11 @@ Konzept
     SD Card Modus
     Verarbeitung auf Host-System
 Implementierung
-    Hardwareentwurf
+    Hardware Entwurf
     Mikrocontrollerprogramm
+Dateisystem
+    Konfiguration des Messsystems
+    Auswertungs-/Empfängerprogramm
 Benutzungshinweise
     Auswahl des Shuntwiderstands
     Auswahl der Abtastrate
@@ -198,7 +204,7 @@ def homework50(toc: iamraw.Toc):
 
 # yapf:disable, format the list by hand
 @pytest.mark.parametrize('source, validate, pages', [
-    pytest.param(tests.resources.HOMEWORK50, homework50, (3, 4), id='homework50', marks=pytest.mark.xfail(reason='improve')),
+    pytest.param(tests.resources.HOMEWORK50, homework50, (3, 4), id='homework50'),
     pytest.param(tests.resources.MASTER89, master89, (1,), id='master89'),
     pytest.param(tests.resources.MASTER98, master98, (1,), id='master98'),
     pytest.param(tests.resources.MASTER99, master99, (2, 3), id='master99'),
