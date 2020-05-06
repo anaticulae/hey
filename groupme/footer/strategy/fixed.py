@@ -6,8 +6,10 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""
-Example:
+"""Fixed Footer Extraction Strategy
+================================
+
+Examples:
 
 - bachelor/page_111_images_toc.pdf
 - docu/restructuredtext.pdf
@@ -72,6 +74,9 @@ class FixedFooterStrategy(gfs.FooterHeaderDetectionStrategy):
             footerheader.extend(extracted)
         footerheader = decide_multiple(footerheader)
         return footerheader
+
+    def report(self) -> gfs.FooterStrategyResultReport:
+        pass
 
 
 def decide_multiple(items):
@@ -159,7 +164,7 @@ def extract_page_footerheader(
         top: float,
         bottom: float,
         pageheight: float,
-        pagetextnavigators,
+        pagetextnavigators: texmex.PageTextNavigators,
 ) -> iamraw.PageContentFooterHeaders:
     """Extract footer and header which matches `top` and `bottom`.
 
@@ -168,6 +173,7 @@ def extract_page_footerheader(
         top(pixel): position of header-border horizontal line
         bottom(pixel): position of footer-border horizontal line
         pageheight(pixel): height of pages in pixel
+        pagetextnavigators: list of page content
     Returns:
         list of `iamraw.PageContentFooterHeader` for every
         page with header and footer information.
@@ -203,10 +209,6 @@ def extract_page_footerheader(
 
 
 def create_header(top, pageheight, textnavigator):
-    """
-    Args:
-        top(pixel)
-    """
     top_ = utila.roundme(top / pageheight)  # TODO: Replace with utila method
     # XXX: 10% percent cause of bad font-bounding-boxing
     top_ = utila.roundme(top_ * 1.1)

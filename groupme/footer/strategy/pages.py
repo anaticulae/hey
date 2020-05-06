@@ -76,6 +76,9 @@ class PageNumberStrategy(gfs.FooterHeaderDetectionStrategy):
             result.append(footer_header)
         return result
 
+    def report(self) -> gfs.FooterStrategyResultReport:
+        pass
+
 
 def create_footerinformation(
         processed,

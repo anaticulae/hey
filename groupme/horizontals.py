@@ -85,13 +85,7 @@ def cluster_in_area(clusters, ymin, ymax):
     ymax].
 
     Iterate through `clusters` and check if `cluster` is in area of ymin
-    to ymax.
-
-    Args:
-        clusters(list):
-        ymin(int): top bounds
-        ymax: bottom bounds
-    """
+    to ymax."""
     result = []
     for cluster in clusters:
         # take first item in cluster to determine cluster location,

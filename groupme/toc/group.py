@@ -66,7 +66,8 @@ class AppendixLevel(Level):
 
 
 def level(item: str) -> Level:
-    """
+    """Determine level out of parsed level string.
+
     Examples:
       - IV Anhang
       - 4.1.1 Datenschicht

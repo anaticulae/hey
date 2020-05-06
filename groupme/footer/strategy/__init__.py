@@ -45,9 +45,7 @@ class FooterStrategyResultReport:
 
 
 class FooterHeaderDetectionStrategy(abc.ABC):
-    """
-    Relative or absolute result dimension?
-    """
+    # TODO: Relative or absolute result dimension?
 
     def __init__(
             self,
@@ -122,7 +120,7 @@ def create_strategy(
     return result
 
 
-def remove_duplication(items):
+def remove_duplication(items: list) -> list:
     """In some cases more than one potential header or footer are
     detected for one page. This method judges the problem and select the
     `best` result.
