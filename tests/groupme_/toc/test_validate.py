@@ -20,7 +20,7 @@ def merge_required(toc: iamraw.Toc) -> str:
     result = []
     for item in toc:
         result.append(f'{item.title}')
-        result.extend([f'   {it.title}' for it in item.children])
+        result.extend([f'    {it.title}' for it in item.children])
     titles = utila.NEWLINE.join(result)
     return titles
 
@@ -28,31 +28,31 @@ def merge_required(toc: iamraw.Toc) -> str:
 TITLE_MASTER98 = """\
 Einleitung
 Theoretische Grundlagen
-   Von der mémoire collective zu den Lieux de mémoire
-   Binationale Erinnerungsorte
-   Das dialogische Erinnern von Aleida Assmann
-   Erinnerungsorte im DaF-Landeskundeunterricht
+    Von der mémoire collective zu den Lieux de mémoire
+    Binationale Erinnerungsorte
+    Das dialogische Erinnern von Aleida Assmann
+    Erinnerungsorte im DaF-Landeskundeunterricht
 Der Elysée-Vertrag – Ein deutsch-französischer Erinnerungsort
-   Die Vorgeschichte
-   Adenauer, de Gaulle und der Elysée-Vertrag
-   Mythos Elysée-Vertrag
-   Die Entwicklung des Elysée-Vertrags vom Ereignis zum Erinnerungsort
+    Die Vorgeschichte
+    Adenauer, de Gaulle und der Elysée-Vertrag
+    Mythos Elysée-Vertrag
+    Die Entwicklung des Elysée-Vertrags vom Ereignis zum Erinnerungsort
 Didaktisierung
-   Eignung des Elysée-Vertrags für den DaF-Landeskundeunterricht
-   Zielgruppe und Sprachniveau
-   Zielsetzungen
-   Vorstellung der Materialien
+    Eignung des Elysée-Vertrags für den DaF-Landeskundeunterricht
+    Zielgruppe und Sprachniveau
+    Zielsetzungen
+    Vorstellung der Materialien
 Reflexion
-   Reflexion der Themenwahl
-   Reflexion der Zielgruppe
-   Reflexion der inhaltlichen Lernziele
-   Reflexion der sprachlichen Lernziele
-   Reflexion der Methodik und des Materials
-   Reflexion der kulturdidaktischen Lernziele
+    Reflexion der Themenwahl
+    Reflexion der Zielgruppe
+    Reflexion der inhaltlichen Lernziele
+    Reflexion der sprachlichen Lernziele
+    Reflexion der Methodik und des Materials
+    Reflexion der kulturdidaktischen Lernziele
 Fazit und Ausblick
 Verzeichnisse
-   Literaturverzeichnis
-   Tabellenverzeichnis
+    Literaturverzeichnis
+    Tabellenverzeichnis
 Anhang"""
 
 
@@ -67,15 +67,15 @@ def master98(toc: iamraw.Toc):
 TITLE_MASTER89 = """\
 Einleitung
 Sänger der Gegenwart: A Audiovisuelle Medien im Zeichen formaler Kontinuität
-   Mediale Darstellung zwischen Mündlichkeit und Schriftlichkeit
-   Mythos als Konstante audiovisuellen Erzählens
+    Mediale Darstellung zwischen Mündlichkeit und Schriftlichkeit
+    Mythos als Konstante audiovisuellen Erzählens
 Lernen durch Geschichten: m Mythen und Spielfilme als Enzyklopädien des sozialen Verhaltens
-   Wissen als soziales Konstrukt
-   Mediale Wirklichkeit und Beobachtung von Verhalten
-   Sinnliches Erleben und Wissenserwerb
+    Wissen als soziales Konstrukt
+    Mediale Wirklichkeit und Beobachtung von Verhalten
+    Sinnliches Erleben und Wissenserwerb
 Rhapsoden, Film und Fernsehen als Archivare sozialen Wissens
-   Träger des kollektiven Gedächtnisses
-   Mythos als sinnstiftende Organisationsform
+    Träger des kollektiven Gedächtnisses
+    Mythos als sinnstiftende Organisationsform
 Schlussbetrachtung und Ausblick
 Literaturverzeichnis
 Die Reise des Helden in der Odyssee
@@ -94,29 +94,29 @@ def master89(toc: iamraw.Toc):
 TITLE_MASTER99 = """\
 Abkürzungsverzeichnis
 Einleitung
-   Forschungskontext
-   Persönliche Motivation
-   Aufgabenstellung und Zielsetzung
-   Aufbau der Arbeit
+    Forschungskontext
+    Persönliche Motivation
+    Aufgabenstellung und Zielsetzung
+    Aufbau der Arbeit
 Betreuung und Klientel
-   Betreutes Wohnen bei der ADV gGmbH
-   Klientel
+    Betreutes Wohnen bei der ADV gGmbH
+    Klientel
 Wirksamkeit der Verhaltenstherapie
 Untersuchte verhaltenstherapeutische Standardmethoden
-   Psychoedukation
-   Kontingenzmanagement
+    Psychoedukation
+    Kontingenzmanagement
 Forschungsfragen und Hypothesen
 Forschungsplan
-   Methode
-   Beteiligter Personenkreis
-   Rahmenbedingungen
-   Testphase
-   Einbringen ins Team und Intervention
+    Methode
+    Beteiligter Personenkreis
+    Rahmenbedingungen
+    Testphase
+    Einbringen ins Team und Intervention
 Datenauswertung
-   Mixed-Methods-Studie
-   Quantitative Sozialforschung
-   Qualitative Sozialforschung
-   Interpretation der Ergebnisse
+    Mixed-Methods-Studie
+    Quantitative Sozialforschung
+    Qualitative Sozialforschung
+    Interpretation der Ergebnisse
 Beantwortung der Forschungsfragen und Hypothesen sowie Fazit und weiterführende Fragen
 Literatur- und Quellenverzeichnis
 Abbildungs- und Tabellenverzeichnis
