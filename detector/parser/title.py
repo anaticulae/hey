@@ -30,9 +30,11 @@ class TitleParserState(enum.Enum):
 
 
 TITLE_BLACKLIST = {
-    'STUDIENARBEIT',
     'BACHELORARBEIT',
+    'DISSERTATION',
+    'DOKTORARBEIT',
     'MASTERARBEIT',
+    'STUDIENARBEIT',
 }
 
 
