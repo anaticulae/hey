@@ -124,6 +124,10 @@ def parse_page(page: iamraw.Page) -> groupme.toc.TocLines:
 
     result = parse(result)
 
+    # setup parse page location
+    for item in result:
+        item.raw_location = page.page
+
     return result
 
 

@@ -52,6 +52,10 @@ def analyse_page(content: texmex.PageTextNavigator):
     result = [parse_group(items) for items in grouped]
     # remove not parsed
     result = [item for item in result if item]
+    # set page where toc was parsed
+    for group in result:
+        for item in group:
+            item.raw_location = content.page
     return result
 
 
