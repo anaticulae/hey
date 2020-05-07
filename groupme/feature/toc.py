@@ -85,8 +85,7 @@ LeveledTitle = typing.Tuple[Level, Title]
 LeveledTitles = typing.List[LeveledTitle]
 
 
-def select_tocpages(
-        textnavigators: texmex.PageTextNavigators) -> typing.List[int]:
+def select_tocpages(textnavigators: texmex.PageTextNavigators) -> utila.Ints:
     """Use simple approach to decide which page is a toc page."""
     selected = []
     for page in textnavigators:
