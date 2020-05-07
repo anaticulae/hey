@@ -21,7 +21,7 @@ import detector.parser.person
 import detector.titlepage
 import tests
 import tests.fixtures.simple
-import tests.resources as tr
+import tests.resources as tr  # pylint:disable=W0611
 
 
 @utila.skip_longrun

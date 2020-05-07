@@ -12,7 +12,7 @@
 import utila
 
 
-def uniform_result(items):
+def uniform_result(items):  # pylint:disable=W9012
     """Determine ?relatively likelihood? of a collection
 
     Args:
@@ -25,7 +25,7 @@ def uniform_result(items):
     return _uniform_list(items)
 
 
-def maxi(items):
+def maxi(items):  # pylint:disable=W9012
     """Determine the maximized likelihood of an uniformed collection
 
     Args:
@@ -36,7 +36,7 @@ def maxi(items):
     return _max_mini(items, method=max)
 
 
-def mini(items):
+def mini(items):  # pylint:disable=W9012
     """Determine the minimized likelihood of an uniformed collection
 
     Args:

@@ -272,7 +272,7 @@ def bachelor111(toc: iamraw.Toc):
     pytest.param(tests.resources.MASTER98, master98, (1,), id='master98'),
     pytest.param(tests.resources.MASTER99, master99, (2, 3), id='master99'),
     pytest.param(tests.resources.BACHELOR111, bachelor111, (1, 2, 3, 4), id='bachelor111',
-        marks=pytest.mark.xfail(reason='literaturverzeichnis sub notes')),
+                 marks=pytest.mark.xfail(reason='literaturverzeichnis sub notes')),
 ])  # yapf:enable
 def test_groupme_toc_validate(source, validate, pages, monkeypatch, testdir):
     pages = ','.join((str(item) for item in pages))

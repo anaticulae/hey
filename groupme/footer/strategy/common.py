@@ -30,7 +30,7 @@ MIN_OCCURRENCE = 0.5
 TOP_AREA = 0.15  # TODO: HOLY VALUE
 
 
-class CommonTextStrategy(gfs.FooterHeaderDetectionStrategy):
+class CommonTextStrategy(gfs.FooterHeaderDetectionStrategy):  # pylint:disable=W0223
 
     def result(self):
         header = cluster_pages(self.pagetextnavigators)

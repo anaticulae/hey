@@ -65,10 +65,6 @@ def load(content: texmex.PageTextContentNavigators) -> ExtractionData:
     return data
 
 
-def load_frompath(path: str):
-    pass
-
-
 def remove_headline(
         content: texmex.PageTextNavigator) -> texmex.PageTextNavigator:
     """Remove table of content headline to improve extraction result."""

@@ -203,6 +203,7 @@ def load_distance(
         content: str,
         pages: tuple = None,
 ) -> PageContentAreaDistances:
+    # TODO: MOVE TO SERIALIZERAW
     content = utila.from_raw_or_path(content, ftype='yaml')
     loaded = yaml.load(content, Loader=yaml.FullLoader)
     result = []
@@ -210,7 +211,7 @@ def load_distance(
         pagenumber = int(page['page'])
         if utila.should_skip(pagenumber, pages):
             continue
-        content = []
+        pagecontent = []
         for line in page['content']:
             index, before, after = line.split()
             try:
@@ -222,11 +223,15 @@ def load_distance(
             except ValueError:
                 after = None
             index = int(index)
-            content.append(
+            pagecontent.append(
                 AreaDistance(
                     index=index,
                     before=before,
                     after=after,
                 ))
-        result.append(PageContentAreaDistance(page=pagenumber, content=content))
+        result.append(
+            PageContentAreaDistance(
+                page=pagenumber,
+                content=pagecontent,
+            ))
     return result

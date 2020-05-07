@@ -63,7 +63,7 @@ def test_groupme_footer_dump_and_load(
         pagenumbers,
         pagetextnavigators,
     )
-    extracted = extracted.result()
+    extracted = extracted.result()  # pylint:disable=R0204
 
     dumped = serializeraw.dump_headerfooter(extracted)
     loaded = serializeraw.load_headerfooter(dumped)

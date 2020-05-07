@@ -95,15 +95,18 @@ def footer(
         max_area(float): size of items which are grouped to a cluster
         numbers_only(bool): if True, remove all non numeric/romanic elements
         remove_empty(bool): remove empty elements, e.g. whitespaces
+    Returns:
+        A list of clustered page footer content which are expected of
+        beeing the page numbers.
     """
     # TODO: MOVE THIS METHOD TO MORE GENERAL FOOTER FILE BECAUSE THIS CODE
     # HAS NOTHING TODO WITH NUMBERS
     # TODO: Split method into numbers part and grouping part
     collected = [(page.page, page.after(BOTTOM_BORDER)) for page in navigators]
     filtered = []
-    for pagenumber, page in collected:
+    for pagenumber, footercontent in collected:
         pagecontent = []
-        for item in page:
+        for item in footercontent:
             text = item.text.strip()
             if iamraw.area(item.bounding) > max_area:
                 # ignore to big items
