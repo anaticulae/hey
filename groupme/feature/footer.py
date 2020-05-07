@@ -6,7 +6,9 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""
+"""Footer Header Extraction Step
+=============================
+
 TODO:
     what should we do with empty header/footer
 """
@@ -38,10 +40,9 @@ def work(
 ) -> str:
     """Extract footer and header area out of horizontal lines
 
-    Args:
-        horizontals(str): path to file with extract lines
     Returns:
-        dumped list with top and bottom border for every page
+        Dumped list with top and bottom border, which separates the
+        content from the footer and or header, for every page
     """
     utila.call('footer')
     # load
@@ -79,10 +80,8 @@ def extract_footerheader(
 ) -> iamraw.PageContentFooterHeaders:
     """Extract most common header/footer of the document
 
-    Args:
-        horizontals: a list of pages with a list of horizontals
-    Return:
-        the most common header/foooter combination for the document
+    Returns:
+        The most common header/foooter combination for the document
     """
     strategies = groupme.footer.strategies()
     results = [
@@ -139,12 +138,6 @@ def judge_strategy(results: typing.List[iamraw.PageContentFooterHeaders],
         result.append(current)
 
     page_order = [item.page for item in result]
-    assert sorted(
-        page_order
-    ) == page_order, f'require ascending pages order, got: {page_order}'
+    assert sorted(page_order) == page_order, ('require ascending pages order'
+                                              f', got: {page_order}')
     return result
-
-
-def judge_strategy_selective(results: iamraw.PageContentFooterHeaders
-                            ) -> iamraw.PageContentFooterHeader:
-    return None

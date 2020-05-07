@@ -37,11 +37,12 @@ INNER_WHITESPACES = re.compile(r'\s+', re.M)
 
 
 def normalize_inner_whitespaces(item: str) -> str:
-    # TODO: MOVE TO UTILA
-    """
+    """Shrink multiple inner whitespaces to a single white space.
+
     >>> normalize_inner_whitespaces('Hier:    Spricht  Helm')
     'Hier: Spricht Helm'
     """
+    # TODO: MOVE TO UTILA
     return INNER_WHITESPACES.sub(' ', item)
 
 

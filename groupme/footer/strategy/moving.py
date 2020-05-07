@@ -6,7 +6,9 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""
+"""Moving Footer Extraction Step
+=============================
+
 Requirements:
     We do not check the header, because it is required, that this header
     is fixed.
@@ -195,13 +197,3 @@ def judge_detection(items):
         return []
 
     return items
-
-
-def footercontent(items):
-    """
-    Args:
-        items(list): list of (bounds, text)
-    """
-    content = [item.text for item in items]
-    content = utila.NEWLINE.join(content)
-    return content
