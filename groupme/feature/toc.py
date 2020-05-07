@@ -188,11 +188,12 @@ def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
         if not isinstance(line, groupme.toc.TocLine):
             continue
         level = determine_level(line.level)
-        section = iamraw.Section(
+        section = iamraw.SectionRaw(
             level=level,
             page=line.page,
-            raw=line.raw,
             title=line.title,
+            raw=line.raw,
+            raw_location=line.raw_location,
         )
         outlines.append(section)
 

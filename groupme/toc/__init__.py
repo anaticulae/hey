@@ -6,12 +6,22 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-import collections
+
+import dataclasses
 import typing
 
 import utila
 
-TocLine = collections.namedtuple('TocLine', 'level, title, page, raw')
+
+@dataclasses.dataclass
+class TocLine:
+    level: str = None
+    title: str = None
+    page: str = None
+    raw: str = None
+    raw_location: str = None
+
+
 TocLines = typing.List[TocLine]
 
 
