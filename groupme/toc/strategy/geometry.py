@@ -12,30 +12,33 @@
 
 import texmex
 
-import groupme.toc.strategy as gts
+import groupme.toc.strategy
+import groupme.toc.strategy.utils
 
 MAX_HEADLINE_LEVEL = 3  # TODO: HOLY VALUE
 
 MAX_HEADLINE_HEIGHT = 20  # TODO: HOLY VALUE
 
 
-class GeometryTocExtractor(gts.ExtractorStrategy):
+class GeometryTocExtractor(groupme.toc.strategy.ExtractorStrategy):
 
-    def result(self) -> gts.ExtractionResult:
+    def result(self) -> groupme.toc.strategy.ExtractionResult:
         extracted = []
-
         for page in self.loaded.content:
             analyzed = analyse_page(page, self.textfeed)
             extracted.extend(analyzed)
 
         grouped = group_areas(extracted)
-        import groupme.toc.strategy.georegex as gtsg
-        content = [gtsg.parse_group(group) for group in grouped]
-
+        content = [
+            groupme.toc.strategy.utils.parse_group(group) for group in grouped
+        ]
         # remove empty
         content = [item for item in content if item]
 
-        result = gts.ExtractionResult(content=content, invalid=[])
+        result = groupme.toc.strategy.ExtractionResult(
+            content=content,
+            invalid=[],
+        )
         return result
 
     @property

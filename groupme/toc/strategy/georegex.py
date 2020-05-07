@@ -28,28 +28,29 @@ import iamraw
 import texmex
 import utila
 
-import groupme.toc
-import groupme.toc.lineregex
-import groupme.toc.strategy as gts
+import groupme.toc.strategy
+import groupme.toc.strategy.utils
 
 MIN_GROUP_GAP = 30.0  # TODO HOLY VALUE
 
 
-class GeometryRegexTocExtractor(gts.ExtractorStrategy):
+class GeometryRegexTocExtractor(groupme.toc.strategy.ExtractorStrategy):
 
-    def result(self) -> gts.ExtractionResult:
+    def result(self) -> groupme.toc.strategy.ExtractionResult:
         extracted = [analyse_page(item) for item in self.loaded.content]
         flat = utila.flatten(utila.flatten(extracted))
 
-        grouped = gts.group(flat)
+        grouped = groupme.toc.strategy.group(flat)
         return grouped
 
 
 def analyse_page(content: texmex.PageTextNavigator):
     assert isinstance(content, texmex.NavigatorMixin), type(content)
-    content = gts.remove_headline(content)
+    content = groupme.toc.strategy.remove_headline(content)
     grouped = group_areas(content)
-    result = [parse_group(items) for items in grouped]
+    result = [
+        groupme.toc.strategy.utils.parse_group(items) for items in grouped
+    ]
     # remove not parsed
     result = [item for item in result if item]
     # set page where toc was parsed
@@ -73,42 +74,6 @@ def group_areas(content: texmex.PageTextNavigator):
     if grouped:
         result.append(grouped)
     return result
-
-
-def parse_group(items) -> groupme.toc.TocLines:
-    parsed = [groupme.toc.lineregex.parse(item.text) for item in items]
-    matched = [item is not None for item in parsed]
-    if all(matched):
-        return parsed
-    result = []
-    collected = []
-    for match, item, parsed_item in zip(matched, items, parsed):
-        if not match:
-            collected.append(item)
-            continue
-        if match and collected:
-            collected.append(item)
-            extracted = group_collection_and_parse(collected)
-            if extracted:
-                result.append(extracted)
-            else:
-                # log not parsed
-                utila.error('could not group and parse %s' % collected)
-            collected = []
-            continue
-        result.append(parsed_item)
-    if collected:
-        extracted = group_collection_and_parse(collected)
-        if extracted:
-            # parsing was successful
-            result.append(extracted)
-    return result
-
-
-def group_collection_and_parse(items):
-    line = ' '.join([item.text for item in items])
-    parsed = groupme.toc.lineregex.parse(line)
-    return parsed
 
 
 BoundingBoxes = typing.List[iamraw.BoundingBox]

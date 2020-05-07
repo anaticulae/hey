@@ -12,9 +12,11 @@ import dataclasses
 import typing
 
 import texmex
+import utila
 
 import groupme.toc as gt
-import groupme.toc.group as gtg
+import groupme.toc.group
+import groupme.toc.lineregex
 import groupme.utils
 
 
@@ -53,7 +55,7 @@ def group(extracted: groupme.toc.TocLines) -> ExtractionResult:
         extracted,
         key=lambda x: isinstance(x, groupme.toc.TocLine),
     )
-    content = gtg.group(right)
+    content = groupme.toc.group.group(right)
 
     result = ExtractionResult(content=content, invalid=invalid)
     return result
@@ -77,3 +79,39 @@ def remove_headline(
             continue
         result.insert(item.text, item.style, item.bounding)
     return result
+
+
+def parse_group(items) -> groupme.toc.TocLines:
+    parsed = [groupme.toc.lineregex.parse(item.text) for item in items]
+    matched = [item is not None for item in parsed]
+    if all(matched):
+        return parsed
+    result = []
+    collected = []
+    for match, item, parsed_item in zip(matched, items, parsed):
+        if not match:
+            collected.append(item)
+            continue
+        if match and collected:
+            collected.append(item)
+            extracted = group_collection_and_parse(collected)
+            if extracted:
+                result.append(extracted)
+            else:
+                # log not parsed
+                utila.error('could not group and parse %s' % collected)
+            collected = []
+            continue
+        result.append(parsed_item)
+    if collected:
+        extracted = group_collection_and_parse(collected)
+        if extracted:
+            # parsing was successful
+            result.append(extracted)
+    return result
+
+
+def group_collection_and_parse(items):
+    line = ' '.join([item.text for item in items])
+    parsed = groupme.toc.lineregex.parse(line)
+    return parsed
