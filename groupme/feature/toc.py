@@ -17,6 +17,7 @@ Outdated approaches
 """
 import typing
 
+import configo
 import iamraw
 import serializeraw
 import texmex
@@ -30,7 +31,8 @@ import groupme.toc.strategy
 import groupme.toc.strategy.regex as gtsr
 import groupme.utils
 
-MIN_TOCS_PER_PAGE = 0.2  # TODO: HOLY VALUE
+# minimal percentage of toc lines per page
+MIN_TOCS_PER_PAGE = configo.HV_PERCENT_PLUS(0.2, limit=1.0).value
 
 
 def work(
@@ -74,8 +76,8 @@ def work(
     return dumped
 
 
-Level = str
-Title = str
+Level = typing.NewType('Level', str)
+Title = typing.NewType('Title', str)
 
 LeveledTitle = typing.Tuple[Level, Title]
 LeveledTitles = typing.List[LeveledTitle]
@@ -118,8 +120,7 @@ WHITELIST = set([
 def decide_non_level_possible_headlines(items):
     """Decide level for toc lines without 1.2.3-pattern in table of content
 
-    Use a whitelist to detect which line could be a headline.
-    """
+    Use a whitelist to detect which line could be a headline."""
     result = []
     for item in items:
         if item.level is None:
@@ -210,6 +211,5 @@ def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
         return items
 
     outlines = level_zero(outlines)
-
     result = iamraw.create_toc(outlines)
     return result
