@@ -23,14 +23,11 @@ class GeometryTocExtractor(gts.ExtractorStrategy):
 
     def result(self) -> gts.ExtractionResult:
         extracted = []
-        feed = sorted(
-            texmex.document_textfeed(
-                self.loaded.content,
-                count=MAX_HEADLINE_LEVEL,
-            ))
+
         for page in self.loaded.content:
-            analyzed = analyse_page(page, feed)
+            analyzed = analyse_page(page, self.textfeed)
             extracted.extend(analyzed)
+
         grouped = group_areas(extracted)
         import groupme.toc.strategy.georegex as gtsg
         content = [gtsg.parse_group(group) for group in grouped]
@@ -40,6 +37,16 @@ class GeometryTocExtractor(gts.ExtractorStrategy):
 
         result = gts.ExtractionResult(content=content, invalid=[])
         return result
+
+    @property
+    def textfeed(self):
+        # TODO: ADD CACHE
+        feeds = texmex.document_textfeed(
+            self.loaded.content,
+            count=MAX_HEADLINE_LEVEL,
+        )
+        feed = sorted(feeds)
+        return feed
 
 
 def analyse_page(navigator: texmex.PageTextContentNavigators, level_feed: list):
