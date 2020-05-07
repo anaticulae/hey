@@ -2,6 +2,25 @@
 
 Every noteable change is logged here.
 
+## v2.3.0
+
+### Feature
+
+* extend title detection black list (be725b852b80)
+* store parsing location to use as linter location (ca5a639a8958)
+* save location where toc was parsed (d72ac11eed35)
+
+### Fix
+
+* fix more linter warnings (6dc1b182de0d)
+* fix more linter warnings (da977b98a542)
+* fix more linter warnings (fa9b66980254)
+* solve some linter warnings (d051191e4036)
+
+### Documentation
+
+* fix interface documentation (ce2437ac9a35)
+
 ## v2.2.0
 
 ### Feature
