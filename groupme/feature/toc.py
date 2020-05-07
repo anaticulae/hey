@@ -61,12 +61,8 @@ def work(
     )
     selected = select_tocpages(navigators)
     # select toc pages only
-    navigators = [item for item in navigators if item.page in selected]
-    # TODO: REPLACE WITH UTILA CODE
-    # navigators = utila.select_page(
-    #     navigators,
-    #     page=selected,
-    # )
+    # TODO: REPLACE WITH UTILA.select_pages
+    navigators = [utila.select_page(navigators, page=page) for page in selected]
 
     loaded = groupme.toc.strategy.load(navigators)
     extracted = groupme.toc.extractor.extract(loaded)
@@ -107,7 +103,8 @@ def select_tocpages(textnavigators: texmex.PageTextNavigators) -> utila.Ints:
             # missdetected as toc line.
             continue
         selected.append(page.page)
-    return set(selected)
+    selected = sorted(utila.make_unique(selected))
+    return selected
 
 
 # TODO: THIS IS STOLEN FROM WORDS
