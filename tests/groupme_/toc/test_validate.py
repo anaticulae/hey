@@ -22,6 +22,7 @@ def merge_required(toc: iamraw.Toc) -> str:
     def recursive(item, level):
         result = []
         result.append('    ' * level + item.title)
+        assert item.raw_location >= 0, str(item)
         if item.children:
             for child in item.children:
                 result.extend(recursive(child, level + 1))

@@ -14,7 +14,7 @@ import groupme.toc.lineregex
 import groupme.utils
 
 
-def parse_group(items) -> groupme.toc.TocLines:
+def parse_group(items, page) -> groupme.toc.TocLines:
     parsed = [groupme.toc.lineregex.parse(item.text) for item in items]
     matched = [item is not None for item in parsed]
     if all(matched):
@@ -41,6 +41,10 @@ def parse_group(items) -> groupme.toc.TocLines:
         if extracted:
             # parsing was successful
             result.append(extracted)
+
+    # setup parse page location
+    for item in result:
+        item.raw_location = page
     return result
 
 

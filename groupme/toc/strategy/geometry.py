@@ -30,7 +30,8 @@ class GeometryTocExtractor(groupme.toc.strategy.ExtractorStrategy):
 
         grouped = group_areas(extracted)
         content = [
-            groupme.toc.strategy.utils.parse_group(group) for group in grouped
+            groupme.toc.strategy.utils.parse_group(group, page)
+            for page, group in grouped
         ]
         # remove empty
         content = [item for item in content if item]
@@ -63,22 +64,24 @@ def analyse_page(navigator: texmex.PageTextContentNavigators, level_feed: list):
         # convert local to global text feed
         xdist = navigator.content.left + item.bounds.leftdist
         current_level = level(xdist, level_feed)
-        result.append((current_level, item))
+        result.append((navigator.page, (current_level, item)))
     return result
 
 
 def group_areas(items):
     result = []
     current = []
-    for level_, item in items:
+    lastpage = -1
+    for page, (level_, item) in items:
         if level_ == 0 and current:
             # new group
-            result.append(current)
+            result.append((page, current))
             current = []
             # continue
         current.append(item)
+        lastpage = page
     if current:
-        result.append(current)
+        result.append((lastpage, current))
     return result
 
 

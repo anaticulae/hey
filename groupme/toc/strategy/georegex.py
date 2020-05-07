@@ -49,10 +49,12 @@ def analyse_page(content: texmex.PageTextNavigator):
     content = groupme.toc.strategy.remove_headline(content)
     grouped = group_areas(content)
     result = [
-        groupme.toc.strategy.utils.parse_group(items) for items in grouped
+        groupme.toc.strategy.utils.parse_group(items, content.page)
+        for items in grouped
     ]
     # remove not parsed
     result = [item for item in result if item]
+
     # set page where toc was parsed
     for group in result:
         for item in group:
