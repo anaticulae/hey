@@ -7,7 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import iamraw
 import pytest
 import serializeraw
 import utila
@@ -15,16 +14,11 @@ import utila
 import groupme.feature.toc
 import groupme.toc.loader
 import tests.resources
-# pylint: disable=unused-import
-from tests.fixtures.simple import simple_document
-from tests.fixtures.simple import simple_page_0
-from tests.resources import HOWTO_PYPORTING
-from tests.resources import HOWTO_PYPORTING_TOC_LINES
-from tests.resources import RESTRUCT_TOC_LINES
 
 
 def test_groupme_toc_groupby_level():
-    navigators = groupme.toc.loader.load_frompath(HOWTO_PYPORTING)
+    navigators = groupme.toc.loader.load_frompath(
+        tests.resources.HOWTO_PYPORTING)
     selected = groupme.feature.toc.select_tocpages(navigators)
     # select toc pages only
     navigators = [item for item in navigators if item.page in selected]
@@ -39,22 +33,17 @@ def test_groupme_toc_groupby_level():
     # TODO: Check level content
 
 
-def test_extract_toc(simple_page_0: iamraw.Page):  # pylint: disable=W0621
-    result = groupme.feature.toc.toc_from_page(simple_page_0)
-    assert len(result) == HOWTO_PYPORTING_TOC_LINES
-
-
 @pytest.mark.parametrize('resources, pages, expected', [
     pytest.param(
         tests.resources.RESTRUCT,
-        (2),
-        RESTRUCT_TOC_LINES,
+        (2,),
+        tests.resources.RESTRUCT_TOC_LINES,
         id='restructured',
     ),
     pytest.param(
         tests.resources.HOWTO_PYPORTING,
-        (0),
-        HOWTO_PYPORTING_TOC_LINES,
+        (0,),
+        tests.resources.HOWTO_PYPORTING_TOC_LINES,
         marks=pytest.mark.xfail,
         id='simple',
     ),

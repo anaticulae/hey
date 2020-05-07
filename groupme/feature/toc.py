@@ -23,7 +23,6 @@ import texmex
 import utila
 
 import groupme.feature
-import groupme.structure
 import groupme.toc
 import groupme.toc.extractor
 import groupme.toc.loader
@@ -162,58 +161,6 @@ def uniform_level(level: str) -> str:
     return level
 
 
-def filter_common_headlines(potential_titles: LeveledTitles) -> LeveledTitles:
-    """
-
-    In some cases it is possible that mostly equal titles are extracted. That
-    is possible when the title in the document differ from the title in the table
-    of content. An another possiblity is that titles from footer or header are
-    a little bit different.
-
-    Example:
-       ('4.1', 'Step 1')    - uniformed title
-       ('4.1.', 'Step 1')   - different title
-       ('4.2', 'Step 2')    - uniformed title
-       ('4.2.', ' Step 2 ') - different title
-
-    This method removes the `different title`.
-
-    Args:
-        potential_titles(List[Tuple[Level, Title]]): title to filter
-    Returns:
-        filtered uniformed title and level, without duplications
-    """
-    result = []
-    used = set()
-    for level, title in potential_titles:
-        uniformed_level = uniform_level(level)
-        striped_title = title.strip()
-
-        uniformed = (
-            uniformed_level,
-            striped_title,
-        )
-        # TODO: Remove unified and save the un-unified
-        if uniformed in used:
-            # Title is already present
-            continue
-        used.add(uniformed)
-        result.append(uniformed)
-    return result
-
-
-def text_snippets(document: iamraw.Document):
-    result = []
-    for page in document:
-        for item in page:
-            try:
-                # TODO: Why strip?
-                result.append(item.text.strip())
-            except AttributeError:
-                pass
-    return result
-
-
 def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
     """Create `iamraw.Toc` out of list of `groupme.toc.TocLine
 
@@ -270,103 +217,3 @@ def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
 
     result = iamraw.create_toc(outlines)
     return result
-
-
-def is_dotted_line(line: str):
-    return line.count(' .') > 2 or line.count('...') > 2
-
-
-def toc_from_page(page: iamraw.Page) -> typing.List[groupme.feature.RawSection]:
-    """Extract headlines from page"""
-    page_sections = groupme.structure.sections_from_page(page)
-    if not page_sections:
-        # Empty page
-        return None
-
-    result = []
-    # Filter non toc items, very simple rules!
-    for index, item in enumerate(page_sections, start=0):
-        if not item.title or not item.level:
-            continue
-
-        if item.title.count(utila.NEWLINE) > 1:
-            continue
-
-        if is_dotted_line(item.title):
-            result.append(index)
-            continue
-
-        # if len(item.title) > 120:
-        #     continue
-
-        result.append(index)
-    if not result:
-        # TODO: No data on page ?
-        return []
-    group = group_segmentation(result)
-    longest = [page_sections[index] for index in longest_group(group)]
-    filtered = [(item.level, strip_title(item.title)) for item in longest]
-    return filtered
-
-
-def group_segmentation(items, max_diff: int = 0):
-    """A group is a list of items which stand direct together. A gab of
-    max_diff is tollerated
-
-    Example:
-        5,6,7,             11,12,13,    19     max_diff 0  - 3 groups
-        5,6,7,11,12,13,    19                  max_diff 4  - 2 groups
-    """
-    result = []
-    collect = []
-    last = 1000
-    for item in items:
-        diff = abs(last - item) - 1  # 6-5 = 1, 1 is no diff, it is next number
-        if diff > max_diff:
-            if collect:
-                result.append(collect)
-                collect = []
-        last = item
-        collect.append(item)
-    if collect:
-        result.append(collect)
-    return result
-
-
-def longest_group(groups):
-    size = 0
-    longest = None
-    for group in groups:
-        if len(group) > size:
-            longest = group
-            size = len(longest)
-    return longest
-
-
-def strip_title(title: str):
-    """Remove ... in toc lines"""
-    # split ...? .. ....
-    return title.split(' .')[0]
-
-
-def filter_double(items):
-    """Return items which occurs twice"""
-    result = []
-    last = set()
-    for item in items:
-        before = len(last)
-        last.add(item)
-        if len(last) == before:
-            result.append(item)
-    return result
-
-
-def name():
-    return 'toc'
-
-
-def commandline():
-    return utila.Flag(
-        longcut=name(),
-        message='extract table of content',
-    )
