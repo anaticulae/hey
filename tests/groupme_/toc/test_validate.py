@@ -309,9 +309,139 @@ def master83(toc: iamraw.Toc):
     assert titles == TITLE_MASTER83, titles
 
 
+TITLE_BACHELOR241 = """\
+Eidesstattliche Erklärung
+Danksagung
+Einleitung
+Studiendesign
+    Zeitlicher Verlauf der SOLAR-Kohortenstudie
+    Basiserhebung: ISAAC II
+    1. Follow-up: SOLAR I
+    2. Follow-up: SOLAR II
+    Tätigkeitskodierung und Job-Exposure-Matrix
+Fehlende Daten
+    Fehlendmechanismen und grundlegende Begriffe
+    Umgang mit fehlenden Daten
+        Methoden für Betrachtung der beobachteten Werte
+        Imputationsmethoden - Ersetzen der fehlenden Werte
+        Kombination der Schätzer
+Datenmanagement
+    Datengrundlage
+    Datenbereinigung
+        Korrekturen der Tätigkeitsdaten
+    Auswahl der Probanden mit vollständigen Tätigkeitsangaben
+Imputation der fehlenden Werte in den potentiellen Confoundervariablen
+    Imputation durch Ziehen gemäß der Randverteilung der Daten
+        Binäre Variablen
+        Kategoriale Variablen
+    Imputation mithilfe des R-Packages AMELIA II
+        Allgemeines
+        Wie funktioniert AMELIA II ?
+        Transformation von Variablen
+        Identifkiationsvariablen
+        Auswahl der Variablen bei der Imputation
+        Behandlung von Variablen mit hohen Korrelationen
+    Übersicht über die Variablenausprägungen in den imputierten Datensätzen
+Berechnung der Expositionsvariablen
+    Komplexe Matrix als Basis für alle Expositionsberechnungen
+    Berechnung der Exposition kumuliert über alle Tätigkeiten und Jahre
+    Berechnung der Exposition in der ersten ausgeübten Tätigkeit
+    Berechnung der Exposition im ersten Tätigkeitsjahr
+    Betrachtung der gebildeten Expositionsvariablen
+Logistische Regression
+    Modellannahmen
+    Parameterschätzung
+    Parameterinterpretation
+    Likelihood-Quotienten-Test
+    Variablenselektion und Modellwahl: AIC-Kriterium
+    GAM (Generalized Additive Model)
+    ROC-Analyse
+    Logistische Regressionsmodelle für die Probanden mit vollständigen Tä- tigkeitsdaten
+        Mögliche Einflussgrößen (“Confounder”) für die logistischen Modelle
+        Variablenselektion und Modellwahl
+        ROC-Analyse für die “besten” Modelle
+        Schätzer kombinieren
+        Interpretation der Odds-Ratios der kombinierten Parameterschützer
+        Diskussion der logistischen Regressionsmodelle
+Simulation
+    Erzeugen eines Fehlendmusters in den Tätigkeitsdaten
+    Imputation der fehlenden Werte in den Tätigkeitsdaten
+        Vorgehen bei der Imputation
+        Imputation der Zeitangaben
+        Imputation der Wochenstunden
+    Logistische Regressionsmodelle auf imputierten Tätigkeitsdaten
+    Vergleich der Parameterschützer
+Zusammenfassung und Ausblick
+    Zusammenfassung
+    Ausblick
+A Variablenkodierung
+    Variablen aus ISAAC II
+        In Deutschland geboren
+        Atopie der Eltern
+        Kind gestillt
+        Neurodermitis
+        Allergische Rhinitis
+        Asthma
+        Passivrauch
+        Soziökonomischer Status
+        Studienzentrum
+        Geschwister
+    Variablen aus SOLAR I
+        Rauchverhalten
+        Berufssituation
+    Variablen aus SOLAR II
+        Asthma
+        Allergische Rhinitis
+        Rauchverhalten
+        Berufssituation
+        Schulbildung
+    Benötigte Variablen für die Tätigkeitsdaten
+        Gearbeitet in SOLAR I
+        Gearbeitet in SOLAR II
+A
+Anzahl der Wochenstunden)
+    Ende der Tätigkeit in SOLAR-I
+    Ende der Tätigkeit in SOLAR II
+A
+SOLAR II
+    Anzahl Tätigkeitsangaben in SOLAR I und SOLAR II
+    Dauer der Tätigkeit
+    Zeilen mit vollständig ausgefüllten Tätigkeitsangaben
+    Probanden mit vollständig ausgefüllten Tätigkeitsangaben
+    Benötigte Variable für die Simulation
+    Benötigte Variablen für die Job-Matrix
+A
+A
+B Alle Abbildungen zum Vergleich der Parameterschätzer
+C R-Code
+    Imputation der fehlenden Werte in den potentiellen Confoundervariablen
+        Imputation durch Ziehen gemäß der Randverteilung der Daten
+        Imputation mithilfe des R-Packages AMELIA II
+    Berechnung der Expositionsvariablen
+    Logistische Regression
+        Schritt 1 - Confoundermodell
+        Schritt 2 - Modelltest
+        Schritt 3 - GAM
+        Schritt 4 - Expositionsvariablen
+        Schritt 5 - Bestes Modell
+        Schritt 6 - Schützer kombinieren
+    Simulation
+        Schritt 1 - Werte künstlich löschen
+        Schritt 2 - Imputation der fehlenden Werte in den Tätigkeitsdaten
+D CD Inhalt"""
+
+
+def bachelor241(toc: iamraw.Toc):
+    titles = merge_required(toc)
+    print(titles)
+    assert titles == TITLE_BACHELOR241, titles
+
+
 # yapf:disable, format the list by hand
 @pytest.mark.parametrize('source, validate, pages', [
     pytest.param(tests.resources.HOMEWORK50, homework50, (3, 4), id='homework50'),
+    pytest.param(tests.resources.BACHELOR241, bachelor241, (4, 5, 6, 7), id='bachelor241',
+                 marks=pytest.mark.xfail(reason='literaturverzeichnis sub notes')),
     pytest.param(tests.resources.MASTER89, master89, (1,), id='master89'),
     pytest.param(tests.resources.MASTER83, master83, (2, 3), id='master83'),
     pytest.param(tests.resources.MASTER98, master98, (1,), id='master98'),
