@@ -266,10 +266,54 @@ def bachelor111(toc: iamraw.Toc):
     assert titles == TITLE_BACHELOR111
 
 
+TITLE_MASTER83 = """\
+Einleitung
+Definition: Protest und soziale Bewegung
+Luhmanns „Theorie sozialer Systeme“
+    Die Unterscheidung von System und Umwelt
+    Soziale Systeme
+    Die funktionale Differenzierung der Gesellschaft
+        Was ist Gesellschaft?
+        Folgeprobleme funktionaler Differenzierung
+    Soziale Bewegungen und die Systemtheorie
+        Funktionen sozialer Bewegungen
+        Soziale Bewegungen als Systeme
+        Öffentlicher Druck mithilfe der Massenmedien
+    Das System der Massenmedien
+„Don’t hate the media…“: Protestkommunikation und die Massenmedien
+    Strukturelle Kopplung
+    Protestkommunikation und die Massenmedien
+    Framing
+    Protestkommunikation und die Selektoren
+    Die expressive Funktion von Protest
+    Kritik oder: Gründe, die Massenmedien zu „hassen“
+„…become the media“ – Protestkommunikation und das Internet
+    Was ist das Internet?
+    Mehr Demokratie durch das Internet?
+    Die „Wahlverwandtschaft“
+    Neue Möglichkeiten
+        Information
+        Interaktive Kommunikation
+        Ein Beispiel: Indymedia
+    Das „Mediendispositiv Internet“ oder: Gibt es eine internetspezifische Protestkommunikation?
+        Intern und extern
+        Connective action
+        Eine neue Form von Protestkommunikation
+    Protestkommunikation zwischen Massenmedien und Internet
+Fazit
+Literaturverzeichnis"""
+
+
+def master83(toc: iamraw.Toc):
+    titles = merge_required(toc)
+    assert titles == TITLE_MASTER83, titles
+
+
 # yapf:disable, format the list by hand
 @pytest.mark.parametrize('source, validate, pages', [
     pytest.param(tests.resources.HOMEWORK50, homework50, (3, 4), id='homework50'),
     pytest.param(tests.resources.MASTER89, master89, (1,), id='master89'),
+    pytest.param(tests.resources.MASTER83, master83, (2, 3), id='master83'),
     pytest.param(tests.resources.MASTER98, master98, (1,), id='master98'),
     pytest.param(tests.resources.MASTER99, master99, (2, 3), id='master99'),
     pytest.param(tests.resources.BACHELOR111, bachelor111, (1, 2, 3, 4), id='bachelor111',

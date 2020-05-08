@@ -10,15 +10,24 @@
 # Unicode special minus sign
 
 USER_CHARACTER = [
+    "'",
     '!',
+    '"',
     '&',
     ',',
     '/',
     ':',
     ';',
     '?',
+    'ß',
     '–',  # special minus sign
+    '‘',
     '’',
+    '‚',
+    '“',
+    '”',
+    '„',
+    '…',
     r'\(',
     r'\)',
     r'\-',
@@ -28,6 +37,7 @@ USER_CHARACTER = [
     r'\d',
     r'\w',
 ]
+
 UC_NWS = ''.join(USER_CHARACTER)
 UC = UC_NWS + ' '  # user content with whitespace
 UC_WS_NL = UC + r'\s'  # content with whitespace, newline
