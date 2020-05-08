@@ -77,6 +77,9 @@ def parse(content: str) -> groupme.toc.TocLines:
     ]:
         for line in re.finditer(pattern, content):
             item = gtl.extract_match(line)
+            if len(item.raw) <= 8:
+                # TODO: REMOVE HACK LATER
+                continue
             result.append(item)
             # remove already matched content to do not confuse lower
             # strict pattern

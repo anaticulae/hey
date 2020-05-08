@@ -171,8 +171,8 @@ B Alle Abbildungen zum Vergleich der Parameterschätzer 14
 C R-Code 161
 C R-Code 161
 
-A.6.2 Kurzbeschreibung der aus der Basis Job Matrix gebildeten Variablen146
-A.6.2 Kurzbeschreibung der aus der Basis Job Matrix gebildeten Variablen 146"""
+A.6.2 Kurzbeschreibung der aus der Basis-Job-Matrix gebildeten Variablen 146
+A.6.2 Kurzbeschreibung der aus der Basis-Job-Matrix gebildeten Variablen 146"""
 
 EXAMPLES = [
     pytest.param(item, id=f'{index}')

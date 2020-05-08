@@ -39,7 +39,7 @@ LEVEL_DOTTED_OPTIONAL = r'(?P<level>(\d{1,2}\.?)+\d{0,2})'
 
 LEVEL_LETTER = r"""(?P<level>
                     (
-                    (A|B|C|D)\.|
+                    (A|B|C|D)\.?|
                     (A|B|C|D)\.(\d{1,2}\.?)+\d{0,2}|
                     Anhang[ ](A|B|C|D)\: # TODO: Exclude Anhang and :
                     )
