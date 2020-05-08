@@ -160,7 +160,19 @@ _ Eidesstattliche Erklärung 69
 7.4.1. Interpretation Konsumtagebücher Auswertung 66
 
 Literatur- und Quellenverzeichnis ........................................ 85
-_ Literatur- und Quellenverzeichnis 85"""
+_ Literatur- und Quellenverzeichnis 85
+
+A.4.3 Gearbeitet in SOLAR I und/oder SOLAR II (unabhängig von der\nAnzahl der Wochenstunden) . . . . . . . . . . . . . . . . . . . . . . 134
+A.4.3 Gearbeitet in SOLAR I und/oder SOLAR II (unabhängig von der Anzahl der Wochenstunden) 134
+
+B Alle Abbildungen zum Vergleich der Parameterschätzer 14
+B Alle Abbildungen zum Vergleich der Parameterschätzer 14
+
+C R-Code 161
+C R-Code 161
+
+A.6.2 Kurzbeschreibung der aus der Basis Job Matrix gebildeten Variablen146
+A.6.2 Kurzbeschreibung der aus der Basis Job Matrix gebildeten Variablen 146"""
 
 EXAMPLES = [
     pytest.param(item, id=f'{index}')
