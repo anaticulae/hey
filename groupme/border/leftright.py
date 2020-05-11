@@ -63,7 +63,15 @@ RIGHT_PERCENT = configo.HV_PERCENT_PLUS(default=30)
 MIN_RAISING_EDGE = configo.HV_PERCENT_PLUS(default=75)
 
 # TODO: REPLACE WITH CONFIGO TABLE
-RAISING_FAILRATE = ((5, 0), (7, 0.2), (10, 0.3), (40, 0.1), (200, 0.05))
+RAISING_FAILRATE = (
+    (5, 0),
+    (7, 0.2),
+    (10, 0.3),
+    (40, 0.1),
+    (200, 0.05),
+    (2000, 0.01),  # TODO: Check if this big failure count makes any sence
+)
+# TODO: SHOULD WE DISABLE ALGO ON BIG FAIL COUNT?
 
 LeftRight = typing.Tuple[float, float]
 
