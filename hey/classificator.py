@@ -6,6 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+
 import math
 import typing
 
@@ -176,16 +177,14 @@ def determine_cluster(
     result = [ctor(item) for item in todo]
     # Break when cluster does not change result
     # Cluster till cluster move does not change the result
-    before = set()
+    single = utila.Single()
     while True:
         result = clusterme(result, classifier=classifier)
         if len(result) == 1:
             # all elements are in the same group
             break
-        hashid = hash(str(result))
-        if hashid in before:
+        if single.contains(result):
             break
-        before.add(hashid)
     # A cluster must have at least 2 items
     clusters = [item for item in result if len(item) >= min_elements]
     clusters = sorted(clusters, key=len, reverse=True)
