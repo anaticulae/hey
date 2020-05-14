@@ -70,6 +70,10 @@ if __name__ == "__main__":
             'hey',
             'hey.geometry',
             'hey.text',
+            'textstyle',
+            'textstyle.cluster',
+            'textstyle.extractor',
+            'textstyle.parse',
         ],
         entry_points={
             'console_scripts': [

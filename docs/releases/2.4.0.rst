@@ -6,7 +6,7 @@ RP 2.4.0
 textstyle
 ---------
 
-* [ ] extract text attributes(size, family, line distance(before, after),
+* [x] extract text attributes(size, family, line distance(before, after),
   char count)
 
 * [ ] extract detected location
