@@ -16,21 +16,21 @@ import textstyle.parse.page
 
 
 @pytest.fixture
-def master116_text():
+def master116_text_flat():
     navigators = serializeraw.create_pagetextnavigators_frompath(
         tests.resources.MASTER72,
         prefix='oneline',
-        pages=(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
+        pages=tuple(range(3, 65)),
     )
-    return navigators
-
-
-def test_textstyle_parse_page(master116_text):  # pylint:disable=W0621
-    parsed = textstyle.parse.page.parses(master116_text)
-    assert len(parsed) == len(master116_text)
-
-
-def test_flatten_textproperties(master116_text):  # pylint:disable=W0621
-    parsed = textstyle.parse.page.parses(master116_text)
+    parsed = textstyle.parse.page.parses(navigators)
     flat = textstyle.cluster.page.flatten(parsed)
-    assert len(flat) >= len(master116_text) * 5
+    return flat
+
+
+def test_cluster_size(master116_text_flat):  # pylint:disable=W0621
+    data = master116_text_flat
+    selection = (textstyle.cluster.page.ClusterProperty.SIZE,)
+    clustered = textstyle.cluster.page.cluster(data, selection=selection)
+    assert len(master116_text_flat) >= 2000
+    # six different font size cluster
+    assert len(clustered) == 6
