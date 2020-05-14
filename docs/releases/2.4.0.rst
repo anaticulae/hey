@@ -1,0 +1,32 @@
+.. _2_4_0:
+
+RP 2.4.0
+=========
+
+textstyle
+---------
+
+* [ ] extract text attributes(size, family, line distance(before, after),
+  char count)
+
+* [ ] extract detected location
+
+* [ ] group by chunks and lines
+
+* [ ] text
+
+* [ ] hx: h1,h2,h3
+
+* [ ] footer
+
+* [ ] paragraph
+
+code quality
+------------
+
+before
+~~~~~~
+
+* Todo: 173
+* Total coverage: 91.67%
+* Your code has been rated at 10.0/10
