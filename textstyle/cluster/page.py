@@ -90,10 +90,11 @@ def bestmatch(clustered, number: int = 0):
     return (size, font, length, (before, after))
 
 
-def headlines(
+def headlines(  # pylint:disable=R1260,R0914
         flats: textstyle.TextProperties,
         min_headline_count: int = 3,
         greater_than_text: bool = True,
+        returncluster: bool = False,
 ):
     _text = text(flats, returncluster=True)
     _pagenumber = pagenumber(flats, returncluster=True)
@@ -132,6 +133,7 @@ def headlines(
     )
 
     result = []
+    result_cluster = []
     for index in range(5):
         # analyse maximal five headline levels
         try:
@@ -140,6 +142,9 @@ def headlines(
             break
         else:
             result.append(matched)
+            result_cluster.append(largest_font_size[index].content)
+    if returncluster:
+        return result, result_cluster
     return result
 
 
