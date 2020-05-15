@@ -98,10 +98,10 @@ def textsizes(navigator: texmex.PageTextNavigator) -> utila.Floats:
     assert isinstance(navigator, texmex.PageTextNavigator), type(navigator)
     collected = []
     for line in navigator:
-        fontsizes = texmex.TextStyle.textsizes(
-            line.style,
-            method=lambda x: x,  # do not filter anything
-        )
+        # determine most common text size
+        fontsizes = utila.flatten([
+            [char.size] * (char.end - char.start) for char in line.style.content
+        ])
         collected.append(utila.mode(fontsizes, minimize=True))
     return collected
 

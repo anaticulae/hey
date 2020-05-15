@@ -49,7 +49,7 @@ def test_cluster_size(master72_text_flat):  # pylint:disable=W0621
     clustered = textstyle.cluster.page.cluster(data, selection=selection)
     assert len(master72_text_flat) >= 2000
     # six different font size cluster
-    assert len(clustered) == 7
+    assert len(clustered) == 6
 
 
 def test_cluster_extract_default_textsize(master72_text_flat):  # pylint:disable=W0621
