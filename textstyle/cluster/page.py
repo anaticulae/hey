@@ -11,9 +11,6 @@ import enum
 import typing
 
 import hey.classificator
-import textstyle
-import textstyle.parser
-import textstyle.utils
 
 
 class ClusterProperty(enum.Enum):
