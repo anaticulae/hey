@@ -35,3 +35,11 @@ def test_cluster_size(master116_text_flat):  # pylint:disable=W0621
     assert len(master116_text_flat) >= 2000
     # six different font size cluster
     assert len(clustered) == 6
+
+
+def test_cluster_extract_default_textsize(master116_text_flat):  # pylint:disable=W0621
+    data = master116_text_flat
+    default_text = textstyle.cluster.page.text(data)
+
+    # document text size
+    assert default_text[0] == 12.0
