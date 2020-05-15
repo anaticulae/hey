@@ -13,19 +13,21 @@ import textstyle
 def flatten(pages: textstyle.PageTextPropertiesList) -> textstyle.TextProperties: # yapf:disable
     result = []
     for page in pages:
-        for length, size, font, after in zip(
+        for length, size, font, distance, ypos in zip(
                 page.length,
                 page.sizes,
                 page.fonts,
                 page.distances,
+                page.ypos,
         ):
             result.append(
                 textstyle.TextProperty(
                     length=length,
                     size=size,
                     font=font,
-                    before=None,
-                    after=after,
-                    ypos=None,
+                    before=distance.top,
+                    after=distance.bottom,
+                    top=ypos[0],
+                    bottom=ypos[1],
                 ))
     return result

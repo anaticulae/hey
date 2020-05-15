@@ -7,15 +7,22 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import collections
+import typing
+
 import iamraw
 import texmex
 import utila
 
 import textstyle
 
+VerticalTextDistance = collections.namedtuple(
+    'VerticalTextDistance',
+    'top, bottom',
+)
+VerticalTextDistances = typing.List[VerticalTextDistance]
 
-def parses(navigators: texmex.PageTextNavigators
-          ) -> textstyle.PageTextPropertiesList:
+def parses(navigators: texmex.PageTextNavigators) -> textstyle.PageTextPropertiesList: # yapf:disable
     result = []
     for navigator in navigators:
         parsed = parse(navigator)
@@ -28,11 +35,27 @@ def parse(navigator: texmex.PageTextNavigator) -> textstyle.PageTextProperties:
     distances = textdistances(navigator)
     sizes = textsizes(navigator)
     fonts = textfonts(navigator)
+    vertical = vertical_position(navigator)
 
-    equal_length = [len(item) for item in [lengths, sizes, fonts, distances]]
+    equal_length = [
+        len(item) for item in [
+            lengths,
+            sizes,
+            fonts,
+            distances,
+            vertical,
+        ]
+    ]
     assert len(set(equal_length)) == 1, f'different iterator length {equal_length}' # yapf:disable
 
-    return textstyle.PageTextProperties(lengths, sizes, fonts, distances)
+    result = textstyle.PageTextProperties(
+        lengths,
+        sizes,
+        fonts,
+        distances,
+        vertical,
+    )
+    return result
 
 
 def document_textdistance(navigators) -> float:
@@ -48,20 +71,22 @@ def document_textdistance(navigators) -> float:
     return mode
 
 
-def textdistances(navigator) -> utila.Floats:
-    """Determine the most common text distance"""
+def textdistances(navigator) -> VerticalTextDistances:
     if not navigator:
         return []
-    border = iamraw.Border(0, navigator.width, 0, navigator.height)
-    bounds = texmex.textbounds(navigator, border)
-    # ignore empty content
-    bounds = [item.bounds for item in bounds if len(item.text)]
-    ydist = [item.bottomdist for item in bounds]
-    result = []
-    for yfirst, ysecond in zip(ydist[:-1], ydist[1:]):
-        distance = yfirst - ysecond
-        result.append(distance)
-    result.append(None)
+    if len(navigator) == 1:
+        # no predecessor and successor
+        return [VerticalTextDistance(None, None)]
+    ypos = vertical_position(navigator)
+    # first
+    result = [VerticalTextDistance(None, ypos[0].bottom - ypos[1].bottom)]
+    for before, current, after in zip(ypos[0:-2], ypos[1:-1], ypos[2:]):
+        # middles
+        top_distance = before.bottom - current.bottom
+        bottom_distance = current.bottom - after.bottom
+        result.append(VerticalTextDistance(top_distance, bottom_distance))
+    # last
+    result.append(VerticalTextDistance(ypos[-2].bottom - ypos[-1].bottom, None))
     return result
 
 
@@ -88,3 +113,19 @@ def textfonts(navigator: texmex.PageTextNavigator) -> utila.Ints:
         family = [char.font for char in line.style]
         collected.append(utila.mode(family))
     return collected
+
+
+def vertical_position(navigator) -> VerticalTextDistances:
+    if not navigator:
+        return []
+    border = iamraw.Border(0, navigator.width, 0, navigator.height)
+    bounds = texmex.textbounds(navigator, border)
+    # ignore empty content
+    bounds = [item.bounds for item in bounds if len(item.text)]
+    dist = [
+        VerticalTextDistance(
+            item.topdist,
+            item.bottomdist,
+        ) for item in bounds
+    ]
+    return dist
