@@ -16,16 +16,25 @@ import textstyle.parser
 import textstyle.utils
 
 
-@pytest.fixture
-def master116_text_flat():
+def master116(pages: tuple):
     navigators = serializeraw.create_pagetextnavigators_frompath(
         tests.resources.MASTER72,
         prefix='oneline',
-        pages=tuple(range(3, 65)),
+        pages=pages,
     )
     parsed = textstyle.parser.parses(navigators)
     flat = textstyle.utils.flatten(parsed)
     return flat
+
+
+@pytest.fixture
+def master116_text_flat():
+    return master116(pages=tuple(range(3, 65)))
+
+
+@pytest.fixture
+def master116_text_flat_small():
+    return master116(pages=tuple(range(3, 15)))
 
 
 def test_cluster_size(master116_text_flat):  # pylint:disable=W0621
