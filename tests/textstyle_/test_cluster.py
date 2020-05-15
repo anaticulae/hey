@@ -78,3 +78,17 @@ def test_cluster_extract_headlines_all(master72_text_flat):  # pylint:disable=W0
     assert headlines[0][0] == 15.96, str(headlines)
     assert headlines[1][0] == 14.04, str(headlines)
     assert headlines[2][0] == 12.0, str(headlines)
+
+
+@pytest.mark.parametrize('source, expected', [
+    pytest.param(tests.resources.MASTER116, 10.91, id='master116'),
+    pytest.param(tests.resources.MASTER98, 12.0, id='master98'),
+    pytest.param(tests.resources.MASTER99, 11.04, id='master99'),
+    pytest.param(tests.resources.BACHELOR111, 11.96, id='bachelor111'),
+])
+def test_cluster_extract_textsize(source, expected):
+    flat = navigators(source, pages=None)
+    default_text = textstyle.cluster.page.text(flat)
+
+    # document text size
+    assert default_text[0] == expected

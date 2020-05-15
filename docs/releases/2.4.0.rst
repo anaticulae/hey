@@ -13,9 +13,9 @@ textstyle
 
 * [ ] group by chunks and lines
 
-* [ ] text
+* [x] text
 
-* [ ] hx: h1,h2,h3
+* [x] hx: h1,h2,h3
 
 * [ ] footer
 
