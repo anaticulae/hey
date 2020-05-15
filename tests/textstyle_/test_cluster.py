@@ -52,3 +52,8 @@ def test_cluster_extract_default_textsize(master116_text_flat):  # pylint:disabl
 
     # document text size
     assert default_text[0] == 12.0
+
+
+def test_cluster_extract_pagenumber(master116_text_flat_small):  # pylint:disable=W0621
+    pagenumber = textstyle.cluster.page.pagenumber(master116_text_flat_small)
+    assert pagenumber[0] == 11.04, pagenumber

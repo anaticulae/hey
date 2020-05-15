@@ -13,6 +13,7 @@ import typing
 import hey.classificator
 import textstyle
 import textstyle.parser
+import textstyle.utils
 
 
 class ClusterProperty(enum.Enum):
@@ -26,9 +27,15 @@ class ClusterProperty(enum.Enum):
 ClusterPropertySelection = typing.List[ClusterProperty]
 
 
-def cluster(items, selection: ClusterPropertySelection = None):
+def cluster(
+        items,
+        selection: ClusterPropertySelection = None,
+        validator: callable = None,
+):
     if selection:
         selection = set(selection)
+    if validator:
+        items = [item for item in items if validator(item)]
 
     def classifier(candidat, clusteritem):
         if selection is None or ClusterProperty.SIZE in selection:
@@ -51,6 +58,20 @@ def cluster(items, selection: ClusterPropertySelection = None):
 
 def text(flats):
     clustered = cluster(flats, (ClusterProperty.SIZE, ClusterProperty.FONT))
+    return bestmatch(clustered)
+
+
+def pagenumber(flats):
+    clustered = cluster(
+        flats,
+        (ClusterProperty.SIZE, ClusterProperty.FONT),
+        validator=lambda item: item.length <= 6,
+    )
+    assert len(clustered) == 1, len(clustered)
+    return bestmatch(clustered)
+
+
+def bestmatch(clustered):
     largest_cluster_first_item = clustered[0].content[0]
     size = largest_cluster_first_item.size
     font = largest_cluster_first_item.font
