@@ -73,7 +73,6 @@ if __name__ == "__main__":
             'textstyle',
             'textstyle.cluster',
             'textstyle.extractor',
-            'textstyle.parse',
         ],
         entry_points={
             'console_scripts': [

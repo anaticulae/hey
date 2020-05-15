@@ -12,6 +12,7 @@ import typing
 
 import hey.classificator
 import textstyle
+import textstyle.parser
 
 
 class ClusterProperty(enum.Enum):
@@ -23,27 +24,6 @@ class ClusterProperty(enum.Enum):
 
 
 ClusterPropertySelection = typing.List[ClusterProperty]
-
-
-def flatten(pages: textstyle.PageTextPropertiesList) -> textstyle.TextProperties: # yapf:disable
-    result = []
-    for page in pages:
-        for length, size, font, after in zip(
-                page.length,
-                page.sizes,
-                page.fonts,
-                page.distances,
-        ):
-            result.append(
-                textstyle.TextProperty(
-                    length=length,
-                    size=size,
-                    font=font,
-                    before=None,
-                    after=after,
-                    ypos=None,
-                ))
-    return result
 
 
 def cluster(items, selection: ClusterPropertySelection = None):

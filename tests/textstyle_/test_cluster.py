@@ -12,7 +12,8 @@ import serializeraw
 
 import tests.resources
 import textstyle.cluster.page
-import textstyle.parse.page
+import textstyle.parser
+import textstyle.utils
 
 
 @pytest.fixture
@@ -22,8 +23,8 @@ def master116_text_flat():
         prefix='oneline',
         pages=tuple(range(3, 65)),
     )
-    parsed = textstyle.parse.page.parses(navigators)
-    flat = textstyle.cluster.page.flatten(parsed)
+    parsed = textstyle.parser.parses(navigators)
+    flat = textstyle.utils.flatten(parsed)
     return flat
 
 

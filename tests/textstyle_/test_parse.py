@@ -12,7 +12,8 @@ import serializeraw
 
 import tests.resources
 import textstyle.cluster.page
-import textstyle.parse.page
+import textstyle.parser
+import textstyle.utils
 
 
 @pytest.fixture
@@ -26,11 +27,11 @@ def master116_text():
 
 
 def test_textstyle_parse_page(master116_text):  # pylint:disable=W0621
-    parsed = textstyle.parse.page.parses(master116_text)
+    parsed = textstyle.parser.parses(master116_text)
     assert len(parsed) == len(master116_text)
 
 
 def test_flatten_textproperties(master116_text):  # pylint:disable=W0621
-    parsed = textstyle.parse.page.parses(master116_text)
-    flat = textstyle.cluster.page.flatten(parsed)
+    parsed = textstyle.parser.parses(master116_text)
+    flat = textstyle.utils.flatten(parsed)
     assert len(flat) >= len(master116_text) * 5
