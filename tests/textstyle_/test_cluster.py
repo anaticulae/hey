@@ -29,7 +29,7 @@ def master116(pages: tuple):
 
 @pytest.fixture
 def master116_text_flat():
-    return master116(pages=tuple(range(3, 65)))
+    return master116(pages=tuple(range(3, 86)))
 
 
 @pytest.fixture
