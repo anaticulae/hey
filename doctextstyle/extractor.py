@@ -11,6 +11,8 @@ import serializeraw
 
 import doctextstyle
 import doctextstyle.features
+import doctextstyle.parser
+import doctextstyle.utils
 
 
 def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:
