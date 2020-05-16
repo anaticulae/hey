@@ -77,6 +77,7 @@ if __name__ == "__main__":
                 'detector = detector.cli:main',
                 'groupme = groupme.cli:main',
                 'hey = hey.cli:main',
+                'textstyle = textstyle.cli:main',
             ],
         },
     )

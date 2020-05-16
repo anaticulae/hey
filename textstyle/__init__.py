@@ -9,7 +9,16 @@
 
 import collections
 import dataclasses
+import os
 import typing
+
+import hey
+
+__version__ = hey.__version__
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+PROCESS = 'textstyle'
 
 PageTextProperties = collections.namedtuple(
     'PageTextProperties',

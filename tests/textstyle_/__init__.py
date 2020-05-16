@@ -6,3 +6,23 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+
+import functools
+
+import utila
+
+import textstyle
+import textstyle.cli
+
+run = functools.partial(  #pylint: disable=invalid-name
+    utila.run_command,
+    main=textstyle.cli.main,
+    process=textstyle.PROCESS,
+    success=True,
+)
+fail = functools.partial(  #pylint: disable=invalid-name
+    utila.run_command,
+    main=textstyle.cli.main,
+    process=textstyle.PROCESS,
+    success=False,
+)
