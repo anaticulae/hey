@@ -13,12 +13,10 @@ import serializeraw
 import texmex
 import utila
 
-import detector.cli
 import detector.feature.titlepage
 import detector.parser.complete
 import tests
 import tests.fixtures.titlepage
-import tests.resources
 
 
 @pytest.mark.parametrize('page, expected', [

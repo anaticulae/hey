@@ -12,7 +12,6 @@ import serializeraw
 import utila
 
 import detector.bibliography.alternate
-import detector.bibliography.column
 import tests.resources
 
 

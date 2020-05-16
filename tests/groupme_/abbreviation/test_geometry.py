@@ -12,7 +12,6 @@ import serializeraw
 import utila
 
 import groupme.abbreviation.geometry
-import groupme.abbreviation.parser
 import tests.resources
 
 
