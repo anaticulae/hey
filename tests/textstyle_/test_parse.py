@@ -11,7 +11,6 @@ import pytest
 import serializeraw
 
 import tests.resources
-import textstyle.cluster.page
 import textstyle.parser
 import textstyle.utils
 
