@@ -38,10 +38,10 @@ def extract(path: str, pages: tuple = None) -> textstyle.DocTextStyle:
 
     footnotes = textstyle.features.footnote(flat)
     if footnotes:
-        footnotes_after = footnotes[3][1]
-        result.footnotes_size = footnotes[0]
-        result.footnotes_family = footnotes[1]
-        result.footnotes_distance = footnotes_after
+        footnote_after = footnotes[3][1]
+        result.footnote_size = footnotes[0]
+        result.footnote_family = footnotes[1]
+        result.footnote_distance = footnote_after
 
     headlines = textstyle.features.headlines(flat)
     if headlines:

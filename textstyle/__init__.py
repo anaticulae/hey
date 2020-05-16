@@ -48,9 +48,9 @@ class DocTextStyle:
     pagenumber_size: float = None
     pagenumber_family: int = None
 
-    footnotes_size: float = None
-    footnotes_distance: float = None
-    footnotes_family: int = None
+    footnote_size: float = None
+    footnote_distance: float = None
+    footnote_family: int = None
 
     list_size: float = None
     list_before: float = None  # distance to text
