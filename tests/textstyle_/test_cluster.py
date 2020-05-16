@@ -13,8 +13,10 @@ import utila
 
 import tests.resources
 import textstyle.cluster
+import textstyle.doctextstyle
 import textstyle.features
 import textstyle.parser
+import textstyle.serialize
 import textstyle.utils
 
 
@@ -148,3 +150,13 @@ def test_cluster_extract_paragraph(source, expected):
     flat = navigators(source, pages=None)
     paragraph = textstyle.features.paragraph(flat)
     assert paragraph == expected
+
+
+def test_doctextstyle_dump_load():
+    source = tests.resources.MASTER98
+    result = textstyle.doctextstyle.extract(source)
+    assert result
+
+    dumped = textstyle.serialize.dump_docstyle(result)
+    loaded = textstyle.serialize.load_docstyle(dumped)
+    assert loaded == result

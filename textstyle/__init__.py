@@ -8,6 +8,7 @@
 # =============================================================================
 
 import collections
+import dataclasses
 import typing
 
 PageTextProperties = collections.namedtuple(
@@ -21,3 +22,38 @@ TextProperty = collections.namedtuple(
     'length, hashed, size, font, before, after, top, bottom',
 )
 TextProperties = typing.List[TextProperty]
+
+
+@dataclasses.dataclass
+class DocTextStyle:
+    text_size: float = None
+    text_distance: float = None
+    text_family: int = None
+
+    h1_size: float = None
+    h1_before: float = None
+    h1_after: float = None
+    h1_family: int = None
+
+    h2_size: float = None
+    h2_before: float = None
+    h2_after: float = None
+    h2_family: int = None
+
+    h3_size: float = None
+    h3_before: float = None
+    h3_after: float = None
+    h3_family: int = None
+
+    pagenumber_size: float = None
+    pagenumber_family: int = None
+
+    footnotes_size: float = None
+    footnotes_distance: float = None
+    footnotes_family: int = None
+
+    list_size: float = None
+    list_before: float = None  # distance to text
+    list_distance: float = None  # distance in list items
+    list_after: float = None  # distance to text
+    list_family: int = None
