@@ -2,6 +2,33 @@
 
 Every noteable change is logged here.
 
+## v2.4.0
+
+### Feature
+
+* add description of the tool purpose (9c6cac6e0609)
+* add command line interface (361c269a2d31)
+* extract common doc textstyle (201731cedb06)
+* add collection to store expected docstyle (7470aa5f1097)
+* add paragraph distance gap extractor (494595817111)
+* add footer style extraction detector (d3186937c355)
+* add parameter to return selected cluster (e24a0f442efd)
+* add first and second headline extractor (babddcac6670)
+* add method to determine pagenumber style (61cba5899519)
+* add distance to element before (9284cfb0cb32)
+* add method to determine default text size/font of document (753765161619)
+* cluster extracted text attributes (15f370ae5eea)
+* add basic textstyle evaluator (ce492ae5e0f6)
+* extend letter start parsing (88b83370db15)
+* extend allowed accepted character in toc text (c4962b0ea5db)
+
+### Fix
+
+* use most common font style instead of first font size (c48566188c36)
+* do not produce None at big failure counts (68387f036a27)
+* catch empty line gap (2ca490c35cf2)
+* ensure to parse vowels correctly (0b6d52821556)
+
 ## v2.3.1
 
 ## v2.3.0
