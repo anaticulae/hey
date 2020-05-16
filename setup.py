@@ -71,7 +71,6 @@ if __name__ == "__main__":
             'hey.geometry',
             'hey.text',
             'textstyle',
-            'textstyle.extractor',
         ],
         entry_points={
             'console_scripts': [
