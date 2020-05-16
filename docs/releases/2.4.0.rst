@@ -9,10 +9,6 @@ textstyle
 * [x] extract text attributes(size, family, line distance(before, after),
   char count)
 
-* [ ] extract detected location
-
-* [ ] group by chunks and lines
-
 * [x] text
 
 * [x] hx: h1,h2,h3

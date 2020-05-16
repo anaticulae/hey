@@ -19,3 +19,10 @@ backlog
         width=371, height=14)), TextBoundsInfo(text='2.1 Grundlagen . . . .
         . . . . . . . . . . . . . . . . . . . . . . . . 3',
         bounds=TextBounds(xdist=120, ydist=317, width=371, height=14))]
+
+doctextstyle
+------------
+
+* [/] extract detected location
+
+* [/] group by chunks
