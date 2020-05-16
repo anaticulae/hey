@@ -7,13 +7,22 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import textstyle.cluster
+import functools
 
+import utila
 
-def test_cluster_size(master72_text_flat):  # pylint:disable=W0621
-    data = master72_text_flat
-    selection = (textstyle.cluster.ClusterProperty.SIZE,)
-    clustered = textstyle.cluster.cluster(data, selection=selection)
-    assert len(master72_text_flat) >= 2000
-    # six different font size cluster
-    assert len(clustered) == 6
+import doctextstyle
+import doctextstyle.cli
+
+run = functools.partial(  #pylint: disable=invalid-name
+    utila.run_command,
+    main=doctextstyle.cli.main,
+    process=doctextstyle.PROCESS,
+    success=True,
+)
+fail = functools.partial(  #pylint: disable=invalid-name
+    utila.run_command,
+    main=doctextstyle.cli.main,
+    process=doctextstyle.PROCESS,
+    success=False,
+)

@@ -10,9 +10,9 @@
 import pytest
 import serializeraw
 
+import doctextstyle.parser
+import doctextstyle.utils
 import tests.resources
-import textstyle.parser
-import textstyle.utils
 
 
 def navigators(source: str, pages: tuple):
@@ -21,8 +21,8 @@ def navigators(source: str, pages: tuple):
         prefix='oneline',
         pages=pages,
     )
-    parsed = textstyle.parser.parses(loaded)
-    flat = textstyle.utils.flatten(parsed)
+    parsed = doctextstyle.parser.parses(loaded)
+    flat = doctextstyle.utils.flatten(parsed)
     return flat
 
 

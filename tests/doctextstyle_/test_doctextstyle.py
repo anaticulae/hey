@@ -7,23 +7,23 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import doctextstyle.extractor
+import doctextstyle.serialize
 import tests.resources
-import textstyle.extractor
-import textstyle.serialize
 
 
 def test_doctextstyle_dump_load():
-    result = textstyle.DocTextStyle()
+    result = doctextstyle.DocTextStyle()
     assert result
 
-    dumped = textstyle.serialize.dump_docstyle(result)
-    loaded = textstyle.serialize.load_docstyle(dumped)
+    dumped = doctextstyle.serialize.dump_docstyle(result)
+    loaded = doctextstyle.serialize.load_docstyle(dumped)
     assert loaded == result
 
 
 def test_doctextstyle_extract():
     source = tests.resources.MASTER98
-    result = textstyle.extractor.extract(source)
+    result = doctextstyle.extractor.extract(source)
     assert result
 
     assert result.text_size == 12.0

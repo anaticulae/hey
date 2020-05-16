@@ -10,26 +10,26 @@
 import pytest
 import utila
 
+import doctextstyle.features
+import tests.doctextstyle_.conftest
 import tests.resources
-import tests.textstyle_.conftest
-import textstyle.features
 
 
 def test_cluster_extract_default_textsize(master72_text_flat):
     data = master72_text_flat
-    default_text = textstyle.features.text(data)
+    default_text = doctextstyle.features.text(data)
 
     # document text size
     assert default_text[0] == 12.0
 
 
 def test_cluster_extract_pagenumber(master72_text_flat_small):
-    pagenumber = textstyle.features.pagenumber(master72_text_flat_small)
+    pagenumber = doctextstyle.features.pagenumber(master72_text_flat_small)
     assert pagenumber[0] == 11.04, pagenumber
 
 
 def test_cluster_extract_headlines_small(master72_text_flat_small):
-    headlines = textstyle.features.headlines(
+    headlines = doctextstyle.features.headlines(
         master72_text_flat_small,
         min_headline_count=3,
     )
@@ -39,13 +39,13 @@ def test_cluster_extract_headlines_small(master72_text_flat_small):
 
 
 def test_cluster_extract_headlines_all(master72_text_flat):
-    headlines = textstyle.features.headlines(master72_text_flat)
+    headlines = doctextstyle.features.headlines(master72_text_flat)
     assert len(headlines) == 3
     assert headlines[0][0] == 15.96, str(headlines)
     assert headlines[1][0] == 14.04, str(headlines)
     assert headlines[2][0] == 12.0, str(headlines)
 
-    headlines = textstyle.features.headlines(
+    headlines = doctextstyle.features.headlines(
         master72_text_flat,
         returncluster=True,
     )
@@ -60,14 +60,14 @@ def test_cluster_extract_headlines_all(master72_text_flat):
 ])
 @utila.skip_longrun
 def test_cluster_extract_textsize(source, expected):
-    flat = tests.textstyle_.conftest.navigators(source, pages=None)
-    default_text = textstyle.features.text(flat)
+    flat = tests.doctextstyle_.conftest.navigators(source, pages=None)
+    default_text = doctextstyle.features.text(flat)
     # document text size
     assert default_text[0] == expected
 
 
 def test_cluster_extract_footer_small(master72_text_flat_small):
-    footnotes = textstyle.features.footnote(master72_text_flat_small)
+    footnotes = doctextstyle.features.footnote(master72_text_flat_small)
     fontsize, fontdistance = footnotes[0], footnotes[3]
     assert fontsize == 9.96
     assert fontdistance == (12, 11)
@@ -81,8 +81,8 @@ def test_cluster_extract_footer_small(master72_text_flat_small):
 ])
 @utila.skip_longrun
 def test_cluster_extract_footnote(source, expected):
-    flat = tests.textstyle_.conftest.navigators(source, pages=None)
-    footnotes = textstyle.features.footnote(flat)
+    flat = tests.doctextstyle_.conftest.navigators(source, pages=None)
+    footnotes = doctextstyle.features.footnote(flat)
     if expected is None:
         assert footnotes is None
         return
@@ -91,7 +91,7 @@ def test_cluster_extract_footnote(source, expected):
 
 
 def test_cluster_extract_paragraph_small(master72_text_flat_small):
-    paragraph = textstyle.features.paragraph(master72_text_flat_small)
+    paragraph = doctextstyle.features.paragraph(master72_text_flat_small)
     expected = (31, 31)
     assert paragraph == expected, str(paragraph)
 
@@ -106,6 +106,6 @@ def test_cluster_extract_paragraph_small(master72_text_flat_small):
 def test_cluster_extract_paragraph(source, expected):
     # TODO: VALIDATE EXPECTED LINE DISTANCE, CURRENTLY THERE ARE NOT
     # CHECKED YET.
-    flat = tests.textstyle_.conftest.navigators(source, pages=None)
-    paragraph = textstyle.features.paragraph(flat)
+    flat = tests.doctextstyle_.conftest.navigators(source, pages=None)
+    paragraph = doctextstyle.features.paragraph(flat)
     assert paragraph == expected

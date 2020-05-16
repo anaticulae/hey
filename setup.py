@@ -70,14 +70,14 @@ if __name__ == "__main__":
             'hey',
             'hey.geometry',
             'hey.text',
-            'textstyle',
+            'doctextstyle',
         ],
         entry_points={
             'console_scripts': [
                 'detector = detector.cli:main',
                 'groupme = groupme.cli:main',
                 'hey = hey.cli:main',
-                'textstyle = textstyle.cli:main',
+                'doctextstyle = doctextstyle.cli:main',
             ],
         },
     )

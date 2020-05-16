@@ -7,10 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import textstyle
+import doctextstyle
 
 
-def flatten(pages: textstyle.PageTextPropertiesList) -> textstyle.TextProperties: # yapf:disable
+def flatten(pages: doctextstyle.PageTextPropertiesList) -> doctextstyle.TextProperties: # yapf:disable
     result = []
     for page in pages:
         for length, hashed, size, font, distance, ypos in zip(
@@ -22,7 +22,7 @@ def flatten(pages: textstyle.PageTextPropertiesList) -> textstyle.TextProperties
                 page.ypos,
         ):
             result.append(
-                textstyle.TextProperty(
+                doctextstyle.TextProperty(
                     length=length,
                     hashed=hashed,
                     size=size,

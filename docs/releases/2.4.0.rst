@@ -3,8 +3,8 @@
 RP 2.4.0
 =========
 
-textstyle
----------
+doctextstyle
+------------
 
 * [x] extract text attributes(size, family, line distance(before, after),
   char count)

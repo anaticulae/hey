@@ -18,7 +18,7 @@ __version__ = hey.__version__
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-PROCESS = 'textstyle'
+PROCESS = 'doctextstyle'
 
 PageTextProperties = collections.namedtuple(
     'PageTextProperties',

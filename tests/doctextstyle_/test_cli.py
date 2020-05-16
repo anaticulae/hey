@@ -9,23 +9,23 @@
 
 import os
 
+import doctextstyle.cli
+import doctextstyle.serialize
+import tests.doctextstyle_
 import tests.resources
-import tests.textstyle_
-import textstyle.cli
-import textstyle.serialize
 
 
 def test_textstyle_cli_help(monkeypatch):
-    tests.textstyle_.run('--help', monkeypatch=monkeypatch)
+    tests.doctextstyle_.run('--help', monkeypatch=monkeypatch)
 
 
 def test_textstyle_cli(testdir, monkeypatch):
     source = tests.resources.MASTER72
     outdir = os.path.join(testdir.tmpdir, 'helm/schelm')
-    tests.textstyle_.run(f'-i {source} -o {outdir}', monkeypatch=monkeypatch)
+    tests.doctextstyle_.run(f'-i {source} -o {outdir}', monkeypatch=monkeypatch)
 
-    outpath = os.path.join(outdir, textstyle.cli.DEFAULT_OUTPUT_FILE)
+    outpath = os.path.join(outdir, doctextstyle.cli.DEFAULT_OUTPUT_FILE)
     assert os.path.exists(outpath)
 
-    docstyle = textstyle.serialize.load_docstyle(outpath)
+    docstyle = doctextstyle.serialize.load_docstyle(outpath)
     assert docstyle

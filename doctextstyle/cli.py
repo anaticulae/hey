@@ -12,9 +12,9 @@ import os
 import utila
 import utila.cli
 
-import textstyle
-import textstyle.extractor
-import textstyle.serialize
+import doctextstyle
+import doctextstyle.extractor
+import doctextstyle.serialize
 
 DEFAULT_OUTPUT_FILE = 'docstyle__textstyle.yaml'
 
@@ -30,8 +30,8 @@ def main() -> int:
             prefix=False,
             pages=True,
         ),
-        version=textstyle.__version__,
-        prog=textstyle.PROCESS,
+        version=doctextstyle.__version__,
+        prog=doctextstyle.PROCESS,
     )
     args = utila.parse(parser)
     selected_pages = pages_fromargs(args)
@@ -47,13 +47,13 @@ def main() -> int:
     os.makedirs(parent, exist_ok=True)
 
     try:
-        extracted = textstyle.extractor.extract(inpath, pages=selected_pages)
+        extracted = doctextstyle.extractor.extract(inpath, pages=selected_pages)
     except FileNotFoundError as error:
         utila.error('missing input location')
         utila.error(f'{error}')
         return utila.FAILURE
 
-    dumped = textstyle.serialize.dump_docstyle(extracted)
+    dumped = doctextstyle.serialize.dump_docstyle(extracted)
     utila.file_replace(outpath, dumped)
     return utila.SUCCESS
 

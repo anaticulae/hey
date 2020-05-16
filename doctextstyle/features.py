@@ -9,16 +9,16 @@
 
 import utila
 
+import doctextstyle.cluster
 import hey.classificator
-import textstyle.cluster
 
 
 def text(flats, returncluster: bool = False):
-    clustered = textstyle.cluster.cluster(flats, (
-        textstyle.cluster.ClusterProperty.SIZE,
-        textstyle.cluster.ClusterProperty.FONT,
+    clustered = doctextstyle.cluster.cluster(flats, (
+        doctextstyle.cluster.ClusterProperty.SIZE,
+        doctextstyle.cluster.ClusterProperty.FONT,
     ))
-    result = textstyle.cluster.bestmatch(clustered)
+    result = doctextstyle.cluster.bestmatch(clustered)
     if returncluster:
         return result, clustered[0] if clustered else []
     return result
@@ -33,23 +33,23 @@ def pagenumber(flats, returncluster: bool = False):
             return False
         return item.length <= 6
 
-    clustered = textstyle.cluster.cluster(
+    clustered = doctextstyle.cluster.cluster(
         flats,
         (
-            textstyle.cluster.ClusterProperty.SIZE,
-            textstyle.cluster.ClusterProperty.FONT,
+            doctextstyle.cluster.ClusterProperty.SIZE,
+            doctextstyle.cluster.ClusterProperty.FONT,
         ),
         validator=validator,
     )
     # assert len(clustered) == 1, len(clustered)
-    result = textstyle.cluster.bestmatch(clustered)
+    result = doctextstyle.cluster.bestmatch(clustered)
     if returncluster:
         return result, clustered[0] if clustered else []
     return result
 
 
 def headlines(  # pylint:disable=R1260,R0914
-        flats: textstyle.TextProperties,
+        flats: doctextstyle.TextProperties,
         min_headline_count: int = 5,
         greater_than_text: bool = True,
         returncluster: bool = False,
@@ -57,8 +57,8 @@ def headlines(  # pylint:disable=R1260,R0914
     _text = text(flats, returncluster=True)
     _pagenumber = pagenumber(flats, returncluster=True)
 
-    flats = textstyle.cluster.remove(flats, _text[1])
-    flats = textstyle.cluster.remove(flats, _pagenumber[1])
+    flats = doctextstyle.cluster.remove(flats, _text[1])
+    flats = doctextstyle.cluster.remove(flats, _pagenumber[1])
 
     textsize = _text[0][0]
     text_before, text_after = _text[0][3]
@@ -77,9 +77,9 @@ def headlines(  # pylint:disable=R1260,R0914
             return False
         return True
 
-    clustered = textstyle.cluster.cluster(
+    clustered = doctextstyle.cluster.cluster(
         flats,
-        (textstyle.cluster.ClusterProperty.SIZE,),
+        (doctextstyle.cluster.ClusterProperty.SIZE,),
         validator=valid_headline,
         minsize=min_headline_count,
     )
@@ -94,7 +94,10 @@ def headlines(  # pylint:disable=R1260,R0914
     result_cluster = []
     for index in range(5):
         # analyse maximal five headline levels
-        matched = textstyle.cluster.bestmatch(largest_font_size, number=index)  # pylint:disable=C0103
+        matched = doctextstyle.cluster.bestmatch(
+            largest_font_size,
+            number=index,
+        )  # pylint:disable=C0103
         if not matched:
             continue
         result.append(matched)
@@ -107,32 +110,32 @@ def headlines(  # pylint:disable=R1260,R0914
 MIN_FOOTNOTES_COUNT = 10  # TODO: HOLY VALUE
 
 
-def footnote(flats: textstyle.TextProperties):
+def footnote(flats: doctextstyle.TextProperties):
     _text = text(flats, returncluster=True)
     _pagenumber = pagenumber(flats, returncluster=True)
     _headlines = headlines(flats, returncluster=True)
 
-    flats = textstyle.cluster.remove(flats, _text[1])
-    flats = textstyle.cluster.remove(flats, _pagenumber[1])
+    flats = doctextstyle.cluster.remove(flats, _text[1])
+    flats = doctextstyle.cluster.remove(flats, _pagenumber[1])
     for item in _headlines[1]:
-        flats = textstyle.cluster.remove(flats, item)
+        flats = doctextstyle.cluster.remove(flats, item)
 
     def validator(item) -> bool:
         # Shrink footnotes to bottom area
         return item.bottom < 150 and item.length >= 25  # TODO:HOLY VALUE
 
-    clustered = textstyle.cluster.cluster(
+    clustered = doctextstyle.cluster.cluster(
         flats,
-        (textstyle.cluster.ClusterProperty.SIZE,),
+        (doctextstyle.cluster.ClusterProperty.SIZE,),
         validator=validator,
         minsize=MIN_FOOTNOTES_COUNT,
         unique_content=True,
     )
-    result = textstyle.cluster.bestmatch(clustered)
+    result = doctextstyle.cluster.bestmatch(clustered)
     return result
 
 
-def paragraph(flats: textstyle.TextProperties):
+def paragraph(flats: doctextstyle.TextProperties):
     """Determine distance before and after a closed text block.
 
     This distance can be the distance to headlines, citation blocks and

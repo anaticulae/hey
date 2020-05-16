@@ -9,41 +9,41 @@
 
 import serializeraw
 
-import textstyle
-import textstyle.features
+import doctextstyle
+import doctextstyle.features
 
 
-def extract(path: str, pages: tuple = None) -> textstyle.DocTextStyle:
+def extract(path: str, pages: tuple = None) -> doctextstyle.DocTextStyle:
     loaded = serializeraw.create_pagetextnavigators_frompath(
         path,
         prefix='oneline',
         pages=pages,
     )
-    parsed = textstyle.parser.parses(loaded)
-    flat = textstyle.utils.flatten(parsed)
+    parsed = doctextstyle.parser.parses(loaded)
+    flat = doctextstyle.utils.flatten(parsed)
 
-    text = textstyle.features.text(flat)
+    text = doctextstyle.features.text(flat)
     text_after = text[3][1]
 
-    result = textstyle.DocTextStyle(
+    result = doctextstyle.DocTextStyle(
         text_size=text[0],
         text_distance=text_after,
         text_family=text[1],
     )
 
-    pagenumber = textstyle.features.pagenumber(flat)
+    pagenumber = doctextstyle.features.pagenumber(flat)
     if pagenumber:
         result.pagenumber_size = pagenumber[0]
         result.pagenumber_family = pagenumber[1]
 
-    footnotes = textstyle.features.footnote(flat)
+    footnotes = doctextstyle.features.footnote(flat)
     if footnotes:
         footnote_after = footnotes[3][1]
         result.footnote_size = footnotes[0]
         result.footnote_family = footnotes[1]
         result.footnote_distance = footnote_after
 
-    headlines = textstyle.features.headlines(flat)
+    headlines = doctextstyle.features.headlines(flat)
     if headlines:
         result.h1_size = headlines[0][0]
         result.h1_family = headlines[0][1]

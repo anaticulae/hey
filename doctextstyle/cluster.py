@@ -12,9 +12,9 @@ import typing
 
 import utila
 
+import doctextstyle
+import doctextstyle.utils
 import hey.classificator
-import textstyle
-import textstyle.utils
 
 
 class ClusterProperty(enum.Enum):
@@ -29,7 +29,7 @@ ClusterPropertySelection = typing.List[ClusterProperty]
 
 
 def cluster(  # pylint:disable=R1260
-        items: textstyle.TextProperties,
+        items: doctextstyle.TextProperties,
         selection: ClusterPropertySelection = None,
         validator: callable = None,
         *,

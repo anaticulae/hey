@@ -10,16 +10,16 @@
 import utila
 import yaml
 
-import textstyle
+import doctextstyle
 
 
-def load_docstyle(content: str) -> textstyle.DocTextStyle:
+def load_docstyle(content: str) -> doctextstyle.DocTextStyle:
     content = utila.from_raw_or_path(content, ftype='yaml')
     loaded = yaml.load(content, Loader=yaml.FullLoader)
     return loaded
 
 
-def dump_docstyle(style: textstyle.DocTextStyle) -> str:
-    assert isinstance(style, textstyle.DocTextStyle)
+def dump_docstyle(style: doctextstyle.DocTextStyle) -> str:
+    assert isinstance(style, doctextstyle.DocTextStyle)
     dumped = yaml.dump(style)
     return dumped

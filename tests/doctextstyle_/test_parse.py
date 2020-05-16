@@ -10,9 +10,9 @@
 import pytest
 import serializeraw
 
+import doctextstyle.parser
+import doctextstyle.utils
 import tests.resources
-import textstyle.parser
-import textstyle.utils
 
 
 @pytest.fixture
@@ -26,11 +26,11 @@ def master116_text():
 
 
 def test_textstyle_parse_page(master116_text):  # pylint:disable=W0621
-    parsed = textstyle.parser.parses(master116_text)
+    parsed = doctextstyle.parser.parses(master116_text)
     assert len(parsed) == len(master116_text)
 
 
 def test_flatten_textproperties(master116_text):  # pylint:disable=W0621
-    parsed = textstyle.parser.parses(master116_text)
-    flat = textstyle.utils.flatten(parsed)
+    parsed = doctextstyle.parser.parses(master116_text)
+    flat = doctextstyle.utils.flatten(parsed)
     assert len(flat) >= len(master116_text) * 5
