@@ -7,13 +7,13 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import textstyle.cluster
+import textstyle.serialize
 
 
-def test_cluster_size(master72_text_flat):  # pylint:disable=W0621
-    data = master72_text_flat
-    selection = (textstyle.cluster.ClusterProperty.SIZE,)
-    clustered = textstyle.cluster.cluster(data, selection=selection)
-    assert len(master72_text_flat) >= 2000
-    # six different font size cluster
-    assert len(clustered) == 6
+def test_doctextstyle_dump_load():
+    result = textstyle.DocTextStyle()
+    assert result
+
+    dumped = textstyle.serialize.dump_docstyle(result)
+    loaded = textstyle.serialize.load_docstyle(dumped)
+    assert loaded == result
