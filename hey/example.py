@@ -33,6 +33,7 @@ def extract(  # pylint:disable=R0914
         sections: bool = True,
         words: bool = True,
         detector: bool = True,
+        doctextstyle: bool = True,
 ):
     """Run rawmaker, groupme, sections and words for given `files` and write
     result to `destination`.
@@ -48,6 +49,7 @@ def extract(  # pylint:disable=R0914
         sections(bool): run if True
         words(bool): run if True
         detector(bool): run if True
+        doctextstyle(bool): run if True
     Raises:
         Exception: if Exception occurs while extracting file
     """
@@ -59,6 +61,7 @@ def extract(  # pylint:disable=R0914
         sections=sections,
         words=words,
         detector=detector,
+        doctextstyle=doctextstyle,
     )
     with concurrent.futures.ThreadPoolExecutor(max_workers=worker) as executor:
         futures = [executor.submit(run_job, job) for job in todo]
@@ -80,6 +83,7 @@ def todolist(
         sections: bool = True,
         words: bool = True,
         detector: bool = True,
+        doctextstyle: bool = True,
 ):
     """Create todo list to extract resources.
 
@@ -91,6 +95,7 @@ def todolist(
         'sections': sections,
         'words': words,
         'detector': detector,
+        'doctextstyle': doctextstyle,
     }
     todo = generate(files, destination, pages=pages, config=config)
     return todo
@@ -168,5 +173,7 @@ def create_job(
         task.append(f'words -j 8 -i {dest} -o {dest}')
     if config.get('detector', False):
         task.append(f'detector -i {dest} -o {dest}')
+    if config.get('doctextstyle', False):
+        task.append(f'doctextstyle -i {dest} -o {dest}')
     todo = ' && '.join(task)
     return todo
