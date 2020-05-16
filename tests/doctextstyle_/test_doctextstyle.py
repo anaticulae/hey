@@ -7,13 +7,14 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import doctextstyle.data
 import doctextstyle.extractor
 import doctextstyle.serialize
 import tests.resources
 
 
 def test_doctextstyle_dump_load():
-    result = doctextstyle.DocTextStyle()
+    result = doctextstyle.data.DocTextStyle()
     assert result
 
     dumped = doctextstyle.serialize.dump_docstyle(result)

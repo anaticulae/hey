@@ -12,8 +12,7 @@ import typing
 
 import utila
 
-import doctextstyle
-import doctextstyle.utils
+import doctextstyle.data
 import hey.classificator
 
 
@@ -29,7 +28,7 @@ ClusterPropertySelection = typing.List[ClusterProperty]
 
 
 def cluster(  # pylint:disable=R1260
-        items: doctextstyle.TextProperties,
+        items: doctextstyle.data.TextProperties,
         selection: ClusterPropertySelection = None,
         validator: callable = None,
         *,

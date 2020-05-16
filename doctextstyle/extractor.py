@@ -13,7 +13,7 @@ import doctextstyle
 import doctextstyle.features
 
 
-def extract(path: str, pages: tuple = None) -> doctextstyle.DocTextStyle:
+def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:
     loaded = serializeraw.create_pagetextnavigators_frompath(
         path,
         prefix='oneline',
@@ -25,7 +25,7 @@ def extract(path: str, pages: tuple = None) -> doctextstyle.DocTextStyle:
     text = doctextstyle.features.text(flat)
     text_after = text[3][1]
 
-    result = doctextstyle.DocTextStyle(
+    result = doctextstyle.data.DocTextStyle(
         text_size=text[0],
         text_distance=text_after,
         text_family=text[1],

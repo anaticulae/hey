@@ -49,7 +49,7 @@ def pagenumber(flats, returncluster: bool = False):
 
 
 def headlines(  # pylint:disable=R1260,R0914
-        flats: doctextstyle.TextProperties,
+        flats: doctextstyle.data.TextProperties,
         min_headline_count: int = 5,
         greater_than_text: bool = True,
         returncluster: bool = False,
@@ -110,7 +110,7 @@ def headlines(  # pylint:disable=R1260,R0914
 MIN_FOOTNOTES_COUNT = 10  # TODO: HOLY VALUE
 
 
-def footnote(flats: doctextstyle.TextProperties):
+def footnote(flats: doctextstyle.data.TextProperties):
     _text = text(flats, returncluster=True)
     _pagenumber = pagenumber(flats, returncluster=True)
     _headlines = headlines(flats, returncluster=True)
@@ -135,7 +135,7 @@ def footnote(flats: doctextstyle.TextProperties):
     return result
 
 
-def paragraph(flats: doctextstyle.TextProperties):
+def paragraph(flats: doctextstyle.data.TextProperties):
     """Determine distance before and after a closed text block.
 
     This distance can be the distance to headlines, citation blocks and
