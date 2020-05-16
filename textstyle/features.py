@@ -7,6 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import utila
+
+import hey.classificator
 import textstyle.cluster
 
 
@@ -127,3 +130,43 @@ def footnote(flats: textstyle.TextProperties):
     )
     result = textstyle.cluster.bestmatch(clustered)
     return result
+
+
+def paragraph(flats: textstyle.TextProperties):
+    """Determine distance before and after a closed text block.
+
+    This distance can be the distance to headlines, citation blocks and
+    line endings.
+
+    Hint: After may is the distance from last text line to footer
+    start."""
+    # TODO: REMOVE ITEMS WITH TEXT INDENTION, CAUSE THEY MAY ARE LIST ELEMENTS
+    _text, _text_cluster = text(flats, returncluster=True)
+    _text_before, _text_after = _text[3]
+
+    before = []
+    after = []
+    for item in _text_cluster:
+        if item.before is None:
+            # page start
+            continue
+        if utila.near(item.before, _text_before, diff=1.5):
+            # text line diff
+            continue
+        before.append(item.before)
+    for item in _text_cluster:
+        if item.after is None:
+            # page number
+            continue
+        if utila.near(item.after, _text_after, diff=1.5):
+            # text line diff
+            continue
+        after.append(item.after)
+
+    before = hey.classificator.max_distance(before, diff=2.0)  # TODO: HOLY VAL
+    after = hey.classificator.max_distance(after, diff=2.0)
+
+    # most items in biggest cluster
+    before = utila.modes(before[0].content)
+    after = utila.modes(after[0].content)
+    return before, after

@@ -127,3 +127,24 @@ def test_cluster_extract_footnote(source, expected):
         return
     # document text size
     assert footnotes[0] == expected
+
+
+def test_cluster_extract_paragraph_small(master72_text_flat_small):  # pylint:disable=W0621
+    paragraph = textstyle.features.paragraph(master72_text_flat_small)
+    expected = (31, 31)
+    assert paragraph == expected, str(paragraph)
+
+
+@pytest.mark.parametrize('source, expected', [
+    pytest.param(tests.resources.MASTER116, (24, 17), id='master116'),
+    pytest.param(tests.resources.MASTER98, (41, 41), id='master98'),
+    pytest.param(tests.resources.MASTER99, (38, 38), id='master99'),
+    pytest.param(tests.resources.BACHELOR111, (24, 24), id='bachelor111'),
+])
+@utila.skip_longrun
+def test_cluster_extract_paragraph(source, expected):
+    # TODO: VALIDATE EXPECTED LINE DISTANCE, CURRENTLY THERE ARE NOT
+    # CHECKED YET.
+    flat = navigators(source, pages=None)
+    paragraph = textstyle.features.paragraph(flat)
+    assert paragraph == expected

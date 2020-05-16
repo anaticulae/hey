@@ -19,7 +19,7 @@ textstyle
 
 * [x] footer
 
-* [ ] paragraph
+* [x] paragraph
 
 code quality
 ------------
