@@ -10,6 +10,7 @@
 import iamraw
 import pytest
 import serializeraw
+import utila
 
 import detector.path
 import tests.detector_
@@ -82,6 +83,7 @@ def homework50(titlepage: iamraw.TitlePage):
         marks=pytest.mark.xfail(reason='improve headline parser'),
     ),
 ])
+@utila.skip_longrun
 def test_validate_titlepage_extractor(source, check, testdir, monkeypatch):  #pylint: disable=W0613
     outdir = testdir.tmpdir
     cmd = f'-i {source} -o {outdir} --title --page=0'

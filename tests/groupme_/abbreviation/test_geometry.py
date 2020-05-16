@@ -9,6 +9,7 @@
 
 import pytest
 import serializeraw
+import utila
 
 import groupme.abbreviation.geometry
 import groupme.abbreviation.parser
@@ -30,6 +31,7 @@ def bachelor37():
     pytest.param(tests.resources.HOMEWORK50, 6, 0, id='homework50'),
     pytest.param(tests.resources.MASTER116, 96, 8, id='master116'),
 ])
+@utila.skip_longrun
 def test_abbreviation_parse_strategy_geometry(source, pages, expected):
     content = serializeraw.create_pagetextnavigators_frompath(
         source,

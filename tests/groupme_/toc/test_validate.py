@@ -449,6 +449,7 @@ def bachelor241(toc: iamraw.Toc):
     pytest.param(tests.resources.BACHELOR111, bachelor111, (1, 2, 3, 4), id='bachelor111',
                  marks=pytest.mark.xfail(reason='literaturverzeichnis sub notes')),
 ])  # yapf:enable
+@utila.skip_longrun
 def test_groupme_toc_validate(source, validate, pages, monkeypatch, testdir):
     pages = ','.join((str(item) for item in pages))
     cmd = f'-i {source} --toc --pages={pages}'

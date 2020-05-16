@@ -22,6 +22,7 @@ import tests.resources
     (99, 15),
     (100, 3),
 ])
+@utila.skip_longrun
 def test_parse_bibliography_master116_page_x(pages, expected):
     navigators = serializeraw.create_pagetextnavigators_frompath(
         tests.resources.MASTER116,

@@ -11,6 +11,7 @@ import iamraw
 import pytest
 import serializeraw
 import texmex
+import utila
 
 import detector.cli
 import detector.feature.titlepage
@@ -37,7 +38,9 @@ import tests.resources
         id=tests.prepare(tests.fixtures.titlepage.THIRD),
     ),
 ])
+@utila.skip_longrun
 def test_detector_parse_complete_title_page(page, expected):
+    # TODO: IMPROVE SPEED!
     # TODO: Why is this test so slow?   tests.fixtures.titlepage.THIRD
     pcn = texmex.create_pagetextnavigator_fromstr(page)
     parsed = detector.parser.complete.parse(pcn)
