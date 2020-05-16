@@ -9,6 +9,7 @@
 
 import pytest
 import serializeraw
+import utila
 
 import tests.resources
 import textstyle.cluster.page
@@ -66,7 +67,10 @@ def test_cluster_extract_pagenumber(master72_text_flat_small):  # pylint:disable
 
 
 def test_cluster_extract_headlines_small(master72_text_flat_small):  # pylint:disable=W0621
-    headlines = textstyle.cluster.page.headlines(master72_text_flat_small)
+    headlines = textstyle.cluster.page.headlines(
+        master72_text_flat_small,
+        min_headline_count=3,
+    )
     assert len(headlines) == 2
     assert headlines[0][0] == 15.96
     assert headlines[1][0] == 14.04
@@ -92,8 +96,33 @@ def test_cluster_extract_headlines_all(master72_text_flat):  # pylint:disable=W0
     pytest.param(tests.resources.MASTER99, 11.04, id='master99'),
     pytest.param(tests.resources.BACHELOR111, 11.96, id='bachelor111'),
 ])
+@utila.skip_longrun
 def test_cluster_extract_textsize(source, expected):
     flat = navigators(source, pages=None)
     default_text = textstyle.cluster.page.text(flat)
     # document text size
     assert default_text[0] == expected
+
+
+def test_cluster_extract_footer_small(master72_text_flat_small):  # pylint:disable=W0621
+    footnotes = textstyle.cluster.page.footnotes(master72_text_flat_small)
+    fontsize, fontdistance = footnotes[0], footnotes[3]
+    assert fontsize == 9.96
+    assert fontdistance == (12, 11)
+
+
+@pytest.mark.parametrize('source, expected', [
+    pytest.param(tests.resources.MASTER116, None, id='master116'),
+    pytest.param(tests.resources.MASTER98, 9.0, id='master98'),
+    pytest.param(tests.resources.MASTER99, 9.0, id='master99'),
+    pytest.param(tests.resources.BACHELOR111, 9.96, id='bachelor111'),
+])
+@utila.skip_longrun
+def test_cluster_extract_footnotes(source, expected):
+    flat = navigators(source, pages=None)
+    footnotes = textstyle.cluster.page.footnotes(flat)
+    if expected is None:
+        assert footnotes is None
+        return
+    # document text size
+    assert footnotes[0] == expected

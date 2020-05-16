@@ -13,8 +13,9 @@ import textstyle
 def flatten(pages: textstyle.PageTextPropertiesList) -> textstyle.TextProperties: # yapf:disable
     result = []
     for page in pages:
-        for length, size, font, distance, ypos in zip(
+        for length, hashed, size, font, distance, ypos in zip(
                 page.length,
+                page.hashed,
                 page.sizes,
                 page.fonts,
                 page.distances,
@@ -23,6 +24,7 @@ def flatten(pages: textstyle.PageTextPropertiesList) -> textstyle.TextProperties
             result.append(
                 textstyle.TextProperty(
                     length=length,
+                    hashed=hashed,
                     size=size,
                     font=font,
                     before=distance.top,

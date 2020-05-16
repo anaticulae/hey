@@ -12,12 +12,12 @@ import typing
 
 PageTextProperties = collections.namedtuple(
     'PageTextProperties',
-    'length, sizes, fonts, distances, ypos',
+    'length, hashed, sizes, fonts, distances, ypos',
 )
 PageTextPropertiesList = typing.List[PageTextProperties]
 
 TextProperty = collections.namedtuple(
     'TextProperty',
-    'length, size, font, before, after, top, bottom',
+    'length, hashed, size, font, before, after, top, bottom',
 )
 TextProperties = typing.List[TextProperty]

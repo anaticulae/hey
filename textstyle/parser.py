@@ -32,6 +32,7 @@ def parses(navigators: texmex.PageTextNavigators) -> textstyle.PageTextPropertie
 
 def parse(navigator: texmex.PageTextNavigator) -> textstyle.PageTextProperties:
     lengths = textlength(navigator)
+    hashed = [item.text.strip() for item in navigator]
     distances = textdistances(navigator)
     sizes = textsizes(navigator)
     fonts = textfonts(navigator)
@@ -40,6 +41,7 @@ def parse(navigator: texmex.PageTextNavigator) -> textstyle.PageTextProperties:
     equal_length = [
         len(item) for item in [
             lengths,
+            hashed,
             sizes,
             fonts,
             distances,
@@ -50,6 +52,7 @@ def parse(navigator: texmex.PageTextNavigator) -> textstyle.PageTextProperties:
 
     result = textstyle.PageTextProperties(
         lengths,
+        hashed,
         sizes,
         fonts,
         distances,

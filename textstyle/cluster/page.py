@@ -33,6 +33,7 @@ def cluster(
         validator: callable = None,
         *,
         minsize: int = 5,  # TODO: HOLY VALUE
+        unique_content: bool = False,
 ):
     if selection:
         selection = set(selection)
@@ -56,43 +57,74 @@ def cluster(
         classifier=classifier,
         min_elements=minsize,
     )
+    if unique_content:
+        clustered = [item for item in clustered if iscontent_unique(item)]
+
     return clustered
+
+
+def iscontent_unique(current) -> bool:
+    expected = len(current.content)
+    current = {item.hashed for item in current.content}
+    return len(current) == expected
 
 
 def text(flats, returncluster: bool = False):
     clustered = cluster(flats, (ClusterProperty.SIZE, ClusterProperty.FONT))
     result = bestmatch(clustered)
     if returncluster:
-        return result, clustered[0]
+        return result, clustered[0] if clustered else []
     return result
 
 
 def pagenumber(flats, returncluster: bool = False):
+
+    def validator(item) -> bool:
+        if item.top >= 100 and item.bottom >= 100:
+            # page number is not in the middle of the page. The page
+            # number is located at the top or bottom of the page.
+            return False
+        return item.length <= 6
+
     clustered = cluster(
         flats,
         (ClusterProperty.SIZE, ClusterProperty.FONT),
-        validator=lambda item: item.length <= 6,
+        validator=validator,
     )
     # assert len(clustered) == 1, len(clustered)
     result = bestmatch(clustered)
     if returncluster:
-        return result, clustered[0]
+        return result, clustered[0] if clustered else []
     return result
 
 
 def bestmatch(clustered, number: int = 0):
-    largest_cluster_first_item = clustered[number].content[0]
+    try:
+        largest_cluster_first_item = clustered[number].content[0]
+    except IndexError:
+        # no clusted content
+        return None
     size = largest_cluster_first_item.size
     font = largest_cluster_first_item.font
-    before = utila.mode([item.before for item in clustered[number].content])
-    after = utila.mode([item.after for item in clustered[number].content])
+    # TODO: PLUS INF OR MINUS INF
+    before = [item.before for item in clustered[number].content]
+    before = [utila.INF if item is None else item for item in before]
+    before = utila.mode(before)
+    after = [item.after for item in clustered[number].content]
+    after = [utila.INF if item is None else item for item in after]
+    after = utila.mode(after)
     length = len(clustered[0])
+
+    if before is utila.INF:
+        before = None
+    if after is utila.INF:
+        after = None
     return (size, font, length, (before, after))
 
 
 def headlines(  # pylint:disable=R1260,R0914
         flats: textstyle.TextProperties,
-        min_headline_count: int = 3,
+        min_headline_count: int = 5,
         greater_than_text: bool = True,
         returncluster: bool = False,
 ):
@@ -136,15 +168,41 @@ def headlines(  # pylint:disable=R1260,R0914
     result_cluster = []
     for index in range(5):
         # analyse maximal five headline levels
-        try:
-            matched = bestmatch(largest_font_size, number=index)  # pylint:disable=C0103
-        except IndexError:
-            break
-        else:
-            result.append(matched)
-            result_cluster.append(largest_font_size[index].content)
+        matched = bestmatch(largest_font_size, number=index)  # pylint:disable=C0103
+        if not matched:
+            continue
+        result.append(matched)
+        result_cluster.append(largest_font_size[index].content)
     if returncluster:
         return result, result_cluster
+    return result
+
+
+MIN_FOOTNOTES_COUNT = 10  # TODO: HOLY VALUE
+
+
+def footnotes(flats: textstyle.TextProperties):
+    _text = text(flats, returncluster=True)
+    _pagenumber = pagenumber(flats, returncluster=True)
+    _headlines = headlines(flats, returncluster=True)
+
+    flats = remove(flats, _text[1])
+    flats = remove(flats, _pagenumber[1])
+    for item in _headlines[1]:
+        flats = remove(flats, item)
+
+    def validator(item) -> bool:
+        # Shrink footnotes to bottom area
+        return item.bottom < 150 and item.length >= 25  # TODO:HOLY VALUE
+
+    clustered = cluster(
+        flats,
+        (ClusterProperty.SIZE,),
+        validator=validator,
+        minsize=MIN_FOOTNOTES_COUNT,
+        unique_content=True,
+    )
+    result = bestmatch(clustered)
     return result
 
 
