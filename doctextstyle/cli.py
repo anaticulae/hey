@@ -18,12 +18,21 @@ import doctextstyle.serialize
 
 DEFAULT_OUTPUT_FILE = 'docstyle__textstyle.yaml'
 
+DESCRIPTION = """\
+Extracts common text layout properties for text, headlines(h1, h2, h3),
+pagenumber, footnotes, paragraphs and lists.
+
+Requires: `rawmaker__oneline` data to create pagetextnavigators
+Writes: `doctextstyle__textstyle.yaml`
+"""
+
 
 @utila.saveme
 def main() -> int:
     commands = []
     parser = utila.cli.create_parser(
         todo=commands,
+        description=DESCRIPTION,
         config=utila.ParserConfiguration(
             outputparameter=True,
             inputparameter=True,
