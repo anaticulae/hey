@@ -16,7 +16,7 @@ import doctextstyle
 import doctextstyle.extractor
 import doctextstyle.serialize
 
-DEFAULT_OUTPUT_FILE = 'docstyle__textstyle.yaml'
+DEFAULT_OUTPUT_FILE = 'doctextstyle__textstyle.yaml'
 
 DESCRIPTION = """\
 Extracts common text layout properties for text, headlines(h1, h2, h3),
