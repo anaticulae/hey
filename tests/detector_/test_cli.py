@@ -40,10 +40,7 @@ def test_detector_run_work(example, testdir, monkeypatch, capsys):  #pylint: dis
     output = str(testdir)
     command = f'-i {example} -o {output}'
 
-    tests.detector_.run(command, monkeypatch=monkeypatch)
-
-    # ensure that process write a file
-    written = list(os.scandir(output))
-    assert len(written) == 2, str(written)
+    with utila.increased_filecount(output, mindiff=2, maxdiff=2):
+        tests.detector_.run(command, monkeypatch=monkeypatch)
 
     tests.write_capsys(capsys)
