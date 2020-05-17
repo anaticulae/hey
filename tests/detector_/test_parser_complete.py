@@ -11,7 +11,6 @@ import iamraw
 import pytest
 import serializeraw
 import texmex
-import utila
 
 import detector.feature.titlepage
 import detector.parser.complete
