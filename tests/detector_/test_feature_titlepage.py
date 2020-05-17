@@ -85,6 +85,12 @@ def check_116_pages(titlepage: iamraw.TitlePage):
     assert titlepage.author == author
 
 
+def check_bachelor90(titlepage: iamraw.TitlePage):
+    title = ('Umsetzungen von Algorithmen zur Zustandsdiagnose für '
+             'die Anwendung auf einem Embedded System')
+    assert titlepage.title == title
+
+
 @pytest.mark.parametrize('source, checker', [
     pytest.param(
         tests.resources.MASTER72_PDF,
@@ -101,6 +107,11 @@ def check_116_pages(titlepage: iamraw.TitlePage):
         check_116_pages,
         id='master116',
     ),
+    pytest.param(
+        tests.resources.BACHELOR90_PDF,
+        check_bachelor90,
+        id='bachelor90',
+        marks=pytest.mark.xfail(reason='improve title page parser')),
 ])
 @utila.skip_longrun
 def test_detector_feature_titlepage_complete(
