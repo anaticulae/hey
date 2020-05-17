@@ -73,10 +73,16 @@ def group_areas(items):
     current = []
     lastpage = -1
     for page, (level_, item) in items:
-        if level_ == 0 and current:
-            # new group
-            result.append((page, current))
-            current = []
+        if current:
+            if page >= (lastpage + 1):
+                # one page space between toc groups, the toc can not be
+                # connected.
+                result.append((lastpage, current))
+                current = []
+            elif level_ == 0:
+                # new group
+                result.append((page, current))
+                current = []
             # continue
         current.append(item)
         lastpage = page
