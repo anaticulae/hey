@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v2.4.3
+
+### Feature
+
+* add doctextstyle to test data generator (188fe3866e09)
+
+### Fix
+
+* add missing import (101f420bede2)
+
 ## v2.4.2
 
 ## v2.4.1
