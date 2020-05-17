@@ -111,7 +111,7 @@ def test_detector_feature_titlepage_complete(
 ):
     """Intergration test to ensure that rawmaker -> detector works correctly."""
     root = str(testdir)
-    cmd = (f'rawmaker -i {source} --pages=0 '
+    cmd = (f'rawmaker -i {source} --pages=0:5 '
            f'{detector.feature.titlepage.RAWMAKER_CONFIGURATION}')
     utila.run(cmd)
 
