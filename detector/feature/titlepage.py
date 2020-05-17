@@ -62,7 +62,7 @@ import detector.titlepage
 # TODO: check 0.1, use a higher number?
 RAWMAKER_CONFIGURATION = (
     '--prefix=oneline '
-    '--font --text --outlines '
+    '--font --text '
     '--boxes_flow=1.0 --char_margin=100.0 --line_margin=0.0001')
 
 # Include first 5 pages into TitlePage detection
