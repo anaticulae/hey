@@ -135,18 +135,17 @@ def test_detector_feature_titlepage_complete(
 
 
 def parse_titlepages(path: str, pages: tuple = None):
-    navigators = serializeraw.create_pagetextnavigators_frompath(
-        path, pages=pages)
+    navigators = serializeraw.create_pagetextnavigators_frompath(path, pages=pages) # yapf:disable
     parsed = detector.feature.titlepage.parse_titlepages(navigators, pages)
     return parsed
 
 
-# @utila.skip_longrun
-# def test_detector_feature_titlepage_select_best():
-#     pages = tuple(range(20))
-#     parsed = parse_titlepages(tr.MASTER72, pages=pages)
-#     best = detector.titlepage.select_best(parsed)
-#     assert best == parsed[0], str(best)
+@utila.skip_longrun
+def test_detector_feature_titlepage_select_best():
+    parsed = parse_titlepages(tr.MASTER72, pages=None)
+    best = detector.titlepage.select_best(parsed)
+    assert best == parsed[0], str(best)
+
 
 # @utila.skip_longrun
 # @pytest.mark.parametrize('source', [
