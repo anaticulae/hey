@@ -36,10 +36,7 @@ import tests.fixtures.titlepage
         id=tests.prepare(tests.fixtures.titlepage.THIRD),
     ),
 ])
-@utila.skip_longrun
 def test_detector_parse_complete_title_page(page, expected):
-    # TODO: IMPROVE SPEED!
-    # TODO: Why is this test so slow?   tests.fixtures.titlepage.THIRD
     pcn = texmex.create_pagetextnavigator_fromstr(page)
     parsed = detector.parser.complete.parse(pcn)
     assert parsed == expected, str(parsed)

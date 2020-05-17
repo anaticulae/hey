@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import re
+
 import iamraw
 import utila
 from texmex import PageTextNavigator
@@ -38,6 +40,10 @@ def parse(text: PageTextNavigator) -> iamraw.TitlePage:
         title = parse_title(text)
 
     text = utila.NEWLINE.join([item.text for item in text[:]])
+
+    # remove textual lines cause there slow down persons parsing
+    text = re.sub(r'[\-\=\_]{5,}', '', text)
+
     if isinstance(title, str):
         text.replace(title, '')
         result.title = title
