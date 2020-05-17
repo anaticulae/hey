@@ -124,11 +124,15 @@ def parse_all(items: list) -> list:
     for item in items:
         lines = item.splitlines()
         for line in lines:
+            if len(line) > 70:  # TODO: HOLY VALUE
+                rest.append(line)
+                continue
             parsed = parse(line)
             if not parsed:
                 rest.append(line)
                 # check area to parse more than one line
-                area = lookbehind(rest)
+                # limit length of look behind to reduce computation power
+                area = lookbehind(rest[-3:])
                 if area is not None:
                     persons.append(area[0])
                     rest = area[1]
