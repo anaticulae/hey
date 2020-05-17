@@ -15,9 +15,13 @@ import groupme.utils
 
 
 def parse_group(items, page) -> groupme.toc.TocLines:
+    assert page is not None, page
     parsed = [groupme.toc.lineregex.parse(item.text) for item in items]
     matched = [item is not None for item in parsed]
+
     if all(matched):
+        for item in parsed:
+            item.raw_location = page
         return parsed
     result = []
     collected = []
