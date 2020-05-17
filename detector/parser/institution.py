@@ -131,6 +131,7 @@ UNIVERSITIES = [
     'Ludwig-Maximilians-Universität München'
     'Suchtakademie Berlin-Brandenburg',
     'Technische Universität Berlin',
+    'Technische Universita\xA8t Berlin',  # TODO: INVESTIGATE HERE
     'Technische Universität Darmstadt',
     'Universität Bielefeld',
     'Universität Münster',
