@@ -2,6 +2,18 @@
 
 Every noteable change is logged here.
 
+## v2.5.0
+
+### Feature
+
+* add profile option to investigate parser time problems (1d722a10a44a)
+
+### Fix
+
+* enable old test (87b8999ae87e)
+* improve performance (73c3ca8cf862)
+* improve title parser speed (47564bcaab99)
+
 ## v2.4.3
 
 ### Feature
