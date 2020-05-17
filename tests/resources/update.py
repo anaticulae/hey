@@ -64,6 +64,7 @@ PACKAGE = [
     (tests.resources.MASTER98_PDF, tests.resources.MASTER98, None),
     (tests.resources.BACHELOR56_PDF, tests.resources.BACHELOR56, '0:55'),
     (tests.resources.MASTER89_PDF, tests.resources.MASTER89, '0:89'),
+    (tests.resources.BACHELOR76_PDF, tests.resources.BACHELOR76, None),
     (tests.resources.MASTER72_PDF, tests.resources.MASTER72, None),
     (tests.resources.BACHELOR111_PDF, tests.resources.BACHELOR111, None),
     (tests.resources.BACHELOR37_PDF, tests.resources.BACHELOR37, '0:30'),
@@ -79,8 +80,8 @@ PACKAGE = [
     (tests.resources.HOMEWORK50_PDF, tests.resources.HOMEWORK50, '0:10'),
     (tests.resources.HOWTOWRITE9_PDF, tests.resources.HOWTOWRITE9, '0:10'),
     (tests.resources.BACHELOR241_PDF, tests.resources.BACHELOR241, '0:10'),
-    (tests.resources.BACHELOR76_PDF, tests.resources.BACHELOR76, '0:5'),
     (tests.resources.MASTER78_PDF, tests.resources.MASTER78, '0:5'),
+    (tests.resources.BACHELOR90_PDF, tests.resources.BACHELOR90, '0:5'),
     (tests.resources.MASTER83_PDF, tests.resources.MASTER83, '0:10'),
 ]
 
