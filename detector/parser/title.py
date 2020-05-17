@@ -20,12 +20,15 @@ import utila
 # TODO: HOLY VALUE
 MIN_TITLE_FONT_SIZE = 20
 
+MIN_TITLE_WORD_COUNT = 4  # TODO: HOLY VALUE
+
 
 class TitleParserState(enum.Enum):
     DETECTED_SIZE = enum.auto()
     NOT_ENOUGH_LINES = enum.auto()
     NOT_ENOUGH_DISTANCE = enum.auto()
     TITLE_TO_SMALL = enum.auto()
+    TITLE_TO_SHORT = enum.auto()
     TITLE_BLACKLIST = enum.auto()
 
 
@@ -72,11 +75,16 @@ def parse(textnavigator: texmex.PageTextNavigator) -> str:
     if detected_size < MIN_TITLE_FONT_SIZE:
         return TitleParserState.TITLE_TO_SMALL
 
+    # TODO: ITER THROW POTENTIAL TITLES AND RUN TOP VERIFICATION
     title = sizes[0][1].replace(utila.NEWLINE, ' ')
     title = title.strip()
     if title.upper() in TITLE_BLACKLIST:
         # bachelor
         return TitleParserState.TITLE_BLACKLIST
+
+    if len(title.split()) < MIN_TITLE_WORD_COUNT:
+        return TitleParserState.TITLE_TO_SHORT
+
     return title
 
 
