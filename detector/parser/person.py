@@ -59,15 +59,7 @@ def parse(raw: str) -> iamraw.Person:
     return person
 
 
-def parse_person_without_title(raw: str) -> iamraw.Person:
-    """Parse `Person`s without any academic title. In general, this is
-    the author of the document.
-
-    Hint:
-        Examiner must have an academic title, but in some thesis this is not
-        so. Therefore we have to mark it later as an error.
-    """
-    raw = raw.strip()
+def create_with_title_pattern():
     # TODO: Keep attention to the list below. Refactor later
     preamble = [
         r'Erstprüfer(in)?',  # TODO: Remove this later
@@ -82,8 +74,22 @@ def parse_person_without_title(raw: str) -> iamraw.Person:
     between = r'[:]?[\s ]{0,8}'
     name = r'(?P<names>(\w+[ ]{0,5}){1,5})\b'
     pattern = re.compile(preamble + between + name, re.IGNORECASE)
+    return pattern
 
-    matched = re.search(pattern, raw)
+
+PERSON_WITHOUT_TITLE_PATTERN = create_with_title_pattern()
+
+
+def parse_person_without_title(raw: str) -> iamraw.Person:
+    """Parse `Person`s without any academic title. In general, this is
+    the author of the document.
+
+    Hint:
+        Examiner must have an academic title, but in some thesis this is not
+        so. Therefore we have to mark it later as an error.
+    """
+    raw = raw.strip()
+    matched = re.search(PERSON_WITHOUT_TITLE_PATTERN, raw)
     if not matched:
         return None
     try:
