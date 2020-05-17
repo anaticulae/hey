@@ -437,9 +437,53 @@ def bachelor241(toc: iamraw.Toc):
     assert titles == TITLE_BACHELOR241, titles
 
 
+TITLE_BACHELOR76 = """\
+Abkürzungsverzeichnis
+Abbildungsverzeichnis
+Tabellenverzeichnis
+Einleitung
+    Problemstellung
+    Zielsetzung und Forschungsleitfragen
+    Methodische Vorgehensweise
+    Aufbau und Struktur der Arbeit
+Theoretische Grundlagen
+    Treiber der Digitalisierung und Begriffsbestimmung
+    Historische Entwicklung zur vierten industriellen Revolution
+    Herkunft und Definition des Begriffs Industrie 4.0
+    Abgrenzung und Definition des Mittelstandsbegriffs
+Bausteine der digitalen Infrastruktur zur Befähigung von Industrie 4.0
+    Cyber-Physische-Systeme in der Industrie 4.0
+        Ubiquitous Computing
+        Internet der Dinge und Dienste
+        Cloud Computing
+    Big Data und Analytics-Dienste in der Industrie 4.0
+    Mensch-Maschine-Interaktion in der Industrie 4.0
+Auswirkungen der Digitalisierung und Industrie 4.0 entlang der Wertschöpfungskette
+    Primäraktivitäten der Wertschöpfungskette
+        Produktion
+        Logistik
+        Marketing und Vertrieb
+        Services
+    Unterstützungsaktivitäten der Wertschöpfungskette
+        Innovation und Transformation
+        Vernetzung und Kooperation
+        Daten und Analytik
+        Organisation der Arbeit
+Schlussbetrachtung und Ausblick
+Literatur- und Quellenverzeichnis
+Eidesstattliche Erklärung
+Anhang"""
+
+
+def bachelor76(toc: iamraw.Toc):
+    titles = merge_required(toc)
+    assert titles == TITLE_BACHELOR76, titles
+
+
 # yapf:disable, format the list by hand
 @pytest.mark.parametrize('source, validate, pages', [
     pytest.param(tests.resources.HOMEWORK50, homework50, (3, 4), id='homework50'),
+    pytest.param(tests.resources.BACHELOR76, bachelor76, (0, 1, 2, 3, 4), id='bachelor76'),
     pytest.param(tests.resources.BACHELOR241, bachelor241, (4, 5, 6, 7), id='bachelor241',
                  marks=pytest.mark.xfail(reason='literaturverzeichnis sub notes')),
     pytest.param(tests.resources.MASTER89, master89, (1,), id='master89'),
