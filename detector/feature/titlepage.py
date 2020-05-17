@@ -104,14 +104,3 @@ def parse_titlepages(navigators: texmex.PageTextNavigators, pages=None):
             parsed = detector.parser.complete.parse(navigator)
         result.append(parsed)
     return result
-
-
-def name():
-    return 'titlepage'
-
-
-def commandline():
-    return utila.Flag(
-        longcut=name(),
-        message='extract all features from a title page',
-    )
