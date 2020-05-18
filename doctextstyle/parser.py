@@ -79,6 +79,7 @@ def document_textdistance(navigators) -> float:
 
 
 def textdistances(navigator, digits: int = 1) -> VerticalTextDistances:
+    # TODO: MOVE TO TEXMEX
     if not navigator:
         return []
     if len(navigator) == 1:
