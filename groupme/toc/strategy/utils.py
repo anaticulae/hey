@@ -36,6 +36,7 @@ def parse_group(items, page) -> groupme.toc.TocLines:
                 result.append(extracted)
             else:
                 # log not parsed
+                # TODO: USE VERBOSE LEVEL
                 utila.error('could not group and parse %s' % collected)
             collected = []
             continue
