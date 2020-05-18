@@ -50,8 +50,9 @@ def decide(items: gts.ExtractionResults) -> gts.ExtractionResult:
 
 
 def analyze_result(result: gts.ExtractionResult) -> ExtractionStatistic:
+    # TODO: REMOVE FLATTEN
+    # TODO: REMOVE valid_content = groupme.toc.strategy.group(valid_content)
     flat = utila.flatten(result)
-
     oneliner = len([item for item in result if len(item) == 1])
     parsed_level = [item.level for item in flat if item.level is not None]
     oneline_factor = 0.0

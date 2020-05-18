@@ -11,6 +11,7 @@
 """
 
 import texmex
+import utila
 
 import groupme.toc.strategy
 import groupme.toc.strategy.utils
@@ -35,10 +36,18 @@ class GeometryTocExtractor(groupme.toc.strategy.ExtractorStrategy):
         ]
         # remove empty
         content = [item for item in content if item]
+        content = utila.flatten(content)
+
+        valid_content = groupme.toc.strategy.valid_group(content)
+        invalid_content = [
+            item for item in content if item not in valid_content
+        ]
+
+        valid_content = groupme.toc.strategy.group(valid_content)
 
         result = groupme.toc.strategy.ExtractionResult(
-            content=content,
-            invalid=[],
+            content=valid_content,
+            invalid=invalid_content,
         )
         return result
 

@@ -55,7 +55,14 @@ def group(extracted: groupme.toc.TocLines) -> ExtractionResult:
         extracted,
         key=lambda x: isinstance(x, groupme.toc.TocLine),
     )
-    content = groupme.toc.group.group(right)
+
+    valid = valid_group(right)
+
+    for item in right:
+        if item not in valid:
+            invalid.append(item)
+
+    content = groupme.toc.group.group(valid)
 
     result = ExtractionResult(content=content, invalid=invalid)
     return result

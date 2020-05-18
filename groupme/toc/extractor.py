@@ -39,5 +39,6 @@ def extract(
         # decide if strategy is active
         if active is None or strategy in active
     ]
+
     decision = groupme.toc.decider.decide(results)
     return decision
