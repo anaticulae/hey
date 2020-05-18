@@ -43,7 +43,7 @@ class GeometryTocExtractor(groupme.toc.strategy.ExtractorStrategy):
             item for item in content if item not in valid_content
         ]
 
-        valid_content = groupme.toc.strategy.group(valid_content)
+        valid_content = groupme.toc.strategy.group(valid_content)  # pylint:disable=R0204
 
         result = groupme.toc.strategy.ExtractionResult(
             content=valid_content,
