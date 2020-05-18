@@ -79,3 +79,32 @@ def remove_headline(
             continue
         result.insert(item.text, item.style, item.bounding)
     return result
+
+
+def valid_group(items):
+    # check that toc is connected and not separated by a white page
+    # split tocs by white page
+    pagenumbers = [item.raw_location for item in items]
+    pagenumbers = sorted(pagenumbers)
+
+    result = [[pagenumbers[0]]]
+    for item in pagenumbers[1:]:
+        if item > (result[-1][-1] + 1):
+            result.append([item])
+        else:
+            result[-1].append(item)
+    valid_pages = set(longest(result))
+
+    # remove non included items
+    include = [item for item in items if item.raw_location in valid_pages]
+    return include
+
+
+def longest(items):
+    if not items:
+        return None
+    max_ = 0
+    for index, item in enumerate(items[1:]):
+        if len(item) > max_:
+            max_ = index
+    return items[max_]
