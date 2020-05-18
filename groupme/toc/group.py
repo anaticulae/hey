@@ -73,6 +73,9 @@ def level(item: str) -> Level:
       - 4.1.1 Datenschicht
       - 5 Implementierung
       - None Literaturverzeichnis
+
+    >>> level('A')
+    AppendixLevel(value='A', raw='A', character='A')
     """
     if item is None:
         return None
