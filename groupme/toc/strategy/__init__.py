@@ -56,7 +56,7 @@ def group(extracted: groupme.toc.TocLines) -> ExtractionResult:
         key=lambda x: isinstance(x, groupme.toc.TocLine),
     )
 
-    valid = valid_group(right)
+    valid = remove_nonconnected_tocs(right)
 
     for item in right:
         if item not in valid:
@@ -88,9 +88,11 @@ def remove_headline(
     return result
 
 
-def valid_group(items):
-    # check that toc is connected and not separated by a white page
-    # split tocs by white page
+def remove_nonconnected_tocs(items):
+    """Ensure that toc is connected and not separated by whitepages.
+    Select hugest group as single valid table of content."""
+    if not items:
+        return []
     pagenumbers = [item.raw_location for item in items]
     pagenumbers = sorted(pagenumbers)
 

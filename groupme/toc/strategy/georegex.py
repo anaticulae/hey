@@ -40,7 +40,7 @@ class GeometryRegexTocExtractor(groupme.toc.strategy.ExtractorStrategy):
         extracted = [analyse_page(item) for item in self.loaded.content]
         flat = utila.flatten(utila.flatten(extracted))
 
-        valid = groupme.toc.strategy.valid_group(flat)
+        valid = groupme.toc.strategy.remove_nonconnected_tocs(flat)
         grouped = groupme.toc.strategy.group(valid)
         invalid = [item for item in flat if item not in valid]
         return groupme.toc.strategy.ExtractionResult(

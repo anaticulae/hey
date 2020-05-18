@@ -38,7 +38,7 @@ class GeometryTocExtractor(groupme.toc.strategy.ExtractorStrategy):
         content = [item for item in content if item]
         content = utila.flatten(content)
 
-        valid_content = groupme.toc.strategy.valid_group(content)
+        valid_content = groupme.toc.strategy.remove_nonconnected_tocs(content)
         invalid_content = [
             item for item in content if item not in valid_content
         ]
