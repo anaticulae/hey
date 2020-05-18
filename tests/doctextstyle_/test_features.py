@@ -70,7 +70,7 @@ def test_cluster_extract_footer_small(master72_text_flat_small):
     footnotes = doctextstyle.features.footnote(master72_text_flat_small)
     fontsize, fontdistance = footnotes[0], footnotes[3]
     assert fontsize == 9.96
-    assert fontdistance == (12, 11)
+    assert fontdistance == (11.5, 11.5)
 
 
 @pytest.mark.parametrize('source, expected', [
@@ -92,7 +92,7 @@ def test_cluster_extract_footnote(source, expected):
 
 def test_cluster_extract_paragraph_small(master72_text_flat_small):
     paragraph = doctextstyle.features.paragraph(master72_text_flat_small)
-    expected = (31, 31)
+    expected = (31.1, 31.1)
     assert paragraph == expected, str(paragraph)
 
 
@@ -107,5 +107,5 @@ def test_cluster_extract_paragraph(source, expected):
     # TODO: VALIDATE EXPECTED LINE DISTANCE, CURRENTLY THERE ARE NOT
     # CHECKED YET.
     flat = tests.doctextstyle_.conftest.navigators(source, pages=None)
-    paragraph = doctextstyle.features.paragraph(flat)
+    paragraph = doctextstyle.features.paragraph(flat, digits=0)
     assert paragraph == expected

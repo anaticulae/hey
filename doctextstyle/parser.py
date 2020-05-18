@@ -78,7 +78,7 @@ def document_textdistance(navigators) -> float:
     return mode
 
 
-def textdistances(navigator) -> VerticalTextDistances:
+def textdistances(navigator, digits: int = 1) -> VerticalTextDistances:
     if not navigator:
         return []
     if len(navigator) == 1:
@@ -91,6 +91,8 @@ def textdistances(navigator) -> VerticalTextDistances:
         # middles
         top_distance = before.bottom - current.bottom
         bottom_distance = current.bottom - after.bottom
+        top_distance = utila.roundme(top_distance, digits=digits)
+        bottom_distance = utila.roundme(bottom_distance, digits=digits)
         result.append(VerticalTextDistance(top_distance, bottom_distance))
     # last
     result.append(VerticalTextDistance(ypos[-2].bottom - ypos[-1].bottom, None))

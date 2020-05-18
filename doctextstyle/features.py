@@ -135,7 +135,7 @@ def footnote(flats: doctextstyle.data.TextProperties):
     return result
 
 
-def paragraph(flats: doctextstyle.data.TextProperties):
+def paragraph(flats: doctextstyle.data.TextProperties, digits: int = 1):
     """Determine distance before and after a closed text block.
 
     This distance can be the distance to headlines, citation blocks and
@@ -165,6 +165,9 @@ def paragraph(flats: doctextstyle.data.TextProperties):
             # text line diff
             continue
         after.append(item.after)
+
+    before = utila.roundme(before, digits=digits, convert=False)  # pylint:disable=R0204
+    after = utila.roundme(after, digits=digits, convert=False)  # pylint:disable=R0204
 
     before = hey.classificator.max_distance(before, diff=2.0)  # TODO: HOLY VAL
     after = hey.classificator.max_distance(after, diff=2.0)

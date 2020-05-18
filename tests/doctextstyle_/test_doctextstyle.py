@@ -30,4 +30,4 @@ def test_doctextstyle_extract():
     assert result.text_size == 12.0
     assert result.pagenumber_size == 12.0
     assert result.footnote_size == 9.0
-    assert result.footnote_distance == 10.0
+    assert result.footnote_distance == 10.3
