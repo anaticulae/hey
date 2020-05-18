@@ -166,9 +166,10 @@ def create_job(
         f'linero -i {dest} -o {dest}',
     ]
     if config.get('groupme', False):
-        # TODO: DISABLE --toc in first run: USE `--toc!` laster
-        task.append(f'groupme -j 8 -i {dest} -o {dest}')
-        task.append(f'groupme --toc --pages=0:5 -i {dest} -o {dest}')
+        # run all, disable --toc
+        task.append(f'groupme --toc! -j 8 -i {dest} -o {dest}')
+        # toc only
+        task.append(f'groupme --toc --pages=0:10 -i {dest} -o {dest}')
     if config.get('sections', False):
         task.append(f'sections -j 8 -i {dest} -o {dest}')
     if config.get('words', False):
