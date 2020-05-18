@@ -86,17 +86,40 @@ def textdistances(navigator, digits: int = 1) -> VerticalTextDistances:
         # no predecessor and successor
         return [VerticalTextDistance(None, None)]
     ypos = vertical_position(navigator)
+
     # first
     result = [VerticalTextDistance(None, ypos[0].bottom - ypos[1].bottom)]
     for before, current, after in zip(ypos[0:-2], ypos[1:-1], ypos[2:]):
         # middles
         top_distance = before.bottom - current.bottom
         bottom_distance = current.bottom - after.bottom
-        top_distance = utila.roundme(top_distance, digits=digits)
-        bottom_distance = utila.roundme(bottom_distance, digits=digits)
         result.append(VerticalTextDistance(top_distance, bottom_distance))
     # last
     result.append(VerticalTextDistance(ypos[-2].bottom - ypos[-1].bottom, None))
+
+    # round to have propper user output/developer handling
+    rounded = round_vertical_distances(result, digits=digits)
+    return rounded
+
+
+def round_vertical_distances(items, digits: int = 1):
+    """Round list of `VerticalTextDistances`.
+
+    >>> round_vertical_distances([VerticalTextDistance(1.333, None), VerticalTextDistance(5.88, 5.0)])
+    [VerticalTextDistance(top=1.3, bottom=None), VerticalTextDistance(top=5.9, bottom=5.0)]
+    """
+    result = []
+    for item in items:
+        before = utila.roundme(
+            item[0],
+            digits=digits,
+        ) if item[0] is not None else None
+        after = utila.roundme(
+            item[1],
+            digits=digits,
+        ) if item[1] is not None else None
+        result.append(VerticalTextDistance(before, after))
+
     return result
 
 
