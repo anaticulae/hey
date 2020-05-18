@@ -29,17 +29,6 @@ def test_groupme_toc_strategy_master72():
 
 
 @utila.skip_longrun
-def test_groupme_toc_strategy_bachelor111():
-    headlines = tft.bachelor111_toc()
-
-    expected = [3, 16, 8, 5, 7, 8, 3, 1, 4, 1, 1, 1, 9]
-
-    grouped = gte.extract(headlines)
-    current = [len(item) for item in grouped]
-    assert current == expected
-
-
-@utila.skip_longrun
 def test_groupme_toc_strategy_technial24():
     headlines = tft.technical24_toc()
 
