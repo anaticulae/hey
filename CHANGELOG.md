@@ -2,6 +2,23 @@
 
 Every noteable change is logged here.
 
+## v2.6.0
+
+### Feature
+
+* add method to extract biggest valid cluster (f890ef6a7e70)
+* ignore to short titles on possible title page (4670bad75193)
+* extend university list (5bb1458891e2)
+
+### Fix
+
+* shrink toc extraction to document start (4b5a2a8c8d14)
+* change test and add hints (9e9d09ebd276)
+* add invalid parsed items to judge parsing quality (08d468e57dc1)
+* group toc groups correctly (05ae1d6b4764)
+* add missing `raw_location` (f94a950c2216)
+* disable outlines cause extraction requires to much time (6a69e8ab675a)
+
 ## v2.5.0
 
 ### Feature
