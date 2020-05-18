@@ -9,21 +9,21 @@
 
 import utila
 
-import groupme.toc.extractor as gte
-import groupme.toc.strategy.geometry as gtsg
-import tests.fixtures.tableofcontent as tft
+import groupme.toc.extractor
+import groupme.toc.strategy.geometry
+import tests.fixtures.tableofcontent
 
 
 @utila.skip_longrun
 def test_groupme_toc_strategy_geometry():
-    headlines = tft.bachelor111_toc()
+    headlines = tests.fixtures.tableofcontent.bachelor111_toc()
 
     expected = [3, 16, 8, 5, 7, 8, 3, 1, 4, 1, 1, 1, 9]
 
     active = [
-        gtsg.GeometryTocExtractor,
+        groupme.toc.strategy.geometry.GeometryTocExtractor,
     ]
-    grouped = gte.extract(
+    grouped = groupme.toc.extractor.extract(
         headlines,
         active=active,
     )
