@@ -57,3 +57,19 @@ class DocTextStyle:
     list_distance: float = None  # distance in list items
     list_after: float = None  # distance to text
     list_family: int = None
+
+    page_width: float = None
+    page_height: float = None
+
+    page_rotated_width: float = None
+    page_rotated_height: float = None
+
+    content_left: float = None
+    content_right: float = None
+    content_top: float = None
+    content_bottom: float = None
+
+    content_rotated_left: float = None
+    content_rotated_right: float = None
+    content_rotated_top: float = None
+    content_rotated_bottom: float = None
