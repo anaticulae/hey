@@ -71,6 +71,7 @@ if __name__ == "__main__":
             'hey.geometry',
             'hey.text',
             'doctextstyle',
+            'doctextstyle.features',
         ],
         entry_points={
             'console_scripts': [
