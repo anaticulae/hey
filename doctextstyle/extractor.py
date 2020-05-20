@@ -7,10 +7,13 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import contextlib
+
 import serializeraw
 
 import doctextstyle
 import doctextstyle.features
+import doctextstyle.features.pagesize
 import doctextstyle.parser
 import doctextstyle.utils
 
@@ -62,4 +65,8 @@ def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:
             result.h3_before = headlines[2][3][0]
             result.h3_after = headlines[2][3][1]
 
+    pagesizes = doctextstyle.features.pagesize.pagesizes(path, pages=pages)
+    result.page_width, result.page_height = pagesizes[0][0]
+    with contextlib.suppress(IndexError):
+        result.page_rotated_width, result.page_rotated_height = pagesizes[1][0]
     return result
