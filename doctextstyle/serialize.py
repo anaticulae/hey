@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import dataclasses
+
 import utila
 import yaml
 
@@ -15,11 +17,13 @@ import doctextstyle.data
 
 def load_docstyle(content: str) -> doctextstyle.data.DocTextStyle:
     content = utila.from_raw_or_path(content, ftype='yaml')
-    loaded = yaml.load(content, Loader=yaml.FullLoader)
-    return loaded
+    loaded = yaml.safe_load(content)
+    result = doctextstyle.data.DocTextStyle(**loaded)
+    return result
 
 
 def dump_docstyle(style: doctextstyle.data.DocTextStyle) -> str:
     assert isinstance(style, doctextstyle.data.DocTextStyle)
-    dumped = yaml.dump(style)
+    raw = dataclasses.asdict(style)
+    dumped = yaml.safe_dump(raw)
     return dumped

@@ -205,7 +205,7 @@ def load_distance(
 ) -> PageContentAreaDistances:
     # TODO: MOVE TO SERIALIZERAW
     content = utila.from_raw_or_path(content, ftype='yaml')
-    loaded = yaml.load(content, Loader=yaml.FullLoader)
+    loaded = yaml.safe_load(content)
     result = []
     for page in loaded:
         pagenumber = int(page['page'])

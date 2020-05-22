@@ -14,9 +14,12 @@ import yaml
 def load_leftright_border(path: str, pages: tuple = None) -> dict:
     # TODO: MOVE TO SERIALIZERAW
     raw = utila.from_raw_or_path(path, ftype='yaml')
-    loaded = yaml.load(raw, Loader=yaml.FullLoader)
+    loaded = yaml.safe_load(raw)
     lookup = {}
-    for page, border in loaded:
+    for line in loaded:
+        page, border = line.split(maxsplit=1)
+        page = int(page)
+        border = utila.parse_tuple(border, length=4)
         if utila.should_skip(page, pages):
             continue
         # content = utila.parse_tuple(border)

@@ -30,8 +30,18 @@ def work(
 
     result = determine_border(textpositions, sizeandborder)
 
+    result = [utila.astuple(item) for item in result]
+
     dumped = yaml.dump(result)
     return dumped
+
+
+def astuple(item):
+    # TODO: MOVE TO UTILA
+    return ' '.join(str(x) for x in item)
+
+
+utila.astuple = astuple
 
 
 def content_pages(*pageable) -> list:
@@ -81,7 +91,7 @@ def determine_border(
             return result
 
         result.append([
-            (page, border_detector(leftright_, most, page)) for page in cluster
+            (page, *border_detector(leftright_, most, page)) for page in cluster
         ])
     result = utila.flatten(result)
     # sort by page number

@@ -71,11 +71,17 @@ BibliographyReferences = typing.List[BibliographyReference]
 
 
 def dump_bibliography_reference(references: BibliographyReferences) -> str:
-    dumped = yaml.dump(references)
+    result = []
+    for page in references:
+        result.append([dataclasses.asdict(item) for item in page])
+    dumped = yaml.safe_dump(result)
     return dumped
 
 
 def load_bibliography_reference(content: str) -> BibliographyReferences:
     content = utila.from_raw_or_path(content, ftype='yaml')
-    loaded = yaml.load(content, Loader=yaml.FullLoader)
-    return loaded
+    loaded = yaml.safe_load(content)
+    result = []
+    for page in loaded:
+        result.append([BibliographyReference(**item) for item in page])
+    return result

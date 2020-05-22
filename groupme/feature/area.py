@@ -194,7 +194,7 @@ def dump_area(items) -> str:
 
 def load_area(content: str, pages: tuple = None) -> PageContentTextualAreas:
     content = utila.from_raw_or_path(content, ftype='yaml')
-    loaded = yaml.load(content, Loader=yaml.FullLoader)
+    loaded = yaml.safe_load(content)
     result = []
     for page in loaded:
         pagenumber = int(page['page'])
