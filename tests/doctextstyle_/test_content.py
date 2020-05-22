@@ -17,7 +17,7 @@ def test_content():
     content = doctextstyle.features.content.content(path)
 
     expected = [
-        ((89.29, 505.98, 61.16, 739.3), 109),
-        ((89.29, 505.98, 89.29, 556.02), 7),
+        ((89.29, 89.3, 61.16, 102.59), 109),
+        ((102.59, 61.16, 89.29, 39.26), 7),
     ]
     assert content == expected

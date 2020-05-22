@@ -25,6 +25,7 @@ class MostBoundingDetected:
 
 def run(sizeandborder: iamraw.PageSizeBorderList) -> MostBoundingDetected:
     borders = [item.border for item in sizeandborder]
+
     most = most_boundingbox(borders)
     # x0, y0, x1, y1
     # left right

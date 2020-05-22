@@ -11,10 +11,13 @@ import typing
 
 import iamraw
 import serializeraw
+import utila
 import yaml
 
 import groupme.border.leftright
 import groupme.border.most
+import hey.classificator
+import hey.utils
 
 
 def work(
@@ -25,38 +28,79 @@ def work(
     sizeandborder = serializeraw.load_pageborders(sizeandborder, pages=pages)
     textpositions = serializeraw.load_textpositions(textpositions, pages=pages)
 
-    expected = determine_border(textpositions, sizeandborder)
-
-    pages_loaded = sorted(
-        list({item.page for item in sizeandborder} |
-             {item.page for item in textpositions}))
-    result = []
-    for page in pages_loaded:
-        result.append((page, expected(page)))
+    result = determine_border(textpositions, sizeandborder)
 
     dumped = yaml.dump(result)
     return dumped
+
+
+def content_pages(*pageable) -> list:
+    result = []
+    for pages in pageable:
+        for item in pages:
+            result.append(item.page)
+    result = utila.make_unique(result)
+    result = sorted(result)
+    return result
 
 
 def determine_border(
         textpositions: iamraw.PageContentTextPositions,
         pagesizes: iamraw.PageSizeBorderList,
 ):
-    most = groupme.border.most.run(pagesizes)
-    leftright = groupme.border.leftright.run(textpositions, pagesizes)
+    pages = pagecluster(pagesizes)
 
-    def border_detector(page: int):
-        # left, right, top, down
-        # TODO: CHECK THAT PAGE CALL IS CORRECT
-        left = leftright.left
-        if isinstance(left, tuple):
-            left = left[page % 2]  # pylint:disable=E1136
+    result = []
+    for cluster in pages:
+        textpositions_ = utila.select_pages(textpositions, cluster)
+        pagesizes_ = utila.select_pages(pagesizes, cluster)
 
-        right = leftright.right
-        if isinstance(right, tuple):
-            right = right[page % 2]  # pylint:disable=E1136
+        textpositions_ = hey.utils.not_none(textpositions_)
+        pagesizes_ = hey.utils.not_none(pagesizes_)
 
-        result = (left, right, most.top, most.bottom)
-        return result
+        most = groupme.border.most.run(pagesizes_)
+        leftright_ = groupme.border.leftright.run(textpositions_, pagesizes_)
 
-    return border_detector
+        def border_detector(leftright, most, page: int):
+            # left, right, top, down
+            # TODO: CHECK THAT PAGE CALL IS CORRECT
+            left = leftright.left
+            if isinstance(left, tuple):
+                left = left[page % 2]  # pylint:disable=E1136
+
+            right = leftright.right
+            if isinstance(right, tuple):
+                right = right[page % 2]  # pylint:disable=E1136
+
+            pagesize = utila.select_page(pagesizes, page).size
+            rightborder = pagesize.width - right
+            bottomborder = pagesize.height - most.bottom
+
+            result = (left, rightborder, most.top, bottomborder)
+            result = utila.roundme(result)
+            return result
+
+        result.append([
+            (page, border_detector(leftright_, most, page)) for page in cluster
+        ])
+    result = utila.flatten(result)
+    # sort by page number
+    result = sorted(result, key=lambda x: x[0])
+    return result
+
+
+def pagecluster(pagesizes):
+
+    def equal_size(candidat, clusteritem):
+        # TODO: HOLY VALUE
+        return hey.utils.lengths(candidat[0], clusteritem[0]) < 10.0
+
+    grouped = hey.classificator.determine_cluster(
+        pagesizes,
+        classifier=equal_size,
+        min_elements=3,  # TODO: HOLY VALUE
+    )
+
+    pages = [sorted(item.page for item in cluster) for cluster in grouped]
+
+    return pages

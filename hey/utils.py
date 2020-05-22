@@ -8,6 +8,7 @@
 # =============================================================================
 """Store experimental code here"""
 
+import math
 import random
 
 
@@ -26,3 +27,16 @@ def choose_random(items, count: int = 5) -> list:
     items = list(items)  # create a copy
     random.shuffle(items)
     return items[0:count]
+
+
+def lengths(first, second) -> float:
+    # TODO: MOVE TO UTILA
+    assert len(first) == len(second)
+    summed = 0
+    for left, right in zip(first, second):
+        summed += pow(left - right, 2)
+    return math.sqrt(summed)
+
+
+def not_none(items):
+    return [item for item in items if item is not None]

@@ -7,10 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import math
-
 import groupme.serialize
 import hey.classificator
+import hey.utils
 
 
 def content(path, pages: tuple = None):
@@ -18,7 +17,7 @@ def content(path, pages: tuple = None):
 
     def equals(candidat, clusteritem):
         # left, right, top, down
-        distance = lengths(candidat, clusteritem)
+        distance = hey.utils.lengths(candidat, clusteritem)
         return distance < 5.0  # TODO: HOLY VALUE
 
     clustered = hey.classificator.determine_cluster(
@@ -29,12 +28,3 @@ def content(path, pages: tuple = None):
     # TODO: SUPPORT LEFT AND RIGHT DIFFERENT PAGE?
     result = [(cluster[0], len(cluster)) for cluster in clustered]
     return result
-
-
-def lengths(first, second) -> float:
-    # TODO: MOVE TO UTILA
-    assert len(first) == len(second)
-    summed = 0
-    for left, right in zip(first, second):
-        summed += pow(left - right, 2)
-    return math.sqrt(summed)
