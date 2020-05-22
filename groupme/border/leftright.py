@@ -211,7 +211,12 @@ def raising(left: utila.Numbers, right: utila.Numbers) -> LeftRightDetected:
         if item < edge * MIN_RAISING_EDGE.value
     ]
     failrate = len(failures) / len(edges)
-    max_failrate = utila.lookup(len(edges), RAISING_FAILRATE)
+    with utila.refactor(
+            major=1,
+            minor=23,
+            description='use right_outranges_none=False and check todo on top',
+    ):
+        max_failrate = utila.lookup(len(edges), RAISING_FAILRATE)
 
     if failrate > max_failrate:
         return None
