@@ -30,18 +30,18 @@ def work(
 
     result = determine_border(textpositions, sizeandborder)
 
-    result = [utila.astuple(item) for item in result]
+    result = [utila.from_tuple(item) for item in result]
 
     dumped = yaml.dump(result)
     return dumped
 
 
-def astuple(item):
+def from_tuple(item):
     # TODO: MOVE TO UTILA
     return ' '.join(str(x) for x in item)
 
 
-utila.astuple = astuple
+utila.from_tuple = from_tuple
 
 
 def content_pages(*pageable) -> list:
