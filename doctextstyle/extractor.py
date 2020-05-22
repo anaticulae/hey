@@ -13,9 +13,11 @@ import serializeraw
 
 import doctextstyle
 import doctextstyle.features
+import doctextstyle.features.content
 import doctextstyle.features.pagesize
 import doctextstyle.parser
 import doctextstyle.utils
+import groupme.path
 
 
 def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:
@@ -69,4 +71,7 @@ def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:
     result.page_width, result.page_height = pagesizes[0][0]
     with contextlib.suppress(IndexError):
         result.page_rotated_width, result.page_rotated_height = pagesizes[1][0]
+
+    leftright = groupme.path.border_leftright(path)
+    content = doctextstyle.features.content.content(leftright, pages=pages)
     return result
