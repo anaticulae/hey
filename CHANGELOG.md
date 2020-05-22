@@ -2,6 +2,23 @@
 
 Every noteable change is logged here.
 
+## v2.7.0
+
+### Feature
+
+* add different border extractor for different page sizes (363ec6d71188)
+* extract content mostly used page content border (91dede7d93a9)
+* add method to load border leftright (0cea513e3e4f)
+* write extracted page size to docstyle result (6b2e00e4a4e1)
+* determine major and other paper sizes (14d492dcf055)
+* add page and content dimension (8ae84fd320d5)
+* add module to determines paths of written content (28b69ed89de5)
+* round text distances to requested accuracy (b1b5f788a99d)
+
+### Fix
+
+* use more safe approach (b97c76a80dab)
+
 ## v2.6.1
 
 ## v2.6.0
