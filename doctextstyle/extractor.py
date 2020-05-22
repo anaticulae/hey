@@ -20,7 +20,7 @@ import doctextstyle.utils
 import groupme.path
 
 
-def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:  # pylint:disable=R0914
+def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:  # pylint:disable=R0914,R0915
     loaded = serializeraw.create_pagetextnavigators_frompath(
         path,
         prefix='oneline',
@@ -75,11 +75,12 @@ def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:  
     leftright = groupme.path.border_leftright(path)
     content = doctextstyle.features.content.content(leftright, pages=pages)
 
-    normal = content[0][0]
-    result.content_left = normal[0]
-    result.content_right = normal[1]
-    result.content_top = normal[2]
-    result.content_bottom = normal[3]
+    if content:
+        normal = content[0][0]
+        result.content_left = normal[0]
+        result.content_right = normal[1]
+        result.content_top = normal[2]
+        result.content_bottom = normal[3]
     if len(content) > 1:
         rotated = content[1][0]
         result.content_rotated_left = rotated[0]
