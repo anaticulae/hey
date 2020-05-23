@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v2.7.1
+
+### Fix
+
+* do not fail on empty content border (2569bbd1e232)
+
 ## v2.7.0
 
 ### Feature
