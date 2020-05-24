@@ -44,7 +44,7 @@ class GeometryRegexTocExtractor(groupme.toc.strategy.ExtractorStrategy):
         grouped = groupme.toc.strategy.group(valid)
         invalid = [item for item in flat if item not in valid]
         return groupme.toc.strategy.ExtractionResult(
-            content=grouped,
+            content=grouped.content,
             invalid=invalid,
         )
 
