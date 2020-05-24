@@ -49,6 +49,7 @@ class GeometryTocExtractor(groupme.toc.strategy.ExtractorStrategy):
             content=valid_content.content,
             invalid=invalid_content,
         )
+        assert isinstance(result.content, list), type(result.content)
         return result
 
     @property

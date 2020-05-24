@@ -41,12 +41,16 @@ class GeometryRegexTocExtractor(groupme.toc.strategy.ExtractorStrategy):
         flat = utila.flatten(utila.flatten(extracted))
 
         valid = groupme.toc.strategy.remove_nonconnected_tocs(flat)
+
         grouped = groupme.toc.strategy.group(valid)
         invalid = [item for item in flat if item not in valid]
-        return groupme.toc.strategy.ExtractionResult(
+
+        result = groupme.toc.strategy.ExtractionResult(
             content=grouped.content,
             invalid=invalid,
         )
+        assert isinstance(result.content, list), type(result.content)
+        return result
 
 
 def analyse_page(content: texmex.PageTextNavigator):
