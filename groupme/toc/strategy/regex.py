@@ -34,6 +34,8 @@ import groupme.toc
 import groupme.toc.lineregex as gtl
 import groupme.toc.strategy as gts
 
+MAX_TOC_LINE_LENGTH = 250  # TODO: HOLY VALUE
+
 
 class RegexTocExtractor(gts.ExtractorStrategy):
 
@@ -98,6 +100,9 @@ def parse(content: str) -> groupme.toc.TocLines:
     # remove duplications, which can occur when table of content is on the
     # same page as first headline.
     result = groupme.toc.remove_duplication(result)
+
+    # remove long lines which can not be real lines
+    result = [item for item in result if len(item.title) < MAX_TOC_LINE_LENGTH]
 
     # Ensure that toc list is ordered by position on pdf page
     result = groupme.toc.sort_byposition(result, duplicated)
