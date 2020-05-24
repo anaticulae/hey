@@ -501,8 +501,9 @@ TEN = tuple(range(10))
 def test_groupme_toc_validate(source, validate, pages, monkeypatch, testdir):
     """Verify parsing behavior and check that toc is located
     automatically in range of `TEN` pages."""
-    pages = ','.join((str(item) for item in pages))
-    cmd = f'-i {source} --toc --pages={pages}'
+    pages = ','.join((str(item) for item in pages)) if pages else ''
+    pages = f'--pages={pages}' if pages else ''
+    cmd = f'-i {source} --toc {pages}'
     tests.groupme_.run(cmd, monkeypatch=monkeypatch)
 
     path = groupme.path.toc(testdir.tmpdir)
