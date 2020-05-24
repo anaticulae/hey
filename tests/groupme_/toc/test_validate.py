@@ -481,6 +481,46 @@ def bachelor76(toc: iamraw.Toc):
     assert titles == TITLE_BACHELOR76, titles
 
 
+TITLE_MASTER72 = """\
+Einleitung
+    Fragestellung und Zielsetzung
+    Aufbau der Arbeit
+Das Social Web und die Privatsphäre – Selbstdarstellungsverhalten der Nutzer aus Sicht von Massenmedien und Literatur
+    Web 2.0, Social Web und Social Media: Abgrenzungen und Definitionen
+    Merkmale von Social Network Sites
+    Eigenschaften netzbasierter Kommunikation
+    Einführung in das Konzept der Privatheit
+    Darstellungen in Massenmedien und Literatur
+        Selbstdarstellung und Privatheit als Problemfelder
+        Mögliche Gründe für die Freizügigkeit im Umgang mit privaten Daten
+        Privacy Paradox und Post-Privacy
+Systemtheorie und moderne Netzwerksoziologie – zentrale Ansätze und Begriffe für den Themenkomplex Social Media
+    Öffentlichkeit aus systemtheoretischer Sicht
+    Interaktion als soziales System
+    Personenbegriff nach Luhmann
+    Erwartungen
+    Vertrauen
+    Identitätsbildung nach der modernen Netzwerksoziologie
+        Identitäten suchen Kontrolle
+        Identitätsdimensionen
+        Soziale Netzwerke beinhalten Stories
+    Abschließende Bemerkungen zur Vereinbarkeit beider Theorien
+Privatheit und Identitätsbildung im Social Web – funktional betrachtet
+    Social Media als Interaktionsräume
+    Kontextbildung und Empfängerdifferenzierung im Social Web
+    Potenzielle Öffentlichkeit
+    Social Media contra Öffentlichkeit
+    Identitätsbildung im Social Web
+Schlussbetrachtung und Fazit
+Literaturverzeichnis
+Eidesstattliche Erklärung"""
+
+
+def master72(toc: iamraw.Toc):
+    titles = merge_required(toc)
+    assert titles == TITLE_MASTER72, titles
+
+
 TEN = tuple(range(10))
 
 
@@ -496,6 +536,7 @@ TEN = tuple(range(10))
     pytest.param(tests.resources.MASTER89, master89, TEN, id='master89'),
     pytest.param(tests.resources.MASTER98, master98, TEN, id='master98'),
     pytest.param(tests.resources.MASTER99, master99, TEN, id='master99'),
+    pytest.param(tests.resources.MASTER72, master72, None, id='master72'),
 ])  # yapf:enable
 @utila.skip_longrun
 def test_groupme_toc_validate(source, validate, pages, monkeypatch, testdir):
