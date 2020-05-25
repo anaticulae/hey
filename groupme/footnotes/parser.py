@@ -41,6 +41,9 @@ def parse(content: str):
 
     for item in footnote_split(content):
         number, text = item.split(maxsplit=1)
+        if not text.strip():
+            utila.error(f'could not parse footnote: {number}, no text content')
+            continue
         footnote = iamraw.FootRawNote(
             number=int(number),
             text=text,
@@ -119,6 +122,10 @@ def parse_with_highnotes(content):
         except ValueError:
             utila.error(f'could not convert to int: {number.text}')
             notenumber = number.text
+        if not note.text.strip():
+            utila.error(f'could not parse footnote: {number}, no text content')
+            continue
+
         footnote = iamraw.FootRawNote(
             number=notenumber,
             text=note.text,
