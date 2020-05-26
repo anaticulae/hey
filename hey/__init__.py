@@ -8,7 +8,7 @@
 #==============================================================================
 import os
 
-__version__ = '2.7.1'
+__version__ = '2.7.2'
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 

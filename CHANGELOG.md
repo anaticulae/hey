@@ -2,6 +2,18 @@
 
 Every noteable change is logged here.
 
+## v2.7.2
+
+### Feature
+
+* limit regex to reduce mismatching (b7f15bffb3f7)
+
+### Fix
+
+* skip empty footnotes and signal error (2ab2d69b7150)
+* ensure to use correct data/datatype (f208e3194835)
+* fix accessing correct data type (33219b755447)
+
 ## v2.7.1
 
 ### Fix
