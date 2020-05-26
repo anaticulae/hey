@@ -23,6 +23,12 @@ def validate_master72(result):
     assert first_notes[0].number == 1, first_notes[0].number
 
 
+def validate_bachelor90(result):
+    footnotes = flat_footnotes(result)  # pylint:disable=W0612
+    numbers = [item.number for item in footnotes]
+    assert numbers == list(range(12))
+
+
 @pytest.mark.parametrize('document, pages, expected_footer, validate', [
     pytest.param(
         tests.resources.MASTER72,
@@ -46,6 +52,14 @@ def validate_master72(result):
         [],
         None,
         id='restructured',
+    ),
+    pytest.param(
+        tests.resources.BACHELOR90,
+        tuple(range(18, 25)),
+        [(18, 2), (19, 1), (21, 1), (22, 3), (23, 4)],
+        validate_bachelor90,
+        id='bachelor90',
+        marks=pytest.mark.xfail(reason='pdf is not printed correctly'),
     ),
 ])
 @utila.skip_longrun
@@ -77,3 +91,10 @@ def test_groupme_footer_master72pages(testdir):
     path = iamraw.path.horizontals(tests.resources.MASTER72)
     result = serializeraw.load_horizontals(path)
     assert len(result) > 10, str(result)
+
+
+def flat_footnotes(pages):
+    result = []
+    for page in pages:
+        result.extend(page.footer)
+    return result
