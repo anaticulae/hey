@@ -166,3 +166,13 @@ def test_groupme_footer_master72_extract(testdir, monkeypatch):
 def normalize_whitespaces(text: str) -> str:
     text = ' '.join(text.strip().split())
     return text
+
+
+def test_groupme_header_bachelor90(testdir, monkeypatch):
+    cmd = f'-i {tests.resources.BACHELOR90}  --footer --pages=11:24'
+    tests.groupme_.run(cmd, monkeypatch=monkeypatch)
+    headerpath = iamraw.path.headerfooters(testdir.tmpdir)
+
+    loaded = serializeraw.load_headerfooter(headerpath)
+    header = [item.header for item in loaded if item.header]
+    assert len(header) == 11
