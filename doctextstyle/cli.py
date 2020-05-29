@@ -43,7 +43,7 @@ def main() -> int:
         prog=doctextstyle.PROCESS,
     )
     args = utila.parse(parser)
-    selected_pages = pages_fromargs(args)
+    selected_pages = utila.pages_fromargs(args)
 
     inpath, outpath = utila.cli.sources(args, singleinput=True)
     inpath = inpath[0]
@@ -65,17 +65,3 @@ def main() -> int:
     dumped = doctextstyle.serialize.dump_docstyle(extracted)
     utila.file_replace(outpath, dumped)
     return utila.SUCCESS
-
-
-def pages_fromargs(args) -> tuple:
-    """Extract list of pages number out of user input args.
-
-    >>> pages_fromargs({'pages':[0, 5,'10:15'], 'inpath':'...',})
-    (0, 5, 10, 11, 12, 13, 14)
-    """
-    # TODO: REPLACE AFTER UTILA
-    pages = args.get('pages', [':'])
-    pages = [str(item) for item in pages]
-    joined = ','.join(pages)
-    result = utila.parse_pages(joined)  # pylint:disable=R0204
-    return result
