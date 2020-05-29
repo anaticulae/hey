@@ -10,6 +10,7 @@
 import contextlib
 
 import serializeraw
+import texmex
 import utila
 
 import doctextstyle
@@ -127,6 +128,10 @@ def extract_textdimension(result, cnavigators):
     twidth = dtt.text_width(cnavigators)
     twidth_min = dtt.text_width_min(cnavigators)
     twidth_max = dtt.text_width_max(cnavigators)
+
     result.text_width = twidth
     result.text_width_min = twidth_min
     result.text_width_max = twidth_max
+
+    result.text_left = texmex.document_textfeed(cnavigators)
+    result.text_right = texmex.document_textfeed(cnavigators, left=False)

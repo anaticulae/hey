@@ -30,6 +30,8 @@ class DocTextStyle:
     text_distance: float = None
     text_family: int = None
 
+    text_left: float = None
+    text_right: float = None
     text_width: float = None
     text_width_min: float = None
     text_width_max: float = None
