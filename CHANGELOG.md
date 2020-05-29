@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v2.7.5
+
+### Fix
+
+* avoid error on very short documents (83e583b17192)
+
 ## v2.7.4
 
 ### Feature
