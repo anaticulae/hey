@@ -136,6 +136,8 @@ def extract_textdimension(result, navigators, cnavigators):
     result.text_left = texmex.document_textfeed(cnavigators)
     result.text_right = texmex.document_textfeed(navigators, left=False)
 
-    right = result.page_width - result.content_right
-
-    result.text_alignment = dtt.justified(cnavigators, right)
+    if result.content_right is not None:
+        # content_right is None for very short documents, cause there are
+        # a minimum number of pages required to extract this properly.
+        right = result.page_width - result.content_right
+        result.text_alignment = dtt.justified(cnavigators, right)
