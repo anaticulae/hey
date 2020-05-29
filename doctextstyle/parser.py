@@ -127,10 +127,10 @@ def textlength(navigator) -> utila.Ints:
     return [len(item.text) for item in navigator]
 
 
-def textsizes(navigator: texmex.PageTextNavigator) -> utila.Floats:
-    assert isinstance(navigator, texmex.PageTextNavigator), type(navigator)
+def textsizes(navi: texmex.NavigatorMixin) -> utila.Floats:
+    assert issubclass(navi.__class__, texmex.NavigatorMixin), type(navi)
     collected = []
-    for line in navigator:
+    for line in navi:
         # determine most common text size
         fontsizes = utila.flatten([
             [char.size] * (char.end - char.start) for char in line.style.content
@@ -139,10 +139,10 @@ def textsizes(navigator: texmex.PageTextNavigator) -> utila.Floats:
     return collected
 
 
-def textfonts(navigator: texmex.PageTextNavigator) -> utila.Ints:
-    assert isinstance(navigator, texmex.PageTextNavigator), type(navigator)
+def textfonts(navi: texmex.NavigatorMixin) -> utila.Ints:
+    assert issubclass(navi.__class__, texmex.NavigatorMixin), type(navi)
     collected = []
-    for line in navigator:
+    for line in navi:
         family = [char.font for char in line.style]
         collected.append(utila.mode(family))
     return collected
