@@ -31,3 +31,6 @@ def test_doctextstyle_extract():
     assert result.pagenumber_size == 12.0
     assert result.footnote_size == 9.0
     assert result.footnote_distance == 10.3
+
+    # justified text
+    assert result.text_alignment == 1

@@ -35,6 +35,7 @@ class DocTextStyle:
     text_width: float = None
     text_width_min: float = None
     text_width_max: float = None
+    text_alignment: int = None
 
     h1_size: float = None
     h1_before: float = None

@@ -7,7 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import texmex
 import utila
 
 
@@ -40,13 +39,19 @@ def widths(cnavigators):
     return result
 
 
-def document_textfeed(navigators):
-    try:
-        left = texmex.document_textfeed(navigators)
-    except IndexError:
-        left = None  # TODO: REMOVE LATER
-    try:
-        right = texmex.document_textfeed(navigators, left=False)
-    except IndexError:
-        right = None  # TODO: REMOVE LATER
-    return left, right
+def justified(cnavigators, right_mode):
+    if not cnavigators or right_mode is None:
+        return None
+    items = ([line.bounding.x1 for line in page] for page in cnavigators)
+    items = utila.flatten(items)
+
+    items = [item for item in items if item >= right_mode * 0.9]
+
+    fit = right_mode - 5
+    matched = [item for item in items if item >= fit]
+
+    if not items:
+        return None
+
+    quote = len(matched) / len(items)
+    return 0 if quote < 0.9 else 1

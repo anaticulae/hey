@@ -30,13 +30,13 @@ def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:  
         pages=pages,
     )
     try:
-        cnavigator = serializeraw.create_pagetextcontentnavigators_frompath(
+        cnavigators = serializeraw.create_pagetextcontentnavigators_frompath(
             path,
             prefix='oneline',
             pages=pages,
         )
     except FileNotFoundError as error:
-        cnavigator = None
+        cnavigators = None
         utila.error(f'missing page text content navigator: {error}')
 
     parsed = doctextstyle.parser.parses(navigator)
@@ -67,7 +67,7 @@ def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:  
 
     extract_contentborder(result, path, pages)
 
-    extract_textdimension(result, cnavigator)
+    extract_textdimension(result, navigator, cnavigators)
     return result
 
 
@@ -122,7 +122,7 @@ def extract_headlines(result, flat):
     result.h3_after = headlines[2][3][1]
 
 
-def extract_textdimension(result, cnavigators):
+def extract_textdimension(result, navigators, cnavigators):
     if not cnavigators:
         return
     twidth = dtt.text_width(cnavigators)
@@ -134,4 +134,8 @@ def extract_textdimension(result, cnavigators):
     result.text_width_max = twidth_max
 
     result.text_left = texmex.document_textfeed(cnavigators)
-    result.text_right = texmex.document_textfeed(cnavigators, left=False)
+    result.text_right = texmex.document_textfeed(navigators, left=False)
+
+    right = result.page_width - result.content_right
+
+    result.text_alignment = dtt.justified(cnavigators, right)
