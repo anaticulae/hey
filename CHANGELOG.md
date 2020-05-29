@@ -2,6 +2,14 @@
 
 Every noteable change is logged here.
 
+## v2.7.4
+
+### Feature
+
+* add method to detect justification of text (20aea61c6ab4)
+* extract left and right text bounds (569e320ee4bf)
+* add step to extract text bounding of content (afb46770b056)
+
 ## v2.7.3
 
 ## v2.7.2
