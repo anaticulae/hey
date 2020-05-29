@@ -12,6 +12,7 @@ import utila
 
 def text_width(cnavigators):
     result = widths(cnavigators)
+    result = utila.roundme(result, digits=0, convert=False)  # pylint:disable=R0204
     return utila.mode(result)
 
 
