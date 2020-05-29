@@ -23,6 +23,8 @@ Extracts common text layout properties for text, headlines(h1, h2, h3),
 pagenumber, footnotes, paragraphs and lists.
 
 Requires: `rawmaker__oneline` data to create pagetextnavigators
+          `rawmaker__oneline` data to create pagecontenttextnavigators
+
 Writes: `doctextstyle__textstyle.yaml`
 """
 

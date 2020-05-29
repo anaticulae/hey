@@ -10,11 +10,13 @@
 import contextlib
 
 import serializeraw
+import utila
 
 import doctextstyle
 import doctextstyle.features
 import doctextstyle.features.content
 import doctextstyle.features.pagesize
+import doctextstyle.features.textbounding as dtt
 import doctextstyle.parser
 import doctextstyle.utils
 import groupme.path
@@ -26,6 +28,16 @@ def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:  
         prefix='oneline',
         pages=pages,
     )
+    try:
+        cnavigator = serializeraw.create_pagetextcontentnavigators_frompath(
+            path,
+            prefix='oneline',
+            pages=pages,
+        )
+    except FileNotFoundError as error:
+        cnavigator = None
+        utila.error(f'missing page text content navigator: {error}')
+
     parsed = doctextstyle.parser.parses(navigator)
     flat = doctextstyle.utils.flatten(parsed)
 
@@ -54,6 +66,7 @@ def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:  
 
     extract_contentborder(result, path, pages)
 
+    extract_textdimension(result, cnavigator)
     return result
 
 
@@ -106,3 +119,14 @@ def extract_headlines(result, flat):
     result.h3_family = headlines[2][1]
     result.h3_before = headlines[2][3][0]
     result.h3_after = headlines[2][3][1]
+
+
+def extract_textdimension(result, cnavigators):
+    if not cnavigators:
+        return
+    twidth = dtt.text_width(cnavigators)
+    twidth_min = dtt.text_width_min(cnavigators)
+    twidth_max = dtt.text_width_max(cnavigators)
+    result.text_width = twidth
+    result.text_width_min = twidth_min
+    result.text_width_max = twidth_max
