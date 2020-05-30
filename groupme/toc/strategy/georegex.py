@@ -22,7 +22,6 @@ Strategy:
 
 """
 import collections
-import typing
 
 import iamraw
 import texmex
@@ -87,10 +86,7 @@ def group_areas(content: texmex.PageTextNavigator):
     return result
 
 
-BoundingBoxes = typing.List[iamraw.BoundingBox]
-
-
-def group_boundings(items: BoundingBoxes, diff=10.0):
+def group_boundings(items: iamraw.BoundingBoxes, diff=10.0):
     assert diff >= 1.0, 'diff to low'
     counter = collections.defaultdict(int)
     for bounding in items:
