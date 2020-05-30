@@ -59,10 +59,11 @@ def analyze_result(result: gts.ExtractionResult) -> ExtractionStatistic:
     if len(result) >= 1:
         oneline_factor = utila.roundme(oneliner / len(result))  # pylint:disable=R0204
 
-    return ExtractionStatistic(
+    result = ExtractionStatistic(
         validitem_count=len(flat),
         invalid_count=len(result.invalid),
         group_count=len(result),
         oneline_factor=oneline_factor,
         parsed_level=len(parsed_level),
     )
+    return result
