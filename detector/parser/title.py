@@ -33,11 +33,17 @@ class TitleParserState(enum.Enum):
 
 
 TITLE_BLACKLIST = {
+    'ABSCHLUSSBERICHT',
     'BACHELORARBEIT',
+    'BERICHT',
     'DISSERTATION',
     'DOKTORARBEIT',
+    'DOKTORTHESIS',
     'MASTERARBEIT',
+    'PRAKTIKUM',
+    'PROJEKTPRAKTIKUM',
     'STUDIENARBEIT',
+    'THESIS',
 }
 
 
