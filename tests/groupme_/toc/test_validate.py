@@ -521,6 +521,94 @@ def master72(toc: iamraw.Toc):
     assert titles == TITLE_MASTER72, titles
 
 
+TITLE_BACHELOR90 = """\
+Abbildungsverzeichnis
+Tabellenverzeichnis
+Abkürzungsverzeichnis
+Einleitung
+    Motivation
+    Zielsetzung und Aufbau der Arbeit
+Grundlagen eingebetteter Systeme
+    Embedded System
+        Systembegriff
+        Computersysteme
+        Entwicklungen im Embedded-Bereich
+    Standards in der eingebetteten Softwareentwicklung
+        AUTOSAR
+        MISRA-C
+    Controller Area Network - CAN
+        Topologie
+        Datenübertragung
+Methodik
+    Modellgetriebene Softwareentwicklung
+        Entwicklungswerkzeuge
+        Stand der Technik im Automobilbereich
+    Automatische Codegenerierung aus Modellen
+        Konzept
+        Probleme beim Erzeugen von Quellcode
+        Validierung der Ergebnisse
+    Strategien zur Zerlegung der Probleme
+        Randbedingungen
+        Modularisierung
+        Information Hiding
+        Kopplung
+    Umsetzung des Softwaresystems
+        Manuell erzeugter Quellcode
+        Modulweise Automatisierung, manuelle Verknüpfung
+        Vollständige Automatisierung
+        Zusammenfassung der Umsetzung
+    Simulink
+        Embedded Coder
+        Verwendung von S-Funktionen
+        Erzeugen des Simulinkmodells
+    Testen der Software
+        Softwarespezifikation
+        Grundprinzip der Prüfung
+        Klassifikation der Tests nach Komplexität
+        Testen eingebetteter Systeme
+        Bewertung des Testens als Prüfverfahren
+    Debugging der Software
+    Eignung für die Umsetzung
+Umsetzung
+    Problemstellung
+    Vorgehen um Code zu erzeugen
+    Übersicht der praktischen Entwicklung
+        Entwicklungsumgebung Ubuntu
+        Arbeit auf der OBU
+    Allgemeiner Aufbau der Algorithmen
+    Umsetzung der Algorithmen
+        Algorithmus zur Durchmesserberechnung
+        Moduldefinition
+    Komponententest
+        Testen der Komponente Einlesen
+        Testen des Buffers
+        Testen der Durchmesserberechnung
+        Verifikation des Histogramms
+    Integration und Integrationstest der entwickelten Komponenten
+        Manuelle Integration
+        Vollständige Integration in Simulink
+        Bewertung
+Diskussion und Ausblick
+Anhang
+    Konfiguration
+        Software
+        OBU
+    Befehlsreferenz
+    Verzeichnisübersicht Ubuntu
+    Verzeichnisübersicht OBU
+    Umsetzung
+        Konfiguration der Modelle
+        S-Funktion erzeugen
+        S-Funktion einbinden
+        Konfiguration Mex
+    Testergebnisse"""
+
+
+def bachelor90(toc: iamraw.Toc):
+    titles = merge_required(toc)
+    assert titles == TITLE_BACHELOR90, titles
+
+
 TEN = tuple(range(10))
 
 
@@ -537,6 +625,8 @@ TEN = tuple(range(10))
     pytest.param(tests.resources.MASTER98, master98, TEN, id='master98'),
     pytest.param(tests.resources.MASTER99, master99, TEN, id='master99'),
     pytest.param(tests.resources.MASTER72, master72, None, id='master72'),
+    pytest.param(tests.resources.BACHELOR90, bachelor90, TEN, id='bachelor90',
+                 marks=pytest.mark.xfail(reason='upgrade to new rawmaker')),
 ])  # yapf:enable
 @utila.skip_longrun
 def test_groupme_toc_validate(source, validate, pages, monkeypatch, testdir):
