@@ -625,8 +625,7 @@ TEN = tuple(range(10))
     pytest.param(tests.resources.MASTER98, master98, TEN, id='master98'),
     pytest.param(tests.resources.MASTER99, master99, TEN, id='master99'),
     pytest.param(tests.resources.MASTER72, master72, None, id='master72'),
-    pytest.param(tests.resources.BACHELOR90, bachelor90, TEN, id='bachelor90',
-                 marks=pytest.mark.xfail(reason='upgrade to new rawmaker')),
+    pytest.param(tests.resources.BACHELOR90, bachelor90, (4, 5, 6), id='bachelor90'),
 ])  # yapf:enable
 @utila.skip_longrun
 def test_groupme_toc_validate(source, validate, pages, monkeypatch, testdir):
