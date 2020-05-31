@@ -69,7 +69,6 @@ RAISING_FAILRATE = (
     (10, 0.3),
     (40, 0.1),
     (200, 0.05),
-    (2000, 0.01),  # TODO: Check if this big failure count makes any sence
 )
 # TODO: SHOULD WE DISABLE ALGO ON BIG FAIL COUNT?
 
@@ -211,12 +210,11 @@ def raising(left: utila.Numbers, right: utila.Numbers) -> LeftRightDetected:
         if item < edge * MIN_RAISING_EDGE.value
     ]
     failrate = len(failures) / len(edges)
-    with utila.refactor(
-            major=1,
-            minor=23,
-            description='use right_outranges_none=False and check todo on top',
-    ):
-        max_failrate = utila.lookup(len(edges), RAISING_FAILRATE)
+    max_failrate = utila.lookup(
+        len(edges),
+        RAISING_FAILRATE,
+        right_outranges_none=False,
+    )
 
     if failrate > max_failrate:
         return None

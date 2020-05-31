@@ -18,7 +18,6 @@ import hey.text.regex as htr
 
 def parse(line: str) -> groupme.toc.TocLine:
     assert isinstance(line, str), type(line)
-    line = normalize_vowels(line)
     # TODO: REMOVE LATER
     line = line.strip()
     for pattern in [
@@ -158,20 +157,3 @@ def normalize_inner_whitespaces(item: str) -> str:
     """
     # TODO: MOVE TO UTILA
     return INNER_WHITESPACES.sub(' ', item)
-
-
-def normalize_vowels(item: str) -> str:
-    # TODO: REPLACE AFTER FIXING RAWMAKER
-    item = item.replace('A¨', 'Ä')
-    item = item.replace('O¨', 'Ö')
-    item = item.replace('U¨', 'Ü')
-    item = item.replace('a¨', 'ä')
-    item = item.replace('o¨', 'ö')
-    item = item.replace('u¨', 'ü')
-    item = item.replace('¨A', 'Ä')
-    item = item.replace('¨O', 'Ö')
-    item = item.replace('¨U', 'Ü')
-    item = item.replace('¨a', 'ä')
-    item = item.replace('¨o', 'ö')
-    item = item.replace('¨u', 'ü')
-    return item

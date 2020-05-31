@@ -63,8 +63,7 @@ def work(
     )
     selected = select_tocpages(navigators)
     # select toc pages only
-    # TODO: REPLACE WITH UTILA.select_pages
-    navigators = [utila.select_page(navigators, page=page) for page in selected]
+    navigators = utila.select_pages(navigators, pages=selected)
 
     loaded = groupme.toc.strategy.load(navigators)
     extracted = groupme.toc.extractor.extract(loaded)

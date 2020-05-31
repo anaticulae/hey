@@ -153,8 +153,6 @@ def lookbehind(rest):
     return parsed, rest
 
 
-# TODO: REPLACE AFTER UPGRADING IAMRAW
-iamraw.Persons = typing.List[iamraw.Person]
 
 
 def order_persons(persons: list) -> typing.Tuple[iamraw.Person, iamraw.Persons]:
