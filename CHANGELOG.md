@@ -2,6 +2,17 @@
 
 Every noteable change is logged here.
 
+## v2.7.6
+
+### Feature
+
+* extend title type extractor (e4062946eceb)
+
+### Fix
+
+* round to have better groups (9d984e24ca1c)
+* round extracted left/right text distance result (ec40a44d8560)
+
 ## v2.7.5
 
 ### Fix
