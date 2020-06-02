@@ -70,7 +70,7 @@ import utila
 import hey.classificator
 import hey.text.utils
 
-MIN_LINE_ELEMENT = 3  # TODO: HOLY VALUE
+MIN_LINE_ELEMENT = 2  # TODO: HOLY VALUE
 MAX_LINE_DIFF = 10
 
 MAX_TEXT_DIFF = 2.5
