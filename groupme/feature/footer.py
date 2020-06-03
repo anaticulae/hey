@@ -12,6 +12,7 @@
 TODO:
     what should we do with empty header/footer
 """
+
 import typing
 
 import iamraw

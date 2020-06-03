@@ -15,6 +15,7 @@ Outdated approaches
 - collect title and check if sequence exists again in the document
 
 """
+
 import typing
 
 import configo
