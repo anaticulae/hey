@@ -86,7 +86,7 @@ def select_tocpages(textnavigators: texmex.PageTextNavigators) -> utila.Ints:
     """Use simple approach to decide which page is a toc page."""
     selected = []
     for page in textnavigators:
-        utila.debug('page: {page.page}')
+        utila.debug(f'page: {page.page}')
         tocpage = gtsr.parse_page(page)
         if tocpage is None:
             utila.log(f'empty page: {page.page}')
