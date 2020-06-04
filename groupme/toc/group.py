@@ -18,23 +18,26 @@ import groupme.toc
 
 
 def group(items: groupme.toc.TocLines):
-    # TODO: RENAME GROUPBY_LEVEL
+    """Group by chapter."""
+    # TODO: RENAME GROUPBY_CHAPTER
+    # TODO: DONT KNOW WHY WE NEED THIS?
+    # HACK: THIS METHOD IS SHIT
     assert isinstance(items, list), type(items)
     for item in items:
         assert isinstance(item, groupme.toc.TocLine), type(item)
 
     result = []
-
-    current = None
     collected = []
     for item in items:
-        level_ = level(item.level)
-        if level_ is None or level_ != current:
+        if item.level is None:
             if collected:
                 result.append(collected)
                 collected = []
-            current = level_
-            collected.append(item)
+            result.append([item])
+            continue
+        if collected and collected[-1].level[0] != item.level[0]:
+            result.append(collected)
+            collected = [item]
         else:
             collected.append(item)
     if collected:
@@ -44,6 +47,7 @@ def group(items: groupme.toc.TocLines):
 
 @dataclasses.dataclass
 class Level:
+    # TODO: MOVE TO IAMRAW
     value: int = None
     raw: str = dataclasses.field(compare=False, default=None)
 
@@ -82,13 +86,9 @@ def level(item: str) -> Level:
     if item is None:
         return None
 
-    with contextlib.suppress(ValueError):
-        value = int(item)
-        return Level(value=value, raw=item)
-
-    with contextlib.suppress(ValueError):
-        value = int(item.split('.')[0])
-        return Level(value=value, raw=item)
+    number = numbered_level(item)
+    if number is not None:
+        return Level(value=number, raw=item)
 
     with contextlib.suppress(KeyError):
         value = texmex.numbers.arabic(item.upper())
@@ -108,7 +108,30 @@ def level(item: str) -> Level:
     assert 0, str(item)
 
 
-def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
+def numbered_level(raw: str) -> int:
+    """Convert number to raw level.
+
+    >>> numbered_level('5')
+    1
+    >>> numbered_level('2.')
+    1
+    >>> numbered_level('2.1.3.')
+    3
+    >>> numbered_level('2.1')
+    2
+    >>> numbered_level('2..1...') # ignore typos
+    2
+    """
+    # TODO: MOVE TESTS?
+    raw = raw.strip()
+    if not '.' in raw:
+        return 1 if raw.isnumeric() else None
+    # 2.1.3
+    splitted = [item for item in raw.split('.') if item]
+    return len(splitted)
+
+
+def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:  # pylint:disable=R1260
     """Create `iamraw.Toc` out of list of `groupme.toc.TocLine
 
     Determine level of toc line and replace it with determined int-level.
@@ -120,15 +143,13 @@ def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
     """
     assert isinstance(tableofcontent, list), type(tableofcontent)
 
-    def determine_level(level_):
+    def determine_level(level_) -> int:
         if level_ is None:
-            return 0
-        # 1. Einleitung
-        # 1.1 Aufbau der Arbeit
-        number = level_.count('.')  # TODO: NOT VERY STABLE
-        if level_.endswith('.') and len(level_) > 1:
-            number = number - 1
-        return number
+            return 1
+        numbered = numbered_level(level_)
+        if numbered is None:
+            return 1
+        return numbered
 
     outlines = []
     for line in tableofcontent:
@@ -155,6 +176,7 @@ def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
             1.1 Aufbau der Arbeit
             update every level to ensure
         """
+        # TODO: REMOVE THIS?
         zero_level = min([item.level for item in items], default=utila.INF) == 0
         if zero_level:
             for item in items:
