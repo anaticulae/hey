@@ -54,7 +54,7 @@ TEXT = (
 WHITESPACES = r'[ ]{1,5}'
 WHITESPACES_OPT = r'[ ]{0,3}'
 DOTTED = r'([ \.…]+)'
-PAGE = r'\b(?P<page>(\d+|[IiVvXx]+))\b'  # arabic and roman numbers
+PAGE = r'\b(?P<page>(\d{1,3}|[IiVvXx]{1,4}))\b'  # arabic and roman numbers
 
 EXTENDED_PATTERN = re.compile(
     ('^'
