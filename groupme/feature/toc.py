@@ -31,6 +31,9 @@ import groupme.utils
 # minimal percentage of toc lines per page
 MIN_TOCS_PER_PAGE = configo.HV_PERCENT_PLUS(0.2, limit=1.0).value
 
+# limit possible toc to the first 15 pages
+POSSIBLE_PAGES = utila.make_tuple(15)
+
 
 def work(
         text: str,
@@ -76,6 +79,8 @@ def select_tocpages(textnavigators: texmex.PageTextNavigators) -> utila.Ints:
     """Use simple approach to decide which page is a toc page."""
     selected = []
     for page in textnavigators:
+        if utila.should_skip(page.page, POSSIBLE_PAGES):
+            continue
         utila.debug(f'page: {page.page}')
         tocpage = groupme.toc.strategy.regex.parse_page(page)
         if tocpage is None:
