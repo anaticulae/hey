@@ -83,6 +83,7 @@ def select_figuretable(
     for page in textnavigators:
         firstheadline = headline(page)
         if firstheadline is not None and firstheadline in wrong_table:
+            # This approach works only forward and not backwards.
             # TODO: WHAT SHOULD WE DO WHEN BOTH ARE ON THE SAME PAGE?
             continue
         utila.debug(f'page: {page.page}')

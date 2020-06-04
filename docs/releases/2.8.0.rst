@@ -8,7 +8,7 @@ groupme
 
 * [x] add step to extract table of figures
 
-* [ ] add step to extract table of tables
+* [x] add step to extract table of tables
 
 code quality
 ------------

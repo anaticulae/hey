@@ -56,3 +56,12 @@ def figuretable(path: str, prefix: str = '') -> str:
         'figuretable_figuretable',
         prefix,
     )
+
+
+def tabletable(path: str, prefix: str = '') -> str:
+    return utila.pathconnector(
+        path,
+        'groupme',
+        'tabletable_tabletable',
+        prefix,
+    )
