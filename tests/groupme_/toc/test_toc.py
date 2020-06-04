@@ -12,6 +12,7 @@ import serializeraw
 import utila
 
 import groupme.feature.toc
+import groupme.toc.group
 import groupme.toc.loader
 import tests.resources
 
@@ -26,7 +27,8 @@ def test_groupme_toc_groupby_level():
     tableofcontent = groupme.toc.extractor.extract(loaded)
 
     tableofcontent = utila.flatten(tableofcontent.content)
-    result = groupme.feature.toc.groupby_level(tableofcontent)
+
+    result = groupme.toc.group.groupby_level(tableofcontent)
     assert result
     dumped = serializeraw.dump_toc(result)
     assert dumped

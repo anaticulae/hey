@@ -19,7 +19,6 @@ Outdated approaches
 import typing
 
 import configo
-import iamraw
 import serializeraw
 import texmex
 import utila
@@ -69,7 +68,7 @@ def work(
     extracted = groupme.toc.extractor.extract(loaded)
 
     flat = utila.flatten(extracted.content)
-    leveled = groupby_level(flat)
+    leveled = groupme.toc.group.groupby_level(flat)
 
     dumped = serializeraw.dump_toc(leveled)
     return dumped
@@ -134,62 +133,4 @@ def decide_non_level_possible_headlines(items):
                 raw=item.raw,
             )
         result.append(item)
-    return result
-
-
-def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
-    """Create `iamraw.Toc` out of list of `groupme.toc.TocLine
-
-    Determine level of toc line and replace it with determined int-level.
-
-    Args:
-        tableofcontent: extracted table of content.
-    Returns:
-        Table of content with replaced levels.`
-    """
-    assert isinstance(tableofcontent, list), type(tableofcontent)
-
-    def determine_level(level):
-        if level is None:
-            return 0
-        # 1. Einleitung
-        # 1.1 Aufbau der Arbeit
-        number = level.count('.')  # TODO: NOT VERY STABLE
-        if level.endswith('.') and len(level) > 1:
-            number = number - 1
-        return number
-
-    outlines = []
-    for line in tableofcontent:
-        if not line:
-            utila.error(f'problem while processing lines: {line}')
-            continue
-        if not isinstance(line, groupme.toc.TocLine):
-            continue
-        level = determine_level(line.level)
-        section = iamraw.SectionRaw(
-            level=level,
-            page=line.page,
-            title=line.title,
-            raw=line.raw,
-            raw_location=line.raw_location,
-        )
-        outlines.append(section)
-
-    def level_zero(items):
-        """Ensure that no toc has level zero
-
-        Problem:
-            1 Einleitung
-            1.1 Aufbau der Arbeit
-            update every level to ensure
-        """
-        zero_level = min([item.level for item in items], default=utila.INF) == 0
-        if zero_level:
-            for item in items:
-                item.level = item.level + 1
-        return items
-
-    outlines = level_zero(outlines)
-    result = iamraw.create_toc(outlines)
     return result

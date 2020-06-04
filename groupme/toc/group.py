@@ -10,7 +10,9 @@
 import contextlib
 import dataclasses
 
+import iamraw
 import texmex.numbers
+import utila
 
 import groupme.toc
 
@@ -104,3 +106,61 @@ def level(item: str) -> Level:
         return result
 
     assert 0, str(item)
+
+
+def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
+    """Create `iamraw.Toc` out of list of `groupme.toc.TocLine
+
+    Determine level of toc line and replace it with determined int-level.
+
+    Args:
+        tableofcontent: extracted table of content.
+    Returns:
+        Table of content with replaced levels.`
+    """
+    assert isinstance(tableofcontent, list), type(tableofcontent)
+
+    def determine_level(level_):
+        if level_ is None:
+            return 0
+        # 1. Einleitung
+        # 1.1 Aufbau der Arbeit
+        number = level_.count('.')  # TODO: NOT VERY STABLE
+        if level_.endswith('.') and len(level_) > 1:
+            number = number - 1
+        return number
+
+    outlines = []
+    for line in tableofcontent:
+        if not line:
+            utila.error(f'problem while processing lines: {line}')
+            continue
+        if not isinstance(line, groupme.toc.TocLine):
+            continue
+        level_ = determine_level(line.level)
+        section = iamraw.SectionRaw(
+            level=level_,
+            page=line.page,
+            title=line.title,
+            raw=line.raw,
+            raw_location=line.raw_location,
+        )
+        outlines.append(section)
+
+    def level_zero(items):
+        """Ensure that no toc has level zero
+
+        Problem:
+            1 Einleitung
+            1.1 Aufbau der Arbeit
+            update every level to ensure
+        """
+        zero_level = min([item.level for item in items], default=utila.INF) == 0
+        if zero_level:
+            for item in items:
+                item.level = item.level + 1
+        return items
+
+    outlines = level_zero(outlines)
+    result = iamraw.create_toc(outlines)
+    return result
