@@ -138,26 +138,6 @@ def decide_non_level_possible_headlines(items):
     return result
 
 
-def uniform_level(level: str) -> str:
-    """Uniform potential level
-
-    The valid level format according to DUDEN is X.Y.Z without trailing `.`
-
-    Example:
-        1.3.3. - > 1.3.3
-        TODO: make upper/lower of ROMAN level iii -> III ? - decide later
-    Args:
-        level(str): level to unify
-    Returns:
-        unified level
-    """
-    assert level
-    level = str(level)
-    if level.endswith('.'):
-        level = level[0:-1]
-    return level
-
-
 def groupby_level(tableofcontent: groupme.toc.TocLines) -> iamraw.Toc:
     """Create `iamraw.Toc` out of list of `groupme.toc.TocLine
 
