@@ -6,7 +6,7 @@ RP 2.8.0
 groupme
 -------
 
-* [ ] add step to extract table of figures
+* [x] add step to extract table of figures
 
 * [ ] add step to extract table of tables
 

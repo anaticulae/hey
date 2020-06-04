@@ -70,6 +70,16 @@ WORKPLAN = [
         output=(TOC_OUTPUT,),
     ),
     step(
+        'figuretable',
+        inputs=[
+            ResultFile(producer='rawmaker', name='oneline_text_text'),
+            ResultFile(producer='rawmaker', name='oneline_text_positions'),
+            ResultFile(producer='groupme', name='footer_footerheader'),
+            ResultFile(producer='rawmaker', name='border_pages'),
+        ],
+        output=('figuretable',),
+    ),
+    step(
         'pagenumbers',
         inputs=[
             ResultFile(producer='rawmaker', name='text_text'),

@@ -47,3 +47,12 @@ def headerfooters(path: str, prefix: str = '') -> str:
 
 def toc(path: str, prefix: str = '') -> str:
     return utila.pathconnector(path, 'groupme', 'toc_toc', prefix)
+
+
+def figuretable(path: str, prefix: str = '') -> str:
+    return utila.pathconnector(
+        path,
+        'groupme',
+        'figuretable_figuretable',
+        prefix,
+    )
