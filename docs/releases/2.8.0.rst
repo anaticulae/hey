@@ -1,0 +1,21 @@
+.. _2_8_0:
+
+RP 2.8.0
+=========
+
+groupme
+-------
+
+* [ ] add step to extract table of figures
+
+* [ ] add step to extract table of tables
+
+code quality
+------------
+
+before
+~~~~~~
+
+* Todo: 200
+* Total coverage: %
+* Your code has been rated at 10.0/10
