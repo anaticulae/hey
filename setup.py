@@ -56,6 +56,7 @@ if __name__ == "__main__":
             'detector',
             'detector.feature',
             'detector.bibliography',
+            'detector.bibliography.reference',
             'detector.parser',
             'groupme',
             'groupme.abbreviation',

@@ -34,6 +34,11 @@ class BibliographyReference:
     reference: str = None
     data: str = None
 
+    page: int = None
+    pageend: int = None
+
+    raw: str = None
+
     title: str = None
     year: int = None
     authors: typing.List[str] = dataclasses.field(default_factory=list)
