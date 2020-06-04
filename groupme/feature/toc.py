@@ -81,12 +81,13 @@ def select_tocpages(textnavigators: texmex.PageTextNavigators) -> utila.Ints:
         if tocpage is None:
             utila.log(f'empty page: {page.page}')
             continue
+        pageslines = texmex.count_textlines(page, remove_empty=True)
+        if not pageslines:
+            continue
         tocpage = decide_non_level_possible_headlines(tocpage)
-
         if not tocpage:
             # after filtering, no toc line is left
             continue
-        pageslines = texmex.count_textlines(page, remove_empty=True)
         toc_percent = len(tocpage) / pageslines
         utila.info(f'toc percent: {toc_percent} on page: {page.page}')
         if toc_percent < MIN_TOCS_PER_PAGE:
