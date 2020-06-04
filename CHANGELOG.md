@@ -2,6 +2,22 @@
 
 Every noteable change is logged here.
 
+## v2.8.0
+
+### Feature
+
+* add tabletable extractor (07b9a8b00206)
+* add figurestep to extract table of figures (f9c3b505b824)
+* limit toc localisation to first 15 pages (f86b550399ae)
+* limit page length of toc parser (345e7f926ffb)
+* reduce min length to double instead of triple lines (e0c0fc7f545f)
+
+### Fix
+
+* use more complex and correct level determiner (a5ed97e6f2bf)
+* skip empty pages (8be341e0acf6)
+* fix debug message (cde634b2a841)
+
 ## v2.7.6
 
 ### Feature
