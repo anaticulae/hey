@@ -62,7 +62,7 @@ def group(extracted: groupme.toc.TocLines) -> ExtractionResult:
         if item not in valid:
             invalid.append(item)
 
-    content = groupme.toc.group.group(valid)
+    content = groupme.toc.group.group_bychapter(valid)
 
     result = ExtractionResult(content=content, invalid=invalid)
     return result

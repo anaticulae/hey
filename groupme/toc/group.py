@@ -17,11 +17,9 @@ import utila
 import groupme.toc
 
 
-def group(items: groupme.toc.TocLines):
+def group_bychapter(items: groupme.toc.TocLines):
     """Group by chapter."""
-    # TODO: RENAME GROUPBY_CHAPTER
     # TODO: DONT KNOW WHY WE NEED THIS?
-    # HACK: THIS METHOD IS SHIT
     assert isinstance(items, list), type(items)
     for item in items:
         assert isinstance(item, groupme.toc.TocLine), type(item)
