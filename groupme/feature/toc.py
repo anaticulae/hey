@@ -29,7 +29,6 @@ import groupme.toc
 import groupme.toc.extractor
 import groupme.toc.loader
 import groupme.toc.strategy
-import groupme.toc.strategy.regex as gtsr
 import groupme.utils
 
 # minimal percentage of toc lines per page
@@ -88,7 +87,7 @@ def select_tocpages(textnavigators: texmex.PageTextNavigators) -> utila.Ints:
     selected = []
     for page in textnavigators:
         utila.debug(f'page: {page.page}')
-        tocpage = gtsr.parse_page(page)
+        tocpage = groupme.toc.strategy.regex.parse_page(page)
         if tocpage is None:
             utila.log(f'empty page: {page.page}')
             continue
