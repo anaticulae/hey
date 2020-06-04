@@ -16,8 +16,6 @@ Outdated approaches
 
 """
 
-import typing
-
 import configo
 import serializeraw
 import texmex
@@ -72,13 +70,6 @@ def work(
 
     dumped = serializeraw.dump_toc(leveled)
     return dumped
-
-
-Level = typing.NewType('Level', str)
-Title = typing.NewType('Title', str)
-
-LeveledTitle = typing.Tuple[Level, Title]
-LeveledTitles = typing.List[LeveledTitle]
 
 
 def select_tocpages(textnavigators: texmex.PageTextNavigators) -> utila.Ints:
