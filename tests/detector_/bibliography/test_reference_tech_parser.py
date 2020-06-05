@@ -22,9 +22,11 @@ der Zugriffe nach [JL07, Seite 389]
 [mat12b]
 [Sch05, Seite 3-4]
 [ Ju04] JUERGEN LEOHOLD:
+[K.11] K., Pengutronix e.: How to become a PTXdist Guru - Based on the
+OSELAS.BSP( ) -Pengutronix Generic-arm. August 2011
 """
 
 
 def test_parse_tech():
     extracted = dbrt.parses(CONTENT)
-    assert len(extracted) == 10
+    assert len(extracted) == 11

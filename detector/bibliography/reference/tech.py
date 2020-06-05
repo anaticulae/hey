@@ -28,9 +28,9 @@ import detector.bibliography.data
 # [ ]{0,3} Optional whitespaces
 
 TECHNICAL = r"""\[[ ]{0,3}
-                (?P<author>\w{2,3}[+]{0,1})[ ]{0,3}
+                (?P<author>[\w\.]{2,3}[+]{0,1})[ ]{0,3}
                 (?P<year>\d{2})[ ]{0,3}
-                (?P<plus>a|b|c|d){0,1}[ ]{0,3}
+                (?P<number>a|b|c|d){0,1}[ ]{0,3}
                 (\,[ ]{0,3}Seite[ ]{0,3}
                 (
                  (?P<page>\d{1,3})|
@@ -50,13 +50,15 @@ def parses(content: str) -> detector.bibliography.data.BibliographyReferences:
             page = int(item['page'])
         with contextlib.suppress(KeyError, TypeError):
             page, pageend = int(item['pagestart']), int(item['pageend'])
+        number = item['number'] if item['number'] else None
 
         reference = detector.bibliography.data.BibliographyReference(
             page=page,
             pageend=pageend,
-            raw=raw,
             reference=item['author'],
             year=item['year'],
+            number=number,
+            raw=raw,
         )
         result.append(reference)
     return result

@@ -73,8 +73,11 @@ def technical_pattern(raw: str):
         return None
     if len(matched) >= 2:
         utila.error(f'more than one references detected: {raw}')
-    raw = raw.replace(matched[0].raw, '').strip()
-    return matched[0], raw
+    matched = matched[0]
+    data = raw.replace(matched.raw, '').strip()
+    number = matched.number if matched.number else ''
+    reference = f'{matched.reference}{matched.year}{number}'
+    return reference, data
 
 
 def authordate_pattern(raw: str):

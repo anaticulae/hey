@@ -41,6 +41,8 @@ class BibliographyReference:
 
     title: str = None
     year: int = None
+    # a,b,c... to differentiate item in the same year
+    number: str = None
     authors: typing.List[str] = dataclasses.field(default_factory=list)
 
     def __lt__(self, value):  # pylint:disable=too-many-return-statements
