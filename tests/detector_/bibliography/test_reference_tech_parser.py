@@ -21,9 +21,10 @@ der Zugriffe nach [JL07, Seite 389]
 [VAC+08]
 [mat12b]
 [Sch05, Seite 3-4]
+[ Ju04] JUERGEN LEOHOLD:
 """
 
 
 def test_parse_tech():
     extracted = dbrt.parses(CONTENT)
-    assert len(extracted) == 9
+    assert len(extracted) == 10
