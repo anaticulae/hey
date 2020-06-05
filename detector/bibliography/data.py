@@ -19,48 +19,8 @@ after the items with year.
 # TODO: ADD OTHER SORTING AS THEISSEN recommends
 """
 
-import contextlib
-import dataclasses
-import typing
-
 import texmex.alpha
 import utila
-import yaml
-
-
-@dataclasses.dataclass(unsafe_hash=True)
-class BibliographyReference:
-
-    reference: str = None
-    data: str = None
-
-    page: int = None
-    pageend: int = None
-
-    raw: str = None
-
-    title: str = None
-    year: int = None
-    # a,b,c... to differentiate item in the same year
-    number: str = None
-    authors: typing.List[str] = dataclasses.field(default_factory=list)
-
-    @classmethod
-    def create(cls, author: str, title: str = '', year: int = 2000):
-        author = tuple(author.split(' ', maxsplit=1))
-        with contextlib.suppress(TypeError):
-            year = int(year)
-        return cls(authors=[author], title=title, year=year)
-
-    @property
-    def author(self) -> str:
-        """Return family of first author."""
-        with contextlib.suppress(IndexError):
-            return self.authors[0][0]  # pylint:disable=E1136
-        return None
-
-
-BibliographyReferences = typing.List[BibliographyReference]
 
 
 def theissen_sort(items):
@@ -79,20 +39,3 @@ def theissen_sort(items):
         if x.author else 'o. V.',
     )
     return items
-
-
-def dump_bibliography_reference(references: BibliographyReferences) -> str:
-    result = []
-    for page in references:
-        result.append([dataclasses.asdict(item) for item in page])
-    dumped = yaml.safe_dump(result)
-    return dumped
-
-
-def load_bibliography_reference(content: str) -> BibliographyReferences:
-    content = utila.from_raw_or_path(content, ftype='yaml')
-    loaded = yaml.safe_load(content)
-    result = []
-    for page in loaded:
-        result.append([BibliographyReference(**item) for item in page])
-    return result

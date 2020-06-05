@@ -9,10 +9,10 @@
 
 import contextlib
 
+import iamraw
 import texmex
 import utila
 
-import detector.bibliography.data as dbd
 import detector.bibliography.reference.tech
 import hey.geometry.alternate
 import hey.text.utils
@@ -22,7 +22,7 @@ MIN_CONTENT_LENGTH = 15  # TODO: HOLY VALUE
 MIN_WORD_COUNT = 2  # TODO: HOLY VALUE
 
 
-def extracts(items: texmex.PageTextNavigators) -> dbd.BibliographyReferences:
+def extracts(items: texmex.PageTextNavigators) -> iamraw.BibliographyReferences:
     result = []
     config = hey.geometry.alternate.ParserConfig(
         min_content_length=MIN_CONTENT_LENGTH,
@@ -38,7 +38,7 @@ def extracts(items: texmex.PageTextNavigators) -> dbd.BibliographyReferences:
     return result
 
 
-def extract(content) -> dbd.BibliographyReferences:
+def extract(content) -> iamraw.BibliographyReferences:
     if content is None:
         # white page
         return []
@@ -46,7 +46,11 @@ def extract(content) -> dbd.BibliographyReferences:
     for group in content:
         raw = hey.text.utils.connect_text(group)
         reference, data = split_bibliography(raw)
-        result.append(dbd.BibliographyReference(reference=reference, data=data))
+        result.append(
+            iamraw.BibliographyReference(
+                reference=reference,
+                data=data,
+            ))
     return result
 
 

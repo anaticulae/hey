@@ -8,6 +8,7 @@
 # =============================================================================
 
 import pytest
+import serializeraw
 import utila
 
 import detector.bibliography.data
@@ -53,7 +54,7 @@ def test_detector_bibliography_run(
     tests.detector_.run(command, monkeypatch=monkeypatch)
 
     outpath = detector.path.bibliography_detected(root)
-    loaded = detector.bibliography.data.load_bibliography_reference(outpath)
+    loaded = serializeraw.load_bibliography_reference(outpath)
     flat = utila.flatten(loaded)
     assert len(flat) == expected, str(loaded)
 

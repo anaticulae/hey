@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw
 import texmex
 
 import detector.bibliography.alternate
@@ -17,7 +18,7 @@ import detector.bibliography.data
 def extracts(
         text: texmex.PageTextNavigators,
         text_oneline: texmex.PageTextNavigators,
-) -> detector.bibliography.data.BibliographyReferences:
+) -> iamraw.BibliographyReferences:
     column = detector.bibliography.column.extracts(text)
     alternate = detector.bibliography.alternate.extracts(text_oneline)
 

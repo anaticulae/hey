@@ -44,5 +44,5 @@ def work(
         onelines,
     )
 
-    dumped = detector.bibliography.data.dump_bibliography_reference(extracted)
+    dumped = serializeraw.dump_bibliography_reference(extracted)
     return dumped

@@ -21,9 +21,8 @@ Parses technical bibliographic reference like:
 import contextlib
 import re
 
+import iamraw
 import utila
-
-import detector.bibliography.data
 
 # [ ]{0,3} Optional whitespaces
 
@@ -41,7 +40,7 @@ TECHNICAL = r"""\[[ ]{0,3}
              """
 
 
-def parses(content: str) -> detector.bibliography.data.BibliographyReferences:
+def parses(content: str) -> iamraw.BibliographyReferences:
     result = []
     for item in re.finditer(TECHNICAL, content, re.VERBOSE):
         raw = utila.extract_match(item)
@@ -52,7 +51,7 @@ def parses(content: str) -> detector.bibliography.data.BibliographyReferences:
             page, pageend = int(item['pagestart']), int(item['pageend'])
         number = item['number'] if item['number'] else None
 
-        reference = detector.bibliography.data.BibliographyReference(
+        reference = iamraw.BibliographyReference(
             page=page,
             pageend=pageend,
             reference=item['author'],

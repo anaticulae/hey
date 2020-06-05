@@ -7,9 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw
 import texmex
 
-import detector.bibliography.data as dbd
 import hey.geometry.double_column
 
 
@@ -23,7 +23,7 @@ def extracts(items: texmex.PageTextNavigators):
     return result
 
 
-def extract(content: texmex.PageTextNavigator,) -> dbd.BibliographyReferences:
+def extract(content: texmex.PageTextNavigator) -> iamraw.BibliographyReferences:
     parsed = hey.geometry.double_column.parse_page(content)
     if parsed is None:
         return None
@@ -34,7 +34,11 @@ def extract(content: texmex.PageTextNavigator,) -> dbd.BibliographyReferences:
         # remove latex reference pattern [FCB87]
         reference = remove_bracket_angle(reference)
         data = item[1].strip()
-        result.append(dbd.BibliographyReference(reference=reference, data=data))
+        result.append(
+            iamraw.BibliographyReference(
+                reference=reference,
+                data=data,
+            ))
     return result
 
 
