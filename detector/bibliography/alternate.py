@@ -8,11 +8,12 @@
 # =============================================================================
 
 import contextlib
-import re
 
 import texmex
+import utila
 
 import detector.bibliography.data as dbd
+import detector.bibliography.reference.tech
 import hey.geometry.alternate
 import hey.text.utils
 
@@ -49,17 +50,13 @@ def extract(content) -> dbd.BibliographyReferences:
     return result
 
 
-# [HELM87]
-PREFIX = r'^\[(?P<label>[\w\d]+)\][ ]?(?P<text>.+)'
-
-
 def split_bibliography(raw: str):
     raw = raw.strip()
     reference, data = None, raw
 
-    matched = re.match(PREFIX, raw)
-    if matched:
-        return matched['label'], matched['text']
+    technical = technical_pattern(raw)
+    if technical:
+        return technical
 
     reference, data = authordate_pattern(raw)
     if reference:
@@ -68,6 +65,16 @@ def split_bibliography(raw: str):
     with contextlib.suppress(ValueError):
         reference, data = raw.split(maxsplit=1)
     return reference, data
+
+
+def technical_pattern(raw: str):
+    matched = detector.bibliography.reference.tech.parses(raw)
+    if not matched:
+        return None
+    if len(matched) >= 2:
+        utila.error(f'more than one references detected: {raw}')
+    raw = raw.replace(matched[0].raw, '').strip()
+    return matched[0], raw
 
 
 def authordate_pattern(raw: str):
