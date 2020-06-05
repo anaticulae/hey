@@ -45,20 +45,6 @@ class BibliographyReference:
     number: str = None
     authors: typing.List[str] = dataclasses.field(default_factory=list)
 
-    def __lt__(self, value):  # pylint:disable=too-many-return-statements
-        """See rules in module doc `sorting`."""
-        author = self.author if self.author else 'o. V.'
-        value_author = value.author if value.author else 'o. V.'
-        author = texmex.alpha.replace(author).lower()
-        value_author = texmex.alpha.replace(value_author).lower()
-        if author == value_author:
-            if self.year is None:
-                return False
-            if value.year is None:
-                return True
-            return self.year < value.year
-        return author < value_author
-
     @classmethod
     def create(cls, author: str, title: str = '', year: int = 2000):
         author = tuple(author.split(' ', maxsplit=1))
@@ -75,6 +61,24 @@ class BibliographyReference:
 
 
 BibliographyReferences = typing.List[BibliographyReference]
+
+
+def theissen_sort(items):
+    """We sort by family name and as tybreaker by year. If no name is
+    given, we use `o. V. = ohne Verfasser` instead. If no year is given,
+    we sort it after the items with year."""
+    # sort by year
+    items = sorted(
+        items,
+        key=lambda x: x.year if x.year is not None else utila.INF,
+    )
+    # sort by author name
+    items = sorted(
+        items,
+        key=lambda x: texmex.alpha.replace(x.author).lower()
+        if x.author else 'o. V.',
+    )
+    return items
 
 
 def dump_bibliography_reference(references: BibliographyReferences) -> str:

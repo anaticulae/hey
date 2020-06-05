@@ -16,7 +16,7 @@ def test_sort_byname():
         dbd.BibliographyReference.create('Arnold Anton'),
         dbd.BibliographyReference.create('Fahrendholz Konrad'),
     ]
-    result = sorted(example)
+    result = dbd.theissen_sort(example)
     expected = [example[1], example[2], example[0]]
     assert result == expected
 
@@ -27,7 +27,7 @@ def test_sort_byyear():
         dbd.BibliographyReference.create('Fahrendholz Konrad', year=None),
         dbd.BibliographyReference.create('Fahrendholz Konrad', year=1987),
     ]
-    result = sorted(year)
+    result = dbd.theissen_sort(year)
     expected = [year[2], year[0], year[1]]
     assert result == expected
 
@@ -40,6 +40,6 @@ def test_sort_bynoname():
         dbd.BibliographyReference.create('Fahrendholz Konrad', year=None),
         dbd.BibliographyReference.create('Fahrendholz Konrad', year=1987),
     ]
-    result = sorted(ov)
+    result = dbd.theissen_sort(ov)
     expected = [ov[3], ov[2], ov[1], ov[0]]
     assert result == expected
