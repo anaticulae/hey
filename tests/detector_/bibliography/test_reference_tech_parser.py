@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import pytest
+
 import detector.bibliography.reference.tech as dbrt
 
 CONTENT = """\
@@ -30,3 +32,101 @@ OSELAS.BSP( ) -Pengutronix Generic-arm. August 2011
 def test_parse_tech():
     extracted = dbrt.parses(CONTENT)
     assert len(extracted) == 11
+
+
+LONGTEXT = """\
+EPA: Locomotive emission standards: regulatory support document. Office
+of Mobile Sources, Office of Air and Radiation, U.S. Environmental
+Protection Agency, 1999
+
+Donnelly, F.: Hybrid technology for the rail industry. In: Rail
+Conference, 2004. Proceedings of the 2004 ASME/IEEE Joint, 2004, S.
+113–117
+
+IAV: Zusammenfassung Datenanalyse. 2015
+
+Lindemann, M ; Gühmann, C: VeLoDyn - Ein Werkzeug zur
+Triebstrangsimulation von Kraftfahrzeugen. In: 1. Tagung Simulation und
+Test in der Funktionsund Softwareentwicklung, 2003, 1-11
+
+Gasper, R.: Flachheitsbasierter Vorsteuerungsentwurf für den
+Antriebsstrang eines Parallelhybridfahrzeuges. VDI Verlag GmbH, 2013
+(VDI-Buch)
+
+Dittmann, D.: Alstom Hybridlokomotiven im Verschubeinsatz - Konzept und
+Erfahrungen im Einsatz H3 Fahrzeugplattform. 2013
+
+Heißing, B.: Fahrwerkhandbuch: Grundlagen · Fahrdynamik · Komponenten ·
+Systeme · Mechatronik · Perspektiven. Springer Fachmedien Wiesbaden,
+2013 (ATZ/MTZ-Fachbuch)
+""".split('\n\n')
+
+
+@pytest.mark.parametrize('text, title, authors, pages, year, publisher', [
+    pytest.param(
+        LONGTEXT[0],
+        'Locomotive emission standards: regulatory support document',
+        None,
+        None,
+        1999,
+        'Office of Mobile Sources, Office of Air and Radiation, U.S. Environmental Protection Agency',
+        id='epa',
+    ),
+    pytest.param(
+        LONGTEXT[1],
+        'Hybrid technology for the rail industry',
+        None,
+        (113, 117),
+        2004,
+        'Rail Conference, 2004. Proceedings of the 2004 ASME/IEEE Joint',
+        id='donelly',
+    ),
+    pytest.param(
+        LONGTEXT[2],
+        'Zusammenfassung Datenanalyse',
+        None,
+        None,
+        2015,
+        None,
+        id='iav',
+    ),
+    pytest.param(
+        LONGTEXT[3],
+        'VeLoDyn - Ein Werkzeug zur Triebstrangsimulation von Kraftfahrzeugen',
+        [['Lindemann', 'M'], ['Gühmann', 'C']],
+        None,
+        2003,
+        None,
+        id='velodyn',
+    ),
+    pytest.param(
+        LONGTEXT[4],
+        'Flachheitsbasierter Vorsteuerungsentwurf für den Antriebsstrang eines Parallelhybridfahrzeuges',
+        [['Gasper', 'R.']],
+        None,
+        2013,
+        None,
+        id='gasper',
+    ),
+    pytest.param(
+        LONGTEXT[6],
+        'Fahrwerkhandbuch: Grundlagen · Fahrdynamik · Komponenten · Systeme · Mechatronik · Perspektiven',
+        [['Heißing', 'B.']],
+        None,
+        2013,
+        None,
+        id='heissing',
+    ),
+])
+def test_parse_tech_long(text, title, authors, pages, year, publisher):  # pylint:disable=W0613
+    extracted = dbrt.parse_longtext(text)
+    if title:
+        assert extracted.title == title
+    if pages:
+        assert extracted.page == pages[0]
+        if len(pages) == 2:
+            assert extracted.pageend == pages[1]
+    if year:
+        assert extracted.year == year
+    if authors:
+        assert extracted.authors == authors

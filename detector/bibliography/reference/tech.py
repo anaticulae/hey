@@ -61,3 +61,84 @@ def parses(content: str) -> iamraw.BibliographyReferences:
         )
         result.append(reference)
     return result
+
+
+def parse_longtext(content: str) -> iamraw.BibliographyReference:
+    content = content.replace('\n', ' ')
+    authors, rest = content.split(':', maxsplit=1)
+    title, rest = rest.split('.', maxsplit=1)
+    # press = rest.split('.)
+
+    title = title.strip()
+    authors = authors.strip()
+    authors = parse_authors(authors)
+
+    page = pages(rest)
+    if page:
+        rest = rest.replace(page[0], '')
+    year = years(rest)
+    if year:
+        # remove year from right to left
+        rest = ' '.join(rest.rsplit(year[0], maxsplit=1))
+
+    # TODO: SAVE TO BIB REF AFTER UPGRADING IAMRAW
+    publisher = rest  # pylint:disable=W0612
+
+    result = iamraw.BibliographyReference(
+        authors=authors,
+        raw=content,
+        title=title,
+    )
+    if page:
+        result.page = page[1][0]
+        if len(page[1]) == 2:
+            result.pageend = page[1][1]
+    if year:
+        result.year = year[1]
+    return result
+
+
+def parse_authors(raw: str):
+    result = []
+    for item in raw.split(';'):
+        result.append([it.strip() for it in item.split(',')])
+    return result
+
+
+def pages(raw: str):
+    """\
+    >>> pages('IEEE Joint, 2004, S. 113-117')
+    ('S. 113-117', (113, 117))
+    >>> pages('p.103')
+    ('p.103', (103,))
+    """
+    pattern = r"""(
+         (Seite|S\.|p\.|P\.|page)[ ]{0,3}
+         (
+          (?P<pagestart>\d{1,4})[ ]{0,3}(\-|–)[ ]{0,3}(?P<pageend>\d{1,4})|
+          (?P<page>\d{1,4})
+         )
+    )
+    """
+    matched = re.search(pattern, raw, re.VERBOSE)
+    if not matched:
+        return None
+    raw = utila.extract_match(matched)
+    with contextlib.suppress(TypeError):
+        return raw, (int(matched['page']),)
+    with contextlib.suppress(TypeError):
+        return raw, (int(matched['pagestart']), int(matched['pageend']))
+    return None
+
+
+def years(raw: str):
+    """\
+    >>> years('IEEE Joint, 2004, S. 113–117')
+    ('2004', 2004)
+    """
+    pattern = r'(?P<year>\d{4})'
+    matched = re.search(pattern, raw, re.VERBOSE)
+    if not matched:
+        return None
+    raw = utila.extract_match(matched)
+    return (raw, int(raw))
