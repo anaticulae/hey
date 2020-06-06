@@ -2,6 +2,20 @@
 
 Every noteable change is logged here.
 
+## v2.9.0
+
+### Feature
+
+* add slash pattern to author parser (25da0afb716c)
+* use `tech` parser to analyse column bib ref layout (de86623d600e)
+* add pages parser to `freeand` parser (2c970a2cc832)
+* add multiple author parser (ad1a2e3e65fe)
+* add multiple authors pattern parser (8291b18cbf45)
+* add freeand pattern parser (68baf18aa1b4)
+* add tech long pattern parser (9e79017cf5fd)
+* use improved technical parser (9ca1bdab5800)
+* add technical reference parser (7224f3e859c1)
+
 ## v2.8.0
 
 ### Feature
