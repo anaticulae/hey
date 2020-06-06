@@ -68,8 +68,14 @@ def parses(content: str) -> iamraw.BibliographyReferences:
 
 def parse_longtext(content: str) -> iamraw.BibliographyReference:
     content = content.replace('\n', ' ')
-    authors, rest = content.split(':', maxsplit=1)
-    title, rest = rest.split('.', maxsplit=1)
+    try:
+        authors, rest = content.split(':', maxsplit=1)
+    except ValueError:
+        return None
+    try:
+        title, rest = rest.split('.', maxsplit=1)
+    except ValueError:
+        return None
     # press = rest.split('.)
 
     title = title.strip()

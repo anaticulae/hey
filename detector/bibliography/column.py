@@ -10,6 +10,7 @@
 import iamraw
 import texmex
 
+import detector.bibliography.reference.tech
 import hey.geometry.double_column
 
 
@@ -34,11 +35,18 @@ def extract(content: texmex.PageTextNavigator) -> iamraw.BibliographyReferences:
         # remove latex reference pattern [FCB87]
         reference = remove_bracket_angle(reference)
         data = item[1].strip()
-        result.append(
-            iamraw.BibliographyReference(
-                reference=reference,
-                data=data,
-            ))
+
+        techref = detector.bibliography.reference.tech.parse_longtext(data)
+        if techref:
+            techref.reference = reference
+            techref.data = data
+            result.append(techref)
+        else:
+            result.append(
+                iamraw.BibliographyReference(
+                    reference=reference,
+                    data=data,
+                ))
     return result
 
 
