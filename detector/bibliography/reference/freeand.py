@@ -37,6 +37,7 @@ import re
 
 import iamraw
 
+import detector.bibliography.reference as dbr
 import detector.bibliography.reference.authors as dbra
 
 AND = r"""
@@ -67,6 +68,10 @@ def parse_longtext(content: str) -> iamraw.BibliographyReference:
     except ValueError:
         title, rest = None, matched['content']
 
+    page = dbr.pages(rest)
+    if page:
+        rest = rest.replace(page[0], '')
+
     result = iamraw.BibliographyReference(
         authors=authors,
         number=number,
@@ -74,4 +79,8 @@ def parse_longtext(content: str) -> iamraw.BibliographyReference:
         year=year,
         raw=content,
     )
+    if page:
+        result.page = page[1][0]
+        if len(page[1]) == 2:
+            result.pageend = page[1][1]
     return result
