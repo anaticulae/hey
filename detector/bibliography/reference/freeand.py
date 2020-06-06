@@ -46,7 +46,7 @@ AND = r"""
         (?P<number>a|b|c|d){0,1}  # optional char
     \)
     [ ]{0,5}                      # remove trailing whitespaces
-    \.{0,1}                       # remove dot
+    [:\.]{0,1}                    # remove dot or colon
     [ ]{0,5}                      # remove trailing whitespaces
     (?P<content>.+)
 """
@@ -58,7 +58,7 @@ def parse_longtext(content: str) -> iamraw.BibliographyReference:
     if not matched:
         return None
 
-    authors = dbra.freeand(matched['authors'])
+    authors = dbra.parses(matched['authors'])
     year = int(matched['year'])
     number = matched['number'] if matched['number'] else None
 

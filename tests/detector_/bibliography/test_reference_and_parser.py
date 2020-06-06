@@ -23,6 +23,11 @@ Schnabel, Eva (2011). Alcohol and driving-related performance - A
 comprehensive meta-analysis focussing the significance of the
 nonsignificant. Unveröffentlichte Dissertation, Philosophische Fakultät
 II der Julius Maximilians-Universität, Würzburg.
+
+Becker, W.; Ulrich, P.; Botzkowski, T.; Eurich, S. (2015): Data Analytics
+in Familienunternehmen – Implikationen für das Controlling, in:
+Zeitschrift für erfolgsorientierte Unternehmenssteuerung, Heft 27, 2015,
+S. 263–268
 """.split('\n\n')
 
 
@@ -57,10 +62,19 @@ II der Julius Maximilians-Universität, Würzburg.
         None,
         id='schnabel',
     ),
+    pytest.param(
+        LONGTEXT[3],
+        None,
+        [['Becker', 'W.'], ['Ulrich', 'P.'], ['Botzkowski', 'T.'],
+         ['Eurich', 'S.']],
+        None,
+        2015,
+        None,
+        id='becker',
+    ),
 ])
 def test_parse_freeand_long(text, title, authors, pages, year, publisher):  # pylint:disable=W0613
     extracted = freeand.parse_longtext(text)
-    print(extracted)
     if title:
         assert extracted.title == title
     if pages:
