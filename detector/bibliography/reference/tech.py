@@ -24,6 +24,8 @@ import re
 import iamraw
 import utila
 
+import detector.bibliography.reference.authors as dbra
+
 # [ ]{0,3} Optional whitespaces
 
 TECHNICAL = r"""\[[ ]{0,3}
@@ -71,7 +73,7 @@ def parse_longtext(content: str) -> iamraw.BibliographyReference:
 
     title = title.strip()
     authors = authors.strip()
-    authors = parse_authors(authors)
+    authors = dbra.simple(authors)
 
     page = pages(rest)
     if page:
@@ -95,13 +97,6 @@ def parse_longtext(content: str) -> iamraw.BibliographyReference:
             result.pageend = page[1][1]
     if year:
         result.year = year[1]
-    return result
-
-
-def parse_authors(raw: str):
-    result = []
-    for item in raw.split(';'):
-        result.append([it.strip() for it in item.split(',')])
     return result
 
 

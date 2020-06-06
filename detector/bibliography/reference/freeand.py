@@ -37,6 +37,8 @@ import re
 
 import iamraw
 
+import detector.bibliography.reference.authors as dbra
+
 AND = r"""
     (?P<authors>.+)
     \(
@@ -56,7 +58,7 @@ def parse_longtext(content: str) -> iamraw.BibliographyReference:
     if not matched:
         return None
 
-    authors = parse_authors(matched['authors'])
+    authors = dbra.freeand(matched['authors'])
     year = int(matched['year'])
     number = matched['number'] if matched['number'] else None
 
@@ -72,25 +74,4 @@ def parse_longtext(content: str) -> iamraw.BibliographyReference:
         year=year,
         raw=content,
     )
-    return result
-
-
-def parse_authors(raw: str):
-    extracted = []
-    try:
-        # TODO: SOLVE `AND` PROBLEM ON OTHER PLACE?
-        left, right = raw.split(' and ') if ' and ' in raw else raw.split('&')
-        extracted.extend(left.split(','))
-        extracted.extend(right.split(','))
-    except ValueError:
-        extracted.extend(raw.split(','))
-    if not extracted:
-        return None
-    result = [[extracted[0]]]
-    for item in extracted[1:]:
-        item = item.strip()
-        if len(result[-1]) == 1:
-            result[-1].append(item)
-        else:
-            result.append([item])
     return result
