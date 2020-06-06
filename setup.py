@@ -53,11 +53,6 @@ if __name__ == "__main__":
             'Programming Language :: Python :: 3.8',
         ],
         packages=[
-            'detector',
-            'detector.feature',
-            'detector.bibliography',
-            'detector.bibliography.reference',
-            'detector.parser',
             'groupme',
             'groupme.abbreviation',
             'groupme.border',
@@ -76,7 +71,6 @@ if __name__ == "__main__":
         ],
         entry_points={
             'console_scripts': [
-                'detector = detector.cli:main',
                 'groupme = groupme.cli:main',
                 'hey = hey.cli:main',
                 'doctextstyle = doctextstyle.cli:main',

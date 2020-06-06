@@ -20,7 +20,9 @@ import os.path
 
 import utila
 
-import detector.feature.titlepage as dft
+ONELINE = ('--prefix=oneline '
+           '--font --text '
+           '--boxes_flow=1.0 --char_margin=100.0 --line_margin=0.0001')
 
 
 def extract(  # pylint:disable=R0914
@@ -155,14 +157,13 @@ def create_job(
     if config is None:
         config = {}
 
-    oneline = dft.RAWMAKER_CONFIGURATION
     # TODO: USE A MORE GENERAL PLACE
     layoutconfig = '--char_margin=5.0 --boxes_flow=1.0 --line_margin=0.3'
 
     pages = f'--pages={pages}' if pages is not None else ''
     task = [
         f'rawmaker -j 8 -i {src} -o {dest} {layoutconfig} {pages}',
-        f'rawmaker -j 8 -i {src} -o {dest} {oneline} {pages}',
+        f'rawmaker -j 8 -i {src} -o {dest} {ONELINE} {pages}',
         f'linero -i {dest} -o {dest}',
     ]
     if config.get('groupme', False):

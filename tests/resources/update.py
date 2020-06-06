@@ -13,8 +13,6 @@ import os
 
 import utila
 
-import detector
-import detector.feature.titlepage
 import hey
 import hey.example
 import tests.resources
@@ -53,7 +51,6 @@ def extract_examples():
 
 
 CONFIG = '--char_margin=3.1 --boxes_flow=1.0 --line_margin=0.25 '
-ONELINE = detector.feature.titlepage.RAWMAKER_CONFIGURATION
 
 # Put long documents first! If we have the long documents at the end, the
 # scheduler gets hungry in the end and runs with low cpu load.
@@ -124,7 +121,7 @@ def create_todo(inpath, outpath, pages: tuple = None):
                 f'rawmaker -j8 -i {inpath} -o {outpath} {CONFIG} {pages}',
                 f'linero -i {outpath} -o {outpath}',
             ),
-            f'rawmaker -j8 -i {inpath} -o {outpath} {ONELINE} {pages}',
+            f'rawmaker -j8 -i {inpath} -o {outpath} {hey.example.ONELINE} {pages}',
         ),
         f'groupme -j8 -i {outpath} -o {outpath} {pages}',
     )
