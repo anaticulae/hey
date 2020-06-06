@@ -16,12 +16,15 @@ def parses(raw: str):
     [['AASLID', 'R.'], ['BRUBAKK', 'AO.']]
     >>> parses('Beirness, D. and Vogel-Sprott, M.')
     [['Beirness', 'D.'], ['Vogel-Sprott', 'M.']]
+    >>> parses('KUNCZIK, Michael/ZIPFEL, Astrid')
+    [['KUNCZIK', 'Michael'], ['ZIPFEL', 'Astrid']]
     """
     free = freeand(raw)
     semicolon = simple(raw)
     hyphen = simple(raw, extern='-', intern=',')
+    slash = simple(raw, extern='/', intern=',')
 
-    result = [free, semicolon, hyphen]
+    result = [free, semicolon, hyphen, slash]
     balanced = [balance(item) for item in result]
     max_balance = maxindex(balanced)
     return result[max_balance]
@@ -79,6 +82,8 @@ def valid_author(author):
         if ';' in item:
             return False
         if ',' in item:
+            return False
+        if '/' in item:
             return False
     return True
 
