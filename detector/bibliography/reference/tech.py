@@ -24,6 +24,7 @@ import re
 import iamraw
 import utila
 
+import detector.bibliography.reference as dbr
 import detector.bibliography.reference.authors as dbra
 
 # [ ]{0,3} Optional whitespaces
@@ -75,10 +76,10 @@ def parse_longtext(content: str) -> iamraw.BibliographyReference:
     authors = authors.strip()
     authors = dbra.simple(authors)
 
-    page = pages(rest)
+    page = dbr.pages(rest)
     if page:
         rest = rest.replace(page[0], '')
-    year = years(rest)
+    year = dbr.years(rest)
     if year:
         # remove year from right to left
         rest = ' '.join(rest.rsplit(year[0], maxsplit=1))
@@ -98,42 +99,3 @@ def parse_longtext(content: str) -> iamraw.BibliographyReference:
     if year:
         result.year = year[1]
     return result
-
-
-def pages(raw: str):
-    """\
-    >>> pages('IEEE Joint, 2004, S. 113-117')
-    ('S. 113-117', (113, 117))
-    >>> pages('p.103')
-    ('p.103', (103,))
-    """
-    pattern = r"""(
-         (Seite|S\.|p\.|P\.|page)[ ]{0,3}
-         (
-          (?P<pagestart>\d{1,4})[ ]{0,3}(\-|–)[ ]{0,3}(?P<pageend>\d{1,4})|
-          (?P<page>\d{1,4})
-         )
-    )
-    """
-    matched = re.search(pattern, raw, re.VERBOSE)
-    if not matched:
-        return None
-    raw = utila.extract_match(matched)
-    with contextlib.suppress(TypeError):
-        return raw, (int(matched['page']),)
-    with contextlib.suppress(TypeError):
-        return raw, (int(matched['pagestart']), int(matched['pageend']))
-    return None
-
-
-def years(raw: str):
-    """\
-    >>> years('IEEE Joint, 2004, S. 113–117')
-    ('2004', 2004)
-    """
-    pattern = r'(?P<year>\d{4})'
-    matched = re.search(pattern, raw, re.VERBOSE)
-    if not matched:
-        return None
-    raw = utila.extract_match(matched)
-    return (raw, int(raw))
