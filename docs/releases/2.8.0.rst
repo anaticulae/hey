@@ -19,3 +19,10 @@ before
 * Todo: 200
 * Total coverage: %
 * Your code has been rated at 10.0/10
+
+after
+~~~~~
+
+* Todo: 160
+* Total coverage: 91.32%
+* Your code has been rated at 10.0/10
