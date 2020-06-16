@@ -15,3 +15,6 @@ power==0.10.3
 
 # test data generator
 jam==0.2.7
+
+# generate magic test data
+words==0.8.1

@@ -63,6 +63,7 @@ BACHELOR76_PDF = os.path.join(BACHELOR, 'page76.pdf')
 
 MASTER72 = os.path.join(GENERATED, 'page_72_noimages_toc')
 MASTER72_PDF = os.path.join(MASTER, 'page_72_noimages_toc.pdf')
+MASTER72_SECTIONS_AND_WORDS = os.path.join(GENERATED, 'page72_sectionswords')
 
 MASTER83 = os.path.join(GENERATED, 'page_83_noimages_toc')
 MASTER83_PDF = os.path.join(MASTER, 'page_83_noimages_toc.pdf')
@@ -155,6 +156,7 @@ REQURIED_RESOURCES = [
     MASTER116_PDF,
     MASTER72,
     MASTER72_PDF,
+    MASTER72_SECTIONS_AND_WORDS,
     MASTER78,
     MASTER78_PDF,
     MASTER83,
