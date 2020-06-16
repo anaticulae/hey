@@ -15,12 +15,16 @@ def test_dump_and_load_magic():
         magic.data.PageContentContentType(
             page=5,
             content=[
-                magic.data.ContentType.UNDEFINED, magic.data.ContentType.TEXT
+                (1, magic.data.ContentType.UNDEFINED),
+                (2, magic.data.ContentType.TEXT),
             ],
         ),
         magic.data.PageContentContentType(
             page=6,
-            content=[magic.data.ContentType.TEXT, magic.data.ContentType.TEXT],
+            content=[
+                (5, magic.data.ContentType.LIST),
+                (6, magic.data.ContentType.TEXT),
+            ],
         )
     ]
     dumped = magic.data.dump_types(data)

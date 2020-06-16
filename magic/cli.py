@@ -15,14 +15,22 @@ WORKPLAN = [
     utila.create_step(
         'content',
         inputs=[
-            utila.ResultFile(producer='rawmaker', name='text_text'),
+            utila.ResultFile('rawmaker', 'oneline_text_text'),
+            utila.ResultFile('rawmaker', 'oneline_text_positions'),
+            utila.ResultFile('rawmaker', 'border_pages'),
+            utila.ResultFile('groupme', 'footer_footerheader'),
+            utila.ResultFile(producer='words', name='list_list'),
         ],
         output=('content',),
     ),
     utila.create_step(
         'complete',
         inputs=[
-            utila.ResultFile(producer='rawmaker', name='text_text'),
+            utila.ResultFile('rawmaker', 'oneline_text_text'),
+            utila.ResultFile('rawmaker', 'oneline_text_positions'),
+            utila.ResultFile('rawmaker', 'border_pages'),
+            utila.ResultFile('groupme', 'footer_footerheader'),
+            utila.ResultFile(producer='words', name='list_list'),
         ],
         output=('complete',),
     ),

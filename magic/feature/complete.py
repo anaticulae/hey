@@ -8,5 +8,12 @@
 # =============================================================================
 
 
-def work(path: str, pages: tuple = None) -> str:
+def work(  # pylint:disable=W0613
+        text: str,
+        textpositions: str,
+        sizeandborders: str,
+        footerheader: str,
+        lists: str,
+        pages: tuple = None,
+) -> str:
     return ''

@@ -23,6 +23,7 @@ PageContentContentTypes = typing.List[PageContentContentType]
 
 
 class ContentType(enum.Enum):
+    LIST = enum.auto()
     TEXT = enum.auto()
     UNDEFINED = enum.auto()
 
@@ -42,23 +43,29 @@ def load_types(content: str, pages: tuple = None) -> PageContentContentTypes:
 
 def dump_types(items: PageContentContentTypes) -> str:
     result = [(page, types_tostr(content)) for page, content in items]
+    # remove empty pages:
+    result = [item for item in result if item[1]]
     dumped = yaml.safe_dump(result, width=200)
     return dumped
 
 
 def types_fromstr(content: list) -> list:
     """\
-    >>> types_fromstr(['TEXT', 'UNDEFINED'])
-    [<ContentType.TEXT: 1>, <ContentType.UNDEFINED: 2>]
+    >>> types_fromstr(['5 TEXT', '10 UNDEFINED'])
+    [(5, <ContentType.TEXT: ...>), (10, <ContentType.UNDEFINED: ...>)]
     """
-    result = [ContentType[item] for item in content]
+    result = []
+    for item in content:
+        number, value = item.split()
+        number, value = int(number), ContentType[value]
+        result.append((number, value))
     return result
 
 
 def types_tostr(items) -> str:
     """\
-    >>> types_tostr([ContentType.TEXT, ContentType.UNDEFINED])
-    ['TEXT', 'UNDEFINED']
+    >>> types_tostr([(3, ContentType.TEXT) , (2, ContentType.UNDEFINED)])
+    ['3 TEXT', '2 UNDEFINED']
     """
-    result = [str(item.name) for item in items]
+    result = [f'{index} {item.name}' for index, item in items]
     return result
