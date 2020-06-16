@@ -53,6 +53,8 @@ if __name__ == "__main__":
             'Programming Language :: Python :: 3.8',
         ],
         packages=[
+            'doctextstyle',
+            'doctextstyle.features',
             'groupme',
             'groupme.abbreviation',
             'groupme.border',
@@ -66,14 +68,15 @@ if __name__ == "__main__":
             'hey',
             'hey.geometry',
             'hey.text',
-            'doctextstyle',
-            'doctextstyle.features',
+            'magic',
+            'magic.feature',
         ],
         entry_points={
             'console_scripts': [
+                'doctextstyle = doctextstyle.cli:main',
                 'groupme = groupme.cli:main',
                 'hey = hey.cli:main',
-                'doctextstyle = doctextstyle.cli:main',
+                'magic = magic.cli:main',
             ],
         },
     )
