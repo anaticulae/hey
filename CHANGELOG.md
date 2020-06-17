@@ -2,6 +2,19 @@
 
 Every noteable change is logged here.
 
+## v3.1.0
+
+### Feature
+
+* add optional blockquotes checker step (b00503663012)
+* add list detector (76edfb1dd9eb)
+* add method to dump and load magic data (a562217fab9f)
+* add basic cli interface and testing (46b4c3ff4926)
+
+### Fix
+
+* disable broken data generator (91bf532831d5)
+
 ## v3.0.1
 
 ## v3.0.0
