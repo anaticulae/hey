@@ -23,9 +23,10 @@ PageContentContentTypes = typing.List[PageContentContentType]
 
 
 class ContentType(enum.Enum):
+    BLOCKQUOTE = enum.auto()
     LIST = enum.auto()
     TEXT = enum.auto()
-    UNDEFINED = enum.auto()
+    UNDEFINED = -1
 
 
 def load_types(content: str, pages: tuple = None) -> PageContentContentTypes:

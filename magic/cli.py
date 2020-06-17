@@ -23,7 +23,16 @@ WORKPLAN = [
             utila.ResultFile('rawmaker', 'oneline_text_positions'),
             utila.ResultFile('rawmaker', 'border_pages'),
             utila.ResultFile('groupme', 'footer_footerheader'),
-            utila.ResultFile(producer='words', name='list_list'),
+            utila.ResultFile(
+                'words',
+                'list_list',
+                optional=True,
+            ),
+            utila.ResultFile(
+                'textflow',
+                'blockquote_blockquote',
+                optional=True,
+            ),
         ],
         output=('content',),
     ),

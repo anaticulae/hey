@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import os
+
 import serializeraw
 import utila
 
@@ -19,6 +21,7 @@ def work(
         sizeandborders: str,
         footerheader: str,
         lists: str,
+        blockquotes: str,
         pages: tuple = None,
 ) -> str:
     ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
@@ -28,23 +31,40 @@ def work(
         footerheader,
         pages=pages,
     )
-    lists = serializeraw.load_lists(lists, pages=pages)
+    if os.path.exists(lists):
+        lists = serializeraw.load_lists(lists, pages=pages)
+    else:
+        lists = []
+    if os.path.exists(blockquotes):
+        # optional blockquotes parameter
+        blockquotes = serializeraw.load_blockquotes(blockquotes, pages=pages)
+    else:
+        blockquotes = []
 
     result = []
     for navigator in ptcns:
         listinstance = utila.select_page(lists, navigator.page)
-        analyzed = analyze_page(navigator, listinstance)
+        blockquoteinstance = utila.select_page(blockquotes, navigator.page)
+
+        analyzed = analyze_page(
+            navigator,
+            listinstance,
+            blockquoteinstance,
+        )
         result.append(analyzed)
 
     dumped = magic.data.dump_types(result)
     return dumped
 
 
-def analyze_page(ptcn, lists):
+def analyze_page(ptcn, lists, blockquotes):
     result = []
     for index, line in enumerate(ptcn):  # pylint:disable=W0612
         if islist(index, lists):
             result.append((index, magic.data.ContentType.LIST))
+            continue
+        if isblockquote(index, blockquotes):
+            result.append((index, magic.data.ContentType.BLOCKQUOTE))
             continue
     return magic.data.PageContentContentType(page=ptcn.page, content=result)
 
@@ -58,4 +78,10 @@ def islist(line, listinstances):
     for instance_ in listinstances:
         if line in instance_.area:
             return True
+    return False
+
+
+def isblockquote(line, quotes):  # pylint:disable=W0613
+    if not quotes:
+        return False
     return False
