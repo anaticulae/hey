@@ -11,6 +11,10 @@ import utila
 
 import magic
 
+DESCRIPTION = """\
+Determine type of line (content, list, boxed content, etc.)
+"""
+
 WORKPLAN = [
     utila.create_step(
         'content',
@@ -30,15 +34,11 @@ WORKPLAN = [
             utila.ResultFile('rawmaker', 'oneline_text_positions'),
             utila.ResultFile('rawmaker', 'border_pages'),
             utila.ResultFile('groupme', 'footer_footerheader'),
-            utila.ResultFile(producer='words', name='list_list'),
+            utila.ResultFile('words', 'list_list'),
         ],
         output=('complete',),
     ),
 ]
-
-DESCRIPTION = """\
-Determine type of line (content, list, boxed content, etc.)
-"""
 
 
 def main():
