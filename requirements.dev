@@ -8,13 +8,13 @@
 # =============================================================================
 
 # ensure that test data is generated with the right version of rawmaker
-rawmaker==1.22.1
+rawmaker==1.22.3
 
 # reference to test data
-power==0.10.3
+power==0.10.5
 
 # test data generator
-jam==0.2.7
+jam==0.2.9
 
 # generate magic test data
-words==0.8.1
+words==0.8.2
