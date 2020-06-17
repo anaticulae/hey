@@ -57,9 +57,8 @@ def sectionsandwords():
     with utila.chdir(tests.resources.MASTER72_SECTIONS_AND_WORDS):
         cmd = (f'sections -i {tests.resources.MASTER72} --pages=0:10 -j8')
         utila.run(cmd)
-        # TODO: ENABLE AFTER UPGRADING WORDS
-        # cmd = f'words -i {tests.resources.MASTER72}  --pages=0:10 -j8'
-        # utila.run(cmd)
+        cmd = f'words -i {tests.resources.MASTER72}  --pages=0:10 -j8'
+        utila.run(cmd)
 
 
 CONFIG = '--char_margin=3.1 --boxes_flow=1.0 --line_margin=0.25 '
