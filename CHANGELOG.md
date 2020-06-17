@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v3.2.0
+
+### Feature
+
+* add magic selector to generate test data (439f432b11f6)
+* add magic content path resolving method (893349bbb5d1)
+
 ## v3.1.0
 
 ### Feature
