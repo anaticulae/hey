@@ -84,4 +84,10 @@ def islist(line, listinstances):
 def isblockquote(line, quotes):  # pylint:disable=W0613
     if not quotes:
         return False
+    if not quotes.content:
+        return False
+    quotes = quotes.content
+    for area, _ in quotes:
+        if line in area:
+            return True
     return False

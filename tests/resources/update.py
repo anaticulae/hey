@@ -55,9 +55,11 @@ def extract_examples():
 def sectionsandwords():
     os.makedirs(tests.resources.MASTER72_SECTIONS_AND_WORDS)
     with utila.chdir(tests.resources.MASTER72_SECTIONS_AND_WORDS):
-        cmd = (f'sections -i {tests.resources.MASTER72} --pages=0:10 -j8')
+        cmd = (f'sections -i {tests.resources.MASTER72} --pages=0:16 -j8')
         utila.run(cmd)
-        cmd = f'words -i {tests.resources.MASTER72}  --pages=0:10 -j8'
+        cmd = f'words -i {tests.resources.MASTER72}  --pages=0:16 -j8'
+        utila.run(cmd)
+        cmd = f'textflow -i {tests.resources.MASTER72}  --pages=0:16 -j8'
         utila.run(cmd)
 
 
