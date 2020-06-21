@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v3.3.0
+
+### Feature
+
+* add blockquote detector (603f009595c1)
+
 ## v3.2.0
 
 ### Feature
