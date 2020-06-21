@@ -18,3 +18,5 @@ jam==0.2.9
 
 # generate magic test data
 words==0.9.0
+
+utilatest==0.1.1
