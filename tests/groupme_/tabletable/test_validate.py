@@ -11,6 +11,7 @@ import iamraw
 import pytest
 import serializeraw
 import utila
+import utilatest
 
 import groupme.path
 import tests.resources
@@ -62,7 +63,7 @@ def bachelor90(toc: iamraw.Toc):
         id='bachelor90',
     ),
 ])
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_groupme_tabletable(source, validate, pages, monkeypatch, testdir):
     pages = ','.join((str(item) for item in pages)) if pages else ''
     pages = f'--pages={pages}' if pages else ''

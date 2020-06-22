@@ -11,6 +11,7 @@ import iamraw
 import pytest
 import serializeraw
 import utila
+import utilatest
 
 import groupme.path
 import tests.resources
@@ -627,7 +628,7 @@ TEN = tuple(range(10))
     pytest.param(tests.resources.MASTER72, master72, None, id='master72'),
     pytest.param(tests.resources.BACHELOR90, bachelor90, (4, 5, 6), id='bachelor90'),
 ])  # yapf:enable
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_groupme_toc_validate(source, validate, pages, monkeypatch, testdir):
     """Verify parsing behavior and check that toc is located
     automatically in range of `TEN` pages."""

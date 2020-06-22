@@ -10,6 +10,7 @@
 import pytest
 import serializeraw
 import utila
+import utilatest
 
 import hey.geometry.alternate
 import tests.resources
@@ -21,7 +22,7 @@ import tests.resources
     (99, 15),
     (100, 3),
 ])
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_parse_master116_page(page, expected):
     navigators = serializeraw.create_pagetextnavigators_frompath(
         tests.resources.MASTER116,
@@ -32,7 +33,7 @@ def test_parse_master116_page(page, expected):
     assert len(parsed) == expected, str(parsed)
 
 
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_parse_master89_external_liningpoints():
     """Page 80 has to few content items to determine the lining points.
     Therefore the external lining points of page 79 are used to

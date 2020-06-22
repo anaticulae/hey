@@ -10,18 +10,19 @@
 import functools
 
 import utila
+import utilatest
 
 import doctextstyle
 import doctextstyle.cli
 
 run = functools.partial(  #pylint: disable=invalid-name
-    utila.run_command,
+    utilatest.run_command,
     main=doctextstyle.cli.main,
     process=doctextstyle.PROCESS,
     success=True,
 )
 fail = functools.partial(  #pylint: disable=invalid-name
-    utila.run_command,
+    utilatest.run_command,
     main=doctextstyle.cli.main,
     process=doctextstyle.PROCESS,
     success=False,

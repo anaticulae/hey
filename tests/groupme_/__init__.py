@@ -13,7 +13,7 @@ from iamraw import BoundingBox
 from iamraw import common_box
 from pytest import fixture
 from texmex import PageTextNavigator
-from utila import run_command
+from utilatest import run_command
 
 from groupme.cli import PROCESS
 from groupme.cli import main

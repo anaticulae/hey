@@ -7,14 +7,14 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import utila
+import utilatest
 
 import groupme.toc.extractor
 import groupme.toc.strategy.geometry
 import tests.fixtures.tableofcontent
 
 
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_groupme_toc_strategy_geometry():
     headlines = tests.fixtures.tableofcontent.bachelor111_toc()
 
@@ -36,7 +36,7 @@ def test_groupme_toc_strategy_geometry():
     assert current == expected
 
 
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_groupme_toc_strategy_bachelor111():
     headlines = tests.fixtures.tableofcontent.bachelor111_toc()
 

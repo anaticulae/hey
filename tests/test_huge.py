@@ -12,6 +12,7 @@ import os
 
 import pytest
 import utila
+import utilatest
 
 import tests
 
@@ -114,7 +115,7 @@ def rawresult(request, testdir):
     return (tmpdir, tocpath, generalpath)
 
 
-@utila.skip_nightly
+@utilatest.skip_nightly
 @pytest.mark.usefixtures('testdir')
 def test_huge_running_application(rawresult):  # pylint:disable=W0621
     tmpdir, tocpath, generalpath = rawresult

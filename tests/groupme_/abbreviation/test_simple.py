@@ -9,7 +9,7 @@
 
 import pytest
 import serializeraw
-import utila
+import utilatest
 
 import groupme.abbreviation.simple
 import tests.resources
@@ -26,7 +26,7 @@ import tests.resources
         marks=pytest.mark.xfail(reason='require more complex strategy'),
     ),
 ])
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_abbreviation_parse_simple(source, pages, expected):
     content = serializeraw.create_pagetextnavigators_frompath(
         source,

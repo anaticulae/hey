@@ -11,6 +11,7 @@ import iamraw.path
 import pytest
 import serializeraw
 import utila
+import utilatest
 
 import groupme.feature.footer
 import groupme.footer.strategy.moving
@@ -62,7 +63,7 @@ def validate_bachelor90(result):
         marks=pytest.mark.xfail(reason='pdf is not printed correctly'),
     ),
 ])
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_groupme_footer_moving(document, pages, expected_footer, validate):
     """Hint: This test is dependend on moving footer strategy. If this
     test fails, may the footer is not extracted correctly. Look at the

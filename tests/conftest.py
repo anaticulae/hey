@@ -10,6 +10,7 @@
 import os
 
 import utila
+import utilatest
 
 from tests.resources import NO_TITLE_GENERATED
 from tests.resources import REQURIED_RESOURCES
@@ -25,7 +26,7 @@ def pytest_sessionstart(session):  # pylint:disable=W0613
         # master process only
         return
 
-    if 'GENERATE' in os.environ or utila.test.LONGRUN:
+    if 'GENERATE' in os.environ or utilatest.LONGRUN:
         utila.log('install requirements')
         install_requirements()
 

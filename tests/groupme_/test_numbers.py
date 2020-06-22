@@ -13,6 +13,7 @@ import iamraw.path
 import pytest
 import serializeraw
 import utila
+import utilatest
 
 import groupme.feature.numbers
 import tests.resources
@@ -110,7 +111,7 @@ def pagenumbers_simple(simple_navigator):  #pylint:disable=W0621
     pytest.param(tests.resources.MASTER72, 69, id='master72pages'),
     pytest.param(tests.resources.TECHNICAL24, 23, id='technical24pages'),
 ])
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_groupme_numbers_work_single(resource, expected_numbers):
     # TODO: bottom only, add header page extraction
     text = iamraw.path.text(resource)

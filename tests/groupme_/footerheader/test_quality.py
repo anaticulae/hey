@@ -10,12 +10,13 @@
 import iamraw.path
 import serializeraw
 import utila
+import utilatest
 
 import groupme.feature.footer
 import tests.resources
 
 
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_groupme_footerheader_quality_bachelor111():
     dumped = groupme.feature.footer.work(
         iamraw.path.text(tests.resources.BACHELOR111),

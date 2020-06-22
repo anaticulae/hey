@@ -8,7 +8,7 @@
 # =============================================================================
 import os
 
-import utila
+import utilatest
 
 import hey.example
 import tests.resources
@@ -24,14 +24,14 @@ def test_hey_example_common_root():
         'docu_porting_extension_modules',
     }
 
-    root = utila.simplify_testfile_names(pdfs)
+    root = utilatest.simplify_testfile_names(pdfs)
     # the expected order is not important
     root = set(root)  # pylint:disable=R0204
 
     assert root == expected
 
 
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_hey_example_extract(testdir):
     root = str(testdir)
     generated = os.path.join(root, 'generated')

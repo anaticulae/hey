@@ -14,6 +14,7 @@ import iamraw.path
 import pytest
 import serializeraw
 import utila
+import utilatest
 
 import groupme.feature.footer
 import groupme.footer.strategy as gfs
@@ -116,7 +117,7 @@ def test_groupme_footer_footerheader_detectionstategy(
         id='master72',
     ),
 ])
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_groupme_footer_extract_footerheader_technical(root, expected):
     pages = None
     pagetextnavigators = serializeraw.create_pagetextnavigators_frompath(

@@ -8,7 +8,7 @@
 # =============================================================================
 
 import pytest
-import utila
+import utilatest
 
 import doctextstyle.features
 import tests.doctextstyle_.conftest
@@ -58,7 +58,7 @@ def test_cluster_extract_headlines_all(master72_text_flat):
     pytest.param(tests.resources.MASTER99, 11.04, id='master99'),
     pytest.param(tests.resources.BACHELOR111, 11.96, id='bachelor111'),
 ])
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_cluster_extract_textsize(source, expected):
     flat = tests.doctextstyle_.conftest.navigators(source, pages=None)
     default_text = doctextstyle.features.text(flat)
@@ -79,7 +79,7 @@ def test_cluster_extract_footer_small(master72_text_flat_small):
     pytest.param(tests.resources.MASTER99, 9.0, id='master99'),
     pytest.param(tests.resources.BACHELOR111, 9.96, id='bachelor111'),
 ])
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_cluster_extract_footnote(source, expected):
     flat = tests.doctextstyle_.conftest.navigators(source, pages=None)
     footnotes = doctextstyle.features.footnote(flat)
@@ -102,7 +102,7 @@ def test_cluster_extract_paragraph_small(master72_text_flat_small):
     pytest.param(tests.resources.MASTER99, (38, 38), id='master99'),
     pytest.param(tests.resources.BACHELOR111, (24, 24), id='bachelor111'),
 ])
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_cluster_extract_paragraph(source, expected):
     # TODO: VALIDATE EXPECTED LINE DISTANCE, CURRENTLY THERE ARE NOT
     # CHECKED YET.

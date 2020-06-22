@@ -8,7 +8,7 @@
 # =============================================================================
 
 import pytest
-import utila
+import utilatest
 
 import tests.groupme_
 import tests.resources
@@ -24,13 +24,13 @@ import tests.resources
     ['-i', tests.resources.HOWTO_PYPORTING, '-o', 'output'],
 ])
 @pytest.mark.usefixtures('testdir')
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_groupme_run_external(cmd, monkeypatch):
     """Run help and version and format command to reach basic test coverage"""
     tests.groupme_.run(cmd, monkeypatch=monkeypatch)
 
 
-@utila.skip_longrun
+@utilatest.skip_longrun
 def test_regression_groupme_problem(testdir, monkeypatch):
     """There was a problem with not sorted page numbers which leads
     to duplicated header/footer. This was solved by sorting page number

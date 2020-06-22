@@ -19,6 +19,7 @@ import os
 import os.path
 
 import utila
+import utilatest
 
 ONELINE = ('--prefix=oneline '
            '--font --text '
@@ -119,7 +120,7 @@ def generate(files: list, outpath: str, pages: str, config: dict) -> list:
     todo = []
     single_pages = paged(files, default=pages)
     files = list(single_pages.keys())
-    names = utila.simplify_testfile_names(files, sort=False)
+    names = utilatest.simplify_testfile_names(files, sort=False)
     for inpath, output in zip(files, names):
         next_job = create_job(
             inpath,
