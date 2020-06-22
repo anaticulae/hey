@@ -62,6 +62,8 @@ def sectionsandwords():
         utila.run(cmd)
         cmd = f'textflow -i {tests.resources.MASTER72}  --pages=0:16 -j8'
         utila.run(cmd)
+        cmd = f'detector -i {tests.resources.MASTER72}  --pages=0:16 -j8'
+        utila.run(cmd)
 
 
 CONFIG = '--char_margin=3.1 --boxes_flow=1.0 --line_margin=0.25 '
