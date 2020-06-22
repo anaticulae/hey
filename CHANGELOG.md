@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v3.4.0
+
+### Feature
+
+* add formula decider step (5630d375e976)
+
 ## v3.3.0
 
 ### Feature
