@@ -26,6 +26,7 @@ class ContentType(enum.Enum):
     BLOCKQUOTE = enum.auto()
     LIST = enum.auto()
     TEXT = enum.auto()
+    FORMULA = enum.auto()
     UNDEFINED = -1
 
 

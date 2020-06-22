@@ -33,6 +33,7 @@ WORKPLAN = [
                 'blockquote_blockquote',
                 optional=True,
             ),
+            utila.ResultFile('detector', 'formula_formula', optional=True),
         ],
         output=('content',),
     ),
