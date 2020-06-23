@@ -32,12 +32,13 @@ def extract(  # pylint:disable=R0914
         pages: str = '0:10',
         worker: int = 12,
         *,
-        groupme: bool = True,
-        sections: bool = True,
-        words: bool = True,
+        caption: bool = True,
         detector: bool = True,
         doctextstyle: bool = True,
+        groupme: bool = True,
         magic: bool = True,
+        sections: bool = True,
+        words: bool = True,
 ):
     """Run rawmaker, groupme, sections and words for given `files` and write
     result to `destination`.
@@ -49,12 +50,13 @@ def extract(  # pylint:disable=R0914
         destination(path): create folder for every file and save result
         pages(str): range of selected pages
         worker(int): number of threads to extract examples
-        groupme(bool): run if True
-        sections(bool): run if True
-        words(bool): run if True
+        caption(bool): run if True
         detector(bool): run if True
         doctextstyle(bool): run if True
+        groupme(bool): run if True
         magic(bool): run if True
+        sections(bool): run if True
+        words(bool): run if True
     Raises:
         Exception: if Exception occurs while extracting file
     """
@@ -62,12 +64,13 @@ def extract(  # pylint:disable=R0914
         files,
         destination,
         pages,
-        groupme=groupme,
-        sections=sections,
-        words=words,
+        caption=caption,
         detector=detector,
         doctextstyle=doctextstyle,
+        groupme=groupme,
         magic=magic,
+        sections=sections,
+        words=words,
     )
     with concurrent.futures.ThreadPoolExecutor(max_workers=worker) as executor:
         futures = [executor.submit(run_job, job) for job in todo]
@@ -85,12 +88,13 @@ def todolist(
         destination: str,
         pages: str = '0:10',
         *,
-        groupme: bool = True,
-        sections: bool = True,
-        words: bool = True,
+        caption: bool = True,
         detector: bool = True,
         doctextstyle: bool = True,
+        groupme: bool = True,
         magic: bool = True,
+        sections: bool = True,
+        words: bool = True,
 ):
     """Create todo list to extract resources.
 
@@ -98,12 +102,13 @@ def todolist(
                (file, pages) or (file).
     """
     config = {
-        'groupme': groupme,
-        'sections': sections,
-        'words': words,
+        'caption': caption,
         'detector': detector,
         'doctextstyle': doctextstyle,
+        'groupme': groupme,
         'magic': magic,
+        'sections': sections,
+        'words': words,
     }
     todo = generate(files, destination, pages=pages, config=config)
     return todo
@@ -187,5 +192,7 @@ def create_job(
         task.append(f'doctextstyle -i {dest} -o {dest}')
     if config.get('magic', False):
         task.append(f'magic -i {dest} -o {dest}')
+    if config.get('caption', False):
+        task.append(f'caption -i {dest} -o {dest}')
     todo = ' && '.join(task)
     return todo
