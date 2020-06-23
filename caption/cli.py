@@ -27,6 +27,13 @@ WORKPLAN = [
         ],
         output=('caption',),
     ),
+    utila.create_step(
+        'general',
+        inputs=[
+            RF(producer=caption.PROCESS, name='image_caption'),
+        ],
+        output=('general',),
+    ),
 ]
 
 
