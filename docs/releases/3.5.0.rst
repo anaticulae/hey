@@ -6,7 +6,7 @@ RP 3.5.0
 caption
 -------
 
-* [ ] add new cli `caption`
+* [x] add new cli `caption`
 
 * [ ] extract caption from images
 

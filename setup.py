@@ -53,6 +53,8 @@ if __name__ == "__main__":
             'Programming Language :: Python :: 3.8',
         ],
         packages=[
+            'caption',
+            'caption.feature',
             'doctextstyle',
             'doctextstyle.features',
             'groupme',
@@ -73,6 +75,7 @@ if __name__ == "__main__":
         ],
         entry_points={
             'console_scripts': [
+                'caption = caption.cli:main',
                 'doctextstyle = doctextstyle.cli:main',
                 'groupme = groupme.cli:main',
                 'hey = hey.cli:main',
