@@ -27,6 +27,7 @@ class ContentType(enum.Enum):
     LIST = enum.auto()
     TEXT = enum.auto()
     FORMULA = enum.auto()
+    CAPTION = enum.auto()
     UNDEFINED = -1
 
 

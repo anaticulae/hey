@@ -9,6 +9,7 @@
 
 import utila
 
+import caption
 import magic
 
 DESCRIPTION = """\
@@ -34,6 +35,7 @@ WORKPLAN = [
                 optional=True,
             ),
             utila.ResultFile('detector', 'formula_formula', optional=True),
+            utila.ResultFile(caption.PROCESS, 'general_general', optional=True),
         ],
         output=('content',),
     ),

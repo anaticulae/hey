@@ -12,6 +12,7 @@ import os
 import serializeraw
 import utila
 
+import caption.serialize
 import magic.data
 
 
@@ -23,6 +24,7 @@ def work(  # pylint:disable=R0914
         lists: str,
         blockquotes: str,
         formula: str,
+        captions: str,
         pages: tuple = None,
 ) -> str:
     ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
@@ -35,18 +37,21 @@ def work(  # pylint:disable=R0914
     lists = load_content(serializeraw.load_lists, lists, pages)
     blockquotes = load_content(serializeraw.load_blockquotes, blockquotes, pages) # yapf:disable
     formula = load_content(serializeraw.load_formulas, formula, pages)
+    captions = load_content(caption.serialize.load_captions, captions, pages)
 
     result = []
     for navigator in ptcns:
         listinstance = utila.select_page(lists, navigator.page)
         blockquoteinstance = utila.select_page(blockquotes, navigator.page)
         formulainstance = utila.select_page(formula, navigator.page)
+        captioninstance = utila.select_page(captions, navigator.page)
 
         analyzed = analyze_page(
             navigator,
             listinstance,
             blockquoteinstance,
             formulainstance,
+            captioninstance,
         )
         result.append(analyzed)
 
@@ -61,7 +66,7 @@ def load_content(loader, content, pages):
     return content
 
 
-def analyze_page(ptcn, lists, blockquotes, formula):
+def analyze_page(ptcn, lists, blockquotes, formula, captions):
     result = []
     for index, line in enumerate(ptcn):  # pylint:disable=W0612
         if islist(index, lists):
@@ -72,6 +77,9 @@ def analyze_page(ptcn, lists, blockquotes, formula):
             continue
         if isformula(index, formula):
             result.append((index, magic.data.ContentType.FORMULA))
+            continue
+        if iscaption(index, captions):
+            result.append((index, magic.data.ContentType.CAPTION))
             continue
     return magic.data.PageContentContentType(page=ptcn.page, content=result)
 
@@ -107,6 +115,19 @@ def isformula(line, formulas):
         return False
     formulas = formulas.content
     lines = [item.line for item in formulas]
+    if line in lines:
+        return True
+    return False
+
+
+def iscaption(line, captions):
+    if not captions:
+        return False
+    if not captions.content:
+        return False
+    captions = captions.content
+    # TODO: EXTEND FOR MULTILINE
+    lines = [item.line for item in captions]
     if line in lines:
         return True
     return False
