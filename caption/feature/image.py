@@ -88,5 +88,8 @@ def after(navigator, current, plus):
                 for index, item in enumerate(navigator)
                 if current <= item.bounding.y1 <= current + plus]
     # TODO: IMPROVE THIS SIMPLE SELECTOR
-    valid = [item for item in selected if 'Abbildung' in item[1].text]
+    valid = [
+        item for item in selected
+        if any(chunk in item[1].text for chunk in ('Abbildung', 'Abb.'))
+    ]
     return valid
