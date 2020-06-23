@@ -7,21 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import caption.path
-import caption.serialize
-import tests.caption_
-import tests.resources
+import utila
+
+import caption
 
 
-def test_caption_cli_help(monkeypatch):
-    tests.caption_.run('--help', monkeypatch=monkeypatch)
-
-
-def test_caption_bachelor90_page18(testdir, monkeypatch):
-    source = tests.resources.BACHELOR90
-    cmd = f'-i {source} --pages=18'
-    tests.caption_.run(cmd, monkeypatch=monkeypatch)
-
-    path = caption.path.image_caption(testdir.tmpdir)
-    loaded = caption.serialize.load_captions(path)
-    assert loaded
+def image_caption(path: str, prefix: str = '') -> str:
+    return utila.pathconnector(path, caption.PROCESS, 'image_caption', prefix)

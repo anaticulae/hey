@@ -1,0 +1,58 @@
+# =============================================================================
+# C O P Y R I G H T
+# -----------------------------------------------------------------------------
+# Copyright (c) 2020 by Helmut Konrad Fahrendholz. All rights reserved.
+# This file is property of Helmut Konrad Fahrendholz. Any unauthorized copy,
+# use or distribution is an offensive act against international law and may
+# be prosecuted under federal law. Its content is company confidential.
+# =============================================================================
+
+import collections
+
+import iamraw
+import serializeraw
+import utila
+import yaml
+
+import caption.data
+
+
+def load_image_informations_fromfiles(
+        files: str,
+        pages: tuple = None,
+) -> iamraw.PageContentImageInfos:
+    # TODO: MOVE TO IAMRAW
+    collected = collections.defaultdict(list)
+    for source in files:
+        loaded = serializeraw.load_image_info(source)
+        if utila.should_skip(loaded.page, pages):
+            continue
+        collected[loaded.page].append(loaded)
+    result = [
+        iamraw.PageContentImageInfo(page=key, content=value)
+        for key, value in collected.items()
+    ]
+    result.sort(key=lambda x: x.page)
+    return result
+
+
+def dump_captions(items: caption.data.PageContentCaptions) -> str:
+    # remove empty pages
+    items = [item for item in items if item.content]
+    # convert to yaml
+    dumped = yaml.dump(items)
+    return dumped
+
+
+def load_captions(
+        content: str,
+        pages: tuple = None,
+) -> caption.data.PageContentCaptions:
+    content = utila.from_raw_or_path(content, ftype='yaml')
+    loaded = yaml.load(content, Loader=yaml.FullLoader)
+    result = []
+    for page in loaded:
+        if utila.should_skip(page.page, pages):
+            continue
+        result.append(page)
+    return result

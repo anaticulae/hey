@@ -7,21 +7,22 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import caption.path
-import caption.serialize
-import tests.caption_
-import tests.resources
+import collections
+import dataclasses
+import typing
 
 
-def test_caption_cli_help(monkeypatch):
-    tests.caption_.run('--help', monkeypatch=monkeypatch)
+@dataclasses.dataclass
+class Caption:
+    line: int = None
+    lineend: int = None
+    raw: str = None
 
 
-def test_caption_bachelor90_page18(testdir, monkeypatch):
-    source = tests.resources.BACHELOR90
-    cmd = f'-i {source} --pages=18'
-    tests.caption_.run(cmd, monkeypatch=monkeypatch)
+Captions = typing.List[Caption]
 
-    path = caption.path.image_caption(testdir.tmpdir)
-    loaded = caption.serialize.load_captions(path)
-    assert loaded
+PageContentCaption = collections.namedtuple(
+    'PageContentCaption',
+    'page content',
+)
+PageContentCaptions = typing.List[PageContentCaption]

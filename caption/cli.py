@@ -19,10 +19,11 @@ WORKPLAN = [
     utila.create_step(
         'image',
         inputs=[
-            RF(producer='rawmaker', name='text_text'),
-            RF(producer='rawmaker', name='text_positions'),
             RF(producer='rawmaker', name='oneline_text_text'),
             RF(producer='rawmaker', name='oneline_text_positions'),
+            RF('rawmaker', 'border_pages'),
+            RF('groupme', 'footer_footerheader'),
+            utila.Pattern('rawmaker__images_images/*', 'yaml'),
         ],
         output=('caption',),
     ),
