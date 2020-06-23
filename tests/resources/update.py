@@ -56,16 +56,16 @@ def extract_examples():
 def sectionsandwords():
     os.makedirs(tests.resources.MASTER72_SECTIONS_AND_WORDS)
     with utila.chdir(tests.resources.MASTER72_SECTIONS_AND_WORDS):
-        cmd = (f'sections -i {tests.resources.MASTER72} --pages=0:16 -j8')
-        utila.run(cmd)
-        cmd = f'words -i {tests.resources.MASTER72}  --pages=0:16 -j8'
-        utila.run(cmd)
-        cmd = f'textflow -i {tests.resources.MASTER72}  --pages=0:16 -j8'
-        utila.run(cmd)
-        cmd = f'detector -i {tests.resources.MASTER72}  --pages=0:16 -j8'
-        utila.run(cmd)
-        cmd = f'caption -i {tests.resources.MASTER72}  --pages=0:16 -j8'
-        utila.run(cmd)
+        for process in (
+                'sections',
+                'words',
+                'textflow',
+                'detector',
+                'caption',
+        ):
+            cmd = (f'{process} -i {tests.resources.MASTER72} '
+                   '--pages=0:16 -j=auto')
+            utila.run(cmd)
 
 
 CONFIG = '--char_margin=3.1 --boxes_flow=1.0 --line_margin=0.25 '
@@ -136,12 +136,12 @@ def create_todo(inpath, outpath, pages: tuple = None):
     result = (
         (
             (
-                f'rawmaker -j8 -i {inpath} -o {outpath} {CONFIG} {pages}',
+                f'rawmaker -j=auto -i {inpath} -o {outpath} {CONFIG} {pages}',
                 f'linero -i {outpath} -o {outpath}',
             ),
-            f'rawmaker -j8 -i {inpath} -o {outpath} {hey.example.ONELINE} {pages}',
+            f'rawmaker -j=auto -i {inpath} -o {outpath} {hey.example.ONELINE} {pages}',
         ),
-        f'groupme -j8 -i {outpath} -o {outpath} {pages}',
+        f'groupme -j=auto -i {outpath} -o {outpath} {pages}',
     )
     return result
 

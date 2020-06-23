@@ -173,19 +173,19 @@ def create_job(
 
     pages = f'--pages={pages}' if pages is not None else ''
     task = [
-        f'rawmaker -j 8 -i {src} -o {dest} {layoutconfig} {pages}',
-        f'rawmaker -j 8 -i {src} -o {dest} {ONELINE} {pages}',
+        f'rawmaker -j=auto -i {src} -o {dest} {layoutconfig} {pages}',
+        f'rawmaker -j=auto -i {src} -o {dest} {ONELINE} {pages}',
         f'linero -i {dest} -o {dest}',
     ]
     if config.get('groupme', False):
         # run all, disable --toc
-        task.append(f'groupme --toc! -j 8 -i {dest} -o {dest}')
+        task.append(f'groupme --toc! -j=auto -i {dest} -o {dest}')
         # toc only
         task.append(f'groupme --toc --pages=0:10 -i {dest} -o {dest}')
     if config.get('sections', False):
-        task.append(f'sections -j 8 -i {dest} -o {dest}')
+        task.append(f'sections -j=auto -i {dest} -o {dest}')
     if config.get('words', False):
-        task.append(f'words -j 8 -i {dest} -o {dest}')
+        task.append(f'words -j=auto -i {dest} -o {dest}')
     if config.get('detector', False):
         task.append(f'detector -i {dest} -o {dest}')
     if config.get('doctextstyle', False):

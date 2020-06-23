@@ -99,8 +99,8 @@ def rawresult(request, testdir):
         os.makedirs(item)
 
     pdf, toccmd, generalcmd = request.param
-    rawtoc = f'rawmaker -i {pdf} -j=8 --pages=0:20 -o {tocpath} --prefix=oneline {toccmd}'
-    rawgeneral = f'rawmaker -i {pdf} -j=8 --pages=0:20 -o {generalpath} {generalcmd}'
+    rawtoc = f'rawmaker -i {pdf} -j=auto --pages=0:20 -o {tocpath} --prefix=oneline {toccmd}'
+    rawgeneral = f'rawmaker -i {pdf} -j=auto --pages=0:20 -o {generalpath} {generalcmd}'
     linero = f'linero -o {generalpath}'
 
     done = utila.run(rawtoc)
@@ -123,6 +123,6 @@ def test_huge_running_application(rawresult):  # pylint:disable=W0621
     current = os.path.join(tmpdir, 'current')
     os.makedirs(current)
 
-    runme = f'groupme -i {generalpath} -i {tocpath} -o {current} -j=8'
+    runme = f'groupme -i {generalpath} -i {tocpath} -o {current} -j=auto'
     done = utila.run(runme)
     assert done.returncode == utila.SUCCESS, utila.format_completed(done)
