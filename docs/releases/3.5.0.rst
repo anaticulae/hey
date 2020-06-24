@@ -25,4 +25,5 @@ before
 ~~~~~~
 
 * Todo: 160
+* Total coverage: 91.17%
 * Your code has been rated at 10.0/10
