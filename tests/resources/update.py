@@ -73,6 +73,7 @@ CONFIG = '--char_margin=3.1 --boxes_flow=1.0 --line_margin=0.25 '
 # Put long documents first! If we have the long documents at the end, the
 # scheduler gets hungry in the end and runs with low cpu load.
 # NOTE: This schedule is orderd by the required runtime on my computer.
+# yapf:disable
 PACKAGE = [
     (tests.resources.MASTER116_PDF, tests.resources.MASTER116, None),
     (tests.resources.MASTER99_PDF, tests.resources.MASTER99, None),
@@ -86,8 +87,7 @@ PACKAGE = [
     (tests.resources.BACHELOR37_PDF, tests.resources.BACHELOR37, '0:30'),
     (tests.resources.BACHELOR63_PDF, tests.resources.BACHELOR63, '0:9,59:62'),
     (tests.resources.HOWTO_ARGPARSE_PDF, tests.resources.HOWTO_ARGPARSE, None),
-    (tests.resources.HOWTO_PYPORTING_PDF, tests.resources.HOWTO_PYPORTING,
-     None),
+    (tests.resources.HOWTO_PYPORTING_PDF, tests.resources.HOWTO_PYPORTING, None),
     (tests.resources.LEFTRIGHT_PDF, tests.resources.LEFTRIGHT, None),
     (tests.resources.PYPORTING_PDF, tests.resources.PYPORTING, None),
     (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT, None),
@@ -99,6 +99,7 @@ PACKAGE = [
     (tests.resources.MASTER78_PDF, tests.resources.MASTER78, '0:5'),
     (tests.resources.MASTER83_PDF, tests.resources.MASTER83, '0:10'),
 ]
+# yapf:enable
 
 
 def run_package(pdf, outpath, pages=None):
