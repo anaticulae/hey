@@ -190,10 +190,10 @@ def dump_distance(items: PageContentAreaDistances) -> str:
     raw = []
     for page in items:
         content = []
-        for index, item in enumerate(page.content):
+        for item in page.content:
             before = utila.roundme(item.before) if item.before is not None else 'None' # yapf:disable
             after = utila.roundme(item.after) if item.after is not None else 'None' # yapf:disable
-            content.append(f'{index} {before} {after}')
+            content.append(f'{item.index} {before} {after}')
         raw.append({'page': page.page, 'content': content})
     dumped = yaml.dump(raw)
     return dumped
