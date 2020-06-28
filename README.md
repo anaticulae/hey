@@ -11,16 +11,6 @@ level` data out of it.
 * structure: divide document in head(toc) and tail(rest)
 * toc: create table of content out of raw text data
 
-### sections
-
-Split the document in different sections, based on probalstic values:
-
-* Title
-* Table of Content
-* Chapters
-* Index
-* Appendix...
-
 ## CHECK THIS
 
 (inspired from sklearn.pipeline.Pipeline)
