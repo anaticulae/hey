@@ -11,26 +11,35 @@ import utila
 
 import caption
 
-RF = utila.ResultFile
-
 DESCRIPTION = 'TODO'
+
+CAPTION_DATA = [
+    utila.ResultFile('rawmaker', 'oneline_text_text'),
+    utila.ResultFile('rawmaker', 'oneline_text_positions'),
+    utila.ResultFile('rawmaker', 'border_pages'),
+    utila.ResultFile('groupme', 'footer_footerheader'),
+]
 
 WORKPLAN = [
     utila.create_step(
-        'image',
-        inputs=[
-            RF(producer='rawmaker', name='oneline_text_text'),
-            RF(producer='rawmaker', name='oneline_text_positions'),
-            RF('rawmaker', 'border_pages'),
-            RF('groupme', 'footer_footerheader'),
+        name='image',
+        inputs=CAPTION_DATA + [
             utila.Pattern('rawmaker__images_images/*', 'yaml'),
+        ],
+        output=('caption',),
+    ),
+    utila.create_step(
+        name='table',
+        inputs=CAPTION_DATA + [
+            utila.ResultFile('linero', 'table_table'),
         ],
         output=('caption',),
     ),
     utila.create_step(
         'general',
         inputs=[
-            RF(producer=caption.PROCESS, name='image_caption'),
+            utila.ResultFile(producer=caption.PROCESS, name='image_caption'),
+            utila.ResultFile(producer=caption.PROCESS, name='table_caption'),
         ],
         output=('general',),
     ),

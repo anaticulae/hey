@@ -16,5 +16,9 @@ def image_caption(path: str, prefix: str = '') -> str:
     return utila.pathconnector(path, caption.PROCESS, 'image_caption', prefix)
 
 
+def table_caption(path: str, prefix: str = '') -> str:
+    return utila.pathconnector(path, caption.PROCESS, 'table_caption', prefix)
+
+
 def general_cation(path: str, prefix: str = '') -> str:
     return utila.pathconnector(path, caption.PROCESS, 'general_general', prefix)

@@ -13,10 +13,11 @@ import caption.data
 import caption.serialize
 
 
-def work(image: str, pages: tuple) -> str:
+def work(image: str, table: str, pages: tuple) -> str:
     image = caption.serialize.load_captions(image, pages=pages)
+    table = caption.serialize.load_captions(table, pages=pages)
 
-    merged = merge(image)
+    merged = merge(image, table)
 
     dumped = caption.serialize.dump_captions(merged)
     return dumped

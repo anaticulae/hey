@@ -10,7 +10,7 @@ caption
 
 * [x] extract caption from images
 
-* [ ] tables
+* [x] tables
 
 * [ ] figures
 
