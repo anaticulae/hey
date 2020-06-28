@@ -25,3 +25,16 @@ def test_caption_bachelor90_page18(testdir, monkeypatch):
     path = caption.path.image_caption(testdir.tmpdir)
     loaded = caption.serialize.load_captions(path)
     assert loaded
+
+
+def test_caption_bachelor90_page80(testdir, monkeypatch):
+    source = tests.resources.BACHELOR90
+    cmd = f'-i {source} --pages=80'
+    tests.caption_.run(cmd, monkeypatch=monkeypatch)
+
+    path = caption.path.table_caption(testdir.tmpdir)
+    loaded = caption.serialize.load_captions(path)
+    assert loaded
+
+    tables = loaded[0].content
+    assert len(tables) == 1, str(tables)
