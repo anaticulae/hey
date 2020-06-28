@@ -7,14 +7,13 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import operator
-
 import serializeraw
 import texmex
 import utila
 
 import caption.data
 import caption.serialize
+import caption.utils
 
 
 def work(
@@ -40,7 +39,7 @@ def work(
     result = []
     for page in ptcns:
         pageimages = utila.select_page(images, page.page)
-        pageimages = sorted_bounds(pageimages)
+        pageimages = caption.utils.sorted_bounds(pageimages)
         processed = process_page(page, pageimages)
         result.append(
             caption.data.PageContentCaption(
@@ -69,17 +68,6 @@ def process_page(
         line, raw = selected[0]
         raw = raw.text.strip()
         result.append(caption.data.Caption(line=line, raw=raw))
-    return result
-
-
-def sorted_bounds(items):
-    if not items:
-        return []
-    result = [item.bounding for item in items.content]
-    # left to right
-    result = sorted(result, key=operator.itemgetter(0))
-    # top to down
-    result = sorted(result, key=operator.itemgetter(3))
     return result
 
 
