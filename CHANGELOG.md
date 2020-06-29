@@ -2,6 +2,27 @@
 
 Every noteable change is logged here.
 
+## v3.5.0
+
+### Feature
+
+* add figure caption extractor (e09c552df3a3)
+* add table caption extractor (9479c1fe9bf7)
+* extend image caption detector magic name (da53850cfa38)
+* add caption option to example data generator (ece22175cae5)
+* add captions analysis (67a11bc213bd)
+* add merging step to merge different captions (94d8d3da81ea)
+* add image caption extractor (076144413cfa)
+* add caption cli (d0d5434a1ca2)
+
+### Fix
+
+* handle non zero indexes distances correctly (1eaefbd8d6a7)
+
+### Documentation
+
+* remove outdated readme information (265f99c71f75)
+
 ## v3.4.0
 
 ### Feature
