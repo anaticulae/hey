@@ -7,8 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import utila
+
 import groupme.serialize
-import hey.classificator
 import hey.utils
 
 
@@ -20,7 +21,7 @@ def content(path, pages: tuple = None):
         distance = hey.utils.lengths(candidat, clusteritem)
         return distance < 5.0  # TODO: HOLY VALUE
 
-    clustered = hey.classificator.determine_cluster(
+    clustered = utila.determine_cluster(
         leftright.values(),
         classifier=equals,
         min_elements=3,  # TODO: HOLY VALUE

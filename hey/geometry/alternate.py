@@ -67,7 +67,6 @@ import dataclasses
 import texmex
 import utila
 
-import hey.classificator
 import hey.text.utils
 
 MIN_LINE_ELEMENT = 2  # TODO: HOLY VALUE
@@ -213,7 +212,7 @@ def external_lining_points(pages):
     starts = [item for item in starts if item is not None]
 
     starts = utila.flatten(starts)
-    clustered = hey.classificator.max_distance(
+    clustered = utila.max_distance(
         starts,
         diff=MAX_LINE_DIFF,
         min_elements=1,
@@ -240,7 +239,7 @@ def inside(starts, value):
 
 def group_line_start(page):
     x0_pos = [item.bounding[0] for item in page]
-    clusters = hey.classificator.max_distance(
+    clusters = utila.max_distance(
         x0_pos,
         diff=MAX_LINE_DIFF,
         min_elements=MIN_LINE_ELEMENT,

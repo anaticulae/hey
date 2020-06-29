@@ -21,7 +21,6 @@ import texmex
 import utila
 
 import groupme.footer.strategy as gfs
-import hey.classificator
 
 COMMON_HEADER_MAX_ERROR = 1.0  # TODO: HOLY VALUE
 # minimal items in a cluster to be detected and accepted as feature.
@@ -55,7 +54,7 @@ def cluster_pages(pagenavigators):
     with_box = prepare_clustering(pagenavigators)
 
     # TODO REPLACE WITH COMMON POSITION CLUSTER
-    clusters = hey.classificator.common_items(
+    clusters = utila.common_items(
         collected=with_box,
         max_difference=COMMON_HEADER_MAX_ERROR,
         min_elements=min_cluster_count,

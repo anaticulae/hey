@@ -16,7 +16,6 @@ import yaml
 
 import groupme.border.leftright
 import groupme.border.most
-import hey.classificator
 import hey.utils
 
 
@@ -97,7 +96,7 @@ def pagecluster(pagesizes):
         # TODO: HOLY VALUE
         return hey.utils.lengths(candidat[0], clusteritem[0]) < 10.0
 
-    grouped = hey.classificator.determine_cluster(
+    grouped = utila.determine_cluster(
         pagesizes,
         classifier=equal_size,
         min_elements=3,  # TODO: HOLY VALUE

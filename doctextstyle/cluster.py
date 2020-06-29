@@ -13,7 +13,6 @@ import typing
 import utila
 
 import doctextstyle.data
-import hey.classificator
 
 
 class ClusterProperty(enum.Enum):
@@ -52,7 +51,7 @@ def cluster(  # pylint:disable=R1260
                 return False
         return True
 
-    clustered = hey.classificator.determine_cluster(
+    clustered = utila.determine_cluster(
         items,
         classifier=classifier,
         min_elements=minsize,

@@ -21,9 +21,8 @@ Example:
 
 import configo
 import texmex
+import utila
 import utila.math
-
-import hey.classificator
 
 
 def parse_page(page) -> list:
@@ -182,7 +181,7 @@ def columns(page) -> utila.Numbers:
         x0 = item.bounding[0]
         collected.append(x0)
 
-    clustered = hey.classificator.max_distance(
+    clustered = utila.max_distance(
         collected,
         diff=2.0,  # TODO: HOLY VALUE
         min_elements=5  # TODO: HOLY VALUE
@@ -200,7 +199,7 @@ MIN_LINE_GAP = configo.HV_FLOAT_PLUS(10.0)
 
 def lines(page) -> utila.Numbers:
     line_distance = texmex.linedistances(page, noneatend=False)
-    clustered = hey.classificator.max_distance(
+    clustered = utila.max_distance(
         line_distance,
         diff=2.0,  # TODO: HOLY VALUE
         min_elements=5  # TODO: HOLY VALUE

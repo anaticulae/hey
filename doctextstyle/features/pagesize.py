@@ -8,9 +8,8 @@
 # =============================================================================
 
 import serializeraw
+import utila
 import utila.math
-
-import hey.classificator
 
 
 def pagesizes(path, pages: tuple = None):
@@ -22,7 +21,7 @@ def pagesizes(path, pages: tuple = None):
         distance = utila.length(*candidat, *clusteritem)
         return distance < 5.0  # TODO: HOLY VALUE
 
-    clustered = hey.classificator.determine_cluster(
+    clustered = utila.determine_cluster(
         pagesizes_,
         classifier=equals,
         min_elements=3,  # TODO: HOLY VALUE

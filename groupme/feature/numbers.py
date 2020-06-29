@@ -30,8 +30,6 @@ import serializeraw
 import texmex
 import utila
 
-import hey.classificator
-
 PageContentTextPosition = collections.namedtuple(
     'PageContentTextPosition',
     'content, page',
@@ -70,7 +68,7 @@ BOTTOM_MAX_AREA = 2500.0  # page number is not very big
 
 def header(navigators):
     collected = [page.before(TOP_BORDER) for page in navigators]
-    common = hey.classificator.common_items(
+    common = utila.common_items(
         collected,
         max_difference=TOP_MAX_DIFFERENCE,
         selector=lambda x: x.bounding,
@@ -124,7 +122,7 @@ def footer(
             item = (item.bounding, clean_number, pagenumber)
             pagecontent.append(item)
         filtered.append(pagecontent)
-    common = hey.classificator.common_items(
+    common = utila.common_items(
         filtered,
         max_difference=max_difference,
     )

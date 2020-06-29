@@ -12,8 +12,6 @@ import iamraw
 import pytest
 import utila
 
-import hey.classificator
-
 
 @pytest.mark.parametrize('min_elements, expected_groups', [
     (1, 3),
@@ -30,7 +28,7 @@ def test_cluster_common_items_2groups(min_elements, expected_groups):
             (iamraw.BoundingBox.from_list((10, 2, 15, 4)), '2'),
         ],
     ]
-    collected = hey.classificator.common_items(
+    collected = utila.common_items(
         example,
         min_elements=min_elements,
     )
@@ -48,7 +46,7 @@ EXAMPLE = [
 
 def test_cluster_max_distance_no_diff():
     unique = utila.make_unique(EXAMPLE)
-    clustered = hey.classificator.max_distance(
+    clustered = utila.max_distance(
         unique,
         diff=0.0,
         min_elements=1,
@@ -59,7 +57,7 @@ def test_cluster_max_distance_no_diff():
 def test_cluster_max_distance():
     unique = sorted(utila.make_unique(EXAMPLE))
     max_diff = 5.0
-    clustered = hey.classificator.max_distance(
+    clustered = utila.max_distance(
         unique,
         diff=max_diff,
         min_elements=2,

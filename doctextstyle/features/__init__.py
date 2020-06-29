@@ -10,7 +10,6 @@
 import utila
 
 import doctextstyle.cluster
-import hey.classificator
 
 
 def text(flats, returncluster: bool = False):
@@ -169,8 +168,8 @@ def paragraph(flats: doctextstyle.data.TextProperties, digits: int = 1):
     before = utila.roundme(before, digits=digits, convert=False)  # pylint:disable=R0204
     after = utila.roundme(after, digits=digits, convert=False)  # pylint:disable=R0204
 
-    before = hey.classificator.max_distance(before, diff=2.0)  # TODO: HOLY VAL
-    after = hey.classificator.max_distance(after, diff=2.0)
+    before = utila.max_distance(before, diff=2.0)  # TODO: HOLY VAL
+    after = utila.max_distance(after, diff=2.0)
 
     # most items in biggest cluster
     before = utila.modes(before[0].content)

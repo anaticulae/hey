@@ -45,8 +45,6 @@ import configo
 import iamraw
 import utila
 
-import hey.classificator
-
 # max diff to match in common group.
 MAX_SIDE_DIFF = configo.HV_INT_PLUS(default=2.0)
 # exceptions which are allowed cause of user defined error.
@@ -313,7 +311,7 @@ def longest_two(items: utila.Numbers) -> typing.Tuple[float, float]:
         # TODO: HOLY VALUE
         return math.fabs(candidat - clusteritem) < 2.0
 
-    clustered = hey.classificator.determine_cluster(items, close)
+    clustered = utila.determine_cluster(items, close)
     result = sorted(clustered, key=len, reverse=True)
     if len(result) < 2:
         return None

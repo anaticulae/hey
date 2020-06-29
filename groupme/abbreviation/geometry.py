@@ -32,10 +32,10 @@ Nearly working
 import configo
 import iamraw
 import texmex
+import utila
 import utila.math
 
 import groupme.abbreviation
-import hey.classificator
 
 
 class GeometryAbbreviationParser(groupme.abbreviation.AbbreviationExtractorStrategy): # yapf:disable
@@ -199,7 +199,7 @@ def columns(page) -> utila.Numbers:
         x0 = item.bounding[0]
         collected.append(x0)
 
-    clustered = hey.classificator.max_distance(
+    clustered = utila.max_distance(
         collected,
         diff=2.0,  # TODO: HOLY VALUE
         min_elements=5  # TODO: HOLY VALUE
@@ -220,7 +220,7 @@ def lines(page) -> utila.Numbers:
         page,
         noneatend=False,
     )
-    clustered = hey.classificator.max_distance(
+    clustered = utila.max_distance(
         line_distance,
         diff=2.0,  # TODO: HOLY VALUE
         min_elements=5  # TODO: HOLY VALUE

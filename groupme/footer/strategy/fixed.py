@@ -32,7 +32,6 @@ import groupme.footer.headnotes
 import groupme.footer.strategy as gfs
 import groupme.horizontals
 import groupme.utils
-import hey.classificator
 
 
 class FixedFooterStrategy(gfs.FooterHeaderDetectionStrategy):
@@ -124,7 +123,7 @@ def extract_common_footer(
     ) for horizontal in page.content] for page in horizontals]
 
     # cluster horizontal lines
-    clusters = hey.classificator.common_items(
+    clusters = utila.common_items(
         collected=with_box,
         max_difference=COMMON_HORIZONTAL_CLASSIFICATOR_MAX_ERROR,
     )
