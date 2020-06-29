@@ -6,8 +6,3 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 #==============================================================================
-
-from hey.cli import main
-
-if __name__ == "__main__":
-    main()

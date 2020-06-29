@@ -78,7 +78,6 @@ if __name__ == "__main__":
                 'caption = caption.cli:main',
                 'doctextstyle = doctextstyle.cli:main',
                 'groupme = groupme.cli:main',
-                'hey = hey.cli:main',
                 'magic = magic.cli:main',
             ],
         },

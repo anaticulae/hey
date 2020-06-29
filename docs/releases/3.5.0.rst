@@ -16,7 +16,7 @@ caption
 
 * [x] dump and load results
 
-* [ ] solve five todos
+* [x] solve five todos
 
 code quality
 ------------
