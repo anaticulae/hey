@@ -6,3 +6,78 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+
+import abc
+
+import texmex
+import utila
+
+import caption.data
+import caption.utils
+
+
+class CaptionPageProcessor:
+
+    def __init__(self, look_forward: int):
+        self.look_forward = look_forward
+
+    def process_page(
+            self,
+            page: texmex.PageTextContentNavigator,
+            items,
+    ) -> caption.data.Captions:
+        """Detect caption below the images."""
+        if not items:
+            return []
+        result = []
+        for bounding in items:
+            y1 = bounding[3]
+            selected = self.after(page, y1)
+            if not selected:
+                utila.info(f'could not find caption after: {bounding}')
+                continue
+            line, raw = selected[0]
+            raw = raw.text.strip()
+            result.append(caption.data.Caption(line=line, raw=raw))
+        return result
+
+    @abc.abstractmethod
+    def validate(self, items):
+        pass
+
+    def after(self, navigator, current):
+        plus = self.look_forward
+        selected = [(index, item)
+                    for index, item in enumerate(navigator)
+                    if current <= item.bounding.y1 <= current + plus]
+        # TODO: IMPROVE THIS SIMPLE SELECTOR
+        valid = self.validate(selected)
+        return valid
+
+
+class CaptionPageWordProcessor(CaptionPageProcessor):
+
+    def __init__(self, words):
+        super().__init__(look_forward=100)  # TODO: HOLY VALUE
+        self.words = words
+
+    def validate(self, items) -> list:
+        result = [
+            item for item in items
+            if any(chunk in item[1].text for chunk in self.words)
+        ]
+        return result
+
+
+def run(processor, ptcns, items):
+    result = []
+    for page in ptcns:
+        pagefigure = utila.select_page(items, page.page)
+        pagefigure = caption.utils.sorted_bounds(pagefigure)
+        processed = processor.process_page(page, pagefigure)
+        result.append(
+            caption.data.PageContentCaption(
+                page=page.page,
+                content=processed,
+            ))
+    return result
