@@ -36,14 +36,6 @@ def work(
     return dumped
 
 
-def from_tuple(item):
-    # TODO: MOVE TO UTILA
-    return ' '.join(str(x) for x in item)
-
-
-utila.from_tuple = from_tuple
-
-
 def content_pages(*pageable) -> list:
     result = []
     for pages in pageable:
