@@ -38,3 +38,16 @@ def test_caption_bachelor90_page80(testdir, monkeypatch):
 
     tables = loaded[0].content
     assert len(tables) == 1, str(tables)
+
+
+def test_caption_master116_page12(testdir, monkeypatch):
+    source = tests.resources.MASTER116
+    cmd = f'-i {source} --figure --general --pages=12'
+    tests.caption_.run(cmd, monkeypatch=monkeypatch)
+
+    path = caption.path.figure_caption(testdir.tmpdir)
+    loaded = caption.serialize.load_captions(path)
+    assert loaded
+
+    figures = loaded[0].content
+    assert len(figures) == 2, str(figures)

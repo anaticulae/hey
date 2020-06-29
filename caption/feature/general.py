@@ -8,19 +8,28 @@
 # =============================================================================
 
 import collections
+import os
 
 import caption.data
 import caption.serialize
 
 
-def work(image: str, table: str, pages: tuple) -> str:
-    image = caption.serialize.load_captions(image, pages=pages)
-    table = caption.serialize.load_captions(table, pages=pages)
+def work(figure: str, image: str, table: str, pages: tuple) -> str:
+    figure = load_ifexists(figure, pages)
+    image = load_ifexists(image, pages)
+    table = load_ifexists(table, pages)
 
-    merged = merge(image, table)
+    merged = merge(figure, image, table)
 
     dumped = caption.serialize.dump_captions(merged)
     return dumped
+
+
+def load_ifexists(path: str, pages: tuple = None):
+    if not os.path.exists(path):
+        return []
+    result = caption.serialize.load_captions(path, pages=pages)
+    return result
 
 
 def merge(*items) -> caption.data.PageContentCaptions:

@@ -12,6 +12,10 @@ import utila
 import caption
 
 
+def figure_caption(path: str, prefix: str = '') -> str:
+    return utila.pathconnector(path, caption.PROCESS, 'figure_caption', prefix)
+
+
 def image_caption(path: str, prefix: str = '') -> str:
     return utila.pathconnector(path, caption.PROCESS, 'image_caption', prefix)
 

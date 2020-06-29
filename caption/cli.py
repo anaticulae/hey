@@ -22,6 +22,13 @@ CAPTION_DATA = [
 
 WORKPLAN = [
     utila.create_step(
+        name='figure',
+        inputs=CAPTION_DATA + [
+            utila.Pattern('rawmaker__figures_figures/*', 'yaml'),
+        ],
+        output=('caption',),
+    ),
+    utila.create_step(
         name='image',
         inputs=CAPTION_DATA + [
             utila.Pattern('rawmaker__images_images/*', 'yaml'),
@@ -38,8 +45,9 @@ WORKPLAN = [
     utila.create_step(
         'general',
         inputs=[
-            utila.ResultFile(producer=caption.PROCESS, name='image_caption'),
-            utila.ResultFile(producer=caption.PROCESS, name='table_caption'),
+            utila.ResultFile(caption.PROCESS, 'figure_caption', optional=True),
+            utila.ResultFile(caption.PROCESS, 'image_caption', optional=True),
+            utila.ResultFile(caption.PROCESS, 'table_caption', optional=True),
         ],
         output=('general',),
     ),

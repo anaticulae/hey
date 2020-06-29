@@ -12,7 +12,7 @@ caption
 
 * [x] tables
 
-* [ ] figures
+* [x] figures
 
 * [x] dump and load results
 
