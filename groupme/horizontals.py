@@ -93,6 +93,6 @@ def cluster_in_area(clusters, ymin, ymax):
         _, (bounding, __) = cluster[0]
         groupme.horizontals.assert_horizontal(bounding)
 
-        if groupme.utils.between(bounding, ymin, ymax):
+        if iamraw.between(bounding, ymin, ymax):
             result.append(cluster)
     return result

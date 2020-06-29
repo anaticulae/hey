@@ -12,13 +12,6 @@ import collections
 import utila
 
 
-def between(bounding, ymin, ymax):
-    # TODO: REPLACE WITH UTILA CODE
-    top = ymin <= bounding.y0 <= ymax
-    bottom = ymin <= bounding.y1 <= ymax
-    return top and bottom
-
-
 def split(items, key=None):
     # assert isinstance(key, callable), 'require callable'
     matched = []
