@@ -121,7 +121,11 @@ def headline(page):
         parsed = groupme.toc.strategy.regex.parse(item.text)
         if parsed:
             continue
-        textsize = item.style.textsize()
+        # TODO: REPLACE AFTER FIXING TEXMEX
+        # most item is more robust than max item
+        textsize = utila.flatten(
+            [[item.size] * (item.end - item.start) for item in item.style])
+        textsize = utila.mode(textsize)
         if textsize < 15.0:  # TODO: HOLY VALUE
             continue
         result.append(item.text.strip())
