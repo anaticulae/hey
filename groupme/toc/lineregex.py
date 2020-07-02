@@ -135,7 +135,7 @@ def extract_match(match: re.Match) -> groupme.toc.TocLine:
         level = match['level']
 
     title = title.replace('\n', ' ')
-    title = normalize_inner_whitespaces(title)
+    title = utila.normalize_whitespaces(title)
 
     result = groupme.toc.TocLine(
         level=level,
@@ -144,16 +144,3 @@ def extract_match(match: re.Match) -> groupme.toc.TocLine:
         raw=utila.extract_match(match),
     )
     return result
-
-
-INNER_WHITESPACES = re.compile(r'\s+', re.M)
-
-
-def normalize_inner_whitespaces(item: str) -> str:
-    """Shrink multiple inner whitespaces to a single white space.
-
-    >>> normalize_inner_whitespaces('Hier:    Spricht  Helm')
-    'Hier: Spricht Helm'
-    """
-    # TODO: MOVE TO UTILA
-    return INNER_WHITESPACES.sub(' ', item)
