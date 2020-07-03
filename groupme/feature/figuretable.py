@@ -91,8 +91,8 @@ def select_figuretable(
             continue
         utila.debug(f'page: {page.page}')
         figurepage = groupme.toc.strategy.regex.parse_page(page)
-        if figurepage is None:
-            utila.log(f'empty page: {page.page}')
+        if not figurepage:
+            utila.log(f'could not parse any figure line on page: {page.page}')
             continue
 
         level3 = [groupme.toc.group.level(item.level) for item in figurepage]
