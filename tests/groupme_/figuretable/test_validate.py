@@ -100,6 +100,44 @@ def bachelor37(toc: iamraw.Toc):
     assert figures == FIGURETABLE_BACHELOR37, figures
 
 
+FIGURETABLE_BACHELOR63 = """\
+Abbildung 1: Korotkow-Geräusche bei der auskultatorischen Blutdruckmessung [Elt01]
+Abbildung 2: Manschettendruckverlauf und Oszillationen bei der oszillometrischen Blutdruckmessung [Elt01]
+Abbildung 3: Volumenkompensationsmethode nach Penaz [Elt01]
+Abbildung 4: Messverfahren nach R. Aaslid und AO. Brubakk [Aas81]
+Abbildung 5: Schematische Darstellung einer aufgesetzten Ultraschall-Doppler-Sonde [Pau11]
+Abbildung 6: Grundstruktur des Regelkreises [nach Lun10]
+Abbildung 7: Digitalisierung mit Abtast-Halteglied [Reu08]
+Abbildung 8: Sprungantwort eines idealen PI-Reglers
+Abbildung 9: Einfache LabVIEW-Operation
+Abbildung 10: Blutdruckverlauf während eines Valsalva-Manövers
+Abbildung 11: Bestehender Versuchsaufbau vor der Optimierung
+Abbildung 12: Blockdiagramm des ersten Modellentwurfs
+Abbildung 13: Optimierung der Regelschleife - Zeitsteuerung Messschleife
+Abbildung 14: Optimierung der Regelschleife - Puffer nach dem „FIFO“-Prinzip
+Abbildung 15: Optimierung der Regelschleife - Regelalgorithmus (PI)
+Abbildung 16: Valsalva-Press-Versuch mit altem Aufbau
+Abbildung 17: Valsalva-Press-Versuch mit neuem Aufbau
+Abbildung 18: Spannungsverteiler und 24V-Netzteil
+Abbildung 19: Verteilerplatine
+Abbildung 20: Registerkartenelement "Voreinstellungen" der Bedienoberfläche
+Abbildung 21: Registerkartenelement "Wiedergabe" der Bedienoberfläche mit gespeicherter Messung
+Abbildung 22: Frontpanel des Messprogramms
+Abbildung 23: Optimierte Sondenfixierung
+Abbildung 24: Struktur- und Signalflussplan - Legende
+Abbildung 25: Struktur- und Signalflussplan - Übersicht Laboraufbau
+Abbildung 26: Struktur- und Signalflussplan - Detailansicht Druckerzeugungseinheit
+Abbildung 27: Struktur- und Signalflussplan - Detailansicht Mess-PC
+Abbildung 28: Auswertung der Testmessungen - Beispiel für oszillometrische Messung
+Abbildung 29: Auswertung der Testmessungen - Vergleich der ermittelten MAP-Werte
+Abbildung 30: Auswertung der Testmessungen - Qualität der oszillometrischen Anpassung"""
+
+
+def bachelor63(toc: iamraw.Toc):
+    figures = merge_required(toc)
+    assert figures == FIGURETABLE_BACHELOR63, figures
+
+
 TEN = tuple(range(10))
 
 
@@ -115,6 +153,12 @@ TEN = tuple(range(10))
         bachelor37,
         (0, 1, 2, 3, 4),
         id='bachelor37',
+    ),
+    pytest.param(
+        tests.resources.BACHELOR63,
+        bachelor63,
+        (59, 60, 61, 62),
+        id='bachelor63',
     ),
 ])
 @utilatest.skip_longrun
