@@ -39,7 +39,7 @@ def parse_page(page) -> list:
     if overlapping:
         # TODO: EXTEND ERROR MESSAGE
         utila.debug(overlapping)
-        utila.error('could not analyze, columns are mixed/ambigous')
+        utila.debug('could not analyze, columns are mixed/ambigous')
         return None
     adjusted = adjust_columns(
         short_column,

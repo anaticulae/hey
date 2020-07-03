@@ -145,7 +145,7 @@ def select_figuretable(
         utila.debug(f'page: {page.page}')
         figurepage = strategy(page)
         if not figurepage:
-            utila.log(f'could not parse any figure line on page: {page.page}')
+            utila.debug(f'could not parse any figure line on page: {page.page}')
             continue
 
         level3 = [groupme.toc.group.level(item.level) for item in figurepage]

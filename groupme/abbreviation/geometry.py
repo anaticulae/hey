@@ -70,7 +70,7 @@ def parse_page(page) -> iamraw.Abbreviations:
 
     if overlapping_column(short_column, description_column):
         # TODO: EXTEND ERROR MESSAGE
-        utila.error('could not analyze, columns are mixed/ambigous')
+        utila.debug('could not analyze, columns are mixed/ambigous')
         return None
     adjusted = adjust_columns(
         short_column,
