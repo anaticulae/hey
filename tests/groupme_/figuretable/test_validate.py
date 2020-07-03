@@ -14,6 +14,7 @@ import utila
 import utilatest
 
 import groupme.path
+import tests.groupme_.figuretable
 import tests.resources
 
 
@@ -163,11 +164,10 @@ TEN = tuple(range(10))
 ])
 @utilatest.skip_longrun
 def test_groupme_figuretable(source, validate, pages, monkeypatch, testdir):
-    pages = ','.join((str(item) for item in pages)) if pages else ''
-    pages = f'--pages={pages}' if pages else ''
-    cmd = f'-i {source} --figuretable {pages}'
-    tests.groupme_.run(cmd, monkeypatch=monkeypatch)
-
-    path = groupme.path.figuretable(testdir.tmpdir)
-    figuretable = serializeraw.load_toc(path)
+    figuretable = tests.groupme_.figuretable.extract_figuretable(
+        source,
+        pages,
+        monkeypatch,
+        testdir,
+    )
     validate(figuretable)
