@@ -9,11 +9,9 @@
 
 import iamraw
 import pytest
-import serializeraw
 import utila
 import utilatest
 
-import groupme.path
 import tests.groupme_.figuretable
 import tests.resources
 
