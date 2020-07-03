@@ -23,7 +23,7 @@ import groupme.toc.strategy
 import hey.geometry.double_column
 
 # minimal percentage of figure lines per page
-MIN_TOFS_PER_PAGE = configo.HV_PERCENT_PLUS(0.2, limit=1.0).value
+MIN_TOFS_PER_PAGE = configo.HV_PERCENT_PLUS(20, limit=100.0).value
 
 
 def work(
