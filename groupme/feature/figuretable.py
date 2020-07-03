@@ -92,12 +92,22 @@ def doublecolumn_figure_strategy(ptcns) -> iamraw.Toc:
                 Libkuman et al. (2007)
     """
 
+    def check_level(item: str):
+        if 'Abb.' in item:
+            return True
+        if 'Abbildung' in item:
+            return True
+        return False
+
     def parse(ptcn) -> groupme.toc.TocLines:
         parsed = hey.geometry.double_column.parse_page(ptcn)
         if not parsed:
             return []
         result = []
         for level, title in parsed:
+            if not check_level(level):
+                utila.debug(f'invalid figure level: {level}')
+                continue
             item = groupme.toc.TocLine(
                 level=level,
                 title=title,

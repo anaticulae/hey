@@ -17,7 +17,6 @@ import tests.groupme_.figuretable
         tests.resources.MASTER89,
         (85, 86, 87, 88),
         id='master89_page85_86_87_88',
-        marks=pytest.mark.xfail(reason='invalid double column  parser'),
     ),
 ])
 def test_regression_non_valid_examples(source, pages, monkeypatch, testdir):

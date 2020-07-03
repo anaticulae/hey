@@ -81,6 +81,10 @@ def level(item: str) -> Level:
     >>> level('A')
     AppendixLevel(value='A', raw='A', character='A')
     """
+    # TODO: SUPPORT 1. Abbildung
+    # TODO: SUPPORT 1. Abb.
+    # In the current implementation there are valid cause of 'A' in Abb/
+    # Abbildung, but this is not the correct Point.
     if item is None:
         return None
 
