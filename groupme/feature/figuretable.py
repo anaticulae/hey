@@ -11,6 +11,7 @@
 """
 
 import configo
+import iamraw
 import serializeraw
 import texmex
 import utila
@@ -53,6 +54,14 @@ def work(
         headerfooterpath=headerfooter,
         pages=pages,
     )
+
+    result = oneline_figure_strategy(oneline)
+
+    dumped = serializeraw.dump_toc(result)
+    return dumped
+
+
+def oneline_figure_strategy(oneline) -> iamraw.Toc:
     selected = select_figuretable(oneline)
     # select toc pages only
     oneline = utila.select_pages(oneline, pages=selected)
@@ -62,9 +71,7 @@ def work(
 
     flat = utila.flatten(extracted.content)
     leveled = groupme.toc.group.groupby_level(flat)
-
-    dumped = serializeraw.dump_toc(leveled)
-    return dumped
+    return leveled
 
 
 NO_FIGURES = {
