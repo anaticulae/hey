@@ -80,6 +80,26 @@ def bachelor90(toc: iamraw.Toc):
     assert figures == FIGURETABLE_BACHELOR90, figures
 
 
+# TODO: Adjust layout parser
+
+FIGURETABLE_BACHELOR37 = """\
+SAM Skala in der 9-Punkte-Likert-Form
+Mittelwerte der  N ormierungen v on  Lang et  a l. ( 2005)  und Libkuman et al. (2007)
+Ergebnisse der Pilotstudie
+Verlauf der 2-back-Aufgabe mit Beispiel eines Zielreizes
+Zusammenfassung des ENBP-Versuchsablaufs
+Überblick über die verschiedenen Inner- und Zwischensubjekt- faktoren für die statistische Datenanalyse im allgemeinen linea- ren Modell
+Durchschnittliche R eaktionszeit pr o E NBP-Block  (korrekte un d falsche Reaktionen) in Prozent für unterschiedliche emotionale Qualitäten
+Mittelwerte der  H erzfrequenzen z u den ei nzelnen M esszeit- punkten für die unterschiedlichen  emotionalen Qualitäten
+Mittlere D ifferenz  der H erzfrequenz ( MDHF) über  di e dr ei v er- schiedenen emotionalen Qualitäten der ENBP-Blöcke
+Modell der autonomen und kognitiven Verarbeitung emotionaler Stimuli und die Wirkung auf die Vermittlung durch die Mediator- variable Interozeptives Bewusstsein"""
+
+
+def bachelor37(toc: iamraw.Toc):
+    figures = merge_required(toc)
+    assert figures == FIGURETABLE_BACHELOR37, figures
+
+
 TEN = tuple(range(10))
 
 
@@ -89,6 +109,12 @@ TEN = tuple(range(10))
         bachelor90,
         (1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
         id='bachelor90',
+    ),
+    pytest.param(
+        tests.resources.BACHELOR37,
+        bachelor37,
+        (0, 1, 2, 3, 4),
+        id='bachelor37',
     ),
 ])
 @utilatest.skip_longrun

@@ -16,9 +16,11 @@ import serializeraw
 import texmex
 import utila
 
+import groupme.toc
 import groupme.toc.extractor
 import groupme.toc.group
 import groupme.toc.strategy
+import hey.geometry.double_column
 
 # minimal percentage of figure lines per page
 MIN_TOFS_PER_PAGE = configo.HV_PERCENT_PLUS(0.2, limit=1.0).value
@@ -54,9 +56,19 @@ def work(
         headerfooterpath=headerfooter,
         pages=pages,
     )
-
     result = oneline_figure_strategy(oneline)
 
+    if not result:
+        ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
+            text,
+            textpositions,
+            sizeandborderpath=sizeandborder,
+            headerfooterpath=headerfooter,
+            pages=pages,
+        )
+        result = doublecolumn_figure_strategy(ptcns)
+
+    result = groupme.toc.group.groupby_level(result)  # pylint:disable=R0204
     dumped = serializeraw.dump_toc(result)
     return dumped
 
@@ -70,8 +82,39 @@ def oneline_figure_strategy(oneline) -> iamraw.Toc:
     extracted = groupme.toc.extractor.extract(loaded)
 
     flat = utila.flatten(extracted.content)
-    leveled = groupme.toc.group.groupby_level(flat)
-    return leveled
+    return flat
+
+
+def doublecolumn_figure_strategy(ptcns) -> iamraw.Toc:
+    """\
+    Abb. 1      SAM Skala in der 9-Punkte-Likert-Form
+    Abb. 2      Mittelwerte der N ormierungen v on Lang et a l. ( 2005) und
+                Libkuman et al. (2007)
+    """
+
+    def parse(ptcn) -> groupme.toc.TocLines:
+        parsed = hey.geometry.double_column.parse_page(ptcn)
+        if not parsed:
+            return []
+        result = []
+        for level, title in parsed:
+            item = groupme.toc.TocLine(
+                level=level,
+                title=title,
+                raw_location=ptcn.page,
+            )
+            result.append(item)
+        return result
+
+    pages = select_figuretable(ptcns, strategy=parse)
+    if not pages:
+        return []
+
+    ptcns = utila.select_pages(ptcns, pages)
+    extracted = [parse(item) for item in ptcns]
+
+    result = utila.flatten(extracted)
+    return result
 
 
 NO_FIGURES = {
@@ -85,8 +128,11 @@ NO_FIGURES = {
 def select_figuretable(
         textnavigators: texmex.PageTextNavigators,
         wrong_table=None,
+        strategy: callable = None,
 ) -> utila.Ints:
     """Use simple approach to decide which page is a figure table page."""
+    if strategy is None:
+        strategy = groupme.toc.strategy.regex.parse_page
     if wrong_table is None:
         wrong_table = NO_FIGURES
     selected = []
@@ -97,7 +143,7 @@ def select_figuretable(
             # TODO: WHAT SHOULD WE DO WHEN BOTH ARE ON THE SAME PAGE?
             continue
         utila.debug(f'page: {page.page}')
-        figurepage = groupme.toc.strategy.regex.parse_page(page)
+        figurepage = strategy(page)
         if not figurepage:
             utila.log(f'could not parse any figure line on page: {page.page}')
             continue
