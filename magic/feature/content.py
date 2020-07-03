@@ -25,6 +25,7 @@ def work(  # pylint:disable=R0914
         blockquotes: str,
         formula: str,
         captions: str,
+        table: str,
         pages: tuple = None,
 ) -> str:
     ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
@@ -38,6 +39,7 @@ def work(  # pylint:disable=R0914
     blockquotes = load_content(serializeraw.load_blockquotes, blockquotes, pages) # yapf:disable
     formula = load_content(serializeraw.load_formulas, formula, pages)
     captions = load_content(caption.serialize.load_captions, captions, pages)
+    tables = load_content(serializeraw.load_tables, table, pages)
 
     result = []
     for navigator in ptcns:
@@ -45,6 +47,7 @@ def work(  # pylint:disable=R0914
         blockquoteinstance = utila.select_page(blockquotes, navigator.page)
         formulainstance = utila.select_page(formula, navigator.page)
         captioninstance = utila.select_page(captions, navigator.page)
+        tableinstance = utila.select_page(tables, navigator.page)
 
         analyzed = analyze_page(
             navigator,
@@ -52,6 +55,7 @@ def work(  # pylint:disable=R0914
             blockquoteinstance,
             formulainstance,
             captioninstance,
+            tableinstance,
         )
         result.append(analyzed)
 
@@ -66,7 +70,7 @@ def load_content(loader, content, pages):
     return content
 
 
-def analyze_page(ptcn, lists, blockquotes, formula, captions):
+def analyze_page(ptcn, lists, blockquotes, formula, captions, tables):
     result = []
     for index, line in enumerate(ptcn):  # pylint:disable=W0612
         if islist(index, lists):
@@ -80,6 +84,9 @@ def analyze_page(ptcn, lists, blockquotes, formula, captions):
             continue
         if iscaption(index, captions):
             result.append((index, magic.data.ContentType.CAPTION))
+            continue
+        if istable(line, tables):
+            result.append((index, magic.data.ContentType.TABLE))
             continue
     return magic.data.PageContentContentType(page=ptcn.page, content=result)
 
@@ -130,4 +137,15 @@ def iscaption(line, captions):
     lines = [item.line for item in captions]
     if line in lines:
         return True
+    return False
+
+
+def istable(line, tables):
+    if not tables:
+        return False
+    if not tables.content:
+        return False
+    for table in tables.content:
+        if utila.rectangle_inside(table.bounding, line.bounding, diff=5.0):
+            return True
     return False

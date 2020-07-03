@@ -28,6 +28,7 @@ class ContentType(enum.Enum):
     TEXT = enum.auto()
     FORMULA = enum.auto()
     CAPTION = enum.auto()
+    TABLE = enum.auto()
     UNDEFINED = -1
 
 

@@ -37,3 +37,14 @@ def test_master72_list_and_blockquotes(testdir, monkeypatch):
     blockquote_page = utila.select_page(loaded, 14).content
     blockquote_page = [item[1] for item in blockquote_page]
     assert magic.data.ContentType.BLOCKQUOTE in blockquote_page
+
+
+def test_bachelor90_table_page76(testdir, monkeypatch):
+    tests.magic_.run(
+        f'-i {tests.resources.BACHELOR90} --pages=76 ',
+        monkeypatch=monkeypatch,
+    )
+    path = magic.path.content(testdir.tmpdir)
+    loaded = magic.data.load_types(path)[0].content
+    assert loaded, str(loaded)
+    assert len(loaded) == 15  # TODO: NOT VERIFIED
