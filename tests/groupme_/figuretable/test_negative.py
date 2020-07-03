@@ -7,18 +7,24 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import serializeraw
+import pytest
 
-import groupme.path
-import tests.groupme_
+import tests.groupme_.figuretable
 
 
-def extract_figuretable(source, pages, monkeypatch, testdir):
-    pages = ','.join((str(item) for item in pages)) if pages else ''
-    pages = f'--pages={pages}' if pages else ''
-    cmd = f'-i {source} --figuretable {pages}'
-    tests.groupme_.run(cmd, monkeypatch=monkeypatch)
-
-    path = groupme.path.figuretable(testdir.tmpdir)
-    figuretable = serializeraw.load_toc(path)
-    return figuretable
+@pytest.mark.parametrize('source,  pages', [
+    pytest.param(
+        tests.resources.MASTER89,
+        (85, 86, 87, 88),
+        id='master89_page85_86_87_88',
+        marks=pytest.mark.xfail(reason='invalid double column  parser'),
+    ),
+])
+def test_regression_non_valid_examples(source, pages, monkeypatch, testdir):
+    extracted = tests.groupme_.figuretable.extract_figuretable(
+        source,
+        pages,
+        monkeypatch,
+        testdir,
+    )
+    assert not extracted
