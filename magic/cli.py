@@ -37,6 +37,7 @@ WORKPLAN = [
             utila.ResultFile('detector', 'formula_formula', optional=True),
             utila.ResultFile(caption.PROCESS, 'general_general', optional=True),
             utila.ResultFile('linero', 'table_table', optional=True),
+            utila.Directory('rawmaker__figures_figures', optional=True),
         ],
         output=('content',),
     ),

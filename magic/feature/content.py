@@ -10,13 +10,14 @@
 import os
 
 import serializeraw
+import serializeraw.images
 import utila
 
 import caption.serialize
 import magic.data
 
 
-def work(  # pylint:disable=R0914
+def work(  # pylint:disable=R0913,R0914,
         text: str,
         textpositions: str,
         sizeandborders: str,
@@ -26,6 +27,7 @@ def work(  # pylint:disable=R0914
         formula: str,
         captions: str,
         table: str,
+        figures: str,
         pages: tuple = None,
 ) -> str:
     ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
@@ -40,6 +42,14 @@ def work(  # pylint:disable=R0914
     formula = load_content(serializeraw.load_formulas, formula, pages)
     captions = load_content(caption.serialize.load_captions, captions, pages)
     tables = load_content(serializeraw.load_tables, table, pages)
+    # TODO: THINK ABOUT DUPLICATED PAGES?
+    figures = utila.flatten([
+        load_content(
+            serializeraw.images.load_image_informations_frompath,
+            item,
+            pages,
+        ) for item in figures
+    ])
 
     result = []
     for navigator in ptcns:
@@ -48,6 +58,7 @@ def work(  # pylint:disable=R0914
         formulainstance = utila.select_page(formula, navigator.page)
         captioninstance = utila.select_page(captions, navigator.page)
         tableinstance = utila.select_page(tables, navigator.page)
+        figureinstance = utila.select_page(figures, navigator.page)
 
         analyzed = analyze_page(
             navigator,
@@ -56,6 +67,7 @@ def work(  # pylint:disable=R0914
             formulainstance,
             captioninstance,
             tableinstance,
+            figureinstance,
         )
         result.append(analyzed)
 
@@ -70,7 +82,7 @@ def load_content(loader, content, pages):
     return content
 
 
-def analyze_page(ptcn, lists, blockquotes, formula, captions, tables):
+def analyze_page(ptcn, lists, blockquotes, formula, captions, tables, figures):
     result = []
     for index, line in enumerate(ptcn):  # pylint:disable=W0612
         if islist(index, lists):
@@ -87,6 +99,9 @@ def analyze_page(ptcn, lists, blockquotes, formula, captions, tables):
             continue
         if istable(line, tables):
             result.append((index, magic.data.ContentType.TABLE))
+            continue
+        if isfigure(line, figures):
+            result.append((index, magic.data.ContentType.FIGURE))
             continue
     return magic.data.PageContentContentType(page=ptcn.page, content=result)
 
@@ -147,5 +162,16 @@ def istable(line, tables):
         return False
     for table in tables.content:
         if utila.rectangle_inside(table.bounding, line.bounding, diff=5.0):
+            return True
+    return False
+
+
+def isfigure(line, figures):
+    if not figures:
+        return False
+    if not figures.content:
+        return False
+    for figure in figures.content:
+        if utila.rectangle_inside(figure.bounding, line.bounding):
             return True
     return False

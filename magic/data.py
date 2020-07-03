@@ -29,6 +29,7 @@ class ContentType(enum.Enum):
     FORMULA = enum.auto()
     CAPTION = enum.auto()
     TABLE = enum.auto()
+    FIGURE = enum.auto()
     UNDEFINED = -1
 
 
