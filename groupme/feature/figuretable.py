@@ -158,15 +158,6 @@ def select_figuretable(
             utila.debug(f'could not parse any figure line on page: {page.page}')
             continue
 
-        level3 = [groupme.toc.group.level(item.level) for item in figurepage]
-        level3 = [
-            item for item in level3
-            if item and isinstance(item.value, int) and item.value >= 3
-        ]
-        if any(level3):
-            # TODO: THINK ABOUT THIS
-            # level is mostly a table of content level
-            continue
         pageslines = texmex.count_textlines(page, remove_empty=True)
         if not pageslines:
             continue
@@ -175,6 +166,16 @@ def select_figuretable(
         if figure_percent < MIN_TOFS_PER_PAGE:
             # avoid missdetection in random pages if only few lines are
             # missdetected as toc line.
+            continue
+        # TODO: group.level fails on failing level
+        level3 = [groupme.toc.group.level(item.level) for item in figurepage]
+        level3 = [
+            item for item in level3
+            if item and isinstance(item.value, int) and item.value >= 3
+        ]
+        if any(level3):
+            # TODO: THINK ABOUT THIS
+            # level is mostly a table of content level
             continue
         selected.append(page.page)
     selected = sorted(utila.make_unique(selected))
