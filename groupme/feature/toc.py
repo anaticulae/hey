@@ -24,7 +24,6 @@ import utila
 import groupme.feature
 import groupme.toc
 import groupme.toc.extractor
-import groupme.toc.loader
 import groupme.toc.strategy
 import groupme.utils
 
@@ -54,11 +53,11 @@ def work(
     Returns:
         dump of extracted table of content
     """
-    navigators = groupme.toc.loader.load(
+    navigators = serializeraw.create_pagetextcontentnavigators_fromfile(
         text,
         textpositions,
-        headerfooter,
-        sizeandborder,
+        sizeandborderpath=sizeandborder,
+        headerfooterpath=headerfooter,
         pages=pages,
     )
     selected = select_tocpages(navigators)

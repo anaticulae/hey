@@ -13,13 +13,14 @@ import utila
 
 import groupme.feature.toc
 import groupme.toc.group
-import groupme.toc.loader
 import tests.resources
 
 
 def test_groupme_toc_groupby_level():
-    navigators = groupme.toc.loader.load_frompath(
-        tests.resources.HOWTO_PYPORTING)
+    navigators = serializeraw.create_pagetextcontentnavigators_frompath(
+        tests.resources.HOWTO_PYPORTING,
+        prefix='oneline',
+    )
     selected = groupme.feature.toc.select_tocpages(navigators)
     # select toc pages only
     navigators = [item for item in navigators if item.page in selected]
@@ -51,8 +52,9 @@ def test_groupme_toc_groupby_level():
     ),
 ])
 def test_extract_toc_from_path(resources, pages, expected):
-    navigators = groupme.toc.loader.load_frompath(
-        resources,
+    navigators = serializeraw.create_pagetextcontentnavigators_frompath(
+        path=resources,
+        prefix='oneline',
         pages=pages,
     )
     loaded = groupme.toc.strategy.load(navigators)

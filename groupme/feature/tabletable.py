@@ -17,7 +17,6 @@ import utila
 import groupme.feature.figuretable
 import groupme.toc.extractor
 import groupme.toc.group
-import groupme.toc.loader
 import groupme.toc.strategy
 
 # minimal percentage of figure lines per page
@@ -43,11 +42,11 @@ def work(
     Returns:
         dump of extracted table of content
     """
-    navigators = groupme.toc.loader.load(
+    navigators = serializeraw.create_pagetextcontentnavigators_fromfile(
         text,
         textpositions,
-        headerfooter,
-        sizeandborder,
+        sizeandborderpath=sizeandborder,
+        headerfooterpath=headerfooter,
         pages=pages,
     )
     selected = groupme.feature.figuretable.select_figuretable(
