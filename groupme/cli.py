@@ -72,6 +72,8 @@ WORKPLAN = [
     step(
         'figuretable',
         inputs=[
+            ResultFile(producer='rawmaker', name='text_text'),
+            ResultFile(producer='rawmaker', name='text_positions'),
             ResultFile(producer='rawmaker', name='oneline_text_text'),
             ResultFile(producer='rawmaker', name='oneline_text_positions'),
             ResultFile(producer='groupme', name='footer_footerheader'),

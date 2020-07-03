@@ -26,6 +26,8 @@ MIN_TOFS_PER_PAGE = configo.HV_PERCENT_PLUS(0.2, limit=1.0).value
 def work(
         text: str,
         textpositions: str,
+        oneline_text: str,
+        oneline_textpositions: str,
         headerfooter: str,
         sizeandborder: str,
         pages: tuple = None,
@@ -35,6 +37,8 @@ def work(
     Args:
         text(str): path to load document
         textpositions(str): path to load document textpositions
+        oneline_text(str): oneline document
+        oneline_textpositions(str): oneline document positions
         headerfooter(str): path with header and footer to determine
                            content border.
         sizeandborder(str): path with page sizes and content border
@@ -42,18 +46,18 @@ def work(
     Returns:
         dump of extracted table of content
     """
-    navigators = serializeraw.create_pagetextcontentnavigators_fromfile(
-        text,
-        textpositions,
+    oneline = serializeraw.create_pagetextcontentnavigators_fromfile(
+        oneline_text,
+        oneline_textpositions,
         sizeandborderpath=sizeandborder,
         headerfooterpath=headerfooter,
         pages=pages,
     )
-    selected = select_figuretable(navigators)
+    selected = select_figuretable(oneline)
     # select toc pages only
-    navigators = utila.select_pages(navigators, pages=selected)
+    oneline = utila.select_pages(oneline, pages=selected)
 
-    loaded = groupme.toc.strategy.load(navigators)
+    loaded = groupme.toc.strategy.load(oneline)
     extracted = groupme.toc.extractor.extract(loaded)
 
     flat = utila.flatten(extracted.content)
