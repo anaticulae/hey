@@ -51,9 +51,9 @@ class ExtractorStrategy(abc.ABC):
 
 
 def group(extracted: groupme.toc.TocLines) -> ExtractionResult:
-    right, invalid = groupme.utils.split(
-        extracted,
+    right, invalid = utila.partition(
         key=lambda x: isinstance(x, groupme.toc.TocLine),
+        items=extracted,
     )
 
     valid = remove_nonconnected_tocs(right)

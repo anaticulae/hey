@@ -12,21 +12,6 @@ import collections
 import utila
 
 
-def split(items, key=None):
-    # assert isinstance(key, callable), 'require callable'
-    matched = []
-    not_matched = []
-    if key is None:
-        return items[:]
-    for item in items:
-        if key(item):
-            matched.append(item)
-        else:
-            not_matched.append(item)
-
-    return matched, not_matched
-
-
 def validate(items: list):
     """Validate list of pageable items. If some `page` attribute is
     duplicated, raise ValueError.
