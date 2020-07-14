@@ -2,6 +2,24 @@
 
 Every noteable change is logged here.
 
+## v3.6.0
+
+### Feature
+
+* add extracted figures to magic computation (959ca5c75f9d)
+* add table result to magic analyzer (eca9455fdc35)
+* add column figure extractor approach (b62be67f8416)
+* use normal text extraction data (a9a2827895b0)
+
+### Fix
+
+* move level check later to avoid conversion problems (929ba61b8339)
+* skip miss detected enumeration in tables (4435b4703793)
+* increase required logging level (92196cc2f17e)
+* fix percent definition (43ef1b718833)
+* adjust logging message (1e593f828290)
+* add workaround to compute text style statistics (ce8d87399eef)
+
 ## v3.5.3
 
 ## v3.5.2
