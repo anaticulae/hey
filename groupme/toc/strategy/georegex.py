@@ -21,9 +21,7 @@ Strategy:
 * validate extracted toc
 
 """
-import collections
 
-import iamraw
 import texmex
 import utila
 
@@ -83,32 +81,4 @@ def group_areas(content: texmex.PageTextNavigator):
     grouped.append(content[-1])
     if grouped:
         result.append(grouped)
-    return result
-
-
-def group_boundings(items: iamraw.BoundingBoxes, diff=10.0):
-    assert diff >= 1.0, 'diff to low'
-    counter = collections.defaultdict(int)
-    for bounding in items:
-        width = bounding.x1 - bounding.x0
-        index = int(width / diff)
-        counter[index] += 1
-
-    result = [(key * diff, value) for key, value in counter.items()]
-
-    result = sorted(result, key=lambda x: x[1], reverse=True)
-    return result
-
-
-def group_items(items, diff=10.0):
-    assert diff > 0.0, 'diff to low'
-    counter = collections.defaultdict(int)
-    for item in items:
-        index = int(item / diff)
-        counter[index] += 1
-
-    result = [
-        (utila.roundme(key * diff), value) for key, value in counter.items()
-    ]
-    result = sorted(result, key=lambda x: x[1], reverse=True)
     return result
