@@ -40,6 +40,7 @@ def extract(  # pylint:disable=R0914
         magic: bool = False,
         sections: bool = False,
         words: bool = False,
+        full: bool = False,
 ):
     """Run rawmaker, groupme, sections and words for given `files` and write
     result to `destination`.
@@ -58,9 +59,20 @@ def extract(  # pylint:disable=R0914
         magic(bool): run if True
         sections(bool): run if True
         words(bool): run if True
+        full(bool): overwrites every selection and runs all extraction steps
     Raises:
         Exception: if Exception occurs while extracting file
     """
+    if full:
+        # enable every extraction step
+        caption = True
+        detector = True
+        doctextstyle = True
+        groupme = True
+        magic = True
+        sections = True
+        words = True
+
     todo = todolist(
         files,
         destination,
