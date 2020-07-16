@@ -63,16 +63,6 @@ def extract(  # pylint:disable=R0914
     Raises:
         Exception: if Exception occurs while extracting file
     """
-    if full:
-        # enable every extraction step
-        caption = True
-        detector = True
-        doctextstyle = True
-        groupme = True
-        magic = True
-        sections = True
-        words = True
-
     todo = todolist(
         files,
         destination,
@@ -84,6 +74,7 @@ def extract(  # pylint:disable=R0914
         magic=magic,
         sections=sections,
         words=words,
+        full=full,
     )
     with concurrent.futures.ThreadPoolExecutor(max_workers=worker) as executor:
         futures = [executor.submit(run_job, job) for job in todo]
@@ -108,12 +99,24 @@ def todolist(
         magic: bool = False,
         sections: bool = False,
         words: bool = False,
+        full: bool = False,
 ):
     """Create todo list to extract resources.
 
         files: list of resources to extract. There are two list pattens:
                (file, pages) or (file).
+        full: overwrites every selection and runs all extraction steps
     """
+    if full:
+        # enable every extraction step
+        caption = True
+        detector = True
+        doctextstyle = True
+        groupme = True
+        magic = True
+        sections = True
+        words = True
+
     config = {
         'caption': caption,
         'detector': detector,
