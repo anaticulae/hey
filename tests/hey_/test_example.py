@@ -44,9 +44,6 @@ def test_hey_example_extract(testdir):
         generated,
         pages='0:5',
         groupme=True,
-        sections=False,
-        words=False,
-        detector=False,
         doctextstyle=True,
     )
     assert os.path.exists(generated), str(generated)

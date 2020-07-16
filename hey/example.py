@@ -33,13 +33,13 @@ def extract(  # pylint:disable=R0914
         pages: str = '0:10',
         worker: int = 12,
         *,
-        caption: bool = True,
-        detector: bool = True,
-        doctextstyle: bool = True,
-        groupme: bool = True,
-        magic: bool = True,
-        sections: bool = True,
-        words: bool = True,
+        caption: bool = False,
+        detector: bool = False,
+        doctextstyle: bool = False,
+        groupme: bool = False,
+        magic: bool = False,
+        sections: bool = False,
+        words: bool = False,
 ):
     """Run rawmaker, groupme, sections and words for given `files` and write
     result to `destination`.
@@ -89,13 +89,13 @@ def todolist(
         destination: str,
         pages: str = '0:10',
         *,
-        caption: bool = True,
-        detector: bool = True,
-        doctextstyle: bool = True,
-        groupme: bool = True,
-        magic: bool = True,
-        sections: bool = True,
-        words: bool = True,
+        caption: bool = False,
+        detector: bool = False,
+        doctextstyle: bool = False,
+        groupme: bool = False,
+        magic: bool = False,
+        sections: bool = False,
+        words: bool = False,
 ):
     """Create todo list to extract resources.
 
