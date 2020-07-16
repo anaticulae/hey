@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v3.7.1
+
+### Feature
+
+* add full concept for `todolist` also (2cf624390f6d)
+
 ## v3.7.0
 
 ### Feature
