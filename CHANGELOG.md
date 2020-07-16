@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v3.7.0
+
+### Feature
+
+* add full flag to enable every extraction step (7f0783600530)
+* disable every generator step as default (f292a685bf31)
+
 ## v3.6.1
 
 ## v3.6.0
