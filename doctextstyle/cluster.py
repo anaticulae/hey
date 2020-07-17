@@ -43,6 +43,9 @@ def cluster(  # pylint:disable=R1260
         if selection is None or ClusterProperty.SIZE in selection:
             if candidat.size != clusteritem.size:
                 return False
+        if selection is None or ClusterProperty.BEFORE in selection:
+            if candidat.before != clusteritem.before:
+                return False
         if selection is None or ClusterProperty.AFTER in selection:
             if candidat.after != clusteritem.after:
                 return False
