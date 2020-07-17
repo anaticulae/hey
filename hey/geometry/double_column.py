@@ -27,13 +27,18 @@ import utila.math
 
 def parse_page(page) -> list:
     line_gaps = lines(page)
-    marker = columns(page)
+    if not line_gaps:
+        utila.debug('no line gaps; skip strategy')
+        return None
 
+    marker = columns(page)
     if not marker:
         return None
 
     (short_column, description_column), short_mark = split_bymarker(
-        page, marker)
+        page,
+        marker,
+    )
 
     overlapping = overlapping_column(short_column, description_column)
     if overlapping:
