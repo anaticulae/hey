@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import configo
 import utila
 
 import doctextstyle.cluster
@@ -47,6 +48,10 @@ def pagenumber(flats, returncluster: bool = False):
     return result
 
 
+DEFAULT_DISTANCE_BEFORE_TEXT = configo.HV_FLOAT_PLUS(18.0).value
+DEFAULT_DISTANCE_AFTER_TEXT = configo.HV_FLOAT_PLUS(18.0).value
+
+
 def headlines(  # pylint:disable=R1260,R0914
         flats: doctextstyle.data.TextProperties,
         min_headline_count: int = 5,
@@ -60,7 +65,14 @@ def headlines(  # pylint:disable=R1260,R0914
     flats = doctextstyle.cluster.remove(flats, _pagenumber[1])
 
     textsize = _text[0][0]
-    text_before, text_after = _text[0][3]
+    distance_before_textsize, distance_after_textsize = _text[0][3]
+
+    if distance_before_textsize is None:
+        utila.error('distance before `textsize` is None; '
+                    'disable headline detection feature')
+    if distance_after_textsize is None:
+        utila.error('distance after  `textsize` is None;'
+                    ' disable headline detection feature')
 
     if greater_than_text:
         flats = [item for item in flats if item.size >= textsize]
@@ -68,11 +80,15 @@ def headlines(  # pylint:disable=R1260,R0914
     def valid_headline(item) -> bool:
         if item.before is None:
             return True
-        if item.before <= text_before * 1.2:  # TODO: HOLY VALUE
+        if distance_before_textsize is None:
+            return False
+        if item.before <= distance_before_textsize * 1.2:  # TODO: HOLY VALUE
             return False
         if item.after is None:
             return False
-        if item.after <= text_after * 1.2:  # TODO: HOLY VALUE
+        if distance_after_textsize is None:
+            return False
+        if item.after <= distance_after_textsize * 1.2:  # TODO: HOLY VALUE
             return False
         return True
 
