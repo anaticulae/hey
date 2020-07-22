@@ -77,7 +77,7 @@ def headlines(  # pylint:disable=R1260,R0914
     if greater_than_text:
         flats = [item for item in flats if item.size >= textsize]
 
-    def valid_headline(item) -> bool:
+    def valid_headline(item) -> bool:  # pylint:disable=R0911
         if item.before is None:
             return True
         if distance_before_textsize is None:
