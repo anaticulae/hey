@@ -2,6 +2,14 @@
 
 Every noteable change is logged here.
 
+## v3.7.2
+
+### Fix
+
+* do not fail if line gap computation is not possible (5359b39d45b7)
+* add missing cluster category (a8b9ffe82269)
+* disable strategy if data is not suitable (1f59d781e8a7)
+
 ## v3.7.1
 
 ### Feature
