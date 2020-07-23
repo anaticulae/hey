@@ -11,6 +11,7 @@ import os
 
 import iamraw
 import iamraw.path
+import power
 import pytest
 import serializeraw
 import utila
@@ -22,7 +23,6 @@ import groupme.footer.strategy.moving
 import groupme.path
 import tests.fixtures.restruct
 import tests.groupme_
-import tests.resources
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_horizontals
 from tests.fixtures.restruct import restructured_pagenumbers
@@ -33,13 +33,13 @@ from tests.fixtures.restruct import restructured_sizeandborder
 def test_groupme_footer_work(testdir):  #pylint:disable=W0621
     root = str(testdir)
     dumped = groupme.feature.footer.work(
-        iamraw.path.text(tests.resources.RESTRUCT),
-        iamraw.path.textposition(tests.resources.RESTRUCT),
-        iamraw.path.fontheader(tests.resources.RESTRUCT),
-        iamraw.path.fontcontent(tests.resources.RESTRUCT),
-        iamraw.path.horizontals(tests.resources.RESTRUCT),
-        iamraw.path.sizeandborder(tests.resources.RESTRUCT),
-        groupme.path.pagenumbers(tests.resources.RESTRUCT),
+        iamraw.path.text(power.link(power.DOCU27_PDF)),
+        iamraw.path.textposition(power.link(power.DOCU27_PDF)),
+        iamraw.path.fontheader(power.link(power.DOCU27_PDF)),
+        iamraw.path.fontcontent(power.link(power.DOCU27_PDF)),
+        iamraw.path.horizontals(power.link(power.DOCU27_PDF)),
+        iamraw.path.sizeandborder(power.link(power.DOCU27_PDF)),
+        groupme.path.pagenumbers(power.link(power.DOCU27_PDF)),
     )
     assert dumped
     assert len(dumped) > 100, str(dumped)  # there is some content
@@ -107,12 +107,12 @@ def test_groupme_footer_footerheader_detectionstategy(
 
 @pytest.mark.parametrize('root, expected', [
     pytest.param(
-        tests.resources.TECHNICAL24,
+        power.link(power.TECHNICAL_024),
         list(range(1, 24)),
         id='technical24',
     ),
     pytest.param(
-        tests.resources.MASTER72,
+        power.link(power.MASTER072_PDF),
         [],
         id='master72',
     ),
@@ -153,7 +153,7 @@ def test_groupme_footer_extract_footerheader_technical(root, expected):
 
 def test_groupme_footer_master72_extract(testdir, monkeypatch):
     outdir = testdir.tmpdir
-    cmd = f'-i {tests.resources.MASTER72}  -o {outdir} --footer --pages=3'
+    cmd = f'-i {power.link(power.MASTER072_PDF)}  -o {outdir} --footer --pages=3'
     tests.groupme_.run(cmd, monkeypatch=monkeypatch)
 
     headfoot = serializeraw.load_headerfooter(iamraw.path.headerfooters(outdir))
@@ -170,7 +170,7 @@ def normalize_whitespaces(text: str) -> str:
 
 
 def test_groupme_header_bachelor90(testdir, monkeypatch):
-    cmd = f'-i {tests.resources.BACHELOR90}  --footer --pages=11:24'
+    cmd = f'-i {power.link(power.BACHELOR090_PDF)}  --footer --pages=11:24'
     tests.groupme_.run(cmd, monkeypatch=monkeypatch)
     headerpath = iamraw.path.headerfooters(testdir.tmpdir)
 

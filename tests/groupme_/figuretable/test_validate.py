@@ -8,12 +8,12 @@
 # =============================================================================
 
 import iamraw
+import power
 import pytest
 import utila
 import utilatest
 
 import tests.groupme_.figuretable
-import tests.resources
 
 
 def merge_required(toc: iamraw.Toc) -> str:
@@ -142,19 +142,19 @@ TEN = tuple(range(10))
 
 @pytest.mark.parametrize('source, validate, pages', [
     pytest.param(
-        tests.resources.BACHELOR90,
+        power.link(power.BACHELOR090_PDF),
         bachelor90,
         (1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
         id='bachelor90',
     ),
     pytest.param(
-        tests.resources.BACHELOR37,
+        power.link(power.BACHELOR037_PDF),
         bachelor37,
         (0, 1, 2, 3, 4),
         id='bachelor37',
     ),
     pytest.param(
-        tests.resources.BACHELOR63,
+        power.link(power.BACHELOR063_PDF),
         bachelor63,
         (59, 60, 61, 62),
         id='bachelor63',

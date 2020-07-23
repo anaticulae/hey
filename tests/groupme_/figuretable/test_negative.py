@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import pytest
 
 import tests.groupme_.figuretable
@@ -14,7 +15,7 @@ import tests.groupme_.figuretable
 
 @pytest.mark.parametrize('source,  pages', [
     pytest.param(
-        tests.resources.MASTER89,
+        power.link(power.MASTER089_PDF),
         (85, 86, 87, 88),
         id='master89_page85_86_87_88',
     ),

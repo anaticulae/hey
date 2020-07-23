@@ -8,10 +8,10 @@
 # =============================================================================
 
 import iamraw.path
+import power
 import serializeraw
 
 import groupme.border.leftright
-import tests.resources
 
 
 def load_example(path: str):
@@ -34,7 +34,7 @@ def load_leftright(path: str):
 def test_leftright_run():
     """Detect book-like document with different border for left and
     right page."""
-    left, right = load_leftright(tests.resources.LEFTRIGHT)
+    left, right = load_leftright(power.link(power.BOOK007_PDF))
     result = groupme.border.leftright.simple(left, right)
     assert result.valid, result
     assert isinstance(result.left, tuple), result
@@ -44,7 +44,7 @@ def test_leftright_run():
 def test_leftright_run_noleftright():
     """Ensure that document with single page layout has no different
     border for left and right but only a single border."""
-    textpositions, pagesizes = load_example(tests.resources.MASTER72)
+    textpositions, pagesizes = load_example(power.link(power.MASTER072_PDF))
     result = groupme.border.leftright.run(textpositions, pagesizes)
     assert result.valid is False, result
     # ensure that left border is more left then right
@@ -53,7 +53,7 @@ def test_leftright_run_noleftright():
 
 def test_leftright_one_error():
     """Introduce error to challenge algorithm."""
-    left, right = load_leftright(tests.resources.LEFTRIGHT)
+    left, right = load_leftright(power.link(power.BOOK007_PDF))
 
     left.append(left.pop(3))
     right.append(right.pop(3))
@@ -67,7 +67,7 @@ def test_leftright_one_error():
 
 def test_leftright_strategy_witherror():
     """Run left right strategy with example which contains an error."""
-    left, right = load_example(tests.resources.LEFTRIGHT)
+    left, right = load_example(power.link(power.BOOK007_PDF))
 
     left, right = introduce_error(left, right)
 

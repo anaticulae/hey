@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import utila
 
 import magic.data
@@ -21,8 +22,8 @@ def test_magic(monkeypatch):
 
 def test_master72_list_and_blockquotes(testdir, monkeypatch):
     tests.magic_.run(
-        (f'-i {tests.resources.MASTER72_SECTIONS_AND_WORDS} '
-         f'-i {tests.resources.MASTER72} --pages=0:16'),
+        (f'-i {power.link(power.MASTER072_PDF, folder="sectionsandwords")} '
+         f'-i {power.link(power.MASTER072_PDF)} --pages=0:16'),
         monkeypatch=monkeypatch,
     )
 
@@ -41,7 +42,7 @@ def test_master72_list_and_blockquotes(testdir, monkeypatch):
 
 def test_bachelor90_table_page76(testdir, monkeypatch):
     tests.magic_.run(
-        f'-i {tests.resources.BACHELOR90} --pages=76 ',
+        f'-i {power.link(power.BACHELOR090_PDF)} --pages=76 ',
         monkeypatch=monkeypatch,
     )
     path = magic.path.content(testdir.tmpdir)

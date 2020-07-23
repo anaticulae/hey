@@ -8,13 +8,14 @@
 # =============================================================================
 
 import iamraw
+import power
 import pytest
 import serializeraw
 import utila
 import utilatest
 
 import groupme.path
-import tests.resources
+import tests.groupme_
 
 
 def merge_required(toc: iamraw.Toc) -> str:
@@ -57,7 +58,7 @@ def bachelor90(toc: iamraw.Toc):
 
 @pytest.mark.parametrize('source, validate, pages', [
     pytest.param(
-        tests.resources.BACHELOR90,
+        power.link(power.BACHELOR090_PDF),
         bachelor90,
         (9, 10),
         id='bachelor90',

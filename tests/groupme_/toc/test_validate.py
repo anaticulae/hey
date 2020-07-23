@@ -8,6 +8,7 @@
 # =============================================================================
 
 import iamraw
+import power
 import pytest
 import serializeraw
 import utila
@@ -615,18 +616,18 @@ TEN = tuple(range(10))
 
 # yapf:disable, format the list by hand
 @pytest.mark.parametrize('source, validate, pages', [
-    pytest.param(tests.resources.BACHELOR76, bachelor76, TEN, id='bachelor76'),
-    pytest.param(tests.resources.BACHELOR111, bachelor111, (1, 2, 3, 4), id='bachelor111',
+    pytest.param(power.link(power.BACHELOR076_PDF), bachelor76, TEN, id='bachelor76'),
+    pytest.param(power.link(power.BACHELOR111_PDF), bachelor111, (1, 2, 3, 4), id='bachelor111',
                  marks=pytest.mark.xfail(reason='literaturverzeichnis sub notes')),
-    pytest.param(tests.resources.BACHELOR241, bachelor241, (4, 5, 6, 7), id='bachelor241',
+    pytest.param(power.link(power.BACHELOR241_PDF), bachelor241, (4, 5, 6, 7), id='bachelor241',
                  marks=pytest.mark.xfail(reason='literaturverzeichnis sub notes')),
-    pytest.param(tests.resources.HOMEWORK50, homework50, (3, 4), id='homework50'),
-    pytest.param(tests.resources.MASTER83, master83, TEN, id='master83'),
-    pytest.param(tests.resources.MASTER89, master89, TEN, id='master89'),
-    pytest.param(tests.resources.MASTER98, master98, TEN, id='master98'),
-    pytest.param(tests.resources.MASTER99, master99, TEN, id='master99'),
-    pytest.param(tests.resources.MASTER72, master72, None, id='master72'),
-    pytest.param(tests.resources.BACHELOR90, bachelor90, (4, 5, 6), id='bachelor90'),
+    pytest.param(power.link(power.HOMEWORK050_PDF), homework50, (3, 4), id='homework50'),
+    pytest.param(power.link(power.MASTER083_PDF), master83, TEN, id='master83'),
+    pytest.param(power.link(power.MASTER089_PDF), master89, TEN, id='master89'),
+    pytest.param(power.link(power.MASTER098_PDF), master98, TEN, id='master98'),
+    pytest.param(power.link(power.MASTER099_PDF), master99, TEN, id='master99'),
+    pytest.param(power.link(power.MASTER072_PDF), master72, None, id='master72'),
+    pytest.param(power.link(power.BACHELOR090_PDF), bachelor90, (4, 5, 6), id='bachelor90'),
 ])  # yapf:enable
 @utilatest.skip_longrun
 def test_groupme_toc_validate(source, validate, pages, monkeypatch, testdir):

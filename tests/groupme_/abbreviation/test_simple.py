@@ -7,19 +7,19 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import pytest
 import serializeraw
 import utilatest
 
 import groupme.abbreviation.simple
-import tests.resources
 
 
 @pytest.mark.parametrize('source, pages, expected', [
-    pytest.param(tests.resources.HOMEWORK50, 6, 18, id='homework50'),
-    pytest.param(tests.resources.MASTER116, 96, 8, id='master116'),
+    pytest.param(power.link(power.HOMEWORK050_PDF), 6, 18, id='homework50'),
+    pytest.param(power.link(power.MASTER116_PDF), 96, 8, id='master116'),
     pytest.param(
-        tests.resources.BACHELOR37,
+        power.link(power.BACHELOR037_PDF),
         1,
         26,
         id='bachelor37',

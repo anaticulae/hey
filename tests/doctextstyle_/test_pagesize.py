@@ -8,12 +8,12 @@
 # =============================================================================
 
 import iamraw.path
+import power
 
 import doctextstyle.features.pagesize
-import tests.resources
 
 
 def test_pagesize():
-    path = iamraw.path.sizeandborder(tests.resources.MASTER116)
+    path = iamraw.path.sizeandborder(power.link(power.MASTER116_PDF))
     sizes = doctextstyle.features.pagesize.pagesizes(path)
     assert len(sizes) == 2

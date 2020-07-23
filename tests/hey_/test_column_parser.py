@@ -7,17 +7,17 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import serializeraw
 
 import hey.geometry.double_column
-import tests.resources
 
 
 def test_parse_column_bachelor63_page59():
     """Latex double column. Left side with [Hem10] pattern"""
     pages = (59)
     navigators = serializeraw.create_pagetextnavigators_frompath(
-        tests.resources.BACHELOR63,
+        power.link(power.BACHELOR063_PDF),
         # fill_empty=False,
         pages=pages,
     )
@@ -29,7 +29,7 @@ def test_parse_column_bachelor63_page59_all_columns():
     """Latex double column. Left side with [Hem10] pattern"""
     pages = (59,)
     navigators = serializeraw.create_pagetextnavigators_frompath(
-        tests.resources.BACHELOR63,
+        power.link(power.BACHELOR063_PDF),
         # fill_empty=False,
         pages=pages,
     )

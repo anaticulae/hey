@@ -7,18 +7,18 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import pytest
 import serializeraw
 
 import doctextstyle.parser
 import doctextstyle.utils
-import tests.resources
 
 
 @pytest.fixture
 def master116_text():
     navigators = serializeraw.create_pagetextnavigators_frompath(
-        tests.resources.MASTER72,
+        power.link(power.MASTER072_PDF),
         prefix='oneline',
         pages=(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
     )

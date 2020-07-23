@@ -8,24 +8,24 @@
 # =============================================================================
 
 import iamraw.path
+import power
 import serializeraw
 import utila
 import utilatest
 
 import groupme.feature.footer
-import tests.resources
 
 
 @utilatest.skip_longrun
 def test_groupme_footerheader_quality_bachelor111():
     dumped = groupme.feature.footer.work(
-        iamraw.path.text(tests.resources.BACHELOR111),
-        iamraw.path.textposition(tests.resources.BACHELOR111),
-        iamraw.path.fontheader(tests.resources.BACHELOR111),
-        iamraw.path.fontcontent(tests.resources.BACHELOR111),
-        iamraw.path.horizontals(tests.resources.BACHELOR111),
-        iamraw.path.sizeandborder(tests.resources.BACHELOR111),
-        groupme.path.pagenumbers(tests.resources.BACHELOR111),
+        iamraw.path.text(power.link(power.BACHELOR111_PDF)),
+        iamraw.path.textposition(power.link(power.BACHELOR111_PDF)),
+        iamraw.path.fontheader(power.link(power.BACHELOR111_PDF)),
+        iamraw.path.fontcontent(power.link(power.BACHELOR111_PDF)),
+        iamraw.path.horizontals(power.link(power.BACHELOR111_PDF)),
+        iamraw.path.sizeandborder(power.link(power.BACHELOR111_PDF)),
+        groupme.path.pagenumbers(power.link(power.BACHELOR111_PDF)),
     )
     result = serializeraw.load_headerfooter(dumped)
 

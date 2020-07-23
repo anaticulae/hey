@@ -8,35 +8,32 @@
 # =============================================================================
 
 import iamraw
+import power
 import pytest
 import serializeraw
 import texmex
 
-import tests
-import tests.fixtures
-import tests.resources
-
-SIMPLE_PAGESIZE = iamraw.path.sizeandborder(tests.resources.HOWTO_PYPORTING)
-SIMPLE_HORIZONTAL = iamraw.path.horizontals(tests.resources.HOWTO_PYPORTING)
-SIMPLE_TEXT_POSITION = iamraw.path.textposition(tests.resources.HOWTO_PYPORTING)
-SIMPLE_TEXT = iamraw.path.text(tests.resources.HOWTO_PYPORTING)
+SIMPLE_PAGESIZE = iamraw.path.sizeandborder(power.link(power.DOCU07_PDF))
+SIMPLE_HORIZONTAL = iamraw.path.horizontals(power.link(power.DOCU07_PDF))
+SIMPLE_TEXT_POSITION = iamraw.path.textposition(power.link(power.DOCU07_PDF))
+SIMPLE_TEXT = iamraw.path.text(power.link(power.DOCU07_PDF))
 SIMPLE_ONELINE_TEXT = iamraw.path.text(
-    tests.resources.HOWTO_PYPORTING,
+    power.link(power.DOCU07_PDF),
     prefix='oneline',
 )
 SIMPLE_ONELINE_FONT_HEADER = iamraw.path.fontheader(
-    tests.resources.HOWTO_PYPORTING,
+    power.link(power.DOCU07_PDF),
     prefix='oneline',
 )
 SIMPLE_ONELINE_FONT_CONTENT = iamraw.path.fontcontent(
-    tests.resources.HOWTO_PYPORTING,
+    power.link(power.DOCU07_PDF),
     prefix='oneline',
 )
-SIMPLE_FONT_HEADER = iamraw.path.fontheader(tests.resources.HOWTO_PYPORTING)
-SIMPLE_FONT_CONTENT = iamraw.path.fontcontent(tests.resources.HOWTO_PYPORTING)
-SIMPLE_FOOTER = iamraw.path.headerfooters(tests.resources.HOWTO_PYPORTING)
-SIMPLE_TOC = iamraw.path.toc(tests.resources.HOWTO_PYPORTING)
-SIMPLE_FOOTERS = iamraw.path.headerfooters(tests.resources.HOWTO_PYPORTING)
+SIMPLE_FONT_HEADER = iamraw.path.fontheader(power.link(power.DOCU07_PDF))
+SIMPLE_FONT_CONTENT = iamraw.path.fontcontent(power.link(power.DOCU07_PDF))
+SIMPLE_FOOTER = iamraw.path.headerfooters(power.link(power.DOCU07_PDF))
+SIMPLE_TOC = iamraw.path.toc(power.link(power.DOCU07_PDF))
+SIMPLE_FOOTERS = iamraw.path.headerfooters(power.link(power.DOCU07_PDF))
 
 
 @pytest.fixture

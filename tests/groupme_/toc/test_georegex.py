@@ -6,17 +6,18 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+
+import power
 import serializeraw
 import texmex
 import utilatest
 
 import groupme.toc.strategy.georegex as gtsg
-import tests.resources
 
 
 def master72() -> texmex.PageTextNavigators:
     result = serializeraw.create_pagetextnavigators_frompath(
-        tests.resources.MASTER72,
+        power.link(power.MASTER072_PDF),
         pages=(1, 2),
         prefix='oneline',
     )
@@ -25,7 +26,7 @@ def master72() -> texmex.PageTextNavigators:
 
 def bachelor111():
     result = serializeraw.create_pagetextcontentnavigators_frompath(
-        tests.resources.BACHELOR111,
+        power.link(power.BACHELOR111_PDF),
         pages=(1, 2, 3, 4),
         prefix='oneline',
     )

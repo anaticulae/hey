@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
+
 import caption.path
 import caption.serialize
 import tests.caption_
@@ -18,7 +20,7 @@ def test_caption_cli_help(monkeypatch):
 
 
 def test_caption_bachelor90_page18(testdir, monkeypatch):
-    source = tests.resources.BACHELOR90
+    source = power.link(power.BACHELOR090_PDF)
     cmd = f'-i {source} --pages=18'
     tests.caption_.run(cmd, monkeypatch=monkeypatch)
 
@@ -28,7 +30,7 @@ def test_caption_bachelor90_page18(testdir, monkeypatch):
 
 
 def test_caption_bachelor90_page80(testdir, monkeypatch):
-    source = tests.resources.BACHELOR90
+    source = power.link(power.BACHELOR090_PDF)
     cmd = f'-i {source} --pages=80'
     tests.caption_.run(cmd, monkeypatch=monkeypatch)
 
@@ -41,7 +43,7 @@ def test_caption_bachelor90_page80(testdir, monkeypatch):
 
 
 def test_caption_master116_page12(testdir, monkeypatch):
-    source = tests.resources.MASTER116
+    source = power.link(power.MASTER116_PDF)
     cmd = f'-i {source} --figure --general --pages=12'
     tests.caption_.run(cmd, monkeypatch=monkeypatch)
 

@@ -7,21 +7,21 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import pytest
 import utilatest
 
 import tests.groupme_
-import tests.resources
 
 
 @pytest.mark.parametrize('cmd', [
     ['--help'],
-    ['-i', tests.resources.HOWTOWRITE9, '-o', 'output'],
-    ['-i', tests.resources.MASTER72, '-o', 'output'],
-    ['-i', tests.resources.MASTER89, '-o', 'output'],
-    ['-i', tests.resources.PYPORTING, '-o', 'output'],
-    ['-i', tests.resources.RESTRUCT, '-o', 'output'],
-    ['-i', tests.resources.HOWTO_PYPORTING, '-o', 'output'],
+    ['-i', power.link(power.ORDER009_PDF), '-o', 'output'],
+    ['-i', power.link(power.MASTER072_PDF), '-o', 'output'],
+    ['-i', power.link(power.MASTER089_PDF), '-o', 'output'],
+    ['-i', power.link(power.DOCU09_PDF), '-o', 'output'],
+    ['-i', power.link(power.DOCU27_PDF), '-o', 'output'],
+    ['-i', power.link(power.DOCU07_PDF), '-o', 'output'],
 ])
 @pytest.mark.usefixtures('testdir')
 @utilatest.skip_longrun
@@ -36,6 +36,6 @@ def test_regression_groupme_problem(testdir, monkeypatch):
     to duplicated header/footer. This was solved by sorting page number
     of left/right page numbers."""
     tests.groupme_.run(
-        f'-i {tests.resources.BACHELOR56} -j=8',
+        f'-i {power.link(power.BACHELOR056_PDF)} -j=8',
         monkeypatch=monkeypatch,
     )

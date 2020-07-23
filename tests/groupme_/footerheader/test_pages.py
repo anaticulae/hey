@@ -8,6 +8,7 @@
 # =============================================================================
 
 import iamraw.path
+import power
 import pytest
 import serializeraw
 
@@ -19,13 +20,13 @@ import tests.resources
     'document, pages, expected_pagenumbers',
     [
         pytest.param(
-            tests.resources.HOWTO_ARGPARSE,
+            power.link(power.DOCU14_PDF),
             tests.resources.HOWTO_ARGPARSE_PAGE_COUNT,
             tests.resources.HOWTO_ARGPARSE_PAGE_COUNT,
             id='howtoargparse',
         ),
         pytest.param(
-            tests.resources.TECHNICAL24,
+            power.link(power.TECHNICAL_024),
             tests.resources.TECHNICAL24_PAGE_COUNT,
             # header page has no page number
             tests.resources.TECHNICAL24_PAGE_COUNT - 1,

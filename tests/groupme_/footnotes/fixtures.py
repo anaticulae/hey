@@ -7,17 +7,16 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import pytest
 import serializeraw
 import utila
-
-import tests.resources
 
 
 @pytest.fixture
 def master72_page14():
     navigators = serializeraw.create_pagetextnavigators_frompath(
-        tests.resources.MASTER72,
+        power.link(power.MASTER072_PDF),
         pages=(14),
     )
     navigator = utila.select_page(navigators, 14)
@@ -30,7 +29,7 @@ def master72_page14():
 def master89_page7():
     page = 7
     navigators = serializeraw.create_pagetextnavigators_frompath(
-        tests.resources.MASTER89,
+        power.link(power.MASTER089_PDF),
         pages=(page),
     )
     navigator = utila.select_page(navigators, page)
@@ -43,7 +42,7 @@ def master89_page7():
 def master89_page19():
     page = 19
     navigators = serializeraw.create_pagetextnavigators_frompath(
-        tests.resources.MASTER89,
+        power.link(power.MASTER089_PDF),
         pages=(page),
     )
     navigator = utila.select_page(navigators, page)
@@ -57,7 +56,7 @@ def master89_page19():
 def bachelor111_page10():
     page = 10
     navigators = serializeraw.create_pagetextnavigators_frompath(
-        tests.resources.BACHELOR111,
+        power.link(power.BACHELOR111_PDF),
         pages=(page),
     )
     navigator = utila.select_page(navigators, page)

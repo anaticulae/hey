@@ -6,11 +6,12 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+
 import iamraw.path
+import power
 import serializeraw
 
 import tests.groupme_
-import tests.resources
 
 
 def test_footer_regression_common_strategy(testdir, monkeypatch):
@@ -19,7 +20,7 @@ def test_footer_regression_common_strategy(testdir, monkeypatch):
     whole document. Therefore selecting page one produces an None access
     error."""
     root = testdir.tmpdir
-    source = tests.resources.BACHELOR37
+    source = power.link(power.BACHELOR037_PDF)
     page = 1
     cmd = f'-i {source} -o {root} --footer --pages={page}'
     tests.groupme_.run(cmd, monkeypatch=monkeypatch)

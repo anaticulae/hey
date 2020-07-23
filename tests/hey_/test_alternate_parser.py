@@ -7,13 +7,13 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import pytest
 import serializeraw
 import utila
 import utilatest
 
 import hey.geometry.alternate
-import tests.resources
 
 
 @pytest.mark.parametrize('page, expected', [
@@ -25,7 +25,7 @@ import tests.resources
 @utilatest.skip_longrun
 def test_parse_master116_page(page, expected):
     navigators = serializeraw.create_pagetextnavigators_frompath(
-        tests.resources.MASTER116,
+        power.link(power.MASTER116_PDF),
         prefix='oneline',
         pages=page,
     )
@@ -40,32 +40,32 @@ def test_parse_master89_external_liningpoints():
     determine the bibliograpy on page 80."""
     pages = (79, 80)
     expected = (14, 1)
-    parsed = load_and_parse(pages, tests.resources.MASTER89)
+    parsed = load_and_parse(pages, power.link(power.MASTER089_PDF))
     for page_result, page_expected in zip(parsed, expected):
         assert len(page_result) == page_expected, str(page_result)
 
 
 def test_parse_master89_external_liningpoints_single():
     pages = 79
-    parsed = load_and_parse(pages, tests.resources.MASTER89)[0]
+    parsed = load_and_parse(pages, power.link(power.MASTER089_PDF))[0]
     assert len(parsed) == 14, str(parsed)
 
 
 def test_parse_bachelor56_page49_whitespace_error():
     pages = (49)
-    parsed = load_and_parse(pages, tests.resources.BACHELOR56)[0]
+    parsed = load_and_parse(pages, power.link(power.BACHELOR056_PDF))[0]
     assert len(parsed) == 8, str(parsed)
 
 
 def test_parse_bachelor56_page51_hurenkind_error():
     pages = (51)
-    parsed = load_and_parse(pages, tests.resources.BACHELOR56)[0]
+    parsed = load_and_parse(pages, power.link(power.BACHELOR056_PDF))[0]
     assert len(parsed) == 8, str(parsed)
 
 
 def test_parse_bachelor56_page5051_hurenkind_unite():
     pages = (50, 51)
-    parsed = load_and_parse(pages, tests.resources.BACHELOR56)
+    parsed = load_and_parse(pages, power.link(power.BACHELOR056_PDF))
     flat = utila.flatten(parsed)
     assert len(flat) == 15, str(parsed)
 

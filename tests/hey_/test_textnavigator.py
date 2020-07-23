@@ -7,16 +7,15 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import serializeraw
 import texmex
 import utila
 
-import tests.resources
-
 
 def test_hey_navigator_merge_content():  # pylint:disable=W0621
     navigator = serializeraw.create_pagetextnavigators_frompath(
-        tests.resources.HOWTO_PYPORTING)
+        power.link(power.DOCU07_PDF))
     navigator = utila.select_page(navigator, page=1)
     content = texmex.navigator_to_content(navigator)
     merged, _ = texmex.merge_content(content)
@@ -41,7 +40,7 @@ def test_hey_navigator_merge_content():  # pylint:disable=W0621
 
 def test_hey_navigator_create_pagetextcontent_navigator_frompath():
     loaded = serializeraw.create_pagetextcontentnavigators_frompath(
-        tests.resources.BACHELOR111,
+        power.link(power.BACHELOR111_PDF),
         pages=(1, 2, 3, 4),
         prefix='oneline',
     )

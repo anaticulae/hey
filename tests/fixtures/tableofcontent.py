@@ -7,10 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import serializeraw
 
 import groupme.toc.strategy
-import tests.resources
 
 
 def headlines_frompath(path: str, pages=None):
@@ -25,15 +25,15 @@ def headlines_frompath(path: str, pages=None):
 
 
 def master72_toc():
-    return headlines_frompath(tests.resources.MASTER72, pages=(1, 2))
+    return headlines_frompath(power.link(power.MASTER072_PDF), pages=(1, 2))
 
 
 def bachelor111_toc():
     return headlines_frompath(
-        tests.resources.BACHELOR111,
+        power.link(power.BACHELOR111_PDF),
         pages=(1, 2, 3, 4),
     )
 
 
 def technical24_toc():
-    return headlines_frompath(tests.resources.TECHNICAL24, pages=(1))
+    return headlines_frompath(power.link(power.TECHNICAL_024), pages=(1,))

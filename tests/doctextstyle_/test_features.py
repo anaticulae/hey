@@ -7,12 +7,12 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import pytest
 import utilatest
 
 import doctextstyle.features
 import tests.doctextstyle_.conftest
-import tests.resources
 
 
 def test_cluster_extract_default_textsize(master72_text_flat):
@@ -53,10 +53,10 @@ def test_cluster_extract_headlines_all(master72_text_flat):
 
 
 @pytest.mark.parametrize('source, expected', [
-    pytest.param(tests.resources.MASTER116, 10.91, id='master116'),
-    pytest.param(tests.resources.MASTER98, 12.0, id='master98'),
-    pytest.param(tests.resources.MASTER99, 11.04, id='master99'),
-    pytest.param(tests.resources.BACHELOR111, 11.96, id='bachelor111'),
+    pytest.param(power.link(power.MASTER116_PDF), 10.91, id='master116'),
+    pytest.param(power.link(power.MASTER098_PDF), 12.0, id='master98'),
+    pytest.param(power.link(power.MASTER099_PDF), 11.04, id='master99'),
+    pytest.param(power.link(power.BACHELOR111_PDF), 11.96, id='bachelor111'),
 ])
 @utilatest.skip_longrun
 def test_cluster_extract_textsize(source, expected):
@@ -74,10 +74,10 @@ def test_cluster_extract_footer_small(master72_text_flat_small):
 
 
 @pytest.mark.parametrize('source, expected', [
-    pytest.param(tests.resources.MASTER116, None, id='master116'),
-    pytest.param(tests.resources.MASTER98, 9.0, id='master98'),
-    pytest.param(tests.resources.MASTER99, 9.0, id='master99'),
-    pytest.param(tests.resources.BACHELOR111, 9.96, id='bachelor111'),
+    pytest.param(power.link(power.MASTER116_PDF), None, id='master116'),
+    pytest.param(power.link(power.MASTER098_PDF), 9.0, id='master98'),
+    pytest.param(power.link(power.MASTER099_PDF), 9.0, id='master99'),
+    pytest.param(power.link(power.BACHELOR111_PDF), 9.96, id='bachelor111'),
 ])
 @utilatest.skip_longrun
 def test_cluster_extract_footnote(source, expected):
@@ -97,10 +97,10 @@ def test_cluster_extract_paragraph_small(master72_text_flat_small):
 
 
 @pytest.mark.parametrize('source, expected', [
-    pytest.param(tests.resources.MASTER116, (24, 17), id='master116'),
-    pytest.param(tests.resources.MASTER98, (41, 41), id='master98'),
-    pytest.param(tests.resources.MASTER99, (38, 38), id='master99'),
-    pytest.param(tests.resources.BACHELOR111, (24, 24), id='bachelor111'),
+    pytest.param(power.link(power.MASTER116_PDF), (24, 17), id='master116'),
+    pytest.param(power.link(power.MASTER098_PDF), (41, 41), id='master98'),
+    pytest.param(power.link(power.MASTER099_PDF), (38, 38), id='master99'),
+    pytest.param(power.link(power.BACHELOR111_PDF), (24, 24), id='bachelor111'),
 ])
 @utilatest.skip_longrun
 def test_cluster_extract_paragraph(source, expected):

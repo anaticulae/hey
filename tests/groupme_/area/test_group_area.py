@@ -9,14 +9,14 @@
 
 import iamraw.path
 import linero.path
+import power
 import utila
 
 import groupme.feature.area
-import tests.resources
 
 
 def pyporting(pages: tuple = None):
-    source = tests.resources.HOWTO_PYPORTING
+    source = power.link(power.DOCU07_PDF)
     text = iamraw.path.text(source)
     textpositions = iamraw.path.textposition(source)
     tables = linero.path.table(source)

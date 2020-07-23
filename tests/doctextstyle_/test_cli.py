@@ -9,6 +9,8 @@
 
 import os
 
+import power
+
 import doctextstyle.cli
 import doctextstyle.serialize
 import tests.doctextstyle_
@@ -20,7 +22,7 @@ def test_textstyle_cli_help(monkeypatch):
 
 
 def test_textstyle_cli(testdir, monkeypatch):
-    source = tests.resources.MASTER72
+    source = power.link(power.MASTER072_PDF)
     outdir = os.path.join(testdir.tmpdir, 'helm/schelm')
     tests.doctextstyle_.run(f'-i {source} -o {outdir}', monkeypatch=monkeypatch)
 

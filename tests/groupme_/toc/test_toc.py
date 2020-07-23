@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import pytest
 import serializeraw
 import utila
@@ -18,7 +19,7 @@ import tests.resources
 
 def test_groupme_toc_groupby_level():
     navigators = serializeraw.create_pagetextcontentnavigators_frompath(
-        tests.resources.HOWTO_PYPORTING,
+        power.link(power.DOCU07_PDF),
         prefix='oneline',
     )
     selected = groupme.feature.toc.select_tocpages(navigators)
@@ -38,13 +39,13 @@ def test_groupme_toc_groupby_level():
 
 @pytest.mark.parametrize('resources, pages, expected', [
     pytest.param(
-        tests.resources.RESTRUCT,
+        power.link(power.DOCU27_PDF),
         (2,),
         tests.resources.RESTRUCT_TOC_LINES,
         id='restructured',
     ),
     pytest.param(
-        tests.resources.HOWTO_PYPORTING,
+        power.link(power.DOCU07_PDF),
         (0,),
         tests.resources.HOWTO_PYPORTING_TOC_LINES,
         marks=pytest.mark.xfail,

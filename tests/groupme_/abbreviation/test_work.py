@@ -8,14 +8,14 @@
 # =============================================================================
 
 import iamraw
+import power
 import serializeraw
 
 import groupme.feature.abbreviation
-import tests.resources
 
 
 def test_groupme_abbreviation_work():
-    source = tests.resources.BACHELOR37
+    source = power.link(power.BACHELOR037_PDF)
 
     text = iamraw.path.text(source)
     textposition = iamraw.path.textposition(source)

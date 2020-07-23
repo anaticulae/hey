@@ -7,21 +7,21 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import pytest
 
 import groupme.feature.footer
 import groupme.footer
-import tests.resources
 
 
 @pytest.mark.parametrize('path, expected_quality', [
     pytest.param(
-        tests.resources.BACHELOR111,
+        power.link(power.BACHELOR111_PDF),
         29,
         id='bachelor111',
     ),
     pytest.param(
-        tests.resources.RESTRUCT,
+        power.link(power.DOCU27_PDF),
         29,
         id='restruct',
     ),

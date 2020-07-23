@@ -7,10 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
+
 import doctextstyle.data
 import doctextstyle.extractor
 import doctextstyle.serialize
-import tests.resources
 
 
 def test_doctextstyle_dump_load():
@@ -23,7 +24,7 @@ def test_doctextstyle_dump_load():
 
 
 def test_doctextstyle_extract():
-    source = tests.resources.MASTER98
+    source = power.link(power.MASTER098_PDF)
     result = doctextstyle.extractor.extract(source)
     assert result
 

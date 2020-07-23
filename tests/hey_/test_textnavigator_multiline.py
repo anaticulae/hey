@@ -6,11 +6,10 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+import power
 import pytest
 import serializeraw
 import texmex
-
-import tests.resources
 
 NO_GROUP = [[18], [31], [29], [35]]  # number of items per page
 
@@ -18,7 +17,7 @@ NO_GROUP = [[18], [31], [29], [35]]  # number of items per page
 def example():
     pages = tuple(range(5, 9))
     navigators = serializeraw.create_pagetextnavigators_frompath(
-        tests.resources.MASTER72,
+        power.link(power.MASTER072_PDF),
         pages=pages,
     )
     return navigators

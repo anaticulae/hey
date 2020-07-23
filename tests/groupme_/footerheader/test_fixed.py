@@ -11,6 +11,7 @@ import itertools
 
 import iamraw
 import iamraw.path
+import power
 import serializeraw
 import utila
 import utilatest
@@ -21,15 +22,16 @@ import tests.resources
 
 
 def _restructed():
-    horizontals = iamraw.path.horizontals(tests.resources.RESTRUCT)
+    horizontals = iamraw.path.horizontals(power.link(power.DOCU27_PDF))
     horizontals = serializeraw.load_horizontals(horizontals)
 
-    sizeandborder = iamraw.path.sizeandborder(tests.resources.RESTRUCT)
+    sizeandborder = iamraw.path.sizeandborder(power.link(power.DOCU27_PDF))
     sizeandborder = serializeraw.load_pageborders(sizeandborder)
 
     pageheight = utila.select_page(sizeandborder, 0).size.height
 
-    navigators = serializeraw.create_pagetextnavigators_frompath(tests.resources.RESTRUCT) # yapf:disable
+    navigators = serializeraw.create_pagetextnavigators_frompath(
+        power.link(power.DOCU27_PDF))
     top, bottom = gfsf.extract_common_footer(
         horizontals=horizontals,
         pageheight=pageheight,
@@ -61,15 +63,15 @@ def test_groupme_footer_fixed_restructed_extract_page_footerheader():
 
 
 def _bachelor111():
-    horizontals = iamraw.path.horizontals(tests.resources.BACHELOR111)
+    horizontals = iamraw.path.horizontals(power.link(power.BACHELOR111_PDF))
     horizontals = serializeraw.load_horizontals(horizontals)
 
-    sizeandborder = iamraw.path.sizeandborder(tests.resources.BACHELOR111)
+    sizeandborder = iamraw.path.sizeandborder(power.link(power.BACHELOR111_PDF))
     sizeandborder = serializeraw.load_pageborders(sizeandborder)
     pageheight = utila.select_page(sizeandborder, 0).size.height
 
     navigators = serializeraw.create_pagetextnavigators_frompath(
-        tests.resources.BACHELOR111,
+        power.link(power.BACHELOR111_PDF),
         prefix='oneline',
     )
 

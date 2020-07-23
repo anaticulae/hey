@@ -8,6 +8,7 @@
 # =============================================================================
 
 import iamraw.path
+import power
 import pytest
 import serializeraw
 import utila
@@ -15,9 +16,11 @@ import utila
 import groupme.feature.toc
 import groupme.toc.lineregex
 import groupme.toc.strategy.regex as gtsr
-import tests
 
-MASTER72_TEXT = iamraw.path.text(tests.resources.MASTER72, prefix='oneline')
+MASTER72_TEXT = iamraw.path.text(
+    power.link(power.MASTER072_PDF),
+    prefix='oneline',
+)
 
 
 def test_extract_toc_from_master_pages72_page_1and2():

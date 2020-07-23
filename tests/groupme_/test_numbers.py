@@ -7,16 +7,17 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 """Extract footer out of document."""
+
 import typing
 
 import iamraw.path
+import power
 import pytest
 import serializeraw
 import utila
 import utilatest
 
 import groupme.feature.numbers
-import tests.resources
 # pylint:disable=W0611
 from tests.fixtures.restruct import restructured_pagetextnavigators
 from tests.fixtures.simple import simple
@@ -107,9 +108,9 @@ def pagenumbers_simple(simple_navigator):  #pylint:disable=W0621
 
 
 @pytest.mark.parametrize('resource, expected_numbers', [
-    pytest.param(tests.resources.BACHELOR111, 16, id='bachelor111'),
-    pytest.param(tests.resources.MASTER72, 69, id='master72pages'),
-    pytest.param(tests.resources.TECHNICAL24, 23, id='technical24pages'),
+    pytest.param(power.link(power.BACHELOR111_PDF), 16, id='bachelor111'),
+    pytest.param(power.link(power.MASTER072_PDF), 69, id='master72pages'),
+    pytest.param(power.link(power.TECHNICAL_024), 23, id='technical24pages'),
 ])
 @utilatest.skip_longrun
 def test_groupme_numbers_work_single(resource, expected_numbers):
@@ -138,7 +139,7 @@ def test_numbers_restructured_without_title():
     """Ensure to extract correct pdf page on document which starts with
     empty page. Before this patch, the pdfpages started with zero
     instead of one."""
-    source = tests.resources.NO_TITLE_RESTRUCTURED
+    source = power.link(power.DOCU27_PDF, folder='notitle')
     navigator = serializeraw.create_pagetextnavigators_frompath(source)
     pagenumbers = groupme.feature.numbers.determine_pagenumbers(navigator)
     pagenumbers = utila.flatten(pagenumbers)  # pylint:disable=R0204

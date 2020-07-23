@@ -7,12 +7,12 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
 import pytest
 import serializeraw
 
 import doctextstyle.parser
 import doctextstyle.utils
-import tests.resources
 
 
 def navigators(source: str, pages: tuple):
@@ -29,7 +29,7 @@ def navigators(source: str, pages: tuple):
 @pytest.fixture
 def master72_text_flat():
     return navigators(
-        source=tests.resources.MASTER72,
+        source=power.link(power.MASTER072_PDF),
         pages=tuple(range(3, 86)),
     )
 
@@ -37,6 +37,6 @@ def master72_text_flat():
 @pytest.fixture
 def master72_text_flat_small():
     return navigators(
-        source=tests.resources.MASTER72,
+        source=power.link(power.MASTER072_PDF),
         pages=tuple(range(3, 15)),
     )

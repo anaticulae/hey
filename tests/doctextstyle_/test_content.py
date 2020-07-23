@@ -7,13 +7,14 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import power
+
 import doctextstyle.features.content
 import groupme.path
-import tests.resources
 
 
 def test_content():
-    path = groupme.path.border_leftright(tests.resources.MASTER116)
+    path = groupme.path.border_leftright(power.link(power.MASTER116_PDF))
     content = doctextstyle.features.content.content(path)
 
     expected = [

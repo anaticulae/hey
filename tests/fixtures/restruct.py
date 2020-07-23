@@ -9,35 +9,34 @@
 
 import iamraw
 import iamraw.path
+import power
 import pytest
 import serializeraw
 
 import groupme.path
-import tests.fixtures
-import tests.resources
 
-RESTRUCT_BOXES = iamraw.path.boxed(tests.resources.RESTRUCT)
-RESTRUCT_FONT_CONTENT = iamraw.path.fontcontent(tests.resources.RESTRUCT)
-RESTRUCT_FONT_HEADER = iamraw.path.fontheader(tests.resources.RESTRUCT)
-RESTRUCT_FOOTERS = iamraw.path.headerfooters(tests.resources.RESTRUCT)
-RESTRUCT_HORIZONTAL = iamraw.path.horizontals(tests.resources.RESTRUCT)
+RESTRUCT_BOXES = iamraw.path.boxed(power.link(power.DOCU27_PDF))
+RESTRUCT_FONT_CONTENT = iamraw.path.fontcontent(power.link(power.DOCU27_PDF))
+RESTRUCT_FONT_HEADER = iamraw.path.fontheader(power.link(power.DOCU27_PDF))
+RESTRUCT_FOOTERS = iamraw.path.headerfooters(power.link(power.DOCU27_PDF))
+RESTRUCT_HORIZONTAL = iamraw.path.horizontals(power.link(power.DOCU27_PDF))
 RESTRUCT_ONELINE_FONT_CONTENT = iamraw.path.fontcontent(
-    tests.resources.RESTRUCT,
+    power.link(power.DOCU27_PDF),
     prefix='oneline',
 )
 RESTRUCT_ONELINE_FONT_HEADER = iamraw.path.fontheader(
-    tests.resources.RESTRUCT,
+    power.link(power.DOCU27_PDF),
     prefix='oneline',
 )
 RESTRUCT_ONELINE_TEXT = iamraw.path.text(
-    tests.resources.RESTRUCT,
+    power.link(power.DOCU27_PDF),
     prefix='oneline',
 )
-RESTRUCT_PAGESIZE = iamraw.path.sizeandborder(tests.resources.RESTRUCT)
-RESTRUCT_TEXT = iamraw.path.text(tests.resources.RESTRUCT)
-RESTRUCT_TEXT_POSITION = iamraw.path.textposition(tests.resources.RESTRUCT)
-RESTRUCT_TOC = iamraw.path.toc(tests.resources.RESTRUCT)
-RESTRUCT_PAGENUMBERS = groupme.path.pagenumbers(tests.resources.RESTRUCT)
+RESTRUCT_PAGESIZE = iamraw.path.sizeandborder(power.link(power.DOCU27_PDF))
+RESTRUCT_TEXT = iamraw.path.text(power.link(power.DOCU27_PDF))
+RESTRUCT_TEXT_POSITION = iamraw.path.textposition(power.link(power.DOCU27_PDF))
+RESTRUCT_TOC = iamraw.path.toc(power.link(power.DOCU27_PDF))
+RESTRUCT_PAGENUMBERS = groupme.path.pagenumbers(power.link(power.DOCU27_PDF))
 
 
 @pytest.fixture
@@ -79,7 +78,8 @@ def restructured_horizontals():
 
 @pytest.fixture
 def restructured_pagetextnavigators():
-    navigators = serializeraw.create_pagetextnavigators_frompath(tests.resources.RESTRUCT) # yapf:disable
+    navigators = serializeraw.create_pagetextnavigators_frompath(
+        power.link(power.DOCU27_PDF))
     return navigators
 
 
