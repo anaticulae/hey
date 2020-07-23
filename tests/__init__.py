@@ -10,7 +10,10 @@
 import power
 import utila
 
+import hey
 import tests.resources
+
+power.setup(hey.ROOT)
 
 
 def relative_path(item):

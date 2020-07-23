@@ -11,6 +11,7 @@ import concurrent.futures
 import functools
 import os
 
+import power
 import utila
 import utilatest
 
@@ -19,6 +20,36 @@ import hey.example
 import tests.resources
 
 WORKER = 12
+# Put long documents first! If we have the long documents at the end, the
+# scheduler gets hungry in the end and runs with low cpu load.
+# NOTE: This schedule is orderd by the required runtime on my computer.
+# yapf:disable
+RESOURCES = [
+    (power.MASTER116_PDF, tests.resources.MASTER116, None),
+    (power.MASTER099_PDF, tests.resources.MASTER99, None),
+    (power.MASTER098_PDF, tests.resources.MASTER98, None),
+    (power.BACHELOR090_PDF, tests.resources.BACHELOR90, None),
+    (power.BACHELOR056_PDF, tests.resources.BACHELOR56, '0:55'),
+    (power.MASTER089_PDF, tests.resources.MASTER89, '0:89'),
+    (power.BACHELOR076_PDF, tests.resources.BACHELOR76, None),
+    (power.MASTER072_PDF, tests.resources.MASTER72, None),
+    (power.BACHELOR111_PDF, tests.resources.BACHELOR111, None),
+    (power.BACHELOR037_PDF, tests.resources.BACHELOR37, '0:30'),
+    (power.BACHELOR063_PDF, tests.resources.BACHELOR63, '0:9,59:62'),
+    (power.DOCU14_PDF, tests.resources.HOWTO_ARGPARSE, None),
+    (power.DOCU07_PDF, tests.resources.HOWTO_PYPORTING, None),
+    (power.BOOK007_PDF, tests.resources.LEFTRIGHT, None),
+    (power.DOCU09_PDF, tests.resources.PYPORTING, None),
+    (power.DOCU27_PDF, tests.resources.RESTRUCT, None),
+    (power.TECHNICAL_024, tests.resources.TECHNICAL24, None),
+    (power.DOCU35_PDF, tests.resources.TWINE, None),
+    (power.HOMEWORK050_PDF, tests.resources.HOMEWORK50, '0:10'),
+    (power.ORDER009_PDF, tests.resources.HOWTOWRITE9, '0:10'),
+    (power.BACHELOR241_PDF, tests.resources.BACHELOR241, '0:10'),
+    (power.MASTER078_PDF, tests.resources.MASTER78, '0:5'),
+    (power.MASTER083_PDF, tests.resources.MASTER83, '0:10'),
+]
+# yapf:enable
 
 
 def install_requirements():
@@ -70,37 +101,6 @@ def sectionsandwords():
 
 CONFIG = '--char_margin=3.1 --boxes_flow=1.0 --line_margin=0.25 '
 
-# Put long documents first! If we have the long documents at the end, the
-# scheduler gets hungry in the end and runs with low cpu load.
-# NOTE: This schedule is orderd by the required runtime on my computer.
-# yapf:disable
-PACKAGE = [
-    (tests.resources.MASTER116_PDF, tests.resources.MASTER116, None),
-    (tests.resources.MASTER99_PDF, tests.resources.MASTER99, None),
-    (tests.resources.MASTER98_PDF, tests.resources.MASTER98, None),
-    (tests.resources.BACHELOR90_PDF, tests.resources.BACHELOR90, None),
-    (tests.resources.BACHELOR56_PDF, tests.resources.BACHELOR56, '0:55'),
-    (tests.resources.MASTER89_PDF, tests.resources.MASTER89, '0:89'),
-    (tests.resources.BACHELOR76_PDF, tests.resources.BACHELOR76, None),
-    (tests.resources.MASTER72_PDF, tests.resources.MASTER72, None),
-    (tests.resources.BACHELOR111_PDF, tests.resources.BACHELOR111, None),
-    (tests.resources.BACHELOR37_PDF, tests.resources.BACHELOR37, '0:30'),
-    (tests.resources.BACHELOR63_PDF, tests.resources.BACHELOR63, '0:9,59:62'),
-    (tests.resources.HOWTO_ARGPARSE_PDF, tests.resources.HOWTO_ARGPARSE, None),
-    (tests.resources.HOWTO_PYPORTING_PDF, tests.resources.HOWTO_PYPORTING, None),
-    (tests.resources.LEFTRIGHT_PDF, tests.resources.LEFTRIGHT, None),
-    (tests.resources.PYPORTING_PDF, tests.resources.PYPORTING, None),
-    (tests.resources.RESTRUCT_PDF, tests.resources.RESTRUCT, None),
-    (tests.resources.TECHNICAL24_PDF, tests.resources.TECHNICAL24, None),
-    (tests.resources.TWINE_PDF, tests.resources.TWINE, None),
-    (tests.resources.HOMEWORK50_PDF, tests.resources.HOMEWORK50, '0:10'),
-    (tests.resources.HOWTOWRITE9_PDF, tests.resources.HOWTOWRITE9, '0:10'),
-    (tests.resources.BACHELOR241_PDF, tests.resources.BACHELOR241, '0:10'),
-    (tests.resources.MASTER78_PDF, tests.resources.MASTER78, '0:5'),
-    (tests.resources.MASTER83_PDF, tests.resources.MASTER83, '0:10'),
-]
-# yapf:enable
-
 
 def run_package(pdf, outpath, pages=None):
     relative = utila.make_relative(pdf, tests.resources.RESOURCES)
@@ -122,12 +122,12 @@ def run_package(pdf, outpath, pages=None):
 
 
 def extract():
-    for pdf, _, __ in PACKAGE:
+    for pdf, _, __ in RESOURCES:
         assert pdf.endswith('.pdf') and os.path.exists(pdf), pdf
 
     todo = [
         functools.partial(run_package, pdf, out, pages=pages)
-        for pdf, out, pages in PACKAGE
+        for pdf, out, pages in RESOURCES
     ]
     return todo
 
