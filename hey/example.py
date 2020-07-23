@@ -39,6 +39,7 @@ def extract(  # pylint:disable=R0914
         groupme: bool = False,
         magic: bool = False,
         sections: bool = False,
+        textflow: bool = False,
         words: bool = False,
         full: bool = False,
 ):
@@ -58,6 +59,7 @@ def extract(  # pylint:disable=R0914
         groupme(bool): run if True
         magic(bool): run if True
         sections(bool): run if True
+        textflow(bool): run if True
         words(bool): run if True
         full(bool): overwrites every selection and runs all extraction steps
     Raises:
@@ -73,6 +75,7 @@ def extract(  # pylint:disable=R0914
         groupme=groupme,
         magic=magic,
         sections=sections,
+        textflow=textflow,
         words=words,
         full=full,
     )
@@ -98,6 +101,7 @@ def todolist(
         groupme: bool = False,
         magic: bool = False,
         sections: bool = False,
+        textflow: bool = False,
         words: bool = False,
         full: bool = False,
 ):
@@ -115,6 +119,7 @@ def todolist(
         groupme = True
         magic = True
         sections = True
+        textflow = True
         words = True
 
     config = {
@@ -124,6 +129,7 @@ def todolist(
         'groupme': groupme,
         'magic': magic,
         'sections': sections,
+        'textflow': textflow,
         'words': words,
     }
     todo = generate(files, destination, pages=pages, config=config)
@@ -204,6 +210,8 @@ def create_job(
         task.append(f'words -j=auto -i {dest} -o {dest}')
     if config.get('detector', False):
         task.append(f'detector -i {dest} -o {dest}')
+    if config.get('textflow', False):
+        task.append(f'textflow -i {dest} -o {dest}')
     if config.get('doctextstyle', False):
         task.append(f'doctextstyle -i {dest} -o {dest}')
     if config.get('magic', False):
