@@ -83,7 +83,6 @@ def extract_notitle(resources):
     # jam
     todo = []
     for inpath, outpath in zip(files, without_titlepage):
-        utila.log(inpath)
         todo.append(f'jam -i {inpath} -o {outpath} --remove=0')
     utila.run_parallel(todo)
 
