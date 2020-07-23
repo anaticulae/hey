@@ -11,7 +11,7 @@
 rawmaker==2.2.0
 
 # reference to test data
-power==0.13.0
+power==0.14.1
 
 # test data generator
 jam==0.2.16
