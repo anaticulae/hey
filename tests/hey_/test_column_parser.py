@@ -27,7 +27,7 @@ def test_parse_column_bachelor63_page59():
 
 def test_parse_column_bachelor63_page59_all_columns():
     """Latex double column. Left side with [Hem10] pattern"""
-    pages = (59)
+    pages = (59,)
     navigators = serializeraw.create_pagetextnavigators_frompath(
         tests.resources.BACHELOR63,
         # fill_empty=False,

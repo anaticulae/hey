@@ -26,12 +26,16 @@ ONELINE = ('--prefix=oneline '
            '--font --text '
            '--boxes_flow=1.0 --char_margin=100.0 --line_margin=0.0001')
 
+CONFIG = '--char_margin=3.1 --boxes_flow=1.0 --line_margin=0.25 '
+
 
 def extract(  # pylint:disable=R0914
         files: list,
         destination: str,
         pages: str = '0:10',
         worker: int = 12,
+        rawmaker: str = CONFIG,
+        oneline: str = ONELINE,
         *,
         caption: bool = False,
         detector: bool = False,
@@ -53,6 +57,8 @@ def extract(  # pylint:disable=R0914
         destination(path): create folder for every file and save result
         pages(str): range of selected pages
         worker(int): number of threads to extract examples
+        rawmaker(str): default config
+        oneline(str): oneline config
         caption(bool): run if True
         detector(bool): run if True
         doctextstyle(bool): run if True
@@ -69,6 +75,8 @@ def extract(  # pylint:disable=R0914
         files,
         destination,
         pages,
+        rawmaker=rawmaker,
+        oneline=oneline,
         caption=caption,
         detector=detector,
         doctextstyle=doctextstyle,
@@ -90,10 +98,12 @@ def extract(  # pylint:disable=R0914
                 raise
 
 
-def todolist(
+def todolist(  # pylint:disable=R0914
         files: list,
         destination: str,
         pages: str = '0:10',
+        rawmaker: str = CONFIG,
+        oneline: str = ONELINE,
         *,
         caption: bool = False,
         detector: bool = False,
@@ -132,7 +142,14 @@ def todolist(
         'textflow': textflow,
         'words': words,
     }
-    todo = generate(files, destination, pages=pages, config=config)
+    todo = generate(
+        files,
+        destination,
+        pages=pages,
+        config=config,
+        rawmaker=rawmaker,
+        oneline=oneline,
+    )
     return todo
 
 
@@ -143,7 +160,14 @@ def run_job(job: str):
     utila.log(f'completed: {job[0:100]}')
 
 
-def generate(files: list, outpath: str, pages: str, config: dict) -> list:
+def generate(
+        files: list,
+        outpath: str,
+        pages: str,
+        config: dict,
+        rawmaker: str,
+        oneline: str,
+) -> list:
     todo = []
     single_pages = paged(files, default=pages)
     files = list(single_pages.keys())
@@ -154,6 +178,8 @@ def generate(files: list, outpath: str, pages: str, config: dict) -> list:
             os.path.join(outpath, output),
             pages=single_pages[inpath],
             config=config,
+            rawmaker=rawmaker,
+            oneline=oneline,
         )
         todo.append(next_job)
     return todo
@@ -174,6 +200,8 @@ def paged(files, default=None) -> dict:
 def create_job(
         src: str,
         dest: str,
+        rawmaker: str,
+        oneline: str,
         pages: tuple = None,
         config: dict = None,
 ) -> str:
@@ -182,6 +210,8 @@ def create_job(
     Args:
         src: pdf file for processing
         dest: output path to output folder
+        rawmaker: default config
+        oneline: default oneline config
         pages: shrink processing if given - if None process all pages
         config: select which processes to run
     Returns:
@@ -190,13 +220,10 @@ def create_job(
     if config is None:
         config = {}
 
-    # TODO: USE A MORE GENERAL PLACE
-    layoutconfig = '--char_margin=5.0 --boxes_flow=1.0 --line_margin=0.3'
-
     pages = f'--pages={pages}' if pages is not None else ''
     task = [
-        f'rawmaker -j=auto -i {src} -o {dest} {layoutconfig} {pages}',
-        f'rawmaker -j=auto -i {src} -o {dest} {ONELINE} {pages}',
+        f'rawmaker -j=auto -i {src} -o {dest} {rawmaker} {pages}',
+        f'rawmaker -j=auto -i {src} -o {dest} {oneline} {pages}',
         f'linero -i {dest} -o {dest}',
     ]
     if config.get('groupme', False):
