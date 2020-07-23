@@ -7,43 +7,21 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-from glob import glob
-from os.path import exists
-from os.path import join
+import power
+import utila
 
-from utila import FAILURE
-from utila import NEWLINE
-from utila import error
-from utila import file_create
-from utila import forward_slash
-from utila import run
-
-from tests.resources import RESOURCES
-
-
-def write_capsys(capsys):
-    """Save logged capsys to filespace"""
-    stdout, stderr = capsys.readouterr()
-    file_create('logging.txt', stdout)
-    file_create('error.txt', stderr)
-
-
-def pdfs():
-    """Collect all pdf files in test folder"""
-    pattern = join(RESOURCES, '**/*.pdf')
-    located = glob(pattern, recursive=True)
-    return located
+import tests.resources
 
 
 def relative_path(item):
-    item = item.replace(RESOURCES, '')
+    item = item.replace(tests.resources.RESOURCES, '')
     start_with_slash = item[0] in ('/', '\\')
     if start_with_slash:
         item = item[1:]
 
-    item = forward_slash(item)
+    item = utila.forward_slash(item)
     return item
 
 
 def prepare(item):
-    return item.replace(NEWLINE, '').replace(' ', '_')[0:40]
+    return item.replace(utila.NEWLINE, '').replace(' ', '_')[0:40]

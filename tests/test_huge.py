@@ -10,6 +10,7 @@
 import contextlib
 import os
 
+import power
 import pytest
 import utila
 import utilatest
@@ -56,11 +57,10 @@ HEADLINE_COUNT = {
 
 
 def params():
-    pdf = tests.pdfs()
     # do not ignore any document, it's a nightly
     ignore = []
     pdf = [
-        item for item in pdf if all([
+        item for item in power.PDF if all([
             not tests.relative_path(item) in ignore,
             # skip generated pdfs to avoid double work
             not 'notitle' in item,
