@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v3.8.0
+
+### Feature
+
+* move extractor rawmaker config to separate config (ce9c289199b7)
+* add textflow flag to example generator (624e56411ed1)
+
 ## v3.7.2
 
 ### Fix
