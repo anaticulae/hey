@@ -15,57 +15,57 @@ import utilatest
 
 import hey
 
-RESOURCES = os.path.join(hey.ROOT, 'tests/resources')
+power.setup(hey.ROOT)
 
-GENERATED = os.path.join(RESOURCES, 'generated')
-# TODO: remove _ after fixing path bug
-NO_TITLE = os.path.join(GENERATED, '_notitle')
-
-RESTRUCT = os.path.join(GENERATED, 'restruct')
+RESTRUCT = power.link(power.DOCU27_PDF)
 RESTRUCT_TOC_LINES = 13
 
-HOWTO_PYPORTING = os.path.join(GENERATED, 'howto_pyporting')
+HOWTO_PYPORTING = power.link(power.DOCU07_PDF)
 # the simple example has two 2 chapters, but there are on the same page,
 # therfore 1 page_count.
 HOWTO_PYPORTING_TOC_LINES = 12
 
 # porting module
-PYPORTING = os.path.join(GENERATED, 'porting_module')
+PYPORTING = power.link(power.DOCU09_PDF)
 PYPORTING_CHAPTER_COUNT = 6
 
-BACHELOR37 = os.path.join(GENERATED, 'page_37_tables')
-BACHELOR56 = os.path.join(GENERATED, 'page_56_hard_to_read')
-BACHELOR63 = os.path.join(GENERATED, 'page_63_images_toc')
-BACHELOR90 = os.path.join(GENERATED, 'bachelor90')
-BACHELOR76 = os.path.join(GENERATED, 'page76')
+BACHELOR37 = power.link(power.BACHELOR037_PDF)
+BACHELOR56 = power.link(power.BACHELOR056_PDF)
+BACHELOR63 = power.link(power.BACHELOR063_PDF)
+BACHELOR90 = power.link(power.BACHELOR090_PDF)
+BACHELOR76 = power.link(power.BACHELOR076_PDF)
 
-MASTER72 = os.path.join(GENERATED, 'page_72_noimages_toc')
-MASTER72_SECTIONS_AND_WORDS = os.path.join(GENERATED, 'page72_sectionswords')
+MASTER72 = power.link(power.MASTER072_PDF)
+MASTER72_SECTIONS_AND_WORDS = power.link(
+    power.MASTER072_PDF,
+    folder='sectionsandwords',
+)
 
-MASTER83 = os.path.join(GENERATED, 'page_83_noimages_toc')
-MASTER89 = os.path.join(GENERATED, 'page_89_noimages_toc')
-MASTER98 = os.path.join(GENERATED, 'master98')
-MASTER99 = os.path.join(GENERATED, 'master99')
-MASTER116 = os.path.join(GENERATED, 'page_116_images_toc_formular')
+MASTER83 = power.link(power.MASTER083_PDF)
+MASTER89 = power.link(power.MASTER089_PDF)
+MASTER98 = power.link(power.MASTER098_PDF)
+MASTER99 = power.link(power.MASTER099_PDF)
 
-BACHELOR111 = os.path.join(GENERATED, 'page_111_images_toc')
+MASTER116 = power.link(power.MASTER116_PDF)
+
+BACHELOR111 = power.link(power.BACHELOR111_PDF)
 BACHELOR111_PAGE_COUNT = 111
 
-BACHELOR241 = os.path.join(GENERATED, 'page241')
+BACHELOR241 = power.link(power.BACHELOR241_PDF)
 
-TECHNICAL24 = os.path.join(GENERATED, 'technical_24pages')
+TECHNICAL24 = power.link(power.TECHNICAL_024)
 TECHNICAL24_PAGE_COUNT = 24
 
-TWINE = os.path.join(GENERATED, 'twine')
-TWINE_NO_TILE = os.path.join(NO_TITLE, 'docu_twine')
+TWINE = power.link(power.DOCU35_PDF)
+TWINE_NO_TILE = power.link(power.DOCU35_PDF, folder='notitle')
 
-HOWTO_ARGPARSE = os.path.join(GENERATED, 'howto_argparse')
+HOWTO_ARGPARSE = power.link(power.DOCU14_PDF)
 HOWTO_ARGPARSE_PAGE_COUNT = 14
 
-HOWTOWRITE9 = os.path.join(GENERATED, 'howtowrite_pages9')
-MASTER78 = os.path.join(GENERATED, 'page_78_images_toc')
-HOMEWORK50 = os.path.join(GENERATED, 'homework_page_50_math')
-LEFTRIGHT = os.path.join(GENERATED, 'book_leftright')
+HOWTOWRITE9 = power.link(power.ORDER009_PDF)
+MASTER78 = power.link(power.MASTER078_PDF)
+HOMEWORK50 = power.link(power.HOMEWORK050_PDF)
+LEFTRIGHT = power.link(power.BOOK007_PDF)
 
 NO_TITLE_EXAMPLE = [
     power.BACHELOR111_PDF,
@@ -76,39 +76,5 @@ NO_TITLE_EXAMPLE = [
     power.DOCU27_PDF,
     power.DOCU35_PDF,
 ]
-NO_TITLE_GENERATED = [
-    os.path.join(NO_TITLE, item)
-    for item in utilatest.simplify_testfile_names(NO_TITLE_EXAMPLE)
-]
 
-NO_TITLE_RESTRUCTURED = os.path.join(NO_TITLE, 'docu_restructuredtext')
-
-REQURIED_RESOURCES = [
-    BACHELOR111,
-    BACHELOR37,
-    BACHELOR56,
-    BACHELOR63,
-    BACHELOR76,
-    BACHELOR90,
-    HOMEWORK50,
-    HOWTOWRITE9,
-    HOWTO_ARGPARSE,
-    HOWTO_PYPORTING,
-    LEFTRIGHT,
-    MASTER116,
-    MASTER72,
-    MASTER72_SECTIONS_AND_WORDS,
-    MASTER78,
-    MASTER83,
-    MASTER89,
-    MASTER98,
-    MASTER99,
-    PYPORTING,
-    RESOURCES,
-    RESTRUCT,
-    TECHNICAL24,
-    TWINE,
-    TWINE_NO_TILE,
-]
-
-REQURIED_RESOURCES = [utila.forward_slash(item) for item in REQURIED_RESOURCES]
+NO_TITLE_RESTRUCTURED = power.link(power.DOCU27_PDF, folder='notitle')

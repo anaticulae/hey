@@ -17,7 +17,7 @@ power.setup(hey.ROOT)
 
 
 def relative_path(item):
-    item = item.replace(tests.resources.RESOURCES, '')
+    item = item.replace(power.REPOSITORY, '')
     start_with_slash = item[0] in ('/', '\\')
     if start_with_slash:
         item = item[1:]
