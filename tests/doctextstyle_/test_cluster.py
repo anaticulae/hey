@@ -13,7 +13,11 @@ import doctextstyle.cluster
 def test_cluster_size(master72_text_flat):  # pylint:disable=W0621
     data = master72_text_flat
     selection = (doctextstyle.cluster.ClusterProperty.SIZE,)
-    clustered = doctextstyle.cluster.cluster(data, selection=selection)
+    clustered = doctextstyle.cluster.cluster(
+        data,
+        selection=selection,
+        max_size_diff=doctextstyle.cluster.Tol(0.0, 0.0),
+    )
     assert len(master72_text_flat) >= 2000
     # six different font size cluster
     assert len(clustered) == 6

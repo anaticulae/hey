@@ -35,3 +35,21 @@ def test_doctextstyle_extract():
 
     # justified text
     assert result.text_alignment == 1
+
+
+def test_regression_doctextstyle_homework25():
+    source = power.link(power.HOMEWORK025_PDF)
+    result = doctextstyle.extractor.extract(source)
+    assert result
+
+    expected_size = [24.79, 17.22, 14.35]
+    expected_before = [None, 46.8, 39.9]
+    expected_after = [47.4, 30.9, 26.9]
+
+    size = [result.h1_size, result.h2_size, result.h3_size]
+    before = [result.h1_before, result.h2_before, result.h3_before]
+    after = [result.h1_after, result.h2_after, result.h3_after]
+
+    assert size == expected_size
+    assert before == expected_before
+    assert after == expected_after

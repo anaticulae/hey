@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import collections
 import enum
 import typing
 
@@ -24,6 +25,8 @@ class ClusterProperty(enum.Enum):
 
 
 ClusterPropertySelection = typing.List[ClusterProperty]
+Tol = collections.namedtuple('Tol', 'abs, rel')
+NO_TOLERANCE = Tol(0.0, 0.0)
 
 
 def cluster(  # pylint:disable=R1260
@@ -33,6 +36,9 @@ def cluster(  # pylint:disable=R1260
         *,
         minsize: int = 5,  # TODO: HOLY VALUE
         unique_content: bool = False,
+        max_size_diff=Tol(0.5, 0.1),  # TODO: HOLY VALUES
+        max_after_diff=Tol(2.0, 0.1),
+        max_before_diff=Tol(2.0, 0.1),
 ):
     if selection:
         selection = set(selection)
@@ -40,14 +46,30 @@ def cluster(  # pylint:disable=R1260
         items = [item for item in items if validator(item)]
 
     def classifier(candidat, clusteritem):
+        pnear = utila.pnear  # pylint:disable=E1101
         if selection is None or ClusterProperty.SIZE in selection:
-            if candidat.size != clusteritem.size:
+            if not pnear(
+                    candidat.size,
+                    clusteritem.size,
+                    abs_tol=max_size_diff.abs,
+                    rel_tol=max_size_diff.rel,
+            ):
                 return False
         if selection is None or ClusterProperty.BEFORE in selection:
-            if candidat.before != clusteritem.before:
+            if not pnear(
+                    candidat.before,
+                    clusteritem.before,
+                    abs_tol=max_before_diff.abs,
+                    rel_tol=max_before_diff.rel,
+            ):
                 return False
         if selection is None or ClusterProperty.AFTER in selection:
-            if candidat.after != clusteritem.after:
+            if not pnear(
+                    candidat.after,
+                    clusteritem.after,
+                    abs_tol=max_after_diff.abs,
+                    rel_tol=max_after_diff.rel,
+            ):
                 return False
         if selection is None or ClusterProperty.FONT in selection:
             if candidat.font != clusteritem.font:
@@ -61,7 +83,6 @@ def cluster(  # pylint:disable=R1260
     )
     if unique_content:
         clustered = [item for item in clustered if iscontent_unique(item)]
-
     return clustered
 
 

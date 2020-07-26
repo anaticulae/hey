@@ -145,6 +145,9 @@ def footnote(flats: doctextstyle.data.TextProperties):
         validator=validator,
         minsize=MIN_FOOTNOTES_COUNT,
         unique_content=True,
+        max_size_diff=doctextstyle.cluster.NO_TOLERANCE,
+        max_before_diff=doctextstyle.cluster.NO_TOLERANCE,
+        max_after_diff=doctextstyle.cluster.NO_TOLERANCE,
     )
     result = doctextstyle.cluster.bestmatch(clustered)
     return result
