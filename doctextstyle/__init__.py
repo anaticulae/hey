@@ -9,6 +9,7 @@
 
 import os
 
+import doctextstyle.__patch__
 import hey
 
 __version__ = hey.__version__
