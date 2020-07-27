@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v3.8.1
+
+### Fix
+
+* add tolerance to improve headline cluster (e8c4f25d6a7a)
+
 ## v3.8.0
 
 ### Feature
