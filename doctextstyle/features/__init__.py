@@ -12,6 +12,8 @@ import utila
 
 import doctextstyle.cluster
 
+MIN_HEADLINE_CLUSTER_SIZE = configo.HV_INT_PLUS(3).value
+
 
 def text(flats, returncluster: bool = False):
     clustered = doctextstyle.cluster.cluster(flats, (
@@ -54,10 +56,13 @@ DEFAULT_DISTANCE_AFTER_TEXT = configo.HV_FLOAT_PLUS(18.0).value
 
 def headlines(  # pylint:disable=R1260,R0914
         flats: doctextstyle.data.TextProperties,
-        min_headline_count: int = 5,
+        min_headline_count: int = None,
         greater_than_text: bool = True,
         returncluster: bool = False,
 ):
+    if min_headline_count is None:
+        min_headline_count = MIN_HEADLINE_CLUSTER_SIZE
+
     _text = text(flats, returncluster=True)
     _pagenumber = pagenumber(flats, returncluster=True)
 
@@ -97,6 +102,7 @@ def headlines(  # pylint:disable=R1260,R0914
         (doctextstyle.cluster.ClusterProperty.SIZE,),
         validator=valid_headline,
         minsize=min_headline_count,
+        unique_content=True,  # remove duplicated footer/header content
     )
 
     largest_font_size = sorted(

@@ -8,6 +8,7 @@
 # =============================================================================
 
 import power
+import utila
 
 import doctextstyle.data
 import doctextstyle.extractor
@@ -39,7 +40,9 @@ def test_doctextstyle_extract():
 
 def test_regression_doctextstyle_homework25():
     source = power.link(power.HOMEWORK025_PDF)
-    result = doctextstyle.extractor.extract(source)
+    # shrink to content pages
+    pages = utila.ranged_tuple(2, 22)
+    result = doctextstyle.extractor.extract(source, pages=pages)
     assert result
 
     expected_size = [24.79, 17.22, 14.35]
