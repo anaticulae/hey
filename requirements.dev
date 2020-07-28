@@ -8,17 +8,17 @@
 # =============================================================================
 
 # ensure that test data is generated with the right version of rawmaker
-rawmaker==2.2.0
+rawmaker==2.2.1
 
 # reference to test data
-power==0.14.1
+power==0.14.2
 
 # test data generator
-jam==0.2.16
+jam==0.2.17
 
 # generate magic test data
-words==0.13.3
-detector==0.6.0
+words==0.13.5
+detector==0.7.1
 
 
 utilatest==0.1.2
