@@ -32,14 +32,15 @@ from tests.fixtures.restruct import restructured_sizeandborder
 
 def test_groupme_footer_work(testdir):  #pylint:disable=W0621
     root = str(testdir)
+    docu27 = power.link(power.DOCU27_PDF)
     dumped = groupme.feature.footer.work(
-        iamraw.path.text(power.link(power.DOCU27_PDF)),
-        iamraw.path.textposition(power.link(power.DOCU27_PDF)),
-        iamraw.path.fontheader(power.link(power.DOCU27_PDF)),
-        iamraw.path.fontcontent(power.link(power.DOCU27_PDF)),
-        iamraw.path.horizontals(power.link(power.DOCU27_PDF)),
-        iamraw.path.sizeandborder(power.link(power.DOCU27_PDF)),
-        groupme.path.pagenumbers(power.link(power.DOCU27_PDF)),
+        iamraw.path.text(docu27),
+        iamraw.path.textposition(docu27),
+        iamraw.path.fontheader(docu27),
+        iamraw.path.fontcontent(docu27),
+        iamraw.path.horizontals(docu27),
+        iamraw.path.sizeandborder(docu27),
+        groupme.path.pagenumbers(docu27),
     )
     assert dumped
     assert len(dumped) > 100, str(dumped)  # there is some content
