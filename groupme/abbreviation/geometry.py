@@ -55,7 +55,7 @@ class GeometryAbbreviationParser(groupme.abbreviation.AbbreviationExtractorStrat
 def parse_page(page) -> iamraw.Abbreviations:
     line_gaps = lines(page)
     if not line_gaps:
-        utila.error(f'no linegap on page {page.page}')
+        utila.debug(f'no linegap on page {page.page}')
         # distance between pages is to small. See MIN_LINE_GAP
         return []
     marker = columns(page)

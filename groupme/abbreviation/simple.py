@@ -33,7 +33,7 @@ def parse_page(content):
             short, description = raw.split(maxsplit=1)
         except ValueError:
             if not is_excluded(raw):
-                utila.error(f'could not parse: {raw}')
+                utila.debug(f'could not parse abbreviation: {raw}')
             continue
         if is_excluded(short) or is_excluded(description):
             utila.info(f'skip: {short}, {description}')
