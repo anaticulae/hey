@@ -178,3 +178,17 @@ def test_groupme_header_bachelor90(testdir, monkeypatch):
     loaded = serializeraw.load_headerfooter(headerpath)
     header = [item.header for item in loaded if item.header]
     assert len(header) == 11
+
+
+def test_footer_master98_page10(testdir, monkeypatch):
+    cmd = f'-i {power.link(power.MASTER098_PDF)}  --footer --pages=10'
+    tests.groupme_.run(cmd, monkeypatch=monkeypatch)
+    headerpath = iamraw.path.headerfooters(testdir.tmpdir)
+
+    loaded = serializeraw.load_headerfooter(headerpath)
+    footer = utila.select_page(loaded, 10).footer
+    notes = footer.notes
+    assert len(notes) == 1
+    firstnote_text = notes[0].text.strip()
+    # ensure that page number is not merged to note text
+    assert firstnote_text.endswith('16)'), firstnote_text

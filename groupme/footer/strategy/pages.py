@@ -19,13 +19,14 @@ next horizontal line is greater than `MIN_DISTANCE_TO_HORIZONTAL`.
 
 """
 
+import configo
 import iamraw
 import texmex
 import utila
 
 import groupme.footer.strategy as gfs
 
-MIN_DISTANCE_TO_HORIZONTAL = 50  # TODO: HOLY VALUE
+MIN_DISTANCE_TO_HORIZONTAL = configo.HV_INT_PLUS(25, limit=250).value
 
 
 class PageNumberStrategy(gfs.FooterHeaderDetectionStrategy):
@@ -111,9 +112,11 @@ def process_page(page, rawpage, horizontals):
     )
     if distance_to_firsthorizontal < 0.0:
         return None
-    if distance_to_firsthorizontal >= MIN_DISTANCE_TO_HORIZONTAL:
-        return (page, pagenumber_bounding)
-    return None
+    if distance_to_firsthorizontal <= MIN_DISTANCE_TO_HORIZONTAL:
+        # Require some distance to horizontal line
+        # TODO: ADD DOCU HERE
+        return None
+    return (page, pagenumber_bounding)
 
 
 def distance(bounding, items, page):
