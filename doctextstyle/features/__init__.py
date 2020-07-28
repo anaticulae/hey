@@ -8,6 +8,7 @@
 # =============================================================================
 
 import configo
+import iamraw
 import utila
 
 import doctextstyle.cluster
@@ -55,7 +56,7 @@ DEFAULT_DISTANCE_AFTER_TEXT = configo.HV_FLOAT_PLUS(18.0).value
 
 
 def headlines(  # pylint:disable=R1260,R0914
-        flats: doctextstyle.data.TextProperties,
+        flats: iamraw.TextProperties,
         min_headline_count: int = None,
         greater_than_text: bool = True,
         returncluster: bool = False,
@@ -131,7 +132,7 @@ def headlines(  # pylint:disable=R1260,R0914
 MIN_FOOTNOTES_COUNT = 10  # TODO: HOLY VALUE
 
 
-def footnote(flats: doctextstyle.data.TextProperties):
+def footnote(flats: iamraw.TextProperties):
     _text = text(flats, returncluster=True)
     _pagenumber = pagenumber(flats, returncluster=True)
     _headlines = headlines(flats, returncluster=True)
@@ -159,7 +160,7 @@ def footnote(flats: doctextstyle.data.TextProperties):
     return result
 
 
-def paragraph(flats: doctextstyle.data.TextProperties, digits: int = 1):
+def paragraph(flats: iamraw.TextProperties, digits: int = 1):
     """Determine distance before and after a closed text block.
 
     This distance can be the distance to headlines, citation blocks and

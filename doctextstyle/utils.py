@@ -7,11 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import doctextstyle.data
+import iamraw
 
 
-def flatten(pages: doctextstyle.data.PageTextPropertiesList
-           ) -> doctextstyle.data.TextProperties:
+def flatten(pages: iamraw.PageTextPropertiesList) -> iamraw.TextProperties:
     result = []
     for page in pages:
         for length, hashed, size, font, distance, ypos, left, right in zip(
@@ -25,7 +24,7 @@ def flatten(pages: doctextstyle.data.PageTextPropertiesList
                 page.right,
         ):
             result.append(
-                doctextstyle.data.TextProperty(
+                iamraw.TextProperty(
                     length=length,
                     hashed=hashed,
                     size=size,

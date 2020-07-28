@@ -11,9 +11,8 @@ import collections
 import enum
 import typing
 
+import iamraw
 import utila
-
-import doctextstyle.data
 
 
 class ClusterProperty(enum.Enum):
@@ -30,7 +29,7 @@ NO_TOLERANCE = Tol(0.0, 0.0)
 
 
 def cluster(  # pylint:disable=R1260
-        items: doctextstyle.data.TextProperties,
+        items: iamraw.TextProperties,
         selection: ClusterPropertySelection = None,
         validator: callable = None,
         *,

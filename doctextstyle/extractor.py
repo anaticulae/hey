@@ -9,6 +9,7 @@
 
 import contextlib
 
+import iamraw
 import serializeraw
 import texmex
 import utila
@@ -24,7 +25,7 @@ import doctextstyle.utils
 import groupme.path
 
 
-def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:  # pylint:disable=R0914,R0915
+def extract(path: str, pages: tuple = None) -> iamraw.DocTextStyle:  # pylint:disable=R0914,R0915
     navigator = serializeraw.create_pagetextnavigators_frompath(
         path,
         prefix='oneline',
@@ -46,7 +47,7 @@ def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:  
     text = doctextstyle.features.text(flat)
     text_after = text[3][1]
 
-    result = doctextstyle.data.DocTextStyle(
+    result = iamraw.DocTextStyle(
         text_size=text[0],
         text_distance=text_after,
         text_family=text[1],

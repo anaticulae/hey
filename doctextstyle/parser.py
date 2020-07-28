@@ -14,9 +14,6 @@ import iamraw
 import texmex
 import utila
 
-import doctextstyle
-import doctextstyle.data
-
 VerticalTextDistance = collections.namedtuple(
     'VerticalTextDistance',
     'top, bottom',
@@ -25,7 +22,7 @@ VerticalTextDistances = typing.List[VerticalTextDistance]
 
 
 def parses(navigators: texmex.PageTextNavigators,
-          ) -> doctextstyle.data.PageTextPropertiesList:
+          ) -> iamraw.PageTextPropertiesList:
     result = []
     for navigator in navigators:
         parsed = parse(navigator)
@@ -33,8 +30,7 @@ def parses(navigators: texmex.PageTextNavigators,
     return result
 
 
-def parse(navigator: texmex.PageTextNavigator,
-         ) -> doctextstyle.data.PageTextProperties:
+def parse(navigator: texmex.PageTextNavigator) -> iamraw.PageTextProperties:
     lengths = textlength(navigator)
     hashed = [item.text.strip() for item in navigator]
     distances = textdistances(navigator)
@@ -57,7 +53,7 @@ def parse(navigator: texmex.PageTextNavigator,
     ]
     assert len(set(equal_length)) == 1, f'different iter length {equal_length}'
 
-    result = doctextstyle.data.PageTextProperties(
+    result = iamraw.PageTextProperties(
         lengths,
         hashed,
         sizes,

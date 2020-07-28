@@ -9,12 +9,12 @@
 
 import os
 
+import serializeraw
 import utila
 import utila.cli
 
 import doctextstyle
 import doctextstyle.extractor
-import doctextstyle.serialize
 
 DEFAULT_OUTPUT_FILE = 'doctextstyle__textstyle.yaml'
 
@@ -64,6 +64,6 @@ def main() -> int:
         utila.error(f'{error}')
         return utila.FAILURE
 
-    dumped = doctextstyle.serialize.dump_docstyle(extracted)
+    dumped = serializeraw.dump_doctextstyle(extracted)
     utila.file_replace(outpath, dumped)
     return utila.SUCCESS

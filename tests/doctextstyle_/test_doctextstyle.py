@@ -10,18 +10,7 @@
 import power
 import utila
 
-import doctextstyle.data
 import doctextstyle.extractor
-import doctextstyle.serialize
-
-
-def test_doctextstyle_dump_load():
-    result = doctextstyle.data.DocTextStyle()
-    assert result
-
-    dumped = doctextstyle.serialize.dump_docstyle(result)
-    loaded = doctextstyle.serialize.load_docstyle(dumped)
-    assert loaded == result
 
 
 def test_doctextstyle_extract():

@@ -10,9 +10,9 @@
 import os
 
 import power
+import serializeraw
 
 import doctextstyle.cli
-import doctextstyle.serialize
 import tests.doctextstyle_
 import tests.resources
 
@@ -29,5 +29,5 @@ def test_textstyle_cli(testdir, monkeypatch):
     outpath = os.path.join(outdir, doctextstyle.cli.DEFAULT_OUTPUT_FILE)
     assert os.path.exists(outpath)
 
-    docstyle = doctextstyle.serialize.load_docstyle(outpath)
+    docstyle = serializeraw.load_doctextstyle(outpath)
     assert docstyle
