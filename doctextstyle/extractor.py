@@ -15,6 +15,7 @@ import utila
 
 import doctextstyle
 import doctextstyle.features
+import doctextstyle.features.blockquote
 import doctextstyle.features.content
 import doctextstyle.features.pagesize
 import doctextstyle.features.textbounding as dtt
@@ -68,6 +69,8 @@ def extract(path: str, pages: tuple = None) -> doctextstyle.data.DocTextStyle:  
     extract_contentborder(result, path, pages)
 
     extract_textdimension(result, navigator, cnavigators)
+
+    extract_blockquote(result, flat)
     return result
 
 
@@ -144,3 +147,15 @@ def extract_textdimension(result, navigators, cnavigators):
         # a minimum number of pages required to extract this properly.
         right = result.page_width - result.content_right
         result.text_alignment = dtt.justified(cnavigators, right)
+
+
+def extract_blockquote(result, flat):
+    style = doctextstyle.features.blockquote.blockquote_style(flat)
+    if not style:
+        return
+    font, size, left, right = style
+
+    result.block_size = size
+    result.block_family = font
+    result.block_left = left
+    result.block_right = right

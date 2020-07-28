@@ -65,6 +65,14 @@ class DocTextStyle:
     list_after: float = None  # distance to text
     list_family: int = None
 
+    block_size: float = None
+    block_before: float = None  # distance to text
+    block_distance: float = None  # distance in list items
+    block_after: float = None  # distance to text
+    block_family: int = None
+    block_left: float = None
+    block_right: float = None
+
     page_width: float = None
     page_height: float = None
 
