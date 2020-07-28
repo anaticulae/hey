@@ -2,6 +2,19 @@
 
 Every noteable change is logged here.
 
+## v3.9.0
+
+### Feature
+
+* add blockquote style extractor (8b5842b32cc7)
+* extract left/right text positions (ec28bfbd2129)
+* improve headline detection on content only pages (125744a17086)
+
+### Fix
+
+* increase required debugging level (52237d0fb48b)
+* decrease minimal distance between page number and footer horizontal (8838304aeec9)
+
 ## v3.8.1
 
 ### Fix
