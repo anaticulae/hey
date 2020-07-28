@@ -31,11 +31,11 @@ def test_master72_list_and_blockquotes(testdir, monkeypatch):
     loaded = magic.data.load_types(path)
     assert loaded
 
-    list_page = utila.select_page(loaded, 7).content
+    list_page = utila.select_content(loaded, 7)
     list_page = [item[1] for item in list_page]
     assert magic.data.ContentType.LIST in list_page
 
-    blockquote_page = utila.select_page(loaded, 14).content
+    blockquote_page = utila.select_content(loaded, 14)
     blockquote_page = [item[1] for item in blockquote_page]
     assert magic.data.ContentType.BLOCKQUOTE in blockquote_page
 
