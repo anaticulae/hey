@@ -14,13 +14,15 @@ def flatten(pages: doctextstyle.data.PageTextPropertiesList
            ) -> doctextstyle.data.TextProperties:
     result = []
     for page in pages:
-        for length, hashed, size, font, distance, ypos in zip(
+        for length, hashed, size, font, distance, ypos, left, right in zip(
                 page.length,
                 page.hashed,
                 page.sizes,
                 page.fonts,
                 page.distances,
                 page.ypos,
+                page.left,
+                page.right,
         ):
             result.append(
                 doctextstyle.data.TextProperty(
@@ -32,5 +34,7 @@ def flatten(pages: doctextstyle.data.PageTextPropertiesList
                     after=distance.bottom,
                     top=ypos[0],
                     bottom=ypos[1],
+                    left=left,
+                    right=right,
                 ))
     return result

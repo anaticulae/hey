@@ -41,6 +41,7 @@ def parse(navigator: texmex.PageTextNavigator,
     sizes = textsizes(navigator)
     fonts = textfonts(navigator)
     vertical = vertical_position(navigator)
+    left, right = leftright(navigator)
 
     equal_length = [
         len(item) for item in [
@@ -50,6 +51,8 @@ def parse(navigator: texmex.PageTextNavigator,
             fonts,
             distances,
             vertical,
+            left,
+            right,
         ]
     ]
     assert len(set(equal_length)) == 1, f'different iter length {equal_length}'
@@ -61,6 +64,8 @@ def parse(navigator: texmex.PageTextNavigator,
         fonts,
         distances,
         vertical,
+        left,
+        right,
     )
     return result
 
@@ -162,3 +167,15 @@ def vertical_position(navigator) -> VerticalTextDistances:
         ) for item in bounds
     ]
     return dist
+
+
+def leftright(navigator) -> VerticalTextDistances:
+    if not navigator:
+        return [], []
+    # ignore empty content
+    border = iamraw.Border(0, navigator.width, 0, navigator.height)
+    bounds = texmex.textbounds(navigator, border)
+    bounds = [item.bounds for item in bounds if len(item.text)]
+    left = [item.leftdist for item in bounds]
+    right = [item.rightdist for item in bounds]
+    return left, right
