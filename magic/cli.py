@@ -16,6 +16,7 @@ DESCRIPTION = """\
 Determine type of line (content, list, boxed content, etc.)
 """
 
+# yapf:disable
 WORKPLAN = [
     utila.create_step(
         'content',
@@ -24,16 +25,8 @@ WORKPLAN = [
             utila.ResultFile('rawmaker', 'oneline_text_positions'),
             utila.ResultFile('rawmaker', 'border_pages'),
             utila.ResultFile('groupme', 'footer_footerheader'),
-            utila.ResultFile(
-                'words',
-                'list_list',
-                optional=True,
-            ),
-            utila.ResultFile(
-                'textflow',
-                'blockquote_blockquote',
-                optional=True,
-            ),
+            utila.ResultFile('words', 'list_list', optional=True),
+            utila.ResultFile('textflow', 'blockquote_blockquote', optional=True),
             utila.ResultFile('detector', 'formula_formula', optional=True),
             utila.ResultFile(caption.PROCESS, 'general_general', optional=True),
             utila.ResultFile('linero', 'table_table', optional=True),
@@ -53,6 +46,7 @@ WORKPLAN = [
         output=('complete',),
     ),
 ]
+# yapf:enable
 
 
 def main():
