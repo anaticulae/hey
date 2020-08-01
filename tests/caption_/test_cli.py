@@ -8,6 +8,8 @@
 # =============================================================================
 
 import power
+import pytest
+import utila
 
 import caption.path
 import caption.serialize
@@ -19,14 +21,20 @@ def test_caption_cli_help(monkeypatch):
     tests.caption_.run('--help', monkeypatch=monkeypatch)
 
 
-def test_caption_bachelor90_page18(testdir, monkeypatch):
+@pytest.mark.parametrize('page, expected', [
+    (18, 1),
+    (21, 2),
+])
+def test_caption_bachelor90_pagex(page, expected, testdir, monkeypatch):
     source = power.link(power.BACHELOR090_PDF)
-    cmd = f'-i {source} --pages=18'
+    cmd = f'-i {source} --pages={page}'
     tests.caption_.run(cmd, monkeypatch=monkeypatch)
 
     path = caption.path.image_caption(testdir.tmpdir)
     loaded = caption.serialize.load_captions(path)
     assert loaded
+    content = utila.select_content(loaded, page)
+    assert len(content) == expected
 
 
 def test_caption_bachelor90_page80(testdir, monkeypatch):
