@@ -77,6 +77,8 @@ def work(  # pylint:disable=R0913,R0914,
 
 def load_content(loader, content, pages):
     if not os.path.exists(content):
+        # inform integrator about missing resource
+        utila.error(f'missing: {content}')
         return []
     content = loader(content, pages=pages)
     return content
