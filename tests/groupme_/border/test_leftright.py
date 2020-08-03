@@ -63,7 +63,7 @@ def test_leftright_one_error():
     assert isinstance(result.right, tuple), result
 
 
-def test_leftright_bachelor241():
+def test_leftright_raising_bachelor241():
     left, right = load_leftright(power.link(power.BACHELOR241_PDF))
     result = groupme.border.leftright.raising(left, right)
     assert result, result
@@ -74,11 +74,11 @@ def test_leftright_bachelor241():
 
 def test_leftright_strategy_witherror():
     """Run left right strategy with example which contains an error."""
-    left, right = load_example(power.link(power.BOOK007_PDF))
+    textpositions, pagesizes = load_example(power.link(power.BOOK007_PDF))
 
-    left, right = introduce_error(left, right)
+    textpositions, pagesizes = introduce_error(textpositions, pagesizes)
 
-    result = groupme.border.leftright.run(left, right)
+    result = groupme.border.leftright.run(textpositions, pagesizes)
     assert result, result
     assert result.valid, result
     assert isinstance(result.left, tuple), result
