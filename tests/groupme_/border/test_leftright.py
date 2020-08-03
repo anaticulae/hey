@@ -7,7 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import iamraw.path
 import power
 import serializeraw
 
@@ -16,9 +15,8 @@ import groupme.border.leftright
 
 def load_example(path: str):
     # TODO: USE ONELINE?
-    textpositions = serializeraw.load_textpositions(
-        iamraw.path.textposition(path))
-    pagesizes = serializeraw.load_pageborders(iamraw.path.sizeandborder(path))
+    textpositions = serializeraw.load_textpositions(path)
+    pagesizes = serializeraw.load_pageborders(path)
     return textpositions, pagesizes
 
 
