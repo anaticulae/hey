@@ -13,7 +13,11 @@ import yaml
 
 def load_leftright_border(path: str, pages: tuple = None) -> dict:
     # TODO: MOVE TO SERIALIZERAW
-    raw = utila.from_raw_or_path(path, ftype='yaml')
+    raw = utila.from_raw_or_path(
+        path,
+        ftype='yaml',
+        fname='groupme__border_leftright',
+    )
     loaded = yaml.safe_load(raw)
     lookup = {}
     for line in loaded:
