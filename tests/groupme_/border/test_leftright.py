@@ -11,6 +11,8 @@ import power
 import serializeraw
 
 import groupme.border.leftright
+import groupme.serialize
+import tests.groupme_
 
 
 def load_example(path: str):
@@ -83,6 +85,16 @@ def test_leftright_strategy_witherror():
     assert result.valid, result
     assert isinstance(result.left, tuple), result
     assert isinstance(result.right, tuple), result
+
+
+def test_leftright_bachelor241(testdir, monkeypatch):
+    """Regression test to ensure that bachelor241 border is detected
+    correctly."""
+    source = power.link(power.BACHELOR241_PDF)
+    tests.groupme_.run(f'-i {source} --border', monkeypatch=monkeypatch)
+
+    leftright = groupme.serialize.load_leftright_border(testdir.tmpdir)
+    assert leftright[0] != leftright[1]
 
 
 def introduce_error(left, right):
