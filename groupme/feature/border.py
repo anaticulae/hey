@@ -90,7 +90,7 @@ def determine_border(
     return result
 
 
-def pagecluster(pagesizes):
+def pagecluster(pagesizes) -> list:
 
     def equal_size(candidat, clusteritem):
         # TODO: HOLY VALUE
@@ -103,5 +103,4 @@ def pagecluster(pagesizes):
     )
 
     pages = [sorted(item.page for item in cluster) for cluster in grouped]
-
     return pages
