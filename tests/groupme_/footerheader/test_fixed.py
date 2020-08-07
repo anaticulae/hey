@@ -125,7 +125,7 @@ def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader():
 
 
 @utilatest.skip_longrun
-def test_groupme_footer_fixed_bachelor111page_extract_page_footerheader_header(): # yapf:disable
+def test_groupme_footer_fixed_bachelor111page_extract_page_header():
     footerheader = _bachelor111_footerheader()
     pages = [item.page for item in footerheader]
     assert all(pages)

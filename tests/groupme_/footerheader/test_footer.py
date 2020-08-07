@@ -9,17 +9,14 @@
 
 import os
 
-import iamraw
 import iamraw.path
 import power
 import pytest
 import serializeraw
 import utila
-import utilatest
 
 import groupme.feature.footer
 import groupme.footer.strategy as gfs
-import groupme.footer.strategy.moving
 import groupme.path
 import tests.fixtures.restruct
 import tests.groupme_
@@ -106,52 +103,6 @@ def test_groupme_footer_footerheader_detectionstategy(
     assert len(result) == expected_results, 'not enough footer and header'
 
 
-@pytest.mark.parametrize('root, expected', [
-    pytest.param(
-        power.link(power.TECHNICAL_024),
-        list(range(1, 24)),
-        id='technical24',
-    ),
-    pytest.param(
-        power.link(power.MASTER072_PDF),
-        [],
-        id='master72',
-    ),
-])
-@utilatest.skip_longrun
-def test_groupme_footer_extract_footerheader_technical(root, expected):
-    pages = None
-    pagetextnavigators = serializeraw.create_pagetextnavigators_frompath(
-        root,
-        pages=pages,
-    )
-
-    horizontals = serializeraw.load_horizontals(
-        iamraw.path.horizontals(root),
-        pages=pages,
-    )
-
-    sizeandborders = serializeraw.load_pageborders(
-        iamraw.path.sizeandborder(root),
-        pages=pages,
-    )
-
-    pagenumbers = serializeraw.load_pagenumbers(
-        groupme.path.pagenumbers(root),
-        pages=pages,
-    )
-
-    result = groupme.feature.footer.extract_footerheader(
-        horizontals=horizontals,
-        sizeandborders=sizeandborders,
-        pagenumbers=pagenumbers,
-        pagetextnavigators=pagetextnavigators,
-    )
-
-    header = [item.page for item in result if item.header is not None]
-    assert header == expected
-
-
 def test_groupme_footer_master72_extract(testdir, monkeypatch):
     outdir = testdir.tmpdir
     cmd = f'-i {power.link(power.MASTER072_PDF)}  -o {outdir} --footer --pages=3'
@@ -168,16 +119,6 @@ def test_groupme_footer_master72_extract(testdir, monkeypatch):
 def normalize_whitespaces(text: str) -> str:
     text = ' '.join(text.strip().split())
     return text
-
-
-def test_groupme_header_bachelor90(testdir, monkeypatch):
-    cmd = f'-i {power.link(power.BACHELOR090_PDF)}  --footer --pages=11:24'
-    tests.groupme_.run(cmd, monkeypatch=monkeypatch)
-    headerpath = iamraw.path.headerfooters(testdir.tmpdir)
-
-    loaded = serializeraw.load_headerfooter(headerpath)
-    header = [item.header for item in loaded if item.header]
-    assert len(header) == 11
 
 
 def test_footer_master98_page10(testdir, monkeypatch):
