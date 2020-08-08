@@ -66,12 +66,12 @@ def cluster_pages(pagenavigators):
     for cluster in clusters:
         for (page, (bounding, text, pageheight, pagenumber)) in cluster:
             end = utila.roundme(bounding.y1 / pageheight)
+            # remove newline at end TODO: REMOVE LATER
+            text = text.text.strip()
             try:
                 result[pagenumber].append(iamraw.RawText(text=text))
                 result[pagenumber].extend(end=end)
             except KeyError:
-                # remove newline at end TODO: REMOVE LATER
-                text = text.text.strip()
                 header = iamraw.FixedHeaderInformation(
                     begin=texmex.START,
                     end=end,
