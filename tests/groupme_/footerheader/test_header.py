@@ -72,3 +72,27 @@ def test_groupme_header_bachelor90(testdir, monkeypatch):
     loaded = serializeraw.load_headerfooter(headerpath)
     header = [item.header for item in loaded if item.header]
     assert len(header) == 11
+
+
+def test_groupme_header_bachelor37_starting_index(testdir, monkeypatch):
+    """Ensure that parts of pages `4:14` for example are indexed correctly."""
+    cmd = f'-i {power.link(power.BACHELOR037_PDF)}  --footer --pages=4:14'
+    tests.groupme_.run(cmd, monkeypatch=monkeypatch)
+    headerpath = iamraw.path.headerfooters(testdir.tmpdir)
+
+    loaded = serializeraw.load_headerfooter(headerpath)
+    assert loaded[0].header.page.value == 4
+
+
+def test_groupme_header_bachelor37_all(testdir, monkeypatch):
+    cmd = f'-i {power.link(power.BACHELOR037_PDF)}  --footer'
+    tests.groupme_.run(cmd, monkeypatch=monkeypatch)
+    headerpath = iamraw.path.headerfooters(testdir.tmpdir)
+
+    loaded = serializeraw.load_headerfooter(headerpath)
+    header = [item.header for item in loaded if item.header]
+
+    noheader = [0, 5, 33]
+    expected = [item for item in range(0, 37) if item not in noheader]
+    current = [item.page.value for item in header]
+    assert current == expected
