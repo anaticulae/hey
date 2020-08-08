@@ -64,33 +64,29 @@ def test_groupme_footer_extract_footerheader_technical(root, expected):
     assert header == expected
 
 
-def test_groupme_header_bachelor90(testdir, monkeypatch):
-    cmd = f'-i {power.link(power.BACHELOR090_PDF)}  --footer --pages=11:24'
+def extract_header(source, testdir, monkeypatch, pages=':'):
+    cmd = f'-i {power.link(source)}  --footer --pages={pages}'
     tests.groupme_.run(cmd, monkeypatch=monkeypatch)
     headerpath = iamraw.path.headerfooters(testdir.tmpdir)
 
     loaded = serializeraw.load_headerfooter(headerpath)
     header = [item.header for item in loaded if item.header]
+    return header
+
+
+def test_groupme_header_bachelor90(testdir, monkeypatch):
+    header = extract_header(power.BACHELOR090_PDF, testdir, monkeypatch, '11:24') # yapf:disable
     assert len(header) == 11
 
 
 def test_groupme_header_bachelor37_starting_index(testdir, monkeypatch):
     """Ensure that parts of pages `4:14` for example are indexed correctly."""
-    cmd = f'-i {power.link(power.BACHELOR037_PDF)}  --footer --pages=4:14'
-    tests.groupme_.run(cmd, monkeypatch=monkeypatch)
-    headerpath = iamraw.path.headerfooters(testdir.tmpdir)
-
-    loaded = serializeraw.load_headerfooter(headerpath)
-    assert loaded[0].header.page.value == 4
+    header = extract_header(power.BACHELOR037_PDF, testdir, monkeypatch, '4:14')
+    assert header[0].page.value == 4
 
 
 def test_groupme_header_bachelor37_all(testdir, monkeypatch):
-    cmd = f'-i {power.link(power.BACHELOR037_PDF)}  --footer'
-    tests.groupme_.run(cmd, monkeypatch=monkeypatch)
-    headerpath = iamraw.path.headerfooters(testdir.tmpdir)
-
-    loaded = serializeraw.load_headerfooter(headerpath)
-    header = [item.header for item in loaded if item.header]
+    header = extract_header(power.BACHELOR037_PDF, testdir, monkeypatch)
 
     noheader = [0, 5, 33]
     expected = [item for item in range(0, 37) if item not in noheader]
