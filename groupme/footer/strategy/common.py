@@ -15,6 +15,8 @@ text and images. There is no horizontal line required.
 .. note ::
     TODO: SUPPORT COMMON IMAGES
 """
+import collections
+
 import configo
 import iamraw
 import texmex
@@ -84,14 +86,34 @@ def cluster_pages(pagenavigators):
 
 
 def prepare_clustering(pagetextnavigators):
-    textsize = texmex.document_textsize(pagetextnavigators)
-    result = []
+    collected = []
     for page in pagetextnavigators:
         content = []
         for item in page.before(TOP_AREA):
-            if item.style.textsize() == textsize:
-                # TODO: FIND A BETTER FILTER
-                continue
             content.append((item.bounding, item, page.height, page.page))
+        collected.append(content)
+
+    valid = header_content(collected)
+    result = []
+    for page in collected:
+        content = [item for item in page if item[1].text.strip() in valid]
         result.append(content)
     return result
+
+
+MIN_HEADER_TEXT_OCCURENCE = 5  # TODO: HOLY VALUE
+
+
+def header_content(clusters) -> set:
+    """Some documents does not have any header, but equal sized first
+    line(s). We have to ignore this first content lines."""
+    collected = collections.defaultdict(int)
+    for cluster in clusters:
+        for item in cluster:
+            text = item[1].text.strip()
+            collected[text] += 1
+    valid = {
+        key for key, value in collected.items()
+        if value >= MIN_HEADER_TEXT_OCCURENCE
+    }
+    return valid
