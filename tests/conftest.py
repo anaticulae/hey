@@ -32,7 +32,7 @@ RESOURCES = [
     power.BACHELOR076_PDF,
     power.MASTER072_PDF,
     power.BACHELOR111_PDF,
-    (power.BACHELOR037_PDF, '0:30'),
+    power.BACHELOR037_PDF,
     (power.BACHELOR063_PDF, '0:9,59:62'),
     power.HOMEWORK025_PDF,
     power.DOCU27_PDF,
