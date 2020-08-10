@@ -81,6 +81,7 @@ def footer(
         *,
         max_area: float = BOTTOM_MAX_AREA,
         max_difference: float = BOTTOM_MAX_DIFFERENCE,
+        min_elements: int = 4,
         numbers_only: bool = True,
         remove_empty: bool = True,
 ) -> list:
@@ -89,9 +90,10 @@ def footer(
 
     Args:
         navigators(list): list of text navgiators
+        max_area(float): size of items which are grouped to a cluster
         max_difference(float): difference of BoundingBox-coordinates in
                                same cluster
-        max_area(float): size of items which are grouped to a cluster
+        min_elements(int): minimum elements of detected clusters
         numbers_only(bool): if True, remove all non numeric/romanic elements
         remove_empty(bool): remove empty elements, e.g. whitespaces
     Returns:
@@ -125,6 +127,7 @@ def footer(
     common = utila.common_items(
         filtered,
         max_difference=max_difference,
+        min_elements=min_elements,
     )
     return common
 
