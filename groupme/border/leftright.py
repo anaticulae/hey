@@ -62,11 +62,11 @@ MIN_RAISING_EDGE = configo.HV_PERCENT_PLUS(default=75)
 
 # TODO: REPLACE WITH CONFIGO TABLE
 RAISING_FAILRATE = (
-    (5, 0),
-    (7, 0.2),
-    (10, 0.3),
-    (40, 0.1),
-    (200, 0.1),
+    (5, 1 / 5),
+    (7, 2 / 7),
+    (10, 3 / 10),
+    (40, 10 / 40),
+    (200, 20 / 200),
 )
 # TODO: SHOULD WE DISABLE ALGO ON BIG FAIL COUNT?
 
