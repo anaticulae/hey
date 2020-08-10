@@ -2,6 +2,25 @@
 
 Every noteable change is logged here.
 
+## v3.10.0
+
+### Feature
+
+* improve detection quality (e1aa9111d180)
+* improve common header extraction strategy (3a7e762adc66)
+* add default path to pagesize loader (3c3f3f683559)
+* log missing optional resources (f247a8cbc5b5)
+
+### Fix
+
+* determine page number for non zero index data correctly (a61abc7b7b81)
+* strip newlines for both header elements (36d08a251bd3)
+* adjust holy value to parse bachelor241 correctly (073a15601159)
+
+### Documentation
+
+* extend interface documentation (1306120652bb)
+
 ## v3.9.0
 
 ### Feature
