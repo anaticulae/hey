@@ -189,7 +189,6 @@ Anhang"""
 
 def homework50(toc: iamraw.Toc):
     titles = merge_required(toc)
-    print(titles)
     assert titles == TITLE_HOMEWORK50
 
 
@@ -436,7 +435,6 @@ D CD Inhalt"""
 
 def bachelor241(toc: iamraw.Toc):
     titles = merge_required(toc)
-    print(titles)
     assert titles == TITLE_BACHELOR241, titles
 
 
