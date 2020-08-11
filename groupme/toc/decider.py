@@ -12,6 +12,7 @@
 The decision strategy is implemented as a `ExtractionStatistic`-comparer
 implemented in `__lt__` method.
 """
+
 import dataclasses
 
 import utila

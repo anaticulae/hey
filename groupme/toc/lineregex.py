@@ -13,7 +13,7 @@ import re
 import utila
 
 import groupme.toc
-import hey.text.regex as htr
+import hey.text.regex
 
 
 def parse(line: str) -> groupme.toc.TocLine:
@@ -46,9 +46,9 @@ LEVEL_LETTER = r"""(?P<level>
 
 TEXT = (
     '(?P<text>'
-    fr'{htr.UC_NWS}'  # ensure that text does not start with whitespace
-    fr'{htr.UC_WS_NL}+?'
-    fr'{htr.UC_NWS}+?'  # ensure that text does not end with whitespace
+    fr'{hey.text.regex.UC_NWS}'  # ensure that text does not start with whitespace
+    fr'{hey.text.regex.UC_WS_NL}+?'
+    fr'{hey.text.regex.UC_NWS}+?'  # ensure that text does not end with whitespace
     ')')
 
 WHITESPACES = r'[ ]{1,5}'

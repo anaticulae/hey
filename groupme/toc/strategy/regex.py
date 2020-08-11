@@ -23,6 +23,7 @@ Should we support following whitespaces?
 
     See: :class:`tests.groupme_.toc.test_regex.test_extract_toc_line_whitespace_decission`.
 """
+
 import copy
 import math
 import re
@@ -31,18 +32,18 @@ import iamraw
 import utila
 
 import groupme.toc
-import groupme.toc.lineregex as gtl
-import groupme.toc.strategy as gts
+import groupme.toc.lineregex
+import groupme.toc.strategy
 
 MAX_TOC_LINE_LENGTH = 250  # TODO: HOLY VALUE
 
 
-class RegexTocExtractor(gts.ExtractorStrategy):
+class RegexTocExtractor(groupme.toc.strategy.ExtractorStrategy):
 
-    def result(self) -> gts.ExtractionResult:
+    def result(self) -> groupme.toc.strategy.ExtractionResult:
         parsed = [parse_page(page) for page in self.loaded.content]
         flat = utila.flatten(parsed)
-        grouped = gts.group(flat)
+        grouped = groupme.toc.strategy.group(flat)
         return grouped
 
 
@@ -71,14 +72,14 @@ def parse(content: str) -> groupme.toc.TocLines:
     duplicated = content
     result = []
     for pattern in [
-            gtl.EXTENDED_PATTERN,
-            gtl.EXTENDED_PATTERN_LETTER,
-            gtl.DICTONARY,
-            gtl.NO_LEVEL,
-            gtl.NO_DOTS,
+            groupme.toc.lineregex.EXTENDED_PATTERN,
+            groupme.toc.lineregex.EXTENDED_PATTERN_LETTER,
+            groupme.toc.lineregex.DICTONARY,
+            groupme.toc.lineregex.NO_LEVEL,
+            groupme.toc.lineregex.NO_DOTS,
     ]:
         for line in re.finditer(pattern, content):
-            item = gtl.extract_match(line)
+            item = groupme.toc.lineregex.extract_match(line)
             if len(item.raw) <= 8:
                 # TODO: REMOVE HACK LATER
                 continue
@@ -91,10 +92,10 @@ def parse(content: str) -> groupme.toc.TocLines:
     for line in [item for item in content.splitlines() if item.strip()]:
         if re.match(r'^\d', line):
             continue
-        matched = re.match(gtl.NO_LEVEL, line)
+        matched = re.match(groupme.toc.lineregex.NO_LEVEL, line)
         if not matched:
             continue
-        matched = gtl.extract_match(matched)
+        matched = groupme.toc.lineregex.extract_match(matched)
         result.append(matched)
 
     # remove duplications, which can occur when table of content is on the
