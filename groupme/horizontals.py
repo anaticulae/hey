@@ -19,6 +19,7 @@ import groupme.likelihood
 def match(
         content: iamraw.PageContentHorizontals,
         vertical_position: float,
+        maxdiff=2.0,
 ) -> bool:
     """Check if any horizontal match the `vertical_position`
 
@@ -26,12 +27,15 @@ def match(
         content(PageContentHorizontals): list with horizontal lines,
                                          mostly one page
         vertical_position(float): position on the page in 'pixel'
+        maxdiff(float): max difference which matchs to `vertical_position`
     Returns:
         True if any horizontal line match the `vertical_position`
     """
-    vertical = utila.roundme(vertical_position)
     # TODO: Check y0/y1
-    return any([utila.roundme(item.box.y0) == vertical for item in content])
+    result = any(
+        utila.near(item.box.y0, vertical_position, diff=maxdiff)
+        for item in content)
+    return result
 
 
 def assert_horizontal(bounding):
