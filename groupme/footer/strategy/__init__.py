@@ -24,6 +24,7 @@ additional data. As a further the **decider** program judges about
 header and footer and gives advices to the user about failures and
 possible improvements.
 """
+
 import abc
 import collections
 import dataclasses

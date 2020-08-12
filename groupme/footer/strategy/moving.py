@@ -20,6 +20,7 @@ Example:
 
 TODO: Think about header
 """
+
 import dataclasses
 
 import configo
@@ -124,7 +125,6 @@ def process_page(
         footer=footer,
         page=pagenumber,
     )
-
     return result
 
 
@@ -195,5 +195,4 @@ def judge_detection(items):
     # is not correct.
     if report.too_many_empty_footer:
         return []
-
     return items

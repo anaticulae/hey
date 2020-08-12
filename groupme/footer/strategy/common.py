@@ -15,6 +15,7 @@ text and images. There is no horizontal line required.
 .. note ::
     TODO: SUPPORT COMMON IMAGES
 """
+
 import collections
 
 import configo
