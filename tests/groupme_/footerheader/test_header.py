@@ -92,3 +92,13 @@ def test_groupme_header_bachelor37_all(testdir, monkeypatch):
     expected = [item for item in range(0, 37) if item not in noheader]
     current = [item.page.value for item in header]
     assert current == expected
+
+
+def test_groupme_header_diss264_page0_40(testdir, monkeypatch):
+    header = extract_header(
+        power.DISS264_PDF,
+        testdir,
+        monkeypatch,
+        pages='0:40',
+    )
+    assert len(header) == 37
