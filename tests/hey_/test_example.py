@@ -6,6 +6,7 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+
 import os
 
 import power
@@ -31,7 +32,7 @@ def test_hey_example_common_root():
     assert root == expected
 
 
-@utilatest.skip_longrun
+@utilatest.skip_nightly
 def test_hey_example_extract(testdir):
     root = str(testdir)
     generated = os.path.join(root, 'generated')

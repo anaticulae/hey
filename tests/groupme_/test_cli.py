@@ -24,13 +24,13 @@ import tests.groupme_
     ['-i', power.link(power.DOCU07_PDF), '-o', 'output'],
 ])
 @pytest.mark.usefixtures('testdir')
-@utilatest.skip_longrun
+@utilatest.skip_nightly
 def test_groupme_run_external(cmd, monkeypatch):
     """Run help and version and format command to reach basic test coverage"""
     tests.groupme_.run(cmd, monkeypatch=monkeypatch)
 
 
-@utilatest.skip_longrun
+@utilatest.skip_nightly
 def test_regression_groupme_problem(testdir, monkeypatch):
     """There was a problem with not sorted page numbers which leads
     to duplicated header/footer. This was solved by sorting page number
