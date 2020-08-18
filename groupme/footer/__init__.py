@@ -13,11 +13,13 @@ def strategies():
     import groupme.footer.strategy.fixed
     import groupme.footer.strategy.moving
     import groupme.footer.strategy.pages
+    import groupme.footer.strategy.plainmoving
     # TODO: Automate collection
     result = [
         groupme.footer.strategy.common.CommonTextStrategy,
         groupme.footer.strategy.fixed.FixedFooterStrategy,
         groupme.footer.strategy.moving.MovingFooterStrategy,
         groupme.footer.strategy.pages.PageNumberStrategy,
+        groupme.footer.strategy.plainmoving.PlainMovingFooterStrategy
     ]
     return result

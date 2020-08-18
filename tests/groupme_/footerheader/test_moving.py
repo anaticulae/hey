@@ -16,6 +16,7 @@ import utilatest
 
 import groupme.feature.footer
 import groupme.footer.strategy.moving
+import groupme.footer.strategy.plainmoving
 
 
 def validate_master72(result):
@@ -29,47 +30,70 @@ def validate_bachelor90(result):
     assert numbers == list(range(12))
 
 
-@pytest.mark.parametrize('document, pages, expected_footer, validate', [
-    pytest.param(
-        power.link(power.MASTER072_PDF),
-        tuple(range(20)),
-        [(3, 6), (6, 3), (7, 2), (8, 4), (9, 1), (10, 4), (11, 3), (12, 2),
-         (13, 6), (14, 7), (15, 8), (16, 10), (17, 8), (18, 7), (19, 8)],
-        validate_master72,
-        id='master72pages',
-    ),
-    pytest.param(
-        power.link(power.BACHELOR111_PDF),
-        tuple(range(20)),
-        [(9, 2), (10, 3), (11, 2), (12, 1), (13, 1), (15, 2), (16, 1), (17, 8),
-         (18, 3), (19, 1)],
-        None,
-        id='bachelor111pages',
-    ),
-    pytest.param(
-        power.link(power.DOCU27_PDF),
-        tuple(range(20)),
-        [],
-        None,
-        id='restructured',
-    ),
-    pytest.param(
-        power.link(power.BACHELOR090_PDF),
-        tuple(range(18, 25)),
-        [(18, 2), (19, 1), (21, 1), (22, 3), (23, 4)],
-        validate_bachelor90,
-        id='bachelor90',
-        marks=pytest.mark.xfail(reason='pdf is not printed correctly'),
-    ),
-])
+def validate_homework18(result):
+    footnotes = flat_footnotes(result)  # pylint:disable=W0612
+
+
+@pytest.mark.parametrize(
+    'document, pages, expected_footer, strategy, validate', [
+        pytest.param(
+            power.link(power.MASTER072_PDF),
+            tuple(range(20)),
+            [(3, 6), (6, 3), (7, 2), (8, 4), (9, 1), (10, 4), (11, 3), (12, 2),
+             (13, 6), (14, 7), (15, 8), (16, 10), (17, 8), (18, 7), (19, 8)],
+            groupme.footer.strategy.moving.MovingFooterStrategy,
+            validate_master72,
+            id='master72pages',
+        ),
+        pytest.param(
+            power.link(power.BACHELOR111_PDF),
+            tuple(range(20)),
+            [(9, 2), (10, 3), (11, 2), (12, 1), (13, 1), (15, 2), (16, 1),
+             (17, 8), (18, 3), (19, 1)],
+            groupme.footer.strategy.moving.MovingFooterStrategy,
+            None,
+            id='bachelor111pages',
+        ),
+        pytest.param(
+            power.link(power.DOCU27_PDF),
+            tuple(range(20)),
+            [],
+            groupme.footer.strategy.moving.MovingFooterStrategy,
+            None,
+            id='restructured',
+        ),
+        pytest.param(
+            power.link(power.HOMEWORK018_PDF),
+            tuple(range(6)),
+            [(3, 3), (4, 4), (5, 7)],
+            groupme.footer.strategy.plainmoving.PlainMovingFooterStrategy,
+            validate_homework18,
+            id='home18',
+        ),
+        pytest.param(
+            power.link(power.BACHELOR090_PDF),
+            tuple(range(18, 25)),
+            [(18, 2), (19, 1), (21, 1), (22, 3), (23, 4)],
+            groupme.footer.strategy.moving.MovingFooterStrategy,
+            validate_bachelor90,
+            id='bachelor90',
+            marks=pytest.mark.xfail(reason='pdf is not printed correctly'),
+        ),
+    ])
 @utilatest.skip_longrun
-def test_groupme_footer_moving(document, pages, expected_footer, validate):
+def test_groupme_footer_moving(
+        document,
+        pages,
+        expected_footer,
+        strategy,
+        validate,
+):
     """Hint: This test is dependend on moving footer strategy. If this
     test fails, may the footer is not extracted correctly. Look at the
     holy value in moving.py:extract_footer."""
     strategy = groupme.footer.strategy.create_strategy(
         path=document,
-        strategy=groupme.footer.strategy.moving.MovingFooterStrategy,
+        strategy=strategy,
         pages=pages,
     )
     result = strategy.result()

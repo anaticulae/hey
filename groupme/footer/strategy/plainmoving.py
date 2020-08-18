@@ -6,36 +6,21 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
-"""Moving Footer Extraction Step
-=============================
 
-Requirements:
-    We do not check the header, because it is required, that this header
-    is fixed.
-
-Example:
-
-- master/page_72_noimages_toc.pdf
-- bachelor/page_111_images_toc.pdf
-
-TODO: Think about header
-"""
-
-import dataclasses
-
-import configo
 import iamraw
 import texmex.navigator
 import utila
 
 import groupme.footer
 import groupme.footer.strategy as gfs
+import groupme.footer.strategy.moving as gfsm
 import groupme.footer.strategy.pages as gfsp
 import groupme.footnotes.highnotes
 import groupme.footnotes.parser
+import groupme.footnotes.plain
 
 
-class MovingFooterStrategy(gfs.FooterHeaderDetectionStrategy):
+class PlainMovingFooterStrategy(gfs.FooterHeaderDetectionStrategy):
 
     def result(self):
         result = []
@@ -67,30 +52,19 @@ class MovingFooterStrategy(gfs.FooterHeaderDetectionStrategy):
                 sizeandborder=sizeandborder,
                 pagetextnavigator=pagetextnavigator,
             )
-            if processed.footer is None and processed.header is None:
+            if processed.footer is None:
                 continue
             result.append(processed)
 
-        result = judge_detection(result)
+        result = gfsm.judge_detection(result)
         return result
 
     def report(self) -> gfs.FooterStrategyResultReport:
         # TODO: Avoid multiple computation, require  concept.
         detected = self.result()
-        report = analyze(detected)
+        report = gfsm.analyze(detected)
         return report
 
-
-@dataclasses.dataclass
-class MovingFooterResultReport(gfs.FooterStrategyResultReport):  # pylint:disable=R0903
-    footer: int = None
-    header: int = None
-    footer_empty: int = None
-    too_many_empty_footer: bool = False
-
-
-# relation between detected and empty detected footer to reduce miss detection
-WRONG_STRATEGY_EMPTY_FOOTER_FACTOR = configo.HV_PERCENT_PLUS(default=20,).value
 
 BOTTOM_BORDER = 0.60  # TODO: HOLY VALUE
 
@@ -109,8 +83,6 @@ def process_page(
     bottomed = max([item.box.y0 for item in filtered], default=None)
 
     footer = None
-    header = None
-
     if bottomed is not None:
         footer = extract_footer(
             bottomed,
@@ -120,7 +92,7 @@ def process_page(
         )
 
     result = iamraw.PageContentFooterHeader(
-        header=header,
+        header=None,
         footer=footer,
         page=pagenumber,
     )
@@ -151,47 +123,10 @@ def extract_footer(
 
     # TODO: INTRODUCE STRATEGY TO PARSE OTHER FOOTNOTES
     # splitted by highnotes
-    footnotes = groupme.footnotes.parser.parse_with_highnotes(content)
-    if not footnotes:
-        # no footnotes parsed, therefore do not return MovingFooterInformation
-        return None
+    footnotes = groupme.footnotes.plain.parse(content)
     footer = iamraw.MovingFooterInformation(
         begin=begin,
         end=end,
         notes=footnotes,
     )
     return footer
-
-
-def analyze(results) -> MovingFooterResultReport:
-    footer_count = gfs.count_footer(results)
-    emptyfooter_count = groupme.footnotes.parser.count_empty(results)
-    empty_factor = emptyfooter_count / footer_count if footer_count else 0
-    too_many_empty_footer = empty_factor >= WRONG_STRATEGY_EMPTY_FOOTER_FACTOR
-
-    result = MovingFooterResultReport(
-        footer=footer_count,
-        footer_empty=emptyfooter_count,
-        too_many_empty_footer=too_many_empty_footer,
-    )
-    return result
-
-
-def judge_detection(items):
-    """Second analyzing step. Prove that `items` contain a good
-    detection result.
-
-    The following things will be checked:
-
-    - (x) selection of correct strategy
-    - ( ) quality of extracted footnotes
-    """
-    report = analyze(items)
-
-    # This can happen when using the wrong strategy. If we parse
-    # FixedFooter with MovingFooterStrategy, there are a lot of footer
-    # which are threated as MovingFooter with Footnote, but this detection
-    # is not correct.
-    if report.too_many_empty_footer:
-        return []
-    return items

@@ -110,6 +110,7 @@ def judge_strategy(results: typing.List[iamraw.PageContentFooterHeaders],
         - Pages:                       footer (second prio)
         - FixedFooter:      header and footer (third prio)
         - Common:           header            (last prio)
+        - PlainMoving:
 
     Args:
         results: lists of `groupme.footer.FooterHeaderDetectionStrategy`.result
@@ -118,7 +119,13 @@ def judge_strategy(results: typing.List[iamraw.PageContentFooterHeaders],
     """
     assert results is not None, 'require list of strategy results'
     result = []
-    for pagenumber, (common, fixed, moving, pages) in utila.sync_pages(results):
+    for pagenumber, (
+            common,
+            fixed,
+            moving,
+            pages,
+            plainmoving,
+    ) in utila.sync_pages(results):
         header = fixed.header if fixed else None
         footer = fixed.footer if fixed else None
 
@@ -130,6 +137,9 @@ def judge_strategy(results: typing.List[iamraw.PageContentFooterHeaders],
 
         if not header and common and common.header:
             header = common.header
+
+        if plainmoving and plainmoving.footer:
+            footer = plainmoving.footer
 
         current = iamraw.PageContentFooterHeader(
             header=header,
