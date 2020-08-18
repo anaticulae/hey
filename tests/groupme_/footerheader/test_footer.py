@@ -133,3 +133,15 @@ def test_footer_master98_page10(testdir, monkeypatch):
     firstnote_text = notes[0].text.strip()
     # ensure that page number is not merged to note text
     assert firstnote_text.endswith('16)'), firstnote_text
+
+
+def test_footer_homework18(testdir, monkeypatch):
+    cmd = f'-i {power.link(power.HOMEWORK018_PDF)}  --footer --pages=3:17'
+    tests.groupme_.run(cmd, monkeypatch=monkeypatch)
+    headerpath = iamraw.path.headerfooters(testdir.tmpdir)
+
+    loaded = serializeraw.load_headerfooter(headerpath)
+    content = utila.flatten([item.footer.notes for item in loaded])
+    # TODO: Change after fixing footnote merger
+    assert len(content) == 96, len(content)
+    # assert len(content) == 94, len(content)
