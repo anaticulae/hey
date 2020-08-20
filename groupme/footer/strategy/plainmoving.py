@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import configo
 import iamraw
 import texmex.navigator
 import utila
@@ -57,6 +58,8 @@ class PlainMovingFooterStrategy(gfs.FooterHeaderDetectionStrategy):
             result.append(processed)
 
         result = gfsm.judge_detection(result)
+        if disable_strategy(result):
+            return []
         return result
 
     def report(self) -> gfs.FooterStrategyResultReport:
@@ -67,6 +70,28 @@ class PlainMovingFooterStrategy(gfs.FooterHeaderDetectionStrategy):
 
 
 BOTTOM_BORDER = 0.60  # TODO: HOLY VALUE
+
+MAX_STRATEGY_ERROR = configo.HV_PERCENT_PLUS(10).value
+
+
+def disable_strategy(footers) -> bool:
+    """The plain moving strategy is only used in unique cases. Mostly
+    this strategy detects uncompleted footnotes which are no valid
+    footnotes. Therefore we require a strategy to disable these wrong
+    results.
+
+    It is not common to have many invalid footnotes. As a result of this
+    fact, we disable this strategy if the errors are to high.
+    """
+    if not footers:
+        return False
+    nonumber_count = 0
+    for page in footers:
+        nonumber = [item for item in page.footer.notes if item.number < 0]
+        if nonumber:
+            nonumber_count += 1
+    factor = nonumber_count / len(footers)
+    return factor >= MAX_STRATEGY_ERROR
 
 
 def process_page(
