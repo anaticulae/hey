@@ -48,3 +48,18 @@ def test_hey_example_extract(testdir):
         doctextstyle=True,
     )
     assert os.path.exists(generated), str(generated)
+
+
+def test_hey_example_order():
+    todo = hey.example.create_job(
+        'source',
+        'dest',
+        'rawmaker_normal',
+        'rawmaker_oneline',
+        config=dict(
+            caption=True,
+            magic=True,
+        ),
+    )
+    # ensure to run caption before magic
+    assert todo.find('caption') < todo.find('magic')
