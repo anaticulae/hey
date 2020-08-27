@@ -50,7 +50,7 @@ RESOURCES = [
     (power.MASTER083_PDF, '0:10'),
 ]
 
-WORKER = 6
+WORKER = 4
 
 
 def pytest_sessionstart(session):  # pylint:disable=W0613
