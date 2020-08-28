@@ -138,7 +138,8 @@ def judge_strategy(results: typing.List[iamraw.PageContentFooterHeaders],
         if not header and common and common.header:
             header = common.header
 
-        if plainmoving and plainmoving.footer:
+        if not (moving and moving.footer) and plainmoving and plainmoving.footer: # yapf:disable
+            # use plain moving only if no other strategy works
             footer = plainmoving.footer
 
         current = iamraw.PageContentFooterHeader(
