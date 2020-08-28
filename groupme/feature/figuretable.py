@@ -129,8 +129,10 @@ def doublecolumn_figure_strategy(ptcns) -> iamraw.Toc:
 
 NO_FIGURES = {
     'Abkürzungsverzeichnis',
+    'Glossar',
     'Inhalt',
     'Inhaltsverzeichnis',
+    'Literaturverzeichnis',
     'Tabellenverzeichnis',
 }
 
