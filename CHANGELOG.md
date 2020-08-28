@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v3.11.1
+
+### Fix
+
+* set plain number strategy as a backup strategy only (0514dc27107b)
+
 ## v3.11.0
 
 ### Feature
