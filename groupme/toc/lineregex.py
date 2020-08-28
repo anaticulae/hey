@@ -97,7 +97,7 @@ NO_LEVEL = re.compile(
      f'{WHITESPACES_OPT}'
      f'{PAGE}'
      '$'),
-    re.VERBOSE | re.UNICODE,  # TODO: CHECK FOR MULTILINE TO LONG NO LEVEL LINES
+    re.VERBOSE | re.MULTILINE | re.UNICODE,
 )
 
 #  r'([ \.]{2,})'

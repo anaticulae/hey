@@ -231,3 +231,16 @@ def test_toc_parse_content():
     assert len(parsed) == 9
     result = utila.NEWLINE.join([item.title for item in parsed])
     assert result == EXPECTED
+
+
+MULTILINE = """\
+Abbildung 1: Korotkow-Geräusche bei der auskultatorischen Blutdruckmessung [Elt01] ..................................... 3
+Abbildung 2: Manschettendruckverlauf und Oszillationen bei der oszillometrischen Blutdruckmessung [Elt01] . 4
+Abbildung 3: Volumenkompensationsmethode nach Penaz [Elt01] ....................................................................... 4
+Abbildung 4: Messverfahren nach R. Aaslid und AO. Brubakk [Aas81] ................................................................... 5
+"""
+
+
+def test_parse_page_multiline():
+    parsed = gtsr.parse(MULTILINE)
+    assert len(parsed) == 4
