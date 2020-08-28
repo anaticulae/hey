@@ -2,6 +2,21 @@
 
 Every noteable change is logged here.
 
+## v3.11.0
+
+### Feature
+
+* extend negative headline list (0cd3e943c2b8)
+* disable strategy if result seem not to be correct (3f25daa2cd74)
+* add plain number footnotes parser (fa789d80f186)
+* introduce tolerance to increase matching (57d472c921d6)
+
+### Fix
+
+* adjust toc parser for figure table parsing (c9a468b3e563)
+* run caption before magic (b8c285c31f66)
+* fix numbered level (0dce9fe062d7)
+
 ## v3.10.0
 
 ### Feature
