@@ -7,9 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import groupme.serialize
 import utila
 
-import groupme.serialize
 import hey.utils
 
 

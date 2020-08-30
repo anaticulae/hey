@@ -9,6 +9,7 @@
 
 import contextlib
 
+import groupme.path
 import iamraw
 import serializeraw
 import texmex
@@ -22,7 +23,6 @@ import doctextstyle.features.pagesize
 import doctextstyle.features.textbounding as dtt
 import doctextstyle.parser
 import doctextstyle.utils
-import groupme.path
 
 
 def extract(path: str, pages: tuple = None) -> iamraw.DocTextStyle:  # pylint:disable=R0914,R0915

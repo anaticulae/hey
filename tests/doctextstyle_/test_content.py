@@ -7,10 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import groupme.path
 import power
 
 import doctextstyle.features.content
-import groupme.path
 
 
 def test_content():
