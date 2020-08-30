@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v4.0.0
+
+### Feature
+
+* remove moved groupme code (a896d516df77)
+
+### Documentation
+
+* remove moved groupme documentation (62f1751231b8)
+
 ## v3.11.1
 
 ### Fix
