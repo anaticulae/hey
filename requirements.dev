@@ -17,8 +17,8 @@ power==0.15.0
 jam==0.2.18
 
 # generate magic test data
-words==0.15.0
-detector==0.7.3
+words==0.15.1
+detector==0.8.0
 
 
 utilatest==0.1.3

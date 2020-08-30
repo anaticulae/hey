@@ -11,4 +11,4 @@ iamraw==2.4.1
 utila==2.8.0
 
 configo==0.7.3
-groupme==0.1.0
+groupme==0.1.1
