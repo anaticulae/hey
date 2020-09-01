@@ -7,14 +7,14 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import groupme.serialize
+import serializeraw
 import utila
 
 import hey.utils
 
 
 def content(path, pages: tuple = None):
-    leftright = groupme.serialize.load_leftright_border(path, pages)
+    leftright = serializeraw.load_leftright_border(path, pages)
 
     def equals(candidat, clusteritem):
         # left, right, top, down
