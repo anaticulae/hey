@@ -61,3 +61,11 @@ def test_caption_master116_page12(testdir, monkeypatch):
 
     figures = loaded[0].content
     assert len(figures) == 2, str(figures)
+
+    caption_2_1 = figures[0]
+    assert caption_2_1.line == 4
+    assert caption_2_1.lineend == 5
+
+    caption_2_2 = figures[1]
+    assert caption_2_2.line == 14
+    assert caption_2_2.lineend == 16

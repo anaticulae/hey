@@ -36,9 +36,11 @@ class CaptionPageProcessor:
             if not selected:
                 utila.info(f'could not find caption after: {bounding}')
                 continue
-            line, raw = selected[0]
-            raw = raw.text.strip()
-            result.append(caption.data.Caption(line=line, raw=raw))
+            raw = ''.join([item[1].text for item in selected]).strip()
+            line, _ = selected[0]
+            lineend, _ = selected[-1]
+            item = caption.data.Caption(line=line, lineend=lineend, raw=raw)
+            result.append(item)
         return result
 
     @abc.abstractmethod
@@ -58,7 +60,7 @@ class CaptionPageProcessor:
 class CaptionPageWordProcessor(CaptionPageProcessor):
 
     def __init__(self, words):
-        super().__init__(look_forward=100)  # TODO: HOLY VALUE
+        super().__init__(look_forward=150)  # TODO: HOLY VALUE
         self.words = words
 
     def validate(self, items) -> list:
@@ -66,7 +68,16 @@ class CaptionPageWordProcessor(CaptionPageProcessor):
             item for item in items
             if any(chunk in item[1].text for chunk in self.words)
         ]
-        return result
+        if not result:
+            return result
+        textsize = result[0][1].style.textsize()
+        # extend matching by equal font size.
+        # TODO: IMPROVE THIS SIMPLE APPROACH
+        matched = [
+            item for item in items
+            if item in result or item[1].style.textsize() == textsize
+        ]
+        return matched
 
 
 def run(processor, ptcns, items):
