@@ -63,14 +63,16 @@ def extract(path: str, pages: tuple = None) -> iamraw.DocTextStyle:  # pylint:di
     extract_footnotes(result, flat)
 
     pagesizes = doctextstyle.features.pagesize.pagesizes(path, pages=pages)
-    result.page_width, result.page_height = pagesizes[0][0]
-    with contextlib.suppress(IndexError):
-        result.page_rotated_width, result.page_rotated_height = pagesizes[1][0]
+
+    if pagesizes:
+        result.page_width, result.page_height = pagesizes[0][0]
+        with contextlib.suppress(IndexError):
+            result.page_rotated_width, result.page_rotated_height = pagesizes[1][0] # yapf:disable
+    else:
+        utila.error('no pagesize, too few pages to run feature')
 
     extract_contentborder(result, path, pages)
-
     extract_textdimension(result, navigator, cnavigators)
-
     extract_blockquote(result, flat)
     return result
 
