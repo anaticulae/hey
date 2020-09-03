@@ -14,8 +14,6 @@ import serializeraw
 import utila
 import yaml
 
-import caption.data
-
 
 def load_image_informations_fromfiles(
         files: str,
@@ -36,7 +34,7 @@ def load_image_informations_fromfiles(
     return result
 
 
-def dump_captions(items: caption.data.PageContentCaptions) -> str:
+def dump_captions(items: iamraw.PageContentCaptions) -> str:
     # remove empty pages
     items = [item for item in items if item.content]
     # convert to yaml
@@ -47,7 +45,7 @@ def dump_captions(items: caption.data.PageContentCaptions) -> str:
 def load_captions(
         content: str,
         pages: tuple = None,
-) -> caption.data.PageContentCaptions:
+) -> iamraw.PageContentCaptions:
     content = utila.from_raw_or_path(content, ftype='yaml')
     loaded = yaml.load(content, Loader=yaml.FullLoader)
     result = []

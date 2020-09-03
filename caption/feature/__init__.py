@@ -9,10 +9,10 @@
 
 import abc
 
+import iamraw
 import texmex
 import utila
 
-import caption.data
 import caption.utils
 
 
@@ -25,7 +25,7 @@ class CaptionPageProcessor:
             self,
             page: texmex.PageTextContentNavigator,
             items,
-    ) -> caption.data.Captions:
+    ) -> iamraw.Captions:
         """Detect caption below the images."""
         if not items:
             return []
@@ -39,7 +39,7 @@ class CaptionPageProcessor:
             raw = ''.join([item[1].text for item in selected]).strip()
             line, _ = selected[0]
             lineend, _ = selected[-1]
-            item = caption.data.Caption(line=line, lineend=lineend, raw=raw)
+            item = iamraw.Caption(line=line, lineend=lineend, raw=raw)
             result.append(item)
         return result
 
@@ -87,7 +87,7 @@ def run(processor, ptcns, items):
         pagefigure = caption.utils.sorted_bounds(pagefigure)
         processed = processor.process_page(page, pagefigure)
         result.append(
-            caption.data.PageContentCaption(
+            iamraw.PageContentCaption(
                 page=page.page,
                 content=processed,
             ))

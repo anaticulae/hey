@@ -10,7 +10,7 @@
 import collections
 import os
 
-import caption.data
+import iamraw
 import caption.serialize
 
 
@@ -32,7 +32,7 @@ def load_ifexists(path: str, pages: tuple = None):
     return result
 
 
-def merge(*items) -> caption.data.PageContentCaptions:
+def merge(*items) -> iamraw.PageContentCaptions:
     collected = collections.defaultdict(list)
 
     for item in items:
@@ -40,7 +40,7 @@ def merge(*items) -> caption.data.PageContentCaptions:
             collected[page.page].extend(page.content)
 
     result = [
-        caption.data.PageContentCaption(page=key, content=values)
+        iamraw.PageContentCaption(page=key, content=values)
         for key, values in collected.items()
     ]
 
