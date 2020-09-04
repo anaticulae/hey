@@ -18,14 +18,14 @@ PACKAGE = hey.PACKAGE
 
 RESOURCES = [
     power.MASTER116_PDF,
+    power.BACHELOR111_PDF,
     power.MASTER099_PDF,
     power.MASTER098_PDF,
     power.BACHELOR090_PDF,
     power.MASTER072_PDF,
-    power.BACHELOR111_PDF,
+    power.BACHELOR063_PDF,
     (power.BACHELOR056_PDF, '0:55'),
     power.HOMEWORK025_PDF,
-    (power.BACHELOR063_PDF, '59:62'),
     (power.MASTER089_PDF, '78:85'),
     power.DOCU07_PDF,
 ]
