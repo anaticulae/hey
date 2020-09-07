@@ -14,6 +14,7 @@ import utila
 import doctextstyle.cluster
 
 MIN_HEADLINE_CLUSTER_SIZE = configo.HV_INT_PLUS(3).value
+MIN_HEADLINE_LENGTH = configo.HV_INT_PLUS(7).value
 
 
 def text(flats, returncluster: bool = False):
@@ -58,11 +59,14 @@ DEFAULT_DISTANCE_AFTER_TEXT = configo.HV_FLOAT_PLUS(18.0).value
 def headlines(  # pylint:disable=R1260,R0914
         flats: iamraw.TextProperties,
         min_headline_count: int = None,
+        min_headline_length: int = None,
         greater_than_text: bool = True,
         returncluster: bool = False,
 ):
     if min_headline_count is None:
         min_headline_count = MIN_HEADLINE_CLUSTER_SIZE
+    if min_headline_length is None:
+        min_headline_length = MIN_HEADLINE_LENGTH
 
     _text = text(flats, returncluster=True)
     _pagenumber = pagenumber(flats, returncluster=True)
@@ -86,6 +90,9 @@ def headlines(  # pylint:disable=R1260,R0914
 
     if greater_than_text:
         flats = [item for item in flats if item.size >= textsize]
+
+    # remove too short text chuncks which are not possible headlines
+    flats = [item for item in flats if item.length >= MIN_HEADLINE_LENGTH]
 
     def valid_headline(item) -> bool:  # pylint:disable=R0911
         if item.before is None:
