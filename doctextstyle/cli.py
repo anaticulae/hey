@@ -31,6 +31,7 @@ Writes: `doctextstyle__textstyle.yaml`
 
 @utila.saveme
 def main() -> int:
+    utila.log('run doctextstyle')
     commands = []
     parser = utila.cli.create_parser(
         todo=commands,
@@ -46,6 +47,7 @@ def main() -> int:
     )
     args = utila.parse(parser)
     selected_pages = utila.pages_fromargs(args)
+    utila.log(f'pages: {selected_pages if selected_pages is not None else "all"}') # yapf:disable
 
     inpath, outpath = utila.cli.sources(args, singleinput=True)
     inpath = inpath[0]
@@ -66,4 +68,5 @@ def main() -> int:
 
     dumped = serializeraw.dump_doctextstyle(extracted)
     utila.file_replace(outpath, dumped)
+    utila.log('completed')
     return utila.SUCCESS
