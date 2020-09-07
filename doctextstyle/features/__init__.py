@@ -107,7 +107,7 @@ def headlines(  # pylint:disable=R1260,R0914
 
     clustered = doctextstyle.cluster.cluster(
         flats,
-        (doctextstyle.cluster.ClusterProperty.SIZE,),
+        (doctextstyle.cluster.ClusterProperty.FONT,),
         validator=valid_headline,
         minsize=min_headline_count,
         unique_content=True,  # remove duplicated footer/header content
