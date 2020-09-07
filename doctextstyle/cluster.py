@@ -45,9 +45,8 @@ def cluster(  # pylint:disable=R1260
         items = [item for item in items if validator(item)]
 
     def classifier(candidat, clusteritem):
-        pnear = utila.pnear  # pylint:disable=E1101
         if selection is None or ClusterProperty.SIZE in selection:
-            if not pnear(
+            if not utila.pnear(
                     candidat.size,
                     clusteritem.size,
                     abs_tol=max_size_diff.abs,
@@ -55,7 +54,7 @@ def cluster(  # pylint:disable=R1260
             ):
                 return False
         if selection is None or ClusterProperty.BEFORE in selection:
-            if not pnear(
+            if not utila.pnear(
                     candidat.before,
                     clusteritem.before,
                     abs_tol=max_before_diff.abs,
@@ -63,7 +62,7 @@ def cluster(  # pylint:disable=R1260
             ):
                 return False
         if selection is None or ClusterProperty.AFTER in selection:
-            if not pnear(
+            if not utila.pnear(
                     candidat.after,
                     clusteritem.after,
                     abs_tol=max_after_diff.abs,
