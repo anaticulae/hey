@@ -80,19 +80,19 @@ def headlines(  # pylint:disable=R1260,R0914
         utila.error('distance after  `textsize` is None;'
                     ' disable headline detection feature')
 
+    if distance_before_textsize is None or distance_after_textsize is None:
+        # disable strategy
+        return []
+
     if greater_than_text:
         flats = [item for item in flats if item.size >= textsize]
 
     def valid_headline(item) -> bool:  # pylint:disable=R0911
         if item.before is None:
             return True
-        if distance_before_textsize is None:
-            return False
         if item.before <= distance_before_textsize * 1.2:  # TODO: HOLY VALUE
             return False
         if item.after is None:
-            return False
-        if distance_after_textsize is None:
             return False
         if item.after <= distance_after_textsize * 1.2:  # TODO: HOLY VALUE
             return False
