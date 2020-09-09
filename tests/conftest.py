@@ -7,10 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import genex
 import power
 
 import hey
-import hey.example
 
 pytest_plugins = ['pytester', 'xdist']  # pylint: disable=invalid-name
 
@@ -40,7 +40,7 @@ def pytest_sessionstart(session):  # pylint:disable=W0613
 def extract(resources):
     destination = power.generated()
 
-    hey.example.extract(
+    genex.extract(
         resources + [power.REPOSITORY],
         destination=destination,
         groupme=True,
@@ -56,7 +56,7 @@ RESOURCES_SECTIONSANDWORDS = [
 
 def extract_sectionsandwords(resources):
     destination = power.generated(folder='sectionsandwords')
-    hey.example.extract(
+    genex.extract(
         resources + [power.REPOSITORY],
         destination=destination,
         caption=True,

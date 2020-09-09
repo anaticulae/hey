@@ -58,7 +58,6 @@ if __name__ == "__main__":
             'doctextstyle',
             'doctextstyle.features',
             'hey',
-            'hey.geometry',
             'hey.text',
             'magic',
             'magic.feature',
