@@ -20,5 +20,7 @@ jam==0.2.18
 words==0.15.3
 detector==0.8.1
 
+# generate example data
+genex==0.1.0
 
 utilatest==0.1.3
