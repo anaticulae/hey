@@ -62,6 +62,7 @@ def parse(navigator: texmex.PageTextNavigator) -> iamraw.PageTextProperties:
         vertical,
         left,
         right,
+        page=navigator.page,
     )
     return result
 

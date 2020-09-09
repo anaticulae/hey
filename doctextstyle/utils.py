@@ -35,5 +35,6 @@ def flatten(pages: iamraw.PageTextPropertiesList) -> iamraw.TextProperties:
                     bottom=ypos[1],
                     left=left,
                     right=right,
+                    page=page.page,
                 ))
     return result
