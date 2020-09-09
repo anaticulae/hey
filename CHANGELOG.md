@@ -2,6 +2,24 @@
 
 Every noteable change is logged here.
 
+## v5.0.0
+
+### Feature
+
+* add filter to reduce false detected headline style (7acc278712ca)
+* add page flag to parser (91533f80b835)
+* add page attribute to TextProperty (6cb982e23479)
+* remove column/alternate layout extractor (28851187b94b)
+* add logging information of doctextstyle run (224073ff8945)
+* use complex font selector to cluster possible headlines (db8abc100650)
+* do not judge to short content as headline (f878d86f15da)
+* disable headline determining strategy (83fe01efa283)
+* extend collect caption by equal following text (61b30771fd7a)
+
+### Fix
+
+* do not extract style for very few pages (7c2a23aeb07f)
+
 ## v4.0.1
 
 ## v4.0.0
