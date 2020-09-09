@@ -17,10 +17,10 @@ power==0.15.0
 jam==0.2.18
 
 # generate magic test data
-words==0.15.3
-detector==0.8.1
+words==0.16.1
+detector==0.8.2
 
 # generate example data
-genex==0.1.0
+genex==0.1.1
 
 utilatest==0.1.3
