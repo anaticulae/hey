@@ -113,6 +113,8 @@ def headlines(  # pylint:disable=R1260,R0914
         unique_content=True,  # remove duplicated footer/header content
     )
 
+    clustered = validate_headline_cluster(clustered)
+
     largest_font_size = sorted(
         clustered,
         key=lambda x: x.content[0].size,
@@ -137,6 +139,27 @@ def headlines(  # pylint:disable=R1260,R0914
 
 
 MIN_FOOTNOTES_COUNT = 10  # TODO: HOLY VALUE
+MIN_HEADLINE_SPREAD = configo.HV_PERCENT_PLUS(50).value
+
+
+def validate_headline_cluster(clusters):
+    """Check that detected headline style is spread over the document
+    and not located on few pages. Lower spreads indicates that more than
+    one line on a page is detected as headline, which indicates false
+    detection."""
+
+    def valid(cluster) -> bool:
+        """\
+        Returns:
+            1 5 8 10    valid/True     : 1.0   5/5
+            1 1 1 2 2   invalid/False  : 0.4   2/5
+        """
+        pages = utila.make_unique([item.page for item in cluster])
+        ratio = len(pages) / len(cluster)
+        return ratio >= MIN_HEADLINE_SPREAD
+
+    result = [cluster for cluster in clusters if valid(cluster)]
+    return result
 
 
 def footnote(flats: iamraw.TextProperties):
