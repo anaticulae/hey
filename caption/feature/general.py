@@ -11,6 +11,7 @@ import collections
 import os
 
 import iamraw
+
 import caption.serialize
 
 

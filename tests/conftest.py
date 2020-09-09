@@ -15,6 +15,7 @@ import hey
 pytest_plugins = ['pytester', 'xdist']  # pylint: disable=invalid-name
 
 PACKAGE = hey.PACKAGE
+power.setup(hey.ROOT)
 
 RESOURCES = [
     power.MASTER116_PDF,
