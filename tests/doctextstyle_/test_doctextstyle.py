@@ -46,3 +46,10 @@ def test_regression_doctextstyle_homework25():
     assert size == expected_size
     assert before == expected_before
     assert after == expected_after
+
+
+def test_regression_doctextstyle_master116():
+    source = power.link(power.MASTER116_PDF)
+    result = doctextstyle.extractor.extract(source)
+    # justified text
+    assert result.text_alignment == doctextstyle.JUSTIFIED
