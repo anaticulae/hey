@@ -10,15 +10,13 @@
 import serializeraw
 import utila
 
-import hey.utils
-
 
 def content(path, pages: tuple = None):
     leftright = serializeraw.load_leftright_border(path, pages)
 
     def equals(candidat, clusteritem):
         # left, right, top, down
-        distance = hey.utils.lengths(candidat, clusteritem)
+        distance = utila.norms(candidat, clusteritem)
         return distance < 5.0  # TODO: HOLY VALUE
 
     clustered = utila.determine_cluster(
