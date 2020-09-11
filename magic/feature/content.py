@@ -9,6 +9,7 @@
 
 import os
 
+import iamraw
 import serializeraw
 import serializeraw.images
 import utila
@@ -150,8 +151,7 @@ def iscaption(line, captions):
     if not captions.content:
         return False
     captions = captions.content
-    # TODO: EXTEND FOR MULTILINE
-    lines = [item.line for item in captions]
+    lines = expand_multiline(captions)
     if line in lines:
         return True
     return False
@@ -177,3 +177,14 @@ def isfigure(line, figures):
         if utila.rectangle_inside(figure.bounding, line.bounding):
             return True
     return False
+
+
+def expand_multiline(captions: iamraw.Captions) -> set:
+    lines = [
+        utila.ranged_tuple(item.line, item.lineend + 1) for item in captions
+    ]
+    lines = [item for item in lines if item]
+    lines = utila.flatten(lines)
+    # make unique
+    lines = set(lines)  # pylint:disable=R0204
+    return lines
