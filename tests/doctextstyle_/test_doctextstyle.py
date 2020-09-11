@@ -10,6 +10,7 @@
 import power
 import utila
 
+import doctextstyle
 import doctextstyle.extractor
 
 
@@ -24,7 +25,7 @@ def test_doctextstyle_extract():
     assert result.footnote_distance == 10.3
 
     # justified text
-    assert result.text_alignment == 1
+    assert result.text_alignment == doctextstyle.JUSTIFIED
 
 
 def test_regression_doctextstyle_homework25():

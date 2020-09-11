@@ -16,3 +16,6 @@ __version__ = hey.__version__
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 PROCESS = 'doctextstyle'
+
+JUSTIFIED = 1
+NOT_JUSTIFIED = 0
