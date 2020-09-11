@@ -12,6 +12,7 @@ import utila
 
 import magic.data
 import magic.path
+import tests.caption_
 import tests.magic_
 import tests.resources
 
@@ -49,3 +50,21 @@ def test_bachelor90_table_page76(testdir, monkeypatch):
     loaded = magic.data.load_types(path)[0].content
     assert loaded, str(loaded)
     assert len(loaded) == 15  # TODO: NOT VERIFIED
+
+
+def test_magic_multiple_line_master116_page79(testdir, monkeypatch):
+    """Ensure to handle multiple line captions/magic correctly."""
+    source = power.link(power.MASTER116_PDF)
+    cmd = f'-i {source}  --pages=79'
+    # generate required caption for magic module
+    tests.caption_.run(cmd, monkeypatch=monkeypatch)
+    tests.magic_.run(cmd, monkeypatch=monkeypatch)
+
+    path = magic.path.content(testdir.tmpdir)
+    loaded = magic.data.load_types(path)[0].content
+    assert loaded
+
+    contenttype = {
+        item[0] for item in loaded if item[1] == magic.data.ContentType.CAPTION
+    }
+    assert contenttype == {8, 9, 24, 25}
