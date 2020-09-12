@@ -31,8 +31,9 @@ def work(
 
     processor = caption.feature.CaptionPageWordProcessor(
         words=(
-            'Tabelle',
             'Tab.',
+            'Tabelle',
+            'Table',
         ))
 
     result = caption.feature.run(processor, ptcns, tables)
