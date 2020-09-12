@@ -134,9 +134,10 @@ def textsizes(navi: texmex.NavigatorMixin) -> utila.Floats:
     collected = []
     for line in navi:
         # determine most common text size
-        fontsizes = utila.flatten([
-            [char.size] * (char.end - char.start) for char in line.style.content
-        ])
+        fontsizes = [
+            [char.size] * (char.end - char.start) for char in line.style
+        ]
+        fontsizes = utila.flatten(fontsizes)
         collected.append(utila.mode(fontsizes, minimize=True))
     return collected
 
