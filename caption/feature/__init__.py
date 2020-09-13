@@ -17,6 +17,7 @@ import caption.utils
 
 
 class CaptionPageProcessor:
+    # TODO: ADD CAPTION PROCESSOR WITHOUT KEYWORDS
 
     def __init__(self, look_forward: int):
         self.look_forward = look_forward
