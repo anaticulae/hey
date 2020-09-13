@@ -9,6 +9,7 @@
 
 import serializeraw
 
+import caption.feature.image
 import caption.serialize
 
 
@@ -33,12 +34,7 @@ def work(
     )
 
     processor = caption.feature.CaptionPageWordProcessor(
-        words=(
-            'Abb.',
-            'Abbildung',
-            'Fig.',
-            'Figure',
-        ))
+        words=caption.feature.image.KEYWORDS)
 
     result = caption.feature.run(processor, ptcns, figures)
 

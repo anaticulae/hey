@@ -11,6 +11,16 @@ import serializeraw
 
 import caption.serialize
 
+KEYWORDS = (
+    'Abb.',
+    'Abbildung',
+    'Fig.',
+    'Figure',
+    'Tab.',
+    'Tabelle',
+    'Table',
+)
+
 
 def work(
         text_oneline: str,
@@ -32,13 +42,7 @@ def work(
         pages=pages,
     )
 
-    processor = caption.feature.CaptionPageWordProcessor(
-        words=(
-            'Abb.',
-            'Abbildung',
-            'Fig.',
-            'Figure',
-        ))
+    processor = caption.feature.CaptionPageWordProcessor(words=KEYWORDS)
 
     result = caption.feature.run(processor, ptcns, images)
     dumped = caption.serialize.dump_captions(result)
