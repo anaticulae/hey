@@ -103,7 +103,7 @@ def test_cluster_extract_paragraph_small(master72_text_flat_small):
     pytest.param(power.link(power.BACHELOR111_PDF), (24, 24), id='bachelor111'),
 ])
 @utilatest.skip_longrun
-def test_cluster_extract_paragraph(source, expected):
+def test_cluster_extract_paragraph_before_and_after(source, expected):
     # TODO: VALIDATE EXPECTED LINE DISTANCE, CURRENTLY THERE ARE NOT
     # CHECKED YET.
     flat = tests.doctextstyle_.conftest.navigators(source, pages=None)
