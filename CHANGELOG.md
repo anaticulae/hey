@@ -2,6 +2,20 @@
 
 Every noteable change is logged here.
 
+## v5.1.0
+
+### Feature
+
+* detect captions of tables which are printed as image (a94519034956)
+* support English captions (e30c59eae9df)
+* adjust holy value of justified text (7a2107442d9b)
+* introduce JUSTIFIED constant to increase code readability (336216c71856)
+* add support for multiple line captions in magic (d85b5a6ab113)
+
+### Fix
+
+* determine most common font correctly (ef7cb8d0acd9)
+
 ## v5.0.0
 
 ### Feature
