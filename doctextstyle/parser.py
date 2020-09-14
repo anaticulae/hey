@@ -145,7 +145,10 @@ def textfonts(navi: texmex.NavigatorMixin) -> utila.Ints:
     assert issubclass(navi.__class__, texmex.NavigatorMixin), type(navi)
     collected = []
     for line in navi:
-        family = [char.font for char in line.style]
+        # TODO: REPLACE WITH char.width
+        # determine most common font family
+        family = [[char.font] * (char.end - char.start) for char in line.style]
+        family = utila.flatten(family)
         collected.append(utila.mode(family))
     return collected
 

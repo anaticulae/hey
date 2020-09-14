@@ -97,7 +97,7 @@ def test_cluster_extract_paragraph_small(master72_text_flat_small):
 
 
 @pytest.mark.parametrize('source, expected', [
-    pytest.param(power.link(power.MASTER116_PDF), (21, 17), id='master116'),
+    pytest.param(power.link(power.MASTER116_PDF), (24, 17), id='master116'),
     pytest.param(power.link(power.MASTER098_PDF), (41, 41), id='master98'),
     pytest.param(power.link(power.MASTER099_PDF), (38, 38), id='master99'),
     pytest.param(power.link(power.BACHELOR111_PDF), (24, 24), id='bachelor111'),
