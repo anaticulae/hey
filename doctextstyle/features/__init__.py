@@ -196,8 +196,9 @@ def paragraph(flats: iamraw.TextProperties, digits: int = 1):
     This distance can be the distance to headlines, citation blocks and
     line endings.
 
-    Hint: After may is the distance from last text line to footer
-    start."""
+    Hint: In some cases `after` defines the distances from the last text
+    line to the footer start.
+    """
     # TODO: REMOVE ITEMS WITH TEXT INDENTION, CAUSE THEY MAY ARE LIST ELEMENTS
     _text, _text_cluster = text(flats, returncluster=True)
     _text_before, _text_after = _text[3]
