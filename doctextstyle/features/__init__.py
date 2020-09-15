@@ -167,10 +167,21 @@ def footnote(flats: iamraw.TextProperties):
     _pagenumber = pagenumber(flats, returncluster=True)
     _headlines = headlines(flats, returncluster=True)
 
-    flats = doctextstyle.cluster.remove(flats, _text[1])
-    flats = doctextstyle.cluster.remove(flats, _pagenumber[1])
-    for item in _headlines[1]:
-        flats = doctextstyle.cluster.remove(flats, item)
+    if _text:
+        flats = doctextstyle.cluster.remove(flats, _text[1])
+    else:
+        utila.debug('footnote: no text style')
+
+    if _pagenumber:
+        flats = doctextstyle.cluster.remove(flats, _pagenumber[1])
+    else:
+        utila.debug('footnote: no pagenumber style')
+
+    if _headlines:
+        for item in _headlines[1]:
+            flats = doctextstyle.cluster.remove(flats, item)
+    else:
+        utila.debug('footnote: no headline style')
 
     def validator(item) -> bool:
         # Shrink footnotes to bottom area
