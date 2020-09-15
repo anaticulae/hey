@@ -47,7 +47,6 @@ def main() -> int:
     )
     args = utila.parse(parser)
     selected_pages = utila.pages_fromargs(args)
-    utila.log(f'pages: {selected_pages if selected_pages is not None else "all"}') # yapf:disable
 
     inpath, outpath = utila.cli.sources(args, singleinput=True)
     inpath = inpath[0]
