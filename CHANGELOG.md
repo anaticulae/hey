@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v5.1.1
+
+### Fix
+
+* do not access not detected style (a4d3fc61614b)
+
 ## v5.1.0
 
 ### Feature
