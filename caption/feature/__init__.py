@@ -6,6 +6,16 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+"""Caption Processor
+=================
+
+The caption processor is a very simple approach to collect text after
+and before images, figures, tables etc. In the current approach some
+text(`look_backward`, `look_forward`) is scanned for `KEYWORDS`.
+
+In the current state it is not possible to ensure that collecting
+`steals` the text of an other text item. Duplicated parsing is already
+handled correctly."""
 
 import abc
 
@@ -19,8 +29,9 @@ import caption.utils
 class CaptionPageProcessor:
     # TODO: ADD CAPTION PROCESSOR WITHOUT KEYWORDS
 
-    def __init__(self, look_forward: int):
+    def __init__(self, look_backward: int, look_forward: int):
         self.look_forward = look_forward
+        self.look_backward = look_backward
 
     def process_page(
             self,
@@ -32,8 +43,10 @@ class CaptionPageProcessor:
             return []
         result = []
         for bounding in items:
-            y1 = bounding[3]
-            selected = self.after(page, y1)
+            y0, y1 = bounding[1], bounding[3]
+            selected = self.validate(after(page, y1, self.look_forward))
+            if not selected:
+                selected = self.validate(before(page, y0, self.look_backward))
             if not selected:
                 utila.info(f'could not find caption after: {bounding}')
                 continue
@@ -50,20 +63,28 @@ class CaptionPageProcessor:
     def validate(self, items):
         pass
 
-    def after(self, navigator, current):
-        plus = self.look_forward
-        selected = [(index, item)
-                    for index, item in enumerate(navigator)
-                    if current <= item.bounding.y1 <= current + plus]
-        # TODO: IMPROVE THIS SIMPLE SELECTOR
-        valid = self.validate(selected)
-        return valid
+
+def before(navigator, current, minus):
+    selected = [(index, item)
+                for index, item in enumerate(navigator)
+                if current - minus <= item.bounding.y1 <= current]
+    return selected
+
+
+def after(navigator, current, plus):
+    selected = [(index, item)
+                for index, item in enumerate(navigator)
+                if current <= item.bounding.y1 <= current + plus]
+    return selected
 
 
 class CaptionPageWordProcessor(CaptionPageProcessor):
 
     def __init__(self, words):
-        super().__init__(look_forward=150)  # TODO: HOLY VALUE
+        super().__init__(
+            look_backward=150,
+            look_forward=150,
+        )  # TODO: HOLY VALUE
         self.words = words
 
     def validate(self, items) -> list:
