@@ -12,6 +12,8 @@ import serializeraw
 import caption.feature
 import caption.serialize
 
+# TODO: Introduce special mechanism to dump them as tables
+# Tab. Tabelle, Table to detect tables which are stored as image
 KEYWORDS = (
     'Abb.',
     'Abbildung',
