@@ -87,6 +87,7 @@ def run(processor, ptcns, items):
         pagefigure = utila.select_page(items, page.page)
         pagefigure = caption.utils.sorted_bounds(pagefigure)
         processed = processor.process_page(page, pagefigure)
+        processed = utila.make_unique(processed)
         result.append(
             iamraw.PageContentCaption(
                 page=page.page,
