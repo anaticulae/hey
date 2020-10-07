@@ -38,9 +38,11 @@ class CaptionPageProcessor:
                 utila.info(f'could not find caption after: {bounding}')
                 continue
             raw = ''.join([item[1].text for item in selected]).strip()
-            line, _ = selected[0]
-            lineend, _ = selected[-1]
-            item = iamraw.Caption(line=line, lineend=lineend, raw=raw)
+            item = iamraw.Caption(
+                line=selected[0][0],
+                lineend=selected[-1][0],
+                raw=raw,
+            )
             result.append(item)
         return result
 
@@ -65,20 +67,20 @@ class CaptionPageWordProcessor(CaptionPageProcessor):
         self.words = words
 
     def validate(self, items) -> list:
-        result = [
+        matched = [
             item for item in items
             if any(chunk in item[1].text for chunk in self.words)
         ]
-        if not result:
-            return result
-        textsize = result[0][1].style.textsize()
+        if not matched:
+            return []
+        textsize = matched[0][1].style.textsize()
         # extend matching by equal font size.
         # TODO: IMPROVE THIS SIMPLE APPROACH
-        matched = [
+        result = [
             item for item in items
-            if item in result or item[1].style.textsize() == textsize
+            if item in matched or item[1].style.textsize() == textsize
         ]
-        return matched
+        return result
 
 
 def run(processor, ptcns, items):
