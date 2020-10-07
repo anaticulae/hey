@@ -21,45 +21,61 @@ def test_caption_cli_help(monkeypatch):
     tests.caption_.run('--help', monkeypatch=monkeypatch)
 
 
+def extract_captions(
+        source,
+        pages: str,
+        testdir,
+        monkeypatch,
+        result_path=None,
+):
+    if result_path is None:
+        result_path = caption.path.image_caption
+    source = power.link(source)
+    cmd = f'-i {source} --pages={pages}'
+    tests.caption_.run(cmd, monkeypatch=monkeypatch)
+
+    path = result_path(testdir.tmpdir)
+    loaded = caption.serialize.load_captions(path)
+    return loaded
+
+
 @pytest.mark.parametrize('page, expected', [
     (18, 1),
     (21, 2),
 ])
 def test_caption_bachelor90_pagex(page, expected, testdir, monkeypatch):
-    source = power.link(power.BACHELOR090_PDF)
-    cmd = f'-i {source} --pages={page}'
-    tests.caption_.run(cmd, monkeypatch=monkeypatch)
+    source = power.BACHELOR090_PDF
+    extracted = extract_captions(source, page, testdir, monkeypatch)
 
-    path = caption.path.image_caption(testdir.tmpdir)
-    loaded = caption.serialize.load_captions(path)
-    assert loaded
-    content = utila.select_content(loaded, page)
+    content = utila.select_content(extracted, page)
     assert len(content) == expected
 
 
 def test_caption_bachelor90_page80(testdir, monkeypatch):
-    source = power.link(power.BACHELOR090_PDF)
-    cmd = f'-i {source} --pages=80'
-    tests.caption_.run(cmd, monkeypatch=monkeypatch)
+    source = power.BACHELOR090_PDF
+    extracted = extract_captions(
+        source,
+        80,
+        testdir,
+        monkeypatch,
+        caption.path.table_caption,
+    )
 
-    path = caption.path.table_caption(testdir.tmpdir)
-    loaded = caption.serialize.load_captions(path)
-    assert loaded
-
-    tables = loaded[0].content
+    tables = extracted[0].content
     assert len(tables) == 1, str(tables)
 
 
 def test_caption_master116_page12(testdir, monkeypatch):
-    source = power.link(power.MASTER116_PDF)
-    cmd = f'-i {source} --figure --general --pages=12'
-    tests.caption_.run(cmd, monkeypatch=monkeypatch)
+    source = power.MASTER116_PDF
+    extracted = extract_captions(
+        source,
+        12,
+        testdir,
+        monkeypatch,
+        caption.path.figure_caption,
+    )
 
-    path = caption.path.figure_caption(testdir.tmpdir)
-    loaded = caption.serialize.load_captions(path)
-    assert loaded
-
-    figures = loaded[0].content
+    figures = extracted[0].content
     assert len(figures) == 2, str(figures)
 
     caption_2_1 = figures[0]
