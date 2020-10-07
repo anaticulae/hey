@@ -9,10 +9,10 @@
 
 import power
 import pytest
+import serializeraw
 import utila
 
 import caption.path
-import caption.serialize
 import tests.caption_
 import tests.resources
 
@@ -35,7 +35,7 @@ def extract_captions(
     tests.caption_.run(cmd, monkeypatch=monkeypatch)
 
     path = result_path(testdir.tmpdir)
-    loaded = caption.serialize.load_captions(path)
+    loaded = serializeraw.load_captions(path)
     return loaded
 
 

@@ -11,8 +11,7 @@ import collections
 import os
 
 import iamraw
-
-import caption.serialize
+import serializeraw
 
 
 def work(figure: str, image: str, table: str, pages: tuple) -> str:
@@ -22,14 +21,14 @@ def work(figure: str, image: str, table: str, pages: tuple) -> str:
 
     merged = merge(figure, image, table)
 
-    dumped = caption.serialize.dump_captions(merged)
+    dumped = serializeraw.dump_captions(merged)
     return dumped
 
 
 def load_ifexists(path: str, pages: tuple = None):
     if not os.path.exists(path):
         return []
-    result = caption.serialize.load_captions(path, pages=pages)
+    result = serializeraw.load_captions(path, pages=pages)
     return result
 
 

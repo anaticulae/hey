@@ -12,7 +12,6 @@ import collections
 import iamraw
 import serializeraw
 import utila
-import yaml
 
 
 def load_image_informations_fromfiles(
@@ -31,26 +30,4 @@ def load_image_informations_fromfiles(
         for key, value in collected.items()
     ]
     result.sort(key=lambda x: x.page)
-    return result
-
-
-def dump_captions(items: iamraw.PageContentCaptions) -> str:
-    # remove empty pages
-    items = [item for item in items if item.content]
-    # convert to yaml
-    dumped = yaml.dump(items)
-    return dumped
-
-
-def load_captions(
-        content: str,
-        pages: tuple = None,
-) -> iamraw.PageContentCaptions:
-    content = utila.from_raw_or_path(content, ftype='yaml')
-    loaded = yaml.load(content, Loader=yaml.FullLoader)
-    result = []
-    for page in loaded:
-        if utila.should_skip(page.page, pages):
-            continue
-        result.append(page)
     return result

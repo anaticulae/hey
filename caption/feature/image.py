@@ -9,6 +9,7 @@
 
 import serializeraw
 
+import caption.feature
 import caption.serialize
 
 KEYWORDS = (
@@ -45,5 +46,5 @@ def work(
     processor = caption.feature.CaptionPageWordProcessor(words=KEYWORDS)
 
     result = caption.feature.run(processor, ptcns, images)
-    dumped = caption.serialize.dump_captions(result)
+    dumped = serializeraw.dump_captions(result)
     return dumped

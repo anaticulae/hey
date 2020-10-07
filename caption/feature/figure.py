@@ -9,8 +9,8 @@
 
 import serializeraw
 
+import caption.feature
 import caption.feature.image
-import caption.serialize
 
 
 def work(
@@ -38,5 +38,5 @@ def work(
 
     result = caption.feature.run(processor, ptcns, figures)
 
-    dumped = caption.serialize.dump_captions(result)
+    dumped = serializeraw.dump_captions(result)
     return dumped

@@ -14,7 +14,6 @@ import serializeraw
 import serializeraw.images
 import utila
 
-import caption.serialize
 import magic.data
 
 
@@ -41,7 +40,7 @@ def work(  # pylint:disable=R0913,R0914,
     lists = load_content(serializeraw.load_lists, lists, pages)
     blockquotes = load_content(serializeraw.load_blockquotes, blockquotes, pages) # yapf:disable
     formula = load_content(serializeraw.load_formulas, formula, pages)
-    captions = load_content(caption.serialize.load_captions, captions, pages)
+    captions = load_content(serializeraw.load_captions, captions, pages)
     tables = load_content(serializeraw.load_tables, table, pages)
     # TODO: THINK ABOUT DUPLICATED PAGES?
     figures = utila.flatten([

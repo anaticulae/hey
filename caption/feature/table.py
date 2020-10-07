@@ -9,7 +9,7 @@
 
 import serializeraw
 
-import caption.serialize
+import caption.feature
 
 
 def work(
@@ -37,5 +37,5 @@ def work(
         ))
 
     result = caption.feature.run(processor, ptcns, tables)
-    dumped = caption.serialize.dump_captions(result)
+    dumped = serializeraw.dump_captions(result)
     return dumped
