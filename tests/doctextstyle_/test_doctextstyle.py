@@ -9,11 +9,13 @@
 
 import power
 import utila
+import utilatest
 
 import doctextstyle
 import doctextstyle.extractor
 
 
+@utilatest.skip_longrun
 def test_doctextstyle_extract():
     source = power.link(power.MASTER098_PDF)
     result = doctextstyle.extractor.extract(source)
@@ -48,6 +50,7 @@ def test_regression_doctextstyle_homework25():
     assert after == expected_after
 
 
+@utilatest.skip_longrun
 def test_regression_doctextstyle_master116():
     source = power.link(power.MASTER116_PDF)
     result = doctextstyle.extractor.extract(source)
