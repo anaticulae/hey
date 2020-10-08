@@ -2,6 +2,17 @@
 
 Every noteable change is logged here.
 
+## v5.2.0
+
+### Feature
+
+* enable collecting caption before item (23d69faf29c0)
+* unify extracted captions (227779b18a07)
+
+### Documentation
+
+* add information about tables which are stored as image (b04a1737f252)
+
 ## v5.1.1
 
 ### Fix
