@@ -14,8 +14,6 @@ import serializeraw
 import serializeraw.images
 import utila
 
-import magic.data
-
 
 def work(  # pylint:disable=R0913,R0914,
         text: str,
@@ -71,7 +69,7 @@ def work(  # pylint:disable=R0913,R0914,
         )
         result.append(analyzed)
 
-    dumped = magic.data.dump_types(result)
+    dumped = serializeraw.dump_types(result)
     return dumped
 
 
@@ -88,24 +86,24 @@ def analyze_page(ptcn, lists, blockquotes, formula, captions, tables, figures):
     result = []
     for index, line in enumerate(ptcn):  # pylint:disable=W0612
         if islist(index, lists):
-            result.append((index, magic.data.ContentType.LIST))
+            result.append((index, iamraw.PageContentType.LIST))
             continue
         if isblockquote(index, blockquotes):
-            result.append((index, magic.data.ContentType.BLOCKQUOTE))
+            result.append((index, iamraw.PageContentType.BLOCKQUOTE))
             continue
         if isformula(index, formula):
-            result.append((index, magic.data.ContentType.FORMULA))
+            result.append((index, iamraw.PageContentType.FORMULA))
             continue
         if iscaption(index, captions):
-            result.append((index, magic.data.ContentType.CAPTION))
+            result.append((index, iamraw.PageContentType.CAPTION))
             continue
         if istable(line, tables):
-            result.append((index, magic.data.ContentType.TABLE))
+            result.append((index, iamraw.PageContentType.TABLE))
             continue
         if isfigure(line, figures):
-            result.append((index, magic.data.ContentType.FIGURE))
+            result.append((index, iamraw.PageContentType.FIGURE))
             continue
-    return magic.data.PageContentContentType(page=ptcn.page, content=result)
+    return iamraw.PageContentContentType(page=ptcn.page, content=result)
 
 
 def islist(line, listinstances):

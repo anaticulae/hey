@@ -7,10 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw
 import power
+import serializeraw
 import utila
 
-import magic.data
 import magic.path
 import tests.caption_
 import tests.magic_
@@ -29,16 +30,16 @@ def test_master72_list_and_blockquotes(testdir, monkeypatch):
     )
 
     path = magic.path.content(testdir.tmpdir)
-    loaded = magic.data.load_types(path)
+    loaded = serializeraw.load_types(path)
     assert loaded
 
     list_page = utila.select_content(loaded, 7)
     list_page = [item[1] for item in list_page]
-    assert magic.data.ContentType.LIST in list_page
+    assert iamraw.PageContentType.LIST in list_page
 
     blockquote_page = utila.select_content(loaded, 14)
     blockquote_page = [item[1] for item in blockquote_page]
-    assert magic.data.ContentType.BLOCKQUOTE in blockquote_page
+    assert iamraw.PageContentType.BLOCKQUOTE in blockquote_page
 
 
 def test_bachelor90_table_page76(testdir, monkeypatch):
@@ -47,7 +48,7 @@ def test_bachelor90_table_page76(testdir, monkeypatch):
         monkeypatch=monkeypatch,
     )
     path = magic.path.content(testdir.tmpdir)
-    loaded = magic.data.load_types(path)[0].content
+    loaded = serializeraw.load_types(path)[0].content
     assert loaded, str(loaded)
     assert len(loaded) == 15  # TODO: NOT VERIFIED
 
@@ -61,10 +62,10 @@ def test_magic_multiple_line_master116_page79(testdir, monkeypatch):
     tests.magic_.run(cmd, monkeypatch=monkeypatch)
 
     path = magic.path.content(testdir.tmpdir)
-    loaded = magic.data.load_types(path)[0].content
+    loaded = serializeraw.load_types(path)[0].content
     assert loaded
 
     contenttype = {
-        item[0] for item in loaded if item[1] == magic.data.ContentType.CAPTION
+        item[0] for item in loaded if item[1] == iamraw.PageContentType.CAPTION
     }
     assert contenttype == {8, 9, 24, 25}
