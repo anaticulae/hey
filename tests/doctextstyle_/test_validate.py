@@ -16,6 +16,7 @@ import doctextstyle.extractor
 
 @pytest.mark.parametrize('source, h1, h2, h3', [
     pytest.param(power.BACHELOR063_PDF, 15.96, 14.04, 12.0, id='bachelor63'),
+    pytest.param(power.BACHELOR051_PDF, 15.96, 14.04, 12.0, id='bachelor51'),
 ])  # pylint:disable=C0103
 @utilatest.skip_longrun
 def test_doctextstyle_extract_headlines(source, h1, h2, h3):
