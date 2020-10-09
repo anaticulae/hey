@@ -83,6 +83,12 @@ def load_content(loader, content, pages):
 
 
 def analyze_page(ptcn, lists, blockquotes, formula, captions, tables, figures):
+    # How to determine order of checking cause more than result is
+    # possible?
+
+    # Run figure and table before caption, cause caption can badly include
+    # some text which is part of the figure and should not be judged as
+    # caption or text.
     result = []
     for index, line in enumerate(ptcn):  # pylint:disable=W0612
         if islist(index, lists):
@@ -94,14 +100,14 @@ def analyze_page(ptcn, lists, blockquotes, formula, captions, tables, figures):
         if isformula(index, formula):
             result.append((index, iamraw.PageContentType.FORMULA))
             continue
-        if iscaption(index, captions):
-            result.append((index, iamraw.PageContentType.CAPTION))
+        if isfigure(line, figures):
+            result.append((index, iamraw.PageContentType.FIGURE))
             continue
         if istable(line, tables):
             result.append((index, iamraw.PageContentType.TABLE))
             continue
-        if isfigure(line, figures):
-            result.append((index, iamraw.PageContentType.FIGURE))
+        if iscaption(index, captions):
+            result.append((index, iamraw.PageContentType.CAPTION))
             continue
     return iamraw.PageContentContentType(page=ptcn.page, content=result)
 
