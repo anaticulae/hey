@@ -21,16 +21,23 @@ VerticalTextDistance = collections.namedtuple(
 VerticalTextDistances = typing.List[VerticalTextDistance]
 
 
-def parses(navigators: texmex.PageTextNavigators,
-          ) -> iamraw.PageTextPropertiesList:
+def parses(
+        navigators: texmex.PageTextNavigators,
+        magics: iamraw.PageContentContentTypes = None,
+) -> iamraw.PageTextPropertiesList:
+    magics = magics if magics else []
     result = []
     for navigator in navigators:
-        parsed = parse(navigator)
+        magic = select_magic(magics, navigator.page)
+        parsed = parse(navigator, magic)
         result.append(parsed)
     return result
 
 
-def parse(navigator: texmex.PageTextNavigator) -> iamraw.PageTextProperties:
+def parse(
+        navigator: texmex.PageTextNavigator,
+        magic: 'iamraw.PageContentContentType.content',
+) -> iamraw.PageTextProperties:
     lengths = textlength(navigator)
     hashed = [item.text.strip() for item in navigator]
     distances = textdistances(navigator)
@@ -53,6 +60,15 @@ def parse(navigator: texmex.PageTextNavigator) -> iamraw.PageTextProperties:
     ]
     assert len(set(equal_length)) == 1, f'different iter length {equal_length}'
 
+    lengths = skip_magic(lengths, magic)
+    hashed = skip_magic(hashed, magic)
+    sizes = skip_magic(sizes, magic)
+    fonts = skip_magic(fonts, magic)
+    distances = skip_magic(distances, magic)
+    vertical = skip_magic(vertical, magic)
+    left = skip_magic(left, magic)
+    right = skip_magic(right, magic)
+
     result = iamraw.PageTextProperties(
         lengths,
         hashed,
@@ -64,6 +80,32 @@ def parse(navigator: texmex.PageTextNavigator) -> iamraw.PageTextProperties:
         right,
         page=navigator.page,
     )
+    return result
+
+
+def select_magic(magics, page) -> collections.defaultdict:
+    selected = utila.select_content(magics, page, default=[])
+    result = set()
+    for index, magicitem in selected:
+        if magicitem not in SKIPPER:
+            continue
+        result.add(index)
+    return result
+
+
+SKIPPER = {
+    iamraw.PageContentType.FIGURE,
+    iamraw.PageContentType.FORMULA,
+    iamraw.PageContentType.TABLE,
+}
+
+
+def skip_magic(items, magics):
+    result = []
+    for index, item in enumerate(items):
+        if index in magics:
+            continue
+        result.append(item)
     return result
 
 

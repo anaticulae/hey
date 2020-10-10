@@ -8,6 +8,7 @@
 # =============================================================================
 
 import contextlib
+import os
 
 import groupme.path
 import iamraw
@@ -41,7 +42,11 @@ def extract(path: str, pages: tuple = None) -> iamraw.DocTextStyle:  # pylint:di
         cnavigators = None
         utila.error(f'missing page text content navigator: {error}')
 
-    parsed = doctextstyle.parser.parses(navigator)
+    # TODO: REPLACE WITH IAMRAW.PATH
+    magic = os.path.join(path, 'magic__content_content.yaml')
+    magic = serializeraw.load_types(magic) if os.path.exists(magic) else []
+
+    parsed = doctextstyle.parser.parses(navigator, magic)
     flat = doctextstyle.utils.flatten(parsed)
 
     text = doctextstyle.features.text(flat)
