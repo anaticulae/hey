@@ -97,11 +97,16 @@ def headlines(  # pylint:disable=R1260,R0914
     def valid_headline(item) -> bool:  # pylint:disable=R0911
         if item.before is None:
             return True
-        if item.before <= distance_before_textsize * 1.2:  # TODO: HOLY VALUE
-            return False
         if item.after is None:
             return False
-        if item.after <= distance_after_textsize * 1.2:  # TODO: HOLY VALUE
+        if item.before <= distance_before_textsize * 1.2:  # TODO: HOLY VALUE
+            return False
+        # TODO: INTRODUCE NEW STRATEGY FOR HEADLINES WITHOUT HUGE DISTANCE
+        if item.after < distance_after_textsize * 0.98:  # TODO: HOLY VALUE
+            return False
+        if item.hashed.count('.') > 5:  # TODO: HOLY VALUE
+            # filter table items
+            # DISKUSSION ................ 36
             return False
         return True
 
