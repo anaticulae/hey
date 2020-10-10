@@ -46,6 +46,7 @@ def extract(resources):
         resources + [power.REPOSITORY],
         destination=destination,
         groupme=True,
+        magic=True,
         worker=WORKER,
         pages=':',
     )
