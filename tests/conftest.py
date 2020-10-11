@@ -30,6 +30,7 @@ RESOURCES = [
     power.HOMEWORK025_PDF,
     (power.MASTER089_PDF, '78:85'),
     power.DOCU07_PDF,
+    (power.MASTER110_PDF, '0:60'),
 ]
 
 WORKER = 4
