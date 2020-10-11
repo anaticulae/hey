@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import re
+
 import iamraw
 
 
@@ -38,3 +40,24 @@ def flatten(pages: iamraw.PageTextPropertiesList) -> iamraw.TextProperties:
                     page=page.page,
                 ))
     return result
+
+BLACK_CHAPTER = re.compile(r'(Kapitel|Chapter|Anhang|Appendix)[ ]{0,5}\d{1,2}$', re.IGNORECASE) # yapf:disable
+BLACK_APPENDIX = re.compile(r'(Anhang|Appendix)[ ]{0,5}[A-Z]$', re.IGNORECASE)
+
+
+def headline_blacklisted(item: str) -> bool:
+    """\
+    >>> headline_blacklisted('KAPITEL  1 ')
+    True
+    >>> headline_blacklisted('Chapter 5 ')
+    True
+    >>> headline_blacklisted('ANHANG A')
+    True
+    """
+    # TODO: STOLEN FROM WORDS
+    item = item.strip()
+    if BLACK_CHAPTER.match(item):
+        return True
+    if BLACK_APPENDIX.match(item):
+        return True
+    return False

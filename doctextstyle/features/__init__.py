@@ -12,6 +12,7 @@ import iamraw
 import utila
 
 import doctextstyle.cluster
+import doctextstyle.utils
 
 MIN_HEADLINE_CLUSTER_SIZE = configo.HV_INT_PLUS(3).value
 MIN_HEADLINE_LENGTH = configo.HV_INT_PLUS(7).value
@@ -96,6 +97,9 @@ def headlines(  # pylint:disable=R1260,R0914
 
     def valid_headline(item) -> bool:  # pylint:disable=R0911
         if item.before is None:
+            if doctextstyle.utils.headline_blacklisted(item.hashed):
+                # Kapitel 1 at the start of the page followed by title
+                return False
             return True
         if item.after is None:
             return False
