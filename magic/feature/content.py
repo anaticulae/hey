@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import collections
 import os
 
 import iamraw
@@ -35,7 +36,7 @@ def work(  # pylint:disable=R0913,R0914,
         footerheader,
         pages=pages,
     )
-    lists = load_content(serializeraw.load_lists, lists, pages)
+    lists = expand_lists(load_content(serializeraw.load_lists, lists, pages))
     blockquotes = load_content(serializeraw.load_blockquotes, blockquotes, pages) # yapf:disable
     formula = load_content(serializeraw.load_formulas, formula, pages)
     captions = load_content(serializeraw.load_captions, captions, pages)
@@ -112,16 +113,10 @@ def analyze_page(ptcn, lists, blockquotes, formula, captions, tables, figures):
     return iamraw.PageContentContentType(page=ptcn.page, content=result)
 
 
-def islist(line, listinstances):
+def islist(line: int, listinstances: set) -> bool:
     if not listinstances:
         return False
-    if not listinstances.content:
-        return False
-    listinstances = listinstances.content
-    for instance_ in listinstances:
-        if line in instance_.area:
-            return True
-    return False
+    return line in listinstances
 
 
 def isblockquote(line, quotes):
@@ -191,3 +186,17 @@ def expand_multiline(captions: iamraw.Captions) -> set:
     # make unique
     lines = set(lines)  # pylint:disable=R0204
     return lines
+
+
+def expand_lists(lists):
+    """Determine lines which are covered by lines. Expand lists which
+    are expanded over more than one page."""
+    result = collections.defaultdict(set)
+    for page in lists:
+        for listi in page.content:
+            areas = listi.area
+            areas = areas if isinstance(areas[0], tuple) else [areas]
+            for index, area in enumerate(areas, start=page.page):
+                result[index].update(area)
+    result = {page: content for page, content in result.items()}
+    return result
