@@ -55,6 +55,7 @@ def extract(resources):
 
 RESOURCES_SECTIONSANDWORDS = [
     (power.MASTER072_PDF, '0:16'),
+    (power.BACHELOR128_PDF, '0:50'),
 ]
 
 
