@@ -12,18 +12,16 @@ import power
 import serializeraw
 import utila
 
-import magic.path
 import tests.magic_
 
 
 def test_master72_list_multiple_area(testdir, monkeypatch):
     tests.magic_.run(
         (f'-i {power.link(power.MASTER072_PDF, folder="sectionsandwords")} '
-         f'-i {power.link(power.MASTER072_PDF)} --pages=8,9,10,11'),
+         '--pages=8,9,10,11'),
         monkeypatch=monkeypatch,
     )
-    path = magic.path.content(testdir.tmpdir)
-    loaded = serializeraw.load_types(path)
+    loaded = serializeraw.load_types(testdir.tmpdir)
 
     page9 = utila.select_content(loaded, page=9)
     assert page9
