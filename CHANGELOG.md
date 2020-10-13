@@ -2,6 +2,19 @@
 
 Every noteable change is logged here.
 
+## v5.3.0
+
+### Feature
+
+* add multiple-page-list resolver (ceda1dc6b340)
+* improve headline style detector (908abd1debf6)
+* use magic data to improve headline style detector (4d27a8ecc375)
+
+### Fix
+
+* improve headline style detector (efa5f5b1f6c1)
+* adjust order of magic detection (5f03bcc98bfa)
+
 ## v5.2.0
 
 ### Feature
