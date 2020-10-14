@@ -41,7 +41,6 @@ def test_master72_list_multiple_area(testdir, monkeypatch):
     assert page10_list == expected
 
 
-@pytest.mark.xfail(reason='imporve list parser')
 def test_bachelor128_list_page36_41(testdir, monkeypatch):
     tests.magic_.run(
         (f'-i {power.link(power.BACHELOR128_PDF, folder="sectionsandwords")} '
@@ -49,11 +48,17 @@ def test_bachelor128_list_page36_41(testdir, monkeypatch):
         monkeypatch=monkeypatch,
     )
     loaded = serializeraw.load_types(testdir.tmpdir)
+
+    lists = lambda page: all((item[1] == iamraw.PageContentType.LIST) for item in page) # yapf:disable
+
     page37 = utila.select_content(loaded, page=37)
-    assert len(page37) == 8
+    assert len(page37) == 5
+    assert lists(page37)
+
     page38 = utila.select_content(loaded, page=38)
     assert len(page38) == 30
-    # TODO/BUG: ADD TEST THAT LAST ITEM IN PAGE 38 IST PARSED AS LIST INSTEAD
-    # OF BLOCK QUOTE
+    assert lists(page38)
+
     page39 = utila.select_content(loaded, page=39)
     assert len(page39) == 11
+    assert lists(page39)
