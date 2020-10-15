@@ -92,23 +92,23 @@ def analyze_page(ptcn, lists, blockquotes, formula, captions, tables, figures):
     # caption or text.
     result = []
     for index, line in enumerate(ptcn):  # pylint:disable=W0612
-        if islist(index, lists):
-            result.append((index, iamraw.PageContentType.LIST))
-            continue
-        if isblockquote(index, blockquotes):
-            result.append((index, iamraw.PageContentType.BLOCKQUOTE))
-            continue
-        if isformula(index, formula):
-            result.append((index, iamraw.PageContentType.FORMULA))
+        if istable(line, tables):
+            result.append((index, iamraw.PageContentType.TABLE))
             continue
         if isfigure(line, figures):
             result.append((index, iamraw.PageContentType.FIGURE))
             continue
-        if istable(line, tables):
-            result.append((index, iamraw.PageContentType.TABLE))
+        if islist(index, lists):
+            result.append((index, iamraw.PageContentType.LIST))
+            continue
+        if isformula(index, formula):
+            result.append((index, iamraw.PageContentType.FORMULA))
             continue
         if iscaption(index, captions):
             result.append((index, iamraw.PageContentType.CAPTION))
+            continue
+        if isblockquote(index, blockquotes):
+            result.append((index, iamraw.PageContentType.BLOCKQUOTE))
             continue
     return iamraw.PageContentContentType(page=ptcn.page, content=result)
 
