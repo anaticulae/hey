@@ -12,6 +12,8 @@ import pytest
 import utilatest
 
 import doctextstyle.features
+import doctextstyle.features.footnote
+import doctextstyle.features.paragraph
 import tests.doctextstyle_.conftest
 
 
@@ -67,7 +69,8 @@ def test_cluster_extract_textsize(source, expected):
 
 
 def test_cluster_extract_footer_small(master72_text_flat_small):
-    footnotes = doctextstyle.features.footnote(master72_text_flat_small)
+    footnotes = doctextstyle.features.footnote.footnote(
+        master72_text_flat_small)
     fontsize, fontdistance = footnotes[0], footnotes[3]
     assert fontsize == 9.96
     assert fontdistance == (11.5, 11.5)
@@ -82,7 +85,7 @@ def test_cluster_extract_footer_small(master72_text_flat_small):
 @utilatest.skip_longrun
 def test_cluster_extract_footnote(source, expected):
     flat = tests.doctextstyle_.conftest.navigators(source, pages=None)
-    footnotes = doctextstyle.features.footnote(flat)
+    footnotes = doctextstyle.features.footnote.footnote(flat)
     if expected is None:
         assert footnotes is None
         return
@@ -91,7 +94,8 @@ def test_cluster_extract_footnote(source, expected):
 
 
 def test_cluster_extract_paragraph_small(master72_text_flat_small):
-    paragraph = doctextstyle.features.paragraph(master72_text_flat_small)
+    paragraph = doctextstyle.features.paragraph.paragraph(
+        master72_text_flat_small)
     expected = (31.1, 31.1)
     assert paragraph == expected, str(paragraph)
 
@@ -107,5 +111,5 @@ def test_cluster_extract_paragraph_before_and_after(source, expected):
     # TODO: VALIDATE EXPECTED LINE DISTANCE, CURRENTLY THERE ARE NOT
     # CHECKED YET.
     flat = tests.doctextstyle_.conftest.navigators(source, pages=None)
-    paragraph = doctextstyle.features.paragraph(flat, digits=0)
+    paragraph = doctextstyle.features.paragraph.paragraph(flat, digits=0)
     assert paragraph == expected

@@ -147,7 +147,6 @@ def headlines(  # pylint:disable=R1260,R0914
     return result
 
 
-MIN_FOOTNOTES_COUNT = 10  # TODO: HOLY VALUE
 MIN_HEADLINE_SPREAD = configo.HV_PERCENT_PLUS(50).value
 
 
@@ -169,86 +168,3 @@ def validate_headline_cluster(clusters):
 
     result = [cluster for cluster in clusters if valid(cluster)]
     return result
-
-
-def footnote(flats: iamraw.TextProperties):
-    _text = text(flats, returncluster=True)
-    _pagenumber = pagenumber(flats, returncluster=True)
-    _headlines = headlines(flats, returncluster=True)
-
-    if _text:
-        flats = doctextstyle.cluster.remove(flats, _text[1])
-    else:
-        utila.debug('footnote: no text style')
-
-    if _pagenumber:
-        flats = doctextstyle.cluster.remove(flats, _pagenumber[1])
-    else:
-        utila.debug('footnote: no pagenumber style')
-
-    if _headlines:
-        for item in _headlines[1]:
-            flats = doctextstyle.cluster.remove(flats, item)
-    else:
-        utila.debug('footnote: no headline style')
-
-    def validator(item) -> bool:
-        # Shrink footnotes to bottom area
-        return item.bottom < 150 and item.length >= 25  # TODO:HOLY VALUE
-
-    clustered = doctextstyle.cluster.cluster(
-        flats,
-        (doctextstyle.cluster.ClusterProperty.SIZE,),
-        validator=validator,
-        minsize=MIN_FOOTNOTES_COUNT,
-        unique_content=True,
-        max_size_diff=doctextstyle.cluster.NO_TOLERANCE,
-        max_before_diff=doctextstyle.cluster.NO_TOLERANCE,
-        max_after_diff=doctextstyle.cluster.NO_TOLERANCE,
-    )
-    result = doctextstyle.cluster.bestmatch(clustered)
-    return result
-
-
-def paragraph(flats: iamraw.TextProperties, digits: int = 1):
-    """Determine distance before and after a closed text block.
-
-    This distance can be the distance to headlines, citation blocks and
-    line endings.
-
-    Hint: In some cases `after` defines the distances from the last text
-    line to the footer start.
-    """
-    # TODO: REMOVE ITEMS WITH TEXT INDENTION, CAUSE THEY MAY ARE LIST ELEMENTS
-    _text, _text_cluster = text(flats, returncluster=True)
-    _text_before, _text_after = _text[3]
-
-    before = []
-    after = []
-    for item in _text_cluster:
-        if item.before is None:
-            # page start
-            continue
-        if utila.near(item.before, _text_before, diff=1.5):
-            # text line diff
-            continue
-        before.append(item.before)
-    for item in _text_cluster:
-        if item.after is None:
-            # page number
-            continue
-        if utila.near(item.after, _text_after, diff=1.5):
-            # text line diff
-            continue
-        after.append(item.after)
-
-    before = utila.roundme(before, digits=digits, convert=False)  # pylint:disable=R0204
-    after = utila.roundme(after, digits=digits, convert=False)  # pylint:disable=R0204
-
-    before = utila.max_distance(before, diff=2.0)  # TODO: HOLY VAL
-    after = utila.max_distance(after, diff=2.0)
-
-    # most items in biggest cluster
-    before = utila.modes(before[0].content)
-    after = utila.modes(after[0].content)
-    return before, after

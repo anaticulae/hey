@@ -20,6 +20,7 @@ import doctextstyle
 import doctextstyle.features
 import doctextstyle.features.blockquote
 import doctextstyle.features.content
+import doctextstyle.features.footnote
 import doctextstyle.features.pagesize
 import doctextstyle.features.textbounding as dtt
 import doctextstyle.parser
@@ -83,7 +84,7 @@ def extract(path: str, pages: tuple = None) -> iamraw.DocTextStyle:  # pylint:di
 
 
 def extract_footnotes(result, flat):
-    footnotes = doctextstyle.features.footnote(flat)
+    footnotes = doctextstyle.features.footnote.footnote(flat)
     if footnotes:
         footnote_after = footnotes[3][1]
         result.footnote_size = footnotes[0]
