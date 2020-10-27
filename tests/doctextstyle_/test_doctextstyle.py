@@ -31,7 +31,7 @@ def test_doctextstyle_extract():
 
 
 def test_regression_doctextstyle_homework25():
-    source = power.link(power.HOMEWORK025_PDF)
+    source = power.link(power.HOME025_PDF)
     # shrink to content pages
     pages = utila.ranged_tuple(2, 22)
     result = doctextstyle.extractor.extract(source, pages=pages)
