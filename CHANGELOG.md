@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v5.4.0
+
+### Feature
+
+* use more likely item first (e3d7232aebfd)
+
 ## v5.3.0
 
 ### Feature
