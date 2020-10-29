@@ -33,17 +33,6 @@ WORKPLAN = [
         ],
         output=('content',),
     ),
-    utila.create_step(
-        'complete',
-        inputs=[
-            utila.ResultFile('rawmaker', 'oneline_text_text'),
-            utila.ResultFile('rawmaker', 'oneline_text_positions'),
-            utila.ResultFile('rawmaker', 'border_pages'),
-            utila.ResultFile('groupme', 'footer_footerheader'),
-            utila.ResultFile('words', 'list_list'),
-        ],
-        output=('complete',),
-    ),
 ]
 # yapf:enable
 
