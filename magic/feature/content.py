@@ -137,7 +137,14 @@ def isformula(line, formulas):
     if not formulas.content:
         return False
     formulas = formulas.content
-    lines = [item.line for item in formulas]
+    lines = [
+        # support multiple line formulas
+        utila.ranged_tuple(
+            item.line,
+            utila.ifnone(item.lineend, default=item.line) + 1,
+        ) for item in formulas if item.line is not None
+    ]
+    lines = utila.flatten(lines)
     if line in lines:
         return True
     return False
