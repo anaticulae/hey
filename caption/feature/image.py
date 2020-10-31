@@ -19,6 +19,7 @@ KEYWORDS = (
     'Abbildung',
     'Fig.',
     'Figure',
+    'Foto',
     'Tab.',
     'Tabelle',
     'Table',
