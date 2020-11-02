@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v5.5.0
+
+### Feature
+
+* extend image detection key word list (62e2c13a02b6)
+* add multiple line formula detection (3ce8e02abf61)
+
 ## v5.4.0
 
 ### Feature
