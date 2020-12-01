@@ -37,10 +37,11 @@ def main() -> int:
         todo=commands,
         description=DESCRIPTION,
         config=utila.ParserConfiguration(
-            outputparameter=True,
             inputparameter=True,
-            prefix=False,
+            multiprocessed=True,
+            outputparameter=True,
             pages=True,
+            prefix=False,
         ),
         version=doctextstyle.__version__,
         prog=doctextstyle.PROCESS,
