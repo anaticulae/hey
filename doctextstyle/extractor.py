@@ -21,6 +21,7 @@ import doctextstyle.features
 import doctextstyle.features.blockquote
 import doctextstyle.features.content
 import doctextstyle.features.footnote
+import doctextstyle.features.headline
 import doctextstyle.features.pagesize
 import doctextstyle.features.textbounding as dtt
 import doctextstyle.parser
@@ -110,7 +111,7 @@ def extract_contentborder(result, path, pages):
 
 
 def extract_headlines(result, flat):
-    headlines = doctextstyle.features.headlines(flat)
+    headlines = doctextstyle.features.headline.headlines(flat)
     if not headlines:
         return
 

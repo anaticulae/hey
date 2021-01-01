@@ -30,30 +30,6 @@ def test_cluster_extract_pagenumber(master72_text_flat_small):
     assert pagenumber[0] == 11.04, pagenumber
 
 
-def test_cluster_extract_headlines_small(master72_text_flat_small):
-    headlines = doctextstyle.features.headlines(
-        master72_text_flat_small,
-        min_headline_count=3,
-    )
-    assert len(headlines) == 2
-    assert headlines[0][0] == 15.96
-    assert headlines[1][0] == 14.04
-
-
-def test_cluster_extract_headlines_all(master72_text_flat):
-    headlines = doctextstyle.features.headlines(master72_text_flat)
-    assert len(headlines) == 3
-    assert headlines[0][0] == 15.96, str(headlines)
-    assert headlines[1][0] == 14.04, str(headlines)
-    assert headlines[2][0] == 12.0, str(headlines)
-
-    headlines = doctextstyle.features.headlines(
-        master72_text_flat,
-        returncluster=True,
-    )
-    assert len(headlines) == 2, str(headlines)
-
-
 @pytest.mark.parametrize('source, expected', [
     pytest.param(power.link(power.MASTER116_PDF), 10.91, id='master116'),
     pytest.param(power.link(power.MASTER098_PDF), 12.0, id='master98'),

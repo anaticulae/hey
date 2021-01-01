@@ -12,6 +12,7 @@ import utila
 
 import doctextstyle.cluster
 import doctextstyle.features
+import doctextstyle.features.headline
 
 MIN_FOOTNOTES_COUNT = 10  # TODO: HOLY VALUE
 
@@ -19,7 +20,8 @@ MIN_FOOTNOTES_COUNT = 10  # TODO: HOLY VALUE
 def footnote(flats: iamraw.TextProperties):
     _text = doctextstyle.features.text(flats, returncluster=True)
     _pagenumber = doctextstyle.features.pagenumber(flats, returncluster=True)
-    _headlines = doctextstyle.features.headlines(flats, returncluster=True)
+    _headlines = doctextstyle.features.headline.headlines(
+        flats, returncluster=True)
 
     if _text:
         flats = doctextstyle.cluster.remove(flats, _text[1])
