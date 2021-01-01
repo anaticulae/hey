@@ -40,7 +40,7 @@ def cluster(
         max_size_diff=Tol(0.5, 0.1),  # TODO: HOLY VALUES
         max_after_diff=Tol(2.0, 0.1),
         max_before_diff=Tol(2.0, 0.1),
-        max_xleft_diff=Tol(5.0, 0.1),
+        max_left_diff=Tol(5.0, 0.1),
 ):
     if selection:
         selection = set(selection)
@@ -53,7 +53,7 @@ def cluster(
         max_size_diff=max_size_diff,
         max_after_diff=max_after_diff,
         max_before_diff=max_before_diff,
-        max_xleft_diff=max_xleft_diff,
+        max_left_diff=max_left_diff,
     )
     clustered = utila.determine_cluster(
         todo=items,
@@ -72,7 +72,7 @@ def classifier(  # pylint:disable=R1260
         max_size_diff=Tol(0.5, 0.1),  # TODO: HOLY VALUES
         max_after_diff=Tol(2.0, 0.1),
         max_before_diff=Tol(2.0, 0.1),
-        max_xleft_diff=Tol(5.0, 0.1),
+        max_left_diff=Tol(5.0, 0.1),
 ) -> bool:
     if selection is None or ClusterProperty.SIZE in selection:
         if not utila.pnear(
@@ -102,8 +102,8 @@ def classifier(  # pylint:disable=R1260
         if not utila.pnear(
                 candidat.left,
                 clusteritem.left,
-                abs_tol=max_xleft_diff.abs,
-                rel_tol=max_xleft_diff.rel,
+                abs_tol=max_left_diff.abs,
+                rel_tol=max_left_diff.rel,
         ):
             return False
     if selection is None or ClusterProperty.FONT in selection:
