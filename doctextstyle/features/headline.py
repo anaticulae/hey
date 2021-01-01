@@ -21,6 +21,7 @@ MIN_HEADLINE_LENGTH = configo.HV_INT_PLUS(7).value
 
 def headlines(  # pylint:disable=R1260,R0914
         flats: iamraw.TextProperties,
+        *,
         min_headline_count: int = None,
         min_headline_length: int = None,
         greater_than_text: bool = True,
