@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v5.6.0
+
+### Feature
+
+* use left bounding to improve headline cluster (af1072470e17)
+* add left validation option (eb5877f974a8)
+
 ## v5.5.4
 
 ## v5.5.3
