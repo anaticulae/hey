@@ -53,10 +53,6 @@ def pagenumber(flats, returncluster: bool = False):
     return result
 
 
-DEFAULT_DISTANCE_BEFORE_TEXT = configo.HV_FLOAT_PLUS(18.0).value
-DEFAULT_DISTANCE_AFTER_TEXT = configo.HV_FLOAT_PLUS(18.0).value
-
-
 def headlines(  # pylint:disable=R1260,R0914
         flats: iamraw.TextProperties,
         min_headline_count: int = None,
