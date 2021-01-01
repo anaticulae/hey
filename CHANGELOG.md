@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v5.6.1
+
+### Feature
+
+* add option to disable line intent clustering (f617ad4326be)
+
+### Documentation
+
+* clarify interface (93babc1bf764)
+
 ## v5.6.0
 
 ### Feature
