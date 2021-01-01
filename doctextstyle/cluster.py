@@ -69,10 +69,10 @@ def classifier(  # pylint:disable=R1260
         candidat,
         clusteritem,
         selection,
-        max_size_diff=Tol(0.5, 0.1),  # TODO: HOLY VALUES
-        max_after_diff=Tol(2.0, 0.1),
-        max_before_diff=Tol(2.0, 0.1),
-        max_left_diff=Tol(5.0, 0.1),
+        max_size_diff=None,
+        max_after_diff=None,
+        max_before_diff=None,
+        max_left_diff=None,
 ) -> bool:
     if selection is None or ClusterProperty.SIZE in selection:
         if not utila.pnear(
