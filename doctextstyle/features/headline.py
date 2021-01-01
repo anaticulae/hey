@@ -24,6 +24,7 @@ def headlines(  # pylint:disable=R1260,R0914
         min_headline_count: int = None,
         min_headline_length: int = None,
         greater_than_text: bool = True,
+        headline_start: bool = True,
         returncluster: bool = False,
 ):
     if min_headline_count is None:
@@ -76,12 +77,14 @@ def headlines(  # pylint:disable=R1260,R0914
             return False
         return True
 
+    selection = (
+        doctextstyle.cluster.ClusterProperty.FONT,
+        doctextstyle.cluster.ClusterProperty.LEFT,
+    ) if headline_start else (doctextstyle.cluster.ClusterProperty.FONT,)
+
     clustered = doctextstyle.cluster.cluster(
         flats,
-        (
-            doctextstyle.cluster.ClusterProperty.FONT,
-            doctextstyle.cluster.ClusterProperty.LEFT,
-        ),
+        selection=selection,
         validator=valid_headline,
         minsize=min_headline_count,
         unique_content=True,  # remove duplicated footer/header content

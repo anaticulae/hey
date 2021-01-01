@@ -40,7 +40,7 @@ def cluster(
         max_size_diff=Tol(0.5, 0.1),  # TODO: HOLY VALUES
         max_after_diff=Tol(2.0, 0.1),
         max_before_diff=Tol(2.0, 0.1),
-        max_left_diff=Tol(15.0, 0.25),
+        max_left_diff=Tol(15.0, 0.15),
 ):
     if selection:
         selection = set(selection)

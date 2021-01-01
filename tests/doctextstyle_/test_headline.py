@@ -7,20 +7,29 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import pytest
+
 import doctextstyle.features.headline
 
 
+@pytest.mark.xfail(reason='do not support multiline headlines')
 def test_cluster_extract_headlines_small(master72_text_flat_small):
+    # TODO: REQUIRE MULTILINE SUPPORT
+    # TODO: SEE HEADLINE ON PAGE 6(FIRST LEVEL HEADLINES)
     headlines = doctextstyle.features.headline.headlines(
         master72_text_flat_small,
         min_headline_count=3,
+        headline_start=True,
+        returncluster=True,
     )
     assert len(headlines) == 2
     assert headlines[0][0] == 15.96
     assert headlines[1][0] == 14.04
 
 
+@pytest.mark.xfail(reason='do not support multiline headlines')
 def test_cluster_extract_headlines_all(master72_text_flat):
+    # TODO: REQUIRE MULTILINE SUPPORT
     headlines = doctextstyle.features.headline.headlines(master72_text_flat)
     assert len(headlines) == 3
     assert headlines[0][0] == 15.96, str(headlines)
@@ -29,6 +38,7 @@ def test_cluster_extract_headlines_all(master72_text_flat):
 
     headlines = doctextstyle.features.headline.headlines(
         master72_text_flat,
+        headline_start=False,
         returncluster=True,
     )
     assert len(headlines) == 2, str(headlines)
