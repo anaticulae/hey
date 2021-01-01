@@ -9,6 +9,7 @@
 
 import collections
 import enum
+import functools
 import typing
 
 import iamraw
@@ -29,7 +30,7 @@ Tol = collections.namedtuple('Tol', 'abs, rel')
 NO_TOLERANCE = Tol(0.0, 0.0)
 
 
-def cluster(  # pylint:disable=R1260
+def cluster(
         items: iamraw.TextProperties,
         selection: ClusterPropertySelection = None,
         validator: callable = None,
@@ -46,52 +47,69 @@ def cluster(  # pylint:disable=R1260
     if validator:
         items = [item for item in items if validator(item)]
 
-    def classifier(candidat, clusteritem) -> bool:
-        if selection is None or ClusterProperty.SIZE in selection:
-            if not utila.pnear(
-                    candidat.size,
-                    clusteritem.size,
-                    abs_tol=max_size_diff.abs,
-                    rel_tol=max_size_diff.rel,
-            ):
-                return False
-        if selection is None or ClusterProperty.BEFORE in selection:
-            if not utila.pnear(
-                    candidat.before,
-                    clusteritem.before,
-                    abs_tol=max_before_diff.abs,
-                    rel_tol=max_before_diff.rel,
-            ):
-                return False
-        if selection is None or ClusterProperty.AFTER in selection:
-            if not utila.pnear(
-                    candidat.after,
-                    clusteritem.after,
-                    abs_tol=max_after_diff.abs,
-                    rel_tol=max_after_diff.rel,
-            ):
-                return False
-        if selection is None or ClusterProperty.LEFT in selection:
-            if not utila.pnear(
-                    candidat.left,
-                    clusteritem.left,
-                    abs_tol=max_xleft_diff.abs,
-                    rel_tol=max_xleft_diff.rel,
-            ):
-                return False
-        if selection is None or ClusterProperty.FONT in selection:
-            if candidat.font != clusteritem.font:
-                return False
-        return True
-
+    decider = functools.partial(
+        classifier,
+        selection=selection,
+        max_size_diff=max_size_diff,
+        max_after_diff=max_after_diff,
+        max_before_diff=max_before_diff,
+        max_xleft_diff=max_xleft_diff,
+    )
     clustered = utila.determine_cluster(
-        items,
-        classifier=classifier,
+        todo=items,
+        classifier=decider,
         min_elements=minsize,
     )
     if unique_content:
         clustered = [item for item in clustered if iscontent_unique(item)]
     return clustered
+
+
+def classifier(  # pylint:disable=R1260
+        candidat,
+        clusteritem,
+        selection,
+        max_size_diff=Tol(0.5, 0.1),  # TODO: HOLY VALUES
+        max_after_diff=Tol(2.0, 0.1),
+        max_before_diff=Tol(2.0, 0.1),
+        max_xleft_diff=Tol(5.0, 0.1),
+) -> bool:
+    if selection is None or ClusterProperty.SIZE in selection:
+        if not utila.pnear(
+                candidat.size,
+                clusteritem.size,
+                abs_tol=max_size_diff.abs,
+                rel_tol=max_size_diff.rel,
+        ):
+            return False
+    if selection is None or ClusterProperty.BEFORE in selection:
+        if not utila.pnear(
+                candidat.before,
+                clusteritem.before,
+                abs_tol=max_before_diff.abs,
+                rel_tol=max_before_diff.rel,
+        ):
+            return False
+    if selection is None or ClusterProperty.AFTER in selection:
+        if not utila.pnear(
+                candidat.after,
+                clusteritem.after,
+                abs_tol=max_after_diff.abs,
+                rel_tol=max_after_diff.rel,
+        ):
+            return False
+    if selection is None or ClusterProperty.LEFT in selection:
+        if not utila.pnear(
+                candidat.left,
+                clusteritem.left,
+                abs_tol=max_xleft_diff.abs,
+                rel_tol=max_xleft_diff.rel,
+        ):
+            return False
+    if selection is None or ClusterProperty.FONT in selection:
+        if candidat.font != clusteritem.font:
+            return False
+    return True
 
 
 def iscontent_unique(current) -> bool:
