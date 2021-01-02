@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v5.6.2
+
+### Fix
+
+* fix accessing error, return empty data instead (e52339239ec0)
+
 ## v5.6.1
 
 ### Feature
