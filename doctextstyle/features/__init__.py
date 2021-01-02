@@ -16,6 +16,9 @@ def text(flats, returncluster: bool = False):
         doctextstyle.cluster.ClusterProperty.FONT,
     ))
     result = doctextstyle.cluster.bestmatch(clustered)
+    if not result:
+        # too few data to determine text style information
+        return None
     if returncluster:
         return result, clustered[0] if clustered else []
     return result

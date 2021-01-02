@@ -34,6 +34,9 @@ def headlines(  # pylint:disable=R1260,R0914
         min_headline_length = MIN_HEADLINE_LENGTH
 
     _text = doctextstyle.features.text(flats, returncluster=True)
+    if not _text:
+        # too few data
+        return []
     _pagenumber = doctextstyle.features.pagenumber(flats, returncluster=True)
 
     flats = doctextstyle.cluster.remove(flats, _text[1])
