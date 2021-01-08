@@ -8,6 +8,7 @@
 # =============================================================================
 
 import configo
+import elements
 import iamraw
 import utila
 
@@ -63,6 +64,10 @@ def headlines(  # pylint:disable=R1260,R0914
     flats = [item for item in flats if item.length >= MIN_HEADLINE_LENGTH]
 
     def valid_headline(item) -> bool:  # pylint:disable=R0911
+        if elements.noheadline(item.hashed):
+            return False
+        if elements.isheadline(item.hashed):
+            return True
         if item.before is None:
             if doctextstyle.utils.headline_blacklisted(item.hashed):
                 # Kapitel 1 at the start of the page followed by title
