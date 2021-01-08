@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v5.6.3
+
+### Feature
+
+* use elements to improve headline extractor (02645bd0df4d)
+
 ## v5.6.2
 
 ### Fix
