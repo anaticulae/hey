@@ -11,16 +11,16 @@
 rawmaker==2.9.4
 
 # reference to test data
-power==1.1.0
+power==1.1.1
 
 # test data generator
 jam==0.2.18
 
 # generate magic test data
-words==0.24.1
-detector==0.12.2
+words==0.26.0
+detector==0.13.1
 
 # generate example data
-genex==0.5.4
+genex==0.5.6
 
 utilatest==0.2.2
