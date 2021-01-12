@@ -8,10 +8,10 @@
 # =============================================================================
 
 # ensure that test data is generated with the right version of rawmaker
-rawmaker==2.9.4
+rawmaker==2.10.1
 
 # reference to test data
-power==1.1.1
+power==1.1.2
 
 # test data generator
 jam==0.2.18
@@ -21,6 +21,6 @@ words==0.26.0
 detector==0.13.1
 
 # generate example data
-genex==0.5.6
+genex==0.5.7
 
 utilatest==0.2.2
