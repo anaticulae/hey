@@ -13,16 +13,16 @@ import caption.feature
 
 
 def work(
-        text_oneline: str,
-        textposition_oneline: str,
+        oneline_text: str,
+        oneline_textposition: str,
         sizeandborder: str,
         footerheader: str,
         tables: str,
         pages: tuple = None,
 ) -> str:
     ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
-        text_oneline,
-        textposition_oneline,
+        oneline_text,
+        oneline_textposition,
         sizeandborderpath=sizeandborder,
         headerfooterpath=footerheader,
         pages=pages,
