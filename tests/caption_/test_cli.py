@@ -9,34 +9,16 @@
 
 import power
 import pytest
-import serializeraw
 import utila
 
 import caption.path
 import tests.caption_
+import tests.caption_.utils
 import tests.resources
 
 
 def test_caption_cli_help(monkeypatch):
     tests.caption_.run('--help', monkeypatch=monkeypatch)
-
-
-def extract_captions(
-        source,
-        pages: str,
-        testdir,
-        monkeypatch,
-        result_path=None,
-):
-    if result_path is None:
-        result_path = caption.path.image_caption
-    source = power.link(source)
-    cmd = f'-i {source} --pages={pages}'
-    tests.caption_.run(cmd, monkeypatch=monkeypatch)
-
-    path = result_path(testdir.tmpdir)
-    loaded = serializeraw.load_captions(path)
-    return loaded
 
 
 @pytest.mark.parametrize('page, expected', [
@@ -45,29 +27,32 @@ def extract_captions(
 ])
 def test_caption_bachelor90_pagex(page, expected, testdir, monkeypatch):
     source = power.BACHELOR090_PDF
-    extracted = extract_captions(source, page, testdir, monkeypatch)
-
+    extracted = tests.caption_.utils.extract_captions(
+        source,
+        page,
+        testdir,
+        monkeypatch,
+    )
     content = utila.select_content(extracted, page)
     assert len(content) == expected
 
 
 def test_caption_bachelor90_page80(testdir, monkeypatch):
     source = power.BACHELOR090_PDF
-    extracted = extract_captions(
+    extracted = tests.caption_.utils.extract_captions(
         source,
         80,
         testdir,
         monkeypatch,
         caption.path.table_caption,
     )
-
     tables = extracted[0].content
     assert len(tables) == 1, str(tables)
 
 
 def test_caption_master116_page12(testdir, monkeypatch):
     source = power.MASTER116_PDF
-    extracted = extract_captions(
+    extracted = tests.caption_.utils.extract_captions(
         source,
         12,
         testdir,
