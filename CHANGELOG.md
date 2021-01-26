@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v5.6.5
+
+### Feature
+
+* externalize parameter to increase configurability (59d7795a18d5)
+
 ## v5.6.4
 
 ### Documentation
