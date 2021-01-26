@@ -28,6 +28,8 @@ def headlines(  # pylint:disable=R1260,R0914
         greater_than_text: bool = True,
         headline_start: bool = True,
         returncluster: bool = False,
+        distance_before_min: float = 1.2,
+        distance_after_min: float = 0.98,
 ):
     if min_headline_count is None:
         min_headline_count = MIN_HEADLINE_CLUSTER_SIZE
@@ -75,10 +77,10 @@ def headlines(  # pylint:disable=R1260,R0914
             return True
         if item.after is None:
             return False
-        if item.before <= distance_before_textsize * 1.2:  # TODO: HOLY VALUE
+        if item.before <= distance_before_textsize * distance_before_min:
             return False
         # TODO: INTRODUCE NEW STRATEGY FOR HEADLINES WITHOUT HUGE DISTANCE
-        if item.after < distance_after_textsize * 0.98:  # TODO: HOLY VALUE
+        if item.after < distance_after_textsize * distance_after_min:
             return False
         if item.hashed.count('.') > 5:  # TODO: HOLY VALUE
             # filter table items
