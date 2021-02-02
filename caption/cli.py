@@ -38,7 +38,7 @@ WORKPLAN = [
     utila.create_step(
         name='table',
         inputs=CAPTION_DATA + [
-            utila.ResultFile('linero', 'table_table'),
+            utila.ResultFile('linero', 'table_table', optional=True),
         ],
         output=('caption',),
     ),

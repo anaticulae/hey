@@ -7,7 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import os
+
 import serializeraw
+import utila
 
 import caption.feature
 
@@ -27,15 +30,18 @@ def work(
         headerfooterpath=footerheader,
         pages=pages,
     )
-    tables = serializeraw.load_tables(tables, pages=pages)
 
-    processor = caption.feature.CaptionPageWordProcessor(
-        words=(
-            'Tab.',
-            'Tabelle',
-            'Table',
-        ))
-
-    result = caption.feature.run(processor, ptcns, tables)
+    if os.path.exists(tables):
+        tables = serializeraw.load_tables(tables, pages=pages)
+        processor = caption.feature.CaptionPageWordProcessor(
+            words=(
+                'Tab.',
+                'Tabelle',
+                'Table',
+            ))
+        result = caption.feature.run(processor, ptcns, tables)
+    else:
+        utila.error(f'could not load tables: {tables}, skip caption --table')
+        result = []
     dumped = serializeraw.dump_captions(result)
     return dumped
