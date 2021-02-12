@@ -42,14 +42,26 @@ def test_master72_list_and_blockquotes(testdir, monkeypatch):
     assert iamraw.PageContentType.BLOCKQUOTE in blockquote_page
 
 
-def test_bachelor90_table_page76(testdir, monkeypatch):
+def run_magic(
+        source,
+        testdir,
+        monkeypatch,
+        pages: str = '',
+) -> iamraw.PageContentContentTypes:
+    source = power.link(source)
     tests.magic_.run(
-        f'-i {power.link(power.BACHELOR090_PDF)} --pages=76 ',
+        f'-i {source} --pages={pages} ',
         monkeypatch=monkeypatch,
     )
     path = magic.path.content(testdir.tmpdir)
-    loaded = serializeraw.load_types(path)[0].content
+    loaded = serializeraw.load_types(path)
     assert loaded, str(loaded)
+    return loaded
+
+
+def test_bachelor90_table_page76(testdir, monkeypatch):
+    loaded = run_magic(power.BACHELOR090_PDF, testdir, monkeypatch, pages=76)
+    loaded = loaded[0].content
     assert len(loaded) == 15  # TODO: NOT VERIFIED
 
 
