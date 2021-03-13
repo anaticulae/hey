@@ -9,6 +9,7 @@
 
 import collections
 import os
+import typing
 
 import iamraw
 import serializeraw
@@ -19,6 +20,8 @@ import utila
 def work(  # pylint:disable=R0913,R0914,
         text: str,
         textpositions: str,
+        oneline_text: str,
+        oneline_textpositions: str,
         sizeandborders: str,
         footerheader: str,
         lists: str,
@@ -28,14 +31,27 @@ def work(  # pylint:disable=R0913,R0914,
         table: str,
         figures: str,
         pages: tuple = None,
-) -> str:
-    ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
-        text,
-        textpositions,
-        sizeandborders,
-        footerheader,
-        pages=pages,
-    )
+) -> typing.Tuple[str, str]:
+    # TODO: USE GEORG FORK!
+    with utila.GeorgFork(returncode=False, worker=2) as runtime:
+        runtime.fork(
+            serializeraw.create_pagetextcontentnavigators_fromfile,
+            text=text,
+            textpositions=textpositions,
+            sizeandborderpath=sizeandborders,
+            headerfooterpath=footerheader,
+            pages=pages,
+        )
+        runtime.fork(
+            serializeraw.create_pagetextcontentnavigators_fromfile,
+            text=oneline_text,
+            textpositions=oneline_textpositions,
+            sizeandborderpath=sizeandborders,
+            headerfooterpath=footerheader,
+            pages=pages,
+        )
+    ptcns, oneline_ptcns = runtime.result
+
     lists = expand_lists(load_content(serializeraw.load_lists, lists, pages))
     blockquotes = load_content(serializeraw.load_blockquotes, blockquotes, pages) # yapf:disable
     formula = load_content(serializeraw.load_formulas, formula, pages)
@@ -49,7 +65,22 @@ def work(  # pylint:disable=R0913,R0914,
             pages,
         ) for item in figures
     ])
+    data = [lists, blockquotes, formula, captions, tables, figures]
 
+    normal = determine_types(ptcns, *data)
+    oneline = determine_types(oneline_ptcns, *data)
+    return normal, oneline
+
+
+def determine_types(  # pylint:disable=R0914
+        ptcns,
+        lists,
+        blockquotes,
+        formula,
+        captions,
+        tables,
+        figures,
+) -> str:
     result = []
     for navigator in ptcns:
         listinstance = utila.select_page(lists, navigator.page)

@@ -20,6 +20,8 @@ WORKPLAN = [
     utila.create_step(
         'content',
         inputs=[
+            utila.ResultFile('rawmaker', 'text_text'),
+            utila.ResultFile('rawmaker', 'text_positions'),
             utila.ResultFile('rawmaker', 'oneline_text_text'),
             utila.ResultFile('rawmaker', 'oneline_text_positions'),
             utila.ResultFile('rawmaker', 'border_pages'),
@@ -31,7 +33,7 @@ WORKPLAN = [
             utila.ResultFile('linero', 'table_table', optional=True),
             utila.Directory('rawmaker__figures_figures', optional=True),
         ],
-        output=('content',),
+        output=('content_normal', 'content'),
     ),
 ]
 # yapf:enable

@@ -12,3 +12,7 @@ import utila
 
 def content(path: str, prefix: str = '') -> str:
     return utila.pathconnector(path, 'magic', 'content_content', prefix)
+
+
+def content_normal(path: str, prefix: str = '') -> str:
+    return utila.pathconnector(path, 'magic', 'content_content_normal', prefix)
