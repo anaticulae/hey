@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v5.7.0
+
+### Feature
+
+* determine magic for normal content (fc35aa903fb6)
+* skip --table step if linero_table resource is not available (6c8c5e70b124)
+
 ## v5.6.5
 
 ### Feature
