@@ -71,7 +71,7 @@ def headlines(  # pylint:disable=R1260,R0914
         if elements.isheadline(item.hashed):
             return True
         if item.before is None:
-            if doctextstyle.utils.headline_blacklisted(item.hashed):
+            if doctextstyle.utils.invalid_headline(item.hashed):
                 # Kapitel 1 at the start of the page followed by title
                 return False
             return True
