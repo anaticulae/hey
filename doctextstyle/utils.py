@@ -68,3 +68,21 @@ def invalid_headline(item: str) -> bool:
     if INVALID_APPENDIX.match(item):
         return True
     return False
+
+
+def connect_pages(pages) -> list:
+    """\
+    >>> connect_pages([
+    ...     [[1, 2, 3], [10, 11, 12]],
+    ...     [[4, 5, 6], [13, 14, 15]],
+    ... ])
+    [[1, 2, 3, 4, 5, 6], [10, 11, 12, 13, 14, 15]]
+    """
+    # TODO: MOVE TO UTILA
+    if not pages:
+        return []
+    result = pages[0][:]
+    for items in pages[1:]:
+        for insert, current in zip(result, items):
+            insert.extend(current)
+    return result
