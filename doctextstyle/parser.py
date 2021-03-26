@@ -24,12 +24,18 @@ VerticalTextDistances = typing.List[VerticalTextDistance]
 def parses(
         navigators: texmex.PageTextNavigators,
         magics: iamraw.PageContentContentTypes = None,
+        fontstore: iamraw.FontStore = None,
+        parser: callable = None,
 ) -> iamraw.PageTextPropertiesList:
+    parser = parser if parser else parse
     magics = magics if magics else []
     result = []
     for navigator in navigators:
         magic = select_magic(magics, navigator.page)
-        parsed = parse(navigator, magic)
+        if fontstore:
+            parsed = parser(navigator, magic, fontstore)
+        else:
+            parsed = parser(navigator, magic)
         result.append(parsed)
     return result
 
@@ -81,6 +87,64 @@ def parse(
         page=navigator.page,
     )
     return result
+
+
+def parse_vector(
+        navigator: texmex.PageTextNavigator,
+        magic: 'iamraw.PageContentContentType.content',
+        fontstore: iamraw.FontStore,
+) -> iamraw.PageTextProperties:
+    rates = textrate(navigator)
+    uppers = upperrate(navigator)
+    # lengths = textlength(navigator)
+    # hashed = [item.text.strip() for item in navigator]
+    distances = textdistances(navigator)
+    sizes = textsizes(navigator)
+    bolds = bold(navigator, fontstore)
+    italics = italic(navigator, fontstore)
+    fonts = textfonts(navigator, fontstore)
+    top, bottom = topbottom(navigator)
+    left, right = leftright(navigator)
+
+    equal_length = [
+        len(item) for item in [
+            sizes,
+            fonts,
+            distances,
+            top,
+            bottom,
+            left,
+            right,
+        ]
+    ]
+    assert len(set(equal_length)) == 1, f'different iter length {equal_length}'
+
+    rates = skip_magic(rates, magic)
+    uppers = skip_magic(uppers, magic)
+    sizes = skip_magic(sizes, magic)
+    bolds = skip_magic(bolds, magic)
+    italics = skip_magic(italics, magic)
+    fonts = skip_magic(fonts, magic)
+    distances = skip_magic(distances, magic)
+    top = skip_magic(top, magic)
+    bottom = skip_magic(bottom, magic)
+    left = skip_magic(left, magic)
+    right = skip_magic(right, magic)
+
+    result = [
+        sizes,
+        bolds,
+        italics,
+        left,
+    ]
+    return result
+
+
+def normalize(items):
+    maxed = max(items)
+    if maxed:
+        items = [item / maxed for item in items]
+    return items
 
 
 def select_magic(magics, page) -> collections.defaultdict:
@@ -168,7 +232,68 @@ def round_vertical_distances(items, digits: int = 1):
 
 
 def textlength(navigator) -> utila.Ints:
-    return [len(item.text) for item in navigator]
+    return textvalue(navigator, selector=lambda item: len(item.text.strip()))
+
+
+def textwidth(navigator) -> utila.Floats:
+    return textvalue(
+        navigator,
+        selector=lambda item: item.bounding.x1 - item.bounding.x0,
+    )
+
+
+def bold(navigator, fontstore) -> utila.Floats:
+
+    def isbold(item):
+        font = fontstore[item.style.fontid]
+        weight = font.weight
+        return 100.0 if weight == iamraw.Weight.BOLD else 0.0
+
+    return textvalue(navigator, selector=isbold)
+
+
+def italic(navigator, fontstore) -> utila.Floats:
+
+    def isitalic(item):
+        font = fontstore[item.style.fontid]
+        style = font.style
+        return 100.0 if style == iamraw.Style.ITALIC else 0.0
+
+    return textvalue(navigator, selector=isitalic)
+
+
+def textuppper(navigator) -> utila.Floats:
+    result = textvalue(
+        navigator,
+        selector=lambda item: len([it for it in item.text if it.isupper()]),
+    )
+    return result
+
+
+def textrate(navigator) -> utila.Floats:
+    widths = textwidth(navigator)
+    lengths = textlength(navigator)
+    result = [
+        width / length if length else 0
+        for width, length in zip(widths, lengths)
+    ]
+    result = utila.roundme(result)
+    return result
+
+
+def upperrate(navigator) -> utila.Floats:
+    uppers = textuppper(navigator)
+    lengths = textlength(navigator)
+    result = [
+        upper / length if length else 0
+        for upper, length in zip(uppers, lengths)
+    ]
+    result = utila.roundme(result)
+    return result
+
+
+def textvalue(navigator, selector: callable) -> utila.Ints:
+    return [selector(item) for item in navigator]
 
 
 def textsizes(navi: texmex.NavigatorMixin) -> utila.Floats:
@@ -184,7 +309,7 @@ def textsizes(navi: texmex.NavigatorMixin) -> utila.Floats:
     return collected
 
 
-def textfonts(navi: texmex.NavigatorMixin) -> utila.Ints:
+def textfonts(navi: texmex.NavigatorMixin, fontstore=None) -> utila.Ints:
     assert issubclass(navi.__class__, texmex.NavigatorMixin), type(navi)
     collected = []
     for line in navi:
@@ -193,7 +318,24 @@ def textfonts(navi: texmex.NavigatorMixin) -> utila.Ints:
         family = [[char.font] * (char.end - char.start) for char in line.style]
         family = utila.flatten(family)
         collected.append(utila.mode(family))
+    if fontstore:
+        collected = [hash(fontstore[item].name) for item in collected]
     return collected
+
+
+def topbottom(navigator) -> VerticalTextDistances:
+    if not navigator:
+        return []
+    border = iamraw.Border(0, navigator.width, 0, navigator.height)
+    bounds = texmex.textbounds(navigator, border)
+    # ignore empty content
+    bounds = [item.bounds for item in bounds if len(item.text)]
+    tops = [bounds[0].topdist] + utila.diffs([item.topdist for item in bounds])
+    tops = utila.roundme(tops)
+    bottoms = utila.diffs([item.bottomdist for item in bounds])
+    bottoms = bottoms + [bounds[-1].bottomdist]
+    bottoms = utila.roundme(bottoms)
+    return tops, bottoms
 
 
 def vertical_position(navigator) -> VerticalTextDistances:
