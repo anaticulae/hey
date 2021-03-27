@@ -27,6 +27,8 @@ Line = collections.namedtuple(
 )
 Lines = typing.List[Line]
 
+NUMPY_SEED = 1 * 2 * 4 * 8 * 16 * 32 * 64
+
 
 def navigators(source: str, pages: tuple = None) -> np.array:
     loaded = serializeraw.create_pagetextnavigators_frompath(
@@ -51,6 +53,8 @@ def navigators(source: str, pages: tuple = None) -> np.array:
 
 def cluster(matrix, navigators, numbers: int = 20, runtime: int = 12000):
     merged = scipy.cluster.vq.whiten(matrix)
+    # TODO: REMOVE AFTER HAVING A MORE STABLE ALGO
+    np.random.seed(NUMPY_SEED)
     centroid, label = scipy.cluster.vq.kmeans2(
         merged,
         k=numbers,
