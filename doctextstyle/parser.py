@@ -244,10 +244,16 @@ def textwidth(navigator) -> utila.Floats:
 
 def bold(navigator, fontstore) -> utila.Floats:
 
+    BOLD = 100.0
+    NO_BOLD = 0.0
+
     def isbold(item):
+        fontids = texmex.TextStyle.fontids(item.style, set)
+        if len(fontids) > 1:
+            return NO_BOLD
         font = fontstore[item.style.fontid]
         weight = font.weight
-        return 100.0 if weight == iamraw.Weight.BOLD else 0.0
+        return BOLD if weight == iamraw.Weight.BOLD else NO_BOLD
 
     return textvalue(navigator, selector=isbold)
 
