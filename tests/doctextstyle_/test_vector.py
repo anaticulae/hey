@@ -14,6 +14,10 @@ import doctextstyle.vector
 
 def test_fast():
     source = power.link(power.HOME025_PDF)
-    navigators = doctextstyle.vector.navigators(source)
+    matrix, navigators, fontstore = doctextstyle.vector.navigators(source)
     # (length, data)
-    assert navigators.shape == (516, 4)
+    assert matrix.shape == (516, 4)
+    clustered = doctextstyle.vector.cluster(matrix, navigators)
+    result = doctextstyle.vector.decide(clustered, fontstore)
+    assert result.text_family
+    assert result.text_size == 11.96

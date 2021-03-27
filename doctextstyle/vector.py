@@ -11,11 +11,11 @@ import collections
 import itertools
 import typing
 
+import iamraw
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.cluster.vq
 import serializeraw
-import sklearn.cluster
 import utila
 
 import doctextstyle.parser
@@ -43,15 +43,14 @@ def navigators(source: str, pages: tuple = None) -> np.array:
     merged = doctextstyle.utils.connect_pages(parsed)
     # TODO: UUSE NUMPY
     merged = list(itertools.zip_longest(*merged))
-
     # round it
     merged = np.array(merged, dtype=np.uint32)
-    result = np.array(merged, dtype=np.double)
-    return result
+    matrix = np.array(merged, dtype=np.double)
+    return matrix, loaded, fontstore
 
 
-def cluster(content, numbers: int = 20, runtime: int = 12000):
-    merged = scipy.cluster.vq.whiten(content)
+def cluster(matrix, navigators, numbers: int = 20, runtime: int = 12000):
+    merged = scipy.cluster.vq.whiten(matrix)
     centroid, label = scipy.cluster.vq.kmeans2(
         merged,
         k=numbers,
@@ -59,8 +58,39 @@ def cluster(content, numbers: int = 20, runtime: int = 12000):
         thresh=10.0,
     )
     counts = np.bincount(label)
-    data = np.array([item.text for item in utila.flatten(loaded)])
+    data = np.array([item for item in utila.flatten(navigators)])
     assert len(data) == len(label)
-
     grouped = [data[label == item] for item in range(numbers)]
     return grouped
+
+
+def decide(clustered, fontstore) -> iamraw.DocTextStyle:
+    notempty = [item for item in clustered if len(item)]
+    largest_ = largest(notempty)
+
+    text = notempty[largest_]
+    text_size, text_distance, text_family = decide_text(text)
+
+    result = iamraw.DocTextStyle(
+        text_size=text_size,
+        text_distance=text_distance,
+        text_family=fontstore[text_family].name,
+    )
+    return result
+
+
+def decide_text(text):
+    first = text[0].style
+    return first.textsize(), -1, first.fontid
+
+
+def largest(items):
+    if not items:
+        raise ValueError('empty collection')
+    longest = 0
+    print([len(item) for item in items])
+    for index, item in enumerate(items[1:], start=1):
+        if len(item) < len(items[longest]):
+            continue
+        longest = index
+    return longest
