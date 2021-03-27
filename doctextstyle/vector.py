@@ -9,8 +9,10 @@
 
 import collections
 import itertools
+import statistics
 import typing
 
+import elements
 import iamraw
 import matplotlib.pyplot as plt
 import numpy as np
@@ -59,7 +61,7 @@ def cluster(matrix, navigators, numbers: int = 20, runtime: int = 12000):
         merged,
         k=numbers,
         iter=runtime,
-        thresh=10.0,
+        minit='points',
     )
     counts = np.bincount(label)
     data = np.array([item for item in utila.flatten(navigators)])
@@ -70,15 +72,22 @@ def cluster(matrix, navigators, numbers: int = 20, runtime: int = 12000):
 
 def decide(clustered, fontstore) -> iamraw.DocTextStyle:
     notempty = [item for item in clustered if len(item)]
-    largest_ = largest(notempty)
-
-    text = notempty[largest_]
+    text_ = largest(notempty)
+    notempty = notempty[0:text_] + notempty[text_:]
+    text = notempty[text_]
     text_size, text_distance, text_family = decide_text(text)
+    headlines, deletes = decide_headlines(notempty)
+    deletes = {hash(str(item)) for item in deletes}
+    notempty = [item for item in notempty if hash(str(item)) not in deletes]
 
     result = iamraw.DocTextStyle(
         text_size=text_size,
         text_distance=text_distance,
         text_family=fontstore[text_family].name,
+        h1_size=headlines[0],
+        h2_size=headlines[1],
+        h3_size=headlines[2],
+        h4_size=headlines[2],
     )
     return result
 
@@ -88,11 +97,78 @@ def decide_text(text):
     return first.textsize(), -1, first.fontid
 
 
-def largest(items):
+def decide_headlines(clusters, cluster_min_size: int = 5):
+    # find headline cluster
+    collected = []
+    delete = []
+    for cluster in clusters:
+        rate, median = headline_rate(cluster)
+        if rate < 0.30 or median < 10:
+            continue
+        if noheadline_cluster(cluster):
+            continue
+        # TODO: ACCEPT RIGHT PADDED TEXT
+        # skip too right items
+        valid = [
+            item for item in cluster if utila.near(
+                75.0,
+                item.bounding.x0,
+                diff=10.0,  # TODO: HOLY VALUE
+            )
+        ]
+        if len(valid) <= cluster_min_size:
+            continue
+        collected.append(valid)
+        delete.append(cluster)
+    flat = utila.flatten(collected)
+    sizes = sorted([item.bounding_mean for item in flat], reverse=True)
+    grouped = [
+        statistics.mean(group)
+        for group in utila.groupby_diff(sizes)
+        if len(group) >= cluster_min_size
+    ]
+    h1_size, h2_size, h3_size, h4_size = None, None, None, None
+    return (
+        h1_size,
+        h2_size,
+        h3_size,
+        h4_size,
+    ), delete
+
+
+def headline_rate(cluster):
+    # TODO: MOVE TO ELEMENTS?
+    median = statistics.median([len(item.text) for item in cluster])
+    headlines = [
+        item for item in cluster if elements.isheadline(
+            item.text,
+            strict=False,
+        )
+    ]
+    return len(headlines) / len(cluster), median
+
+
+def noheadline_cluster(cluster, pagerate_max: float = 0.5):
+    """\
+     2. Klassifikation 5
+     3. Steuerung 13
+     4. Anwendung 17
+    """
+    if len(cluster) < 4:
+        return False
+    with_pageending = [
+        item for item in cluster if utila.isnumber(item.text.split(' ')[-1])
+    ]
+    pagerate = len(with_pageending) / len(cluster)
+    if pagerate > pagerate_max:
+        return True
+    return False
+
+
+def largest(items) -> int:
     if not items:
         raise ValueError('empty collection')
     longest = 0
-    print([len(item) for item in items])
     for index, item in enumerate(items[1:], start=1):
         if len(item) < len(items[longest]):
             continue
