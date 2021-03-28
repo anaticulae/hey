@@ -11,6 +11,7 @@ import collections
 import itertools
 import statistics
 import typing
+import warnings
 
 import elements
 import iamraw
@@ -174,3 +175,12 @@ def largest(items) -> int:
             continue
         longest = index
     return longest
+
+
+def disable_warnings():
+    # TODO: DO NOT DISABLE ALL WARNINGS
+    nowarning = lambda message, category=None, stacklevel=1, source=None: ''  # pylint:disable=W0613
+    warnings.warn = nowarning
+
+
+disable_warnings()
