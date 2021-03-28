@@ -7,11 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw.path
 import power
 import pytest
 import utila
 
-import caption.path
 import tests.caption_
 import tests.caption_.utils
 import tests.resources
@@ -44,7 +44,7 @@ def test_caption_bachelor90_page80(testdir, monkeypatch):
         80,
         testdir,
         monkeypatch,
-        caption.path.table_caption,
+        iamraw.path.table_caption,
     )
     tables = extracted[0].content
     assert len(tables) == 1, str(tables)
@@ -57,7 +57,7 @@ def test_caption_master116_page12(testdir, monkeypatch):
         12,
         testdir,
         monkeypatch,
-        caption.path.figure_caption,
+        iamraw.path.figure_caption,
     )
 
     figures = extracted[0].content

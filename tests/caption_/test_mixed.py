@@ -7,11 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw.path
 import power
 import serializeraw
 import utila
 
-import caption.path
 import tests.caption_
 
 
@@ -20,8 +20,8 @@ def test_mixed_bachelor51_page30(testdir, monkeypatch):
     cmd = f'-i {source} --pages=30'
     tests.caption_.run(cmd, monkeypatch=monkeypatch)
 
-    table = caption.path.table_caption(testdir.tmpdir)
-    figure = caption.path.image_caption(testdir.tmpdir)
+    table = iamraw.path.table_caption(testdir.tmpdir)
+    figure = iamraw.path.image_caption(testdir.tmpdir)
 
     table = serializeraw.load_captions(table)
     figure = serializeraw.load_captions(figure)

@@ -7,10 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw.path
 import power
 import serializeraw
 
-import caption.path
 import tests.caption_
 
 
@@ -22,7 +22,7 @@ def extract_captions(
         resultpath=None,
         selected='',
 ):
-    resultpath = resultpath if resultpath else caption.path.image_caption
+    resultpath = resultpath if resultpath else iamraw.path.image_caption
     source = power.link(source)
     cmd = f'-i {source} --pages={pages} {selected}'
     tests.caption_.run(cmd, monkeypatch=monkeypatch)

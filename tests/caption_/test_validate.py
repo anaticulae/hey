@@ -7,11 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw.path
 import power
 import pytest
 import utila
 
-import caption.path
 import tests.caption_.utils
 
 BACHELOR56_TABLE = """\
@@ -40,7 +40,7 @@ def test_validate_caption_table(source, expected, testdir, monkeypatch):
         ':',
         testdir,
         monkeypatch,
-        resultpath=caption.path.table_caption,
+        resultpath=iamraw.path.table_caption,
         selected='--table',
     )
     extracted = utila.flatten(page.content for page in extracted)
