@@ -16,28 +16,7 @@ import utila
 
 def decide_headlines(clusters, cluster_min_size: int = 5):
     # find headline cluster
-    collected = []
-    delete = []
-    for cluster in clusters:
-        rate, median = headline_rate(cluster)
-        if rate < 0.30 or median < 10:
-            continue
-        if noheadline_cluster(cluster):
-            continue
-        # TODO: ACCEPT RIGHT PADDED TEXT
-        # skip too right items
-        valid = [
-            item for item in cluster if utila.near(
-                75.0,
-                item.bounding.x0,
-                diff=10.0,  # TODO: HOLY VALUE
-            )
-        ]
-        if len(valid) <= cluster_min_size:
-            continue
-        collected.append(valid)
-        delete.append(cluster)
-    flat = utila.flatten(collected)
+    flat, delete = valid_headline_clusters(clusters, cluster_min_size)
     sizes = sorted([item.bounding_mean for item in flat])
     grouped = [
         statistics.mean(group)
@@ -63,6 +42,32 @@ def decide_headlines(clusters, cluster_min_size: int = 5):
         delete,
     )
     return result
+
+
+def valid_headline_clusters(clusters, cluster_min_size: int = 5):
+    collected = []
+    delete = []
+    for cluster in clusters:
+        rate, median = headline_rate(cluster)
+        if rate < 0.30 or median < 10:
+            continue
+        if noheadline_cluster(cluster):
+            continue
+        # TODO: ACCEPT RIGHT PADDED TEXT
+        # skip too right items
+        valid = [
+            item for item in cluster if utila.near(
+                75.0,
+                item.bounding.x0,
+                diff=10.0,  # TODO: HOLY VALUE
+            )
+        ]
+        if len(valid) <= cluster_min_size:
+            continue
+        collected.append(valid)
+        delete.append(cluster)
+    flat = utila.flatten(collected)
+    return flat, delete
 
 
 def select_font(size, headlines):
