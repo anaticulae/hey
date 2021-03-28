@@ -242,7 +242,7 @@ def textwidth(navigator) -> utila.Floats:
 def bold(navigator, fontstore) -> utila.Floats:
 
     bold_ = 100.0
-    no_bold = 0.0
+    no_bold = 10.0
 
     def isbold(item):
         fontids = texmex.TextStyle.fontids(item.style, set)
@@ -260,7 +260,7 @@ def italic(navigator, fontstore) -> utila.Floats:
     def isitalic(item):
         font = fontstore[item.style.fontid]
         style = font.style
-        return 100.0 if style == iamraw.Style.ITALIC else 0.0
+        return 100.0 if style == iamraw.Style.ITALIC else 10.0
 
     return textvalue(navigator, selector=isitalic)
 
