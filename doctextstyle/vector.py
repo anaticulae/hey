@@ -8,6 +8,7 @@
 # =============================================================================
 
 import collections
+import contextlib
 import itertools
 import statistics
 import typing
@@ -120,13 +121,19 @@ def decide_headlines(clusters, cluster_min_size: int = 5):
         collected.append(valid)
         delete.append(cluster)
     flat = utila.flatten(collected)
-    sizes = sorted([item.bounding_mean for item in flat], reverse=True)
+    sizes = sorted([item.bounding_mean for item in flat])
     grouped = [
         statistics.mean(group)
         for group in utila.groupby_diff(sizes)
         if len(group) >= cluster_min_size
     ]
+    grouped = utila.roundme(grouped)
     h1_size, h2_size, h3_size, h4_size = None, None, None, None
+    with contextlib.suppress(IndexError):
+        h1_size = grouped[-1]
+        h2_size = grouped[-2]
+        h3_size = grouped[-3]
+        h4_size = grouped[-4]
     return (
         h1_size,
         h2_size,

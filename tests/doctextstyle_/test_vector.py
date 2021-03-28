@@ -8,11 +8,12 @@
 # =============================================================================
 
 import power
+import utila
 
 import doctextstyle.vector
 
 
-def test_fast():
+def test_vector_cluster():
     source = power.link(power.HOME025_PDF)
     matrix, navigators, fontstore = doctextstyle.vector.navigators(source)
     # (length, data)
@@ -21,3 +22,13 @@ def test_fast():
     result = doctextstyle.vector.decide(clustered, fontstore)
     assert result.text_family
     assert result.text_size == 11.96
+
+
+def test_vector_headlines():
+    source = power.link(power.HOME025_PDF)
+    matrix, navigators, fontstore = doctextstyle.vector.navigators(source)
+    clustered = doctextstyle.vector.clusterme(matrix, navigators)
+    result = doctextstyle.vector.decide(clustered, fontstore)
+    assert utila.near(result.h1_size, 24.78, diff=0.5)
+    assert utila.near(result.h2_size, 17.22, diff=0.5)
+    assert utila.near(result.h3_size, 14.35, diff=0.5)
