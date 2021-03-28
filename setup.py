@@ -45,6 +45,7 @@ if __name__ == "__main__":
             'caption.feature',
             'doctextstyle',
             'doctextstyle.features',
+            'doctextstyle.vector',
             'hey',
             'magic',
             'magic.feature',
