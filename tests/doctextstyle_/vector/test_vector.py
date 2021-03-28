@@ -10,25 +10,26 @@
 import power
 import utila
 
-import doctextstyle.vector.cluster as dvc
+import doctextstyle.vector.decide
+import doctextstyle.vector.prepare as dvp
 
 
 def test_vector_cluster():
     source = power.link(power.HOME025_PDF)
-    matrix, navis, fontstore = dvc.navigators(source)
+    matrix, navis, fontstore = dvp.navigators(source)
     # (length, data)
     assert matrix.shape == (516, 4)
-    clustered = dvc.clusterme(matrix, navis)
-    result = dvc.decide(clustered, fontstore)
+    clustered = dvp.clusterme(matrix, navis)
+    result = doctextstyle.vector.decide.decide(clustered, fontstore)
     assert result.text_family
     assert result.text_size == 11.96
 
 
 def test_vector_headlines():
     source = power.link(power.HOME025_PDF)
-    matrix, navis, fontstore = dvc.navigators(source)
-    clustered = dvc.clusterme(matrix, navis)
-    result = dvc.decide(clustered, fontstore)
+    matrix, navis, fontstore = dvp.navigators(source)
+    clustered = dvp.clusterme(matrix, navis)
+    result = doctextstyle.vector.decide.decide(clustered, fontstore)
     assert utila.near(result.h1_size, 24.78, diff=0.5)
     assert utila.near(result.h2_size, 17.22, diff=0.5)
     assert utila.near(result.h3_size, 14.35, diff=0.5)
