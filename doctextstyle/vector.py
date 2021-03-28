@@ -15,7 +15,6 @@ import warnings
 
 import elements
 import iamraw
-import matplotlib.pyplot as plt
 import numpy as np
 import scipy.cluster.vq
 import serializeraw
@@ -54,18 +53,17 @@ def navigators(source: str, pages: tuple = None) -> np.array:
     return matrix, loaded, fontstore
 
 
-def cluster(matrix, navigators, numbers: int = 20, runtime: int = 12000):
+def clusterme(matrix, navis, numbers: int = 20, runtime: int = 12000):
     merged = scipy.cluster.vq.whiten(matrix)
     # TODO: REMOVE AFTER HAVING A MORE STABLE ALGO
     np.random.seed(NUMPY_SEED)
-    centroid, label = scipy.cluster.vq.kmeans2(
+    _, label = scipy.cluster.vq.kmeans2(
         merged,
         k=numbers,
         iter=runtime,
         minit='points',
     )
-    counts = np.bincount(label)
-    data = np.array([item for item in utila.flatten(navigators)])
+    data = np.array([item for item in utila.flatten(navis)])
     assert len(data) == len(label)
     grouped = [data[label == item] for item in range(numbers)]
     return grouped

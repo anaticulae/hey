@@ -98,7 +98,6 @@ def parse_vector(
     uppers = upperrate(navigator)
     # lengths = textlength(navigator)
     # hashed = [item.text.strip() for item in navigator]
-    distances = textdistances(navigator)
     sizes = textsizes(navigator)
     bolds = bold(navigator, fontstore)
     italics = italic(navigator, fontstore)
@@ -110,7 +109,6 @@ def parse_vector(
         len(item) for item in [
             sizes,
             fonts,
-            distances,
             top,
             bottom,
             left,
@@ -119,13 +117,12 @@ def parse_vector(
     ]
     assert len(set(equal_length)) == 1, f'different iter length {equal_length}'
 
-    rates = skip_magic(rates, magic)
-    uppers = skip_magic(uppers, magic)
+    rates: list = skip_magic(rates, magic)
+    uppers: list = skip_magic(uppers, magic)
     sizes = skip_magic(sizes, magic)
     bolds = skip_magic(bolds, magic)
     italics = skip_magic(italics, magic)
     fonts = skip_magic(fonts, magic)
-    distances = skip_magic(distances, magic)
     top = skip_magic(top, magic)
     bottom = skip_magic(bottom, magic)
     left = skip_magic(left, magic)
@@ -244,16 +241,16 @@ def textwidth(navigator) -> utila.Floats:
 
 def bold(navigator, fontstore) -> utila.Floats:
 
-    BOLD = 100.0
-    NO_BOLD = 0.0
+    bold_ = 100.0
+    no_bold = 0.0
 
     def isbold(item):
         fontids = texmex.TextStyle.fontids(item.style, set)
         if len(fontids) > 1:
-            return NO_BOLD
+            return no_bold
         font = fontstore[item.style.fontid]
         weight = font.weight
-        return BOLD if weight == iamraw.Weight.BOLD else NO_BOLD
+        return bold_ if weight == iamraw.Weight.BOLD else no_bold
 
     return textvalue(navigator, selector=isbold)
 

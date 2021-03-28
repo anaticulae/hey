@@ -17,7 +17,7 @@ def test_fast():
     matrix, navigators, fontstore = doctextstyle.vector.navigators(source)
     # (length, data)
     assert matrix.shape == (516, 4)
-    clustered = doctextstyle.vector.cluster(matrix, navigators)
+    clustered = doctextstyle.vector.clusterme(matrix, navigators)
     result = doctextstyle.vector.decide(clustered, fontstore)
     assert result.text_family
     assert result.text_size == 11.96
