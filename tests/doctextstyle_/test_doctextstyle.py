@@ -8,11 +8,13 @@
 # =============================================================================
 
 import power
+import pytest
 import utila
 import utilatest
 
 import doctextstyle
 import doctextstyle.extractor
+import doctextstyle.vector
 
 
 @utilatest.skip_longrun
@@ -30,11 +32,16 @@ def test_doctextstyle_extract():
     assert result.text_alignment == doctextstyle.JUSTIFIED
 
 
-def test_regression_doctextstyle_homework25():
+@pytest.mark.parametrize('method', [
+    pytest.param(doctextstyle.vector.run, id='ki_magic'),
+    pytest.param(doctextstyle.extractor.extract, id='old_school'),
+])
+def test_regression_doctextstyle_homework25(method):
     source = power.link(power.HOME025_PDF)
     # shrink to content pages
-    pages = utila.ranged_tuple(2, 22)
-    result = doctextstyle.extractor.extract(source, pages=pages)
+    pages = utila.ranged_tuple(0, 22)
+    pages = None
+    result = method(source, pages=pages)
     assert result
 
     expected_size = [24.79, 17.22, 14.35]
@@ -45,9 +52,9 @@ def test_regression_doctextstyle_homework25():
     before = [result.h1_before, result.h2_before, result.h3_before]
     after = [result.h1_after, result.h2_after, result.h3_after]
 
-    assert size == expected_size
-    assert before == expected_before
-    assert after == expected_after
+    assert utila.nears(size, expected_size, diff=0.5)
+    assert utila.nears(before, expected_before, diff=0.5, none=True)
+    assert utila.nears(after, expected_after, diff=0.5)
 
 
 @utilatest.skip_longrun
