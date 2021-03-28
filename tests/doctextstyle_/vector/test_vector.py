@@ -33,3 +33,6 @@ def test_vector_headlines():
     assert utila.near(result.h1_size, 24.78, diff=0.5)
     assert utila.near(result.h2_size, 17.22, diff=0.5)
     assert utila.near(result.h3_size, 14.35, diff=0.5)
+    assert result.h1_family == 'CMSSBX10'
+    assert result.h2_family == 'CMSSBX10'
+    assert result.h3_family == 'CMSSBX10'

@@ -18,7 +18,7 @@ def decide(clustered, fontstore) -> iamraw.DocTextStyle:
     notempty = notempty[0:text_] + notempty[text_:]
     text = notempty[text_]
     text_size, text_distance, text_family = decide_text(text)
-    headlines, deletes = dvh.decide_headlines(notempty)
+    headlines, fonts, deletes = dvh.decide_headlines(notempty)
     deletes = {hash(str(item)) for item in deletes}
     notempty = [item for item in notempty if hash(str(item)) not in deletes]
 
@@ -30,6 +30,10 @@ def decide(clustered, fontstore) -> iamraw.DocTextStyle:
         h2_size=headlines[1],
         h3_size=headlines[2],
         h4_size=headlines[2],
+        h1_family=fontstore[fonts[0]].name if fonts[0] else None,
+        h2_family=fontstore[fonts[1]].name if fonts[1] else None,
+        h3_family=fontstore[fonts[2]].name if fonts[2] else None,
+        h4_family=fontstore[fonts[3]].name if fonts[3] else None,
     )
     return result
 

@@ -51,12 +51,30 @@ def decide_headlines(clusters, cluster_min_size: int = 5):
         h2_size = grouped[-2]
         h3_size = grouped[-3]
         h4_size = grouped[-4]
-    return (
-        h1_size,
-        h2_size,
-        h3_size,
-        h4_size,
-    ), delete
+    h1_font, h2_font, h3_font, h4_font = (
+        select_font(h1_size, flat),
+        select_font(h2_size, flat),
+        select_font(h3_size, flat),
+        select_font(h4_size, flat),
+    )
+    result = (
+        (h1_size, h2_size, h3_size, h4_size),
+        (h1_font, h2_font, h3_font, h4_font),
+        delete,
+    )
+    return result
+
+
+def select_font(size, headlines):
+    if size is None:
+        return None
+    fonts = [
+        item.style.fontid
+        for item in headlines
+        if utila.near(size, item.bounding_mean, diff=0.5)
+    ]
+    result = utila.maxs(fonts)
+    return result
 
 
 def headline_rate(cluster):
