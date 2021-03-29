@@ -11,6 +11,7 @@ import contextlib
 import statistics
 
 import elements
+import elements.headline
 import utila
 
 
@@ -76,6 +77,11 @@ def valid_headline_clusters(
         valid = [
             item for item in cluster
             if 35.0 <= item[0].bounding.x0 < (75.0 + x0_max_diff)
+        ]
+        # skip `Kapitel 1`-pattern
+        valid = [
+            item for item in valid
+            if not elements.headline.noheadeline_pattern(item[0].text)
         ]
         if len(valid) <= cluster_min_size:
             continue
