@@ -22,7 +22,7 @@ def test_textstyle_cli_help(monkeypatch):
     tests.doctextstyle_.run('--help', monkeypatch=monkeypatch)
 
 
-@utilatest.skip_longrun
+@utilatest.longrun
 def test_textstyle_cli(testdir, monkeypatch):
     source = power.link(power.MASTER072_PDF)
     outdir = os.path.join(testdir.tmpdir, 'helm/schelm')

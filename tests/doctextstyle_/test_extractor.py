@@ -15,7 +15,7 @@ import utilatest
 import doctextstyle.features.blockquote
 
 
-@utilatest.skip_longrun
+@utilatest.longrun
 def test_extract_blockquote_dimension():
     path = power.link(power.MASTER098_PDF)
     pages = utila.ranged_tuple(2, 88)

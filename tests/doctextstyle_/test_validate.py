@@ -23,7 +23,7 @@ PARAMETERS = [
 
 
 @pytest.mark.parametrize('source, h1, h2, h3', PARAMETERS)
-@utilatest.skip_longrun
+@utilatest.longrun
 def test_doctextstyle_extract_headlines_old(source, h1, h2, h3):
     source = power.link(source)
     result = doctextstyle.extractor.extract(source)
@@ -34,7 +34,7 @@ def test_doctextstyle_extract_headlines_old(source, h1, h2, h3):
 
 
 @pytest.mark.parametrize('source, h1, h2, h3', PARAMETERS)
-@utilatest.skip_longrun
+@utilatest.longrun
 def test_doctextstyle_extract_headlines_magic(source, h1, h2, h3):
     source = power.link(source)
     result = doctextstyle.vector.run(source)

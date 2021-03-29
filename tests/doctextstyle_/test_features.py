@@ -36,7 +36,7 @@ def test_cluster_extract_pagenumber(master72_text_flat_small):
     pytest.param(power.link(power.MASTER099_PDF), 11.04, id='master99'),
     pytest.param(power.link(power.BACHELOR111_PDF), 11.96, id='bachelor111'),
 ])
-@utilatest.skip_longrun
+@utilatest.longrun
 def test_cluster_extract_textsize(source, expected):
     flat = tests.doctextstyle_.conftest.navigators(source, pages=None)
     default_text = doctextstyle.features.text(flat)
@@ -58,7 +58,7 @@ def test_cluster_extract_footer_small(master72_text_flat_small):
     pytest.param(power.link(power.MASTER099_PDF), 9.0, id='master99'),
     pytest.param(power.link(power.BACHELOR111_PDF), 9.96, id='bachelor111'),
 ])
-@utilatest.skip_longrun
+@utilatest.longrun
 def test_cluster_extract_footnote(source, expected):
     flat = tests.doctextstyle_.conftest.navigators(source, pages=None)
     footnotes = doctextstyle.features.footnote.footnote(flat)
@@ -82,7 +82,7 @@ def test_cluster_extract_paragraph_small(master72_text_flat_small):
     pytest.param(power.link(power.MASTER099_PDF), (38, 38), id='master99'),
     pytest.param(power.link(power.BACHELOR111_PDF), (24, 24), id='bachelor111'),
 ])
-@utilatest.skip_longrun
+@utilatest.longrun
 def test_cluster_extract_paragraph_before_and_after(source, expected):
     # TODO: VALIDATE EXPECTED LINE DISTANCE, CURRENTLY THERE ARE NOT
     # CHECKED YET.
