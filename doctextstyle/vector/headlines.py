@@ -14,7 +14,7 @@ import elements
 import utila
 
 
-def decide_headlines(clusters, cluster_min_size: int = 5):
+def decide_headlines(clusters, cluster_min_size: int = 5):  # pylint:disable=R0914
     # find headline cluster
     flat, delete = valid_headline_clusters(clusters, cluster_min_size)
     sizes = sorted([item[0].bounding_mean for item in flat])
@@ -36,9 +36,23 @@ def decide_headlines(clusters, cluster_min_size: int = 5):
         select_font(h3_size, flat),
         select_font(h4_size, flat),
     )
+    h1_before, h2_before, h3_before, h4_before = (
+        select_before(h1_size, flat),
+        select_before(h2_size, flat),
+        select_before(h3_size, flat),
+        select_before(h4_size, flat),
+    )
+    h1_after, h2_after, h3_after, h4_after = (
+        select_after(h1_size, flat),
+        select_after(h2_size, flat),
+        select_after(h3_size, flat),
+        select_after(h4_size, flat),
+    )
     result = (
         (h1_size, h2_size, h3_size, h4_size),
         (h1_font, h2_font, h3_font, h4_font),
+        (h1_before, h2_before, h3_before, h4_before),
+        (h1_after, h2_after, h3_after, h4_after),
         delete,
     )
     return result
@@ -82,6 +96,44 @@ def select_font(size, headlines):
     return result
 
 
+def select_before(size, headlines):
+    if size is None:
+        return None
+    selected = [
+        item for item in headlines
+        if utila.near(size, item[0].bounding_mean, diff=0.5)
+    ]
+    befores = [
+        current.bounding.y1 - before.bounding.y1
+        for current, before, _ in selected
+        if current != before
+    ]
+    if not befores:
+        return None
+    befores = utila.roundme(befores, digits=0)
+    result = utila.mode(befores, minimize=False)
+    return result
+
+
+def select_after(size, headlines):
+    if size is None:
+        return None
+    selected = [
+        item for item in headlines
+        if utila.near(size, item[0].bounding_mean, diff=0.5)
+    ]
+    afters = [
+        after.bounding.y1 - current.bounding.y1
+        for current, _, after in selected
+        if current != after
+    ]
+    if not afters:
+        return None
+    afters = utila.roundme(afters, digits=0)
+    result = utila.mode(afters, minimize=False)
+    return result
+
+
 def headline_rate(cluster):
     # TODO: MOVE TO ELEMENTS?
     median = statistics.median([len(item[0].text) for item in cluster])
@@ -103,9 +155,7 @@ def noheadline_cluster(cluster, pagerate_max: float = 0.5):
     if len(cluster) < 4:
         return False
     with_pageending = [
-        item
-        for item in cluster
-        if utila.isnumber(item[0].text.split(' ')[-1])
+        item for item in cluster if utila.isnumber(item[0].text.split(' ')[-1])
     ]
     pagerate = len(with_pageending) / len(cluster)
     if pagerate > pagerate_max:

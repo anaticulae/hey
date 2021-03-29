@@ -54,7 +54,7 @@ def test_regression_doctextstyle_homework25(method):
 
     assert utila.nears(size, expected_size, diff=0.5)
     assert utila.nears(before, expected_before, diff=0.5, none=True)
-    assert utila.nears(after, expected_after, diff=0.5)
+    assert utila.nears(after, expected_after, diff=0.5, none=True)
 
 
 @utilatest.skip_longrun
