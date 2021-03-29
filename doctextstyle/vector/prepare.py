@@ -13,7 +13,6 @@ import warnings
 import numpy as np
 import scipy.cluster.vq
 import serializeraw
-import utila
 
 import doctextstyle.parser
 import doctextstyle.utils
@@ -54,10 +53,24 @@ def clusterme(matrix, navis, numbers: int = 20, runtime: int = 12000):
         iter=runtime,
         minit='points',
     )
-    data = np.array([item for item in utila.flatten(navis)])
+    data = np.array(merge_neighbors(navis))
     assert len(data) == len(label)
     grouped = [data[label == item] for item in range(numbers)]
     return grouped
+
+
+def merge_neighbors(navis):
+    result = []
+    for page in navis:
+        befores = [page[0]] + page[:-1]
+        afters = page[1:] + [page[-1]]
+        content = [(item, before, after) for item, before, after in zip(
+            page,
+            befores,
+            afters,
+        )]
+        result.extend(content)
+    return result
 
 
 def disable_warnings():

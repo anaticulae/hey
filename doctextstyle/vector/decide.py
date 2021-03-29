@@ -39,7 +39,7 @@ def decide(clustered, fontstore) -> iamraw.DocTextStyle:
 
 
 def decide_text(text):
-    first = text[0].style
+    first = text[0][0].style
     return first.textsize(), -1, first.fontid
 
 

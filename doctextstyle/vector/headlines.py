@@ -17,7 +17,7 @@ import utila
 def decide_headlines(clusters, cluster_min_size: int = 5):
     # find headline cluster
     flat, delete = valid_headline_clusters(clusters, cluster_min_size)
-    sizes = sorted([item.bounding_mean for item in flat])
+    sizes = sorted([item[0].bounding_mean for item in flat])
     grouped = [
         statistics.mean(group)
         for group in utila.groupby_diff(sizes)
@@ -58,7 +58,7 @@ def valid_headline_clusters(clusters, cluster_min_size: int = 5):
         valid = [
             item for item in cluster if utila.near(
                 75.0,
-                item.bounding.x0,
+                item[0].bounding.x0,
                 diff=10.0,  # TODO: HOLY VALUE
             )
         ]
@@ -74,9 +74,9 @@ def select_font(size, headlines):
     if size is None:
         return None
     fonts = [
-        item.style.fontid
+        item[0].style.fontid
         for item in headlines
-        if utila.near(size, item.bounding_mean, diff=0.5)
+        if utila.near(size, item[0].bounding_mean, diff=0.5)
     ]
     result = utila.maxs(fonts)
     return result
@@ -84,10 +84,10 @@ def select_font(size, headlines):
 
 def headline_rate(cluster):
     # TODO: MOVE TO ELEMENTS?
-    median = statistics.median([len(item.text) for item in cluster])
+    median = statistics.median([len(item[0].text) for item in cluster])
     headlines = [
         item for item in cluster if elements.isheadline(
-            item.text,
+            item[0].text,
             strict=False,
         )
     ]
@@ -103,7 +103,9 @@ def noheadline_cluster(cluster, pagerate_max: float = 0.5):
     if len(cluster) < 4:
         return False
     with_pageending = [
-        item for item in cluster if utila.isnumber(item.text.split(' ')[-1])
+        item
+        for item in cluster
+        if utila.isnumber(item[0].text.split(' ')[-1])
     ]
     pagerate = len(with_pageending) / len(cluster)
     if pagerate > pagerate_max:
