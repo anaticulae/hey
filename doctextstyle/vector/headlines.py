@@ -117,7 +117,7 @@ def select_before(size, headlines):
     ]
     if not befores:
         return None
-    befores = utila.roundme(befores, digits=0)
+    befores = utila.roundme(befores, digits=0, convert=False)
     result = utila.mode(befores, minimize=False)
     return result
 
