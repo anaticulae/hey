@@ -247,8 +247,24 @@ def bold(navigator, fontstore) -> utila.Floats:
     bold_ = 100.0
     no_bold = 10.0
 
+    def more_than_eighty_or_nothing(items):
+        """Detecting bold requires that more than eigthy percent of the
+        characters are bold. In some bolded headlines there are spaces
+        characters which are not bold and in some sentences only some
+        words are bold."""
+        counter = collections.Counter()
+        for item in items:
+            counter[item] += 1
+        item, count = counter.most_common(n=1)[0]
+        if count < 0.8 * len(items):
+            return set(items)
+        return {item}
+
     def isbold(item):
-        fontids = texmex.TextStyle.fontids(item.style, set)
+        fontids = texmex.TextStyle.fontids(
+            item.style,
+            more_than_eighty_or_nothing,
+        )
         if len(fontids) > 1:
             return no_bold
         font = fontstore[item.style.fontid]
