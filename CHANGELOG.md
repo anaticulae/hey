@@ -2,6 +2,35 @@
 
 Every noteable change is logged here.
 
+## v5.8.0
+
+### Feature
+
+* skip Kapitel-1 as headline pattern (677cb6fe4094)
+* increase maximum xdiff of headline (e6abdca5ad36)
+* detect distance before and after headlines (3adb7d74047a)
+* add before and after to cluster data (e95019366bcc)
+* add method to rotate arrays (1e8e74b0ceb9)
+* protect interface against misusing (60f35dd8a16b)
+* add simplified run interface (953670693c18)
+* add font family detector (1f8af07bc637)
+* disable warnings (649802a24443)
+* add headline style selector (f6807f3762a5)
+* use numpy seed for having reproduce able results (04687beb9f88)
+* do not detect selective bold as common bold line (a4a661793ad1)
+* add cluster decider (7db648e8b596)
+* parse document into feature vector (6f8d944516b6)
+* use kmean to cluster group of styles (e14fe58a0c1c)
+* add method to connect list of pages (0d218ae597c9)
+
+### Fix
+
+* do not convert single value (4286466530b3)
+* do not skip headlines with small left border (f368d5d1580e)
+* most of elements must be bold to be bold (b9d6256b04c9)
+* skip empty pages (e77ed864fd01)
+* use non zeros values for disabled feature (b2685c1f0343)
+
 ## v5.7.0
 
 ### Feature
