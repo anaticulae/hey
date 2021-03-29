@@ -74,11 +74,8 @@ def valid_headline_clusters(
         # TODO: ACCEPT RIGHT PADDED TEXT
         # skip too right items
         valid = [
-            item for item in cluster if utila.near(
-                current=item[0].bounding.x0,
-                expected=75.0,
-                diff=x0_max_diff,
-            )
+            item for item in cluster
+            if 35.0 <= item[0].bounding.x0 < (75.0 + x0_max_diff)
         ]
         if len(valid) <= cluster_min_size:
             continue
