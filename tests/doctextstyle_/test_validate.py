@@ -9,21 +9,36 @@
 
 import power
 import pytest
+import utila
 import utilatest
 
 import doctextstyle.extractor
+import doctextstyle.vector
 
-
-@pytest.mark.parametrize('source, h1, h2, h3', [
+PARAMETERS = [
     pytest.param(power.BACHELOR063_PDF, 15.96, 14.04, 12.0, id='bachelor63'),
     pytest.param(power.BACHELOR051_PDF, 15.96, 14.04, 12.0, id='bachelor51'),
     pytest.param(power.MASTER110_PDF, 24.79, 14.35, 11.96, id='master110'),
-])  # pylint:disable=C0103
+]
+
+
+@pytest.mark.parametrize('source, h1, h2, h3', PARAMETERS)
 @utilatest.skip_longrun
-def test_doctextstyle_extract_headlines(source, h1, h2, h3):
+def test_doctextstyle_extract_headlines_old(source, h1, h2, h3):
     source = power.link(source)
     result = doctextstyle.extractor.extract(source)
     assert result
     assert result.h1_size == h1
     assert result.h2_size == h2
     assert result.h3_size == h3
+
+
+@pytest.mark.parametrize('source, h1, h2, h3', PARAMETERS)
+@utilatest.skip_longrun
+def test_doctextstyle_extract_headlines_magic(source, h1, h2, h3):
+    source = power.link(source)
+    result = doctextstyle.vector.run(source)
+    assert result
+    assert utila.near(result.h1_size, expected=h1, diff=0.5)
+    assert utila.near(result.h2_size, expected=h2, diff=0.5)
+    assert utila.near(result.h3_size, expected=h3, diff=0.5)
