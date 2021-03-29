@@ -62,6 +62,8 @@ def clusterme(matrix, navis, numbers: int = 20, runtime: int = 12000):
 def merge_neighbors(navis):
     result = []
     for page in navis:
+        if not page:
+            continue
         befores = [page[0]] + page[:-1]
         afters = page[1:] + [page[-1]]
         content = [(item, before, after) for item, before, after in zip(

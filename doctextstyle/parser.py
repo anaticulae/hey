@@ -94,6 +94,9 @@ def parse_vector(
         magic: 'iamraw.PageContentContentType.content',
         fontstore: iamraw.FontStore,
 ) -> iamraw.PageTextProperties:
+    if not navigator:
+        # empty page
+        return []
     rates = textrate(navigator)
     uppers = upperrate(navigator)
     # lengths = textlength(navigator)
