@@ -18,9 +18,17 @@ import doctextstyle.vector
 
 
 @utilatest.skip_longrun
-def test_doctextstyle_extract():
+@pytest.mark.parametrize('method', [
+    pytest.param(
+        doctextstyle.vector.run,
+        id='ki_magic',
+        marks=pytest.mark.xfail(reason='incomplete implementation'),
+    ),
+    pytest.param(doctextstyle.extractor.extract, id='old_school'),
+])
+def test_doctextstyle_extract(method):
     source = power.link(power.MASTER098_PDF)
-    result = doctextstyle.extractor.extract(source)
+    result = method(source)
     assert result
 
     assert result.text_size == 12.0
