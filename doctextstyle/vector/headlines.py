@@ -58,7 +58,11 @@ def decide_headlines(clusters, cluster_min_size: int = 5):  # pylint:disable=R09
     return result
 
 
-def valid_headline_clusters(clusters, cluster_min_size: int = 5):
+def valid_headline_clusters(
+        clusters,
+        cluster_min_size: int = 5,
+        x0_max_diff: float = 15.0,
+):
     collected = []
     delete = []
     for cluster in clusters:
@@ -71,9 +75,9 @@ def valid_headline_clusters(clusters, cluster_min_size: int = 5):
         # skip too right items
         valid = [
             item for item in cluster if utila.near(
-                75.0,
-                item[0].bounding.x0,
-                diff=10.0,  # TODO: HOLY VALUE
+                current=item[0].bounding.x0,
+                expected=75.0,
+                diff=x0_max_diff,
             )
         ]
         if len(valid) <= cluster_min_size:
