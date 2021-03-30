@@ -13,14 +13,14 @@ import doctextstyle.vector.headlines as dvh
 
 
 def decide(clustered, fontstore) -> iamraw.DocTextStyle:
-    notempty = clustered[:]
-    text_ = largest(notempty)
-    notempty = notempty[0:text_] + notempty[text_:]
-    text = notempty[text_]
+    clustered = clustered[:]
+    text_ = largest(clustered)
+    clustered = clustered[0:text_] + clustered[text_:]
+    text = clustered[text_]
     text_size, text_distance, text_family = decide_text(text)
-    headlines, fonts, befores, afters, deletes = dvh.decide_headlines(notempty)
+    headlines, fonts, befores, afters, deletes = dvh.decide_headlines(clustered)
     deletes = {hash(str(item)) for item in deletes}
-    notempty = [item for item in notempty if hash(str(item)) not in deletes]
+    clustered = [item for item in clustered if hash(str(item)) not in deletes]
 
     result = iamraw.DocTextStyle(
         text_size=text_size,
