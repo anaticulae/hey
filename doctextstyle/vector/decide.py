@@ -13,7 +13,7 @@ import doctextstyle.vector.headlines as dvh
 
 
 def decide(clustered, fontstore) -> iamraw.DocTextStyle:
-    notempty = [item for item in clustered if len(item)]
+    notempty = clustered[:]
     text_ = largest(notempty)
     notempty = notempty[0:text_] + notempty[text_:]
     text = notempty[text_]
