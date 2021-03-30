@@ -54,7 +54,7 @@ def clusterme(matrix, navis, numbers: int = 20, runtime: int = 12000):
         minit='points',
     )
     data = np.array(merge_neighbors(navis))
-    assert len(data) == len(label)
+    assert len(data) == len(label), f'{len(data)} == {len(label)}'
     grouped = [data[label == item] for item in range(numbers)]
     # remove empty cluster
     notempty = [item for item in grouped if len(item)]
