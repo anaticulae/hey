@@ -18,19 +18,10 @@ import utila
 def decide_headlines(clusters, cluster_size_min: int = 5):  # pylint:disable=R0914
     # find headline cluster
     flat, delete = valid_headline_clusters(clusters, cluster_size_min)
-    sizes = sorted([item[0].bounding_mean for item in flat])
-    grouped = [
-        statistics.mean(group)
-        for group in utila.groupby_diff(sizes)
-        if len(group) >= cluster_size_min
-    ]
-    grouped = utila.roundme(grouped)
-    h1_size, h2_size, h3_size, h4_size = None, None, None, None
-    with contextlib.suppress(IndexError):
-        h1_size = grouped[-1]
-        h2_size = grouped[-2]
-        h3_size = grouped[-3]
-        h4_size = grouped[-4]
+    h1_size, h2_size, h3_size, h4_size = group_headline_size(
+        flat,
+        cluster_size_min=cluster_size_min,
+    )
     h1_font, h2_font, h3_font, h4_font = (
         select_font(h1_size, flat),
         select_font(h2_size, flat),
@@ -57,6 +48,23 @@ def decide_headlines(clusters, cluster_size_min: int = 5):  # pylint:disable=R09
         delete,
     )
     return result
+
+
+def group_headline_size(items, cluster_size_min: int = 5):
+    sizes = sorted([item[0].bounding_mean for item in items])
+    grouped = [
+        statistics.mean(group)
+        for group in utila.groupby_diff(sizes)
+        if len(group) >= cluster_size_min
+    ]
+    grouped = utila.roundme(grouped)
+    h1_size, h2_size, h3_size, h4_size = None, None, None, None
+    with contextlib.suppress(IndexError):
+        h1_size = grouped[-1]
+        h2_size = grouped[-2]
+        h3_size = grouped[-3]
+        h4_size = grouped[-4]
+    return h1_size, h2_size, h3_size, h4_size
 
 
 def valid_headline_clusters(
