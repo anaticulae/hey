@@ -62,12 +62,13 @@ def group_headline_size(
         if len(group) >= cluster_size_min
     ]
     grouped = utila.roundme(grouped, convert=False)
+    grouped = sorted(grouped, reverse=True)
     h1_size, h2_size, h3_size, h4_size = None, None, None, None
     with contextlib.suppress(IndexError):
-        h1_size = grouped[-1]
-        h2_size = grouped[-2]
-        h3_size = grouped[-3]
-        h4_size = grouped[-4]
+        h1_size = grouped[0]
+        h2_size = grouped[1]
+        h3_size = grouped[2]
+        h4_size = grouped[3]
     return h1_size, h2_size, h3_size, h4_size
 
 
