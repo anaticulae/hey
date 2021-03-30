@@ -15,14 +15,14 @@ import elements.headline
 import utila
 
 
-def decide_headlines(clusters, cluster_min_size: int = 5):  # pylint:disable=R0914
+def decide_headlines(clusters, cluster_size_min: int = 5):  # pylint:disable=R0914
     # find headline cluster
-    flat, delete = valid_headline_clusters(clusters, cluster_min_size)
+    flat, delete = valid_headline_clusters(clusters, cluster_size_min)
     sizes = sorted([item[0].bounding_mean for item in flat])
     grouped = [
         statistics.mean(group)
         for group in utila.groupby_diff(sizes)
-        if len(group) >= cluster_min_size
+        if len(group) >= cluster_size_min
     ]
     grouped = utila.roundme(grouped)
     h1_size, h2_size, h3_size, h4_size = None, None, None, None
@@ -61,7 +61,7 @@ def decide_headlines(clusters, cluster_min_size: int = 5):  # pylint:disable=R09
 
 def valid_headline_clusters(
         clusters,
-        cluster_min_size: int = 5,
+        cluster_size_min: int = 5,
         x0_max_diff: float = 15.0,
 ):
     collected = []
@@ -83,7 +83,7 @@ def valid_headline_clusters(
             item for item in valid
             if not elements.headline.noheadeline_pattern(item[0].text)
         ]
-        if len(valid) <= cluster_min_size:
+        if len(valid) <= cluster_size_min:
             continue
         collected.append(valid)
         delete.append(cluster)
