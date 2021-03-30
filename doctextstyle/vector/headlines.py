@@ -96,6 +96,8 @@ def valid_headline_clusters(
 def clean_cluster(
         cluster,
         x0_max_diff: float = 15.0,
+        ymin: float = 0.0,
+        ymax: float = 841.89 - 120,
 ):
     # TODO: ACCEPT RIGHT PADDED TEXT
     # skip too right items
@@ -107,6 +109,18 @@ def clean_cluster(
     valid = [
         item for item in valid
         if not elements.headline.noheadeline_pattern(item[0].text)
+    ]
+    # TODO: THIS REMOVES ALL HEADLINES WITH NUMBER AT THE END
+    # remove:
+    # 5.1. ZUSAMMENFASSUNG DER ERGEBNISSE UND SCHLUSSFOLGERUNGEN   198
+    # 5.2. KÜNFTIGE HERAUSFORDERUNGEN       203
+    valid = [
+        item for item in valid
+        if not utila.isnumber(item[0].text.split(' ')[-1])
+    ]
+    valid = [
+        item for item in valid
+        if ymin <= item[0].bounding.y0 <= item[0].bounding.y1 <= ymax
     ]
     return valid
 
