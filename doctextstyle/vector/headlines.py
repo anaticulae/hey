@@ -50,11 +50,15 @@ def decide_headlines(clusters, cluster_size_min: int = 5):
     return result
 
 
-def group_headline_size(items, cluster_size_min: int = 5):
-    sizes = sorted([item[0].bounding_mean for item in items])
+def group_headline_size(
+        items,
+        cluster_size_min: int = 5,
+        fontsize_diff_max: float = 0.25,
+):
+    sizes = sorted([item[0].style.textsize() for item in items])
     grouped = [
         statistics.mean(group)
-        for group in utila.groupby_diff(sizes)
+        for group in utila.groupby_diff(sizes, diff=fontsize_diff_max)
         if len(group) >= cluster_size_min
     ]
     grouped = utila.roundme(grouped, convert=False)
