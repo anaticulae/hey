@@ -63,13 +63,14 @@ def valid_headline_clusters(
         clusters,
         cluster_size_min: int = 5,
         cluster_rate_min: float = 0.3,
+        cluster_headline_meadian_length_min: int = 10,
         x0_max_diff: float = 15.0,
 ):
     collected = []
     delete = []
     for cluster in clusters:
         rate, median = headline_rate(cluster)
-        if rate < cluster_rate_min or median < 10:
+        if rate < cluster_rate_min or median < cluster_headline_meadian_length_min:
             continue
         if noheadline_cluster(cluster):
             continue
