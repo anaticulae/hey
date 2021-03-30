@@ -57,7 +57,7 @@ def group_headline_size(items, cluster_size_min: int = 5):
         for group in utila.groupby_diff(sizes)
         if len(group) >= cluster_size_min
     ]
-    grouped = utila.roundme(grouped)
+    grouped = utila.roundme(grouped, convert=False)
     h1_size, h2_size, h3_size, h4_size = None, None, None, None
     with contextlib.suppress(IndexError):
         h1_size = grouped[-1]
@@ -77,28 +77,38 @@ def valid_headline_clusters(
     collected = []
     delete = []
     for cluster in clusters:
+        cluster = clean_cluster(cluster, x0_max_diff=x0_max_diff)
+        if len(cluster) <= cluster_size_min:
+            continue
         rate, median = headline_rate(cluster)
-        if rate < cluster_rate_min or median < cluster_headline_meadian_length_min:
+        if rate < cluster_rate_min:
+            continue
+        if median < cluster_headline_meadian_length_min:
             continue
         if noheadline_cluster(cluster):
             continue
-        # TODO: ACCEPT RIGHT PADDED TEXT
-        # skip too right items
-        valid = [
-            item for item in cluster
-            if 35.0 <= item[0].bounding.x0 < (75.0 + x0_max_diff)
-        ]
-        # skip `Kapitel 1`-pattern
-        valid = [
-            item for item in valid
-            if not elements.headline.noheadeline_pattern(item[0].text)
-        ]
-        if len(valid) <= cluster_size_min:
-            continue
-        collected.append(valid)
+        collected.append(cluster)
         delete.append(cluster)
     flat = utila.flatten(collected)
     return flat, delete
+
+
+def clean_cluster(
+        cluster,
+        x0_max_diff: float = 15.0,
+):
+    # TODO: ACCEPT RIGHT PADDED TEXT
+    # skip too right items
+    valid = [
+        item for item in cluster
+        if 35.0 <= item[0].bounding.x0 < (75.0 + x0_max_diff)
+    ]
+    # skip `Kapitel 1`-pattern
+    valid = [
+        item for item in valid
+        if not elements.headline.noheadeline_pattern(item[0].text)
+    ]
+    return valid
 
 
 def select_font(size, headlines):

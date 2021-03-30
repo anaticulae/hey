@@ -355,12 +355,12 @@ def topbottom(navigator) -> VerticalTextDistances:
     tops = [bounds[0].topdist]
     if len(bounds) > 1:
         tops.extend(utila.diffs([item.topdist for item in bounds]))
-    tops = utila.roundme(tops, convert=False)
+    tops: list = utila.roundme(tops, convert=False)
     bottoms = []
     if len(bounds) > 1:
         bottoms.extend(utila.diffs([item.bottomdist for item in bounds]))
     bottoms.append(bounds[-1].bottomdist)
-    bottoms = utila.roundme(bottoms, convert=False)
+    bottoms: list = utila.roundme(bottoms, convert=False)
     return tops, bottoms
 
 
