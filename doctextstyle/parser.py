@@ -120,16 +120,16 @@ def parse_vector(
     ]
     assert len(set(equal_length)) == 1, f'different iter length {equal_length}'
 
-    rates: list = skip_magic(rates, magic)
-    uppers: list = skip_magic(uppers, magic)
-    sizes = skip_magic(sizes, magic)
-    bolds = skip_magic(bolds, magic)
-    italics = skip_magic(italics, magic)
-    fonts = skip_magic(fonts, magic)
-    top = skip_magic(top, magic)
-    bottom = skip_magic(bottom, magic)
-    left = skip_magic(left, magic)
-    right = skip_magic(right, magic)
+    rates: list = skip_magic(rates, magic, zeros=True)
+    uppers: list = skip_magic(uppers, magic, zeros=True)
+    sizes = skip_magic(sizes, magic, zeros=True)
+    bolds = skip_magic(bolds, magic, zeros=True)
+    italics = skip_magic(italics, magic, zeros=True)
+    fonts = skip_magic(fonts, magic, zeros=True)
+    top = skip_magic(top, magic, zeros=True)
+    bottom = skip_magic(bottom, magic, zeros=True)
+    left = skip_magic(left, magic, zeros=True)
+    right = skip_magic(right, magic, zeros=True)
 
     result = [
         sizes,
@@ -164,10 +164,13 @@ SKIPPER = {
 }
 
 
-def skip_magic(items, magics):
+def skip_magic(items, magics, zeros: bool = False):
     result = []
     for index, item in enumerate(items):
         if index in magics:
+            if zeros:
+                # TODO: ??? GOOD IDEA ???
+                result.append(0)
             continue
         result.append(item)
     return result

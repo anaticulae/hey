@@ -8,6 +8,7 @@
 # =============================================================================
 
 import itertools
+import os
 import warnings
 
 import numpy as np
@@ -16,6 +17,7 @@ import serializeraw
 
 import doctextstyle.parser
 import doctextstyle.utils
+import magic.path
 
 NUMPY_SEED = 1 * 2 * 4 * 8 * 16 * 32 * 64
 
@@ -26,10 +28,16 @@ def navigators(source: str, pages: tuple = None) -> np.array:
         prefix='oneline',
         pages=pages,
     )
+    magics = magic.path.content_oneline(source)
+    if os.path.exists(magics):
+        magics = serializeraw.load_magic_types(magics, pages=pages)
+    else:
+        magics = []
     fontstore = serializeraw.create_fontstore_frompath(source, pages=pages)
     parsed = doctextstyle.parser.parses(
         loaded,
         parser=doctextstyle.parser.parse_vector,
+        magics=magics,
         fontstore=fontstore,
     )
     merged = doctextstyle.utils.connect_pages(parsed)
