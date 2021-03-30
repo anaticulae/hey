@@ -18,6 +18,7 @@ PACKAGE = hey.PACKAGE
 power.setup(hey.ROOT)
 
 RESOURCES = [
+    power.DISS266_PDF,
     power.MASTER116_PDF,
     power.BACHELOR111_PDF,
     power.MASTER099_PDF,
