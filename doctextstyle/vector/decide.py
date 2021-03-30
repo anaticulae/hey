@@ -13,14 +13,17 @@ import doctextstyle.vector.headlines as dvh
 
 
 def decide(clustered, fontstore) -> iamraw.DocTextStyle:
+    # avoid side effects
     clustered = clustered[:]
-    text_ = largest(clustered)
-    clustered = clustered[0:text_] + clustered[text_:]
-    text = clustered[text_]
+
+    # determine text chunk
+    text = largest(clustered)
     text_size, text_distance, text_family = decide_text(text)
-    headlines, fonts, befores, afters, deletes = dvh.decide_headlines(clustered)
-    deletes = {hash(str(item)) for item in deletes}
-    clustered = [item for item in clustered if hash(str(item)) not in deletes]
+    clustered = remove_cluster(clustered, [text])
+
+    # determine headlines
+    headlines, fonts, befores, afters, removes = dvh.decide_headlines(clustered)
+    clustered = remove_cluster(clustered, removes)
 
     result = iamraw.DocTextStyle(
         text_size=text_size,
@@ -47,16 +50,24 @@ def decide(clustered, fontstore) -> iamraw.DocTextStyle:
 
 
 def decide_text(text):
+    # TODO: USE MOST COMMON SIZE
     first = text[0][0].style
     return first.textsize(), -1, first.fontid
 
 
-def largest(items) -> int:
+def remove_cluster(cluster, removes):
+    removes = {hash(str(item)) for item in removes}
+    # remove cluster
+    result = [item for item in cluster if hash(str(item)) not in removes]
+    return result
+
+
+def largest(items) -> 'Cluster':
     if not items:
         raise ValueError('empty collection')
-    longest = 0
-    for index, item in enumerate(items[1:], start=1):
-        if len(item) < len(items[longest]):
+    longest = items[0]
+    for item in items[1:]:
+        if len(item) < len(longest):
             continue
-        longest = index
+        longest = item
     return longest
