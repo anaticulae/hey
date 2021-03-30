@@ -53,7 +53,7 @@ def run_magic(
         f'-i {source} --pages={pages} ',
         monkeypatch=monkeypatch,
     )
-    path = magic.path.content(testdir.tmpdir)
+    path = magic.path.content_oneline(testdir.tmpdir)
     loaded = serializeraw.load_types(path)
     assert loaded, str(loaded)
     return loaded
@@ -73,7 +73,7 @@ def test_magic_multiple_line_master116_page79(testdir, monkeypatch):
     tests.caption_.run(cmd, monkeypatch=monkeypatch)
     tests.magic_.run(cmd, monkeypatch=monkeypatch)
 
-    path = magic.path.content(testdir.tmpdir)
+    path = magic.path.content_oneline(testdir.tmpdir)
     loaded = serializeraw.load_types(path)[0].content
     assert loaded
 

@@ -15,28 +15,35 @@ DESCRIPTION = """\
 Determine type of line (content, list, boxed content, etc.)
 """
 
-# yapf:disable
+RESOURCES = [
+    utila.ResultFile('rawmaker', 'border_pages'),
+    utila.ResultFile('groupme', 'footer_footerheader'),
+    utila.ResultFile('words', 'list_list', optional=True),
+    utila.ResultFile('textflow', 'blockquote_blockquote', optional=True),
+    utila.ResultFile('detector', 'formula_formula', optional=True),
+    utila.ResultFile('caption', 'general_general', optional=True),
+    utila.ResultFile('linero', 'table_table', optional=True),
+    utila.Directory('rawmaker__figures_figures', optional=True),
+]
+
 WORKPLAN = [
     utila.create_step(
         'content',
         inputs=[
             utila.ResultFile('rawmaker', 'text_text'),
             utila.ResultFile('rawmaker', 'text_positions'),
+        ] + RESOURCES,
+        output=('content',),
+    ),
+    utila.create_step(
+        'oneline',
+        inputs=[
             utila.ResultFile('rawmaker', 'oneline_text_text'),
             utila.ResultFile('rawmaker', 'oneline_text_positions'),
-            utila.ResultFile('rawmaker', 'border_pages'),
-            utila.ResultFile('groupme', 'footer_footerheader'),
-            utila.ResultFile('words', 'list_list', optional=True),
-            utila.ResultFile('textflow', 'blockquote_blockquote', optional=True),
-            utila.ResultFile('detector', 'formula_formula', optional=True),
-            utila.ResultFile('caption', 'general_general', optional=True),
-            utila.ResultFile('linero', 'table_table', optional=True),
-            utila.Directory('rawmaker__figures_figures', optional=True),
-        ],
-        output=('content_normal', 'content'),
+        ] + RESOURCES,
+        output=('content',),
     ),
 ]
-# yapf:enable
 
 
 def main():
