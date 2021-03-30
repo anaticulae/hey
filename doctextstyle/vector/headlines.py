@@ -15,26 +15,26 @@ import elements.headline
 import utila
 
 
-def decide_headlines(clusters, cluster_size_min: int = 5):  # pylint:disable=R0914
+def decide_headlines(clusters, cluster_size_min: int = 5):
     # find headline cluster
     flat, delete = valid_headline_clusters(clusters, cluster_size_min)
     h1_size, h2_size, h3_size, h4_size = group_headline_size(
         flat,
         cluster_size_min=cluster_size_min,
     )
-    h1_font, h2_font, h3_font, h4_font = (
+    hx_font = (
         select_font(h1_size, flat),
         select_font(h2_size, flat),
         select_font(h3_size, flat),
         select_font(h4_size, flat),
     )
-    h1_before, h2_before, h3_before, h4_before = (
+    hx_before = (
         select_before(h1_size, flat),
         select_before(h2_size, flat),
         select_before(h3_size, flat),
         select_before(h4_size, flat),
     )
-    h1_after, h2_after, h3_after, h4_after = (
+    hx_after = (
         select_after(h1_size, flat),
         select_after(h2_size, flat),
         select_after(h3_size, flat),
@@ -42,9 +42,9 @@ def decide_headlines(clusters, cluster_size_min: int = 5):  # pylint:disable=R09
     )
     result = (
         (h1_size, h2_size, h3_size, h4_size),
-        (h1_font, h2_font, h3_font, h4_font),
-        (h1_before, h2_before, h3_before, h4_before),
-        (h1_after, h2_after, h3_after, h4_after),
+        hx_font,
+        hx_before,
+        hx_after,
         delete,
     )
     return result
