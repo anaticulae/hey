@@ -299,7 +299,7 @@ def textrate(navigator) -> utila.Floats:
         width / length if length else 0
         for width, length in zip(widths, lengths)
     ]
-    result = utila.roundme(result)
+    result = utila.roundme(result, convert=False)
     return result
 
 
@@ -310,7 +310,7 @@ def upperrate(navigator) -> utila.Floats:
         upper / length if length else 0
         for upper, length in zip(uppers, lengths)
     ]
-    result = utila.roundme(result)
+    result = utila.roundme(result, convert=False)
     return result
 
 
@@ -352,11 +352,15 @@ def topbottom(navigator) -> VerticalTextDistances:
     bounds = texmex.textbounds(navigator, border)
     # ignore empty content
     bounds = [item.bounds for item in bounds if len(item.text)]
-    tops = [bounds[0].topdist] + utila.diffs([item.topdist for item in bounds])
-    tops = utila.roundme(tops)
-    bottoms = utila.diffs([item.bottomdist for item in bounds])
-    bottoms = bottoms + [bounds[-1].bottomdist]
-    bottoms = utila.roundme(bottoms)
+    tops = [bounds[0].topdist]
+    if len(bounds) > 1:
+        tops.extend(utila.diffs([item.topdist for item in bounds]))
+    tops = utila.roundme(tops, convert=False)
+    bottoms = []
+    if len(bounds) > 1:
+        bottoms.extend(utila.diffs([item.bottomdist for item in bounds]))
+    bottoms.append(bounds[-1].bottomdist)
+    bottoms = utila.roundme(bottoms, convert=False)
     return tops, bottoms
 
 
