@@ -6,7 +6,19 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+"""Headline extractor
+==================
 
+Strategies:
+
+    - (done) Extract headlines by level
+    - (todo) Extract headlines by style information
+
+"""
+
+import collections
+
+import elements
 import texmex.style
 import utila
 
@@ -19,9 +31,26 @@ def extract_headlines(clusters, cluster_size_min: int = 5):
         clusters,
         cluster_size_min,
     )
+    # merge multiple headline
     flat = merge_headline(flat)
-    for item in flat:
-        print(item)
+    # group headlines
+    result = groupby_level(flat)
+    return result
+
+
+def groupby_level(items):
+    # TODO: ADD HEADLINE SIZE GROUPING STRATEGY
+    grouped = collections.defaultdict(list)
+    for item in items:
+        text = item.text
+        level = elements.level_numbered(text)
+        if level is False:
+            level = 4
+        if level is None:
+            level = 4
+        grouped[level - 1].append(item)
+    result = [grouped[number] for number in range(len(grouped))]
+    return result
 
 
 def merge_headline(items):
