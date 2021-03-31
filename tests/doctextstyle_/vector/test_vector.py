@@ -11,6 +11,7 @@ import power
 import utila
 
 import doctextstyle.vector.decide
+import doctextstyle.vector.extract
 import doctextstyle.vector.prepare as dvp
 
 
@@ -36,15 +37,3 @@ def test_vector_headlines():
     assert result.h1_family == 'CMSSBX10'
     assert result.h2_family == 'CMSSBX10'
     assert result.h3_family == 'CMSSBX10'
-
-
-def test_vector_diss266():
-    source = power.link(power.DISS266_PDF)
-    matrix, navis, fontstore = dvp.navigators(
-        source,
-        pages=utila.ranged_tuple(0, 200),
-    )
-    clustered = dvp.clusterme(matrix, navis)
-    result = doctextstyle.vector.decide.decide(clustered, fontstore)
-    print(result)
-    assert 0
