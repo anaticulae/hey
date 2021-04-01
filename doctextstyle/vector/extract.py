@@ -25,6 +25,16 @@ import utila
 import doctextstyle.vector.headlines
 
 
+def run(source: str, pages: tuple = None):
+    matrix, navis, _ = doctextstyle.vector.prepare.navigators(
+        source,
+        pages=pages,
+    )
+    clustered = doctextstyle.vector.prepare.clusterme(matrix, navis)
+    result = doctextstyle.vector.extract.extract_headlines(clustered)
+    return result
+
+
 def extract_headlines(clusters, cluster_size_min: int = 5):
     # find headline cluster
     flat, _ = doctextstyle.vector.headlines.valid_headline_clusters(

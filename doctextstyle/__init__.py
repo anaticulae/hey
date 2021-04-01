@@ -11,6 +11,7 @@ import os
 
 import doctextstyle.__patch__
 import hey
+from doctextstyle.vector.extract import run as extract_headlines  # pylint:disable=C0412
 
 __version__ = hey.__version__
 
