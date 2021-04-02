@@ -136,6 +136,7 @@ def parse_vector(
         bolds,
         italics,
         left,
+        uppers,
     ]
     return result
 
@@ -310,7 +311,7 @@ def upperrate(navigator) -> utila.Floats:
     uppers = textuppper(navigator)
     lengths = textlength(navigator)
     result = [
-        upper / length if length else 0
+        100 if length >= 5 and (upper / length) > 0.4 else 10
         for upper, length in zip(uppers, lengths)
     ]
     result = utila.roundme(result, convert=False)

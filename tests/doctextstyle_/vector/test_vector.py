@@ -19,7 +19,7 @@ def test_vector_cluster():
     source = power.link(power.HOME025_PDF)
     matrix, navis, fontstore = dvp.navigators(source)
     # (length, data)
-    assert matrix.shape == (516, 4)
+    assert matrix.shape == (516, 5)
     clustered = dvp.clusterme(matrix, navis)
     result = doctextstyle.vector.decide.decide(clustered, fontstore)
     assert result.text_family
