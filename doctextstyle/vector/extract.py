@@ -17,6 +17,7 @@ Strategies:
 """
 
 import collections
+import re
 
 import elements
 import texmex.style
@@ -43,8 +44,12 @@ def extract_headlines(clusters, cluster_size_min: int = 5):
     )
     # merge multiple headline
     flat = merge_headline(flat)
+    # sort headlines
+    flat = sorted(flat, key=lambda x: utila.alphabetically(x.text))
     # group headlines
-    result = groupby_level(flat)
+    grouped = groupby_level(flat)
+    # verify group
+    result = verify_level(grouped)
     return result
 
 
@@ -111,4 +116,20 @@ def merge_headline(items):
                 done.add(id(current))
                 done.add(id(before))
                 done.add(id(after))
+    return result
+
+
+CHAPTER_PATTERN = re.compile(r'^(Kapitel|Chapter)[ ]{0,5}\d', re.IGNORECASE)
+
+
+def verify_level(grouped: list) -> list:
+    result = []
+    for group in grouped:
+        if not any([CHAPTER_PATTERN.match(item.text) for item in group]):
+            result.append(group)
+            continue
+        # remove no-chapter-pattern
+        valid = [item for item in group if CHAPTER_PATTERN.match(item.text)]
+        result.append(valid)
+        # TODO: MOVE INVALID TO GROUP LEVEL 4?
     return result
