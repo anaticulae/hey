@@ -9,6 +9,7 @@
 
 import power
 import utila
+import utilatest
 
 import doctextstyle
 
@@ -50,6 +51,7 @@ def headlines_raw(items: str) -> str:
     return result
 
 
+@utilatest.nightly
 def test_vector_diss266_extract():
     source = power.link(power.DISS266_PDF)
     pages = utila.ranged_tuple(7, 215)
