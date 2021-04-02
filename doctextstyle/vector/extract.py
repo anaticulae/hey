@@ -70,7 +70,7 @@ def merge_headline(items):
     for current, before, after in items:
         # use id to use object and not hashed object, cause it is possible
         # than two items of different pages are complete identically.
-        if id(current) in done or id(before) in done or id(after) in done:
+        if id(current) in done:
             # use item only onces
             continue
         if current.style.fontid != after.style.fontid:
