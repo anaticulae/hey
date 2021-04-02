@@ -2,6 +2,27 @@
 
 Every noteable change is logged here.
 
+## v5.9.0
+
+### Feature
+
+* remove non chapter headlines out of first headline group (c103fce3042a)
+* use upper cased rate to improve headline clustering (0a914be32f06)
+* add public headline extractor interface (fbb03202afc9)
+* group headlines by level (bf48e79e7908)
+* add method to extract headlines (693d72308240)
+* use more precise text size (bc4f02384ea9)
+* shrink valid area of headlines (08b3855be182)
+* skip magic data in headline processing (126e1b61a31f)
+* split magic step into two separate steps (58e309e44cc3)
+
+### Fix
+
+* only skip current item if already used (194741b5e8e3)
+* fix spelling error (07690c6b1809)
+* handle fewer than four headlines correctly (8d42db0e3989)
+* handle single line page (c5dc6bb4732e)
+
 ## v5.8.0
 
 ### Feature
