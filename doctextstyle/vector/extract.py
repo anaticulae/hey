@@ -27,7 +27,7 @@ import doctextstyle.vector.headlines
 
 
 def run(source: str, pages: tuple = None):
-    matrix, navis, _ = doctextstyle.vector.prepare.navigators(
+    matrix, navis, _ = doctextstyle.vector.prepare.create_matrix(
         source,
         pages=pages,
     )

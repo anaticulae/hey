@@ -22,7 +22,7 @@ Lines = typing.List[Line]
 def run(source: str, pages: tuple = None) -> iamraw.DocTextStyle:
     import doctextstyle.vector.decide
     import doctextstyle.vector.prepare
-    matrix, loaded, fontstore = doctextstyle.vector.prepare.navigators(
+    matrix, loaded, fontstore = doctextstyle.vector.prepare.create_matrix(
         source,
         pages,
     )

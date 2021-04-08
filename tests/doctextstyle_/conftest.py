@@ -15,7 +15,7 @@ import doctextstyle.parser
 import doctextstyle.utils
 
 
-def navigators(source: str, pages: tuple):
+def create_matrix(source: str, pages: tuple):
     loaded = serializeraw.create_pagetextnavigators_frompath(
         source,
         prefix='oneline',
@@ -28,7 +28,7 @@ def navigators(source: str, pages: tuple):
 
 @pytest.fixture
 def master72_text_flat():
-    return navigators(
+    return create_matrix(
         source=power.link(power.MASTER072_PDF),
         pages=tuple(range(3, 86)),
     )
@@ -36,7 +36,7 @@ def master72_text_flat():
 
 @pytest.fixture
 def master72_text_flat_small():
-    return navigators(
+    return create_matrix(
         source=power.link(power.MASTER072_PDF),
         pages=tuple(range(3, 15)),
     )

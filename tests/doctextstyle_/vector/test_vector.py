@@ -17,7 +17,7 @@ import doctextstyle.vector.prepare as dvp
 
 def test_vector_cluster():
     source = power.link(power.HOME025_PDF)
-    matrix, navis, fontstore = dvp.navigators(source)
+    matrix, navis, fontstore = dvp.create_matrix(source)
     # (length, data)
     assert matrix.shape == (516, 5)
     clustered = dvp.clusterme(matrix, navis)
@@ -28,7 +28,7 @@ def test_vector_cluster():
 
 def test_vector_headlines():
     source = power.link(power.HOME025_PDF)
-    matrix, navis, fontstore = dvp.navigators(source)
+    matrix, navis, fontstore = dvp.create_matrix(source)
     clustered = dvp.clusterme(matrix, navis)
     result = doctextstyle.vector.decide.decide(clustered, fontstore)
     assert utila.near(result.h1_size, 24.78, diff=0.5)

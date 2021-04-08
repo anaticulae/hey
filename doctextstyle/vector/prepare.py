@@ -22,7 +22,7 @@ import magic.path
 NUMPY_SEED = 1 * 2 * 4 * 8 * 16 * 32 * 64
 
 
-def navigators(source: str, pages: tuple = None) -> np.array:
+def create_matrix(source: str, pages: tuple = None) -> np.array:
     loaded = serializeraw.create_pagetextnavigators_frompath(
         source,
         prefix='oneline',
