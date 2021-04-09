@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v5.10.0
+
+### Feature
+
+* add method to extract headlines from data (f7398d6ad44a)
+* add method to create vector data from python (c738775d050f)
+
 ## v5.9.0
 
 ### Feature
