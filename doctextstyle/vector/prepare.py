@@ -9,11 +9,14 @@
 
 import itertools
 import os
+import typing
 import warnings
 
+import iamraw
 import numpy as np
 import scipy.cluster.vq
 import serializeraw
+import texmex
 
 import doctextstyle.parser
 import doctextstyle.utils
@@ -22,7 +25,10 @@ import magic.path
 NUMPY_SEED = 1 * 2 * 4 * 8 * 16 * 32 * 64
 
 
-def create_matrix(source: str, pages: tuple = None) -> np.array:
+def create_matrix(
+        source: str,
+        pages: tuple = None,
+) -> typing.Tuple[np.array, texmex.PageTextNavigators, iamraw.FontStore]:
     loaded = serializeraw.create_pagetextnavigators_frompath(
         source,
         prefix='oneline',
@@ -34,6 +40,19 @@ def create_matrix(source: str, pages: tuple = None) -> np.array:
     else:
         magics = []
     fontstore = serializeraw.create_fontstore_frompath(source, pages=pages)
+    matrix, loaded, fontstore = create_matrix_fromdata(
+        loaded,
+        fontstore,
+        magics,
+    )
+    return matrix, loaded, fontstore
+
+
+def create_matrix_fromdata(
+        loaded: texmex.PageTextNavigators,
+        fontstore: iamraw.FontStore,
+        magics: iamraw.PageContentContentTypes = None,
+) -> typing.Tuple[np.array, texmex.PageTextNavigators, iamraw.FontStore]:
     parsed = doctextstyle.parser.parses(
         loaded,
         parser=doctextstyle.parser.parse_vector,
