@@ -20,6 +20,8 @@ import collections
 import re
 
 import elements
+import iamraw
+import texmex
 import texmex.style
 import utila
 
@@ -30,6 +32,21 @@ def run(source: str, pages: tuple = None):
     matrix, navis, _ = doctextstyle.vector.prepare.create_matrix(
         source,
         pages=pages,
+    )
+    clustered = doctextstyle.vector.prepare.clusterme(matrix, navis)
+    result = doctextstyle.vector.extract.extract_headlines(clustered)
+    return result
+
+
+def run_fromdata(
+        navigators: texmex.PageTextNavigators,
+        fontstore: iamraw.FontStore,
+        magics: iamraw.PageContentContentTypes = None,
+):
+    matrix, navis, _ = doctextstyle.vector.prepare.create_matrix_fromdata(
+        navigators,
+        fontstore,
+        magics,
     )
     clustered = doctextstyle.vector.prepare.clusterme(matrix, navis)
     result = doctextstyle.vector.extract.extract_headlines(clustered)
