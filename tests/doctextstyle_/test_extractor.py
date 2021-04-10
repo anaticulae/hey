@@ -12,6 +12,7 @@ import serializeraw
 import utila
 import utilatest
 
+import doctextstyle
 import doctextstyle.features.blockquote
 
 
@@ -29,3 +30,21 @@ def test_extract_blockquote_dimension():
     extracted = doctextstyle.features.blockquote.blockquote_style(flat)
     # blockquote text size
     assert extracted[1] == 9.96
+
+
+@utilatest.nightly
+def test_extract_headlines_fromdata():
+    source = power.link(power.DISS266_PDF)
+    pages = utila.ranged_tuple(7, 215)
+    navigators = serializeraw.create_pagetextcontentnavigators_frompath(
+        source,
+        prefix='oneline',
+        pages=pages,
+    )
+    fontstore = serializeraw.create_fontstore_frompath(source)
+    headlines = doctextstyle.headlines_fromdata(
+        navigators,
+        fontstore,
+        x0_max_diff=0.0,
+    )
+    assert len(headlines) == 4
