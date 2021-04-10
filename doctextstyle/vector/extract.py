@@ -35,7 +35,7 @@ def run(source: str, pages: tuple = None):
         pages=pages,
     )
     clustered = doctextstyle.vector.prepare.clusterme(matrix, navis)
-    result = doctextstyle.vector.extract.extract_headlines(clustered)
+    result = extract_headlines(clustered)
     return result
 
 
@@ -50,7 +50,7 @@ def run_fromdata(
         magics,
     )
     clustered = doctextstyle.vector.prepare.clusterme(matrix, navis)
-    result = doctextstyle.vector.extract.extract_headlines(clustered)
+    result = extract_headlines(clustered)
     return result
 
 
