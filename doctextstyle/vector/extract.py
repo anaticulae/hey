@@ -43,6 +43,7 @@ def run_fromdata(
         navigators: texmex.PageTextNavigators,
         fontstore: iamraw.FontStore,
         magics: iamraw.PageContentContentTypes = None,
+        **kwargs,
 ):
     matrix, navis, _ = doctextstyle.vector.prepare.create_matrix_fromdata(
         navigators,
@@ -50,15 +51,16 @@ def run_fromdata(
         magics,
     )
     clustered = doctextstyle.vector.prepare.clusterme(matrix, navis)
-    result = extract_headlines(clustered)
+    result = extract_headlines(clustered, **kwargs)
     return result
 
 
-def extract_headlines(clusters, cluster_size_min: int = 5):
+def extract_headlines(clusters, cluster_size_min: int = 5, **kwargs):
     # find headline cluster
     flat, _ = doctextstyle.vector.headlines.valid_headline_clusters(
         clusters,
         cluster_size_min,
+        **kwargs,
     )
     # merge multiple headline
     flat = merge_headline(flat)
