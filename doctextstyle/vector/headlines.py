@@ -78,6 +78,7 @@ def valid_headline_clusters(
         cluster_rate_min: float = 0.3,
         cluster_headline_meadian_length_min: int = 10,
         x0_max_diff: float = 15.0,
+        whitespace_rate_max: float = 0.2,
 ):
     collected = []
     delete = []
@@ -91,6 +92,8 @@ def valid_headline_clusters(
         if median < cluster_headline_meadian_length_min:
             continue
         if noheadline_cluster(cluster):
+            continue
+        if whitespace_rate(cluster) > whitespace_rate_max:
             continue
         collected.append(cluster)
         delete.append(cluster)
@@ -190,6 +193,17 @@ def headline_rate(cluster):
         )
     ]
     return len(headlines) / len(cluster), median
+
+
+def whitespace_rate(cluster) -> float:
+    charcount = 0
+    whitespaces = 0
+    for item in cluster:
+        charcount += len(item[0].text)
+        whitespaces += item[0].text.count(' ')
+    if not charcount:
+        return 0.0
+    return whitespaces / charcount
 
 
 def noheadline_cluster(cluster, pagerate_max: float = 0.5):
