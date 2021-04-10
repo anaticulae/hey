@@ -76,7 +76,7 @@ def valid_headline_clusters(
         clusters,
         cluster_size_min: int = 5,
         cluster_rate_min: float = 0.3,
-        cluster_headline_meadian_length_min: int = 10,
+        cluster_headline_median_length_min: int = 10,
         x0_max_diff: float = 100.0,
         whitespace_rate_max: float = 0.2,
 ):
@@ -89,7 +89,7 @@ def valid_headline_clusters(
         rate, median = headline_rate(cluster)
         if rate < cluster_rate_min:
             continue
-        if median < cluster_headline_meadian_length_min:
+        if median < cluster_headline_median_length_min:
             continue
         if noheadline_cluster(cluster):
             continue
