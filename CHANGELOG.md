@@ -2,6 +2,21 @@
 
 Every noteable change is logged here.
 
+## v5.11.0
+
+### Feature
+
+* extend interface to configure valid headline checker (2bb5c534195b)
+* skip headline cluster with too many white spaces (0b1fc28accf4)
+
+### Fix
+
+* adjust valid range (b96e68a62aec)
+
+### Documentation
+
+* fix spelling error (9e0b4ffc82f1)
+
 ## v5.10.1
 
 ### Fix
