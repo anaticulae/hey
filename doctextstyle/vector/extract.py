@@ -26,6 +26,7 @@ import texmex.style
 import utila
 
 import doctextstyle.vector.headlines
+import doctextstyle.vector.prepare
 
 
 def run(source: str, pages: tuple = None):
