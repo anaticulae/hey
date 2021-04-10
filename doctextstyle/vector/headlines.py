@@ -77,7 +77,7 @@ def valid_headline_clusters(
         cluster_size_min: int = 5,
         cluster_rate_min: float = 0.3,
         cluster_headline_meadian_length_min: int = 10,
-        x0_max_diff: float = 15.0,
+        x0_max_diff: float = 100.0,
         whitespace_rate_max: float = 0.2,
 ):
     collected = []
