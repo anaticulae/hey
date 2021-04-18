@@ -7,8 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-iamraw>=4.14.1<5.0.0
-utila>=2.25.0<3.0.0
+iamraw>=4.14.2<5.0.0
+utila>=2.26.0<3.0.0
 
 configo>=0.9.0<1.0.0
 groupme>=0.9.0<1.0.0
