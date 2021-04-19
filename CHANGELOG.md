@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v5.11.1
+
+### Fix
+
+* do not run vector for too few data (6fdf645d9539)
+
 ## v5.11.0
 
 ### Feature
