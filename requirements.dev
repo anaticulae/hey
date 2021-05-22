@@ -8,19 +8,19 @@
 # =============================================================================
 
 # ensure that test data is generated with the right version of rawmaker
-rawmaker==2.15.0
+rawmaker==2.17.4
 
 # reference to test data
-power==1.4.4
+power==1.4.6
 
 # test data generator
-jam==0.2.18
+jam==0.2.19
 
 # generate magic test data
-words==0.27.6
-detector==0.18.0
+words==0.28.4
+detector==0.21.1
 
 # generate example data
 genex==0.8.0
 
-utilatest==0.5.2
+utilatest==0.5.3
