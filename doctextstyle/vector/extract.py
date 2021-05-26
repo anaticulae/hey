@@ -145,7 +145,7 @@ CHAPTER_PATTERN = re.compile(r'^(Kapitel|Chapter)[ ]{0,5}\d', re.IGNORECASE)
 def verify_level(grouped: list) -> list:
     result = []
     for group in grouped:
-        if not any([CHAPTER_PATTERN.match(item.text) for item in group]):
+        if not any(CHAPTER_PATTERN.match(item.text) for item in group):
             result.append(group)
             continue
         # remove no-chapter-pattern

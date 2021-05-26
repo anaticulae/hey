@@ -49,7 +49,7 @@ def main() -> int:
     args = utila.parse(parser)
     selected_pages = utila.pages_fromargs(args)
 
-    inpath, outpath = utila.cli.sources(args, singleinput=True)
+    inpath, outpath = utila.cli.sources(args, singleinput=True)  # pylint:disable=W0632
     inpath = inpath[0]
 
     if os.path.isdir(outpath):

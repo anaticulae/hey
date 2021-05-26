@@ -64,7 +64,7 @@ def create_matrix_fromdata(
     # TODO: UUSE NUMPY
     merged = list(itertools.zip_longest(*merged))
     # round it
-    merged = np.array(merged, dtype=np.uint32)
+    merged: np.array = np.array(merged, dtype=np.uint32)
     matrix = np.array(merged, dtype=np.double)
     return matrix, loaded, fontstore
 
@@ -99,11 +99,7 @@ def merge_neighbors(navis):
             continue
         befores = [page[0]] + page[:-1]
         afters = page[1:] + [page[-1]]
-        content = [(item, before, after) for item, before, after in zip(
-            page,
-            befores,
-            afters,
-        )]
+        content = list(zip(page, befores, afters))
         result.extend(content)
     return result
 

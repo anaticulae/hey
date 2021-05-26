@@ -12,6 +12,9 @@ import typing
 
 import iamraw
 
+import doctextstyle.vector.decide
+import doctextstyle.vector.prepare
+
 Line = collections.namedtuple(
     'Line',
     'rate, upper, size, bold, italic, left, right, top, bottom',
@@ -20,8 +23,6 @@ Lines = typing.List[Line]
 
 
 def run(source: str, pages: tuple = None) -> iamraw.DocTextStyle:
-    import doctextstyle.vector.decide
-    import doctextstyle.vector.prepare
     matrix, loaded, fontstore = doctextstyle.vector.prepare.create_matrix(
         source,
         pages,

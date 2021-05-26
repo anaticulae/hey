@@ -211,12 +211,13 @@ def expand_multiline(captions: iamraw.Captions) -> set:
 def expand_lists(lists):
     """Determine lines which are covered by lines. Expand lists which
     are expanded over more than one page."""
-    result = collections.defaultdict(set)
+    collect = collections.defaultdict(set)
     for page in lists:
         for listi in page.content:
             areas = listi.area
             areas = areas if isinstance(areas[0], tuple) else [areas]
             for index, area in enumerate(areas, start=page.page):
-                result[index].update(area)
-    result = {page: content for page, content in result.items()}
+                collect[index].update(area)
+    # enable KeyError
+    result = dict(collect)
     return result
