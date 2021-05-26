@@ -40,10 +40,10 @@ def run(source: str, pages: tuple = None):
 
 
 def run_fromdata(
-        navigators: texmex.PageTextNavigators,
-        fontstore: iamraw.FontStore,
-        magics: iamraw.PageContentContentTypes = None,
-        **kwargs,
+    navigators: texmex.PageTextNavigators,
+    fontstore: iamraw.FontStore,
+    magics: iamraw.PageContentContentTypes = None,
+    **kwargs,
 ):
     matrix, navis, _ = doctextstyle.vector.prepare.create_matrix_fromdata(
         navigators,

@@ -22,10 +22,10 @@ VerticalTextDistances = typing.List[VerticalTextDistance]
 
 
 def parses(
-        navigators: texmex.PageTextNavigators,
-        magics: iamraw.PageContentContentTypes = None,
-        fontstore: iamraw.FontStore = None,
-        parser: callable = None,
+    navigators: texmex.PageTextNavigators,
+    magics: iamraw.PageContentContentTypes = None,
+    fontstore: iamraw.FontStore = None,
+    parser: callable = None,
 ) -> iamraw.PageTextPropertiesList:
     parser = parser if parser else parse
     magics = magics if magics else []
@@ -41,8 +41,8 @@ def parses(
 
 
 def parse(
-        navigator: texmex.PageTextNavigator,
-        magic: 'iamraw.PageContentContentType.content',
+    navigator: texmex.PageTextNavigator,
+    magic: 'iamraw.PageContentContentType.content',
 ) -> iamraw.PageTextProperties:
     lengths = textlength(navigator)
     hashed = [item.text.strip() for item in navigator]
@@ -90,9 +90,9 @@ def parse(
 
 
 def parse_vector(
-        navigator: texmex.PageTextNavigator,
-        magic: 'iamraw.PageContentContentType.content',
-        fontstore: iamraw.FontStore,
+    navigator: texmex.PageTextNavigator,
+    magic: 'iamraw.PageContentContentType.content',
+    fontstore: iamraw.FontStore,
 ) -> iamraw.PageTextProperties:
     if not navigator:
         # empty page

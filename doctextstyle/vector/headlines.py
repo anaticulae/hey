@@ -51,9 +51,9 @@ def decide_headlines(clusters, cluster_size_min: int = 5):
 
 
 def group_headline_size(
-        items,
-        cluster_size_min: int = 5,
-        fontsize_diff_max: float = 0.25,
+    items,
+    cluster_size_min: int = 5,
+    fontsize_diff_max: float = 0.25,
 ):
     sizes = sorted([item[0].style.textsize() for item in items])
     grouped = [
@@ -73,12 +73,12 @@ def group_headline_size(
 
 
 def valid_headline_clusters(
-        clusters,
-        cluster_size_min: int = 5,
-        cluster_rate_min: float = 0.3,
-        cluster_headline_median_length_min: int = 10,
-        x0_max_diff: float = 100.0,
-        whitespace_rate_max: float = 0.2,
+    clusters,
+    cluster_size_min: int = 5,
+    cluster_rate_min: float = 0.3,
+    cluster_headline_median_length_min: int = 10,
+    x0_max_diff: float = 100.0,
+    whitespace_rate_max: float = 0.2,
 ):
     collected = []
     delete = []
@@ -102,10 +102,10 @@ def valid_headline_clusters(
 
 
 def clean_cluster(
-        cluster,
-        x0_max_diff: float = 15.0,
-        ymin: float = 0.0,
-        ymax: float = 841.89 - 120,
+    cluster,
+    x0_max_diff: float = 15.0,
+    ymin: float = 0.0,
+    ymax: float = 841.89 - 120,
 ):
     # TODO: ACCEPT RIGHT PADDED TEXT
     # skip too right items

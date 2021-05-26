@@ -34,9 +34,9 @@ class CaptionPageProcessor:
         self.look_backward = look_backward
 
     def process_page(
-            self,
-            page: texmex.PageTextContentNavigator,
-            items,
+        self,
+        page: texmex.PageTextContentNavigator,
+        items,
     ) -> iamraw.Captions:
         """Detect caption below the images."""
         if not items:

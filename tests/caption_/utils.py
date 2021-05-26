@@ -15,12 +15,12 @@ import tests.caption_
 
 
 def extract_captions(
-        source,
-        pages: str,
-        testdir,
-        monkeypatch,
-        resultpath=None,
-        selected='',
+    source,
+    pages: str,
+    testdir,
+    monkeypatch,
+    resultpath=None,
+    selected='',
 ):
     resultpath = resultpath if resultpath else iamraw.path.image_caption
     source = power.link(source)

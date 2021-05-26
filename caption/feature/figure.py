@@ -14,12 +14,12 @@ import caption.feature.image
 
 
 def work(
-        text_oneline: str,
-        textposition_oneline: str,
-        sizeandborder: str,
-        footerheader: str,
-        *figures: list,
-        pages: tuple = None,
+    text_oneline: str,
+    textposition_oneline: str,
+    sizeandborder: str,
+    footerheader: str,
+    *figures: list,
+    pages: tuple = None,
 ) -> str:
     ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
         text_oneline,

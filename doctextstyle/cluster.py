@@ -66,13 +66,13 @@ def cluster(
 
 
 def classifier(  # pylint:disable=R1260
-        candidat,
-        clusteritem,
-        selection,
-        max_size_diff=None,
-        max_after_diff=None,
-        max_before_diff=None,
-        max_left_diff=None,
+    candidat,
+    clusteritem,
+    selection,
+    max_size_diff=None,
+    max_after_diff=None,
+    max_before_diff=None,
+    max_left_diff=None,
 ) -> bool:
     if selection is None or ClusterProperty.SIZE in selection:
         if not utila.pnear(

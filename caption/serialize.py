@@ -15,8 +15,8 @@ import utila
 
 
 def load_image_informations_fromfiles(
-        files: str,
-        pages: tuple = None,
+    files: str,
+    pages: tuple = None,
 ) -> iamraw.PageContentImageInfos:
     # TODO: MOVE TO IAMRAW
     collected = collections.defaultdict(list)

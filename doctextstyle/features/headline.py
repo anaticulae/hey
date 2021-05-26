@@ -21,15 +21,15 @@ MIN_HEADLINE_LENGTH = configo.HV_INT_PLUS(7).value
 
 
 def headlines(  # pylint:disable=R1260,R0914
-        flats: iamraw.TextProperties,
-        *,
-        min_headline_count: int = None,
-        min_headline_length: int = None,
-        greater_than_text: bool = True,
-        headline_start: bool = True,
-        returncluster: bool = False,
-        distance_before_min: float = 1.2,
-        distance_after_min: float = 0.98,
+    flats: iamraw.TextProperties,
+    *,
+    min_headline_count: int = None,
+    min_headline_length: int = None,
+    greater_than_text: bool = True,
+    headline_start: bool = True,
+    returncluster: bool = False,
+    distance_before_min: float = 1.2,
+    distance_after_min: float = 0.98,
 ):
     if min_headline_count is None:
         min_headline_count = MIN_HEADLINE_CLUSTER_SIZE

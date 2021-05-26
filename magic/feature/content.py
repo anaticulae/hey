@@ -17,17 +17,17 @@ import utila
 
 
 def work(  # pylint:disable=R0913
-        text: str,
-        textpositions: str,
-        sizeandborders: str,
-        footerheader: str,
-        lists: str,
-        blockquotes: str,
-        formula: str,
-        captions: str,
-        table: str,
-        figures: str,
-        pages: tuple = None,
+    text: str,
+    textpositions: str,
+    sizeandborders: str,
+    footerheader: str,
+    lists: str,
+    blockquotes: str,
+    formula: str,
+    captions: str,
+    table: str,
+    figures: str,
+    pages: tuple = None,
 ) -> str:
     ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
         text=text,
@@ -55,13 +55,13 @@ def work(  # pylint:disable=R0913
 
 
 def determine_types(  # pylint:disable=R0914
-        ptcns,
-        lists,
-        blockquotes,
-        formula,
-        captions,
-        tables,
-        figures,
+    ptcns,
+    lists,
+    blockquotes,
+    formula,
+    captions,
+    tables,
+    figures,
 ) -> str:
     result = []
     for navigator in ptcns:

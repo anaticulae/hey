@@ -16,12 +16,12 @@ import caption.feature
 
 
 def work(
-        oneline_text: str,
-        oneline_textposition: str,
-        sizeandborder: str,
-        footerheader: str,
-        tables: str,
-        pages: tuple = None,
+    oneline_text: str,
+    oneline_textposition: str,
+    sizeandborder: str,
+    footerheader: str,
+    tables: str,
+    pages: tuple = None,
 ) -> str:
     ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
         oneline_text,
@@ -33,12 +33,11 @@ def work(
 
     if os.path.exists(tables):
         tables = serializeraw.load_tables(tables, pages=pages)
-        processor = caption.feature.CaptionPageWordProcessor(
-            words=(
-                'Tab.',
-                'Tabelle',
-                'Table',
-            ))
+        processor = caption.feature.CaptionPageWordProcessor(words=(
+            'Tab.',
+            'Tabelle',
+            'Table',
+        ))
         result = caption.feature.run(processor, ptcns, tables)
     else:
         utila.error(f'could not load tables: {tables}, skip caption --table')

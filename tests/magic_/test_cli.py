@@ -43,10 +43,10 @@ def test_master72_list_and_blockquotes(testdir, monkeypatch):
 
 
 def run_magic(
-        source,
-        testdir,
-        monkeypatch,
-        pages: str = '',
+    source,
+    testdir,
+    monkeypatch,
+    pages: str = '',
 ) -> iamraw.PageContentContentTypes:
     source = power.link(source)
     tests.magic_.run(
