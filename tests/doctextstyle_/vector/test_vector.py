@@ -37,4 +37,4 @@ def test_vector_headlines():
     assert result.h1_family == 'CMSSBX10'
     assert result.h2_family == 'CMSSBX10'
     # assert result.h3_family == 'CMSSBX10'
-    assert result.h3_family == 'URWPalladioL'
+    assert result.h3_family in ('URWPalladioL', 'CMSSBX10')
