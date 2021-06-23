@@ -6,3 +6,12 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+
+import os
+
+import hey
+
+RESOURCES = os.path.join(hey.ROOT, 'tests/resources')
+LINEDISTANCE_PDF = os.path.join(RESOURCES, 'linedistances.pdf')
+
+assert os.path.exists(LINEDISTANCE_PDF), LINEDISTANCE_PDF
