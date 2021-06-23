@@ -7,10 +7,14 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import os
+
 import genex
 import power
+import utila
 
 import hey
+import tests
 
 pytest_plugins = ['pytester', 'xdist']  # pylint: disable=invalid-name
 
@@ -74,3 +78,40 @@ def extract_sectionsandwords(resources):
         words=True,
         pages=':',
     )
+
+
+RESOURCES_LINEDISTANCES = [
+    (tests.LINEDISTANCE_PDF, ('sel page_0.text_5_450', 'percent200')),
+    (tests.LINEDISTANCE_PDF, ('sel page_0.text_450_940', 'percent150')),
+    (tests.LINEDISTANCE_PDF, ('sel page_0.text_940_1450', 'percent100')),
+]
+
+
+def extract_linedistances(resources):
+    dest = tests.LINESGENERATED
+    if os.path.exists(dest):
+        return
+    os.makedirs(dest)
+    for source, (script, name) in resources:
+        outpath = os.path.join(dest, f'{name}.pdf')
+        tmp = utila.tmpfile(power.ROOT)
+        utila.file_replace(tmp, script)
+        utila.run(f'jam -i {source} --script {tmp} -o {outpath}')
+    # run rawmaker
+    resources = [
+        tests.LINEDISTANCE100_PDF,
+        tests.LINEDISTANCE150_PDF,
+        tests.LINEDISTANCE200_PDF,
+    ]
+    genex.extract(
+        resources,
+        destination=dest,
+        base=dest,
+        pages=':',
+        groupme=True,
+    )
+
+
+def validate_linedistances(_):  # pylint:disable=W0613
+    # disable page number validation
+    pass
