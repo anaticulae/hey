@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v5.11.6
+
+### Feature
+
+* replace linero with tablero (8ea98a306755)
+
 ## v5.11.5
 
 ## v5.11.4
