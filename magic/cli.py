@@ -22,7 +22,7 @@ RESOURCES = [
     utila.ResultFile('textflow', 'blockquote_blockquote', optional=True),
     utila.ResultFile('detector', 'formula_formula', optional=True),
     utila.ResultFile('caption', 'general_general', optional=True),
-    utila.ResultFile('linero', 'table_table', optional=True),
+    utila.ResultFile('tablero', 'decide_decide', optional=True),
     utila.Directory('rawmaker__figures_figures', optional=True),
 ]
 
