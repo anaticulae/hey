@@ -58,7 +58,7 @@ def group_headline_size(
     sizes = sorted([item[0].style.textsize() for item in items])
     grouped = [
         statistics.mean(group)
-        for group in utila.groupby_diff(sizes, diff=fontsize_diff_max)
+        for group in utila.groupby_diff(sizes, maxdiff=fontsize_diff_max)
         if len(group) >= cluster_size_min
     ]
     grouped = utila.roundme(grouped, convert=False)
