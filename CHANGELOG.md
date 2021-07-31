@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v5.11.8
+
+### Feature
+
+* use images folder after moving figures (3b64330d8d1e)
+
 ## v5.11.7
 
 ## v5.11.6
