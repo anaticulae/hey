@@ -23,7 +23,7 @@ RESOURCES = [
     utila.ResultFile('detector', 'formula_formula', optional=True),
     utila.ResultFile('caption', 'general_general', optional=True),
     utila.ResultFile('tablero', 'decide_decide', optional=True),
-    utila.Directory('rawmaker__figures_figures', optional=True),
+    utila.Directory('rawmaker__images_images', optional=True),
 ]
 
 WORKPLAN = [
