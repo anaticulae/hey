@@ -15,7 +15,7 @@ import utila
 
 def test_hey_navigator_merge_content():  # pylint:disable=W0621
     navigator = serializeraw.create_pagetextnavigators_frompath(
-        power.link(power.DOCU07_PDF))
+        power.link(power.DOCU007_PDF))
     navigator = utila.select_page(navigator, page=1)
     content = texmex.navigator_to_content(navigator)
     merged, _ = texmex.merge_content(content)

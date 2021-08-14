@@ -19,9 +19,8 @@ RESOURCES = os.path.join(hey.ROOT, 'tests/resources')
 LINEDISTANCE_PDF = os.path.join(RESOURCES, 'linedistances.pdf')
 assert os.path.exists(LINEDISTANCE_PDF), LINEDISTANCE_PDF
 
-LINEDISTANCE = os.path.join(RESOURCES, 'generated/linedistances/')
-LINEDISTANCE100_PDF = os.path.join(LINEDISTANCE, 'percent100.pdf')
-LINEDISTANCE150_PDF = os.path.join(LINEDISTANCE, 'percent150.pdf')
-LINEDISTANCE200_PDF = os.path.join(LINEDISTANCE, 'percent200.pdf')
-
 LINESGENERATED = power.generated('linedistances')
+
+LINEDISTANCE100_PDF = os.path.join(LINESGENERATED, 'percent100.pdf')
+LINEDISTANCE150_PDF = os.path.join(LINESGENERATED, 'percent150.pdf')
+LINEDISTANCE200_PDF = os.path.join(LINESGENERATED, 'percent200.pdf')
