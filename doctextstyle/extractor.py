@@ -51,6 +51,9 @@ def extract(path: str, pages: tuple = None) -> iamraw.DocTextStyle:  # pylint:di
     flat = doctextstyle.utils.flatten(parsed)
 
     text = doctextstyle.features.text(flat)
+    if not text or len(text) < 4:
+        utila.error('not enough text data')
+        return iamraw.DocTextStyle()
     text_after = text[3][1]
 
     result = iamraw.DocTextStyle(
