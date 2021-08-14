@@ -46,7 +46,6 @@ def pytest_sessionstart(session):  # pylint:disable=W0613
 
 def extract(resources):
     destination = power.generated()
-
     genex.extract(
         resources + [power.REPOSITORY],
         destination=destination,
@@ -76,6 +75,7 @@ def extract_sectionsandwords(resources):
         spacestation=True,
         textflow=True,
         words=True,
+        tablero=False,  # reduce generation time
         pages=':',
     )
 
@@ -109,6 +109,7 @@ def extract_linedistances(resources):
         base=dest,
         pages=':',
         groupme=True,
+        tablero=False,  # reduce generation time
     )
 
 
