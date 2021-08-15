@@ -141,6 +141,9 @@ def select_font(size, headlines):
         for item in headlines
         if utila.near(size, item[0].bounding_mean, diff=0.5)
     ]
+    if not fonts:
+        # no matching font
+        return None
     result = utila.maxs(fonts)
     return result
 
