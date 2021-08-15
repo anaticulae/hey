@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v5.11.9
+
+### Feature
+
+* skip too few text style extractor (93750e7068f5)
+
+### Fix
+
+* skip empty selection (050dcfa935bd)
+
 ## v5.11.8
 
 ### Feature
