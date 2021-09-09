@@ -105,11 +105,15 @@ def valid_headline_clusters(
     return flat, delete
 
 
+PAGE_HEIGHT = 841.89
+FOOTER_HEIGHT = 120.0
+
+
 def clean_cluster(
     cluster,
     x0_max_diff: float = 15.0,
     ymin: float = 0.0,
-    ymax: float = 841.89 - 120,
+    ymax: float = PAGE_HEIGHT - FOOTER_HEIGHT,
 ):
     # TODO: ACCEPT RIGHT PADDED TEXT
     # skip too right items
