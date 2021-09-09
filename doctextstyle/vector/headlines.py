@@ -54,14 +54,18 @@ def group_headline_size(
     items,
     cluster_size_min: int = 5,
     fontsize_diff_max: float = 0.25,
+    strategy: callable = statistics.mean,
 ):
     sizes = sorted([item[0].style.textsize() for item in items])
     grouped = [
-        statistics.mean(group)
-        for group in utila.groupby_diff(sizes, maxdiff=fontsize_diff_max)
+        group for group in utila.groupby_diff(sizes, maxdiff=fontsize_diff_max)
         if len(group) >= cluster_size_min
     ]
+    # determine group value
+    grouped = [strategy(group) for group in grouped]
+    # convert to user friendly result
     grouped = utila.roundme(grouped, convert=False)
+    # move detected size to expected group
     grouped = sorted(grouped, reverse=True)
     h1_size, h2_size, h3_size, h4_size = None, None, None, None
     with contextlib.suppress(IndexError):
