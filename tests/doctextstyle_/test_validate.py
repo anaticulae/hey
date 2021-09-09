@@ -20,6 +20,7 @@ PARAMETERS = [
     pytest.param(power.BACHELOR063_PDF, 15.96, 14.04, 12.0, id='bachelor63'),
     pytest.param(power.BACHELOR051_PDF, 15.96, 14.04, 12.0, id='bachelor51'),
     pytest.param(power.MASTER110_PDF, 24.79, 14.35, 11.96, id='master110'),
+    pytest.param(power.DISS205_PDF, 17.22, 14.35, 11.96, id='diss205'),
 ]
 
 
