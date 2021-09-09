@@ -23,6 +23,7 @@ power.setup(hey.ROOT)
 
 RESOURCES = [
     power.DISS266_PDF,
+    power.DISS205_PDF,
     power.MASTER116_PDF,
     power.BACHELOR111_PDF,
     power.MASTER099_PDF,
