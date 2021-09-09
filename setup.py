@@ -21,7 +21,7 @@ with open(os.path.join(ROOT, 'README.md'), encoding='utf8') as fp:
 with open(os.path.join(ROOT, 'hey/__init__.py'), encoding='utf8') as fp:
     VERSION = re.search(r'__version__ = \'(.*?)\'', fp.read()).group(1)
 
-with open(os.path.join(ROOT, "requirements.txt"), encoding='utf-8') as fp:
+with open(os.path.join(ROOT, 'requirements.txt'), encoding='utf-8') as fp:
     REQUIRES = [line for line in fp.readlines() if line and '#' not in line]
 
 if __name__ == "__main__":
