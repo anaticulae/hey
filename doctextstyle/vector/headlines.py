@@ -135,6 +135,9 @@ def clean_cluster(
         item for item in valid
         if not utila.isnumber(item[0].text.split(' ')[-1])
     ]
+    # Lebenslauf .............................. xx
+    valid = [item for item in valid if item[0].text.count('.') < 6]
+    # in bounds
     valid = [
         item for item in valid
         if ymin <= item[0].bounding.y0 <= item[0].bounding.y1 <= ymax
