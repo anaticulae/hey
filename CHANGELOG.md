@@ -2,6 +2,18 @@
 
 Every noteable change is logged here.
 
+## v5.12.0
+
+### Feature
+
+* add debug information (44c214b79c30)
+* merges first level headlines into non level cluster (53521377da35)
+* make min headline count document length dependent (acd3da41e8ec)
+* group headlines by font size and extracted level (d32f30f469b8)
+* skip table entrees as potential headline (b09ab38d5cf2)
+* use header height to exclude header content (aa8d2d7a7536)
+* increase debug ability (0afcf5a72c47)
+
 ## v5.11.9
 
 ### Feature
