@@ -87,6 +87,10 @@ def group_magic(
             equallevel = False
         if before[1] is not None and item[1] is None:
             equallevel = True
+        if before[1] is None and item[1] == 1:
+            # merge first level headlines into first group if these group
+            # is None. "Merges `1. Einleitung` into `Abstract`"
+            equallevel = True
         if fontdiff or not equallevel:
             # new group
             grouped.append([item])
