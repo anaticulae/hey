@@ -17,31 +17,20 @@ import utila
 
 def decide_headlines(clusters, cluster_size_min: int = 5):
     # find headline cluster
-    flat, delete = valid_headline_clusters(clusters, cluster_size_min)
-    h1_size, h2_size, h3_size, h4_size = group_headline_size(
+    flat, delete = valid_headline_clusters(
+        clusters,
+        cluster_size_min=cluster_size_min,
+    )
+    grouped = group_magic(
         flat,
         cluster_size_min=cluster_size_min,
     )
-    hx_font = (
-        select_font(h1_size, flat),
-        select_font(h2_size, flat),
-        select_font(h3_size, flat),
-        select_font(h4_size, flat),
-    )
-    hx_before = (
-        select_before(h1_size, flat),
-        select_before(h2_size, flat),
-        select_before(h3_size, flat),
-        select_before(h4_size, flat),
-    )
-    hx_after = (
-        select_after(h1_size, flat),
-        select_after(h2_size, flat),
-        select_after(h3_size, flat),
-        select_after(h4_size, flat),
-    )
+    hx_size = group_headline_size(grouped)
+    hx_font = tuple(select_font(grouped[number]) for number in range(4))
+    hx_before = tuple(select_before(grouped[number]) for number in range(4))
+    hx_after = tuple(select_after(grouped[number]) for number in range(4))
     result = (
-        (h1_size, h2_size, h3_size, h4_size),
+        hx_size,
         hx_font,
         hx_before,
         hx_after,
@@ -50,23 +39,65 @@ def decide_headlines(clusters, cluster_size_min: int = 5):
     return result
 
 
-def group_headline_size(
+def group_magic(
     items,
-    cluster_size_min: int = 5,
     fontsize_diff_max: float = 0.25,
+    cluster_size_min: int = 5,
+) -> list:
+    """Group potential headlines by font size and extracted level.
+
+    1. Extract the level out of text content. Use None if no 1.2.3 is given
+    2. Sort items by font size
+    3. Group items by different level and font size
+    4. Remove too little groups
+    """
+    # current.text,
+    items = [(
+        item[0].style.textsize(),
+        elements.level_numbered(item[0].text),
+        item,
+    ) for item in items]
+    # sort by level
+    items.sort(key=lambda x: x[1] if x[1] is not None else 1)
+    # sort by textsize
+    items.sort(key=lambda x: x[0], reverse=True)
+    # group data by textdiff and leveldiff
+    grouped = [[items[0]]]
+    for item in items[1:]:
+        before = grouped[-1][0]
+        fontdiff = not utila.near(
+            expected=before[0],
+            current=item[0],
+            diff=fontsize_diff_max,
+        )
+        equallevel = before[1] == item[1]
+        if before[1] is None and item[1] is not None:
+            equallevel = False
+        if before[1] is not None and item[1] is None:
+            equallevel = True
+        if fontdiff or not equallevel:
+            # new group
+            grouped.append([item])
+        else:
+            grouped[-1].append(item)
+    result = [group for group in grouped if len(group) >= cluster_size_min]
+    result = [[item[2] for item in group] for group in result]
+    # fill empty groups
+    while len(result) < 4:
+        result.append([])
+    return result
+
+
+def group_headline_size(
+    groups,
     strategy: callable = statistics.mean,
 ):
-    sizes = sorted([item[0].style.textsize() for item in items])
-    grouped = [
-        group for group in utila.groupby_diff(sizes, maxdiff=fontsize_diff_max)
-        if len(group) >= cluster_size_min
-    ]
+    sizes = [[item[0].style.textsize() for item in group] for group in groups]
     # determine group value
-    grouped = [strategy(group) for group in grouped]
+    grouped = [strategy(group) for group in sizes if group]
     # convert to user friendly result
     grouped = utila.roundme(grouped, convert=False)
-    # move detected size to expected group
-    grouped = sorted(grouped, reverse=True)
+    # prepare result
     h1_size, h2_size, h3_size, h4_size = None, None, None, None
     with contextlib.suppress(IndexError):
         h1_size = grouped[0]
@@ -145,14 +176,8 @@ def clean_cluster(
     return valid
 
 
-def select_font(size, headlines):
-    if size is None:
-        return None
-    fonts = [
-        item[0].style.fontid
-        for item in headlines
-        if utila.near(size, item[0].bounding_mean, diff=0.5)
-    ]
+def select_font(group):
+    fonts = [item[0].style.fontid for item in group]
     if not fonts:
         # no matching font
         return None
@@ -160,16 +185,10 @@ def select_font(size, headlines):
     return result
 
 
-def select_before(size, headlines):
-    if size is None:
-        return None
-    selected = [
-        item for item in headlines
-        if utila.near(size, item[0].bounding_mean, diff=0.5)
-    ]
+def select_before(group):
     befores = [
         current.bounding.y1 - before.bounding.y1
-        for current, before, _ in selected
+        for current, before, _ in group
         if current != before
     ]
     if not befores:
@@ -179,16 +198,10 @@ def select_before(size, headlines):
     return result
 
 
-def select_after(size, headlines):
-    if size is None:
-        return None
-    selected = [
-        item for item in headlines
-        if utila.near(size, item[0].bounding_mean, diff=0.5)
-    ]
+def select_after(group):
     afters = [
         after.bounding.y1 - current.bounding.y1
-        for current, _, after in selected
+        for current, _, after in group
         if current != after
     ]
     if not afters:
