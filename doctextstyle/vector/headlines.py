@@ -69,6 +69,9 @@ def group_magic(
         elements.level_numbered(item[0].text),
         item,
     ) for item in items]
+    # debug information
+    for item in items:
+        utila.debug(item[0], item[1], item[2][0].text.strip())
     # sort by level
     items.sort(key=lambda x: x[1] if x[1] is not None else 1)
     # sort by textsize
@@ -97,6 +100,11 @@ def group_magic(
         else:
             grouped[-1].append(item)
     result = [group for group in grouped if len(group) >= cluster_size_min]
+    # debug information
+    for group in result:
+        utila.debug('========= new group =========')
+        for item in group:
+            utila.debug(item[0], item[1], item[2][0].text)
     # remove font size and extracted headline level
     result = [[item[2] for item in group] for group in result]
     # fill empty groups
