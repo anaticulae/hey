@@ -12,7 +12,7 @@ import iamraw
 import doctextstyle.vector.headlines as dvh
 
 
-def decide(clustered, fontstore) -> iamraw.DocTextStyle:
+def decide(clustered, fontstore, pagecount) -> iamraw.DocTextStyle:
     # avoid side effects
     clustered = clustered[:]
 
@@ -20,9 +20,11 @@ def decide(clustered, fontstore) -> iamraw.DocTextStyle:
     text = largest(clustered)
     text_size, text_distance, text_family = decide_text(text)
     clustered = remove_cluster(clustered, [text])
-
     # determine headlines
-    headlines, fonts, befores, afters, removes = dvh.decide_headlines(clustered)
+    headlines, fonts, befores, afters, removes = dvh.decide_headlines(
+        clustered,
+        pagecount=pagecount,
+    )
     clustered = remove_cluster(clustered, removes)
 
     result = iamraw.DocTextStyle(

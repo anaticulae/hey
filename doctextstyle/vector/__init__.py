@@ -23,16 +23,17 @@ Lines = typing.List[Line]
 
 
 def run(source: str, pages: tuple = None) -> iamraw.DocTextStyle:
-    matrix, loaded, fontstore = doctextstyle.vector.prepare.create_matrix(
+    matrix, navis, fontstore = doctextstyle.vector.prepare.create_matrix(
         source,
         pages,
     )
     clustered = doctextstyle.vector.prepare.clusterme(
         matrix,
-        loaded,
+        navis,
     )
     result = doctextstyle.vector.decide.decide(
         clustered,
         fontstore,
+        pagecount=len(navis),
     )
     return result

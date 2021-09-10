@@ -10,20 +10,22 @@
 import contextlib
 import statistics
 
+import configo
 import elements
 import elements.headline
 import utila
 
 
-def decide_headlines(clusters, cluster_size_min: int = 5):
+def decide_headlines(clusters, pagecount: int):
+    clustersize_min = CLUSTERSIZE_MIN(pagecount)
     # find headline cluster
     flat, delete = valid_headline_clusters(
         clusters,
-        cluster_size_min=cluster_size_min,
+        cluster_size_min=clustersize_min,
     )
     grouped = group_magic(
         flat,
-        cluster_size_min=cluster_size_min,
+        cluster_size_min=clustersize_min,
     )
     hx_size = group_headline_size(grouped)
     hx_font = tuple(select_font(grouped[number]) for number in range(4))
@@ -37,6 +39,16 @@ def decide_headlines(clusters, cluster_size_min: int = 5):
         delete,
     )
     return result
+
+
+CLUSTERSIZE_MIN = configo.HolyTable(
+    items=(
+        (0, 3),
+        (50, 5),
+        (200, 10),
+    ),
+    strategy=utila.Strategy.LOWER,
+)
 
 
 def group_magic(
@@ -81,6 +93,7 @@ def group_magic(
         else:
             grouped[-1].append(item)
     result = [group for group in grouped if len(group) >= cluster_size_min]
+    # remove font size and extracted headline level
     result = [[item[2] for item in group] for group in result]
     # fill empty groups
     while len(result) < 4:
