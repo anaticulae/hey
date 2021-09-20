@@ -29,23 +29,7 @@ import doctextstyle.utils
 
 
 def extract(path: str, pages: tuple = None) -> iamraw.DocTextStyle:  # pylint:disable=R0914,R0915
-    navigator = serializeraw.create_pagetextnavigators_frompath(
-        path,
-        prefix='oneline',
-        pages=pages,
-    )
-    try:
-        cnavigators = serializeraw.create_pagetextcontentnavigators_frompath(
-            path,
-            prefix='oneline',
-            pages=pages,
-        )
-    except FileNotFoundError as error:
-        cnavigators = None
-        utila.error(f'missing page text content navigator: {error}')
-
-    magic = iamraw.path.magic_content(path)
-    magic = serializeraw.load_types(magic) if os.path.exists(magic) else []
+    navigator, cnavigators, magic = load_data(path, pages=pages)
 
     parsed = doctextstyle.parser.parses(navigator, magic)
     flat = doctextstyle.utils.flatten(parsed)
@@ -84,6 +68,27 @@ def extract(path: str, pages: tuple = None) -> iamraw.DocTextStyle:  # pylint:di
     extract_textdimension(result, navigator, cnavigators)
     extract_blockquote(result, flat)
     return result
+
+
+def load_data(path: str, pages: tuple = None):
+    navigator = serializeraw.create_pagetextnavigators_frompath(
+        path,
+        prefix='oneline',
+        pages=pages,
+    )
+    try:
+        cnavigators = serializeraw.create_pagetextcontentnavigators_frompath(
+            path,
+            prefix='oneline',
+            pages=pages,
+        )
+    except FileNotFoundError as error:
+        cnavigators = None
+        utila.error(f'missing page text content navigator: {error}')
+
+    magic = iamraw.path.magic_content(path)
+    magic = serializeraw.load_types(magic) if os.path.exists(magic) else []
+    return navigator, cnavigators, magic
 
 
 def extract_footnotes(result, flat):
