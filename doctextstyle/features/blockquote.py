@@ -7,8 +7,6 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import math
-
 import utila
 
 MIN_BLOCKQUOTE_CLUSTER_SIZE = 30
@@ -61,9 +59,9 @@ def classifier(candidat, clusteritem):
         return False
     leftdiff = utila.near(x00, x0, diff=MAX_BLOCKQUOTE_LEFT_DIFF)
     if not leftdiff:
-        return None
+        return False
     rightdiff = utila.near(x11, x1, diff=MAX_BLOCKQUOTE_RIGHT_DIFF)
     if not rightdiff:
-        return None
-    # use minimal diff classifier
-    return math.fabs(x00 - x0) + math.fabs(x11 - x1)
+        return False
+    # merge candidat into cluster
+    return True
