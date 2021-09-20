@@ -22,39 +22,48 @@ MIN_BLOCKQUOTE_TEXT_LENGTH = 45
 def blockquote_style(flats) -> tuple:
     # TODO: REMOVE TEXT CLUSTER FIRST
     flats = [item for item in flats if item.hashed.count('.') < 10]
-
+    # skip very short text
     flats = [
         item for item in flats if len(item.hashed) > MIN_BLOCKQUOTE_TEXT_LENGTH
     ]
-
+    # skip item which start too right
     flats = [item for item in flats if item.left <= 160]
-
-    def classifier(candidat, clusteritem):
-        x0 = clusteritem.left
-        x1 = clusteritem.right
-
-        x00 = candidat.left
-        x11 = candidat.right
-
-        if candidat.size != clusteritem.size:
-            return False
-
-        if not (utila.near(x00, x0, diff=MAX_BLOCKQUOTE_LEFT_DIFF) and
-                utila.near(x11, x1, diff=MAX_BLOCKQUOTE_RIGHT_DIFF)):
-            return None
-        # use minimal diff classifier
-        return math.fabs(x00 - x0) + math.fabs(x11 - x1)
-
+    # cluster text
     clustered = utila.determine_cluster(
         flats,
         classifier=classifier,
         min_elements=MIN_BLOCKQUOTE_CLUSTER_SIZE,
         strategy=utila.MatchStrategy.MIN,
     )
-
     if len(clustered) < 2:
+        # too few cluster
         return None
-
     # largest cluster is text cluster
     blockquote = clustered[1].center
-    return (blockquote.font, blockquote.size, blockquote.left, blockquote.right)
+    result = (
+        blockquote.font,
+        blockquote.size,
+        blockquote.left,
+        blockquote.right,
+    )
+    return result
+
+
+def classifier(candidat, clusteritem):
+    # expected
+    x0 = clusteritem.left
+    x1 = clusteritem.right
+    # current
+    x00 = candidat.left
+    x11 = candidat.right
+    # compare font size
+    if candidat.size != clusteritem.size:
+        return False
+    leftdiff = utila.near(x00, x0, diff=MAX_BLOCKQUOTE_LEFT_DIFF)
+    if not leftdiff:
+        return None
+    rightdiff = utila.near(x11, x1, diff=MAX_BLOCKQUOTE_RIGHT_DIFF)
+    if not rightdiff:
+        return None
+    # use minimal diff classifier
+    return math.fabs(x00 - x0) + math.fabs(x11 - x1)
