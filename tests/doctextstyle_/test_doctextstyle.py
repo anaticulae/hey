@@ -63,7 +63,7 @@ def test_regression_doctextstyle_homework25(method):
     assert utila.nears(after, expected_after, diff=0.5, none=True)
 
 
-@utilatest.longrun
+@utilatest.nightly
 def test_regression_doctextstyle_master116():
     source = power.link(power.MASTER116_PDF)
     result = doctextstyle.extractor.extract(source)
