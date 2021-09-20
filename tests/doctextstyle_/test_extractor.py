@@ -29,7 +29,7 @@ def test_extract_blockquote_dimension():
 
     extracted = doctextstyle.features.blockquote.blockquote_style(flat)
     # blockquote text size
-    assert extracted[1] == 9.96
+    assert extracted[1] == 9.96  # VALIDATED
 
 
 @utilatest.nightly
