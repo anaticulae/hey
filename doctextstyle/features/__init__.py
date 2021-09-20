@@ -11,10 +11,13 @@ import doctextstyle.cluster
 
 
 def text(flats, returncluster: bool = False):
-    clustered = doctextstyle.cluster.cluster(flats, (
-        doctextstyle.cluster.ClusterProperty.SIZE,
-        doctextstyle.cluster.ClusterProperty.FONT,
-    ))
+    clustered = doctextstyle.cluster.cluster(
+        flats,
+        (
+            doctextstyle.cluster.ClusterProperty.SIZE,
+            doctextstyle.cluster.ClusterProperty.FONT,
+        ),
+    )
     result = doctextstyle.cluster.bestmatch(clustered)
     if not result:
         # too few data to determine text style information
