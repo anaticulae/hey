@@ -79,7 +79,7 @@ def groupby_level(items):
     for item in items:
         text = item.text
         level = elements.level_numbered(text)
-        if level is False:
+        if level is False:  # pylint:disable=C2001
             level = 4
         if level is None:
             level = 4
