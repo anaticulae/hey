@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v5.13.0
+
+### Feature
+
+* adjust max difference (ef914c328c67)
+
+### Fix
+
+* do not return False on zero difference (550721f6db23)
+
 ## v5.12.0
 
 ### Feature
