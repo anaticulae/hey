@@ -7,34 +7,32 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import os
+
 import iamraw.path
 import power
 import pytest
 import utila
 
+import caption
 import tests.caption_.utils
 
-BACHELOR56_TABLE = """\
-Tabelle 1: Versuchsplan
-
-Tabelle 2: Korrelation nach Pearson (Kreuzung)
-
-Tabelle 3: Ergebnisse der Regressionsanalyse Geschwindigkeit und Bremsreaktionszeit mit der abhängigen Variable Unfall Kreuzung.
-
-Tabelle 4: Korrelation nach Pearson (Fußgänger)
-
-Tabelle 5: Ergebnisse der Regressionsanalyse Geschwindigkeit und Bremsreaktionszeit mit der abhängigen Variable Unfall FG.
-"""
+EXPECTED = os.path.join(caption.ROOT, 'tests/caption_/tables')
+file_read = lambda x: utila.file_read(os.path.join(EXPECTED, x)).strip()  # pylint:disable=C0103
 
 
-@pytest.mark.xfail(reason='improve table parser')
-@pytest.mark.parametrize('source, expected', [
-    pytest.param(power.BACHELOR056_PDF, BACHELOR56_TABLE, id='bachelor56'),
+# yapf:disable
+@pytest.mark.parametrize('source', [
+    pytest.param(power.BACHELOR056_PDF, id='bachelor56', marks=pytest.mark.xfail(reason='imporve table parser')),
 ])
-def test_validate_caption_table(source, expected, testdir, monkeypatch):
-    """In the current state, the table is not parsed correctly. Table
-    one is parsed too small. After improving the table parser, labels
-    will be parsed better."""
+# yapf:enable
+def test_validate_caption_table(source, testdir, monkeypatch):
+    """In the current state, the table is not parsed correctly.
+
+    Table one is parsed too small. After improving the table parser,
+    labels will be parsed better.
+    """
+    expected = file_read(utila.file_name(source))
     extracted = tests.caption_.utils.extract_captions(
         source,
         ':',
@@ -44,6 +42,6 @@ def test_validate_caption_table(source, expected, testdir, monkeypatch):
         selected='--table',
     )
     extracted = utila.flatten(page.content for page in extracted)
-    extracted = [caption.raw for caption in extracted]
-    extracted = (utila.NEWLINE * 2).join(extracted)  # pylint:disable=R0204
+    extracted = [utila.normalize_text(caption.raw) for caption in extracted]
+    extracted: str = utila.NEWLINE.join(extracted)
     assert extracted == expected
