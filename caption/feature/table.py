@@ -23,6 +23,11 @@ def work(
     tables: str,
     pages: tuple = None,
 ) -> str:
+    if not os.path.exists(tables):
+        utila.error(f'could not load tables: {tables}, skip caption --table')
+        # dump empty captions
+        return serializeraw.dump_captions([])
+    # prepare data
     ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
         oneline_text,
         oneline_textposition,
@@ -30,17 +35,14 @@ def work(
         headerfooterpath=footerheader,
         pages=pages,
     )
-
-    if os.path.exists(tables):
-        tables = serializeraw.load_tables(tables, pages=pages)
-        processor = caption.feature.CaptionPageWordProcessor(words=(
-            'Tab.',
-            'Tabelle',
-            'Table',
-        ))
-        result = caption.feature.run(processor, ptcns, tables)
-    else:
-        utila.error(f'could not load tables: {tables}, skip caption --table')
-        result = []
+    tables = serializeraw.load_tables(tables, pages=pages)
+    # determien captions
+    processor = caption.feature.CaptionPageWordProcessor(words=(
+        'Tab.',
+        'Tabelle',
+        'Table',
+    ))
+    result = caption.feature.run(processor, ptcns, tables)
+    # dump result
     dumped = serializeraw.dump_captions(result)
     return dumped
