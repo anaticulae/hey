@@ -36,25 +36,25 @@ class CaptionPageProcessor:
     def process_page(
         self,
         page: texmex.PageTextContentNavigator,
-        items,
+        boundings,
     ) -> iamraw.Captions:
-        """Detect caption below the images."""
-        if not items:
+        """Detect caption after and before boundings."""
+        if not boundings:
             return []
         result = []
-        for bounding in items:
+        for bounding in boundings:
             y0, y1 = bounding[1], bounding[3]
             selected = self.validate(after(page, y1, self.look_forward))
             if not selected:
                 selected = self.validate(before(page, y0, self.look_backward))
             if not selected:
-                utila.info(f'could not find caption after: {bounding}')
+                utila.info(f'could not find caption for: {bounding}')
                 continue
             raw = ''.join([item[1].text for item in selected]).strip()
             item = iamraw.Caption(
                 line=selected[0][0],
                 lineend=selected[-1][0],
-                raw=raw,
+                raw=raw.strip(),
             )
             result.append(item)
         return result
