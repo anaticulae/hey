@@ -38,9 +38,9 @@ def work(
     tables = serializeraw.load_tables(tables, pages=pages)
     # determien captions
     processor = caption.feature.CaptionPageWordProcessor(words=(
-        'Tab.',
-        'Tabelle',
-        'Table',
+        r'^Tab.[ ]{0,3}\d{1,2}(\.\d{1,2})?\:?',
+        r'^Tabelle[ ]{0,3}(\d{1,2}|[A-Z])(\.\d{1,2})?\:?',
+        r'^Table[ ]{0,3}\d{1,2}(\.\d{1,2})?\:?',
     ))
     result = caption.feature.run(processor, ptcns, tables)
     # dump result
