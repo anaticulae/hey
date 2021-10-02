@@ -45,3 +45,24 @@ def test_validate_caption_table(source, testdir, monkeypatch):
     extracted = [utila.normalize_text(caption.raw) for caption in extracted]
     extracted: str = utila.NEWLINE.join(extracted)
     assert extracted == expected
+
+
+BACHELOR51PAGE31 = """\
+Tabelle 2: Korrelation nach Pearson (Kreuzung)
+Tabelle 3: Ergebnisse der Regressionsanalyse Geschwindigkeit und Bremsreaktionszeit mit der abhängigen Variable Unfall Kreuzung.\
+"""
+
+
+def test_validate_caption_bachelor56page31(testdir, monkeypatch):
+    extracted = tests.caption_.utils.extract_captions(
+        power.BACHELOR056_PDF,
+        '31',
+        testdir,
+        monkeypatch,
+        resultpath=iamraw.path.table_caption,
+        selected='--table',
+    )
+    extracted = utila.flatten(page.content for page in extracted)
+    extracted = [utila.normalize_text(caption.raw) for caption in extracted]
+    extracted: str = utila.NEWLINE.join(extracted)
+    assert extracted == BACHELOR51PAGE31
