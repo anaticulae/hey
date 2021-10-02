@@ -18,6 +18,7 @@ In the current state it is not possible to ensure that collecting
 handled correctly."""
 
 import abc
+import re
 
 import iamraw
 import texmex
@@ -42,9 +43,17 @@ class CaptionPageProcessor:
         result = []
         for bounding in boundings:
             y0, y1 = bounding[1], bounding[3]
-            selected = self.validate(after(page, y1, self.look_forward))
+            selected = self.validate_after(items=after(
+                page,
+                y1,
+                self.look_forward,
+            ))
             if not selected:
-                selected = self.validate(before(page, y0, self.look_backward))
+                selected = self.validate_before(items=before(
+                    page,
+                    y0,
+                    self.look_backward,
+                ))
             if not selected:
                 utila.info(f'could not find caption for: {bounding}')
                 continue
@@ -58,7 +67,11 @@ class CaptionPageProcessor:
         return result
 
     @abc.abstractmethod
-    def validate(self, items):
+    def validate_after(self, items):
+        pass
+
+    @abc.abstractmethod
+    def validate_before(self, items):
         pass
 
 
@@ -82,6 +95,15 @@ def after(navigator, current, plus):
     return result
 
 
+def diffs(items):
+    result = []
+    boundings = [[item[1].bounding.y1, item[1].bounding.y0] for item in items]
+    for current, nexxt in zip(boundings[0:-1], boundings[1:]):
+        diff = nexxt[0] - current[1]
+        result.append(diff)
+    return result
+
+
 class CaptionPageWordProcessor(CaptionPageProcessor):
 
     def __init__(self, words):
@@ -91,19 +113,33 @@ class CaptionPageWordProcessor(CaptionPageProcessor):
         )  # TODO: HOLY VALUE
         self.words = words
 
-    def validate(self, items) -> list:
-        matched = [
-            item for item in items
-            if any(chunk in item[1].text for chunk in self.words)
-        ]
-        if not matched:
+    def validate_after(self, items) -> list:
+        end = len(items)
+        diffed = diffs(items)
+        for index, item in enumerate(diffed):
+            # split potential caption by maximum text line space
+            if item > 30.0:  # TODO: HOLY VALUE
+                end = index + 1
+                break
+        content = items[0:end]
+        for index, line in enumerate(content):
+            if any(re.match(pattern, line[1].text) for pattern in self.words):
+                return content[index:]
+        return []
+
+    def validate_before(self, items) -> list:
+        selected = None
+        for index, item in enumerate(items):
+            if any(re.match(pattern, item[1].text) for pattern in self.words):
+                selected = index
+        if selected is None:
+            # nothing matched
             return []
-        textsize = matched[0][1].style.textsize()
-        # extend matching by equal font size.
+        result = items[selected:]
         # TODO: IMPROVE THIS SIMPLE APPROACH
+        textsize = result[0][1].style.textsize()
         result = [
-            item for item in items
-            if item in matched or item[1].style.textsize() == textsize
+            item for item in result if item[1].style.textsize() == textsize
         ]
         return result
 
