@@ -10,7 +10,6 @@
 import re
 
 import iamraw
-import numpy
 
 
 def flatten(pages: iamraw.PageTextPropertiesList) -> iamraw.TextProperties:
@@ -87,21 +86,3 @@ def connect_pages(pages) -> list:
         for insert, current in zip(result, items):
             insert.extend(current)
     return result
-
-
-def rotate_after(data):
-    """\
-    >>> rotate_after(numpy.arange(5))
-    array([1, 2, 3, 4, 4])
-    """
-    left = numpy.concatenate([data[1:], [data[-1]]])
-    return left
-
-
-def rotate_before(data):
-    """\
-    >>> rotate_before(numpy.arange(5))
-    array([0, 0, 1, 2, 3])
-    """
-    right = numpy.concatenate([[data[0]], data[:-1]])
-    return right
