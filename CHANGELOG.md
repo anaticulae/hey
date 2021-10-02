@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v5.14.1
+
+### Feature
+
+* improve caption regex (78fa95b5071c)
+
 ## v5.14.0
 
 ### Feature
