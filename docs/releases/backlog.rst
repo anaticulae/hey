@@ -13,3 +13,8 @@ doctextstyle
 * [/] extract detected location
 
 * [/] group by chunks
+
+caption
+-------
+
+* [ ] detect captions on the end of the page which overlap to next page
