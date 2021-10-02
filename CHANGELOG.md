@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v5.14.0
+
+### Feature
+
+* improve caption pattern (e061505115ba)
+* separate caption before and after detector (a5aacddf4f4b)
+
 ## v5.13.0
 
 ### Feature
