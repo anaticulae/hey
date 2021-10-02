@@ -23,8 +23,6 @@ import iamraw
 import texmex
 import utila
 
-import caption.utils
-
 
 class CaptionPageProcessor:
     # TODO: ADD CAPTION PROCESSOR WITHOUT KEYWORDS
@@ -65,17 +63,23 @@ class CaptionPageProcessor:
 
 
 def before(navigator, current, minus):
-    selected = [(index, item)
-                for index, item in enumerate(navigator)
-                if current - minus <= item.bounding.y1 <= current]
-    return selected
+    start = current - minus
+    result = []
+    for index, item in enumerate(navigator):
+        center = (item.bounding.y0 + item.bounding.y1) / 2
+        if start <= center <= current:
+            result.append((index, item))
+    return result
 
 
 def after(navigator, current, plus):
-    selected = [(index, item)
-                for index, item in enumerate(navigator)
-                if current <= item.bounding.y1 <= current + plus]
-    return selected
+    end = current + plus
+    result = []
+    for index, item in enumerate(navigator):
+        center = (item.bounding.y0 + item.bounding.y1) / 2
+        if current <= center <= end:
+            result.append((index, item))
+    return result
 
 
 class CaptionPageWordProcessor(CaptionPageProcessor):
@@ -108,12 +112,17 @@ def run(processor, ptcns, items):
     result = []
     for page in ptcns:
         pagefigure = utila.select_page(items, page.page)
-        pagefigure = caption.utils.sorted_bounds(pagefigure)
-        processed = processor.process_page(page, pagefigure)
+        if not pagefigure:
+            continue
+        # determine and sort boundings of captionized figure/table/...
+        boundings = [item.bounding for item in pagefigure.content]
+        boundings = utila.sort_leftright_topdown(boundings)
+        # determine captions
+        processed = processor.process_page(page, boundings)
         processed = utila.make_unique(processed)
-        result.append(
-            iamraw.PageContentCaption(
-                page=page.page,
-                content=processed,
-            ))
+        captions = iamraw.PageContentCaption(
+            page=page.page,
+            content=processed,
+        )
+        result.append(captions)
     return result
