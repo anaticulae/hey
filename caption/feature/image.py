@@ -11,19 +11,6 @@ import serializeraw
 
 import caption.feature
 
-# TODO: Introduce special mechanism to dump them as tables
-# Tab. Tabelle, Table to detect tables which are stored as image
-KEYWORDS = (
-    'Abb.',
-    'Abbildung',
-    'Fig.',
-    'Figure',
-    'Foto',
-    'Tab.',
-    'Tabelle',
-    'Table',
-)
-
 
 def work(
     text_oneline: str,
@@ -45,8 +32,29 @@ def work(
         pages=pages,
     )
 
-    processor = caption.feature.CaptionPageWordProcessor(words=KEYWORDS)
+    processor = caption.feature.CaptionPageWordProcessor(words=(CAPTIONS,))
 
     result = caption.feature.run(processor, ptcns, images)
     dumped = serializeraw.dump_captions(result)
     return dumped
+
+
+# TODO: Introduce special mechanism to dump them as tables
+# Tab. Tabelle, Table to detect tables which are stored as image
+
+CAPTIONS = r"""
+    ^
+    (
+        Abb\.|
+        Abbildung|
+        Fig\.|
+        Figure|
+        Foto|
+        Tab\.|
+        Tabelle|
+        Table
+    )
+    [ ]{0,3}
+    (\d{1,2}|[A-Z])(\.\d{1,2})?
+    \:?
+"""

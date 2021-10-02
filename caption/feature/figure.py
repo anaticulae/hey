@@ -32,10 +32,12 @@ def work(
         figures,
         pages=pages,
     )
-    processor = caption.feature.CaptionPageWordProcessor(
-        words=caption.feature.image.KEYWORDS)
+    processor = caption.feature.CaptionPageWordProcessor(words=CAPTIONS)
     # determine result
     result = caption.feature.run(processor, ptcns, figures)
     # dump
     dumped = serializeraw.dump_captions(result)
     return dumped
+
+
+CAPTIONS = (caption.feature.image.CAPTIONS,)
