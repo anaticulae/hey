@@ -17,8 +17,10 @@ import utila
 import caption
 import tests.caption_.utils
 
-EXPECTED = os.path.join(caption.ROOT, 'tests/caption_/tables')
-file_read = lambda x: utila.file_read(os.path.join(EXPECTED, x)).strip()  # pylint:disable=C0103
+TABLE = os.path.join(caption.ROOT, 'tests/caption_/tables')
+file_read_table = lambda x: utila.file_read(os.path.join(TABLE, x)).strip()  # pylint:disable=C0103
+IMAGE = os.path.join(caption.ROOT, 'tests/caption_/image')
+file_read_image = lambda x: utila.file_read(os.path.join(IMAGE, x)).strip()  # pylint:disable=C0103
 
 
 # yapf:disable
@@ -32,7 +34,7 @@ def test_validate_caption_table(source, testdir, monkeypatch):
     Table one is parsed too small. After improving the table parser,
     labels will be parsed better.
     """
-    expected = file_read(utila.file_name(source))
+    expected = file_read_table(utila.file_name(source))
     extracted = tests.caption_.utils.extract_captions(
         source,
         ':',
@@ -66,3 +68,23 @@ def test_validate_caption_bachelor56page31(testdir, monkeypatch):
     extracted = [utila.normalize_text(caption.raw) for caption in extracted]
     extracted: str = utila.NEWLINE.join(extracted)
     assert extracted == BACHELOR51PAGE31
+
+
+@pytest.mark.parametrize('source', [
+    pytest.param(power.BACHELOR056_PDF, id='bachelor56'),
+])
+def test_validate_caption_image(source, testdir, monkeypatch):
+    expected = file_read_image(utila.file_name(source))
+    extracted = tests.caption_.utils.extract_captions(
+        source,
+        ':',
+        testdir,
+        monkeypatch,
+        resultpath=iamraw.path.image_caption,
+        selected='--image',
+    )
+    extracted = utila.flatten(page.content for page in extracted)
+    extracted = [utila.normalize_text(caption.raw) for caption in extracted]
+    extracted: str = utila.NEWLINE.join(extracted)
+    utila.log(extracted)
+    assert extracted == expected
