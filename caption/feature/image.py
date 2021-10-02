@@ -10,7 +10,6 @@
 import serializeraw
 
 import caption.feature
-import caption.serialize
 
 # TODO: Introduce special mechanism to dump them as tables
 # Tab. Tabelle, Table to detect tables which are stored as image
@@ -41,7 +40,7 @@ def work(
         headerfooterpath=footerheader,
         pages=pages,
     )
-    images = caption.serialize.load_image_informations_fromfiles(
+    images = serializeraw.load_image_infos_fromfiles(
         images,
         pages=pages,
     )

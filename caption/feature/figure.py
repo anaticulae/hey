@@ -28,15 +28,14 @@ def work(
         headerfooterpath=footerheader,
         pages=pages,
     )
-    figures = caption.serialize.load_image_informations_fromfiles(
+    figures = serializeraw.load_image_infos_fromfiles(
         figures,
         pages=pages,
     )
-
     processor = caption.feature.CaptionPageWordProcessor(
         words=caption.feature.image.KEYWORDS)
-
+    # determine result
     result = caption.feature.run(processor, ptcns, figures)
-
+    # dump
     dumped = serializeraw.dump_captions(result)
     return dumped
