@@ -19,6 +19,7 @@ handled correctly."""
 
 import abc
 
+import configo
 import iamraw
 import texmex
 import utila
@@ -103,13 +104,20 @@ def diffs(items):
     return result
 
 
+CAPTION_LOOK_BACKWARD_MAX = configo.HV_FLOAT_PLUS(default=150)
+
+CAPTION_LOOK_FORWARD_MAX = configo.HV_FLOAT_PLUS(default=150)
+
+CAPTION_LINE_DIFF_MAX = configo.HV_FLOAT_PLUS(default=30.0)
+
+
 class CaptionPageWordProcessor(CaptionPageProcessor):
 
     def __init__(self, words):
         super().__init__(
-            look_backward=150,
-            look_forward=150,
-        )  # TODO: HOLY VALUE
+            look_backward=CAPTION_LOOK_BACKWARD_MAX,
+            look_forward=CAPTION_LOOK_FORWARD_MAX,
+        )
         self.words = words
 
     def validate_after(self, items) -> list:
@@ -117,7 +125,7 @@ class CaptionPageWordProcessor(CaptionPageProcessor):
         diffed = diffs(items)
         for index, item in enumerate(diffed):
             # split potential caption by maximum text line space
-            if item > 30.0:  # TODO: HOLY VALUE
+            if item > CAPTION_LINE_DIFF_MAX:
                 end = index + 1
                 break
         content = items[0:end]

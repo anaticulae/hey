@@ -20,6 +20,8 @@ MIN_HEADLINE_CLUSTER_SIZE = configo.HV_INT_PLUS(default=3)
 
 MIN_HEADLINE_LENGTH = configo.HV_INT_PLUS(default=7)
 
+DOT_COUNT_MAX = configo.HV_INT_PLUS(default=5)
+
 
 def headlines(  # pylint:disable=R1260,R0914
     flats: iamraw.TextProperties,
@@ -83,7 +85,7 @@ def headlines(  # pylint:disable=R1260,R0914
         # TODO: INTRODUCE NEW STRATEGY FOR HEADLINES WITHOUT HUGE DISTANCE
         if item.after < distance_after_textsize * distance_after_min:
             return False
-        if item.hashed.count('.') > 5:  # TODO: HOLY VALUE
+        if item.hashed.count('.') > DOT_COUNT_MAX:
             # filter table items
             # DISKUSSION ................ 36
             return False

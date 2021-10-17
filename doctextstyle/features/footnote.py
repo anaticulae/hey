@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import configo
 import iamraw
 import utila
 
@@ -14,7 +15,9 @@ import doctextstyle.cluster
 import doctextstyle.features
 import doctextstyle.features.headline
 
-MIN_FOOTNOTES_COUNT = 10  # TODO: HOLY VALUE
+MIN_FOOTNOTES_COUNT = configo.HV_INT_PLUS(default=10)
+
+VALIDATOR_COUNT_MIN = configo.HV_INT_PLUS(default=25)
 
 
 def footnote(flats: iamraw.TextProperties):
@@ -45,7 +48,7 @@ def footnote(flats: iamraw.TextProperties):
 
     def validator(item) -> bool:
         # Shrink footnotes to bottom area
-        return item.bottom < 150 and item.length >= 25  # TODO:HOLY VALUE
+        return item.bottom < 150 and item.length >= VALIDATOR_COUNT_MIN
 
     clustered = doctextstyle.cluster.cluster(
         flats,

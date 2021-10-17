@@ -7,10 +7,15 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import configo
 import iamraw
 import utila
 
 import doctextstyle.features
+
+PARAGRAPH_DISTANCE_BEFORE_MAX = configo.HV_FLOAT_PLUS(default=2.0)
+
+PARAGRAPH_DISTANCE_AFTER_MAX = configo.HV_FLOAT_PLUS(default=2.0)
 
 
 def paragraph(flats: iamraw.TextProperties, digits: int = 1):
@@ -48,8 +53,8 @@ def paragraph(flats: iamraw.TextProperties, digits: int = 1):
     before = utila.roundme(before, digits=digits, convert=False)  # pylint:disable=R0204
     after = utila.roundme(after, digits=digits, convert=False)  # pylint:disable=R0204
 
-    before = utila.max_distance(before, diff=2.0)  # TODO: HOLY VAL
-    after = utila.max_distance(after, diff=2.0)
+    before = utila.max_distance(before, diff=PARAGRAPH_DISTANCE_BEFORE_MAX)
+    after = utila.max_distance(after, diff=PARAGRAPH_DISTANCE_AFTER_MAX)
 
     # most items in biggest cluster
     before = utila.modes(before[0].content)

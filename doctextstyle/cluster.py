@@ -12,6 +12,7 @@ import enum
 import functools
 import typing
 
+import configo
 import iamraw
 import utila
 
@@ -29,13 +30,15 @@ ClusterPropertySelection = typing.List[ClusterProperty]
 Tol = collections.namedtuple('Tol', 'abs, rel')
 NO_TOLERANCE = Tol(0.0, 0.0)
 
+CLUSTER_SIZE_MIN = configo.HV_INT_PLUS(default=5)
+
 
 def cluster(
         items: iamraw.TextProperties,
         selection: ClusterPropertySelection = None,
         validator: callable = None,
         *,
-        minsize: int = 5,  # TODO: HOLY VALUE
+        minsize: int = CLUSTER_SIZE_MIN,
         unique_content: bool = False,
         max_size_diff=Tol(0.5, 0.1),  # TODO: HOLY VALUES
         max_after_diff=Tol(2.0, 0.1),
