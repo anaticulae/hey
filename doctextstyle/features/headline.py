@@ -16,8 +16,9 @@ import doctextstyle.cluster
 import doctextstyle.features
 import doctextstyle.utils
 
-MIN_HEADLINE_CLUSTER_SIZE = configo.HV_INT_PLUS(3).value
-MIN_HEADLINE_LENGTH = configo.HV_INT_PLUS(7).value
+MIN_HEADLINE_CLUSTER_SIZE = configo.HV_INT_PLUS(default=3)
+
+MIN_HEADLINE_LENGTH = configo.HV_INT_PLUS(default=7)
 
 
 def headlines(  # pylint:disable=R1260,R0914
@@ -126,7 +127,7 @@ def headlines(  # pylint:disable=R1260,R0914
     return result
 
 
-MIN_HEADLINE_SPREAD = configo.HV_PERCENT_PLUS(50).value
+MIN_HEADLINE_SPREAD = configo.HV_PERCENT_PLUS(default=50)
 
 
 def validate_headline_cluster(clusters):

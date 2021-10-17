@@ -43,7 +43,7 @@ def widths(cnavigators):
     return result
 
 
-MIN_JUSTIFIED_LINES = configo.HV_PERCENT_PLUS(85).value
+MIN_JUSTIFIED_LINES = configo.HV_PERCENT_PLUS(default=85)
 
 
 def justified(cnavigators, right_mode) -> int:
