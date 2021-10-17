@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v5.14.2
+
+### Feature
+
+* introduce holy values (6f7c00033797)
+
 ## v5.14.1
 
 ### Feature
