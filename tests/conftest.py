@@ -56,6 +56,7 @@ def extract(resources):
         codero=True,
         figureo=True,
         tablero=True,
+        rawmaker_cleanup=True,
         worker=WORKER,
         pages=':',
         base=power.REPOSITORY,
@@ -71,8 +72,9 @@ RESOURCES_SECTIONSANDWORDS = [
 def extract_sectionsandwords(resources):
     destination = power.generated(folder='sectionsandwords')
     genex.extract(
-        resources + [power.REPOSITORY],
+        resources,
         destination=destination,
+        rawmaker_cleanup=True,
         caption=True,
         detector=True,
         groupme=True,
@@ -115,7 +117,6 @@ def extract_linedistances(resources):
         base=dest,
         pages=':',
         groupme=True,
-        tablero=False,  # reduce generation time
     )
 
 
