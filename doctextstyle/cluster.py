@@ -32,6 +32,22 @@ NO_TOLERANCE = Tol(0.0, 0.0)
 
 CLUSTER_SIZE_MIN = configo.HV_INT_PLUS(default=5)
 
+CLUSTER_SIZE_DIFF_ABS = configo.HV_FLOAT_PLUS(default=0.5)
+
+CLUSTER_SIZE_DIFF_REL = configo.HV_FLOAT_PLUS(default=0.1)
+
+CLUSTER_AFTER_DIFF_ABS = configo.HV_FLOAT_PLUS(default=2.0)
+
+CLUSTER_AFTER_DIFF_REL = configo.HV_FLOAT_PLUS(default=0.1)
+
+CLUSTER_BEFORE_DIFF_ABS = configo.HV_FLOAT_PLUS(default=2.0)
+
+CLUSTER_BEFORE_DIFF_REL = configo.HV_FLOAT_PLUS(default=0.1)
+
+CLUSTER_LEFT_DIFF_ABS = configo.HV_FLOAT_PLUS(default=15.0)
+
+CLUSTER_LEFT_DIFF_REL = configo.HV_FLOAT_PLUS(default=0.15)
+
 
 def cluster(
         items: iamraw.TextProperties,
@@ -40,10 +56,10 @@ def cluster(
         *,
         minsize: int = CLUSTER_SIZE_MIN,
         unique_content: bool = False,
-        max_size_diff=Tol(0.5, 0.1),  # TODO: HOLY VALUES
-        max_after_diff=Tol(2.0, 0.1),
-        max_before_diff=Tol(2.0, 0.1),
-        max_left_diff=Tol(15.0, 0.15),
+        max_size_diff=Tol(CLUSTER_SIZE_DIFF_ABS, CLUSTER_SIZE_DIFF_REL),
+        max_after_diff=Tol(CLUSTER_AFTER_DIFF_ABS, CLUSTER_AFTER_DIFF_REL),
+        max_before_diff=Tol(CLUSTER_BEFORE_DIFF_ABS, CLUSTER_BEFORE_DIFF_REL),
+        max_left_diff=Tol(CLUSTER_LEFT_DIFF_ABS, CLUSTER_LEFT_DIFF_REL),
 ):
     if selection:
         selection = set(selection)
