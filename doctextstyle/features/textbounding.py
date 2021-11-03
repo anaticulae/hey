@@ -43,7 +43,7 @@ def widths(cnavigators):
     return result
 
 
-MIN_JUSTIFIED_LINES = configo.HV_PERCENT_PLUS(default=85)
+JUSTIFIED_LINES_MIN = configo.HV_PERCENT_PLUS(default=85)
 
 
 def justified(cnavigators, right_mode) -> int:
@@ -62,6 +62,6 @@ def justified(cnavigators, right_mode) -> int:
         return None
 
     quote = len(matched) / len(items)
-    if quote >= MIN_JUSTIFIED_LINES:
+    if quote >= JUSTIFIED_LINES_MIN:
         return doctextstyle.JUSTIFIED
     return doctextstyle.NOT_JUSTIFIED

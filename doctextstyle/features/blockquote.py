@@ -7,14 +7,16 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import configo
 import utila
 
-MIN_BLOCKQUOTE_CLUSTER_SIZE = 30
+BLOCKQUOTE_CLUSTER_SIZE_MIN = configo.HV_INT_PLUS(default=30)
 
-MAX_BLOCKQUOTE_LEFT_DIFF = 15.0
-MAX_BLOCKQUOTE_RIGHT_DIFF = 15.0
+BLOCKQUOTE_LEFT_DIFF_MAX = configo.HV_FLOAT_PLUS(default=15.0)
 
-MIN_BLOCKQUOTE_TEXT_LENGTH = 45
+BLOCKQUOTE_RIGHT_DIFF_MAX = configo.HV_FLOAT_PLUS(default=15.0)
+
+BLOCKQUOTE_TEXT_LENGTH_MIN = configo.HV_INT_PLUS(default=45)
 
 
 def blockquote_style(flats) -> tuple:
@@ -22,7 +24,7 @@ def blockquote_style(flats) -> tuple:
     flats = [item for item in flats if item.hashed.count('.') < 10]
     # skip very short text
     flats = [
-        item for item in flats if len(item.hashed) > MIN_BLOCKQUOTE_TEXT_LENGTH
+        item for item in flats if len(item.hashed) > BLOCKQUOTE_TEXT_LENGTH_MIN
     ]
     # skip item which start too right
     flats = [item for item in flats if item.left <= 160]
@@ -30,7 +32,7 @@ def blockquote_style(flats) -> tuple:
     clustered = utila.determine_cluster(
         flats,
         classifier=classifier,
-        min_elements=MIN_BLOCKQUOTE_CLUSTER_SIZE,
+        min_elements=BLOCKQUOTE_CLUSTER_SIZE_MIN,
         strategy=utila.MatchStrategy.MIN,
     )
     if len(clustered) < 2:
@@ -57,10 +59,10 @@ def classifier(candidat, clusteritem):
     # compare font size
     if candidat.size != clusteritem.size:
         return False
-    leftdiff = utila.near(x00, x0, diff=MAX_BLOCKQUOTE_LEFT_DIFF)
+    leftdiff = utila.near(x00, x0, diff=BLOCKQUOTE_LEFT_DIFF_MAX)
     if not leftdiff:
         return False
-    rightdiff = utila.near(x11, x1, diff=MAX_BLOCKQUOTE_RIGHT_DIFF)
+    rightdiff = utila.near(x11, x1, diff=BLOCKQUOTE_RIGHT_DIFF_MAX)
     if not rightdiff:
         return False
     # merge candidat into cluster

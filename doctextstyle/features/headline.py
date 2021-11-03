@@ -16,9 +16,9 @@ import doctextstyle.cluster
 import doctextstyle.features
 import doctextstyle.utils
 
-MIN_HEADLINE_CLUSTER_SIZE = configo.HV_INT_PLUS(default=3)
+HEADLINE_CLUSTER_SIZE_MIN = configo.HV_INT_PLUS(default=3)
 
-MIN_HEADLINE_LENGTH = configo.HV_INT_PLUS(default=7)
+HEADLINE_LENGTH_MIN = configo.HV_INT_PLUS(default=7)
 
 DOT_COUNT_MAX = configo.HV_INT_PLUS(default=5)
 
@@ -35,9 +35,9 @@ def headlines(  # pylint:disable=R1260,R0914
     distance_after_min: float = 0.98,
 ):
     if min_headline_count is None:
-        min_headline_count = MIN_HEADLINE_CLUSTER_SIZE
+        min_headline_count = HEADLINE_CLUSTER_SIZE_MIN
     if min_headline_length is None:
-        min_headline_length = MIN_HEADLINE_LENGTH
+        min_headline_length = HEADLINE_LENGTH_MIN
 
     _text = doctextstyle.features.text(flats, returncluster=True)
     if not _text:
@@ -66,7 +66,7 @@ def headlines(  # pylint:disable=R1260,R0914
         flats = [item for item in flats if item.size >= textsize]
 
     # remove too short text chuncks which are not possible headlines
-    flats = [item for item in flats if item.length >= MIN_HEADLINE_LENGTH]
+    flats = [item for item in flats if item.length >= HEADLINE_LENGTH_MIN]
 
     def valid_headline(item) -> bool:  # pylint:disable=R0911
         if elements.noheadline(item.hashed):
@@ -129,7 +129,7 @@ def headlines(  # pylint:disable=R1260,R0914
     return result
 
 
-MIN_HEADLINE_SPREAD = configo.HV_PERCENT_PLUS(default=50)
+HEADLINE_SPREAD_MIN = configo.HV_PERCENT_PLUS(default=50)
 
 
 def validate_headline_cluster(clusters):
@@ -146,7 +146,7 @@ def validate_headline_cluster(clusters):
         """
         pages = utila.make_unique([item.page for item in cluster])
         ratio = len(pages) / len(cluster)
-        return ratio >= MIN_HEADLINE_SPREAD
+        return ratio >= HEADLINE_SPREAD_MIN
 
     result = [cluster for cluster in clusters if valid(cluster)]
     return result

@@ -15,7 +15,7 @@ import doctextstyle.cluster
 import doctextstyle.features
 import doctextstyle.features.headline
 
-MIN_FOOTNOTES_COUNT = configo.HV_INT_PLUS(default=10)
+FOOTNOTES_COUNT_MIN = configo.HV_INT_PLUS(default=10)
 
 VALIDATOR_COUNT_MIN = configo.HV_INT_PLUS(default=25)
 
@@ -54,7 +54,7 @@ def footnote(flats: iamraw.TextProperties):
         flats,
         (doctextstyle.cluster.ClusterProperty.SIZE,),
         validator=validator,
-        minsize=MIN_FOOTNOTES_COUNT,
+        minsize=FOOTNOTES_COUNT_MIN,
         unique_content=True,
         max_size_diff=doctextstyle.cluster.NO_TOLERANCE,
         max_before_diff=doctextstyle.cluster.NO_TOLERANCE,
