@@ -36,6 +36,13 @@ WORKPLAN = [
         output=('caption',),
     ),
     utila.create_step(
+        name='code',
+        inputs=CAPTION_DATA + [
+            utila.ResultFile('codero', 'result_result'),
+        ],
+        output=('caption',),
+    ),
+    utila.create_step(
         name='table',
         inputs=CAPTION_DATA + [
             utila.ResultFile('tablero', 'decide_decide', optional=True),
