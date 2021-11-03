@@ -67,6 +67,7 @@ WORKPLAN = [
             utila.ResultFile(caption.PROCESS, 'figure_caption', optional=True),
             utila.ResultFile(caption.PROCESS, 'image_caption', optional=True),
             utila.ResultFile(caption.PROCESS, 'table_caption', optional=True),
+            utila.ResultFile(caption.PROCESS, 'code_caption', optional=True),
         ],
         output=('result',),
     ),
