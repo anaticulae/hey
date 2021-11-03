@@ -45,11 +45,18 @@ WORKPLAN = [
     utila.create_step(
         'general',
         inputs=[
+            utila.ResultFile(caption.PROCESS, 'result_result'),
+        ],
+        output=('general',),
+    ),
+    utila.create_step(
+        'result',
+        inputs=[
             utila.ResultFile(caption.PROCESS, 'figure_caption', optional=True),
             utila.ResultFile(caption.PROCESS, 'image_caption', optional=True),
             utila.ResultFile(caption.PROCESS, 'table_caption', optional=True),
         ],
-        output=('general',),
+        output=('result',),
     ),
 ]
 
