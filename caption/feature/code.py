@@ -9,6 +9,7 @@
 
 import iamraw
 import serializeraw
+import texmex
 import utila
 
 
@@ -18,6 +19,7 @@ def work(
     sizeandborder: str,
     footerheader: str,
     codero: str,
+    translation: str = None,
     pages: tuple = None,
 ) -> str:
     ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
@@ -27,26 +29,39 @@ def work(
         headerfooterpath=footerheader,
         pages=pages,
     )
+    if utila.exists(translation):
+        translation = serializeraw.load_translations(translation, pages=pages)
+    else:
+        translation = None
     codero = serializeraw.load_codes(codero, pages=pages)
     # determine result
-    result = convert_listings(codero, ptcns)
+    result = convert_listings(codero, ptcns, translation=translation)
     # dump
     dumped = serializeraw.dump_captions(result)
     return dumped
 
 
-def convert_listings(codero, ptcns) -> iamraw.PageContentCaptions:
+def convert_listings(
+    codero,
+    ptcns,
+    translation=None,
+) -> iamraw.PageContentCaptions:
+    translation = texmex.TranslationLookup(translations=translation)
     result = []
     for page in codero:
         ptcn = utila.select_page(ptcns, page.page)
+        top = ptcn.offset[0]
         collected = []
         for poc in page.content:
             no_caption = not poc.caption and poc.caption != 0  # pylint:disable=C2001
             if no_caption:
                 continue
+            # TODO: REMOVE TOP HACK
             line = poc.caption[0]
+            line = translation(page.page, line + top) - top
             if len(poc.caption) > 1:
                 lineend = poc.caption[-1]
+                lineend = translation(page.page, lineend + top) - top
             else:
                 lineend = line + 1
             raw = ' '.join(item.text.strip() for item in ptcn[line:lineend])
