@@ -13,7 +13,7 @@ import texmex
 import utila
 
 
-def test_hey_navigator_merge_content():  # pylint:disable=W0621
+def test_merge_content():  # pylint:disable=W0621
     navigator = serializeraw.create_pagetextnavigators_frompath(
         power.link(power.DOCU007_PDF))
     navigator = utila.select_page(navigator, page=1)
@@ -38,7 +38,7 @@ def test_hey_navigator_merge_content():  # pylint:disable=W0621
     assert content_count == merged_count
 
 
-def test_hey_navigator_create_pagetextcontent_navigator_frompath():
+def test_create_pagetextcontent_navigator_frompath():
     loaded = serializeraw.create_pagetextcontentnavigators_frompath(
         power.link(power.BACHELOR111_PDF),
         pages=(1, 2, 3, 4),

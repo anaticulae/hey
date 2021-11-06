@@ -24,7 +24,7 @@ def example():
 
 
 @pytest.mark.xfail(reason='grouping is too soft')
-def test_hey_textnavigator_multiline_group_page_no_group():
+def test_multiline_group_page_no_group():
     navigators = example()
     grouped = texmex.group_pages_by_fontsize(navigators)
     grouped = [texmex.group_by_linedistance(item) for item in grouped]
@@ -33,7 +33,7 @@ def test_hey_textnavigator_multiline_group_page_no_group():
     assert count == NO_GROUP
 
 
-def test_hey_textnavigator_multiline_group_page_by_fontsize():
+def test_multiline_group_page_by_fontsize():
     navigators = example()
     grouped = texmex.group_pages_by_fontsize(navigators)
     count = [[len(item) for item in items] for items in grouped]
@@ -46,7 +46,7 @@ def test_hey_textnavigator_multiline_group_page_by_fontsize():
     assert count == expected
 
 
-def test_hey_textnavigator_multiline_group_page_by_maxdistance():
+def test_multiline_group_page_by_maxdistance():
     navigators = example()
     grouped = texmex.group_pages_by_fontsize(navigators)
     count = [[len(item) for item in items] for items in grouped]
@@ -94,14 +94,14 @@ def test_hey_textnavigator_multiline_group_page_by_maxdistance():
         ], [30, 31, 32, 33], [34]],
     ),
 ])
-def test_hey_textnavigator_multiline_group_linedistances_page(page, expected):
+def test_multiline_group_linedistances_page(page, expected):
     navigators = example()
     content = navigators[page]
     grouped = texmex.group_linedistances_complex(content)
     assert grouped == expected
 
 
-def test_hey_textnavigator_multiline_group_linedistances_page_zero_tolerance():
+def test_multiline_group_linedistances_page_zero_tolerance():
     navigators = example()
     content = navigators[0]
     grouped = texmex.group_linedistances_complex(
