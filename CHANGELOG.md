@@ -2,6 +2,15 @@
 
 Every noteable change is logged here.
 
+## v5.15.0
+
+### Feature
+
+* merge code caption to result caption (abc91d6fc979)
+* use transformation table to determine code lines (43153d3ae3e0)
+* add code caption converter step (ec72d261a162)
+* rename general to result step (625b9c6f4531)
+
 ## v5.14.2
 
 ### Feature
