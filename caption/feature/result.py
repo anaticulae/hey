@@ -14,11 +14,12 @@ import iamraw
 import serializeraw
 
 
-def work(figure: str, image: str, table: str, code: str, pages: tuple) -> str:
-    figure = load_ifexists(figure, pages)
-    image = load_ifexists(image, pages)
-    table = load_ifexists(table, pages)
-    code = load_ifexists(code, pages)
+def work(xfigure: str, ximage: str, xtable: str, xcode: str,
+         pages: tuple) -> str:
+    figure = load_ifexists(xfigure, pages)
+    image = load_ifexists(ximage, pages)
+    table = load_ifexists(xtable, pages)
+    code = load_ifexists(xcode, pages)
 
     merged = merge(figure, image, table, code)
 

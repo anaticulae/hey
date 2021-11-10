@@ -12,7 +12,7 @@ import utila
 # TODO: REMOVE LATER
 
 
-def work(result: str) -> str:
+def work(xresult: str) -> str:
     # load and copy
-    dumped = utila.file_read(result)
+    dumped = utila.file_read(xresult)
     return dumped
