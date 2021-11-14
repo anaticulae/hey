@@ -49,7 +49,11 @@ CAPTIONS = r"""
     (
         Tab\.|
         Tabelle|
-        Table
+        Table|
+        Abb\.|                  # Mark wrong used label? See HOME50p32
+        Abbildung|
+        Fig\.|
+        Figure
     )
     [ ]{0,3}
     (\d{1,2}|[A-Z])(\.\d{1,2})?
