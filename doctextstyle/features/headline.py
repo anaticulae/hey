@@ -135,10 +135,6 @@ def valid_headline(item, before_min, after_min) -> bool:  # pylint:disable=R0911
     # TODO: INTRODUCE NEW STRATEGY FOR HEADLINES WITHOUT HUGE DISTANCE
     if item.after < after_min:
         return False
-    if text.count('.') > DOT_COUNT_MAX:
-        # filter table items
-        # DISKUSSION ................ 36
-        return False
     return True
 
 
