@@ -23,16 +23,15 @@ IMAGE = os.path.join(caption.ROOT, 'tests/caption_/image')
 file_read_image = lambda x: utila.file_read(os.path.join(IMAGE, x)).strip()  # pylint:disable=C0103
 
 
-# yapf:disable
 @pytest.mark.parametrize('source', [
-    pytest.param(power.BACHELOR056_PDF, id='bachelor56', marks=pytest.mark.xfail(reason='imporve table parser')),
+    pytest.param(power.BACHELOR056_PDF, id='bachelor56'),
 ])
-# yapf:enable
 def test_validate_caption_table(source, testdir, monkeypatch):
     """In the current state, the table is not parsed correctly.
 
     Table one is parsed too small. After improving the table parser,
     labels will be parsed better.
+    TODO: UPDATE OUTDATED DOCS?
     """
     expected = file_read_table(utila.file_name(source))
     extracted = tests.caption_.utils.extract_captions(
