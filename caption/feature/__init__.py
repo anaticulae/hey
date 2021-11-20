@@ -143,12 +143,29 @@ class CaptionPageWordProcessor(CaptionPageProcessor):
             # nothing matched
             return []
         result = items[selected:]
-        # TODO: IMPROVE THIS SIMPLE APPROACH
-        textsize = result[0][1].style.textsize()
-        result = [
-            item for item in result if item[1].style.textsize() == textsize
-        ]
+        result = inside(result)
         return result
+
+
+def inside(lines: list) -> list:
+    """Verify that possible other caption lines are inside caption
+    [x0,x1] bounding and have the same textsize.
+    """
+    if not lines:
+        return []
+    x0 = lines[0][1].bounding.x0 - 50
+    x1 = lines[0][1].bounding.x1 + 50
+    # TODO: IMPROVE THIS SIMPLE APPROACH
+    textsize = lines[0][1].style.textsize()
+    result = [lines[0]]
+    for line in lines[1:]:
+        current = line[1].style.textsize()
+        bbox = line[1].bounding
+        if current == textsize and x0 <= bbox.x0 <= bbox.x1 < x1:
+            result.append(line)
+        else:
+            break
+    return result
 
 
 def run(processor, ptcns, items):
