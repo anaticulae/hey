@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import functools
+
 import configo
 import elements
 import iamraw
@@ -23,7 +25,7 @@ HEADLINE_LENGTH_MIN = configo.HV_INT_PLUS(default=7)
 DOT_COUNT_MAX = configo.HV_INT_PLUS(default=5)
 
 
-def headlines(  # pylint:disable=R1260,R0914
+def headlines(
     flats: iamraw.TextProperties,
     *,
     min_headline_count: int = None,
@@ -38,80 +40,42 @@ def headlines(  # pylint:disable=R1260,R0914
         min_headline_count = HEADLINE_CLUSTER_SIZE_MIN
     if min_headline_length is None:
         min_headline_length = HEADLINE_LENGTH_MIN
-
-    _text = doctextstyle.features.text(flats, returncluster=True)
-    if not _text:
-        # too few data
+    detected = distances(flats, greater_than_text=greater_than_text)
+    if not detected:
         return []
-    _pagenumber = doctextstyle.features.pagenumber(flats, returncluster=True)
-
-    flats = doctextstyle.cluster.remove(flats, _text[1])
-    flats = doctextstyle.cluster.remove(flats, _pagenumber[1])
-
-    textsize = _text[0][0]
-    distance_before_textsize, distance_after_textsize = _text[0][3]
-
-    if distance_before_textsize is None:
-        utila.error('distance before `textsize` is None; '
-                    'disable headline detection feature')
-    if distance_after_textsize is None:
-        utila.error('distance after  `textsize` is None;'
-                    ' disable headline detection feature')
-
-    if distance_before_textsize is None or distance_after_textsize is None:
-        # disable strategy
-        return []
-
-    if greater_than_text:
-        flats = [item for item in flats if item.size >= textsize]
-
+    flats, (distance_before_textsize, distance_after_textsize) = detected
     # remove too short text chuncks which are not possible headlines
     flats = [item for item in flats if item.length >= HEADLINE_LENGTH_MIN]
-
-    def valid_headline(item) -> bool:  # pylint:disable=R0911
-        if elements.noheadline(item.hashed):
-            return False
-        if elements.isheadline(item.hashed):
-            return True
-        if item.before is None:
-            if doctextstyle.utils.invalid_headline(item.hashed):
-                # Kapitel 1 at the start of the page followed by title
-                return False
-            return True
-        if item.after is None:
-            return False
-        if item.before <= distance_before_textsize * distance_before_min:
-            return False
-        # TODO: INTRODUCE NEW STRATEGY FOR HEADLINES WITHOUT HUGE DISTANCE
-        if item.after < distance_after_textsize * distance_after_min:
-            return False
-        if item.hashed.count('.') > DOT_COUNT_MAX:
-            # filter table items
-            # DISKUSSION ................ 36
-            return False
-        return True
-
     selection = (
         doctextstyle.cluster.ClusterProperty.FONT,
         doctextstyle.cluster.ClusterProperty.LEFT,
     ) if headline_start else (doctextstyle.cluster.ClusterProperty.FONT,)
-
+    validator = functools.partial(
+        valid_headline,
+        before_min=distance_before_textsize * distance_before_min,
+        after_min=distance_after_textsize * distance_after_min,
+    )
     clustered = doctextstyle.cluster.cluster(
         flats,
         selection=selection,
-        validator=valid_headline,
+        validator=validator,
         minsize=min_headline_count,
         unique_content=True,  # remove duplicated footer/header content
     )
+    result = create_result(
+        clustered,
+        returncluster=returncluster,
+    )
+    return result
 
+
+def create_result(clustered, returncluster: bool = False):
     clustered = validate_headline_cluster(clustered)
-
     largest_font_size = sorted(
         clustered,
         key=lambda x: x.content[0].size,
         reverse=True,
     )
-
     result = []
     result_cluster = []
     for index in range(5):
@@ -127,6 +91,55 @@ def headlines(  # pylint:disable=R1260,R0914
     if returncluster:
         return result, result_cluster
     return result
+
+
+def distances(flats, greater_than_text):
+    textcluster = doctextstyle.features.text(flats, returncluster=True)
+    if not textcluster:
+        # too few data
+        return []
+    pagenumber = doctextstyle.features.pagenumber(flats, returncluster=True)
+    flats = doctextstyle.cluster.remove(flats, textcluster[1])
+    flats = doctextstyle.cluster.remove(flats, pagenumber[1])
+    textsize = textcluster[0][0]
+    distance_before_textsize, distance_after_textsize = textcluster[0][3]
+    if distance_before_textsize is None:
+        utila.error('distance before `textsize` is None; '
+                    'disable headline detection feature')
+    if distance_after_textsize is None:
+        utila.error('distance after  `textsize` is None;'
+                    ' disable headline detection feature')
+    if distance_before_textsize is None or distance_after_textsize is None:
+        # disable strategy
+        return None
+    if greater_than_text:
+        flats = [item for item in flats if item.size >= textsize]
+    return flats, (distance_before_textsize, distance_after_textsize)
+
+
+def valid_headline(item, before_min, after_min) -> bool:  # pylint:disable=R0911
+    text = item.hashed
+    if elements.noheadline(text):
+        return False
+    if elements.isheadline(text):
+        return True
+    if item.before is None:
+        if doctextstyle.utils.invalid_headline(text):
+            # Kapitel 1 at the start of the page followed by title
+            return False
+        return True
+    if item.after is None:
+        return False
+    if item.before <= before_min:
+        return False
+    # TODO: INTRODUCE NEW STRATEGY FOR HEADLINES WITHOUT HUGE DISTANCE
+    if item.after < after_min:
+        return False
+    if text.count('.') > DOT_COUNT_MAX:
+        # filter table items
+        # DISKUSSION ................ 36
+        return False
+    return True
 
 
 HEADLINE_SPREAD_MIN = configo.HV_PERCENT_PLUS(default=50)
