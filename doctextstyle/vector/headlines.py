@@ -12,7 +12,6 @@ import statistics
 
 import configo
 import elements
-import elements.headline
 import utila
 
 
@@ -180,8 +179,7 @@ def clean_cluster(
     ]
     # skip `Kapitel 1`-pattern
     valid = [
-        item for item in valid
-        if not elements.headline.noheadline_pattern(item[0].text)
+        item for item in valid if not elements.noheadline_pattern(item[0].text)
     ]
     # TODO: THIS REMOVES ALL HEADLINES WITH NUMBER AT THE END
     # remove:
