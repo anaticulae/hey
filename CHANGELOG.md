@@ -2,6 +2,17 @@
 
 Every noteable change is logged here.
 
+## v5.15.2
+
+### Feature
+
+* add valid caption bounding check (b8f78445bf5d)
+
+### Fix
+
+* add miss detected caption (5d2c1f925eb5)
+* adjust to new interface (1686e1976614)
+
 ## v5.15.1
 
 ### Fix
