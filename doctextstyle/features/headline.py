@@ -45,7 +45,7 @@ def headlines(
         return []
     flats, (distance_before_textsize, distance_after_textsize) = detected
     # remove too short text chuncks which are not possible headlines
-    flats = [item for item in flats if item.length >= HEADLINE_LENGTH_MIN]
+    flats = [item for item in flats if item.length >= min_headline_length]
     selection = (
         doctextstyle.cluster.ClusterProperty.FONT,
         doctextstyle.cluster.ClusterProperty.LEFT,
