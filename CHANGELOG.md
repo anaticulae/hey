@@ -2,6 +2,16 @@
 
 Every noteable change is logged here.
 
+## v5.15.3
+
+### Fix
+
+* enable unused parameter (5f291198d8b2)
+
+### Documentation
+
+* Happy New Year! (1ddfa67604e6)
+
 ## v5.15.2
 
 ### Feature
