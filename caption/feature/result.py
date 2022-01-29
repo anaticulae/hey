@@ -15,15 +15,21 @@ import serializeraw
 import utila
 
 
-def work(xfigure: str, ximage: str, xtable: str, xcode: str,
-         pages: tuple) -> str:
+def work(
+    xfigure: str,
+    ximage: str,
+    xtable: str,
+    xcode: str,
+    pages: tuple,
+) -> str:
+    # load
     figure = load_ifexists(xfigure, pages)
     image = load_ifexists(ximage, pages)
     table = load_ifexists(xtable, pages)
     code = load_ifexists(xcode, pages)
-
+    # merge together
     merged = merge(figure, image, table, code)
-
+    # dump
     dumped = serializeraw.dump_captions(merged)
     return dumped
 
