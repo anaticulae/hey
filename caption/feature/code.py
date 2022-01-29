@@ -22,6 +22,9 @@ def work(
     translation: str = None,
     pages: tuple = None,
 ) -> str:
+    if not utila.exists(codero):
+        utila.error(f'codero does not exists, skip --code: {codero}')
+        return serializeraw.dump_captions([])
     ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
         text_oneline,
         textposition_oneline,

@@ -38,7 +38,7 @@ WORKPLAN = [
     utila.create_step(
         name='code',
         inputs=CAPTION_DATA + [
-            utila.ResultFile('codero', 'result_result'),
+            utila.ResultFile('codero', 'result_result', optional=True),
             utila.ResultFile(
                 producer='rawmaker_cleanup',
                 name='oneline_translate_text',
