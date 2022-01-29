@@ -72,7 +72,12 @@ class Evaluate(utilatest.BaseLiner):
 
     def raw(self, value) -> str:
         value = utila.flatten_content(value)
-        collected = [utila.normalize_text(item.raw) for item in value]
+        collected = [
+            utila.normalize_text(
+                item.raw,
+                normalize_spaces=True,
+            ) for item in value
+        ]
         collected = sorted(collected, key=utila.alphabetically)
         result = utila.NEWLINE.join(collected)
         return result
