@@ -17,7 +17,7 @@ import doctextstyle.extractor
 import doctextstyle.vector
 
 
-@utilatest.longrun
+@utilatest.nightly
 @pytest.mark.parametrize('method', [
     pytest.param(
         doctextstyle.vector.run,
