@@ -1,0 +1,48 @@
+Abbildung 2.1.: Verknüpfung klassisches und AUTOSAR-Steuergerät nach [OK09, Seite 41]
+Abbildung 2.2.: linearer Bus und ein Einzelstern nach [WL11]
+Abbildung 2.3.: Pegel bei der NRZ-Datenübertragung
+Abbildung 2.4.: Nominelle Potentiale nach [WR10, Seite 214]
+Abbildung 2.5.: Buszugriff Abitrierungsphase nach [WR10, Seite 216]
+Abbildung 2.6.: CAN-Nachricht nach [WL11, Seite 19]
+Abbildung 3.1.: Generierung für abstrakte Schnittstelle nach [Rum05, Seite 61]
+Abbildung 3.10.: Testfall durchführen nach [JL07, Seite 258]
+Abbildung 3.11.: Ablauf Regressionstest nach [Lig09, Seite 194]
+Abbildung 3.12.: MiL-Prinzip nach [Plu06, Seite 3]
+Abbildung 3.13.: SiL-Prinzip
+Abbildung 3.14.: Allgemeine Einordnung des Debuggings in den Testprozess nach [AT09, Abschnitt 8.2.3]
+Abbildung 3.2.: Parametrisierte Codegenerierung nach [Rum05, Seite 62]
+Abbildung 3.3.: Kapselung der Zugriffe nach [JL07, Seite 389]
+Abbildung 3.4.: Handgeschriebenes System
+Abbildung 3.5.: Zusammengesetztes System
+Abbildung 3.6.: Komplett integriertes System
+Abbildung 3.7.: Umsetzung des Treiberkonzepts in Simulink nach [mat12a]
+Abbildung 3.8.: S-Function Builder mit vier Eingangsports und einem Ausgangsports sowie ein S-Funktion-Block
+Abbildung 3.9.: Möglichkeiten des Testens nach [JL07, Seite 253]
+Abbildung 4.1.: Drehgestell Sensorverteilung
+Abbildung 4.10.: Einlesen vom Speicher
+Abbildung 4.11.: MiL-Test für das Histogramm
+Abbildung 4.12.: Manuelle Integration der Durchmesserberechnung
+Abbildung 4.13.: Integrationstest Einlesen
+Abbildung 4.14.: Manueller Test der Gesamtintegration
+Abbildung 4.15.: MiL-Test zum Histogramm
+Abbildung 4.16.: Integration Durchmesser
+Abbildung 4.2.: Softwareentwicklung Übersicht
+Abbildung 4.3.: Allgemeiner Ablauf der Entwicklung
+Abbildung 4.4.: Allgemeiner Aufbau der Algorithmen
+Abbildung 4.5.: Allgemeiner Ablauf des Algorithmus
+Abbildung 4.6.: Nachrichtenformat
+Abbildung 4.7.: Deserialisierung der Nachrichten
+Abbildung 4.8.: Buffer Funktionsübersicht
+Abbildung 4.9.: Histogramm zur Durchmesserbestimmung
+Abbildung A.1.: SiL- und HiL-Test auf der OBU und dem Entwicklungsrechner
+Tabelle A.1.: Konfiguration Simulink Modell
+Tabelle A.10.: Vorgehen zum Einbinden von S-Funktionen
+Tabelle A.11.: Datentypen Ports Mex nach [mat12b]
+Tabelle A.2.: Konfiguration Putty
+Tabelle A.3.: Konfiguration WinSCP-Login
+Tabelle A.4.: Anschlussbelegung OBU
+Tabelle A.5.: PTX-Befehlsreferenz
+Tabelle A.6.: Verzeichnisübersicht - Ubuntu
+Tabelle A.7.: Verzeichnisübersicht - OBU
+Tabelle A.8.: Vorgehen Konfiguration SIMULINK-Modell
+Tabelle A.9.: Vorgehen zur Erzeugung einer S-Funktion

@@ -45,7 +45,16 @@ def test_validate_caption_bachelor56page31(testdir, monkeypatch):
 
 
 @pytest.mark.parametrize('source, expected', [
+    pytest.param(power.BACHELOR051_PDF, 'bachelor051', id='bachelor051'),
     pytest.param(power.BACHELOR056_PDF, 'bachelor056', id='bachelor056'),
+    pytest.param(power.BACHELOR063_PDF, 'bachelor063', id='bachelor063'),
+    pytest.param(power.BACHELOR090_PDF, 'bachelor090', id='bachelor090'),
+    pytest.param(power.BACHELOR111_PDF, 'bachelor111', id='bachelor111'),
+    pytest.param(power.DISS205_PDF, 'diss205', id='diss205'),
+    pytest.param(power.MASTER072_PDF, 'master072', id='master072'),
+    pytest.param(power.MASTER098_PDF, 'master098', id='master098'),
+    pytest.param(power.MASTER099_PDF, 'master099', id='master099'),
+    pytest.param(power.MASTER116_PDF, 'master116', id='master116'),
 ])
 def test_caption_validate(source, expected, testdir, monkeypatch):
     utilatest.fixture_requires(source)
