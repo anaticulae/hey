@@ -27,9 +27,12 @@ def work(
         headerfooterpath=footerheader,
         pages=pages,
     )
+    # skip hidden: do not determine caption for images which are part of a
+    # figure.
     images = serializeraw.load_image_infos_fromfiles(
         images,
         pages=pages,
+        skip_hidden=True,
     )
 
     processor = caption.feature.CaptionPageWordProcessor(words=(CAPTIONS,))
