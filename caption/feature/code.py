@@ -51,6 +51,11 @@ def convert_listings(
     for page in codero:
         ptcn = utila.select_page(ptcns, page.page)
         top = ptcn.offset[0]
+        if top is None:
+            # TODO: MAY A ROTATED PAGE?
+            # NAVIGATOR DOES NOT MATCH TO CODE EXTRACTION
+            utila.error(f'empty navigator on page: {page.page}')
+            top = 0
         collected = []
         for poc in page.content:
             no_caption = not poc.caption and poc.caption != 0  # pylint:disable=C2001
