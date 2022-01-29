@@ -10,7 +10,6 @@
 import contextlib
 import os
 
-import groupme.path
 import iamraw
 import serializeraw
 import texmex
@@ -101,7 +100,7 @@ def extract_footnotes(result, flat):
 
 
 def extract_contentborder(result, path, pages):
-    leftright = groupme.path.border_leftright(path)
+    leftright = iamraw.path.groupme_border_leftright(path)
     content = doctextstyle.features.content.content(leftright, pages=pages)
     if content:
         normal = content[0][0]
