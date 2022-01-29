@@ -7,18 +7,21 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import groupme.path
+import iamraw
 import power
+import utila
 
 import doctextstyle.features.content
 
 
 def test_content():
-    path = groupme.path.border_leftright(power.link(power.MASTER116_PDF))
+    source = power.link(power.MASTER116_PDF)
+    path = iamraw.path.groupme_border_leftright(source)
     content = doctextstyle.features.content.content(path)
-
     expected = [
         ((89.29, 89.3, 65.71, 102.59), 109),
         ((102.59, 65.71, 89.29, 39.26), 7),
     ]
-    assert content == expected
+    for current, expect in zip(content, expected):
+        assert current[1] == expect[1]
+        assert utila.nears(current[0], expect[0], diff=0.5)
