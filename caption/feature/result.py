@@ -12,6 +12,7 @@ import os
 
 import iamraw
 import serializeraw
+import utila
 
 
 def work(xfigure: str, ximage: str, xtable: str, xcode: str,
@@ -40,12 +41,18 @@ def merge(*items) -> iamraw.PageContentCaptions:
     for item in items:
         for page in item:
             collected[page.page].extend(page.content)
+    # remove duplications if table and image/figure detects the same caption
+    for page, values in collected.items():
+        before = values
+        collected[page] = utila.make_unique(values)
+        if collected[page] != before:
+            before: str = utila.NEWLINE.join(str(item) for item in before)
+            utila.error(f'duplicated caption:\n{before}')
     # convert to expected data structure
     result = [
         iamraw.PageContentCaption(page=key, content=values)
         for key, values in collected.items()
     ]
-    # TODO: REMOVE DUPLICATION?
     for page in result:
         # sort content by line number
         page.content.sort(key=lambda x: x.line)
