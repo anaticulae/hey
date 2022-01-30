@@ -31,9 +31,14 @@ utila.exists_assert(ARCHIVE)
     pytest.param(power.BACHELOR090_PDF, 'bachelor090', id='bachelor090'),
     pytest.param(power.BACHELOR111_PDF, 'bachelor111', id='bachelor111'),
     pytest.param(power.DISS205_PDF, 'diss205', id='diss205'),
+    pytest.param(power.DISS266_PDF, 'diss266', id='diss266'),
+    pytest.param(power.DOCU007_PDF, 'docu007', id='docu007'),
+    pytest.param(power.HOME025_PDF, 'home025', id='home025'),
+    pytest.param(power.MASTER031_PDF, 'master031', id='master031'),
     pytest.param(power.MASTER072_PDF, 'master072', id='master072'),
     pytest.param(power.MASTER098_PDF, 'master098', id='master098'),
     pytest.param(power.MASTER099_PDF, 'master099', id='master099'),
+    pytest.param(power.MASTER110_PDF, 'master110', id='master110'),
     pytest.param(power.MASTER116_PDF, 'master116', id='master116'),
 ])
 def test_caption_validate(source, expected, testdir, monkeypatch):

@@ -6,8 +6,8 @@ Abbildung 3.4: Aspekte eines Bauwerksmodells und ihre Wechselwirkungen untereina
 Abbildung 4.1: Klassifizierung der Stufen von 3D-CAD-Software (entnommen aus VDI 2209, Bild 5)
 Abbildung 4.2: Beispiel eines geometrischen Constraint-Graphen (a) für die Beschreibung der Gleichseitigkeit mit der Seitenlänge 𝐴 für das Dreieck (b). Die Bestandteile des Constraint-Graphens sind Constraints (Rauten), Parameter (Rechteck) und Punkte (Kreis).
 Abbildung 4.3: Taxonomie der Lösungsverfahren des geometrischen Constraint-Satisfaction-Problems (angelehnt an Obergrießer, 2017, Abbildung 4.26; Lipson u. a., 1999, Abbildung 3) .
+Abbildung 5.1: Beispielhafte grafische Darstellung einer Box B = (𝐷 × 𝐸), die sich aus den Intervallen der Variablen 𝐷 = [3, 6] und 𝐸 = [2, 5] ergibt.
 Abbildung 5.2: Beispielhafte Visualisierung der Einzellösungen (rot) und der Zerlegung in Boxen (schwarze Quadrate) durch ein Branch-and-Prune-Verfahren (Entnommen aus Moa, 2007, Abbildung 9.4)
-Abbildung 5.3: Prinzip eines Iterationsschritts des Intervall-Newton-Verfahrens für eine Funktion 𝑓(𝑥) im Intervall 𝑋(𝑗) (blau). Das Ergebnis ist 𝑋(𝑗+1) (mit Intervallarithmetik), 𝑥(𝑗+1) (ohne Intervallarithmetik) (basierend auf Sainudiin u. a., 2005, Abbildung 20.3).
 Abbildung 6.1: Auszug aus dem Klassendiagramm: Constraints, Gleichungen und Parameter
 Abbildung 6.2: Auszug aus dem Klassendiagramm: Wissenseinheiten, Parameter und Constraints
 Abbildung 6.3: Auszug aus dem Klassendiagramm: Funktionalen Einheiten und Parameter
@@ -26,6 +26,7 @@ Abbildung 8.1: Parametrisierung der Rechteck-Wand (semi-transparent). Der Urspru
 Abbildung 8.2: Parameter und Constraints der Unterseite der Rechteck-Wand in der XY-Ebene (Draufsicht).
 Abbildung 8.3: Constraint-Graph einer Rechteck-Wand. Darin sind ausschließlich Punkte (Kreis), Parameter (Rechteck) und die Constraints (Raute) zwischen diesen enthalten. Die Geometrie-Constraints sind Koinzidenz von Punkten in Z (KP-Z), vorzeichenbehafteter Abstand von Punkten in Z-Richtung (VA-P-Z) und rechter Winkel mit vorzeichenbehaftetem Abstand (RW-VA).
 Abbildung 8.4: 3D-Visualisierung eines gültigen Zustands des Beispiels Rechteck-Wand aus der prototypischen Implementierung
+Abbildung 8.5: Geometrische Anfragen mit Skizze (blau) mit dem Ergebnis (schwarz umrandet) für das Beispiel Rechteck-Wand; der exakte Lösungsraum der Grundseite der Wand ist rot dargestellt.
 Abbildung 8.6: Parameter und Constraints der Unterseite der Trapez-Wand in der XY-Ebene (Draufsicht).
 Abbildung 8.7: Constraint-Graph des Beispiels Trapez-Wand. Darin sind ausschließlich Punkte (Kreis), Parameter (Rechteck) und die Constraints (Raute) zwischen diesen enthalten. Nicht enthalten sind die Constraints für die Längen der Seiten. Die Geometrie-Constraints sind Koinzidenz von Punkten in Z (KP-Z), Vorzeichenbehafteter Abstand von Punkten in Z-Richtung (VA-P-Z) und Positive Orientierung von 3 Punkten (PO-3P-XY).
 Abbildung 8.8: Visualisierung des Lösungsraums (rot) der Linie 𝑃 1 und 𝑃 2 (Unterkante vorne) des Beispiels Trapez-Wand in der prototypischen Implementierung
