@@ -82,5 +82,16 @@ Abb. A.5.: Geschwindigkeits- und Beladungsprofil des Referenzzyklus.
 Abb. A.7.: Behala 1400 Geschwindigkeits- und Beladungsprofil
 Abb. A.8.: Behala 1800 Geschwindigkeits- und Beladungsprofil
 Abb. A.9.: Chemiepark Geschwindigkeits- und Beladungsprofil
-Abbildung A.6 dargestellt ist.
-Tabelle 4.1 und 4.2.
+Tab. 2.1.: Übersicht Hybridlokomotiven [Kon13].
+Tab. 2.2.: Häufigkeiten der Laststufe im EPA-Zyklus [EPA98].
+Tab. 3.1.: Übersicht der Grenzwerte der Streckenanforderungen.
+Tab. 3.2.: Abfolge des Referenzzyklus nach [IAV15].
+Tab. 4.1.: Theoretischer Wirkungsgrad der Getriebestufen [Wit13].
+Tab. 4.2.: Wirkungsgrad der elektrischen Komponenten [Pfe14], [IAV15].
+Tab. 4.3.: Manuell erzeugte Getriebekonfiguration aus der Anforderungsanalyse.
+Tab. 5.1.: Optimale Verbrauchsdaten auf den Teilstrecken und der zusammengesetzten Referenzstrecke. Die Verbrauchsdaten bilden den theoretischen Grenzwert der Fahrzeugkonfiguration.
+Tab. 5.2.: Ergebnisse der dynamischen Programmierung bei Variation der maximalen Batteriegröße. 𝑃𝐼𝐶𝐸,𝑎𝑣𝑔 entspricht der durchschnittlichen Verbrennungsmotorleistung während des Zyklus.
+Tab. 6.1.: Ausgangsdaten der konventionellen Rangierlokomotive.
+Tab. 6.2.: Ergebnisse der Längsdynamikuntersuchung mit Simulink.
+Tab. 6.3.: Vergleich der Verbrauchsdaten der konventionellen Lokomotive mit der hybridisierten Lokomotive in der Simulink-Simulation.
+Tab. 6.4.: Vergleich der Verbrauchsdaten der hybridisierten Lokomotive mit dem ermittelten theoretischen Optimum.
