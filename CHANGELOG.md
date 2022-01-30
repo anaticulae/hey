@@ -2,6 +2,22 @@
 
 Every noteable change is logged here.
 
+## v5.16.0
+
+### Feature
+
+* make code step optional (cd2494ec41c1)
+
+### Fix
+
+* remove duplicated extraction (4361d7c9a4e7)
+* do not determine caption for hidden image (0e780800d4ee)
+* skip miss match in code navigator alignment (3f08c9751b83)
+
+### Documentation
+
+* adjust modules path (ac5dbf578993)
+
 ## v5.15.3
 
 ### Fix
