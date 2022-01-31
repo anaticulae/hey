@@ -218,6 +218,8 @@ def run(processor, ptcns, items):
         # determine captions
         processed = processor.process_page(page, boundings)
         processed = utila.make_unique(processed)
+        for item in processed:
+            item.pdfpage = page.page
         captions = iamraw.PageContentCaption(
             page=page.page,
             content=processed,
