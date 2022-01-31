@@ -41,6 +41,7 @@ utila.exists_assert(ARCHIVE)
     pytest.param(power.MASTER110_PDF, 'master110', id='master110'),
     pytest.param(power.MASTER116_PDF, 'master116', id='master116'),
 ])
+@utilatest.longrun
 def test_caption_validate(source, expected, testdir, monkeypatch):
     utilatest.fixture_requires(source)
     Evaluate(

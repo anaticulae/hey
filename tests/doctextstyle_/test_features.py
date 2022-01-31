@@ -17,6 +17,7 @@ import doctextstyle.features.paragraph
 import tests.doctextstyle_.conftest
 
 
+@utilatest.longrun
 def test_cluster_extract_default_textsize(master72_text_flat):
     data = master72_text_flat
     default_text = doctextstyle.features.text(data)
@@ -25,6 +26,7 @@ def test_cluster_extract_default_textsize(master72_text_flat):
     assert default_text[0] == 12.0
 
 
+@utilatest.longrun
 def test_cluster_extract_pagenumber(master72_text_flat_small):
     pagenumber = doctextstyle.features.pagenumber(master72_text_flat_small)
     assert pagenumber[0] == 11.04, pagenumber
@@ -44,6 +46,7 @@ def test_cluster_extract_textsize(source, expected):
     assert default_text[0] == expected
 
 
+@utilatest.longrun
 def test_cluster_extract_footer_small(master72_text_flat_small):
     footnotes = doctextstyle.features.footnote.footnote(
         master72_text_flat_small)

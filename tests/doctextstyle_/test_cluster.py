@@ -7,9 +7,12 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import utilatest
+
 import doctextstyle.cluster
 
 
+@utilatest.longrun
 def test_cluster_size(master72_text_flat):  # pylint:disable=W0621
     data = master72_text_flat
     selection = (doctextstyle.cluster.ClusterProperty.SIZE,)
