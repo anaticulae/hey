@@ -32,10 +32,12 @@ class CaptionPageProcessor:
         self,
         look_backward: int,
         look_forward: int,
+        typ: iamraw.CaptionType = None,
         verbose: bool = False,
     ):
         self.look_forward = look_forward
         self.look_backward = look_backward
+        self.typ = typ
         self.verbose = verbose
 
     def process_page(
@@ -74,6 +76,7 @@ class CaptionPageProcessor:
         item = iamraw.Caption(
             line=selected[0][0],
             lineend=selected[-1][0],
+            typ=self.typ,
             raw=raw.strip(),
         )
         if self.verbose:
@@ -129,10 +132,16 @@ CAPTION_LINE_DIFF_MAX = configo.HV_FLOAT_PLUS(default=30.0)
 
 class CaptionPageWordProcessor(CaptionPageProcessor):
 
-    def __init__(self, words, verbose: bool = True):
+    def __init__(
+        self,
+        words,
+        typ: iamraw.CaptionType = None,
+        verbose: bool = True,
+    ):
         super().__init__(
             look_backward=CAPTION_LOOK_BACKWARD_MAX,
             look_forward=CAPTION_LOOK_FORWARD_MAX,
+            typ=typ,
             verbose=verbose,
         )
         self.words = words

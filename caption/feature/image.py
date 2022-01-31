@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw
 import serializeraw
 import utila
 
@@ -36,7 +37,10 @@ def work(
         skip_hidden=True,
     )
     # setup
-    processor = caption.processor.CaptionPageWordProcessor(words=(CAPTIONS,))
+    processor = caption.processor.CaptionPageWordProcessor(
+        words=(CAPTIONS,),
+        typ=iamraw.CaptionType.FIGURE,
+    )
     # run
     result = caption.processor.run(processor, ptcns, images)
     dumped = serializeraw.dump_captions(result)

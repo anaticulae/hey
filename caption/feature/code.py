@@ -73,7 +73,13 @@ def convert_listings(
             else:
                 lineend = line + 1
             raw = ' '.join(item.text.strip() for item in ptcn[line:lineend])
-            collected.append(iamraw.Caption(line, lineend, raw=raw))
+            collected.append(
+                iamraw.Caption(
+                    line,
+                    lineend,
+                    raw=raw,
+                    typ=iamraw.CaptionType.CODE,
+                ))
         if collected:
             result.append(
                 iamraw.PageContentCaption(

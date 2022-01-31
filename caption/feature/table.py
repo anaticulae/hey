@@ -9,6 +9,7 @@
 
 import os
 
+import iamraw
 import serializeraw
 import utila
 
@@ -37,7 +38,10 @@ def work(
     )
     tables = serializeraw.load_tables(tables, pages=pages)
     # determien captions
-    processor = caption.processor.CaptionPageWordProcessor(words=(CAPTIONS,))
+    processor = caption.processor.CaptionPageWordProcessor(
+        words=(CAPTIONS,),
+        typ=iamraw.CaptionType.TABLE,
+    )
     result = caption.processor.run(processor, ptcns, tables)
     # dump result
     dumped = serializeraw.dump_captions(result)

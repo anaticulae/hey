@@ -7,6 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import iamraw
 # TODO: REMOVE FIGURE STEP
 # OUTDATED
 import serializeraw
@@ -37,7 +38,10 @@ def work(
         pages=pages,
         skip_hidden=True,
     )
-    processor = caption.processor.CaptionPageWordProcessor(words=CAPTIONS)
+    processor = caption.processor.CaptionPageWordProcessor(
+        words=CAPTIONS,
+        typ=iamraw.CaptionType.FIGURE,
+    )
     # determine result
     result = caption.processor.run(processor, ptcns, figures)
     # dump
