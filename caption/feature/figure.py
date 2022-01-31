@@ -11,8 +11,8 @@
 # OUTDATED
 import serializeraw
 
-import caption.feature
 import caption.feature.image
+import caption.processor
 
 
 def work(
@@ -37,9 +37,9 @@ def work(
         pages=pages,
         skip_hidden=True,
     )
-    processor = caption.feature.CaptionPageWordProcessor(words=CAPTIONS)
+    processor = caption.processor.CaptionPageWordProcessor(words=CAPTIONS)
     # determine result
-    result = caption.feature.run(processor, ptcns, figures)
+    result = caption.processor.run(processor, ptcns, figures)
     # dump
     dumped = serializeraw.dump_captions(result)
     return dumped

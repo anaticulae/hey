@@ -10,7 +10,7 @@
 import serializeraw
 import utila
 
-import caption.feature
+import caption.processor
 
 
 def work(
@@ -36,9 +36,9 @@ def work(
         skip_hidden=True,
     )
     # setup
-    processor = caption.feature.CaptionPageWordProcessor(words=(CAPTIONS,))
+    processor = caption.processor.CaptionPageWordProcessor(words=(CAPTIONS,))
     # run
-    result = caption.feature.run(processor, ptcns, images)
+    result = caption.processor.run(processor, ptcns, images)
     dumped = serializeraw.dump_captions(result)
     return dumped
 
