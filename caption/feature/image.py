@@ -8,6 +8,7 @@
 # =============================================================================
 
 import serializeraw
+import utila
 
 import caption.feature
 
@@ -34,9 +35,9 @@ def work(
         pages=pages,
         skip_hidden=True,
     )
-
+    # setup
     processor = caption.feature.CaptionPageWordProcessor(words=(CAPTIONS,))
-
+    # run
     result = caption.feature.run(processor, ptcns, images)
     dumped = serializeraw.dump_captions(result)
     return dumped
@@ -45,7 +46,7 @@ def work(
 # TODO: Introduce special mechanism to dump them as tables
 # Tab. Tabelle, Table to detect tables which are stored as image
 
-CAPTIONS = r"""
+CAPTIONS = utila.compiles(r"""
     ^
     (
         Abb\.|
@@ -60,4 +61,4 @@ CAPTIONS = r"""
     [ ]{0,3}
     (\d{1,2}|[A-Z])(\.\d{1,2})?
     \:?
-"""
+""")

@@ -44,7 +44,7 @@ def work(
     return dumped
 
 
-CAPTIONS = r"""
+CAPTIONS = utila.compiles(r"""
     ^
     (
         Tab\.|
@@ -58,4 +58,4 @@ CAPTIONS = r"""
     [ ]{0,3}
     (\d{1,2}|[A-Z])(\.\d{1,2})?
     \:?
-"""
+""")

@@ -130,14 +130,14 @@ class CaptionPageWordProcessor(CaptionPageProcessor):
                 break
         content = items[0:end]
         for index, line in enumerate(content):
-            if any(utila.match(pat, line[1].text) for pat in self.words):
+            if any(pattern.match(line[1].text) for pattern in self.words):
                 return content[index:]
         return []
 
     def validate_before(self, items) -> list:
         selected = None
         for index, item in enumerate(items):
-            if any(utila.match(pat, item[1].text) for pat in self.words):
+            if any(pattern.match(item[1].text) for pattern in self.words):
                 selected = index
         if selected is None:
             # nothing matched
