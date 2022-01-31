@@ -63,20 +63,24 @@ class CaptionPageProcessor:
             if not selected:
                 utila.info(f'could not find caption for: {bounding}')
                 continue
-            if self.verbose:
-                selected, matched = selected
-            raw = ''.join([item[1].text for item in selected]).strip()
-            item = iamraw.Caption(
-                line=selected[0][0],
-                lineend=selected[-1][0],
-                raw=raw.strip(),
-            )
-            if self.verbose:
-                item.label = matched[0]
-                item.number = matched[1]
-                item.text = raw[matched.end():]
+            item = self.create_caption(selected)
             result.append(item)
         return result
+
+    def create_caption(self, selected) -> iamraw.Caption:
+        if self.verbose:
+            selected, matched = selected
+        raw = ''.join([item[1].text for item in selected]).strip()
+        item = iamraw.Caption(
+            line=selected[0][0],
+            lineend=selected[-1][0],
+            raw=raw.strip(),
+        )
+        if self.verbose:
+            item.label = matched[1]
+            item.number = matched[2]
+            item.text = raw[matched.end():]
+        return item
 
     @abc.abstractmethod
     def validate_after(self, items):
