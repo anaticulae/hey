@@ -28,9 +28,15 @@ import utila
 class CaptionPageProcessor:
     # TODO: ADD CAPTION PROCESSOR WITHOUT KEYWORDS
 
-    def __init__(self, look_backward: int, look_forward: int):
+    def __init__(
+        self,
+        look_backward: int,
+        look_forward: int,
+        verbose: bool = False,
+    ):
         self.look_forward = look_forward
         self.look_backward = look_backward
+        self.verbose = verbose
 
     def process_page(
         self,
@@ -57,12 +63,18 @@ class CaptionPageProcessor:
             if not selected:
                 utila.info(f'could not find caption for: {bounding}')
                 continue
+            if self.verbose:
+                selected, matched = selected
             raw = ''.join([item[1].text for item in selected]).strip()
             item = iamraw.Caption(
                 line=selected[0][0],
                 lineend=selected[-1][0],
                 raw=raw.strip(),
             )
+            if self.verbose:
+                item.label = matched[0]
+                item.number = matched[1]
+                item.text = raw[matched.end():]
             result.append(item)
         return result
 
@@ -113,10 +125,11 @@ CAPTION_LINE_DIFF_MAX = configo.HV_FLOAT_PLUS(default=30.0)
 
 class CaptionPageWordProcessor(CaptionPageProcessor):
 
-    def __init__(self, words):
+    def __init__(self, words, verbose: bool = True):
         super().__init__(
             look_backward=CAPTION_LOOK_BACKWARD_MAX,
             look_forward=CAPTION_LOOK_FORWARD_MAX,
+            verbose=verbose,
         )
         self.words = words
 
@@ -130,21 +143,33 @@ class CaptionPageWordProcessor(CaptionPageProcessor):
                 break
         content = items[0:end]
         for index, line in enumerate(content):
-            if any(pattern.match(line[1].text) for pattern in self.words):
-                return content[index:]
+            for pattern in self.words:
+                matched = pattern.match(line[1].text)
+                if not matched:
+                    continue
+                if not self.verbose:
+                    return content[index:]
+                return content[index:], matched
         return []
 
     def validate_before(self, items) -> list:
         selected = None
+        matched = None
         for index, item in enumerate(items):
-            if any(pattern.match(item[1].text) for pattern in self.words):
+            for pattern in self.words:
+                checked = pattern.match(item[1].text)
+                if not checked:
+                    continue
                 selected = index
+                matched = checked
         if selected is None:
             # nothing matched
             return []
         result = items[selected:]
         result = inside(result)
-        return result
+        if not self.verbose:
+            return result
+        return result, matched
 
 
 def inside(lines: list) -> list:
