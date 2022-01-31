@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v5.17.0
+
+### Feature
+
+* add verbose flag to return matched pattern (47d86d6b9b0b)
+
 ## v5.16.0
 
 ### Feature
