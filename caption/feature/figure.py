@@ -7,6 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+# TODO: REMOVE FIGURE STEP
+# OUTDATED
 import serializeraw
 
 import caption.feature
