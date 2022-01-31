@@ -49,4 +49,4 @@ def work(
     return dumped
 
 
-CAPTIONS = (caption.feature.image.CAPTIONS,)
+CAPTIONS = caption.feature.image.CAPTIONS

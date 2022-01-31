@@ -38,7 +38,7 @@ def work(
     )
     # setup
     processor = caption.processor.CaptionPageWordProcessor(
-        words=(CAPTIONS,),
+        words=CAPTIONS,
         typ=iamraw.CaptionType.FIGURE,
     )
     # run

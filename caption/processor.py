@@ -144,7 +144,7 @@ class CaptionPageWordProcessor(CaptionPageProcessor):
             typ=typ,
             verbose=verbose,
         )
-        self.words = words
+        self.words = words if utila.iterable(words) else (words,)
 
     def validate_after(self, items) -> list:
         end = len(items)

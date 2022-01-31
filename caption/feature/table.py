@@ -39,7 +39,7 @@ def work(
     tables = serializeraw.load_tables(tables, pages=pages)
     # determien captions
     processor = caption.processor.CaptionPageWordProcessor(
-        words=(CAPTIONS,),
+        words=CAPTIONS,
         typ=iamraw.CaptionType.TABLE,
     )
     result = caption.processor.run(processor, ptcns, tables)
