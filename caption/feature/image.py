@@ -6,6 +6,10 @@
 # use or distribution is an offensive act against international law and may
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
+"""\
+>>> CAPTIONS.match('Abbildung 2.1.: Verknüpfung klassisches und AUTOSAR-Steuergerät nach [OK09, Seite 41]')
+<re.Match object; span=(0, 15), match='Abbildung 2.1.:'>
+"""
 
 import iamraw
 import serializeraw
@@ -64,7 +68,8 @@ CAPTIONS = utila.compiles(r"""
     )
     [ ]{0,3}
     (
-        (\d{1,2}|[A-Z])(\.\d{1,2})?
+        (\d{1,2}|[A-Z])(\.\d{1,2}\.?)?
     )
+    [ ]{0,3}
     \:?
 """)
