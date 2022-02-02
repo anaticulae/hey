@@ -65,20 +65,30 @@ class CaptionPageProcessor:
                     self.look_backward,
                 ))
             overlap = False
-            if not selected and page_next:
-                # look on page after
-                selected = self.validate_after(items=after(
-                    page_next,
-                    current=50,  # skip header
-                    plus=self.look_forward,
-                ))
-                overlap = True
+            if not selected:
+                selected = self.search_pageafter(y1, page, page_next)
+                if selected:
+                    overlap = True
             if not selected:
                 utila.info(f'could not find caption for: {bounding}')
                 continue
             item = self.create_caption(selected, overlap=overlap)
             result.append(item)
         return result
+
+    def search_pageafter(self, y1, page, page_next):
+        if not page_next:
+            return None
+        overlap_check = page.height * CAPTION_NEXT_PAGE
+        if y1 < overlap_check:
+            return None
+        # look on page after
+        selected = self.validate_after(items=after(
+            page_next,
+            current=CAPTION_NEXT_PAGE_CONTENT_START,
+            plus=self.look_forward,
+        ))
+        return selected
 
     def create_caption(self, selected, overlap: bool = False) -> iamraw.Caption:
         if self.verbose:
@@ -104,6 +114,13 @@ class CaptionPageProcessor:
     @abc.abstractmethod
     def validate_before(self, items):
         pass
+
+
+# Bounding is on the bottom of the page. We do not check the next page for
+# objects at the top of the page.
+CAPTION_NEXT_PAGE = configo.HV_PERCENT_PLUS(default=80)
+# skip header content
+CAPTION_NEXT_PAGE_CONTENT_START = configo.HV_INT_PLUS(default=50)
 
 
 def before(navigator, current, minus):
