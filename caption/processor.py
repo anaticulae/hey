@@ -18,6 +18,7 @@ In the current state it is not possible to ensure that collecting
 handled correctly."""
 
 import abc
+import itertools
 
 import configo
 import iamraw
@@ -44,6 +45,7 @@ class CaptionPageProcessor:
         self,
         page: texmex.PageTextContentNavigator,
         boundings,
+        page_next: texmex.PageTextContentNavigator = None,
     ) -> iamraw.Captions:
         """Detect caption after and before boundings."""
         if not boundings:
@@ -62,14 +64,23 @@ class CaptionPageProcessor:
                     y0,
                     self.look_backward,
                 ))
+            overlap = False
+            if not selected and page_next:
+                # look on page after
+                selected = self.validate_after(items=after(
+                    page_next,
+                    current=50,  # skip header
+                    plus=self.look_forward,
+                ))
+                overlap = True
             if not selected:
                 utila.info(f'could not find caption for: {bounding}')
                 continue
-            item = self.create_caption(selected)
+            item = self.create_caption(selected, overlap=overlap)
             result.append(item)
         return result
 
-    def create_caption(self, selected) -> iamraw.Caption:
+    def create_caption(self, selected, overlap: bool = False) -> iamraw.Caption:
         if self.verbose:
             selected, matched = selected
         raw = ''.join([item[1].text for item in selected]).strip()
@@ -77,6 +88,7 @@ class CaptionPageProcessor:
             line=selected[0][0],
             lineend=selected[-1][0],
             typ=self.typ,
+            overlap=overlap,
             raw=raw.strip(),
         )
         if self.verbose:
@@ -208,7 +220,7 @@ def inside(lines: list) -> list:
 
 def run(processor, ptcns, items):
     result = []
-    for page in ptcns:
+    for page, pageafter in itertools.zip_longest(ptcns, ptcns[1:]):
         pagefigure = utila.select_page(items, page.page)
         if not pagefigure:
             continue
@@ -216,7 +228,7 @@ def run(processor, ptcns, items):
         boundings = [item.bounding for item in pagefigure.content]
         boundings = utila.sort_leftright_topdown(boundings)
         # determine captions
-        processed = processor.process_page(page, boundings)
+        processed = processor.process_page(page, boundings, page_next=pageafter)
         processed = utila.make_unique(processed)
         for item in processed:
             item.pdfpage = page.page
