@@ -152,7 +152,7 @@ def diffs(items):
     return result
 
 
-CAPTION_LOOK_BACKWARD_MAX = configo.HV_FLOAT_PLUS(default=150)
+CAPTION_LOOK_BACKWARD_MAX = configo.HV_FLOAT_PLUS(default=120)
 
 CAPTION_LOOK_FORWARD_MAX = configo.HV_FLOAT_PLUS(default=150)
 
