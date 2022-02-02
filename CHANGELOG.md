@@ -2,6 +2,18 @@
 
 Every noteable change is logged here.
 
+## v5.18.0
+
+### Feature
+
+* improve caption parser (e0caf1e1ed26)
+* add pdfpage for every detected caption (1031f26a843b)
+* add caption type attribute to distinguish types (0f8635a24178)
+
+### Fix
+
+* adjust caption label parser (1d25be77bd71)
+
 ## v5.17.0
 
 ### Feature
