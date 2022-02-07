@@ -31,7 +31,6 @@ Writes: `doctextstyle__textstyle.yaml`
 
 @utila.saveme
 def main() -> int:
-    utila.log('run doctextstyle')
     commands = []
     parser = utila.cli.create_parser(
         todo=commands,
@@ -47,6 +46,7 @@ def main() -> int:
         prog=doctextstyle.PROCESS,
     )
     args = utila.parse(parser)
+    utila.log('run doctextstyle')
     selected_pages = utila.pages_fromargs(args)
 
     inpath, outpath = utila.cli.sources(args, singleinput=True)  # pylint:disable=W0632
