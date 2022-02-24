@@ -2,6 +2,17 @@
 
 Every noteable change is logged here.
 
+## v5.19.0
+
+### Feature
+
+* reduce backward vision (9aa1f47affb7)
+* if no caption is detected, look at next page (8e769248168d)
+
+### Fix
+
+* print log later (baa8799e9a18)
+
 ## v5.18.0
 
 ### Feature
