@@ -59,7 +59,7 @@ def test_master72_list_and_blockquotes(testdir, monkeypatch):
     assert iamraw.PageContentType.BLOCKQUOTE in blockquote_page
 
 
-def test_bachelor90_table_page76(testdir, monkeypatch):
+def test_bachelor90p76_table(testdir, monkeypatch):
     loaded = run_magic(power.BACHELOR090_PDF, testdir, monkeypatch, pages=76)
     loaded = loaded[0].content
     # single caption, table content is removed
@@ -67,7 +67,7 @@ def test_bachelor90_table_page76(testdir, monkeypatch):
 
 
 @pytest.mark.xfail(reason='table content skipping changes result')
-def test_magic_multiple_line_master116_page79(testdir, monkeypatch):
+def test_multiple_line_master116p79(testdir, monkeypatch):
     """Ensure to handle multiple line captions/magic correctly."""
     source = power.link(power.MASTER116_PDF)
     cmd = f'-i {source}  --pages=79'

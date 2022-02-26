@@ -7,7 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import iamraw.path
+import iamraw
 import power
 import pytest
 import utila
@@ -50,7 +50,6 @@ def test_caption_bachelor90p80(testdir, monkeypatch):
     assert len(tables) == 1, str(tables)
 
 
-@pytest.mark.xfail(reason='investigate later')
 def test_caption_master116p12(testdir, monkeypatch):
     source = power.MASTER116_PDF
     extracted = tests.caption_.utils.extract_captions(
@@ -58,7 +57,7 @@ def test_caption_master116p12(testdir, monkeypatch):
         12,
         testdir,
         monkeypatch,
-        iamraw.path.figure_caption,
+        iamraw.path.caption_image,
     )
     figures = extracted[0].content
     assert len(figures) == 2, str(figures)
