@@ -18,7 +18,7 @@ jam==0.4.0
 
 # generate magic test data
 words==1.14.2
-detector==0.31.0
+detector==0.32.0
 
 # generate example data
 genex==0.23.1
