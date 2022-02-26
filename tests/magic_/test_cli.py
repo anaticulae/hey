@@ -62,7 +62,6 @@ def run_magic(
     return loaded
 
 
-@pytest.mark.xfail(reason='improve table skipper')
 def test_bachelor90_table_page76(testdir, monkeypatch):
     loaded = run_magic(power.BACHELOR090_PDF, testdir, monkeypatch, pages=76)
     loaded = loaded[0].content
