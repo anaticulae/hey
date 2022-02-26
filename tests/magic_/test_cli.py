@@ -66,7 +66,6 @@ def test_bachelor90p76_table(testdir, monkeypatch):
     assert len(loaded) == 1
 
 
-@pytest.mark.xfail(reason='table content skipping changes result')
 def test_multiple_line_master116p79(testdir, monkeypatch):
     """Ensure to handle multiple line captions/magic correctly."""
     source = power.link(power.MASTER116_PDF)
@@ -81,6 +80,6 @@ def test_multiple_line_master116p79(testdir, monkeypatch):
     contenttype = {
         item[0] for item in loaded if item[1] == iamraw.PageContentType.CAPTION
     }
-    # TODO: adjust expected after changing table content skipper
-    expected = {8, 9, 24, 25}
+    # table content, header and footer are rawmaker_cleaned from code
+    expected = {0, 1, 8, 9}
     assert contenttype == expected
