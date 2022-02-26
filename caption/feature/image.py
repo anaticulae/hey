@@ -62,6 +62,7 @@ CAPTIONS = utila.compiles(r"""
         Fig\.|
         Figure|
         Foto|
+        Graph|
         Tab\.|
         Tabelle|
         Table
