@@ -12,6 +12,7 @@ import power
 import pytest
 import serializeraw
 import utila
+import utilatest
 
 import magic.path
 import tests.caption_
@@ -49,6 +50,7 @@ def run_magic(
     monkeypatch,
     pages: str = '',
 ) -> iamraw.PageContentContentTypes:
+    utilatest.fixture_requires(source)
     source = power.link(source)
     tests.magic_.run(
         f'-i {source} --pages={pages} ',
