@@ -8,9 +8,8 @@
 # =============================================================================
 
 import functools
-import os
 
-import iamraw.path
+import iamraw
 import power
 import pytest
 import serializeraw
@@ -20,8 +19,7 @@ import utilatest
 import caption
 import tests.caption_.utils
 
-ARCHIVE = os.path.join(caption.ROOT, 'tests/caption_/expected')
-utila.exists_assert(ARCHIVE)
+ARCHIVE = utila.join(caption.ROOT, 'tests/caption_/expected', exist=True)
 
 
 @pytest.mark.parametrize('source, expected', [
