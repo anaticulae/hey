@@ -25,7 +25,7 @@ def test_caption_cli_help(monkeypatch):
     (18, 1),
     (21, 2),
 ])
-def test_caption_bachelor90_pagex(page, expected, testdir, monkeypatch):
+def test_caption_bachelor90px(page, expected, testdir, monkeypatch):
     source = power.BACHELOR090_PDF
     extracted = tests.caption_.utils.extract_captions(
         source,
@@ -37,7 +37,7 @@ def test_caption_bachelor90_pagex(page, expected, testdir, monkeypatch):
     assert len(content) == expected
 
 
-def test_caption_bachelor90_page80(testdir, monkeypatch):
+def test_caption_bachelor90p80(testdir, monkeypatch):
     source = power.BACHELOR090_PDF
     extracted = tests.caption_.utils.extract_captions(
         source,
@@ -51,7 +51,7 @@ def test_caption_bachelor90_page80(testdir, monkeypatch):
 
 
 @pytest.mark.xfail(reason='investigate later')
-def test_caption_master116_page12(testdir, monkeypatch):
+def test_caption_master116p12(testdir, monkeypatch):
     source = power.MASTER116_PDF
     extracted = tests.caption_.utils.extract_captions(
         source,

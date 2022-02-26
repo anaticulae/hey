@@ -40,7 +40,7 @@ def test_master72_list_multiple_area(testdir, monkeypatch):
     assert page10_list == expected
 
 
-def test_bachelor128_list_page36_41(testdir, monkeypatch):
+def test_bachelor128p36_41_list(testdir, monkeypatch):
     tests.magic_.run(
         (f'-i {power.link(power.BACHELOR128_PDF, folder="sectionsandwords")} '
          '--pages=36,37,38,39,40,41'),

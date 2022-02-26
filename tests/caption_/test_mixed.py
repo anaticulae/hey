@@ -15,7 +15,7 @@ import utila
 import tests.caption_
 
 
-def test_mixed_bachelor51_page30(testdir, monkeypatch):
+def test_mixed_bachelor51p30(testdir, monkeypatch):
     source = power.link(power.BACHELOR051_PDF)
     cmd = f'-i {source} --pages=30'
     tests.caption_.run(cmd, monkeypatch=monkeypatch)
