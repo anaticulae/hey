@@ -30,7 +30,8 @@ Developer
   todo
 
 Modules
---------------------
+-------
+
 .. toctree::
    :maxdepth: 4
 
