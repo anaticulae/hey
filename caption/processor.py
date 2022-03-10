@@ -93,13 +93,14 @@ class CaptionPageProcessor:
     def create_caption(self, selected, overlap: bool = False) -> iamraw.Caption:
         if self.verbose:
             selected, matched = selected
-        raw = ''.join([item[1].text for item in selected]).strip()
+        raw = '\n'.join([item[1].text for item in selected])
+        raw = utila.normalize_text(raw)
         item = iamraw.Caption(
             line=selected[0][0],
             lineend=selected[-1][0],
             typ=self.typ,
             overlap=overlap,
-            raw=raw.strip(),
+            raw=raw,
         )
         if self.verbose:
             item.label = matched[1]
