@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v5.19.1
+
+### Feature
+
+* add graph as valid caption start (414486121b6f)
+
 ## v5.19.0
 
 ### Feature
