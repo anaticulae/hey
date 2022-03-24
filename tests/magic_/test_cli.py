@@ -14,7 +14,6 @@ import utila
 import utilatest
 
 import magic.path
-import tests.caption_
 import tests.magic_
 import tests.resources
 
@@ -70,7 +69,7 @@ def test_multiple_line_master116p79(testdir, monkeypatch):
     source = power.link(power.MASTER116_PDF)
     cmd = f'-i {source}  --pages=79'
     # generate required caption for magic module
-    tests.caption_.run(cmd, monkeypatch=monkeypatch)
+    utila.run(f'caption {cmd}', cwd=testdir.tmpdir)
     tests.magic_.run(cmd, monkeypatch=monkeypatch)
     # load oneline result
     path = magic.path.content_oneline(testdir.tmpdir)

@@ -2,8 +2,7 @@
 short = hey
 name = a lot of features
 
-source = caption
-    doctextstyle
+source = doctextstyle
     magic
 
 [release]

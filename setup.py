@@ -41,8 +41,6 @@ if __name__ == "__main__":
             'Programming Language :: Python :: 3.8',
         ],
         packages=[
-            'caption',
-            'caption.feature',
             'doctextstyle',
             'doctextstyle.features',
             'doctextstyle.vector',
@@ -52,7 +50,6 @@ if __name__ == "__main__":
         ],
         entry_points={
             'console_scripts': [
-                'caption = caption.cli:main',
                 'doctextstyle = doctextstyle.cli:main',
                 'magic = magic.cli:main',
             ],
