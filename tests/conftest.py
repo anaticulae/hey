@@ -24,7 +24,16 @@ power.setup(hey.ROOT)
 RESOURCES = [
     power.DISS266_PDF,
     power.DISS205_PDF,
-    power.MASTER116_PDF,
+    power.todo(
+        power.MASTER116_PDF,
+        caption=True,
+        codero=True,
+        figureo=True,
+        groupme=True,
+        magic=True,
+        rawmaker_cleanup=True,
+        tablero=True,
+    ),
     power.BACHELOR111_PDF,
     power.MASTER099_PDF,
     power.MASTER098_PDF,
