@@ -64,16 +64,15 @@ def test_bachelor90p76_table(testdir, monkeypatch):
     assert len(loaded) == 1
 
 
-def test_multiple_line_master116p79(testdir, monkeypatch):
+def test_multiple_line_master116p79():
     """Ensure to handle multiple line captions/magic correctly."""
     source = power.link(power.MASTER116_PDF)
-    cmd = f'-i {source}  --pages=79'
-    # generate required caption for magic module
-    utila.run(f'caption {cmd}', cwd=testdir.tmpdir)
-    tests.magic_.run(cmd, monkeypatch=monkeypatch)
     # load oneline result
-    path = magic.path.content_oneline(testdir.tmpdir)
-    loaded = serializeraw.load_types(path)[0].content
+    path = magic.path.content_oneline(source)
+    loaded = serializeraw.load_magic_types(
+        path,
+        pages=(79,),
+    )[0].content
     assert loaded
     contenttype = {
         item[0] for item in loaded if item[1] == iamraw.PageContentType.CAPTION
