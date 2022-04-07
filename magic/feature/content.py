@@ -29,11 +29,11 @@ def work(  # pylint:disable=R0913
     figures: str,
     pages: tuple = None,
 ) -> str:
-    ptcns = serializeraw.create_pagetextcontentnavigators_fromfile(
+    ptcns = serializeraw.ptcn_fromfile(
         text=text,
         textpositions=textpositions,
-        sizeandborderpath=sizeandborders,
-        headerfooterpath=footerheader,
+        sizeandborder=sizeandborders,
+        headerfooter=footerheader,
         pages=pages,
     )
     lists = expand_lists(load_content(serializeraw.load_lists, lists, pages))
