@@ -2,6 +2,12 @@
 
 Every noteable change is logged here.
 
+## v5.19.3
+
+### Fix
+
+* adjust caption result path (4b6194447df3)
+
 ## v5.19.2
 
 ## v5.19.1
