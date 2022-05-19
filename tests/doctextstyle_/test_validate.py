@@ -7,13 +7,20 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
+import functools
+
 import power
 import pytest
+import serializeraw
 import utila
 import utilatest
 
+import doctextstyle
 import doctextstyle.extractor
 import doctextstyle.vector
+import tests.doctextstyle_
+
+ARCHIVE = utila.join(doctextstyle.ROOT, 'tests/doctextstyle_/expected')
 
 # TODO: VALIDATE SIZES
 PARAMETERS = [
@@ -36,12 +43,38 @@ def test_doctextstyle_extract_headlines_old(source, h1, h2, h3):
     assert result.h3_size == h3
 
 
-@pytest.mark.parametrize('source, h1, h2, h3', PARAMETERS)
+@pytest.mark.parametrize('source, pages', [
+    utilatest.step(power.BACHELOR051_PDF),
+    utilatest.step(power.BACHELOR063_PDF),
+    utilatest.step(power.DISS205_PDF),
+    utilatest.step(power.MASTER110_PDF),
+])
 @utilatest.nightly
-def test_doctextstyle_extract_headlines_magic(source, h1, h2, h3):
-    source = power.link(source)
-    result = doctextstyle.vector.run(source)
-    assert result
-    assert utila.near(result.h1_size, expected=h1, diff=0.5)
-    assert utila.near(result.h2_size, expected=h2, diff=0.5)
-    assert utila.near(result.h3_size, expected=h3, diff=0.5)
+def test_docstyle_validate(source, pages, testdir, monkeypatch):
+    pages = utila.from_tuple(pages, ',') if pages else ':'
+    Evaluate(
+        source,
+        pages,
+        testdir.tmpdir,
+        monkeypatch,
+    ).evaluate()
+
+
+class Evaluate(utilatest.BaseLiner):
+
+    def __init__(self, source, pages, workdir, monkeypatch):
+        super().__init__(
+            program=functools.partial(
+                tests.doctextstyle_.run,
+                monkeypatch=monkeypatch,
+            ),
+            step='',
+            source=source,
+            pages=pages,
+            workdir=workdir,
+            archive=ARCHIVE,
+            loader=serializeraw.load_doctextstyle,
+        )
+
+    def raw(self, value) -> str:
+        return str(value)
