@@ -92,16 +92,17 @@ def extract_sectionsandwords(resources):
     genex.extract(
         resources,
         destination=destination,
-        cleanup=True,
         caption=True,
+        cleanup=True,
         detector=True,
         groupme=True,
+        headlines=True,
         magic=True,
         sections=True,
         spacestation=True,
+        tablero=False,  # reduce generation time
         textflow=True,
         words=True,
-        tablero=False,  # reduce generation time
         pages=':',
     )
 
