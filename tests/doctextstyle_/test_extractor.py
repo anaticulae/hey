@@ -17,6 +17,7 @@ import doctextstyle.features.blockquote
 
 
 @utilatest.longrun
+@utilatest.requires(power.MASTER098_PDF)
 def test_extract_blockquote_dimension():
     path = power.link(power.MASTER098_PDF)
     pages = utila.ranged_tuple(2, 88)
@@ -33,6 +34,7 @@ def test_extract_blockquote_dimension():
 
 
 @utilatest.nightly
+@utilatest.requires(power.DISS266_PDF)
 def test_extract_headlines_fromdata():
     source = power.link(power.DISS266_PDF)
     pages = utila.ranged_tuple(7, 215)

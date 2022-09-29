@@ -35,6 +35,7 @@ PARAMETERS = [
 @pytest.mark.parametrize('source, h1, h2, h3', [PARAMETERS[0], PARAMETERS[2]])
 @utilatest.longrun
 def test_doctextstyle_extract_headlines_old(source, h1, h2, h3):
+    utilatest.fixture_requires(source)
     source = power.link(source)
     result = doctextstyle.extractor.extract(source)
     assert result

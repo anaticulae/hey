@@ -10,10 +10,12 @@
 import iamraw
 import power
 import utila
+import utilatest
 
 import doctextstyle.features.content
 
 
+@utilatest.requires(power.MASTER116_PDF)
 def test_content():
     source = power.link(power.MASTER116_PDF)
     path = iamraw.path.groupme_border_leftright(source)

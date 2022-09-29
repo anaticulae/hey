@@ -9,12 +9,14 @@
 
 import power
 import utila
+import utilatest
 
 import doctextstyle.vector.decide
 import doctextstyle.vector.extract
 import doctextstyle.vector.prepare as dvp
 
 
+@utilatest.requires(power.HOME025_PDF)
 def test_vector_cluster():
     source = power.link(power.HOME025_PDF)
     matrix, navis, fontstore = dvp.create_matrix(source)
@@ -33,6 +35,7 @@ def test_vector_cluster():
     assert result.text_size == 11.96
 
 
+@utilatest.requires(power.HOME025_PDF)
 def test_vector_headlines():
     source = power.link(power.HOME025_PDF)
     # exclude title page from headline detection.

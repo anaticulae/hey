@@ -39,6 +39,7 @@ def test_cluster_extract_pagenumber(master72_text_flat_small):
 ])
 @utilatest.longrun
 def test_cluster_extract_textsize(source, expected):
+    utilatest.fixture_requires(source)
     source = power.link(source)
     flat = tests.doctextstyle_.conftest.create_matrix(source, pages=None)
     default_text = doctextstyle.features.text(flat)
@@ -63,6 +64,7 @@ def test_cluster_extract_footer_small(master72_text_flat_small):
 ])
 @utilatest.longrun
 def test_cluster_extract_footnote(source, expected):
+    utilatest.fixture_requires(source)
     source = power.link(source)
     flat = tests.doctextstyle_.conftest.create_matrix(source, pages=None)
     footnotes = doctextstyle.features.footnote.footnote(flat)
@@ -88,6 +90,7 @@ def test_cluster_extract_paragraph_small(master72_text_flat_small):
 ])
 @utilatest.longrun
 def test_cluster_extract_paragraph_before_and_after(source, expected):
+    utilatest.fixture_requires(source)
     # TODO: VALIDATE EXPECTED LINE DISTANCE, CURRENTLY THERE ARE NOT
     # CHECKED YET.
     source = power.link(source)

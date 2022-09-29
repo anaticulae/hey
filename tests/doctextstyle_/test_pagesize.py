@@ -9,10 +9,12 @@
 
 import iamraw.path
 import power
+import utilatest
 
 import doctextstyle.features.pagesize
 
 
+@utilatest.requires(power.MASTER116_PDF)
 def test_pagesize():
     path = iamraw.path.sizeandborder(power.link(power.MASTER116_PDF))
     sizes = doctextstyle.features.pagesize.pagesizes(path)

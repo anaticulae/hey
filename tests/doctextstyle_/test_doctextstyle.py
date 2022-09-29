@@ -27,6 +27,7 @@ import doctextstyle.vector
     pytest.param(doctextstyle.extractor.extract, id='old_school'),
 ])
 def test_doctextstyle_extract(method):
+    utilatest.fixture_requires(power.MASTER098_PDF)
     source = power.link(power.MASTER098_PDF)
     result = method(source)
     assert result
@@ -35,7 +36,6 @@ def test_doctextstyle_extract(method):
     assert result.pagenumber_size == 12.0
     assert result.footnote_size == 9.0
     assert result.footnote_distance == 10.3
-
     # justified text
     assert result.text_alignment == doctextstyle.JUSTIFIED
 
@@ -45,6 +45,7 @@ def test_doctextstyle_extract(method):
     pytest.param(doctextstyle.extractor.extract, id='old_school'),
 ])
 def test_regression_doctextstyle_homework25(method):
+    utilatest.fixture_requires(power.HOME025_PDF)
     source = power.link(power.HOME025_PDF)
     # shrink to content pages
     pages = utila.ranged_tuple(1, 22)
@@ -64,6 +65,7 @@ def test_regression_doctextstyle_homework25(method):
 
 
 @utilatest.nightly
+@utilatest.requires(power.MASTER116_PDF)
 def test_regression_doctextstyle_master116():
     source = power.link(power.MASTER116_PDF)
     result = doctextstyle.extractor.extract(source)

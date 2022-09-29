@@ -42,6 +42,7 @@ def test_magic(monkeypatch):
 
 
 def test_master72_list_and_blockquotes(testdir, monkeypatch):
+    utilatest.fixture_requires(power.MASTER072_PDF, folder='sectionsandwords')
     tests.magic_.run(
         (f'-i {power.link(power.MASTER072_PDF, folder="sectionsandwords")} '
          f'-i {power.link(power.MASTER072_PDF)} --pages=0:16'),

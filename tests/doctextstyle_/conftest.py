@@ -10,12 +10,16 @@
 import power
 import pytest
 import serializeraw
+import utila
+import utilatest
 
 import doctextstyle.parser
 import doctextstyle.utils
 
 
 def create_matrix(source: str, pages: tuple):
+    utilatest.fixture_requires(source)
+    source = power.link(source)
     loaded = serializeraw.create_pagetextnavigators_frompath(
         source,
         prefix='oneline',
@@ -29,14 +33,14 @@ def create_matrix(source: str, pages: tuple):
 @pytest.fixture
 def master72_text_flat():
     return create_matrix(
-        source=power.link(power.MASTER072_PDF),
-        pages=tuple(range(3, 86)),
+        source=power.MASTER072_PDF,
+        pages=utila.rtuple(3, 86),
     )
 
 
 @pytest.fixture
 def master72_text_flat_small():
     return create_matrix(
-        source=power.link(power.MASTER072_PDF),
-        pages=tuple(range(3, 15)),
+        source=power.MASTER072_PDF,
+        pages=utila.rtuple(3, 15),
     )

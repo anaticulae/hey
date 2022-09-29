@@ -11,10 +11,12 @@ import iamraw
 import power
 import serializeraw
 import utila
+import utilatest
 
 import tests.magic_
 
 
+@utilatest.requires(power.MASTER072_PDF, folder='sectionsandwords')
 def test_master72_list_multiple_area(testdir, monkeypatch):
     source = power.link(power.MASTER072_PDF, folder="sectionsandwords")
     pages = '8,9,10,11'
@@ -39,6 +41,7 @@ def test_master72_list_multiple_area(testdir, monkeypatch):
     assert page10_list == expected
 
 
+@utilatest.requires(power.BACHELOR128_PDF, folder='sectionsandwords')
 def test_bachelor128p36_41_list(testdir, monkeypatch):
     source = power.link(power.BACHELOR128_PDF, folder="sectionsandwords")
     pages = '36,37,38,39,40,41'

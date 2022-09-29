@@ -10,6 +10,7 @@
 import power
 import pytest
 import serializeraw
+import utilatest
 
 import doctextstyle.parser
 import doctextstyle.utils
@@ -17,6 +18,7 @@ import doctextstyle.utils
 
 @pytest.fixture
 def master116_text():
+    utilatest.fixture_requires(power.MASTER072_PDF)
     navigators = serializeraw.create_pagetextnavigators_frompath(
         power.link(power.MASTER072_PDF),
         prefix='oneline',
