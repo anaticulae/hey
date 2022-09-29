@@ -16,13 +16,13 @@ import tests.magic_
 
 
 def test_master72_list_multiple_area(testdir, monkeypatch):
+    source = power.link(power.MASTER072_PDF, folder="sectionsandwords")
+    pages = '8,9,10,11'
     tests.magic_.run(
-        (f'-i {power.link(power.MASTER072_PDF, folder="sectionsandwords")} '
-         '--pages=8,9,10,11'),
+        f'-i {source} --pages={pages}',
         monkeypatch=monkeypatch,
     )
     loaded = serializeraw.load_types(testdir.tmpdir)
-
     page9 = utila.select_content(loaded, page=9)
     assert page9
     page9_list = [
@@ -30,7 +30,6 @@ def test_master72_list_multiple_area(testdir, monkeypatch):
     ]
     expected = [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
     assert page9_list == expected
-
     page10 = utila.select_content(loaded, page=10)
     assert page10
     page10_list = [
@@ -41,23 +40,20 @@ def test_master72_list_multiple_area(testdir, monkeypatch):
 
 
 def test_bachelor128p36_41_list(testdir, monkeypatch):
+    source = power.link(power.BACHELOR128_PDF, folder="sectionsandwords")
+    pages = '36,37,38,39,40,41'
     tests.magic_.run(
-        (f'-i {power.link(power.BACHELOR128_PDF, folder="sectionsandwords")} '
-         '--pages=36,37,38,39,40,41'),
+        f'-i {source} --pages={pages}',
         monkeypatch=monkeypatch,
     )
     loaded = serializeraw.load_types(testdir.tmpdir)
-
     lists = lambda page: all((item[1] == iamraw.PageContentType.LIST) for item in page) # yapf:disable
-
     page37 = utila.select_content(loaded, page=37)
     assert len(page37) == 5
     assert lists(page37)
-
     page38 = utila.select_content(loaded, page=38)
     assert len(page38) == 30
     assert lists(page38)
-
     page39 = utila.select_content(loaded, page=39)
     assert len(page39) == 11
     assert lists(page39)
