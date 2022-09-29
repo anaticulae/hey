@@ -18,15 +18,15 @@ import tests.doctextstyle_
 import tests.resources
 
 
-def test_textstyle_cli_help(monkeypatch):
-    tests.doctextstyle_.run('--help', monkeypatch=monkeypatch)
+def test_textstyle_cli_help(mp):
+    tests.doctextstyle_.run('--help', mp=mp)
 
 
 @utilatest.nightly
-def test_textstyle_cli(testdir, monkeypatch):
+def test_textstyle_cli(td, mp):
     source = power.link(power.MASTER072_PDF)
-    outdir = os.path.join(testdir.tmpdir, 'helm/schelm')
-    tests.doctextstyle_.run(f'-i {source} -o {outdir}', monkeypatch=monkeypatch)
+    outdir = os.path.join(td.tmpdir, 'helm/schelm')
+    tests.doctextstyle_.run(f'-i {source} -o {outdir}', mp=mp)
 
     outpath = os.path.join(outdir, doctextstyle.cli.DEFAULT_OUTPUT_FILE)
     assert os.path.exists(outpath)

@@ -51,23 +51,23 @@ def test_doctextstyle_extract_headlines_old(source, h1, h2, h3):
     utilatest.step(power.MASTER110_PDF),
 ])
 @utilatest.nightly
-def test_docstyle_validate(source, pages, testdir, monkeypatch):
+def test_docstyle_validate(source, pages, td, mp):
     pages = utila.from_tuple(pages, ',') if pages else ':'
     Evaluate(
         source,
         pages,
-        testdir.tmpdir,
-        monkeypatch,
+        td.tmpdir,
+        mp,
     ).evaluate()
 
 
 class Evaluate(utilatest.BaseLiner):
 
-    def __init__(self, source, pages, workdir, monkeypatch):
+    def __init__(self, source, pages, workdir, mp):
         super().__init__(
             program=functools.partial(
                 tests.doctextstyle_.run,
-                monkeypatch=monkeypatch,
+                mp=mp,
             ),
             step='',
             source=source,

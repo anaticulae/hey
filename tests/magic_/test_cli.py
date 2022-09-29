@@ -21,34 +21,34 @@ import tests.resources
 
 def run_magic(
     source,
-    testdir,
-    monkeypatch,
+    td,
+    mp,
     pages: str = '',
 ) -> iamraw.PageContentContentTypes:
     utilatest.fixture_requires(source)
     source = power.link(source)
     tests.magic_.run(
         f'-i {source} --pages={pages} ',
-        monkeypatch=monkeypatch,
+        mp=mp,
     )
-    path = magic.path.content_oneline(testdir.tmpdir)
+    path = magic.path.content_oneline(td.tmpdir)
     loaded = serializeraw.load_types(path)
     assert loaded, str(loaded)
     return loaded
 
 
-def test_magic(monkeypatch):
-    tests.magic_.run('--help', monkeypatch=monkeypatch)
+def test_magic(mp):
+    tests.magic_.run('--help', mp=mp)
 
 
-def test_master72_list_and_blockquotes(testdir, monkeypatch):
+def test_master72_list_and_blockquotes(td, mp):
     utilatest.fixture_requires(power.MASTER072_PDF, folder='sectionsandwords')
     tests.magic_.run(
         (f'-i {power.link(power.MASTER072_PDF, folder="sectionsandwords")} '
          f'-i {power.link(power.MASTER072_PDF)} --pages=0:16'),
-        monkeypatch=monkeypatch,
+        mp=mp,
     )
-    path = magic.path.content(testdir.tmpdir)
+    path = magic.path.content(td.tmpdir)
     loaded = serializeraw.load_types(path)
     assert loaded
     list_page = utila.select_content(loaded, 7)
@@ -60,8 +60,8 @@ def test_master72_list_and_blockquotes(testdir, monkeypatch):
 
 
 @pytest.mark.xfail(reason='???')
-def test_bachelor90p76_table(testdir, monkeypatch):
-    loaded = run_magic(power.BACHELOR090_PDF, testdir, monkeypatch, pages=76)
+def test_bachelor90p76_table(td, mp):
+    loaded = run_magic(power.BACHELOR090_PDF, td, mp, pages=76)
     loaded = loaded[0].content
     # single caption, table content is removed
     assert len(loaded) == 1

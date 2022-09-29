@@ -17,14 +17,14 @@ import tests.magic_
 
 
 @utilatest.requires(power.MASTER072_PDF, folder='sectionsandwords')
-def test_master72_list_multiple_area(testdir, monkeypatch):
+def test_master72_list_multiple_area(td, mp):
     source = power.link(power.MASTER072_PDF, folder="sectionsandwords")
     pages = '8,9,10,11'
     tests.magic_.run(
         f'-i {source} --pages={pages}',
-        monkeypatch=monkeypatch,
+        mp=mp,
     )
-    loaded = serializeraw.load_types(testdir.tmpdir)
+    loaded = serializeraw.load_types(td.tmpdir)
     page9 = utila.select_content(loaded, page=9)
     assert page9
     page9_list = [
@@ -42,14 +42,14 @@ def test_master72_list_multiple_area(testdir, monkeypatch):
 
 
 @utilatest.requires(power.BACHELOR128_PDF, folder='sectionsandwords')
-def test_bachelor128p36_41_list(testdir, monkeypatch):
+def test_bachelor128p36_41_list(td, mp):
     source = power.link(power.BACHELOR128_PDF, folder="sectionsandwords")
     pages = '36,37,38,39,40,41'
     tests.magic_.run(
         f'-i {source} --pages={pages}',
-        monkeypatch=monkeypatch,
+        mp=mp,
     )
-    loaded = serializeraw.load_types(testdir.tmpdir)
+    loaded = serializeraw.load_types(td.tmpdir)
     lists = lambda page: all((item[1] == iamraw.PageContentType.LIST) for item in page) # yapf:disable
     page37 = utila.select_content(loaded, page=37)
     assert len(page37) == 5
