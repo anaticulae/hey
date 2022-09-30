@@ -99,6 +99,7 @@ def extract_sectionsandwords(resources):
         footnote=True,
         groupme=True,
         headlines=True,
+        lists=True,
         magic=True,
         pagenumber=True,
         sections=True,
@@ -137,6 +138,8 @@ def extract_linedistances(resources):
         dest=dest,
         base=dest,
         groupme=True,
+        footnote=True,
+        pagenumber=True,
     )
 
 
