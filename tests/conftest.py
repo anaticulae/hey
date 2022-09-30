@@ -70,7 +70,7 @@ def pytest_sessionstart(session):  # pylint:disable=W0613
 def extract(resources):
     genex.extract(
         resources,
-        cleanup=True,
+        #cleanup=True,
         codero=True,
         figureo=True,
         footnote=True,
