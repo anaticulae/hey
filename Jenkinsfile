@@ -1,3 +1,5 @@
+@Library('caelum@42e2d7c9c65ef69a9563c3d506c1c574f52ebadd') _
+
 pipeline {
     agent {
         docker {
@@ -47,6 +49,11 @@ pipeline {
             steps{
                 sh 'baw test nightly -n16 --cov --junit_xml=report.xml'
                 junit '**/report.xml'
+            }
+            post{
+                failure{
+                    script{publish.resource_generated()}
+                }
             }
         }
         stage('release'){
