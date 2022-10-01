@@ -2,6 +2,21 @@
 
 Every noteable change is logged here.
 
+## v5.20.0 (2022-10-01)
+
+### Chore
+
+* upgrade requirements.txt (5bc0147d7dae)
+* publish resources (db9328fa3fb5)
+* do not cleanup (217d21a32e32)
+* extend test data generator (c1e328ced8f0)
+* add separate build step (f520a56b13b3)
+* add opengl (672f47f09d8c)
+* extend dev resource generator (60746b092da7)
+* increase worker count on CI (8210cb68c7de)
+* upgrade requirements.txt (0a4021645224)
+* add Jenkinsfile (12d20a9b9c2a)
+
 ## v5.19.3
 
 ### Fix
