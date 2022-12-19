@@ -2,6 +2,14 @@
 
 Every noteable change is logged here.
 
+## v5.20.1 (2022-12-19)
+
+### Chore
+
+* upgrade pipeline (70022982d411)
+* upgrade requirements.txt (bf13568427af)
+* do not run in privileged mode (076144034bb9)
+
 ## v5.20.0 (2022-10-01)
 
 ### Chore
