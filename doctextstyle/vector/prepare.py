@@ -9,7 +9,6 @@
 
 import itertools
 import os
-import typing
 import warnings
 
 import iamraw
@@ -29,8 +28,8 @@ NUMPY_SEED = 1 * 2 * 4 * 8 * 16 * 32 * 64
 def create_matrix(
     source: str,
     pages: tuple = None,
-) -> typing.Tuple[np.array, texmex.PageTextNavigators, iamraw.FontStore]:
-    loaded = serializeraw.create_pagetextnavigators_frompath(
+) -> tuple[np.array, texmex.PTNs, iamraw.FontStore]:
+    loaded = serializeraw.ptn_frompath(
         source,
         prefix='oneline',
         pages=pages,
@@ -40,7 +39,7 @@ def create_matrix(
         magics = serializeraw.load_magic_types(magics, pages=pages)
     else:
         magics = []
-    fontstore = serializeraw.create_fontstore_frompath(source, pages=pages)
+    fontstore = serializeraw.fs_frompath(source, pages=pages)
     matrix, loaded, fontstore = create_matrix_fromdata(
         loaded,
         fontstore,
@@ -50,10 +49,10 @@ def create_matrix(
 
 
 def create_matrix_fromdata(
-    loaded: texmex.PageTextNavigators,
+    loaded: texmex.PTNs,
     fontstore: iamraw.FontStore,
     magics: iamraw.PageContentContentTypes = None,
-) -> typing.Tuple[np.array, texmex.PageTextNavigators, iamraw.FontStore]:
+) -> tuple[np.array, texmex.PTNs, iamraw.FontStore]:
     parsed = doctextstyle.parser.parses(
         loaded,
         parser=doctextstyle.parser.parse_vector,

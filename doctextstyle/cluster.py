@@ -10,7 +10,6 @@
 import collections
 import enum
 import functools
-import typing
 
 import configo
 import iamraw
@@ -26,7 +25,7 @@ class ClusterProperty(enum.Enum):
     LEFT = enum.auto()
 
 
-ClusterPropertySelection = typing.List[ClusterProperty]
+ClusterPropertySelection = list[ClusterProperty]
 Tol = collections.namedtuple('Tol', 'abs, rel')
 NO_TOLERANCE = Tol(0.0, 0.0)
 

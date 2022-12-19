@@ -19,11 +19,11 @@ run = functools.partial(  #pylint: disable=invalid-name
     utilatest.run_command,
     main=doctextstyle.cli.main,
     process=doctextstyle.PROCESS,
-    success=True,
+    expect=True,
 )
 fail = functools.partial(  #pylint: disable=invalid-name
     utilatest.run_command,
     main=doctextstyle.cli.main,
     process=doctextstyle.PROCESS,
-    success=False,
+    expect=False,
 )

@@ -70,13 +70,13 @@ def extract(path: str, pages: tuple = None) -> iamraw.DocTextStyle:  # pylint:di
 
 
 def load_data(path: str, pages: tuple = None):
-    navigator = serializeraw.create_pagetextnavigators_frompath(
+    navigator = serializeraw.ptn_frompath(
         path,
         prefix='oneline',
         pages=pages,
     )
     try:
-        cnavigators = serializeraw.create_pagetextcontentnavigators_frompath(
+        cnavigators = serializeraw.ptcn_frompath(
             path,
             prefix='oneline',
             pages=pages,

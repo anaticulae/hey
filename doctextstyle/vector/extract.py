@@ -40,7 +40,7 @@ def run(source: str, pages: tuple = None):
 
 
 def run_fromdata(
-    navigators: texmex.PageTextNavigators,
+    navigators: texmex.PTNs,
     fontstore: iamraw.FontStore,
     magics: iamraw.PageContentContentTypes = None,
     **kwargs,
@@ -105,7 +105,7 @@ def merge_headline(items):
         if current.style.fontid == before.style.fontid:
             if current == before:
                 # start of page
-                bounding = utila.rectangle_max((
+                bounding = utila.rect_max((
                     current.bounding,
                     after.bounding,
                 ))
@@ -120,7 +120,7 @@ def merge_headline(items):
                 done.add(id(after))
             else:
                 # all styles are equal, merge three of them
-                bounding = utila.rectangle_max((
+                bounding = utila.rect_max((
                     before.bounding,
                     current.bounding,
                     after.bounding,

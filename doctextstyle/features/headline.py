@@ -153,7 +153,7 @@ def validate_headline_cluster(clusters):
             1 5 8 10    valid/True     : 1.0   5/5
             1 1 1 2 2   invalid/False  : 0.4   2/5
         """
-        pages = utila.make_unique([item.page for item in cluster])
+        pages = utila.unique([item.page for item in cluster])
         ratio = len(pages) / len(cluster)
         return ratio >= HEADLINE_SPREAD_MIN
 

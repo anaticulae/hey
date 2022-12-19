@@ -25,7 +25,7 @@ def test_textstyle_cli_help(mp):
 @utilatest.nightly
 def test_textstyle_cli(td, mp):
     source = power.link(power.MASTER072_PDF)
-    outdir = os.path.join(td.tmpdir, 'helm/schelm')
+    outdir = td.tmpdir.join('helm/schelm')
     tests.doctextstyle_.run(f'-i {source} -o {outdir}', mp=mp)
 
     outpath = os.path.join(outdir, doctextstyle.cli.DEFAULT_OUTPUT_FILE)

@@ -42,7 +42,7 @@ def test_vector_headlines():
     # TODO: DECIDE TO EXCLUDE NON MAINPART SECTIONS?
     matrix, navis, fontstore = dvp.create_matrix(
         source,
-        pages=utila.ranged_tuple(1, 25),
+        pages=utila.rtuple(1, 25),
     )
     clustered = dvp.clusterme(matrix, navis)
     result = doctextstyle.vector.decide.decide(
@@ -56,4 +56,4 @@ def test_vector_headlines():
     assert result.h1_family == 'CMSSBX10'
     assert result.h2_family == 'CMSSBX10'
     # assert result.h3_family == 'CMSSBX10'
-    assert result.h3_family in ('URWPalladioL', 'CMSSBX10')
+    assert result.h3_family in {'URWPalladioL', 'CMSSBX10'}

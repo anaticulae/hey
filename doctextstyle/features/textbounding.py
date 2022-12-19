@@ -51,7 +51,7 @@ def justified(cnavigators, right_mode) -> int:
         return None
     # TODO: REMOVE SHORT CENTERED LINES
     items = ([line.bounding.x1 for line in page] for page in cnavigators)
-    items = utila.flatten(items)
+    items = utila.flat(items)
 
     items = [item for item in items if item >= right_mode * 0.9]
 

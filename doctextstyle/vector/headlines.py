@@ -156,7 +156,7 @@ def valid_headline_clusters(
             continue
         collected.append(cluster)
         delete.append(cluster)
-    flat = utila.flatten(collected)
+    flat = utila.flat(collected)
     return flat, delete
 
 

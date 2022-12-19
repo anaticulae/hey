@@ -48,7 +48,7 @@ def test_regression_doctextstyle_homework25(method):
     utilatest.fixture_requires(power.HOME025_PDF)
     source = power.link(power.HOME025_PDF)
     # shrink to content pages
-    pages = utila.ranged_tuple(1, 22)
+    pages = utila.rtuple(1, 22)
     result = method(source, pages=pages)
     assert result
     # expected

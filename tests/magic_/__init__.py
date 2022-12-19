@@ -18,11 +18,11 @@ run = functools.partial(  #pylint: disable=invalid-name
     utilatest.run_command,
     main=magic.cli.main,
     process=magic.PROCESS,
-    success=True,
+    expect=True,
 )
 fail = functools.partial(  #pylint: disable=invalid-name
     utilatest.run_command,
     main=magic.cli.main,
     process=magic.PROCESS,
-    success=False,
+    expect=False,
 )

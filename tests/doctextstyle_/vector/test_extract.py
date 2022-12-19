@@ -54,7 +54,7 @@ def headlines_raw(items: str) -> str:
 @utilatest.nightly
 def test_vector_diss266_extract():
     source = power.link(power.DISS266_PDF)
-    pages = utila.ranged_tuple(7, 215)
+    pages = utila.rtuple(7, 215)
     headlines = doctextstyle.extract_headlines(source, pages)
     assert len(headlines) == 4
     first, second, third, fourth = headlines  # pylint:disable=W0612,W0632

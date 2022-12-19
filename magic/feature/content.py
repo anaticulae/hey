@@ -42,7 +42,7 @@ def work(  # pylint:disable=R0913
     captions = load_content(serializeraw.load_captions, captions, pages)
     tables = load_content(serializeraw.load_tables, table, pages)
     # TODO: THINK ABOUT DUPLICATED PAGES?
-    figures = utila.flatten([
+    figures = utila.flat([
         load_content(
             serializeraw.images.load_image_informations_frompath,
             item,
@@ -111,7 +111,7 @@ def analyze_page(ptcn, lists, blockquotes, formula, captions, tables, figures):
         if isfigure(line, figures):
             result.append((index, iamraw.PageContentType.FIGURE))
             continue
-        if islist(index, lists):
+        if iterable(index, lists):
             result.append((index, iamraw.PageContentType.LIST))
             continue
         if isformula(index, formula):
@@ -126,7 +126,7 @@ def analyze_page(ptcn, lists, blockquotes, formula, captions, tables, figures):
     return iamraw.PageContentContentType(page=ptcn.page, content=result)
 
 
-def islist(line: int, listinstances: set) -> bool:
+def iterable(line: int, listinstances: set) -> bool:
     if not listinstances:
         return False
     return line in listinstances
@@ -138,9 +138,8 @@ def isblockquote(line, quotes):
     if not quotes.content:
         return False
     quotes = quotes.content
-    for area, _ in quotes:
-        if line in area:
-            return True
+    if any(line in area for area, _ in quotes):
+        return True
     return False
 
 
@@ -152,12 +151,12 @@ def isformula(line, formulas):
     formulas = formulas.content
     lines = [
         # support multiple line formulas
-        utila.ranged_tuple(
+        utila.rtuple(
             item.line,
             utila.ifnone(item.lineend, default=item.line) + 1,
         ) for item in formulas if item.line is not None
     ]
-    lines = utila.flatten(lines)
+    lines = utila.flat(lines)
     if line in lines:
         return True
     return False
@@ -180,9 +179,10 @@ def istable(line, tables):
         return False
     if not tables.content:
         return False
-    for table in tables.content:
-        if utila.rectangle_inside(table.bounding, line.bounding, diff=5.0):
-            return True
+    if any(
+            utila.rect_inside(table.bounding, line.bounding, diff=5.0)
+            for table in tables.content):
+        return True
     return False
 
 
@@ -191,18 +191,19 @@ def isfigure(line, figures):
         return False
     if not figures.content:
         return False
-    for figure in figures.content:
-        if utila.rectangle_inside(figure.bounding, line.bounding):
-            return True
+    if any(
+            utila.rect_inside(
+                figure.bounding,
+                line.bounding,
+            ) for figure in figures.content):
+        return True
     return False
 
 
 def expand_multiline(captions: iamraw.Captions) -> set:
-    lines = [
-        utila.ranged_tuple(item.line, item.lineend + 1) for item in captions
-    ]
+    lines = [utila.rtuple(item.line, item.lineend + 1) for item in captions]
     lines = [item for item in lines if item]
-    lines = utila.flatten(lines)
+    lines = utila.flat(lines)
     # make unique
     lines = set(lines)  # pylint:disable=R0204
     return lines

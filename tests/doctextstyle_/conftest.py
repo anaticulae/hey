@@ -21,7 +21,7 @@ def create_matrix(source: str, pages: tuple):
     assert str(source).endswith('.pdf')
     utilatest.fixture_requires(source)
     source = power.link(source)
-    loaded = serializeraw.create_pagetextnavigators_frompath(
+    loaded = serializeraw.ptn_frompath(
         source,
         prefix='oneline',
         pages=pages,

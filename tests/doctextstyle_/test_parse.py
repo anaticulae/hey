@@ -19,7 +19,7 @@ import doctextstyle.utils
 @pytest.fixture
 def master116_text():
     utilatest.fixture_requires(power.MASTER072_PDF)
-    navigators = serializeraw.create_pagetextnavigators_frompath(
+    navigators = serializeraw.ptn_frompath(
         power.link(power.MASTER072_PDF),
         prefix='oneline',
         pages=(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),

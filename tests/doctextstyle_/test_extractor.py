@@ -20,8 +20,8 @@ import doctextstyle.features.blockquote
 @utilatest.requires(power.MASTER098_PDF)
 def test_extract_blockquote_dimension():
     path = power.link(power.MASTER098_PDF)
-    pages = utila.ranged_tuple(2, 88)
-    ptcns = serializeraw.create_pagetextcontentnavigators_frompath(
+    pages = utila.rtuple(2, 88)
+    ptcns = serializeraw.ptcn_frompath(
         path,
         pages=pages,
     )
@@ -37,13 +37,13 @@ def test_extract_blockquote_dimension():
 @utilatest.requires(power.DISS266_PDF)
 def test_extract_headlines_fromdata():
     source = power.link(power.DISS266_PDF)
-    pages = utila.ranged_tuple(7, 215)
-    navigators = serializeraw.create_pagetextcontentnavigators_frompath(
+    pages = utila.rtuple(7, 215)
+    navigators = serializeraw.ptcn_frompath(
         source,
         prefix='oneline',
         pages=pages,
     )
-    fontstore = serializeraw.create_fontstore_frompath(source)
+    fontstore = serializeraw.fs_frompath(source)
     headlines = doctextstyle.headlines_fromdata(
         navigators,
         fontstore,

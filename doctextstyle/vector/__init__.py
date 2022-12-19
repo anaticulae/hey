@@ -8,7 +8,6 @@
 # =============================================================================
 
 import collections
-import typing
 
 import iamraw
 
@@ -19,7 +18,7 @@ Line = collections.namedtuple(
     'Line',
     'rate, upper, size, bold, italic, left, right, top, bottom',
 )
-Lines = typing.List[Line]
+Lines = list[Line]
 
 
 def run(source: str, pages: tuple = None) -> iamraw.DocTextStyle:
