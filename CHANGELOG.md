@@ -2,6 +2,13 @@
 
 Every noteable change is logged here.
 
+## v5.20.2 (2022-12-19)
+
+### Chore
+
+* upgrade pipe library (4c9217109553)
+* use quick installer (240652ee77d1)
+
 ## v5.20.1 (2022-12-19)
 
 ### Chore
