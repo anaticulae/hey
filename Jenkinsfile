@@ -52,11 +52,21 @@ pipeline{
                 }
             }
         }
-        stage('all'){
+        stage('generate'){
             steps{
-                script{baw.all(docken=true)}
+                sh 'baw --docken generate all'
             }
         }
+        stage('all'){
+            steps{
+                sh 'baw --docken test all -n32'
+            }
+        }
+        //stage('all'){
+        //    steps{
+        //        script{baw.all(docken=true)}
+        //    }
+        //}
         stage('release'){
             steps{
                 script{
