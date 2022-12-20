@@ -9,7 +9,6 @@
 
 import iamraw
 import power
-import pytest
 import serializeraw
 import utila
 import utilatest
@@ -42,7 +41,6 @@ def test_master72_list_multiple_area(td, mp):
     assert page10_list == expected
 
 
-@pytest.mark.xfail(reason='improve list parser')
 @utilatest.requires(power.BACHELOR128_PDF, folder='sectionsandwords')
 def test_bachelor128p36_41_list(td, mp):
     source = power.link(power.BACHELOR128_PDF, folder="sectionsandwords")
