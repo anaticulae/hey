@@ -2,6 +2,14 @@
 
 Every noteable change is logged here.
 
+## v5.20.3 (2022-12-20)
+
+### Chore
+
+* add missing resource generator (1bc649094f43)
+* make steps more verbose (3d00facf5f13)
+* upgrade requirements.txt (636ad626efda)
+
 ## v5.20.2 (2022-12-19)
 
 ### Chore
