@@ -16,7 +16,6 @@ import utilotest
 
 import magic.path
 import tests.magic_
-import tests.resources
 
 
 def run_magic(

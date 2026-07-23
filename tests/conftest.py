@@ -68,10 +68,8 @@ RESOURCES = [
 
 WORKER = utilotest.worker_count(5, onci=len(RESOURCES))
 
-
 # def pytest_sessionstart(session):  # pylint:disable=W0613
-    # hoverpower.run()
-
+# hoverpower.run()
 
 # TODO: ENABLE LATER
 # def extract(resources):
@@ -88,7 +86,6 @@ WORKER = utilotest.worker_count(5, onci=len(RESOURCES))
 #         tablero=True,
 #         worker=WORKER,
 #     )
-
 
 RESOURCES_SECTIONSANDWORDS = [
     (hoverpower.MASTER072_PDF, '0:16'),
@@ -117,7 +114,6 @@ RESOURCES_SECTIONSANDWORDS = [
 #         textflow=True,
 #         words=True,
 #     )
-
 
 RESOURCES_LINEDISTANCES = [
     (tests.LINEDISTANCE_PDF, ('sel page_0.text_5_450', 'percent200')),
