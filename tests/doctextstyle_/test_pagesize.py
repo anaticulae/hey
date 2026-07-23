@@ -7,8 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import iamraw.path
 import hoverpower
+import iamraw.path
 import utilotest
 
 import doctextstyle.features.pagesize

@@ -24,8 +24,16 @@ ARCHIVE = utilo.join(doctextstyle.ROOT, 'tests/doctextstyle_/expected')
 
 # TODO: VALIDATE SIZES
 PARAMETERS = [
-    pytest.param(hoverpower.BACHELOR063_PDF, 15.96, 14.04, 12.0, id='bachelor63'),
-    pytest.param(hoverpower.BACHELOR051_PDF, 15.96, 14.04, 12.0, id='bachelor51'),
+    pytest.param(hoverpower.BACHELOR063_PDF,
+                 15.96,
+                 14.04,
+                 12.0,
+                 id='bachelor63'),
+    pytest.param(hoverpower.BACHELOR051_PDF,
+                 15.96,
+                 14.04,
+                 12.0,
+                 id='bachelor51'),
     pytest.param(hoverpower.MASTER110_PDF, 24.79, 14.35, 11.96, id='master110'),
     pytest.param(hoverpower.DISS205_PDF, 17.22, 17.22, 14.35, id='diss205'),
 ]

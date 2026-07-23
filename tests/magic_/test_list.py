@@ -7,8 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import iamraw
 import hoverpower
+import iamraw
 import serializeraw
 import utilo
 import utilotest
@@ -18,7 +18,8 @@ import tests.magic_
 
 @utilotest.requires(hoverpower.MASTER072_PDF, folder='sectionsandwords')
 def test_master72_list_multiple_area(td, mp):
-    source = hoverpower.link(hoverpower.MASTER072_PDF, folder="sectionsandwords")
+    source = hoverpower.link(hoverpower.MASTER072_PDF,
+                             folder="sectionsandwords")
     pages = '8,9,10,11'
     tests.magic_.run(
         f'-i {source} --pages={pages}',
@@ -43,7 +44,8 @@ def test_master72_list_multiple_area(td, mp):
 
 @utilotest.requires(hoverpower.BACHELOR128_PDF, folder='sectionsandwords')
 def test_bachelor128p36_41_list(td, mp):
-    source = hoverpower.link(hoverpower.BACHELOR128_PDF, folder="sectionsandwords")
+    source = hoverpower.link(hoverpower.BACHELOR128_PDF,
+                             folder="sectionsandwords")
     pages = '36,37,38,39,40,41'
     tests.magic_.run(
         f'-i {source} --pages={pages}',

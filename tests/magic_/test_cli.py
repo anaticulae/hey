@@ -7,8 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import iamraw
 import hoverpower
+import iamraw
 import pytest
 import serializeraw
 import utilo
@@ -42,7 +42,8 @@ def test_magic(mp):
 
 
 def test_master72_list_and_blockquotes(td, mp):
-    utilotest.fixture_requires(hoverpower.MASTER072_PDF, folder='sectionsandwords')
+    utilotest.fixture_requires(hoverpower.MASTER072_PDF,
+                               folder='sectionsandwords')
     tests.magic_.run(
         (f'-i {hoverpower.link(hoverpower.MASTER072_PDF, folder="sectionsandwords")} '
          f'-i {hoverpower.link(hoverpower.MASTER072_PDF)} --pages=0:16'),
