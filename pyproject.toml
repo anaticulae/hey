@@ -42,8 +42,8 @@ dev = [
     "hoverpower==1.5.2",
     "jamer==1.0.2",
     "indagator==1.0.1",
-    "gennex==1.0.3",
-    "utilotest==1.0.4",
+    "gennex==1.1.0",
+    "utilotest==1.0.5",
     "ibidem>=1.0.2,<2.0.0",
     "pagenumber>=1.0.0,<2.0.0",
 ]
