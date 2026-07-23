@@ -7,10 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 #==============================================================================
 
+import importlib.metadata
 import os
 
-__version__ = '5.20.3'
+PACKAGE = 'hey'
+__version__ = importlib.metadata.version(PACKAGE)
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-
-PACKAGE = 'hey'
