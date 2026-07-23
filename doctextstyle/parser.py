@@ -52,7 +52,7 @@ def parse(
     left, right = leftright(navigator)
 
     equal_length = [
-        len(item) for item in [
+        len(item) for item in (
             lengths,
             hashed,
             sizes,
@@ -61,7 +61,7 @@ def parse(
             vertical,
             left,
             right,
-        ]
+        )
     ]
     assert len(set(equal_length)) == 1, f'different iter length {equal_length}'
 
@@ -108,14 +108,14 @@ def parse_vector(
     left, right = leftright(navigator)
 
     equal_length = [
-        len(item) for item in [
+        len(item) for item in (
             sizes,
             fonts,
             top,
             bottom,
             left,
             right,
-        ]
+        )
     ]
     assert len(set(equal_length)) == 1, f'different iter length {equal_length}'
 
