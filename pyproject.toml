@@ -6,7 +6,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "hey"
+name = "doctextstyle"
 version = "5.20.4"
 description = ""
 requires-python = ">=3.12"

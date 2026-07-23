@@ -10,7 +10,7 @@
 import importlib.metadata
 import os
 
-PACKAGE = 'hey'
+PACKAGE = 'doctextstyle'
 __version__ = importlib.metadata.version(PACKAGE)
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
