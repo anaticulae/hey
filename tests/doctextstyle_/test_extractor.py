@@ -7,20 +7,20 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import power
+import hoverpower
 import serializeraw
-import utila
-import utilatest
+import utilo
+import utilotest
 
 import doctextstyle
 import doctextstyle.features.blockquote
 
 
-@utilatest.longrun
-@utilatest.requires(power.MASTER098_PDF)
+@utilotest.longrun
+@utilotest.requires(hoverpower.MASTER098_PDF)
 def test_extract_blockquote_dimension():
-    path = power.link(power.MASTER098_PDF)
-    pages = utila.rtuple(2, 88)
+    path = hoverpower.link(hoverpower.MASTER098_PDF)
+    pages = utilo.rtuple(2, 88)
     ptcns = serializeraw.ptcn_frompath(
         path,
         pages=pages,
@@ -33,11 +33,11 @@ def test_extract_blockquote_dimension():
     assert extracted[1] == 9.96  # VALIDATED
 
 
-@utilatest.nightly
-@utilatest.requires(power.DISS266_PDF)
+@utilotest.nightly
+@utilotest.requires(hoverpower.DISS266_PDF)
 def test_extract_headlines_fromdata():
-    source = power.link(power.DISS266_PDF)
-    pages = utila.rtuple(7, 215)
+    source = hoverpower.link(hoverpower.DISS266_PDF)
+    pages = utilo.rtuple(7, 215)
     navigators = serializeraw.ptcn_frompath(
         source,
         prefix='oneline',

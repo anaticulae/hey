@@ -9,20 +9,20 @@
 
 import functools
 
-import configo
-import elements
+import configos
+import elementae
 import iamraw
-import utila
+import utilo
 
 import doctextstyle.cluster
 import doctextstyle.features
 import doctextstyle.utils
 
-HEADLINE_CLUSTER_SIZE_MIN = configo.HV_INT_PLUS(default=3)
+HEADLINE_CLUSTER_SIZE_MIN = configos.HV_INT_PLUS(default=3)
 
-HEADLINE_LENGTH_MIN = configo.HV_INT_PLUS(default=7)
+HEADLINE_LENGTH_MIN = configos.HV_INT_PLUS(default=7)
 
-DOT_COUNT_MAX = configo.HV_INT_PLUS(default=5)
+DOT_COUNT_MAX = configos.HV_INT_PLUS(default=5)
 
 
 def headlines(
@@ -104,10 +104,10 @@ def distances(flats, greater_than_text):
     textsize = textcluster[0][0]
     distance_before_textsize, distance_after_textsize = textcluster[0][3]
     if distance_before_textsize is None:
-        utila.error('distance before `textsize` is None; '
+        utilo.error('distance before `textsize` is None; '
                     'disable headline detection feature')
     if distance_after_textsize is None:
-        utila.error('distance after  `textsize` is None;'
+        utilo.error('distance after  `textsize` is None;'
                     ' disable headline detection feature')
     if distance_before_textsize is None or distance_after_textsize is None:
         # disable strategy
@@ -119,9 +119,9 @@ def distances(flats, greater_than_text):
 
 def valid_headline(item, before_min, after_min) -> bool:  # pylint:disable=R0911
     text = item.hashed
-    if elements.noheadline(text):
+    if elementae.noheadline(text):
         return False
-    if elements.isheadline(text):
+    if elementae.isheadline(text):
         return True
     if item.before is None:
         if doctextstyle.utils.invalid_headline(text):
@@ -138,7 +138,7 @@ def valid_headline(item, before_min, after_min) -> bool:  # pylint:disable=R0911
     return True
 
 
-HEADLINE_SPREAD_MIN = configo.HV_PERCENT_PLUS(default=50)
+HEADLINE_SPREAD_MIN = configos.HV_PERCENT_PLUS(default=50)
 
 
 def validate_headline_cluster(clusters):
@@ -153,7 +153,7 @@ def validate_headline_cluster(clusters):
             1 5 8 10    valid/True     : 1.0   5/5
             1 1 1 2 2   invalid/False  : 0.4   2/5
         """
-        pages = utila.unique([item.page for item in cluster])
+        pages = utilo.unique([item.page for item in cluster])
         ratio = len(pages) / len(cluster)
         return ratio >= HEADLINE_SPREAD_MIN
 

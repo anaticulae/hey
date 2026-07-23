@@ -9,17 +9,17 @@
 
 import os
 
-import power
+import hoverpower
 
 import hey
 
-power.setup(hey.ROOT)
+hoverpower.setup(hey.ROOT)
 
 RESOURCES = os.path.join(hey.ROOT, 'tests/resources')
 LINEDISTANCE_PDF = os.path.join(RESOURCES, 'linedistances.pdf')
 assert os.path.exists(LINEDISTANCE_PDF), LINEDISTANCE_PDF
 
-LINESGENERATED = power.generated('linedistances')
+LINESGENERATED = hoverpower.generated('linedistances')
 
 LINEDISTANCE100_PDF = os.path.join(LINESGENERATED, 'percent100.pdf')
 LINEDISTANCE150_PDF = os.path.join(LINESGENERATED, 'percent150.pdf')

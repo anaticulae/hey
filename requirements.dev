@@ -11,7 +11,7 @@
 rawmaker==2.40.1
 
 # reference to test data
-power==2.20.1
+hoverpower==2.20.1
 
 # test data generator
 jam==0.5.3
@@ -21,10 +21,10 @@ words==1.23.2
 detector==0.39.3
 
 # generate example data
-genex==0.37.1
+gennex==0.37.1
 genref==1.3.10
 
-utilatest==0.25.0
+utilotest==0.25.0
 caption>=0.4.4<1.0.0
 footnote>=0.2.5<1.0.0
 pagenumber>=0.3.4<1.0.0

@@ -7,17 +7,17 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import power
+import hoverpower
 import pytest
-import utila
-import utilatest
+import utilo
+import utilotest
 
 import doctextstyle
 import doctextstyle.extractor
 import doctextstyle.vector
 
 
-@utilatest.nightly
+@utilotest.nightly
 @pytest.mark.parametrize('method', [
     pytest.param(
         doctextstyle.vector.run,
@@ -27,8 +27,8 @@ import doctextstyle.vector
     pytest.param(doctextstyle.extractor.extract, id='old_school'),
 ])
 def test_doctextstyle_extract(method):
-    utilatest.fixture_requires(power.MASTER098_PDF)
-    source = power.link(power.MASTER098_PDF)
+    utilotest.fixture_requires(hoverpower.MASTER098_PDF)
+    source = hoverpower.link(hoverpower.MASTER098_PDF)
     result = method(source)
     assert result
 
@@ -45,10 +45,10 @@ def test_doctextstyle_extract(method):
     pytest.param(doctextstyle.extractor.extract, id='old_school'),
 ])
 def test_regression_doctextstyle_homework25(method):
-    utilatest.fixture_requires(power.HOME025_PDF)
-    source = power.link(power.HOME025_PDF)
+    utilotest.fixture_requires(hoverpower.HOME025_PDF)
+    source = hoverpower.link(hoverpower.HOME025_PDF)
     # shrink to content pages
-    pages = utila.rtuple(1, 22)
+    pages = utilo.rtuple(1, 22)
     result = method(source, pages=pages)
     assert result
     # expected
@@ -59,15 +59,15 @@ def test_regression_doctextstyle_homework25(method):
     before = [result.h1_before, result.h2_before, result.h3_before]
     after = [result.h1_after, result.h2_after, result.h3_after]
     # verify
-    assert utila.nears(size, expected_size, diff=0.5)
-    assert utila.nears(before, expected_before, diff=0.5, none=True)
-    assert utila.nears(after, expected_after, diff=0.5, none=True)
+    assert utilo.nears(size, expected_size, diff=0.5)
+    assert utilo.nears(before, expected_before, diff=0.5, none=True)
+    assert utilo.nears(after, expected_after, diff=0.5, none=True)
 
 
-@utilatest.nightly
-@utilatest.requires(power.MASTER116_PDF)
+@utilotest.nightly
+@utilotest.requires(hoverpower.MASTER116_PDF)
 def test_regression_doctextstyle_master116():
-    source = power.link(power.MASTER116_PDF)
+    source = hoverpower.link(hoverpower.MASTER116_PDF)
     result = doctextstyle.extractor.extract(source)
     # justified text
     assert result.text_alignment == doctextstyle.JUSTIFIED

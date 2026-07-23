@@ -78,7 +78,7 @@ def connect_pages(pages) -> list:
     ... ])
     [[1, 2, 3, 4, 5, 6], [10, 11, 12, 13, 14, 15]]
     """
-    # TODO: MOVE TO UTILA
+    # TODO: MOVE TO utilo
     if not pages:
         return []
     result = pages[0][:]

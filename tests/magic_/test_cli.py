@@ -8,11 +8,11 @@
 # =============================================================================
 
 import iamraw
-import power
+import hoverpower
 import pytest
 import serializeraw
-import utila
-import utilatest
+import utilo
+import utilotest
 
 import magic.path
 import tests.magic_
@@ -25,8 +25,8 @@ def run_magic(
     mp,
     pages: str = '',
 ) -> iamraw.PageContentContentTypes:
-    utilatest.fixture_requires(source)
-    source = power.link(source)
+    utilotest.fixture_requires(source)
+    source = hoverpower.link(source)
     tests.magic_.run(
         f'-i {source} --pages={pages} ',
         mp=mp,
@@ -42,26 +42,26 @@ def test_magic(mp):
 
 
 def test_master72_list_and_blockquotes(td, mp):
-    utilatest.fixture_requires(power.MASTER072_PDF, folder='sectionsandwords')
+    utilotest.fixture_requires(hoverpower.MASTER072_PDF, folder='sectionsandwords')
     tests.magic_.run(
-        (f'-i {power.link(power.MASTER072_PDF, folder="sectionsandwords")} '
-         f'-i {power.link(power.MASTER072_PDF)} --pages=0:16'),
+        (f'-i {hoverpower.link(hoverpower.MASTER072_PDF, folder="sectionsandwords")} '
+         f'-i {hoverpower.link(hoverpower.MASTER072_PDF)} --pages=0:16'),
         mp=mp,
     )
     path = magic.path.content(td.tmpdir)
     loaded = serializeraw.load_types(path)
     assert loaded
-    list_page = utila.select_content(loaded, 7)
+    list_page = utilo.select_content(loaded, 7)
     list_page = [item[1] for item in list_page]
     assert iamraw.PageContentType.LIST in list_page
-    blockquote_page = utila.select_content(loaded, 14)
+    blockquote_page = utilo.select_content(loaded, 14)
     blockquote_page = [item[1] for item in blockquote_page]
     assert iamraw.PageContentType.BLOCKQUOTE in blockquote_page
 
 
 @pytest.mark.xfail(reason='???')
 def test_bachelor90p76_table(td, mp):
-    loaded = run_magic(power.BACHELOR090_PDF, td, mp, pages=76)
+    loaded = run_magic(hoverpower.BACHELOR090_PDF, td, mp, pages=76)
     loaded = loaded[0].content
     # single caption, table content is removed
     assert len(loaded) == 1
@@ -70,7 +70,7 @@ def test_bachelor90p76_table(td, mp):
 @pytest.mark.xfail(reason='???')
 def test_multiple_line_master116p79():
     """Ensure to handle multiple line captions/magic correctly."""
-    source = power.link(power.MASTER116_PDF)
+    source = hoverpower.link(hoverpower.MASTER116_PDF)
     # load oneline result
     path = magic.path.content_oneline(source)
     loaded = serializeraw.load_magic_types(

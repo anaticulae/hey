@@ -7,12 +7,12 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import utila
+import utilo
 
 
 def content(path: str, prefix: str = '') -> str:
-    return utila.pathconnector(path, 'magic', 'content_content', prefix)
+    return utilo.pathconnector(path, 'magic', 'content_content', prefix)
 
 
 def content_oneline(path: str, prefix: str = '') -> str:
-    return utila.pathconnector(path, 'magic', 'oneline_content', prefix)
+    return utilo.pathconnector(path, 'magic', 'oneline_content', prefix)

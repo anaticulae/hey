@@ -7,15 +7,15 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import configo
+import configos
 import iamraw
-import utila
+import utilo
 
 import doctextstyle.features
 
-PARAGRAPH_DISTANCE_BEFORE_MAX = configo.HV_FLOAT_PLUS(default=2.0)
+PARAGRAPH_DISTANCE_BEFORE_MAX = configos.HV_FLOAT_PLUS(default=2.0)
 
-PARAGRAPH_DISTANCE_AFTER_MAX = configo.HV_FLOAT_PLUS(default=2.0)
+PARAGRAPH_DISTANCE_AFTER_MAX = configos.HV_FLOAT_PLUS(default=2.0)
 
 
 def paragraph(flats: iamraw.TextProperties, digits: int = 1):
@@ -37,7 +37,7 @@ def paragraph(flats: iamraw.TextProperties, digits: int = 1):
         if item.before is None:
             # page start
             continue
-        if utila.near(item.before, _text_before, diff=1.5):
+        if utilo.near(item.before, _text_before, diff=1.5):
             # text line diff
             continue
         before.append(item.before)
@@ -45,18 +45,18 @@ def paragraph(flats: iamraw.TextProperties, digits: int = 1):
         if item.after is None:
             # page number
             continue
-        if utila.near(item.after, _text_after, diff=1.5):
+        if utilo.near(item.after, _text_after, diff=1.5):
             # text line diff
             continue
         after.append(item.after)
 
-    before = utila.roundme(before, digits=digits, convert=False)  # pylint:disable=R0204
-    after = utila.roundme(after, digits=digits, convert=False)  # pylint:disable=R0204
+    before = utilo.roundme(before, digits=digits, convert=False)  # pylint:disable=R0204
+    after = utilo.roundme(after, digits=digits, convert=False)  # pylint:disable=R0204
 
-    before = utila.max_distance(before, diff=PARAGRAPH_DISTANCE_BEFORE_MAX)
-    after = utila.max_distance(after, diff=PARAGRAPH_DISTANCE_AFTER_MAX)
+    before = utilo.max_distance(before, diff=PARAGRAPH_DISTANCE_BEFORE_MAX)
+    after = utilo.max_distance(after, diff=PARAGRAPH_DISTANCE_AFTER_MAX)
 
     # most items in biggest cluster
-    before = utila.modes(before[0].content)
-    after = utila.modes(after[0].content)
+    before = utilo.modes(before[0].content)
+    after = utilo.modes(after[0].content)
     return before, after

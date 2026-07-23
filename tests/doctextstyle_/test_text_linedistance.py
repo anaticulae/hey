@@ -10,7 +10,7 @@
 import os
 
 import pytest
-import utila
+import utilo
 
 import doctextstyle.extractor
 import tests
@@ -24,9 +24,9 @@ import tests
 def test_line_distance_percent_x(name, expected):
     # TODO: ADJUST EXPECTED LATER
     source = os.path.join(tests.LINESGENERATED, f'linedistances_percent{name}')
-    if not utila.exists(source):
+    if not utilo.exists(source):
         pytest.skip(f'generate {name}')
     result = doctextstyle.extractor.extract(source)
     distance = result.text_distance / result.text_size
-    distance = utila.roundme(distance * 100, digits=0)
+    distance = utilo.roundme(distance * 100, digits=0)
     assert distance == expected

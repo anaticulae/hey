@@ -11,9 +11,9 @@ import collections
 import enum
 import functools
 
-import configo
+import configos
 import iamraw
-import utila
+import utilo
 
 
 class ClusterProperty(enum.Enum):
@@ -29,23 +29,23 @@ ClusterPropertySelection = list[ClusterProperty]
 Tol = collections.namedtuple('Tol', 'abs, rel')
 NO_TOLERANCE = Tol(0.0, 0.0)
 
-CLUSTER_SIZE_MIN = configo.HV_INT_PLUS(default=5)
+CLUSTER_SIZE_MIN = configos.HV_INT_PLUS(default=5)
 
-CLUSTER_SIZE_DIFF_ABS = configo.HV_FLOAT_PLUS(default=0.5)
+CLUSTER_SIZE_DIFF_ABS = configos.HV_FLOAT_PLUS(default=0.5)
 
-CLUSTER_SIZE_DIFF_REL = configo.HV_FLOAT_PLUS(default=0.1)
+CLUSTER_SIZE_DIFF_REL = configos.HV_FLOAT_PLUS(default=0.1)
 
-CLUSTER_AFTER_DIFF_ABS = configo.HV_FLOAT_PLUS(default=2.0)
+CLUSTER_AFTER_DIFF_ABS = configos.HV_FLOAT_PLUS(default=2.0)
 
-CLUSTER_AFTER_DIFF_REL = configo.HV_FLOAT_PLUS(default=0.1)
+CLUSTER_AFTER_DIFF_REL = configos.HV_FLOAT_PLUS(default=0.1)
 
-CLUSTER_BEFORE_DIFF_ABS = configo.HV_FLOAT_PLUS(default=2.0)
+CLUSTER_BEFORE_DIFF_ABS = configos.HV_FLOAT_PLUS(default=2.0)
 
-CLUSTER_BEFORE_DIFF_REL = configo.HV_FLOAT_PLUS(default=0.1)
+CLUSTER_BEFORE_DIFF_REL = configos.HV_FLOAT_PLUS(default=0.1)
 
-CLUSTER_LEFT_DIFF_ABS = configo.HV_FLOAT_PLUS(default=15.0)
+CLUSTER_LEFT_DIFF_ABS = configos.HV_FLOAT_PLUS(default=15.0)
 
-CLUSTER_LEFT_DIFF_REL = configo.HV_FLOAT_PLUS(default=0.15)
+CLUSTER_LEFT_DIFF_REL = configos.HV_FLOAT_PLUS(default=0.15)
 
 
 def cluster(
@@ -73,7 +73,7 @@ def cluster(
         max_before_diff=max_before_diff,
         max_left_diff=max_left_diff,
     )
-    clustered = utila.determine_cluster(
+    clustered = utilo.determine_cluster(
         todo=items,
         classifier=decider,
         min_elements=minsize,
@@ -93,7 +93,7 @@ def classifier(  # pylint:disable=R1260
     max_left_diff=None,
 ) -> bool:
     if selection is None or ClusterProperty.SIZE in selection:
-        if not utila.pnear(
+        if not utilo.pnear(
                 candidat.size,
                 clusteritem.size,
                 abs_tol=max_size_diff.abs,
@@ -101,7 +101,7 @@ def classifier(  # pylint:disable=R1260
         ):
             return False
     if selection is None or ClusterProperty.BEFORE in selection:
-        if not utila.pnear(
+        if not utilo.pnear(
                 candidat.before,
                 clusteritem.before,
                 abs_tol=max_before_diff.abs,
@@ -109,7 +109,7 @@ def classifier(  # pylint:disable=R1260
         ):
             return False
     if selection is None or ClusterProperty.AFTER in selection:
-        if not utila.pnear(
+        if not utilo.pnear(
                 candidat.after,
                 clusteritem.after,
                 abs_tol=max_after_diff.abs,
@@ -117,7 +117,7 @@ def classifier(  # pylint:disable=R1260
         ):
             return False
     if selection is None or ClusterProperty.LEFT in selection:
-        if not utila.pnear(
+        if not utilo.pnear(
                 candidat.left,
                 clusteritem.left,
                 abs_tol=max_left_diff.abs,
@@ -146,16 +146,16 @@ def bestmatch(clustered, number: int = 0):
     font = largest_cluster_first_item.font
     # TODO: PLUS INF OR MINUS INF
     before = [item.before for item in clustered[number].content]
-    before = [utila.INF if item is None else item for item in before]
-    before = utila.mode(before)
+    before = [utilo.INF if item is None else item for item in before]
+    before = utilo.mode(before)
     after = [item.after for item in clustered[number].content]
-    after = [utila.INF if item is None else item for item in after]
-    after = utila.mode(after)
+    after = [utilo.INF if item is None else item for item in after]
+    after = utilo.mode(after)
     length = len(clustered[0])
 
-    if before is utila.INF:
+    if before is utilo.INF:
         before = None
-    if after is utila.INF:
+    if after is utilo.INF:
         after = None
     return (size, font, length, (before, after))
 

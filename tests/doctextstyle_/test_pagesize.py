@@ -8,14 +8,14 @@
 # =============================================================================
 
 import iamraw.path
-import power
-import utilatest
+import hoverpower
+import utilotest
 
 import doctextstyle.features.pagesize
 
 
-@utilatest.requires(power.MASTER116_PDF)
+@utilotest.requires(hoverpower.MASTER116_PDF)
 def test_pagesize():
-    path = iamraw.path.sizeandborder(power.link(power.MASTER116_PDF))
+    path = iamraw.path.sizeandborder(hoverpower.link(hoverpower.MASTER116_PDF))
     sizes = doctextstyle.features.pagesize.pagesizes(path)
     assert len(sizes) == 2

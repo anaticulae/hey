@@ -9,19 +9,19 @@
 
 import functools
 
-import utilatest
+import utilotest
 
 import magic
 import magic.cli
 
 run = functools.partial(  #pylint: disable=invalid-name
-    utilatest.run_command,
+    utilotest.run_command,
     main=magic.cli.main,
     process=magic.PROCESS,
     expect=True,
 )
 fail = functools.partial(  #pylint: disable=invalid-name
-    utilatest.run_command,
+    utilotest.run_command,
     main=magic.cli.main,
     process=magic.PROCESS,
     expect=False,

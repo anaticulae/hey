@@ -7,13 +7,13 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import configo
+import configos
 import serializeraw
-import utila
+import utilo
 
-CONTENT_DIFF_MAX = configo.HV_FLOAT_PLUS(default=5.0)
+CONTENT_DIFF_MAX = configos.HV_FLOAT_PLUS(default=5.0)
 
-CONTENT_ELEMENTS_MIN = configo.HV_INT_PLUS(default=3)
+CONTENT_ELEMENTS_MIN = configos.HV_INT_PLUS(default=3)
 
 
 def content(path, pages: tuple = None):
@@ -21,10 +21,10 @@ def content(path, pages: tuple = None):
 
     def equals(candidat, clusteritem):
         # left, right, top, down
-        distance = utila.norms(candidat, clusteritem)
+        distance = utilo.norms(candidat, clusteritem)
         return distance < CONTENT_DIFF_MAX
 
-    clustered = utila.determine_cluster(
+    clustered = utilo.determine_cluster(
         leftright.values(),
         classifier=equals,
         min_elements=CONTENT_ELEMENTS_MIN,

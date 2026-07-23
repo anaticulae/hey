@@ -9,12 +9,12 @@
 
 import os
 
-import genex
-import power
-import utila
-import utilatest
-from utilatest import mp  # pylint:disable=W0611
-from utilatest import td  # pylint:disable=W0611
+import gennex
+import hoverpower
+import utilo
+import utilotest
+from utilotest import mp  # pylint:disable=W0611
+from utilotest import td  # pylint:disable=W0611
 
 import hey
 import tests
@@ -22,13 +22,13 @@ import tests
 pytest_plugins = ['pytester', 'xdist']  # pylint: disable=invalid-name
 
 PACKAGE = hey.PACKAGE
-power.setup(hey.ROOT)
+hoverpower.setup(hey.ROOT)
 
 RESOURCES = [
-    power.DISS266_PDF,
-    power.DISS205_PDF,
-    power.todo(
-        power.MASTER116_PDF,
+    hoverpower.DISS266_PDF,
+    hoverpower.DISS205_PDF,
+    hoverpower.todo(
+        hoverpower.MASTER116_PDF,
         caption=True,
         cleanup=True,
         codero=True,
@@ -40,11 +40,11 @@ RESOURCES = [
         pagenumber=True,
         tablero=True,
     ),
-    power.BACHELOR111_PDF,
-    power.MASTER099_PDF,
-    power.MASTER098_PDF,
-    power.todo(
-        power.BACHELOR090_PDF,
+    hoverpower.BACHELOR111_PDF,
+    hoverpower.MASTER099_PDF,
+    hoverpower.MASTER098_PDF,
+    hoverpower.todo(
+        hoverpower.BACHELOR090_PDF,
         caption=True,
         cleanup=True,
         codero=True,
@@ -56,25 +56,25 @@ RESOURCES = [
         pagenumber=True,
         tablero=True,
     ),
-    power.MASTER072_PDF,
-    power.BACHELOR063_PDF,
-    power.BACHELOR051_PDF,
-    power.BACHELOR056_PDF,
-    power.HOME025_PDF,
-    power.DOCU007_PDF,
-    power.MASTER031_PDF,
-    (power.MASTER110_PDF, '0:60'),
+    hoverpower.MASTER072_PDF,
+    hoverpower.BACHELOR063_PDF,
+    hoverpower.BACHELOR051_PDF,
+    hoverpower.BACHELOR056_PDF,
+    hoverpower.HOME025_PDF,
+    hoverpower.DOCU007_PDF,
+    hoverpower.MASTER031_PDF,
+    (hoverpower.MASTER110_PDF, '0:60'),
 ]
 
-WORKER = utilatest.worker_count(5, onci=len(RESOURCES))
+WORKER = utilotest.worker_count(5, onci=len(RESOURCES))
 
 
 def pytest_sessionstart(session):  # pylint:disable=W0613
-    power.run()
+    hoverpower.run()
 
 
 def extract(resources):
-    genex.extract(
+    gennex.extract(
         resources,
         #cleanup=True,
         codero=True,
@@ -90,14 +90,14 @@ def extract(resources):
 
 
 RESOURCES_SECTIONSANDWORDS = [
-    (power.MASTER072_PDF, '0:16'),
-    (power.BACHELOR128_PDF, '0:50'),
+    (hoverpower.MASTER072_PDF, '0:16'),
+    (hoverpower.BACHELOR128_PDF, '0:50'),
 ]
 
 
 def extract_sectionsandwords(resources):
-    dest = power.generated(folder='sectionsandwords')
-    genex.extract(
+    dest = hoverpower.generated(folder='sectionsandwords')
+    gennex.extract(
         resources,
         dest=dest,
         caption=True,
@@ -132,16 +132,16 @@ def extract_linedistances(resources):
     os.makedirs(dest)
     for source, (script, name) in resources:
         outpath = os.path.join(dest, f'{name}.pdf')
-        tmp = utila.tmpfile(power.ROOT)
-        utila.file_replace(tmp, script)
-        utila.run(f'jam -i {source} --script {tmp} -o {outpath}')
+        tmp = utilo.tmpfile(hoverpower.ROOT)
+        utilo.file_replace(tmp, script)
+        utilo.run(f'jam -i {source} --script {tmp} -o {outpath}')
     # run rawmaker
     resources = [
         tests.LINEDISTANCE100_PDF,
         tests.LINEDISTANCE150_PDF,
         tests.LINEDISTANCE200_PDF,
     ]
-    genex.extract(
+    gennex.extract(
         resources,
         dest=dest,
         base=dest,

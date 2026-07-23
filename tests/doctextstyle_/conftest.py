@@ -7,11 +7,11 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import power
+import hoverpower
 import pytest
 import serializeraw
-import utila
-import utilatest
+import utilo
+import utilotest
 
 import doctextstyle.parser
 import doctextstyle.utils
@@ -19,8 +19,8 @@ import doctextstyle.utils
 
 def create_matrix(source: str, pages: tuple):
     assert str(source).endswith('.pdf')
-    utilatest.fixture_requires(source)
-    source = power.link(source)
+    utilotest.fixture_requires(source)
+    source = hoverpower.link(source)
     loaded = serializeraw.ptn_frompath(
         source,
         prefix='oneline',
@@ -34,14 +34,14 @@ def create_matrix(source: str, pages: tuple):
 @pytest.fixture
 def master72_text_flat():
     return create_matrix(
-        source=power.MASTER072_PDF,
-        pages=utila.rtuple(3, 86),
+        source=hoverpower.MASTER072_PDF,
+        pages=utilo.rtuple(3, 86),
     )
 
 
 @pytest.fixture
 def master72_text_flat_small():
     return create_matrix(
-        source=power.MASTER072_PDF,
-        pages=utila.rtuple(3, 15),
+        source=hoverpower.MASTER072_PDF,
+        pages=utilo.rtuple(3, 15),
     )

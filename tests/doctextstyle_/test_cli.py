@@ -9,9 +9,9 @@
 
 import os
 
-import power
+import hoverpower
 import serializeraw
-import utilatest
+import utilotest
 
 import doctextstyle.cli
 import tests.doctextstyle_
@@ -22,9 +22,9 @@ def test_textstyle_cli_help(mp):
     tests.doctextstyle_.run('--help', mp=mp)
 
 
-@utilatest.nightly
+@utilotest.nightly
 def test_textstyle_cli(td, mp):
-    source = power.link(power.MASTER072_PDF)
+    source = hoverpower.link(hoverpower.MASTER072_PDF)
     outdir = td.tmpdir.join('helm/schelm')
     tests.doctextstyle_.run(f'-i {source} -o {outdir}', mp=mp)
 

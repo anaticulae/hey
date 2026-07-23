@@ -8,31 +8,31 @@
 # =============================================================================
 
 import iamraw
-import power
+import hoverpower
 import serializeraw
-import utila
-import utilatest
+import utilo
+import utilotest
 
 import tests.magic_
 
 
-@utilatest.requires(power.MASTER072_PDF, folder='sectionsandwords')
+@utilotest.requires(hoverpower.MASTER072_PDF, folder='sectionsandwords')
 def test_master72_list_multiple_area(td, mp):
-    source = power.link(power.MASTER072_PDF, folder="sectionsandwords")
+    source = hoverpower.link(hoverpower.MASTER072_PDF, folder="sectionsandwords")
     pages = '8,9,10,11'
     tests.magic_.run(
         f'-i {source} --pages={pages}',
         mp=mp,
     )
     loaded = serializeraw.load_types(td.tmpdir)
-    page9 = utila.select_content(loaded, page=9)
+    page9 = utilo.select_content(loaded, page=9)
     assert page9
     page9_list = [
         line for line, typ in page9 if typ == iamraw.PageContentType.LIST
     ]
     expected = [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
     assert page9_list == expected
-    page10 = utila.select_content(loaded, page=10)
+    page10 = utilo.select_content(loaded, page=10)
     assert page10
     page10_list = [
         line for line, typ in page10 if typ == iamraw.PageContentType.LIST
@@ -41,9 +41,9 @@ def test_master72_list_multiple_area(td, mp):
     assert page10_list == expected
 
 
-@utilatest.requires(power.BACHELOR128_PDF, folder='sectionsandwords')
+@utilotest.requires(hoverpower.BACHELOR128_PDF, folder='sectionsandwords')
 def test_bachelor128p36_41_list(td, mp):
-    source = power.link(power.BACHELOR128_PDF, folder="sectionsandwords")
+    source = hoverpower.link(hoverpower.BACHELOR128_PDF, folder="sectionsandwords")
     pages = '36,37,38,39,40,41'
     tests.magic_.run(
         f'-i {source} --pages={pages}',
@@ -51,12 +51,12 @@ def test_bachelor128p36_41_list(td, mp):
     )
     loaded = serializeraw.load_types(td.tmpdir)
     lists = lambda page: all((item[1] == iamraw.PageContentType.LIST) for item in page) # yapf:disable
-    page37 = utila.select_content(loaded, page=37)
+    page37 = utilo.select_content(loaded, page=37)
     assert len(page37) == 5
     assert lists(page37)
-    page38 = utila.select_content(loaded, page=38)
+    page38 = utilo.select_content(loaded, page=38)
     assert len(page38) == 30
     assert lists(page38)
-    page39 = utila.select_content(loaded, page=39)
+    page39 = utilo.select_content(loaded, page=39)
     assert len(page39) == 11
     assert lists(page39)

@@ -9,34 +9,34 @@
 
 import functools
 
-import power
+import hoverpower
 import pytest
 import serializeraw
-import utila
-import utilatest
+import utilo
+import utilotest
 
 import doctextstyle
 import doctextstyle.extractor
 import doctextstyle.vector
 import tests.doctextstyle_
 
-ARCHIVE = utila.join(doctextstyle.ROOT, 'tests/doctextstyle_/expected')
+ARCHIVE = utilo.join(doctextstyle.ROOT, 'tests/doctextstyle_/expected')
 
 # TODO: VALIDATE SIZES
 PARAMETERS = [
-    pytest.param(power.BACHELOR063_PDF, 15.96, 14.04, 12.0, id='bachelor63'),
-    pytest.param(power.BACHELOR051_PDF, 15.96, 14.04, 12.0, id='bachelor51'),
-    pytest.param(power.MASTER110_PDF, 24.79, 14.35, 11.96, id='master110'),
-    pytest.param(power.DISS205_PDF, 17.22, 17.22, 14.35, id='diss205'),
+    pytest.param(hoverpower.BACHELOR063_PDF, 15.96, 14.04, 12.0, id='bachelor63'),
+    pytest.param(hoverpower.BACHELOR051_PDF, 15.96, 14.04, 12.0, id='bachelor51'),
+    pytest.param(hoverpower.MASTER110_PDF, 24.79, 14.35, 11.96, id='master110'),
+    pytest.param(hoverpower.DISS205_PDF, 17.22, 17.22, 14.35, id='diss205'),
 ]
 
 
 # skip failing bachelor51
 @pytest.mark.parametrize('source, h1, h2, h3', [PARAMETERS[0], PARAMETERS[2]])
-@utilatest.longrun
+@utilotest.longrun
 def test_doctextstyle_extract_headlines_old(source, h1, h2, h3):
-    utilatest.fixture_requires(source)
-    source = power.link(source)
+    utilotest.fixture_requires(source)
+    source = hoverpower.link(source)
     result = doctextstyle.extractor.extract(source)
     assert result
     assert result.h1_size == h1
@@ -45,14 +45,14 @@ def test_doctextstyle_extract_headlines_old(source, h1, h2, h3):
 
 
 @pytest.mark.parametrize('source, pages', [
-    utilatest.step(power.BACHELOR051_PDF),
-    utilatest.step(power.BACHELOR063_PDF),
-    utilatest.step(power.DISS205_PDF),
-    utilatest.step(power.MASTER110_PDF),
+    utilotest.step(hoverpower.BACHELOR051_PDF),
+    utilotest.step(hoverpower.BACHELOR063_PDF),
+    utilotest.step(hoverpower.DISS205_PDF),
+    utilotest.step(hoverpower.MASTER110_PDF),
 ])
-@utilatest.nightly
+@utilotest.nightly
 def test_docstyle_validate(source, pages, td, mp):
-    pages = utila.from_tuple(pages, ',') if pages else ':'
+    pages = utilo.from_tuple(pages, ',') if pages else ':'
     Evaluate(
         source,
         pages,
@@ -61,7 +61,7 @@ def test_docstyle_validate(source, pages, td, mp):
     ).evaluate()
 
 
-class Evaluate(utilatest.BaseLiner):
+class Evaluate(utilotest.BaseLiner):
 
     def __init__(self, source, pages, workdir, mp):
         super().__init__(

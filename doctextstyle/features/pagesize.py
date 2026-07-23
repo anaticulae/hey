@@ -7,14 +7,14 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import configo
+import configos
 import serializeraw
-import utila
-import utila.math
+import utilo
+import utilo.math
 
-PAGESIZE_DISTANCE_MAX = configo.HV_FLOAT_PLUS(default=5.0)
+PAGESIZE_DISTANCE_MAX = configos.HV_FLOAT_PLUS(default=5.0)
 
-PAGESIZE_COUNT_MIN = configo.HV_INT_PLUS(default=3)
+PAGESIZE_COUNT_MIN = configos.HV_INT_PLUS(default=3)
 
 
 def pagesizes(path, pages: tuple = None):
@@ -23,10 +23,10 @@ def pagesizes(path, pages: tuple = None):
     pagesizes_ = [tuple(item.size) for item in loaded]
 
     def equals(candidat, clusteritem):
-        distance = utila.length(*candidat, *clusteritem)
+        distance = utilo.length(*candidat, *clusteritem)
         return distance < PAGESIZE_DISTANCE_MAX
 
-    clustered = utila.determine_cluster(
+    clustered = utilo.determine_cluster(
         pagesizes_,
         classifier=equals,
         min_elements=PAGESIZE_COUNT_MIN,

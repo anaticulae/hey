@@ -16,7 +16,7 @@ import numpy as np
 import scipy.cluster.vq
 import serializeraw
 import texmex
-import utila
+import utilo
 
 import doctextstyle.parser
 import doctextstyle.utils
@@ -73,7 +73,7 @@ def clusterme(matrix, navis, numbers: int = 20, runtime: int = 12000):
     assert isinstance(numbers, int), type(numbers)
     merged = scipy.cluster.vq.whiten(matrix)
     if len(merged) < numbers:
-        utila.error(f'too few data: {len(merged)} to run vector strategy')
+        utilo.error(f'too few data: {len(merged)} to run vector strategy')
         return []
     # TODO: REMOVE AFTER HAVING A MORE STABLE ALGO
     np.random.seed(NUMPY_SEED)

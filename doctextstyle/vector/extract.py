@@ -19,11 +19,11 @@ Strategies:
 import collections
 import re
 
-import elements
+import elementae
 import iamraw
 import texmex
 import texmex.style
-import utila
+import utilo
 
 import doctextstyle.vector.headlines
 import doctextstyle.vector.prepare
@@ -65,7 +65,7 @@ def extract_headlines(clusters, cluster_size_min: int = 5, **kwargs):
     # merge multiple headline
     flat = merge_headline(flat)
     # sort headlines
-    flat = sorted(flat, key=lambda x: utila.alphabetically(x.text))
+    flat = sorted(flat, key=lambda x: utilo.alphabetically(x.text))
     # group headlines
     grouped = groupby_level(flat)
     # verify group
@@ -78,7 +78,7 @@ def groupby_level(items):
     grouped = collections.defaultdict(list)
     for item in items:
         text = item.text
-        level = elements.level_numbered(text)
+        level = elementae.level_numbered(text)
         if level is False:  # pylint:disable=C2001
             level = 4
         if level is None:
@@ -105,7 +105,7 @@ def merge_headline(items):
         if current.style.fontid == before.style.fontid:
             if current == before:
                 # start of page
-                bounding = utila.rect_max((
+                bounding = utilo.rect_max((
                     current.bounding,
                     after.bounding,
                 ))
@@ -120,7 +120,7 @@ def merge_headline(items):
                 done.add(id(after))
             else:
                 # all styles are equal, merge three of them
-                bounding = utila.rect_max((
+                bounding = utilo.rect_max((
                     before.bounding,
                     current.bounding,
                     after.bounding,

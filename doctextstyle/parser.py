@@ -11,7 +11,7 @@ import collections
 
 import iamraw
 import texmex
-import utila
+import utilo
 
 VerticalTextDistance = collections.namedtuple(
     'VerticalTextDistance',
@@ -148,7 +148,7 @@ def normalize(items):
 
 
 def select_magic(magics, page) -> collections.defaultdict:
-    selected = utila.select_content(magics, page, default=[])
+    selected = utilo.select_content(magics, page, default=[])
     result = set()
     for index, magicitem in selected:
         if magicitem not in SKIPPER:
@@ -185,7 +185,7 @@ def document_textdistance(navigators) -> float:
             continue
         page_textdistances = textdistances(navigator)
         result.extend(page_textdistances)
-    mode = utila.modes(result)
+    mode = utilo.modes(result)
     return mode
 
 
@@ -221,11 +221,11 @@ def round_vertical_distances(items, digits: int = 1):
     """
     result = []
     for item in items:
-        before = utila.roundme(
+        before = utilo.roundme(
             item[0],
             digits=digits,
         ) if item[0] is not None else None
-        after = utila.roundme(
+        after = utilo.roundme(
             item[1],
             digits=digits,
         ) if item[1] is not None else None
@@ -234,18 +234,18 @@ def round_vertical_distances(items, digits: int = 1):
     return result
 
 
-def textlength(navigator) -> utila.Ints:
+def textlength(navigator) -> utilo.Ints:
     return textvalue(navigator, selector=lambda item: len(item.text.strip()))
 
 
-def textwidth(navigator) -> utila.Floats:
+def textwidth(navigator) -> utilo.Floats:
     return textvalue(
         navigator,
         selector=lambda item: item.bounding.x1 - item.bounding.x0,
     )
 
 
-def bold(navigator, fontstore) -> utila.Floats:
+def bold(navigator, fontstore) -> utilo.Floats:
 
     bold_ = 100.0
     no_bold = 10.0
@@ -277,7 +277,7 @@ def bold(navigator, fontstore) -> utila.Floats:
     return textvalue(navigator, selector=isbold)
 
 
-def italic(navigator, fontstore) -> utila.Floats:
+def italic(navigator, fontstore) -> utilo.Floats:
 
     def isitalic(item):
         font = fontstore[item.style.fontid]
@@ -287,7 +287,7 @@ def italic(navigator, fontstore) -> utila.Floats:
     return textvalue(navigator, selector=isitalic)
 
 
-def textuppper(navigator) -> utila.Floats:
+def textuppper(navigator) -> utilo.Floats:
     result = textvalue(
         navigator,
         selector=lambda item: len([it for it in item.text if it.isupper()]),
@@ -295,33 +295,33 @@ def textuppper(navigator) -> utila.Floats:
     return result
 
 
-def textrate(navigator) -> utila.Floats:
+def textrate(navigator) -> utilo.Floats:
     widths = textwidth(navigator)
     lengths = textlength(navigator)
     result = [
         width / length if length else 0
         for width, length in zip(widths, lengths)
     ]
-    result = utila.roundme(result, convert=False)
+    result = utilo.roundme(result, convert=False)
     return result
 
 
-def upperrate(navigator) -> utila.Floats:
+def upperrate(navigator) -> utilo.Floats:
     uppers = textuppper(navigator)
     lengths = textlength(navigator)
     result = [
         100 if length >= 5 and (upper / length) > 0.4 else 10
         for upper, length in zip(uppers, lengths)
     ]
-    result = utila.roundme(result, convert=False)
+    result = utilo.roundme(result, convert=False)
     return result
 
 
-def textvalue(navigator, selector: callable) -> utila.Ints:
+def textvalue(navigator, selector: callable) -> utilo.Ints:
     return [selector(item) for item in navigator]
 
 
-def textsizes(navi: texmex.NavigatorMixin) -> utila.Floats:
+def textsizes(navi: texmex.NavigatorMixin) -> utilo.Floats:
     assert issubclass(navi.__class__, texmex.NavigatorMixin), type(navi)
     collected = []
     for line in navi:
@@ -329,19 +329,19 @@ def textsizes(navi: texmex.NavigatorMixin) -> utila.Floats:
         fontsizes = [
             [char.size] * (char.end - char.start) for char in line.style
         ]
-        fontsizes = utila.flat(fontsizes)
-        collected.append(utila.mode(fontsizes, minimize=True))
+        fontsizes = utilo.flat(fontsizes)
+        collected.append(utilo.mode(fontsizes, minimize=True))
     return collected
 
 
-def textfonts(navi: texmex.NavigatorMixin, fontstore=None) -> utila.Ints:
+def textfonts(navi: texmex.NavigatorMixin, fontstore=None) -> utilo.Ints:
     assert issubclass(navi.__class__, texmex.NavigatorMixin), type(navi)
     collected = []
     for line in navi:
         # determine most common font family
         family = [[char.font] * char.width for char in line.style]
-        family = utila.flat(family)
-        collected.append(utila.mode(family))
+        family = utilo.flat(family)
+        collected.append(utilo.mode(family))
     if fontstore:
         collected = [hash(fontstore[item].name) for item in collected]
     return collected
@@ -356,13 +356,13 @@ def topbottom(navigator) -> VerticalTextDistances:
     bounds = [item.bounds for item in bounds if len(item.text)]
     tops = [bounds[0].topdist]
     if len(bounds) > 1:
-        tops.extend(utila.diffs([item.topdist for item in bounds]))
-    tops: list = utila.roundme(tops, convert=False)
+        tops.extend(utilo.diffs([item.topdist for item in bounds]))
+    tops: list = utilo.roundme(tops, convert=False)
     bottoms = []
     if len(bounds) > 1:
-        bottoms.extend(utila.diffs([item.bottomdist for item in bounds]))
+        bottoms.extend(utilo.diffs([item.bottomdist for item in bounds]))
     bottoms.append(bounds[-1].bottomdist)
-    bottoms: list = utila.roundme(bottoms, convert=False)
+    bottoms: list = utilo.roundme(bottoms, convert=False)
     return tops, bottoms
 
 

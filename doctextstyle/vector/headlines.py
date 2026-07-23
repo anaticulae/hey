@@ -10,9 +10,9 @@
 import contextlib
 import statistics
 
-import configo
-import elements
-import utila
+import configos
+import elementae
+import utilo
 
 
 def decide_headlines(clusters, pagecount: int):
@@ -40,13 +40,13 @@ def decide_headlines(clusters, pagecount: int):
     return result
 
 
-CLUSTERSIZE_MIN = configo.HolyTable(
+CLUSTERSIZE_MIN = configos.HolyTable(
     items=(
         (0, 3),
         (50, 5),
         (200, 10),
     ),
-    strategy=utila.Strategy.LOWER,
+    strategy=utilo.Strategy.LOWER,
 )
 
 
@@ -65,12 +65,12 @@ def group_magic(
     # current.text,
     items = [(
         item[0].style.textsize(),
-        elements.level_numbered(item[0].text),
+        elementae.level_numbered(item[0].text),
         item,
     ) for item in items]
     # debug information
     for item in items:
-        utila.debug(item[0], item[1], item[2][0].text.strip())
+        utilo.debug(item[0], item[1], item[2][0].text.strip())
     # sort by level
     items.sort(key=lambda x: x[1] if x[1] is not None else 1)
     # sort by textsize
@@ -79,7 +79,7 @@ def group_magic(
     grouped = [[items[0]]]
     for item in items[1:]:
         before = grouped[-1][0]
-        fontdiff = not utila.near(
+        fontdiff = not utilo.near(
             expected=before[0],
             current=item[0],
             diff=fontsize_diff_max,
@@ -101,9 +101,9 @@ def group_magic(
     result = [group for group in grouped if len(group) >= cluster_size_min]
     # debug information
     for group in result:
-        utila.debug('========= new group =========')
+        utilo.debug('========= new group =========')
         for item in group:
-            utila.debug(item[0], item[1], item[2][0].text)
+            utilo.debug(item[0], item[1], item[2][0].text)
     # remove font size and extracted headline level
     result = [[item[2] for item in group] for group in result]
     # fill empty groups
@@ -120,7 +120,7 @@ def group_headline_size(
     # determine group value
     grouped = [strategy(group) for group in sizes if group]
     # convert to user friendly result
-    grouped = utila.roundme(grouped, convert=False)
+    grouped = utilo.roundme(grouped, convert=False)
     # prepare result
     h1_size, h2_size, h3_size, h4_size = None, None, None, None
     with contextlib.suppress(IndexError):
@@ -156,7 +156,7 @@ def valid_headline_clusters(
             continue
         collected.append(cluster)
         delete.append(cluster)
-    flat = utila.flat(collected)
+    flat = utilo.flat(collected)
     return flat, delete
 
 
@@ -179,7 +179,7 @@ def clean_cluster(
     ]
     # skip `Kapitel 1`-pattern
     valid = [
-        item for item in valid if not elements.noheadline_pattern(item[0].text)
+        item for item in valid if not elementae.noheadline_pattern(item[0].text)
     ]
     # TODO: THIS REMOVES ALL HEADLINES WITH NUMBER AT THE END
     # remove:
@@ -187,7 +187,7 @@ def clean_cluster(
     # 5.2. KÜNFTIGE HERAUSFORDERUNGEN       203
     valid = [
         item for item in valid
-        if not utila.isnumber(item[0].text.split(' ')[-1])
+        if not utilo.isnumber(item[0].text.split(' ')[-1])
     ]
     # Lebenslauf .............................. xx
     valid = [item for item in valid if item[0].text.count('.') < 6]
@@ -204,7 +204,7 @@ def select_font(group):
     if not fonts:
         # no matching font
         return None
-    result = utila.maxs(fonts)
+    result = utilo.maxs(fonts)
     return result
 
 
@@ -216,8 +216,8 @@ def select_before(group):
     ]
     if not befores:
         return None
-    befores = utila.roundme(befores, digits=0, convert=False)
-    result = utila.mode(befores, minimize=False)
+    befores = utilo.roundme(befores, digits=0, convert=False)
+    result = utilo.mode(befores, minimize=False)
     return result
 
 
@@ -229,8 +229,8 @@ def select_after(group):
     ]
     if not afters:
         return None
-    afters = utila.roundme(afters, digits=0)
-    result = utila.mode(afters, minimize=False)
+    afters = utilo.roundme(afters, digits=0)
+    result = utilo.mode(afters, minimize=False)
     return result
 
 
@@ -238,7 +238,7 @@ def headline_rate(cluster):
     # TODO: MOVE TO ELEMENTS?
     median = statistics.median([len(item[0].text) for item in cluster])
     headlines = [
-        item for item in cluster if elements.isheadline(
+        item for item in cluster if elementae.isheadline(
             item[0].text,
             strict=False,
         )
@@ -266,7 +266,7 @@ def noheadline_cluster(cluster, pagerate_max: float = 0.5):
     if len(cluster) < 4:
         return False
     with_pageending = [
-        item for item in cluster if utila.isnumber(item[0].text.split(' ')[-1])
+        item for item in cluster if utilo.isnumber(item[0].text.split(' ')[-1])
     ]
     pagerate = len(with_pageending) / len(cluster)
     if pagerate > pagerate_max:

@@ -10,8 +10,8 @@
 import os
 
 import serializeraw
-import utila
-import utila.cli
+import utilo
+import utilo.cli
 
 import doctextstyle
 import doctextstyle.extractor
@@ -29,13 +29,13 @@ Writes: `doctextstyle__textstyle.yaml`
 """
 
 
-@utila.saveme
+@utilo.saveme
 def main() -> int:
     commands = []
-    parser = utila.cli.create_parser(
+    parser = utilo.cli.create_parser(
         todo=commands,
         description=DESCRIPTION,
-        config=utila.ParserConfiguration(
+        config=utilo.ParserConfiguration(
             inputparameter=True,
             multiprocessed=True,
             outputparameter=True,
@@ -45,11 +45,11 @@ def main() -> int:
         version=doctextstyle.__version__,
         prog=doctextstyle.PROCESS,
     )
-    args = utila.parse(parser)
-    utila.log('run doctextstyle')
-    selected_pages = utila.pages_fromargs(args)
+    args = utilo.parse(parser)
+    utilo.log('run doctextstyle')
+    selected_pages = utilo.pages_fromargs(args)
 
-    inpath, outpath = utila.cli.sources(args, singleinput=True)  # pylint:disable=W0632
+    inpath, outpath = utilo.cli.sources(args, singleinput=True)  # pylint:disable=W0632
     inpath = inpath[0]
 
     if os.path.isdir(outpath):
@@ -62,11 +62,11 @@ def main() -> int:
     try:
         extracted = doctextstyle.extractor.extract(inpath, pages=selected_pages)
     except FileNotFoundError as error:
-        utila.error('missing input location')
-        utila.error(f'{error}')
-        return utila.FAILURE
+        utilo.error('missing input location')
+        utilo.error(f'{error}')
+        return utilo.FAILURE
 
     dumped = serializeraw.dump_doctextstyle(extracted)
-    utila.file_replace(outpath, dumped)
-    utila.log('completed')
-    return utila.SUCCESS
+    utilo.file_replace(outpath, dumped)
+    utilo.log('completed')
+    return utilo.SUCCESS

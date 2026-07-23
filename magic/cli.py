@@ -7,7 +7,7 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import utila
+import utilo
 
 import magic
 
@@ -16,30 +16,30 @@ Determine type of line (content, list, boxed content, etc.)
 """
 
 RESOURCES = [
-    utila.ResultFile('rawmaker', 'border_pages'),
-    utila.ResultFile('groupme', 'footer_footerheader'),
-    utila.ResultFile('words', 'list_list', optional=True),
-    utila.ResultFile('textflow', 'blockquote_blockquote', optional=True),
-    utila.ResultFile('detector', 'formula_formula', optional=True),
-    utila.ResultFile('caption', 'result_result', optional=True),
-    utila.ResultFile('tablero', 'decide_decide', optional=True),
-    utila.Directory('rawmaker__images_images', optional=True),
+    utilo.ResultFile('rawmaker', 'border_pages'),
+    utilo.ResultFile('groupme', 'footer_footerheader'),
+    utilo.ResultFile('words', 'list_list', optional=True),
+    utilo.ResultFile('textflow', 'blockquote_blockquote', optional=True),
+    utilo.ResultFile('detector', 'formula_formula', optional=True),
+    utilo.ResultFile('caption', 'result_result', optional=True),
+    utilo.ResultFile('tablero', 'decide_decide', optional=True),
+    utilo.Directory('rawmaker__images_images', optional=True),
 ]
 
 WORKPLAN = [
-    utila.create_step(
+    utilo.create_step(
         'content',
         inputs=[
-            utila.ResultFile('rawmaker', 'text_text'),
-            utila.ResultFile('rawmaker', 'text_positions'),
+            utilo.ResultFile('rawmaker', 'text_text'),
+            utilo.ResultFile('rawmaker', 'text_positions'),
         ] + RESOURCES,
         output=('content',),
     ),
-    utila.create_step(
+    utilo.create_step(
         'oneline',
         inputs=[
-            utila.ResultFile('rawmaker', 'oneline_text_text'),
-            utila.ResultFile('rawmaker', 'oneline_text_positions'),
+            utilo.ResultFile('rawmaker', 'oneline_text_text'),
+            utilo.ResultFile('rawmaker', 'oneline_text_positions'),
         ] + RESOURCES,
         output=('content',),
     ),
@@ -47,11 +47,11 @@ WORKPLAN = [
 
 
 def main():
-    utila.featurepack(
+    utilo.featurepack(
         workplan=WORKPLAN,
         root=magic.ROOT,
         featurepackage='magic.feature',
-        config=utila.FeaturePackConfig(
+        config=utilo.FeaturePackConfig(
             description=DESCRIPTION,
             multiprocessed=True,
             name=magic.PROCESS,

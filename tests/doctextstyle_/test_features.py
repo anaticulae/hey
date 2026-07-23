@@ -7,9 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import power
+import hoverpower
 import pytest
-import utilatest
+import utilotest
 
 import doctextstyle.features
 import doctextstyle.features.footnote
@@ -17,7 +17,7 @@ import doctextstyle.features.paragraph
 import tests.doctextstyle_.conftest
 
 
-@utilatest.longrun
+@utilotest.longrun
 def test_cluster_extract_default_textsize(master72_text_flat):
     data = master72_text_flat
     default_text = doctextstyle.features.text(data)
@@ -25,19 +25,19 @@ def test_cluster_extract_default_textsize(master72_text_flat):
     assert default_text[0] == 12.0
 
 
-@utilatest.longrun
+@utilotest.longrun
 def test_cluster_extract_pagenumber(master72_text_flat_small):
     pagenumber = doctextstyle.features.pagenumber(master72_text_flat_small)
     assert pagenumber[0] == 11.04, pagenumber
 
 
 @pytest.mark.parametrize('source, expected', [
-    pytest.param(power.MASTER116_PDF, 10.91, id='master116'),
-    pytest.param(power.MASTER098_PDF, 12.0, id='master98'),
-    pytest.param(power.MASTER099_PDF, 11.04, id='master99'),
-    pytest.param(power.BACHELOR111_PDF, 11.96, id='bachelor111'),
+    pytest.param(hoverpower.MASTER116_PDF, 10.91, id='master116'),
+    pytest.param(hoverpower.MASTER098_PDF, 12.0, id='master98'),
+    pytest.param(hoverpower.MASTER099_PDF, 11.04, id='master99'),
+    pytest.param(hoverpower.BACHELOR111_PDF, 11.96, id='bachelor111'),
 ])
-@utilatest.longrun
+@utilotest.longrun
 def test_cluster_extract_textsize(source, expected):
     flat = tests.doctextstyle_.conftest.create_matrix(source, pages=None)
     default_text = doctextstyle.features.text(flat)
@@ -45,7 +45,7 @@ def test_cluster_extract_textsize(source, expected):
     assert default_text[0] == expected
 
 
-@utilatest.longrun
+@utilotest.longrun
 def test_cluster_extract_footer_small(master72_text_flat_small):
     footnotes = doctextstyle.features.footnote.footnote(
         master72_text_flat_small)
@@ -55,14 +55,14 @@ def test_cluster_extract_footer_small(master72_text_flat_small):
 
 
 @pytest.mark.parametrize('source, expected', [
-    pytest.param(power.MASTER116_PDF, None, id='master116'),
-    pytest.param(power.MASTER098_PDF, 9.0, id='master98'),
-    pytest.param(power.MASTER099_PDF, 9.0, id='master99'),
-    pytest.param(power.BACHELOR111_PDF, 9.96, id='bachelor111'),
+    pytest.param(hoverpower.MASTER116_PDF, None, id='master116'),
+    pytest.param(hoverpower.MASTER098_PDF, 9.0, id='master98'),
+    pytest.param(hoverpower.MASTER099_PDF, 9.0, id='master99'),
+    pytest.param(hoverpower.BACHELOR111_PDF, 9.96, id='bachelor111'),
 ])
-@utilatest.longrun
+@utilotest.longrun
 def test_cluster_extract_footnote(source, expected):
-    utilatest.fixture_requires(source)
+    utilotest.fixture_requires(source)
     flat = tests.doctextstyle_.conftest.create_matrix(source, pages=None)
     footnotes = doctextstyle.features.footnote.footnote(flat)
     if expected is None:
@@ -80,14 +80,14 @@ def test_cluster_extract_paragraph_small(master72_text_flat_small):
 
 
 @pytest.mark.parametrize('source, expected', [
-    pytest.param(power.MASTER116_PDF, (21, 21), id='master116'),
-    pytest.param(power.MASTER098_PDF, (41, 41), id='master98'),
-    pytest.param(power.MASTER099_PDF, (38, 38), id='master99'),
-    pytest.param(power.BACHELOR111_PDF, (24, 24), id='bachelor111'),
+    pytest.param(hoverpower.MASTER116_PDF, (21, 21), id='master116'),
+    pytest.param(hoverpower.MASTER098_PDF, (41, 41), id='master98'),
+    pytest.param(hoverpower.MASTER099_PDF, (38, 38), id='master99'),
+    pytest.param(hoverpower.BACHELOR111_PDF, (24, 24), id='bachelor111'),
 ])
-@utilatest.longrun
+@utilotest.longrun
 def test_cluster_extract_paragraph_before_and_after(source, expected):
-    utilatest.fixture_requires(source)
+    utilotest.fixture_requires(source)
     # TODO: VALIDATE EXPECTED LINE DISTANCE, CURRENTLY THERE ARE NOT
     # CHECKED YET.
     flat = tests.doctextstyle_.conftest.create_matrix(source, pages=None)

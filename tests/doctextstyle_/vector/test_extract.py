@@ -7,9 +7,9 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import power
-import utila
-import utilatest
+import hoverpower
+import utilo
+import utilotest
 
 import doctextstyle
 
@@ -44,17 +44,17 @@ SECOND_LEVEL = """\
 
 
 def headlines_raw(items: str) -> str:
-    items = [utila.normalize_whitespaces(item.text.strip()) for item in items]
+    items = [utilo.normalize_whitespaces(item.text.strip()) for item in items]
     # add final newline
     items = items + ['']
-    result = utila.NEWLINE.join(items)
+    result = utilo.NEWLINE.join(items)
     return result
 
 
-@utilatest.nightly
+@utilotest.nightly
 def test_vector_diss266_extract():
-    source = power.link(power.DISS266_PDF)
-    pages = utila.rtuple(7, 215)
+    source = hoverpower.link(hoverpower.DISS266_PDF)
+    pages = utilo.rtuple(7, 215)
     headlines = doctextstyle.extract_headlines(source, pages)
     assert len(headlines) == 4
     first, second, third, fourth = headlines  # pylint:disable=W0612,W0632

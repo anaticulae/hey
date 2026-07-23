@@ -8,16 +8,16 @@
 # =============================================================================
 
 import iamraw
-import power
-import utila
-import utilatest
+import hoverpower
+import utilo
+import utilotest
 
 import doctextstyle.features.content
 
 
-@utilatest.requires(power.MASTER116_PDF)
+@utilotest.requires(hoverpower.MASTER116_PDF)
 def test_content():
-    source = power.link(power.MASTER116_PDF)
+    source = hoverpower.link(hoverpower.MASTER116_PDF)
     path = iamraw.path.groupme_border_leftright(source)
     content = doctextstyle.features.content.content(path)
     expected = [
@@ -26,4 +26,4 @@ def test_content():
     ]
     for current, expect in zip(content, expected):
         assert current[1] == expect[1]
-        assert utila.nears(current[0], expect[0], diff=0.5)
+        assert utilo.nears(current[0], expect[0], diff=0.5)

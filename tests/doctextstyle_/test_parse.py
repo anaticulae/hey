@@ -7,10 +7,10 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import power
+import hoverpower
 import pytest
 import serializeraw
-import utilatest
+import utilotest
 
 import doctextstyle.parser
 import doctextstyle.utils
@@ -18,9 +18,9 @@ import doctextstyle.utils
 
 @pytest.fixture
 def master116_text():
-    utilatest.fixture_requires(power.MASTER072_PDF)
+    utilotest.fixture_requires(hoverpower.MASTER072_PDF)
     navigators = serializeraw.ptn_frompath(
-        power.link(power.MASTER072_PDF),
+        hoverpower.link(hoverpower.MASTER072_PDF),
         prefix='oneline',
         pages=(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
     )

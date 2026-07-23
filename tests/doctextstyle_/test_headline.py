@@ -8,13 +8,13 @@
 # =============================================================================
 
 import pytest
-import utilatest
+import utilotest
 
 import doctextstyle.features.headline
 
 
 @pytest.mark.xfail(reason='do not support multiline headlines')
-@utilatest.longrun
+@utilotest.longrun
 def test_cluster_extract_headlines_small(master72_text_flat_small):
     # TODO: REQUIRE MULTILINE SUPPORT
     # TODO: SEE HEADLINE ON PAGE 6(FIRST LEVEL HEADLINES)
@@ -30,7 +30,7 @@ def test_cluster_extract_headlines_small(master72_text_flat_small):
 
 
 @pytest.mark.xfail(reason='do not support multiline headlines')
-@utilatest.longrun
+@utilotest.longrun
 def test_cluster_extract_headlines_all(master72_text_flat):
     # TODO: REQUIRE MULTILINE SUPPORT
     headlines = doctextstyle.features.headline.headlines(master72_text_flat)

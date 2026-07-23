@@ -7,8 +7,8 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import utila
+import utilo
 
 
 def textstyle(path: str, prefix: str = '') -> str:
-    return utila.pathconnector(path, 'doctextstyle', 'textstyle', prefix)
+    return utilo.pathconnector(path, 'doctextstyle', 'textstyle', prefix)

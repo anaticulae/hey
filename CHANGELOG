@@ -1428,7 +1428,7 @@ Every noteable change is logged here.
 
 * support multiple sections on a single page (e18bf3a2810f)
 * support multiple sections on page (12ea34e50687)
-* use configo to handle holy values (97d13423bd65)
+* use configos to handle holy values (97d13423bd65)
 * add possible to shrink page left to right (0c8480feea82)
 * add --pages information to toc feature (6028a5c05507)
 
@@ -1488,8 +1488,8 @@ Every noteable change is logged here.
 * extend footer load and dumper (fdd31976ae13)
 * extend nolevel toc parser (af0180ad167f)
 * support more than one header/footer area (74ad3f7b4238)
-* use configo holy values and refactor FixedFooterStrategy (775a4c9ab8e5)
-* use configo.holyvalue to describe holy values (725a4ebd3dc4)
+* use configos holy values and refactor FixedFooterStrategy (775a4c9ab8e5)
+* use configos.holyvalue to describe holy values (725a4ebd3dc4)
 * remove process-method, use result() directly (f10e4de25bd0)
 * extend footer extract (c22c0bdf3ea9)
 * add information of moving footer result (23e5dc746ecc)
@@ -1618,7 +1618,7 @@ Every noteable change is logged here.
 * add method to split text in connected text blocks (53588f3373a9)
 * add very simple parser to extract thesis type out of title page (885d6678b669)
 * add method to parse matrikel number out of title page (6a3808c651c2)
-* reduce required test power due reducing the count of pdfs under test (fa03e349d9de)
+* reduce required test hoverpower due reducing the count of pdfs under test (fa03e349d9de)
 * add person parser to extract person with title from front-page (2f955a12f8d3)
 * add parser to parse the date of title page (289ca8725aa7)
 * add `detector` to analyze special features like title, toc etc. (7144438f6134)
@@ -1639,7 +1639,7 @@ Every noteable change is logged here.
 ### Feature
 
 * use real page size instead of constant box (981095e7e328)
-* use `power` tool to generate test pdf data (cd1d689c8d14)
+* use `hoverpower` tool to generate test pdf data (cd1d689c8d14)
 
 ### Fix
 
@@ -1853,7 +1853,7 @@ Every noteable change is logged here.
 * extend workplan to run section feature (fe5295dc4c9b)
 * add sections to combine title, index, chapter, toc (8b8a77ae320d)
 * add chapter feature to determine start of chapter (7813e1acd82b)
-* add recursive feature - experimental, move to utila (ce1932e9840e)
+* add recursive feature - experimental, move to utilo (ce1932e9840e)
 * add white page feature detector (f10d88713fcb)
 * compute percent to page size and backwards (670a6053a8b9)
 * add method to determine content in the middle of a page (c195c572192d)
@@ -1898,7 +1898,7 @@ Every noteable change is logged here.
 * extend approach to determine table of content (6e2640173603)
 * sort pagenumber output by pdf-page (f2a4484e809b)
 * use new feature interface for chpater, footer, toc (5446c45c74ab)
-* introduce new feature pattern form utila (f3ef71e390ac)
+* introduce new feature pattern form utilo (f3ef71e390ac)
 * structure is no longer a feature, it is more supporting code (4f92c27a73a4)
 * save bounding of page number (87c75e716e49)
 * add method to determine page number (6a3bf2a8cc13)

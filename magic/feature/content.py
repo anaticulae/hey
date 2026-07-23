@@ -13,7 +13,7 @@ import os
 import iamraw
 import serializeraw
 import serializeraw.images
-import utila
+import utilo
 
 
 def work(  # pylint:disable=R0913
@@ -42,7 +42,7 @@ def work(  # pylint:disable=R0913
     captions = load_content(serializeraw.load_captions, captions, pages)
     tables = load_content(serializeraw.load_tables, table, pages)
     # TODO: THINK ABOUT DUPLICATED PAGES?
-    figures = utila.flat([
+    figures = utilo.flat([
         load_content(
             serializeraw.images.load_image_informations_frompath,
             item,
@@ -65,12 +65,12 @@ def determine_types(  # pylint:disable=R0914
 ) -> str:
     result = []
     for navigator in ptcns:
-        listinstance = utila.select_page(lists, navigator.page)
-        blockquoteinstance = utila.select_page(blockquotes, navigator.page)
-        formulainstance = utila.select_page(formula, navigator.page)
-        captioninstance = utila.select_page(captions, navigator.page)
-        tableinstance = utila.select_page(tables, navigator.page)
-        figureinstance = utila.select_page(figures, navigator.page)
+        listinstance = utilo.select_page(lists, navigator.page)
+        blockquoteinstance = utilo.select_page(blockquotes, navigator.page)
+        formulainstance = utilo.select_page(formula, navigator.page)
+        captioninstance = utilo.select_page(captions, navigator.page)
+        tableinstance = utilo.select_page(tables, navigator.page)
+        figureinstance = utilo.select_page(figures, navigator.page)
 
         analyzed = analyze_page(
             navigator,
@@ -90,7 +90,7 @@ def determine_types(  # pylint:disable=R0914
 def load_content(loader, content, pages):
     if not os.path.exists(content):
         # inform integrator about missing resource
-        utila.error(f'missing: {content}')
+        utilo.error(f'missing: {content}')
         return []
     content = loader(content, pages=pages)
     return content
@@ -151,12 +151,12 @@ def isformula(line, formulas):
     formulas = formulas.content
     lines = [
         # support multiple line formulas
-        utila.rtuple(
+        utilo.rtuple(
             item.line,
-            utila.ifnone(item.lineend, default=item.line) + 1,
+            utilo.ifnone(item.lineend, default=item.line) + 1,
         ) for item in formulas if item.line is not None
     ]
-    lines = utila.flat(lines)
+    lines = utilo.flat(lines)
     if line in lines:
         return True
     return False
@@ -180,7 +180,7 @@ def istable(line, tables):
     if not tables.content:
         return False
     if any(
-            utila.rect_inside(table.bounding, line.bounding, diff=5.0)
+            utilo.rect_inside(table.bounding, line.bounding, diff=5.0)
             for table in tables.content):
         return True
     return False
@@ -192,7 +192,7 @@ def isfigure(line, figures):
     if not figures.content:
         return False
     if any(
-            utila.rect_inside(
+            utilo.rect_inside(
                 figure.bounding,
                 line.bounding,
             ) for figure in figures.content):
@@ -201,9 +201,9 @@ def isfigure(line, figures):
 
 
 def expand_multiline(captions: iamraw.Captions) -> set:
-    lines = [utila.rtuple(item.line, item.lineend + 1) for item in captions]
+    lines = [utilo.rtuple(item.line, item.lineend + 1) for item in captions]
     lines = [item for item in lines if item]
-    lines = utila.flat(lines)
+    lines = utilo.flat(lines)
     # make unique
     lines = set(lines)  # pylint:disable=R0204
     return lines

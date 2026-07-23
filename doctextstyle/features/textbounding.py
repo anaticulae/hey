@@ -7,16 +7,16 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import configo
-import utila
+import configos
+import utilo
 
 import doctextstyle
 
 
 def text_width(cnavigators):
     result = widths(cnavigators)
-    result = utila.roundme(result, digits=0, convert=False)  # pylint:disable=R0204
-    return utila.mode(result)
+    result = utilo.roundme(result, digits=0, convert=False)  # pylint:disable=R0204
+    return utilo.mode(result)
 
 
 def text_width_max(cnavigators):
@@ -38,12 +38,12 @@ def widths(cnavigators):
     for content in cnavigators:
         for line in content:
             bounding = line.bounding
-            diff = utila.roundme(bounding.x1 - bounding.x0)
+            diff = utilo.roundme(bounding.x1 - bounding.x0)
             result.append(diff)
     return result
 
 
-JUSTIFIED_LINES_MIN = configo.HV_PERCENT_PLUS(default=85)
+JUSTIFIED_LINES_MIN = configos.HV_PERCENT_PLUS(default=85)
 
 
 def justified(cnavigators, right_mode) -> int:
@@ -51,7 +51,7 @@ def justified(cnavigators, right_mode) -> int:
         return None
     # TODO: REMOVE SHORT CENTERED LINES
     items = ([line.bounding.x1 for line in page] for page in cnavigators)
-    items = utila.flat(items)
+    items = utilo.flat(items)
 
     items = [item for item in items if item >= right_mode * 0.9]
 

@@ -13,7 +13,7 @@ import os
 import iamraw
 import serializeraw
 import texmex
-import utila
+import utilo
 
 import doctextstyle
 import doctextstyle.features
@@ -35,7 +35,7 @@ def extract(path: str, pages: tuple = None) -> iamraw.DocTextStyle:  # pylint:di
 
     text = doctextstyle.features.text(flat)
     if not text or len(text) < 4:
-        utila.error('not enough text data')
+        utilo.error('not enough text data')
         return iamraw.DocTextStyle()
     text_after = text[3][1]
 
@@ -61,7 +61,7 @@ def extract(path: str, pages: tuple = None) -> iamraw.DocTextStyle:  # pylint:di
         with contextlib.suppress(IndexError):
             result.page_rotated_width, result.page_rotated_height = pagesizes[1][0] # yapf:disable
     else:
-        utila.error('no pagesize, too few pages to run feature')
+        utilo.error('no pagesize, too few pages to run feature')
 
     extract_contentborder(result, path, pages)
     extract_textdimension(result, navigator, cnavigators)
@@ -83,7 +83,7 @@ def load_data(path: str, pages: tuple = None):
         )
     except FileNotFoundError as error:
         cnavigators = None
-        utila.error(f'missing page text content navigator: {error}')
+        utilo.error(f'missing page text content navigator: {error}')
 
     magic = iamraw.path.magic_content(path)
     magic = serializeraw.load_types(magic) if os.path.exists(magic) else []
@@ -155,8 +155,8 @@ def extract_textdimension(result, navigators, cnavigators):
     result.text_left = texmex.document_textfeed(cnavigators)
     result.text_right = texmex.document_textfeed(navigators, left=False)
 
-    result.text_left = utila.roundme(result.text_left)
-    result.text_right = utila.roundme(result.text_right)
+    result.text_left = utilo.roundme(result.text_left)
+    result.text_right = utilo.roundme(result.text_right)
 
     if result.content_right is None:
         return

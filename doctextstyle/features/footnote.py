@@ -7,17 +7,17 @@
 # be prosecuted under federal law. Its content is company confidential.
 # =============================================================================
 
-import configo
+import configos
 import iamraw
-import utila
+import utilo
 
 import doctextstyle.cluster
 import doctextstyle.features
 import doctextstyle.features.headline
 
-FOOTNOTES_COUNT_MIN = configo.HV_INT_PLUS(default=10)
+FOOTNOTES_COUNT_MIN = configos.HV_INT_PLUS(default=10)
 
-VALIDATOR_COUNT_MIN = configo.HV_INT_PLUS(default=25)
+VALIDATOR_COUNT_MIN = configos.HV_INT_PLUS(default=25)
 
 
 def footnote(flats: iamraw.TextProperties):
@@ -33,18 +33,18 @@ def footnote(flats: iamraw.TextProperties):
     if _text:
         flats = doctextstyle.cluster.remove(flats, _text[1])
     else:
-        utila.debug('footnote: no text style')
+        utilo.debug('footnote: no text style')
 
     if _pagenumber:
         flats = doctextstyle.cluster.remove(flats, _pagenumber[1])
     else:
-        utila.debug('footnote: no pagenumber style')
+        utilo.debug('footnote: no pagenumber style')
 
     if _headlines:
         for item in _headlines[1]:
             flats = doctextstyle.cluster.remove(flats, item)
     else:
-        utila.debug('footnote: no headline style')
+        utilo.debug('footnote: no headline style')
 
     def validator(item) -> bool:
         # Shrink footnotes to bottom area
