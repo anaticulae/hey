@@ -60,6 +60,7 @@ def test_doctextstyle_extract_headlines_old(source, h1, h2, h3):
 ])
 @utilotest.nightly
 def test_docstyle_validate(source, pages, td, mp):
+    utilotest.fixture_requires(source)
     pages = utilo.from_tuple(pages, ',') if pages else ':'
     Evaluate(
         source,

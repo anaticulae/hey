@@ -53,6 +53,7 @@ def headlines_raw(items: str) -> str:
 
 @utilotest.nightly
 def test_vector_diss266_extract():
+    utilotest.fixture_requires(hoverpower.DISS266_PDF)
     source = hoverpower.link(hoverpower.DISS266_PDF)
     pages = utilo.rtuple(7, 215)
     headlines = doctextstyle.extract_headlines(source, pages)

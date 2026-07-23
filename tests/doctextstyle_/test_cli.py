@@ -24,6 +24,7 @@ def test_textstyle_cli_help(mp):
 
 @utilotest.nightly
 def test_textstyle_cli(td, mp):
+    utilotest.fixture_requires(hoverpower.MASTER072_PDF)
     source = hoverpower.link(hoverpower.MASTER072_PDF)
     outdir = td.tmpdir.join('helm/schelm')
     tests.doctextstyle_.run(f'-i {source} -o {outdir}', mp=mp)

@@ -69,24 +69,25 @@ RESOURCES = [
 WORKER = utilotest.worker_count(5, onci=len(RESOURCES))
 
 
-def pytest_sessionstart(session):  # pylint:disable=W0613
-    hoverpower.run()
+# def pytest_sessionstart(session):  # pylint:disable=W0613
+    # hoverpower.run()
 
 
-def extract(resources):
-    gennex.extract(
-        resources,
-        #cleanup=True,
-        codero=True,
-        figureo=True,
-        footnote=True,
-        groupme=True,
-        headnote=True,
-        magic=True,
-        pagenumber=True,
-        tablero=True,
-        worker=WORKER,
-    )
+# TODO: ENABLE LATER
+# def extract(resources):
+#     gennex.extract(
+#         resources,
+#         #cleanup=True,
+#         codero=True,
+#         figureo=True,
+#         footnote=True,
+#         groupme=True,
+#         headnote=True,
+#         magic=True,
+#         pagenumber=True,
+#         tablero=True,
+#         worker=WORKER,
+#     )
 
 
 RESOURCES_SECTIONSANDWORDS = [
@@ -94,28 +95,28 @@ RESOURCES_SECTIONSANDWORDS = [
     (hoverpower.BACHELOR128_PDF, '0:50'),
 ]
 
-
-def extract_sectionsandwords(resources):
-    dest = hoverpower.generated(folder='sectionsandwords')
-    gennex.extract(
-        resources,
-        dest=dest,
-        caption=True,
-        cleanup=True,
-        detector=True,
-        headnote=True,
-        footnote=True,
-        groupme=True,
-        headlines=True,
-        lists=True,
-        magic=True,
-        pagenumber=True,
-        sections=True,
-        spacestation=True,
-        tablero=False,  # reduce generation time
-        textflow=True,
-        words=True,
-    )
+# TODO: ENABLE LATER
+# def extract_sectionsandwords(resources):
+#     dest = hoverpower.generated(folder='sectionsandwords')
+#     gennex.extract(
+#         resources,
+#         dest=dest,
+#         caption=True,
+#         cleanup=True,
+#         detector=True,
+#         headnote=True,
+#         footnote=True,
+#         groupme=True,
+#         headlines=True,
+#         lists=True,
+#         magic=True,
+#         pagenumber=True,
+#         sections=True,
+#         spacestation=True,
+#         tablero=False,  # reduce generation time
+#         textflow=True,
+#         words=True,
+#     )
 
 
 RESOURCES_LINEDISTANCES = [
