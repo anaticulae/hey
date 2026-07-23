@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v5.20.5 (2026-07-23)
+
+### Chores
+
+- **pyproject**: Adjust project name for pypi release
+  ([`8a02323`](https://github.com/anaticulae/hey/commit/8a02323b80ebc39b187823097fe71b853c5f4adf))
+
+
 ## v5.20.4 (2026-07-23)
 
 ### Chores

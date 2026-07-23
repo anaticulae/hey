@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "doctextstyle"
-version = "5.20.4"
+version = "5.20.5"
 description = ""
 requires-python = ">=3.12"
 authors = [
